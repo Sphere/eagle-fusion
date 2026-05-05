@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core'
 
 import { Subject } from 'rxjs'
 
@@ -33,6 +33,7 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private route: ActivatedRoute,
     private widgetContentSvc: WidgetContentService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -62,6 +63,7 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
       const licenseData = data
       if (licenseData) {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
+        this.cdr.markForCheck()
       }
     },
       (err: HttpErrorResponse) => {

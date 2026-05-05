@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter, Input, effect } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, ElementRef, ViewChild, Output, EventEmitter, Input } from '@angular/core'
+import { Subscription } from 'rxjs'
 import { ConfigurationsService, LoggerService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -20,7 +21,8 @@ import { TranslateService } from '@ngx-translate/core'
   styleUrls: ['./work-info-list.component.scss'],
 
 })
-export class WorkInfoListComponent implements OnInit {
+export class WorkInfoListComponent implements OnInit, OnDestroy {
+  private mobileSubscription: Subscription | null = null
 
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
@@ -68,7 +70,8 @@ export class WorkInfoListComponent implements OnInit {
     public http: HttpClient,
     private languageSvc: LanguageService,
     private logger: LoggerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {
     this.personalDetailForm = new UntypedFormGroup({
       profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
@@ -88,14 +91,9 @@ export class WorkInfoListComponent implements OnInit {
       selectBackground: new UntypedFormControl(),
       nameOther: new UntypedFormControl(),
     })
-    effect(() => {
-      if (this.valueSvc.isMobile()) {
-        this.showbackButton = true
-        this.showLogOutIcon = false
-      } else {
-        this.showbackButton = false
-        this.showLogOutIcon = false
-      }
+    this.mobileSubscription = this.valueSvc.isXSmall$.subscribe(isSmall => {
+      this.showbackButton = isSmall
+      this.showLogOutIcon = false
     })
   }
 
@@ -158,6 +156,7 @@ export class WorkInfoListComponent implements OnInit {
                   this.professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Student', 'Faculty', 'Others']
                 }
               }
+              this.cdr.markForCheck()
               if (pd0.profession === 'ASHA' || (pd0.profession === 'Others' && (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer'))) {
                 this.selectedBg = pd0.selectBackground
                 this.personalDetailForm.controls.block.setValidators([Validators.required])
@@ -589,5 +588,11 @@ export class WorkInfoListComponent implements OnInit {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+
+  ngOnDestroy() {
+    if (this.mobileSubscription) {
+      this.mobileSubscription.unsubscribe()
+    }
   }
 }
