@@ -177,7 +177,7 @@ ws-app-nav-bar {
 
 .whtsapp-text {
   font-weight: 500;
-  color: #1C5D95;
+  color: var(--theme-primary);
   background-color: white;
   z-index: 1;
   left: 6.1rem;
@@ -189,7 +189,7 @@ ws-app-nav-bar {
 
 .fcapp-text {
   font-weight: 500;
-  color: #1C5D95 !important;
+  color: var(--theme-primary) !important;
   background-color: white;
   z-index: 1;
   left: 6.1rem;

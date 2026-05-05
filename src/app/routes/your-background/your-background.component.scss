@@ -60,7 +60,7 @@
 .login-button {
   width: 98px;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   border-radius: 50px;
   color: #fff;
   border:0;
@@ -71,7 +71,7 @@
 }
 .login-button:disabled {
   background: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 .next-btn-div {

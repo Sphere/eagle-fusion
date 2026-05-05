@@ -70,7 +70,7 @@ h2 {
   left: 111px;
   width: 32px;
   height: 32px;
-  background-color: #1C5D95 !important;
+  background-color: var(--theme-primary) !important;
 }
 
 .health {
@@ -105,7 +105,7 @@ h2 {
 
 .heading {
   font-size: 12px;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   margin-top: 4px;
 }
 
@@ -156,7 +156,7 @@ h2 {
   position: absolute;
   width: 114px;
   height: 35px;
-  background: #2E6491 !important;
+  background: var(--theme-accent, #2E6491) !important;
   border-radius: 50px;
   font-family: 'Roboto';
   font-style: normal;
@@ -217,14 +217,14 @@ h2 {
 }
 
 .active img {
-  border: 1px solid var(--theme-accent, #1c5d95);
+  border: 1px solid var(--theme-accent, var(--theme-primary));
   border-radius: 8px
 }
 
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: var(--theme-accent, #1c5d95);
+  background-color: var(--theme-accent, var(--theme-primary));
   border-radius: 50px;
   color: #ffffff;
   border: 0;
@@ -237,7 +237,7 @@ h2 {
 .logout-btn {
   width: 80px;
   height: 25px;
-  background-color: var(--theme-accent, #1c5d95);
+  background-color: var(--theme-accent, var(--theme-primary));
   border-radius: 50px;
   color: #ffffff;
   border: 0;
@@ -248,7 +248,7 @@ h2 {
 }
 
 .btnActive {
-  background-color: #2E6491;
+  background-color: var(--theme-accent, #2E6491);
   width: 95px;
   height: 30px;
   border: 1px solid #3f51b5;
@@ -262,9 +262,9 @@ h2 {
   background-color: white;
   width: 95px;
   height: 30px;
-  border: 1px solid #2E6491;
+  border: 1px solid var(--theme-accent, #2E6491);
   border-radius: 20px;
-  color: #2E6491;
+  color: var(--theme-accent, #2E6491);
   font-size: small;
   justify-content: center;
 }
@@ -337,7 +337,7 @@ h2 {
 
 .support-copy-link {
   text-decoration: underline;
-  color: var(--theme-accent, #1c5d95);
+  color: var(--theme-accent, var(--theme-primary));
 }
 
 .web-help-btn {
@@ -461,7 +461,7 @@ color: var(--theme-text, #101828);
 }
 .whtsapp-text {
   font-weight: 500;
-  color: var(--theme-accent, #1c5d95);
+  color: var(--theme-accent, var(--theme-primary));
   background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
@@ -472,7 +472,7 @@ color: var(--theme-text, #101828);
 }
 .whtsapp-text1 {
   font-weight: 500;
-  color: var(--theme-accent, #1c5d95);
+  color: var(--theme-accent, var(--theme-primary));
   background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
@@ -490,7 +490,7 @@ color: var(--theme-text, #101828);
 }
 .fcapp-text {
   font-weight: 500;
-  color: var(--theme-accent, #1c5d95) !important;
+  color: var(--theme-accent, var(--theme-primary)) !important;
   background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
@@ -511,9 +511,9 @@ color: var(--theme-text, #101828);
   flex-wrap: wrap;
 }
   .btn-logout {
-    background-color: var(--theme-accent, #1c5d95) !important;
+    background-color: var(--theme-accent, var(--theme-primary)) !important;
     width: fit-content;
-    border: 1px solid var(--theme-accent, #1c5d95);
+    border: 1px solid var(--theme-accent, var(--theme-primary));
     color: var(--theme-on-accent, #ffffff) !important;
     font-size: 16px !important;
     font-weight: 400 !important;
@@ -644,7 +644,7 @@ font-weight: 500;
     font-size: 36px;
     font-weight: 600;
     color: rgba(28, 93, 149, 1);
-    color: var(--theme-accent, #1c5d95);
+    color: var(--theme-accent, var(--theme-primary));
     line-height: 1;
 
     @include ws-mixins.breakpoint-gt-m {
@@ -726,7 +726,7 @@ font-weight: 500;
   padding: 8px 14px;
   text-align: center;
   border-radius: 4rem;
-  color: #469788;
+  color: var(--theme-progress, #469788);
 }
 
 .badge-container img {

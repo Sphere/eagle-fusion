@@ -22,7 +22,7 @@
   font-size: 35px;
   line-height: 58px;
   letter-spacing: -0.02em;
-  color: #89c575;
+  color: var(--theme-success, #89c575);
 }
 
 .better-luck {
@@ -60,22 +60,21 @@
   text-align: center;
   letter-spacing: -0.02em;
 
-  color: #1c5d95;
+  color: var(--theme-primary);
 }
 
 .next-btn {
   border-radius: 50px;
   width: 100px !important;
   height: 38px !important;
-  color: #1c5d95 !important;
-  // border-color: #1C5D95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-primary) !important;
+  border: 1px solid var(--theme-primary) !important;
 
   @include ws-mixins.breakpoint-xs {}
 }
 
 .btn-active {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-primary) !important;
   color: #ffffff !important;
 }
 

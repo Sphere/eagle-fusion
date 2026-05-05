@@ -7,7 +7,7 @@
 }
 
 .socialText {
-  color: #9baebd;
+  color: var(--theme-text-soft, #9baebd);
 }
 
 .navigationbutton {
@@ -25,7 +25,7 @@
 }
 
 .fetching {
-  color: #9baebd !important;
+  color: var(--theme-text-soft, #9baebd) !important;
 }
 
 

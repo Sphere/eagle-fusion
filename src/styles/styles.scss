@@ -1251,12 +1251,12 @@ ws-public-toc {
 }
 
 ::ng-deep .light-theme .mat-mdc-progress-bar {
-  --mdc-linear-progress-active-indicator-color: #469788 !important;
+  --mdc-linear-progress-active-indicator-color: var(--theme-progress, #469788) !important;
   --mdc-linear-progress-track-color: #EDEDED !important;
 }
 
 ::ng-deep .mat-mdc-progress-bar {
-  --mdc-linear-progress-active-indicator-color: #469788 !important;
+  --mdc-linear-progress-active-indicator-color: var(--theme-progress, #469788) !important;
   --mdc-linear-progress-track-color: #EDEDED !important;
   min-height: 6px;
 }
@@ -1303,7 +1303,7 @@ html::-webkit-scrollbar-corner {
     font-family: 'Roboto', sans-serif !important;
     font-size: 14px !important;
     font-weight: 400 !important;
-    color: #101828 !important;
+    color: var(--theme-text, #101828) !important;
     background-color: var(--theme-bg) !important;
     min-height: 40px !important;
 
@@ -1321,7 +1321,7 @@ html::-webkit-scrollbar-corner {
 
     &.mat-mdc-option-active,
     &.mdc-list-item--selected {
-      background-color: #1C5D95 !important;
+      background-color: var(--theme-primary) !important;
 
       .mdc-list-item__primary-text {
         font-family: 'Roboto', sans-serif !important;

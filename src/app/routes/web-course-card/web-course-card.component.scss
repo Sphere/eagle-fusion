@@ -37,7 +37,7 @@
   }
 
   .mdc-linear-progress__bar-inner {
-    border-color: #469788 !important;
+    border-color: var(--theme-progress, #469788) !important;
     border-top-width: 8px !important;
   }
 
@@ -170,7 +170,7 @@ color: var(--theme-primary);
   border-radius: 20px;
   font-size: 14px;
   padding: 5px 25px;
-  background: var(--theme-accent, #1C5D95);
+  background: var(--theme-accent, var(--theme-primary));
   color: var(--theme-on-accent, #fff) !important;
   cursor: pointer;
 }
@@ -181,7 +181,7 @@ font-weight: 400;
 line-height: 28.13px;
 letter-spacing: -0.02em;
 text-align: left;
-// color: #1C5D95 !important;
+// color: var(--theme-primary) !important;
 margin: 0px !important;
 
 }
@@ -199,7 +199,7 @@ margin: 0px !important;
   background-color: var(--theme-surface, #fff);
 }
 :host ::ng-deep .light-theme .mat-mdc-progress-bar-fill::after {
-    background: #469788 !important;
+    background: var(--theme-progress, #469788) !important;
 }
 ::ng-deep.light-theme .mat-mdc-progress-bar-buffer {
   background-color: #DCDCDC !important;
@@ -911,7 +911,7 @@ $title-line-count: 2;
 
 @media only screen and (max-width: 600px) {
   .title-text {
-    color: #1C5D95 !important;
+    color: var(--theme-primary) !important;
     font-weight: 400 !important;
     font-size: 16px !important;
     margin-bottom: 0 !important;
@@ -987,7 +987,7 @@ gap: 8px;
 border-radius: 50px ;
 border: none !important;
 // opacity: 0px;
-background-color: #2E6491;
+background-color: var(--theme-primary);
 color: #FFFFFF;
 }
 .top-border{
@@ -1001,14 +1001,14 @@ font-weight: 400;
 line-height: 23.44px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #808080 !important;
+color:  var(--theme-inactive, #808080) !important;
 padding: 5px 0px 0px 0px;
 }
 
 .btn-active {
-  color: #1c5d95 !important;
+  color: var(--theme-primary) !important;
   border-radius: 50px;
-  border: 1px solid #1c5d95 !important;
+  border: 1px solid var(--theme-primary) !important;
   margin-left: 10px;
   width: 13%;
 
@@ -1020,7 +1020,7 @@ padding: 5px 0px 0px 0px;
 .share-img {
   width: 42px;
   height: 42px;
-  border: 1px solid #1c5d95;
+  border: 1px solid var(--theme-primary);
   box-sizing: border-box;
   border-radius: 49%;
   padding: 9px 12px 0px;
@@ -1032,7 +1032,7 @@ padding: 5px 0px 0px 0px;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background-color: #2E6491 !important;
+  background-color: var(--theme-accent, #2E6491) !important;
   border-radius: 50px;
   color: #FFFFFF !important;
   font-family: Roboto, sans-serif;
@@ -1051,7 +1051,7 @@ padding: 5px 0px 0px 0px;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background-color: #2E6491 !important;
+  background-color: var(--theme-accent, #2E6491) !important;
   border-radius: 50px;
   color: #FFFFFF !important;
   font-family: "Roboto", sans-serif;
@@ -1071,14 +1071,14 @@ padding: 5px 0px 0px 0px;
   gap: 8px;
   background-color: #FFFFFF !important;
   border-radius: 50px;
-  color: #2E6491 !important;
+  color: var(--theme-accent, #2E6491) !important;
   font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
   cursor: pointer;
-  border: 1px solid #2E6491;
+  border: 1px solid var(--theme-accent, #2E6491);
 }
 
 .modal {

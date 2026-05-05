@@ -50,7 +50,7 @@
 }
 
 .submit-btn {
-  background: #2E6491 !important;
+  background: var(--theme-accent, #2E6491) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;

@@ -38,7 +38,7 @@ mat-card-content {
 }
 
 .fetching {
-  color: #9baebd !important;
+  color: var(--theme-text-soft, #9baebd) !important;
 }
 
 .font-family {

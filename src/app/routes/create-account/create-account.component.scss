@@ -95,7 +95,7 @@
   --mdc-filled-text-field-container-color: var(--theme-bg, #ffffff) !important;
   --mdc-filled-text-field-input-text-color: var(--theme-text, #101828) !important;
   --mdc-filled-text-field-label-text-color: var(--theme-text-soft, #8c98a8) !important;
-  --mdc-filled-text-field-focus-label-text-color: var(--theme-accent, #1c5d95) !important;
+  --mdc-filled-text-field-focus-label-text-color: var(--theme-accent, var(--theme-primary)) !important;
   --mdc-filled-text-field-hover-label-text-color: var(--theme-text-soft, #8c98a8) !important;
   --mdc-filled-text-field-caret-color: var(--theme-text, #101828) !important;
   --mdc-filled-text-field-active-indicator-color: transparent !important;
@@ -182,7 +182,7 @@ a {
   margin-top: 0px;
   width: 100%;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   border-radius: 50px;
   color: #fff;
   border: 0;
@@ -193,7 +193,7 @@ a {
 }
 .next-button-lang:disabled {
   background: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 .next-button {
@@ -202,7 +202,7 @@ a {
   min-width: 100px;
   padding: 0px 24px;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   border-radius: 50px;
   color: #fff;
   border: 0;
@@ -214,7 +214,7 @@ a {
 
 .next-button:disabled {
   background: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 
@@ -254,14 +254,14 @@ a {
         gap: 12px;
         width: 22%;
         height: 36px;
-        color: #2E6491;
+        color: var(--theme-accent, #2E6491);
         border-radius: 63px;
 
         font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 16.41px;
-        border: 1px solid #2E6491;
+        border: 1px solid var(--theme-accent, #2E6491);
         padding: 8px;
         align-items: center;
         justify-content: center;
@@ -335,7 +335,7 @@ gap: 0px;
 }
 
 span.display-language {
-  color: #1C5D95;
+  color: var(--theme-primary);
   font-weight: 400;
   text-transform: capitalize;
 }
@@ -358,7 +358,7 @@ span.mdc-button__label {
 }
 
 .text {
-  color: #1C5D95 !important;
+  color: var(--theme-primary) !important;
     font-weight: 500 !important;
     text-decoration: underline !important;
 }

@@ -68,7 +68,7 @@ box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
   }
 
   .mdc-linear-progress__bar-inner {
-    border-color: #469788 !important;
+    border-color: var(--theme-progress, #469788) !important;
     border-top-width: 8px !important;
   }
 
@@ -112,7 +112,7 @@ box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
   border-radius: 20px;
   font-size: 14px;
   padding: 5px 25px;
-  background: var(--theme-accent, #1C5D95);
+  background: var(--theme-accent, var(--theme-primary));
   color: var(--theme-on-accent, #fff) !important;
   cursor: pointer;
 }
@@ -216,7 +216,7 @@ font-weight: 400;
 line-height: 16.41px;
 letter-spacing: -0.02em;
 text-align: left;
-// color: #1C5D95 !important;
+// color: var(--theme-primary) !important;
 margin: 0px !important;
 
 }
@@ -236,7 +236,7 @@ height: 16px;
   border-radius: 40px;
   height: 10px;
   border: none;
-  --mdc-linear-progress-active-indicator-color: #469788 !important;
+  --mdc-linear-progress-active-indicator-color: var(--theme-progress, #469788) !important;
   --mdc-linear-progress-track-color: #dcdcdc!important;
   --mdc-linear-progress-track-height: 10px !important
 }
@@ -251,7 +251,7 @@ height: 16px;
 ::ng-deep.light-theme .mat-mdc-progress-bar--buffer {
   background-color: var(--theme-border, #EDEDED);
     border: 1px solid var(--theme-border, #EDEDED);
-  --mdc-linear-progress-active-indicator-color: #469788 !important;
+  --mdc-linear-progress-active-indicator-color: var(--theme-progress, #469788) !important;
   --mdc-linear-progress-track-color: #dcdcdc!important;
   --mdc-linear-progress-track-height: 10px !important;
   .mdc-linear-progress__buffer {
@@ -368,7 +368,7 @@ font-weight: 400;
 line-height: 14.06px;
 letter-spacing: -0.02em;
 text-align: left;
-color: var(--theme-text-soft, #808080) !important;
+color:  var(--theme-inactive, #808080) !important;
 padding: 5px 0px 0px 0px;
 }
 

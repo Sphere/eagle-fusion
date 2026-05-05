@@ -135,6 +135,6 @@ color: #FFFFFF;
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
-    color: #2E6491;
+    color: var(--theme-accent, #2E6491);
     mix-blend-mode: normal;
 }

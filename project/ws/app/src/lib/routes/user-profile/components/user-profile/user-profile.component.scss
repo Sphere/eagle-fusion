@@ -516,7 +516,7 @@ img.lang-img {
 }
 
 .display-language {
-  color: #1C5D95;
+  color: var(--theme-primary);
   font-weight: 400;
   text-transform: capitalize;
 }

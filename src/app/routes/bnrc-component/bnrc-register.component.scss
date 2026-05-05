@@ -29,7 +29,7 @@ a.blue,
 ::ng-deep .light-theme a[href^=http],
 ::ng-deep .light-theme a[href^=mailto],
 ::ng-deep .light-theme a[target=_blank] {
-  color: #1C5D95 !important;
+  color: var(--theme-primary) !important;
 }
 
 .header-title {
@@ -113,7 +113,7 @@ a.blue,
 
 .heading {
   font-size: 12px;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 
 .head-2 {
@@ -132,7 +132,7 @@ a.blue,
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #1C5D95;
+  color: var(--theme-primary);
 }
 
 .pencil {
@@ -140,14 +140,14 @@ a.blue,
 }
 
 .add-icon {
-  color: #1C5D95;
+  color: var(--theme-primary);
   font-size: 20px;
 }
 
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: #1C5D95;
+  background-color: var(--theme-primary);
   border-radius: 50px;
   color: #fff;
   border: 0;
@@ -252,7 +252,7 @@ a.blue,
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected,
 ::ng-deep .mat-mdc-option.mat-selected {
-  background-color: var(--theme-accent, #1c5d95) !important;
+  background-color: var(--theme-accent, var(--theme-primary)) !important;
   color: var(--theme-on-accent, #ffffff) !important;
 }
 

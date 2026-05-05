@@ -54,14 +54,14 @@ a {
 }
 
 .login-btn {
-  background: #1C5D95;
+  background: var(--theme-primary);
   color: #fff;
   line-height: 19px;
 }
 
 .login-btn:disabled {
   background: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 

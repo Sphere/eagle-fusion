@@ -13,13 +13,13 @@
     --mdc-checkbox-selected-focus-icon-color: black !important;
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
     // background-color: #f5d58d !important;
-    background-color: #1c5d95 !important;
+    background-color: var(--theme-primary) !important;
   }
 }
 
 ::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
-  background: #1c5d95 !important;
+  background: var(--theme-primary) !important;
 }
 
 // ::ng-deep .mat-radio-ripple {
@@ -132,7 +132,7 @@ correct-option {
 }
 
 .multi-selection-hint {
-  color: #1c5d95;
+  color: var(--theme-primary);
   margin-top: -12px !important;
   margin-bottom: 0 !important;
 }

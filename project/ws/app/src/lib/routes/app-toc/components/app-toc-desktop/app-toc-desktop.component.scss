@@ -103,7 +103,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: var(--theme-accent, #1c5d95);
+  color: var(--theme-accent, var(--theme-primary));
   flex: none;
   flex-grow: 0;
   padding-top: 20px;
@@ -142,7 +142,7 @@
 // height: 35px;
 // left: 112px;
 // top: 369px;
-// background: #1C5D95;
+// background: var(--theme-primary);
 // border-radius: 50px;
 // }
 
@@ -154,7 +154,7 @@
   justify-content: center !important;
   align-items: center !important;
   padding: 0px 32px !important;
-  background: var(--theme-accent, #1c5d95) !important;
+  background: var(--theme-accent, var(--theme-primary)) !important;
   border-radius: 50px !important;
   color: #f7f7f7 !important;
   border: none;
@@ -182,9 +182,9 @@
 }
 .banner-btn-active {
   display: flex;
-  color: var(--theme-accent, #1c5d95) !important;
+  color: var(--theme-accent, var(--theme-primary)) !important;
   border-radius: 50px;
-  border: 1px solid var(--theme-accent, #1c5d95) !important;
+  border: 1px solid var(--theme-accent, var(--theme-primary)) !important;
   margin-left: 10px;
   width: 25%;
   height: 35px;
@@ -200,7 +200,7 @@
 .share-img {
   width: 42px;
   height: 42px;
-  border: 1px solid var(--theme-accent, #1c5d95);
+  border: 1px solid var(--theme-accent, var(--theme-primary));
   box-sizing: border-box;
   border-radius: 49%;
   padding: 9px 12px 0px;
@@ -243,7 +243,7 @@
   width: 100%;
   border-radius: 40px;
   height: 20px;
-  --mat-progress-bar-active-indicator-color: #469788 !important;
+  --mat-progress-bar-active-indicator-color: var(--theme-progress, #469788) !important;
   --mat-progress-bar-active-indicator-height: 20px !important;
   --mat-progress-bar-track-height: 20px !important;
   --mat-progress-bar-track-color: #EDEDED !important;
@@ -254,7 +254,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #101828;
+  color: var(--theme-text, #101828);;
   font-size: 12px;
   font-weight: 600;
   z-index: 1;
@@ -263,8 +263,8 @@
 }
 
 ::ng-deep .new-w.mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
-  border-color: #469788 !important;
-  background-color: #469788 !important;
+  border-color: var(--theme-progress, #469788) !important;
+  background-color: var(--theme-progress, #469788) !important;
 }
 
 ::ng-deep .new-w.mat-mdc-progress-bar .mdc-linear-progress__buffer {
@@ -276,7 +276,7 @@
 }
 
 .button-border {
-  border: 1px solid var(--theme-primary, #1c5d95);
+  border: 1px solid var(--theme-primary, var(--theme-primary));
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -286,7 +286,7 @@
 }
 
 .btn-tittle {
-  color: var(--theme-primary, #1c5d95);
+  color: var(--theme-primary, var(--theme-primary));
   font-size: 12px;
   white-space: nowrap;
 }
@@ -334,7 +334,7 @@ mat-progress-bar {
 }
 
 .action-button-share {
-  border: 1px solid var(--theme-accent, #1c5d95);
+  border: 1px solid var(--theme-accent, var(--theme-primary));
 }
 
 .toc-inline-modal {

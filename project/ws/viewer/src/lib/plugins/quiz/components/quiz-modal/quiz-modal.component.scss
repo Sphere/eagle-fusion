@@ -66,12 +66,12 @@
 }
 
 ::ng-deep .light-theme .mat-ink-bar {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-primary) !important;
 }
 
 ::ng-deep .mat-tab-label-active {
-  border-bottom: solid 3px #1c5d95;
-  color: #1c5d95 !important;
+  border-bottom: solid 3px var(--theme-primary);
+  color: var(--theme-primary) !important;
 }
 
 ::ng-deep .mat-tab-label-content {
@@ -118,9 +118,9 @@
   border-radius: 50px;
   width: 100px;
   height: 38px !important;
-  color: #1c5d95 !important;
-  // border-color: #1C5D95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-primary) !important;
+  // border-color: var(--theme-primary) !important;
+  border: 1px solid var(--theme-primary) !important;
 
   @include ws-mixins.breakpoint-xs {
     margin-left: 12px;
@@ -132,7 +132,7 @@
 // }
 
 // ::ng-deep .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
-//   background: #1C5D95 !important;
+//   background: var(--theme-primary) !important;
 // }
 .quiz-progress-bar {
   &.mat-mdc-progress-bar {
@@ -142,11 +142,11 @@
   }
 
   .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
-    background: #1c5d95 !important;
+    background: var(--theme-primary) !important;
   }
 
   .mat-mdc-progress-bar-fill::after {
-    background: #1c5d95 !important;
+    background: var(--theme-primary) !important;
   }
 
   .mat-mdc-progress-bar-buffer {
@@ -159,7 +159,7 @@
 }
 
 .btn-active {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-primary) !important;
   color: #ffffff !important;
 }
 
@@ -226,10 +226,10 @@
   font-size: 66px !important;
   line-height: 58px;
   letter-spacing: -0.02em;
-  color: #1c5d95;
+  color: var(--theme-primary);
 
   span {
-    color: #1c5d95;
+    color: var(--theme-primary);
     font-size: 20px !important;
   }
 }

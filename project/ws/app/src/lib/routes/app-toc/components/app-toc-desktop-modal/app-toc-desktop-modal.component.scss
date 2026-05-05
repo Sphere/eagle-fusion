@@ -24,7 +24,7 @@ h1 {
 .details-date {
   font-weight: 400;
   font-size: 14px;
-  color: var(--theme-accent, #1C5D95);
+  color: var(--theme-accent, var(--theme-primary));
 }
 
 .levels {
@@ -78,7 +78,7 @@ h1 {
   display: block;
   width: 100%;
   height: 44px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   color: #ffffff;
   border: none;
   border-radius: 50px;

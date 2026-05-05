@@ -31,7 +31,7 @@ button.primary-color.mat-mdc-raised-button.mat-mdc-button-base.mat-primary {
 }
 
 .btn-done {
-  background: #1C5D95;
+  background: var(--theme-primary);
   border-radius: 50px;
   color: #ffffff;
   width: 101px;

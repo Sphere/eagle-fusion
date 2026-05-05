@@ -2,7 +2,8 @@
   <div class="login-card">
     <h1>{{ 'Almost done!' | translate }}</h1>
     <p><span style="float:left;"><span>{{ 'Background' | translate }}</span>: {{backgroundSelect}}</span>
-      <span style="float:right;color: #1C5D95; cursor: pointer;" (click)='redirectToYourBackground()'>{{ 'Change' |
+      <span style="float:right;color: var(--theme-primary); cursor: pointer;" (click)='redirectToYourBackground()'>{{
+        'Change' |
         translate }}</span>
     </p>
     <div class="input-content">
@@ -15,7 +16,8 @@
               <select id="profession" formControlName="professSelected" class="form-control select-box"
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)"
                 required>
-                <option [value]="null" style="color:#808080;" disabled>{{ 'Designation*' | translate }}</option>
+                <option [value]="null" style="color: var(--theme-inactive, #808080);" disabled>{{ 'Designation*' |
+                  translate }}</option>
                 <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>

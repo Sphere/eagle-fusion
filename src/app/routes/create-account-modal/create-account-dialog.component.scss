@@ -34,13 +34,13 @@ html.fc-widget-small body {
 .btn-edit{
   background: #ffffff;
   border-radius: 50px;
-  color: #1C5D95;
+  color: var(--theme-primary);
   width: 100%;
   height: 44px;
-  border: 1px solid #1C5D95;
+  border: 1px solid var(--theme-primary);
 }
 .btn-confirm{
-  background: #1C5D95;
+  background: var(--theme-primary);
   border-radius: 50px;
   color: #ffffff;
   width: 100%;
@@ -113,7 +113,7 @@ text-align: center;
 }
 .ca-block{
   border-radius: 100px;
-  border: 1px solid #1C5D95;
+  border: 1px solid var(--theme-primary);
   width: 100%;
   padding: 12px 20px;
   justify-content: center;
@@ -127,7 +127,7 @@ font-size: 16px;
 font-weight: 400;
 line-height: 18.75px;
 text-align: left;
-color: #1C5D95;
+color: var(--theme-primary);
 }
 .whtsapp-text{
   font-family: Roboto, sans-serif;

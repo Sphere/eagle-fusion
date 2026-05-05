@@ -121,13 +121,13 @@ color: var(--theme-text);
         gap: 12px;
         width: 75px;
         height: 36px;
-        color: #2E6491;
+        color: var(--theme-accent, #2E6491);
         border-radius: 63px;
         font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 16.41px;
-        border: 1px solid #2E6491;
+        border: 1px solid var(--theme-accent, #2E6491);
         padding: 8px;
         cursor: pointer;
   }
@@ -238,11 +238,11 @@ color: var(--theme-text);
 
 .blueButton {
   color: var(--theme-bg) !important;
-  background-color: #1C5D95 !important;
+  background-color: var(--theme-primary) !important;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  border: 1px solid #1C5D95 !important;
+  border: 1px solid var(--theme-primary) !important;
   line-height: 25px;
   height: 40px;
   border-radius: 50px;
@@ -262,9 +262,9 @@ color: var(--theme-text);
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  color: #1C5D95 !important;
+  color: var(--theme-primary) !important;
   background-color: #fff !important;
-  border: 1px solid #1C5D95 !important;
+  border: 1px solid var(--theme-primary) !important;
   line-height: 25px;
   height: 40px;
   border-radius: 50px;
@@ -342,7 +342,7 @@ color: var(--theme-text);
   --mdc-filled-text-field-container-color: var(--theme-bg, #ffffff) !important;
   --mdc-filled-text-field-input-text-color: var(--theme-text, #101828) !important;
   --mdc-filled-text-field-label-text-color: var(--theme-text-soft, #8c98a8) !important;
-  --mdc-filled-text-field-focus-label-text-color: var(--theme-accent, #1c5d95) !important;
+  --mdc-filled-text-field-focus-label-text-color: var(--theme-accent, var(--theme-primary)) !important;
   --mdc-filled-text-field-hover-label-text-color: var(--theme-text-soft, #8c98a8) !important;
   --mdc-filled-text-field-caret-color: var(--theme-text, #101828) !important;
   --mdc-filled-text-field-active-indicator-color: transparent !important;
@@ -455,7 +455,7 @@ font-weight: 400;
 line-height: 24px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #808080;
+color:  var(--theme-inactive, #808080);
 
 }
 
@@ -482,7 +482,7 @@ color: #808080;
 .login-button {
   width: 98px;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   border-radius: 50px;
   color: #fff;
   border: 0;
@@ -545,14 +545,14 @@ color: #808080;
         gap: 12px;
         width: 22%;
         height: 36px;
-        color: #2E6491;
+        color: var(--theme-accent, #2E6491);
         border-radius: 63px;
 
         font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 16.41px;
-        border: 1px solid #2E6491;
+        border: 1px solid var(--theme-accent, #2E6491);
         padding: 8px;
         align-items: center;
         justify-content: center;

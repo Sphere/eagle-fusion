@@ -135,7 +135,7 @@
 }
 
 ::ng-deep .light-theme .mat-ink-bar {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-primary) !important;
 }
 
 ::ng-deep .mat-tab-label-active {
@@ -190,8 +190,8 @@
   width: auto !important;
   min-height: 38px !important;
   height: 40px !important;
-  color: var(--theme-accent, #1C5D95) !important;
-  border: 1px solid var(--theme-accent, #1C5D95) !important;
+  color: var(--theme-accent, var(--theme-primary)) !important;
+  border: 1px solid var(--theme-accent, var(--theme-primary)) !important;
   background: transparent;
   white-space: nowrap;
   text-align: center;
@@ -218,7 +218,7 @@
 // }
 
 // ::ng-deep .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
-//   background: #1C5D95 !important;
+//   background: var(--theme-primary) !important;
 // }
 .audio-progress-bar {
   &.mat-mdc-progress-bar {
@@ -456,7 +456,7 @@
   }
 }
 mat-progress-bar {
- --mdc-linear-progress-active-indicator-color: #469788 !important;
+ --mdc-linear-progress-active-indicator-color: var(--theme-progress, #469788) !important;
   --mdc-linear-progress-active-indicator-height: 20px !important;
   --mdc-linear-progress-track-height: 20px !important;
 }
@@ -586,7 +586,7 @@ mat-progress-bar {
 
 
 .outline-btn {
-  border-color: var(--theme-accent, #2E6491);
+  border-color: var(--theme-accent, var(--theme-accent, #2E6491));
   background-color: var(--theme-surface, #17242d);
 }
 

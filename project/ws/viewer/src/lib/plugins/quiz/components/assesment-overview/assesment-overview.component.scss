@@ -157,16 +157,16 @@
   width: auto !important;
   min-width: 140px;
   min-height: 42px;
-  border: 1px solid #1C5D95 !important;
+  border: 1px solid var(--theme-primary) !important;
   padding: 0 24px !important;
-  color: #1C5D95 !important;
+  color: var(--theme-primary) !important;
   background: transparent;
 }
 
 .btn-active {
-  background-color: #1C5D95 !important;
+  background-color: var(--theme-primary) !important;
   color: #FFFFFF !important;
-  border-color: #1C5D95 !important;
+  border-color: var(--theme-primary) !important;
 }
 
 .row {
@@ -192,7 +192,7 @@
 }
 
 ::ng-deep .btn.btn-active.mat-mdc-raised-button.mat-mdc-button-base {
-  background: #1C5D95 !important;
+  background: var(--theme-primary) !important;
   border-radius: 50px !important;
   color: #fff; // ensure text is visible
 }

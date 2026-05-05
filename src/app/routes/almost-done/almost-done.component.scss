@@ -48,7 +48,7 @@
 }
 .form-control:disabled {
   background-color: transparent !important;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 .form-control[readonly] ::placeholder{
   background-color: transparent !important;
@@ -63,7 +63,7 @@ input {
 .login-button {
   width: 98px;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   border-radius: 50px;
   color: #fff;
   border:0;
@@ -73,7 +73,7 @@ input {
 }
 .login-button:disabled {
   background: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 .next-btn-div {
@@ -106,16 +106,16 @@ input {
 }
 
 select {
-   color: #808080;
+   color:  var(--theme-inactive, #808080);
 }
 select.ng-dirty {
   color: #000;
 }
 select option:first-child {
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 ::placeholder {
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 .form-control[readonly] {
   background-color: transparent;

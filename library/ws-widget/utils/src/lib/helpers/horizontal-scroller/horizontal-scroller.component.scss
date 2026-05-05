@@ -33,7 +33,7 @@
     background 0.25s ease,
     border-color 0.25s ease,
     color 0.25s ease;
-  color: var(--theme-primary, #1c5d95);
+  color: var(--theme-primary, var(--theme-primary));
 
   mat-icon {
     font-size: 22px;
@@ -49,7 +49,7 @@
   }
 
   &:hover {
-    background: linear-gradient(135deg, #1c5d95 0%, #2196f3 100%);
+    background: linear-gradient(135deg, var(--theme-primary) 0%, #2196f3 100%);
     border-color: rgba(33, 150, 243, 0.4);
     box-shadow:
       0 0 0 4px rgba(28, 93, 149, 0.15),

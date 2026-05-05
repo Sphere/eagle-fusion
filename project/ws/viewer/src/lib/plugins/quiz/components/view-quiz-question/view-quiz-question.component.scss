@@ -11,13 +11,13 @@
     --mdc-checkbox-selected-hover-icon-color: black !important;
     --mdc-checkbox-selected-focus-icon-color: black !important;
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
-    background-color: #1c5d95 !important;
+    background-color: var(--theme-primary) !important;
   }
 }
 
 ::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
-  background: #1c5d95 !important;
+  background: var(--theme-primary) !important;
 }
 
 ::ng-deep .mat-radio-ripple .mat-ripple-element {
@@ -50,7 +50,7 @@
   line-height: 24px !important;
   /* or 120% */
   letter-spacing: -0.02em !important;
-  color: #1c5d95 !important;
+  color: var(--theme-primary) !important;
 }
 
 correct-option {
@@ -130,7 +130,7 @@ correct-option {
   line-height: 24px !important;
   /* or 120% */
   letter-spacing: -0.02em !important;
-  color: #1c5d95 !important;
+  color: var(--theme-primary) !important;
   margin-bottom: 8px !important;
 }
 

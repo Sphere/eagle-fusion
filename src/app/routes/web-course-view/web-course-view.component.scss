@@ -61,7 +61,7 @@
   border-radius: 20px;
   font-size: 14px;
   padding: 5px 25px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   color: #fff !important;
   cursor: pointer;
 }
@@ -707,7 +707,7 @@ $title-line-count: 2;
 
 @media only screen and (max-width: 600px) {
   .title-text {
-    color: #1C5D95 !important;
+    color: var(--theme-primary) !important;
     font-weight: 400 !important;
     font-size: 16px !important;
     margin-bottom: 0 !important;

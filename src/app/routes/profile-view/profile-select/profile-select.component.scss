@@ -31,7 +31,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: var(--theme-accent, #1c5d95);
+  color: var(--theme-accent, var(--theme-primary));
   mix-blend-mode: normal;
   margin: 0 !important;
 }

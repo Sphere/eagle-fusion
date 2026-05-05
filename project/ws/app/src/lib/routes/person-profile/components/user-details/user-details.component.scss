@@ -35,7 +35,7 @@
 }
 
 .followerCount {
-  color: #9baebd !important;
+  color: var(--theme-text-soft, #9baebd) !important;
   margin-right: 0.2rem !important;
 }
 

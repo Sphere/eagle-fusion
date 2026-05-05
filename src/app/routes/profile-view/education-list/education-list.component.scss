@@ -38,7 +38,7 @@
 
 .heading {
   font-size: 12px;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 
 .head-2 {
@@ -57,7 +57,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #1C5D95;
+  color: var(--theme-primary);
 }
 
 .pencil {
@@ -65,18 +65,18 @@
 }
 
 .add-icon {
-  color: #1C5D95;
+  color: var(--theme-primary);
   font-size: 20px;
 }
 
 .edit-icon {
   // position: absolute;
   // right: 1rem;
-  // color: #1C5D95;
+  // color: var(--theme-primary);
 
   position: relative;
   left: 7rem;
-  color: #1C5D95;
+  color: var(--theme-primary);
   float: right;
   top: 6px;
 

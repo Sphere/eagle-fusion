@@ -191,7 +191,7 @@ text-align: center;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background: #469788;
+    background: var(--theme-progress, #469788);
     height: 50px;
 }
 

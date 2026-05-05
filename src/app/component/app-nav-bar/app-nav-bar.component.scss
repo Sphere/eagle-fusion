@@ -419,16 +419,16 @@
         color: var(--theme-text-soft, #808080) !important;
       }
       .green-bar  .mdc-linear-progress__primary-bar .mdc-linear-progress__bar-inner {
-        border-color: #469788!important
+        border-color: var(--theme-progress, #469788)!important
       }
     }
   }
 }
 
 .createAcc {
-  background-color: #2E6491;
+  background-color: var(--theme-accent, #2E6491);
   width: 100%;
-  border: 1px solid #2E6491;
+  border: 1px solid var(--theme-accent, #2E6491);
   border-radius: 20px;
   color: white;
   font-size: 16px;

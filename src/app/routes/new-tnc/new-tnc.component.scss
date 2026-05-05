@@ -43,14 +43,14 @@
 
 /* Change the color of the checked state to blue */
 ::ng-deep .mat-mdc-checkbox.mat-mdc-checkbox-checked.mat-accent .mdc-checkbox__background {
-  background-color: #1C5D95 !important;
-  border-color: #1C5D95 !important;
+  background-color: var(--theme-primary) !important;
+  border-color: var(--theme-primary) !important;
 }
 
 /* Checkbox checked background */
 ::ng-deep .tnc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background {
-  background-color: #1C5D95 !important;
-  border-color: #1C5D95 !important;
+  background-color: var(--theme-primary) !important;
+  border-color: var(--theme-primary) !important;
 }
 
 /* Checkbox click/hover ripple */
@@ -66,7 +66,7 @@
 .link-text {
   cursor: pointer;
   text-decoration: underline;
-  color: #1C5D95 !important;
+  color: var(--theme-primary) !important;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -101,7 +101,7 @@
   background: none;
   font-size: 16px;
   line-height: 19px;
-  color: #1C5D95;
+  color: var(--theme-primary);
   border: none;
   text-align: right;
   margin-right: 10px;
@@ -109,7 +109,7 @@
 
 .accept-btn {
   width: 240px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   border: none;
   border-radius: 50px;
   color: #fff;
@@ -183,13 +183,13 @@
         gap: 12px;
         width: 22%;
         height: 36px;
-        color: #2E6491;
+        color: var(--theme-accent, #2E6491);
         border-radius: 63px;
         font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 16.41px;
-        border: 1px solid #2E6491;
+        border: 1px solid var(--theme-accent, #2E6491);
         padding: 8px;
         align-items: center;
         justify-content: center;

@@ -36,7 +36,7 @@
 
 .save-btn:disabled {
   background-color: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 .form-control:disabled,
@@ -77,7 +77,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: var(--theme-accent, #1c5d95);
+  color: var(--theme-accent, var(--theme-primary));
 }
 
 .pencil {
@@ -85,13 +85,13 @@
 }
 
 .add-icon {
-  color: var(--theme-accent, #1c5d95);
+  color: var(--theme-accent, var(--theme-primary));
   font-size: 20px;
 }
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: var(--theme-accent, #1c5d95);
+  background-color: var(--theme-accent, var(--theme-primary));
   border-radius: 50px;
   color: var(--theme-on-accent, #ffffff);
   border: 0;
@@ -154,12 +154,12 @@ label {
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected,
 ::ng-deep .mat-mdc-option.mat-selected {
-  background-color: var(--theme-accent, #1c5d95) !important;
+  background-color: var(--theme-accent, var(--theme-primary)) !important;
   color: var(--theme-on-accent, #ffffff) !important;
 }
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected:hover {
-  background-color: var(--theme-accent, #1c5d95) !important;
+  background-color: var(--theme-accent, var(--theme-primary)) !important;
   border: 1px solid !important;
 }
 
@@ -180,8 +180,8 @@ label {
 ::ng-deep .themed-mat-field {
   --mdc-outlined-text-field-outline-color: var(--theme-border, rgba(28, 93, 149, 0.12));
   --mdc-outlined-text-field-hover-outline-color: var(--theme-border, rgba(28, 93, 149, 0.12));
-  --mdc-outlined-text-field-focus-outline-color: var(--theme-accent, #1c5d95);
-  --mdc-outlined-text-field-focus-label-text-color: var(--theme-accent, #1c5d95);
+  --mdc-outlined-text-field-focus-outline-color: var(--theme-accent, var(--theme-primary));
+  --mdc-outlined-text-field-focus-label-text-color: var(--theme-accent, var(--theme-primary));
   --mat-form-field-focus-select-arrow-color: var(--theme-text, #101828);
   --mat-form-field-enabled-select-arrow-color: var(--theme-text, #101828);
 
@@ -209,7 +209,7 @@ label {
     .mdc-notched-outline__leading,
     .mdc-notched-outline__notch,
     .mdc-notched-outline__trailing {
-      border-color: var(--theme-accent, #1c5d95) !important;
+      border-color: var(--theme-accent, var(--theme-primary)) !important;
     }
   }
 }

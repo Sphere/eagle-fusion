@@ -210,7 +210,7 @@ cdk-overlay-pane .custom-notification-modal{
 
 .notifications__item__title {
     font-family: Roboto, sans-serif;
-    color: #2E6491
+    color: var(--theme-accent, #2E6491)
 }
 
 .notifications__item__message {
@@ -272,7 +272,7 @@ letter-spacing: -2%;
  }
 
  .notifications__item__date {
-    color: #808080;
+    color:  var(--theme-inactive, #808080);
     font-family: Roboto, sans-serif;
     font-size: 12px;
  }

@@ -34,7 +34,7 @@ const CSS_VAR_MAP: Record<keyof OrgThemeColors, CssVarEntry> = {
   bgPrimary: { cssVar: '--theme-app-background' },
   white: { cssVar: '--theme-surface' },
   primary: { cssVar: '--theme-primary' },
-  bgSecondary: { cssVar: '--themebg' },
+  bgSecondary: { cssVar: '--theme-bg' },
   bgDisabled: { cssVar: '--theme-bg-disabled' },
   textPrimary: { cssVar: '--theme-text' },
   textSecondary: { cssVar: '--theme-text-soft' },
@@ -49,7 +49,7 @@ const CSS_VAR_MAP: Record<keyof OrgThemeColors, CssVarEntry> = {
   progress: { cssVar: '--theme-progress' },
   danger: { cssVar: '--theme-error' },
   border: { cssVar: '--theme-border' },
-  shadow: { cssVar: '--theme-shadow,' },
+  shadow: { cssVar: '--theme-shadow' },
   warning: { cssVar: '--theme-warning' },
   black: { cssVar: '--theme-black' }
 }
@@ -79,7 +79,7 @@ export class ThemeService {
     "textActive": "#000000",
     "textDisabled": "#101828",
     "iconPrimary": "#000000de",
-    "accent": "#1c5d95",
+    "accent": "#2E6491",
     "textonAccent": "#ffffff",
     "suceess": "#89c575",
     "progress": "#469788",
@@ -95,7 +95,18 @@ export class ThemeService {
     this.watchSystemTheme()
     // ✅ Auto apply whenever value changes
     effect(() => {
-      this.applyTheme(this.darkMode())
+      const isDark = this.darkMode()
+      this.applyTheme(isDark)
+      const styleTag = document.getElementById('dynamic-theme-overrides')
+      if (!isDark) {
+        if (this.themeConfig) {
+          this.applyOrgColors(this.themeConfig)
+        }
+      } else {
+        if (styleTag) {
+          styleTag?.remove()
+        }
+      }
     })
   }
 
@@ -164,22 +175,30 @@ export class ThemeService {
   }
 
   private applyOrgColors(colors: OrgThemeColors): void {
-    const root = document.documentElement;
+    if (this.isDark()) return
+    const styleTagId = 'dynamic-theme-overrides'
+
+    let styleTag = document.getElementById(styleTagId) as HTMLStyleElement
+
+    if (!styleTag) {
+      styleTag = document.createElement('style')
+      styleTag.id = styleTagId
+      document.head.appendChild(styleTag)
+    }
+
+    let css = `.light-theme {`;
 
     (Object.keys(colors) as Array<keyof OrgThemeColors>).forEach((key) => {
       const value = colors[key]
       const entry = CSS_VAR_MAP[key]
       if (!entry || !value) return
-      console.log(`[ThemeService] Applying org color override: ${key} → ${value}`, entry.cssVar)
-      root.style.setProperty(entry.cssVar, value)
 
-      // Also set the RGB companion if needed (for rgba() usage in CSS)
-      if (entry.rgbVar) {
-        const rgb = this.hexToRgbString(value)
-        console.log(`[ThemeService] Setting companion RGB var ${entry.rgbVar} → ${rgb}`)
-        if (rgb) root.style.setProperty(entry.rgbVar, rgb)
-      }
+      css += `${entry.cssVar}: ${value} !important;`
     })
+
+    css += `}`
+
+    styleTag.innerHTML = css
   }
 
   hexToRgbString(hex: string): string {

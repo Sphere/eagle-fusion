@@ -273,7 +273,7 @@ h3 {
 }
 
 .blue-btn {
-  background: #1C5D95 !important;
+  background: var(--theme-primary) !important;
   font-size: 14px;
   border-radius: 50px;
   color: var(--mat-toolbar-container-background-color) !important;
@@ -294,12 +294,12 @@ h3 {
     height: 70px;
     min-width: 100px;
     border-radius: 10px;
-    border: 0.4px solid #2e6491;
+    border: 0.4px solid var(--theme-accent, #2E6491);
   }
 
   .card-title {
     font-size: 17px !important;
-    color: #1C5D95;
+    color: var(--theme-primary);
     line-height: 17px;
     font-weight: 400;
   }
@@ -330,7 +330,7 @@ h3 {
 
 :host ::ng-deep {
   .mat-mdc-progress-bar-fill:after {
-    background: #2E6491 !important;
+    background: var(--theme-accent, #2E6491) !important;
     border-radius: 10px;
   }
 
@@ -423,7 +423,7 @@ h3 {
 }
 
 .course-container .name {
-  color: #1C5D95;
+  color: var(--theme-primary);
   font-weight: 400;
   font-size: 14.5px;
 }
@@ -441,8 +441,8 @@ h3 {
 
 .outline-btn {
   border-radius: 50px;
-  color: #2E6491 !important;
-  border: 1px solid #2E6491;
+  color: var(--theme-accent, #2E6491) !important;
+  border: 1px solid var(--theme-accent, #2E6491);
   font-weight: 400;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
@@ -522,13 +522,13 @@ h3 {
   }
 
   .resource-container .card-thumbnail {
-    border-color: var(--theme-accent, #2e6491);
+    border-color: var(--theme-accent, var(--theme-accent, #2E6491));
   }
 
   .resource-container .card-title,
   .course-container .name,
   .outline-btn {
-    color: var(--theme-accent, #1C5D95) !important;
+    color: var(--theme-accent, var(--theme-primary)) !important;
   }
 
   .outline-btn {
@@ -606,7 +606,7 @@ h3 {
 }
 
 ::ng-deep .mat-mdc-tab-group .mat-mdc-tab-header{
-  --mat-tab-active-label-text-color: #1C5D95 !important;
+  --mat-tab-active-label-text-color: var(--theme-primary) !important;
   --mat-tab-active-ripple-color: black !important;
   --mat-tab-inactive-ripple-color: black !important;
 }

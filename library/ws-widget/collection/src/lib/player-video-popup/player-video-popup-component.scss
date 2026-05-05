@@ -11,7 +11,7 @@
   height: auto;
 
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
-    background-color: #1c5d95 !important;
+    background-color: var(--theme-primary) !important;
   }
 }
 .answer-text{
@@ -32,7 +32,7 @@ letter-spacing: -2%;
     opacity: 0.5 !important; /* Makes the radio button appear gray */
 }
 .correct-text {
-    color: #469788 !important;
+    color: var(--theme-progress, #469788) !important;
 }
 
 :host ::ng-deep.quiz-option{
@@ -64,7 +64,7 @@ letter-spacing: -2%;
 
 ::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
-  background: #1c5d95 !important;
+  background: var(--theme-primary) !important;
 }
 
 
@@ -197,7 +197,7 @@ correct-option {
 }
 .next-button{
     cursor: pointer;
-  background: #2E6491 !important;
+  background: var(--theme-accent, #2E6491) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
@@ -222,14 +222,14 @@ correct-option {
   letter-spacing: 0em;
   text-align: center !important;
   height: 40px !important;
-  color: #1c5d95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-primary) !important;
+  border: 1px solid var(--theme-primary) !important;
 
 }
 .skip-button{
    cursor: pointer;
   background: #FFFFFF !important;
-  color: #1C5D95 !important;
+  color: var(--theme-primary) !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
   font-family: Roboto, sans-serif;
@@ -240,11 +240,11 @@ correct-option {
   text-align: center !important;
   border: 1px solid !important;
   height: 40px !important;
-  border-color: #1C5D95 !important;
+  border-color: var(--theme-primary) !important;
 }
 .disabled-back-button {
   background: #BFBFBF !important;
-  color: #808080 !important;
+  color:  var(--theme-inactive, #808080) !important;
   cursor: not-allowed !important;
   border: none !important;
 }
@@ -252,7 +252,7 @@ correct-option {
 
 .submit-button {
   cursor: pointer;
-  background: #1C5D95 !important;
+  background: var(--theme-primary) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
@@ -321,7 +321,7 @@ white-space: break-spaces;
 .correct-answer{
   background-color: #E8F4F2 !important;
   border-radius: 30px;
-  color: #469788 !important;
+  color: var(--theme-progress, #469788) !important;
   padding: 8px 14px;
     margin-left: 0px;
 }

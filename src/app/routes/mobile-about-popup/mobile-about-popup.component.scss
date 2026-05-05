@@ -5,7 +5,7 @@
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: #1C5D95;
+  background-color: var(--theme-primary);
   border-radius: 50px;
   color: #fff;
   border:0;
@@ -17,7 +17,7 @@
 
 .save-btn:disabled {
   background-color: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 

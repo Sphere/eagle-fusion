@@ -158,7 +158,7 @@
   &.active {
     width: 24px;
     border-radius: 4px;
-    background: var(--theme-accent, #469788);
+    background: var(--theme-progress, #469788);
   }
 }
 
@@ -374,7 +374,7 @@
   .dot-btn {
     background: rgba(255, 255, 255, 0.35);
     &.active {
-      background: var(--theme-accent, #469788);
+      background: var(--theme-progress, #469788);
     }
   }
 }

@@ -25,7 +25,7 @@ line-height: 38px;
 
 letter-spacing: -0.02em;
 
-color: #1C5D95;
+color: var(--theme-primary);
 }
 .featured-course-desc{
   font-family: 'Roboto';
@@ -47,7 +47,7 @@ height: 39px;
 left: 165px;
 top: 1342.79px;
 
-background-color: #2E6491 !important;
+background-color: var(--theme-accent, #2E6491) !important;
 color: #FFFFFF !important;
 border-radius: 50px;
 border: none !important;

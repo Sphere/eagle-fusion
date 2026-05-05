@@ -18,9 +18,9 @@
   border-radius: 50px;
   width: 100px !important;
   height: 38px !important;
-  color: #1c5d95 !important;
-  // border-color: #1C5D95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-primary) !important;
+  // border-color: var(--theme-primary) !important;
+  border: 1px solid var(--theme-primary) !important;
 
   @include ws-mixins.breakpoint-xs {
     margin-left: 0px;
@@ -29,7 +29,7 @@
 }
 
 .btn-active {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-primary) !important;
   color: #ffffff !important;
 }
 

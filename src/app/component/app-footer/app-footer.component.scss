@@ -732,7 +732,7 @@ color: var(--theme-text);
   height: 35px;
   left: 107px;
   top: 2858px;
-  background: #2E6491;
+  background: var(--theme-accent, #2E6491);
   border-radius: 50px;
   font-family: 'Roboto';
   font-style: normal;

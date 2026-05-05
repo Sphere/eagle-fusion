@@ -19,7 +19,7 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
-  color: #101828;
+  color: var(--theme-text, #101828);;
   flex: 1;
   padding-top: 2px;
 }
@@ -48,7 +48,7 @@
 
   &:hover {
     background: rgba(0, 0, 0, 0.06);
-    color: #101828;
+    color: var(--theme-text, #101828);;
   }
 }
 
@@ -105,7 +105,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #1c5d95;
+  background: var(--theme-primary);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -123,7 +123,7 @@
   }
 
   &:hover {
-    background: #164f80;
+    background: var(--theme-primary, #164f80);
   }
 }
 

@@ -82,7 +82,7 @@
   }
 
   ::ng-deep .mat-mdc-select-placeholder {
-    color: #808080 !important;
+    color:  var(--theme-inactive, #808080) !important;
     font-size: 16px;
     font-family: inherit;
   }
@@ -90,14 +90,14 @@
   ::ng-deep .mat-mdc-select-value,
   ::ng-deep .mat-mdc-select-value-text,
   ::ng-deep .mat-mdc-select-value-text span {
-    color: #101828 !important;
+    color: var(--theme-text, #101828) !important;
     font-size: 14px !important;
     font-family: 'Roboto', sans-serif !important;
     font-weight: 400 !important;
   }
 
   ::ng-deep .mat-mdc-select-arrow {
-    color: #808080 !important;
+    color:  var(--theme-inactive, #808080) !important;
   }
 
   ::ng-deep .mat-mdc-form-field-infix {
@@ -110,7 +110,7 @@
 .login-button {
   width: 98px;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-primary);
   border-radius: 50px;
   color: #fff;
   border: 0;
@@ -121,7 +121,7 @@
 
 .login-button:disabled {
   background: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 
@@ -135,7 +135,7 @@ input:focus-visible {
 }
 
 ::placeholder {
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 
 :host-context(.dark-theme) {
@@ -156,7 +156,7 @@ input:focus-visible {
   }
 
   .login-button {
-    background: #1C5D95;
+    background: var(--theme-primary);
     color: #fff;
   }
 

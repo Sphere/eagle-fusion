@@ -70,7 +70,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #1c5d95;
+  color: var(--theme-primary);
   flex: none;
   flex-grow: 0;
   padding-top: 20px;
@@ -109,7 +109,7 @@
 // height: 35px;
 // left: 112px;
 // top: 369px;
-// background: #1C5D95;
+// background: var(--theme-primary);
 // border-radius: 50px;
 // }
 
@@ -119,7 +119,7 @@
   justify-content: center !important;
   align-items: center !important;
   padding: 0px 32px !important;
-  background: #1c5d95 !important;
+  background: var(--theme-primary) !important;
   border-radius: 50px !important;
   color: #f7f7f7 !important;
 
@@ -129,9 +129,9 @@
 }
 
 .btn-active {
-  color: #1c5d95 !important;
+  color: var(--theme-primary) !important;
   border-radius: 50px;
-  border: 1px solid #1c5d95 !important;
+  border: 1px solid var(--theme-primary) !important;
   margin-left: 10px;
   width: 13%;
 
@@ -143,7 +143,7 @@
 .share-img {
   width: 42px;
   height: 42px;
-  border: 1px solid #1c5d95;
+  border: 1px solid var(--theme-primary);
   box-sizing: border-box;
   border-radius: 49%;
   padding: 9px 12px 0px;
@@ -155,7 +155,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background-color: #2E6491 !important;
+  background-color: var(--theme-accent, #2E6491) !important;
   border-radius: 50px;
   color: #FFFFFF !important;
   font-family: Roboto, sans-serif;
@@ -174,7 +174,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background-color: #2E6491 !important;
+  background-color: var(--theme-accent, #2E6491) !important;
   border-radius: 50px;
   color: #FFFFFF !important;
   font-family: "Roboto", sans-serif;
@@ -194,14 +194,14 @@
   gap: 8px;
   background-color: #FFFFFF !important;
   border-radius: 50px;
-  color: #2E6491 !important;
+  color: var(--theme-accent, #2E6491) !important;
   font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
   cursor: pointer;
-  border: 1px solid #2E6491;
+  border: 1px solid var(--theme-accent, #2E6491);
 }
 
 .modal {
