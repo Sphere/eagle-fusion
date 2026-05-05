@@ -36,7 +36,7 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   uiConfig: any
   playListIds: any[] = []
   noOfBadges = 0
-  isDark: boolean
+  isDark: boolean = false
   constructor(
     public router: Router,
     public dialog: MatDialog,
@@ -49,6 +49,10 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private themeSvc: ThemeService
   ) {
+    effect(() => {
+      this.isDark = this.themeSvc.isDark()
+      this.bannerSecondImage = this.isDark && this.isEkshamata ? "/fusion-assets/images/ekshamata-group-dark.svg" : '/fusion-assets/images/ekshamata-group.svg'
+    })
     this.firstName = toSignal(
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(
         map((data: any) => _.get(data, 'profileDetails.profileReq.personalDetails.firstname', '') as string)
@@ -58,9 +62,6 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
-    effect(() => {
-      this.isDark = this.themeSvc.isDark()
-    })
   }
 
   get shouldShowBadges(): boolean {
@@ -79,7 +80,6 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
       if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
         this.logger.log("yes here2 ", this.configSvc.hostedInfo)
         this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
-        this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
         this.logger.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
       }
     }

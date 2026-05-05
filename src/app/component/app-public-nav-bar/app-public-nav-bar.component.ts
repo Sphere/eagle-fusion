@@ -3,27 +3,30 @@ import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/u
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { ThemeService } from '../../services/theme.service'
 @Component({
-    standalone: false,
-    selector: 'ws-app-public-nav-bar',
-    templateUrl: './app-public-nav-bar.component.html',
-    styleUrls: ['./app-public-nav-bar.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-public-nav-bar',
+  templateUrl: './app-public-nav-bar.component.html',
+  styleUrls: ['./app-public-nav-bar.component.scss'],
+
 })
 export class AppPublicNavBarComponent implements OnInit, OnDestroy {
   @Input() orgConfig: any
   private subscriptionLogin: Subscription | null = null
   redirectUrl = ''
   isXSmall$: boolean
-
+  isDark: boolean = false
   constructor(
     public configSvc: ConfigurationsService,
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService,
     private authSvc: AuthKeycloakService,
-    private logger: LoggerService) {
+    private logger: LoggerService,
+    private themeSvc: ThemeService) {
     effect(() => {
+      this.isDark = this.themeSvc.isDark()
       this.isXSmall$ = this.valueSvc.isMobile() ? true : false
     })
   }

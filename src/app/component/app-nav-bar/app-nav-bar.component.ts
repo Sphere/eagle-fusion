@@ -11,13 +11,14 @@ import { MatDialog } from '@angular/material/dialog'
 import { appNavBarService } from './app-nav-bar.service'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
+import { ThemeService } from '../../services/theme.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-nav-bar',
-    templateUrl: './app-nav-bar.component.html',
-    styleUrls: ['./app-nav-bar.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-nav-bar',
+  templateUrl: './app-nav-bar.component.html',
+  styleUrls: ['./app-nav-bar.component.scss'],
+
 })
 export class AppNavBarComponent implements OnInit, OnChanges {
   allowAuthor = false
@@ -55,6 +56,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   orgData: any
   menuItems: any[] = []
   config: any
+  isDark: boolean = false
   constructor(
     private domSanitizer: DomSanitizer,
     public configSvc: ConfigurationsService,
@@ -66,7 +68,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private playlistSvc: PlaylistService,
     private languageSvc: LanguageService,
     private cdr: ChangeDetectorRef,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private themeSvc: ThemeService
   ) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
@@ -91,6 +94,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
 
     effect(() => {
+      this.isDark = this.themeSvc.isDark()
       if (this.valueSvc.isMobile()) {
         this.isXSmall = true
         this.showCreateBtn = this.configSvc.userProfile === null
@@ -118,7 +122,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         : menuItem?.filter(item => this.config.webMenuItems.includes(item.id))
     }
     this.appIcon = this.orgData?.appLogo
-    this.orgLogo = this.orgData?.foundationLogo
+    this.orgLogo = this.isDark ? this.orgData?.foundationLogoDark : this.orgData?.foundationLogo
     this.cdr.detectChanges()
   }
 

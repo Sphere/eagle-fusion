@@ -355,13 +355,13 @@
 
 :host-context(.dark-theme) {
   .banner-container.isEkshamata {
-    background: linear-gradient(180deg, #0d171d 0%, #12212a 52%, #1a2b22 100%);
+    background: linear-gradient(180deg, #7CB5E6 0%, #74BEB1 100%, #FFFCC8 100%);
   }
 
   .banner-heading,
   .banner-mini-heading,
   .banner-sub-heading {
-    color: var(--theme-text, #ecf3f8);
+    color: #20463F;
   }
 
   .badge-container {
