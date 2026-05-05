@@ -16,8 +16,8 @@ export class AllDiscussionWidgetComponent extends BaseWrapperComponent {
   tagAllDiscussPage = 'tagAllDiscuss'
   homePage = 'categoryHome'
   showTrendTagPost = 0
-  tid!: number
-  slug!: string
+  tid: number = 0
+  slug: string = ''
   context: any = { categories: { result: [] } }
   categoryId: any
   alldiscussPage = 'alldiscuss'

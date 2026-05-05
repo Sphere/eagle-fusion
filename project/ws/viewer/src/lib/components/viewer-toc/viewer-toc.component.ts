@@ -1,6 +1,7 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, ChangeDetectorRef,
+  ChangeDetectionStrategy,
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
@@ -62,7 +63,7 @@ interface ICollectionCard {
   selector: 'viewer-viewer-toc',
   templateUrl: './viewer-toc.component.html',
   styleUrls: ['./viewer-toc.component.scss'],
-
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()
@@ -176,7 +177,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
         setTimeout(() => {
           this.isFetching = false
-          this.cdr.detectChanges()
+          this.cdr.markForCheck()
         }, 0)
       }
       if (this.resourceId) {
@@ -313,7 +314,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
         // **CRITICAL**: Trigger Angular change detection after updating tree
         // This ensures the UI updates immediately when progress changes (ticket display)
-        Promise.resolve().then(() => this.cdr.detectChanges())
+        Promise.resolve().then(() => this.cdr.markForCheck())
         // this.ngOnInit()
       }
     })
@@ -385,6 +386,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ngAfterViewInit() {
 
     setTimeout(() => {
+      this.isFetching = false
       this.checkIndexOfResource()
     }, 300)
   }
@@ -1282,7 +1284,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.logger.log(this.collection.children)
         this.nestedDataSource.data = this.collection.children
         this.pathSet = new Set()
-        this.cdr.detectChanges()
+        this.cdr.markForCheck()
         // if (this.resourceId && this.tocMode === 'TREE') {
         if (this.resourceId) {
           of(true)
@@ -1324,7 +1326,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource,
     })
     this.isLoading = false
-    Promise.resolve().then(() => this.cdr.detectChanges())
+    Promise.resolve().then(() => this.cdr.markForCheck())
   }
 
   updatePassbookEntryPassbook(data: any, competency: any) {
@@ -1393,7 +1395,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       path.forEach((node: IViewerTocCard) => {
         this.nestedTreeControl.expand(node)
       })
-      Promise.resolve().then(() => this.cdr.detectChanges())
+      Promise.resolve().then(() => this.cdr?.markForCheck())
     }
   }
 

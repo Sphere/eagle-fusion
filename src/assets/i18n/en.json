@@ -951,5 +951,7 @@
   "RE-ASSESS": " Re-Assess",
   "ASSESS": "Assess",
   "VIEW_COURSES": "View Courses",
-  "IN_PROGRESS": "In Progress"
+  "IN_PROGRESS": "In Progress",
+  "NO_RESULT_FOUND": "No result found",
+  "NO_DATA_DISPLAY_SELF_ASSESSMENT": "No data to display, please take self-assessment or pass courses to see data in the passbook"
 }

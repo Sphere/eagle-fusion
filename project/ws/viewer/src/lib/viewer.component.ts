@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, effect, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -19,14 +19,14 @@ export enum ErrorType {
 }
 
 @Component({
-    standalone: false,
-    selector: 'viewer-container',
-    templateUrl: './viewer.component.html',
-    styleUrls: ['./viewer.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-container',
+  templateUrl: './viewer.component.html',
+  styleUrls: ['./viewer.component.scss'],
+
 })
 export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall$: boolean = false
   fullScreenContainer: HTMLElement | null = null
   content: NsContent.IContent | null = null
   contentData: any
@@ -79,6 +79,10 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
+
+    effect(() => {
+      this.isXSmall$ = this.valueSvc.isMobile()
+    })
 
   }
 
