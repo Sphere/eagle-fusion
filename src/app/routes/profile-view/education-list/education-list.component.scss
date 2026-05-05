@@ -57,7 +57,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: var(--theme-primary);
+  color: var(--theme-accent);
 }
 
 .pencil {
@@ -65,7 +65,7 @@
 }
 
 .add-icon {
-  color: var(--theme-primary);
+  color: var(--theme-accent);
   font-size: 20px;
 }
 
@@ -76,7 +76,7 @@
 
   position: relative;
   left: 7rem;
-  color: var(--theme-primary);
+  color: var(--theme-accent);
   float: right;
   top: 6px;
 

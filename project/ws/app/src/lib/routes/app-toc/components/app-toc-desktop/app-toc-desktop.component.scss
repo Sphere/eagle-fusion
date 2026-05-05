@@ -103,7 +103,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: var(--theme-accent, var(--theme-primary));
+  color: var(--theme-accent, #1c5d95);
   flex: none;
   flex-grow: 0;
   padding-top: 20px;
@@ -154,7 +154,7 @@
   justify-content: center !important;
   align-items: center !important;
   padding: 0px 32px !important;
-  background: var(--theme-accent, var(--theme-primary)) !important;
+  background: var(--theme-accent, #1c5d95) !important;
   border-radius: 50px !important;
   color: #f7f7f7 !important;
   border: none;
@@ -182,9 +182,9 @@
 }
 .banner-btn-active {
   display: flex;
-  color: var(--theme-accent, var(--theme-primary)) !important;
+  color: var(--theme-accent, #1c5d95) !important;
   border-radius: 50px;
-  border: 1px solid var(--theme-accent, var(--theme-primary)) !important;
+  border: 1px solid var(--theme-accent, #1c5d95) !important;
   margin-left: 10px;
   width: 25%;
   height: 35px;
@@ -200,7 +200,7 @@
 .share-img {
   width: 42px;
   height: 42px;
-  border: 1px solid var(--theme-accent, var(--theme-primary));
+  border: 1px solid var(--theme-accent, #1c5d95);
   box-sizing: border-box;
   border-radius: 49%;
   padding: 9px 12px 0px;
@@ -276,7 +276,7 @@
 }
 
 .button-border {
-  border: 1px solid var(--theme-primary, var(--theme-primary));
+  border: 1px solid var(--theme-accent, #1c5d95);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -286,7 +286,7 @@
 }
 
 .btn-tittle {
-  color: var(--theme-primary, var(--theme-primary));
+  color: var(--theme-accent, #1c5d95);
   font-size: 12px;
   white-space: nowrap;
 }
@@ -334,7 +334,7 @@ mat-progress-bar {
 }
 
 .action-button-share {
-  border: 1px solid var(--theme-accent, var(--theme-primary));
+  border: 1px solid var(--theme-accent, #1c5d95);
 }
 
 .toc-inline-modal {
@@ -360,7 +360,7 @@ mat-progress-bar {
 }
 
 #close-btn {
-  background: var(--theme-bg, #dfedf9);
+  background: var(--theme-ellipse, #dfedf9);
   border-color: var(--theme-border, rgba(28, 93, 149, 0.12));
 }
 

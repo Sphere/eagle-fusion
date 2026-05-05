@@ -50,11 +50,11 @@
 }
 
 a {
-  color: #2873b2;
+  color: var(--theme-accent);
 }
 
 .login-btn {
-  background: var(--theme-primary);
+  background: var(--theme-accent);
   color: #fff;
   line-height: 19px;
 }

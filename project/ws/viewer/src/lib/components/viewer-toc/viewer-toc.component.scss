@@ -183,10 +183,10 @@ mat-tree {
 
 ::ng-deep mat-tree-node .li-active {
   // background-color: #ede5d6;
-  background-color: #E7F2FA;
+  background-color: var(--theme-ellipse);
 
   .resource-container {
-    border-bottom: 1px solid #E7F2FA;
+    border-bottom: 1px solid var(--theme-ellipse);
 
     .sub-heading {
       color: #154976;

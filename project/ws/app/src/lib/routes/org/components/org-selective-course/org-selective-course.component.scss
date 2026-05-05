@@ -56,8 +56,8 @@
   white-space: nowrap;      /* Keeps text on one line */
    background-color: #ffffff;
     border-radius: 50px;
-    color: var(--theme-primary);
-    border: 1px solid var(--theme-primary);
+    color: var(--theme-accent);
+    border: 1px solid var(--theme-accent);
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 500;
@@ -476,7 +476,7 @@ line-height: 100%;
 letter-spacing: 0%;
 }
 .aastrika_link{
-  color: var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
 }
 ::ng-deep .mobile-source-name{
 font-size: 12px !important;

@@ -358,10 +358,12 @@
     background: linear-gradient(180deg, #7CB5E6 0%, #74BEB1 100%, #FFFCC8 100%);
   }
 
-  .banner-heading,
-  .banner-mini-heading,
-  .banner-sub-heading {
-    color: #20463F;
+  .isEkshamata {
+    .banner-heading,
+    .banner-mini-heading,
+    .banner-sub-heading {
+      color: #20463F;
+    }
   }
 
   .badge-container {

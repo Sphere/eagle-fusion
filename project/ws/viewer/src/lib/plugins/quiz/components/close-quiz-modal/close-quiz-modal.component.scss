@@ -28,7 +28,7 @@
   width: 28px;
   height: 28px;
   line-height: 28px;
-  color: var(--theme-primary);
+  color: var(--theme-accent);
 }
 
 .modal-title {
@@ -68,13 +68,13 @@
   font-size: 15px !important;
   font-weight: 500 !important;
   white-space: nowrap;
-  color: var(--theme-primary) !important;
-  border: 1.5px solid var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
+  border: 1.5px solid var(--theme-accent) !important;
   letter-spacing: 0.01em;
 }
 
 .btn-active {
-  background-color: var(--theme-primary) !important;
+  background-color: var(--theme-accent) !important;
   color: #ffffff !important;
 }
 
@@ -126,8 +126,8 @@
   }
 
   .btn-active {
-    background: var(--theme-primary) !important;
-    border-color: var(--theme-primary) !important;
+    background: var(--theme-accent) !important;
+    border-color: var(--theme-accent) !important;
     color: #ffffff !important;
   }
 }

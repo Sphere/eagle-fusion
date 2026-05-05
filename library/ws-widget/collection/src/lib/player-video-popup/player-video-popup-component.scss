@@ -11,7 +11,7 @@
   height: auto;
 
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
-    background-color: var(--theme-primary) !important;
+    background-color: var(--theme-accent) !important;
   }
 }
 .answer-text{
@@ -64,7 +64,7 @@ letter-spacing: -2%;
 
 ::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
-  background: var(--theme-primary) !important;
+  background: var(--theme-accent) !important;
 }
 
 
@@ -222,14 +222,14 @@ correct-option {
   letter-spacing: 0em;
   text-align: center !important;
   height: 40px !important;
-  color: var(--theme-primary) !important;
-  border: 1px solid var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
+  border: 1px solid var(--theme-accent) !important;
 
 }
 .skip-button{
    cursor: pointer;
   background: #FFFFFF !important;
-  color: var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
   font-family: Roboto, sans-serif;
@@ -240,7 +240,7 @@ correct-option {
   text-align: center !important;
   border: 1px solid !important;
   height: 40px !important;
-  border-color: var(--theme-primary) !important;
+  border-color: var(--theme-accent) !important;
 }
 .disabled-back-button {
   background: #BFBFBF !important;
@@ -252,7 +252,7 @@ correct-option {
 
 .submit-button {
   cursor: pointer;
-  background: var(--theme-primary) !important;
+  background: var(--theme-accent) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;

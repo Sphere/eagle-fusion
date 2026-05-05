@@ -170,7 +170,7 @@ color: var(--theme-primary);
   border-radius: 20px;
   font-size: 14px;
   padding: 5px 25px;
-  background: var(--theme-accent, var(--theme-primary));
+  background: var(--theme-accent, #1c5d95);
   color: var(--theme-on-accent, #fff) !important;
   cursor: pointer;
 }
@@ -1006,9 +1006,9 @@ padding: 5px 0px 0px 0px;
 }
 
 .btn-active {
-  color: var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
   border-radius: 50px;
-  border: 1px solid var(--theme-primary) !important;
+  border: 1px solid var(--theme-accent) !important;
   margin-left: 10px;
   width: 13%;
 

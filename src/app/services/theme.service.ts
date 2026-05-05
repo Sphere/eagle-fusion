@@ -24,7 +24,8 @@ export interface OrgThemeColors {
   border?: string
   shadow?: string
   warning?: string
-  black?: string
+  black?: string,
+  ellipse?: string
 }
 export interface OrgThemeConfig {
   mode: string
@@ -51,7 +52,8 @@ const CSS_VAR_MAP: Record<keyof OrgThemeColors, CssVarEntry> = {
   border: { cssVar: '--theme-border' },
   shadow: { cssVar: '--theme-shadow' },
   warning: { cssVar: '--theme-warning' },
-  black: { cssVar: '--theme-black' }
+  black: { cssVar: '--theme-black' },
+  ellipse: { cssVar: '--theme-ellipse' }
 }
 
 @Injectable({
@@ -87,7 +89,8 @@ export class ThemeService {
     "border": "#1c5d951f",
     "shadow": "#0f172a14",
     "warning": "#E0BE80",
-    "black": "#000000"
+    "black": "#000000",
+    "ellipse": "#E7F2FA"
   }
 
   constructor() {

@@ -135,7 +135,7 @@
 }
 
 ::ng-deep .light-theme .mat-ink-bar {
-  background-color: var(--theme-primary) !important;
+  background-color: var(--theme-accent) !important;
 }
 
 ::ng-deep .mat-tab-label-active {
@@ -190,8 +190,8 @@
   width: auto !important;
   min-height: 38px !important;
   height: 40px !important;
-  color: var(--theme-accent, var(--theme-primary)) !important;
-  border: 1px solid var(--theme-accent, var(--theme-primary)) !important;
+  color: var(--theme-accent, #1c5d95) !important;
+  border: 1px solid var(--theme-accent, #1c5d95) !important;
   background: transparent;
   white-space: nowrap;
   text-align: center;

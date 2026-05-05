@@ -59,12 +59,12 @@
     border: 1px solid #bbb;
 }
 a {
-  color: #2873b2;
+  color: var(--theme-accent);
 }
 .login-button {
   width: 98px;
   height: 38px;
-  background: var(--theme-primary);
+  background: var(--theme-accent);
   border-radius: 50px;
   color: #fff;
   border:0;

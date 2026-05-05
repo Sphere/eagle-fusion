@@ -34,7 +34,7 @@
   text-align: center;
 }
 ::ng-deep .dark-theme .ellips {
-  background: var(--theme-bg, #E7F2FA) !important;
+  background: var(--theme-ellipse, #E7F2FA) !important;
   .label2, .label3 {
     color: var(--theme-text)
   }
@@ -43,7 +43,7 @@
 .ellips {
   width: 67px;
   height: 67px;
-  background: #E7F2FA;
+  background: var(--theme-ellipse);
   display: flex;
   flex-direction: column;
   align-items: center;

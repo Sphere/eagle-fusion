@@ -43,14 +43,14 @@
 
 /* Change the color of the checked state to blue */
 ::ng-deep .mat-mdc-checkbox.mat-mdc-checkbox-checked.mat-accent .mdc-checkbox__background {
-  background-color: var(--theme-primary) !important;
-  border-color: var(--theme-primary) !important;
+  background-color: var(--theme-accent) !important;
+  border-color: var(--theme-accent) !important;
 }
 
 /* Checkbox checked background */
 ::ng-deep .tnc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background {
-  background-color: var(--theme-primary) !important;
-  border-color: var(--theme-primary) !important;
+  background-color: var(--theme-accent) !important;
+  border-color: var(--theme-accent) !important;
 }
 
 /* Checkbox click/hover ripple */
@@ -66,7 +66,7 @@
 .link-text {
   cursor: pointer;
   text-decoration: underline;
-  color: var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -101,7 +101,7 @@
   background: none;
   font-size: 16px;
   line-height: 19px;
-  color: var(--theme-primary);
+  color: var(--theme-accent);
   border: none;
   text-align: right;
   margin-right: 10px;
@@ -109,7 +109,7 @@
 
 .accept-btn {
   width: 240px;
-  background: var(--theme-primary);
+  background: var(--theme-accent);
   border: none;
   border-radius: 50px;
   color: #fff;

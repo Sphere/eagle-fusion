@@ -273,7 +273,7 @@ h3 {
 }
 
 .blue-btn {
-  background: var(--theme-primary) !important;
+  background: var(--theme-accent) !important;
   font-size: 14px;
   border-radius: 50px;
   color: var(--mat-toolbar-container-background-color) !important;
@@ -528,7 +528,7 @@ h3 {
   .resource-container .card-title,
   .course-container .name,
   .outline-btn {
-    color: var(--theme-accent, var(--theme-primary)) !important;
+    color: var(--theme-accent, #1c5d95) !important;
   }
 
   .outline-btn {

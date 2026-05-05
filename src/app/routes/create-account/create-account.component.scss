@@ -95,7 +95,7 @@
   --mdc-filled-text-field-container-color: var(--theme-bg, #ffffff) !important;
   --mdc-filled-text-field-input-text-color: var(--theme-text, #101828) !important;
   --mdc-filled-text-field-label-text-color: var(--theme-text-soft, #8c98a8) !important;
-  --mdc-filled-text-field-focus-label-text-color: var(--theme-accent, var(--theme-primary)) !important;
+  --mdc-filled-text-field-focus-label-text-color: var(--theme-accent, #1c5d95) !important;
   --mdc-filled-text-field-hover-label-text-color: var(--theme-text-soft, #8c98a8) !important;
   --mdc-filled-text-field-caret-color: var(--theme-text, #101828) !important;
   --mdc-filled-text-field-active-indicator-color: transparent !important;
@@ -182,7 +182,7 @@ a {
   margin-top: 0px;
   width: 100%;
   height: 38px;
-  background: var(--theme-primary);
+  background: var(--theme-accent);
   border-radius: 50px;
   color: #fff;
   border: 0;
@@ -202,7 +202,7 @@ a {
   min-width: 100px;
   padding: 0px 24px;
   height: 38px;
-  background: var(--theme-primary);
+  background: var(--theme-accent);
   border-radius: 50px;
   color: #fff;
   border: 0;

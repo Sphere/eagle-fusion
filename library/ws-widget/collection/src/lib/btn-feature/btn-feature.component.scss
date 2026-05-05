@@ -126,7 +126,7 @@ a {
 }
 
 ::ng-deep .light-theme .ws-mat-accent-text {
-  color: var(--theme-primary);
+  color: var(--theme-accent);
 
   .feature-icon-img {
     filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
@@ -143,7 +143,7 @@ a {
   filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
 }
 .ws-mat-accent-text {
-    color: var(--theme-primary);
+    color: var(--theme-accent);
     cursor: pointer;
     filter: invert(.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
 

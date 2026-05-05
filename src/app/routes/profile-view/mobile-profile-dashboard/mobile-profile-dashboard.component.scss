@@ -70,7 +70,7 @@ h2 {
   left: 111px;
   width: 32px;
   height: 32px;
-  background-color: var(--theme-primary) !important;
+  background-color: var(--theme-accent) !important;
 }
 
 .health {
@@ -217,14 +217,14 @@ h2 {
 }
 
 .active img {
-  border: 1px solid var(--theme-accent, var(--theme-primary));
+  border: 1px solid var(--theme-accent, #1c5d95);
   border-radius: 8px
 }
 
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: var(--theme-accent, var(--theme-primary));
+  background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
   color: #ffffff;
   border: 0;
@@ -237,7 +237,7 @@ h2 {
 .logout-btn {
   width: 80px;
   height: 25px;
-  background-color: var(--theme-accent, var(--theme-primary));
+  background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
   color: #ffffff;
   border: 0;
@@ -337,7 +337,7 @@ h2 {
 
 .support-copy-link {
   text-decoration: underline;
-  color: var(--theme-accent, var(--theme-primary));
+  color: var(--theme-accent, #1c5d95);
 }
 
 .web-help-btn {
@@ -461,7 +461,7 @@ color: var(--theme-text, #101828);
 }
 .whtsapp-text {
   font-weight: 500;
-  color: var(--theme-accent, var(--theme-primary));
+  color: var(--theme-accent, #1c5d95);
   background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
@@ -472,7 +472,7 @@ color: var(--theme-text, #101828);
 }
 .whtsapp-text1 {
   font-weight: 500;
-  color: var(--theme-accent, var(--theme-primary));
+  color: var(--theme-accent, #1c5d95);
   background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
@@ -490,7 +490,7 @@ color: var(--theme-text, #101828);
 }
 .fcapp-text {
   font-weight: 500;
-  color: var(--theme-accent, var(--theme-primary)) !important;
+  color: var(--theme-accent, #1c5d95) !important;
   background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
@@ -511,9 +511,9 @@ color: var(--theme-text, #101828);
   flex-wrap: wrap;
 }
   .btn-logout {
-    background-color: var(--theme-accent, var(--theme-primary)) !important;
+    background-color: var(--theme-accent, #1c5d95) !important;
     width: fit-content;
-    border: 1px solid var(--theme-accent, var(--theme-primary));
+    border: 1px solid var(--theme-accent, #1c5d95);
     color: var(--theme-on-accent, #ffffff) !important;
     font-size: 16px !important;
     font-weight: 400 !important;
@@ -644,7 +644,7 @@ font-weight: 500;
     font-size: 36px;
     font-weight: 600;
     color: rgba(28, 93, 149, 1);
-    color: var(--theme-accent, var(--theme-primary));
+    color: var(--theme-accent, #1c5d95);
     line-height: 1;
 
     @include ws-mixins.breakpoint-gt-m {

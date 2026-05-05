@@ -66,12 +66,12 @@
 }
 
 ::ng-deep .light-theme .mat-ink-bar {
-  background-color: var(--theme-primary) !important;
+  background-color: var(--theme-accent) !important;
 }
 
 ::ng-deep .mat-tab-label-active {
   border-bottom: solid 3px var(--theme-primary);
-  color: var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
 }
 
 ::ng-deep .mat-tab-label-content {
@@ -118,9 +118,9 @@
   border-radius: 50px;
   width: 100px;
   height: 38px !important;
-  color: var(--theme-primary) !important;
-  // border-color: var(--theme-primary) !important;
-  border: 1px solid var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
+  // border-color: var(--theme-accent) !important;
+  border: 1px solid var(--theme-accent) !important;
 
   @include ws-mixins.breakpoint-xs {
     margin-left: 12px;
@@ -164,7 +164,7 @@
 }
 
 .timer {
-  background: #e7f2fa;
+  background: var(--theme-ellipse);
   border-radius: 16.5px;
   width: auto;
   height: 30px;
@@ -177,7 +177,7 @@
   @include ws-mixins.breakpoint-xs {
     margin-left: 0px !important;
     z-index: 9999;
-    background: #e7f2fa;
+    background: var(--theme-ellipse);
     border-radius: 16.5px;
     width: auto;
     place-self: flex-start;
@@ -226,10 +226,10 @@
   font-size: 66px !important;
   line-height: 58px;
   letter-spacing: -0.02em;
-  color: var(--theme-primary);
+  color: var(--theme-accent);
 
   span {
-    color: var(--theme-primary);
+    color: var(--theme-accent);
     font-size: 20px !important;
   }
 }
@@ -255,7 +255,7 @@
   }
 
   .result-overview {
-    background: #e7f2fa;
+    background: var(--theme-ellipse);
     text-align: center;
     padding: auto 0;
     display: flex;

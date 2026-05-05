@@ -62,7 +62,7 @@
 .ellips {
   width: 130px;
   height: 130px;
-  background: #E7F2FA;
+  background: var(--theme-ellipse);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -157,16 +157,16 @@
   width: auto !important;
   min-width: 140px;
   min-height: 42px;
-  border: 1px solid var(--theme-primary) !important;
+  border: 1px solid var(--theme-accent) !important;
   padding: 0 24px !important;
-  color: var(--theme-primary) !important;
+  color: var(--theme-accent) !important;
   background: transparent;
 }
 
 .btn-active {
-  background-color: var(--theme-primary) !important;
+  background-color: var(--theme-accent) !important;
   color: #FFFFFF !important;
-  border-color: var(--theme-primary) !important;
+  border-color: var(--theme-accent) !important;
 }
 
 .row {
@@ -192,14 +192,13 @@
 }
 
 ::ng-deep .btn.btn-active.mat-mdc-raised-button.mat-mdc-button-base {
-  background: var(--theme-primary) !important;
+  background: var(--theme-accent) !important;
   border-radius: 50px !important;
   color: #fff; // ensure text is visible
 }
 
 .status-box {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   gap: 1.25rem;
   padding: 16px 0 24px;
@@ -207,7 +206,7 @@
 }
 
 ::ng-deep .dark-theme .ellips {
-  background: var(--theme-bg, #E7F2FA) !important;
+  background: var(--theme-ellipse, #E7F2FA) !important;
   .label2, .label3 {
     color: var(--theme-text) !important;
   }
@@ -223,7 +222,7 @@
   }
 
   .ellips {
-    background: var(--theme-bg, #10181e) !important;
+    background: var(--theme-ellipse, #10181e) !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 

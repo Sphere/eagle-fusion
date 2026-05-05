@@ -90,7 +90,8 @@ $theme-token-list: (
   theme-icon-filter,
   theme-progress,
   theme-warning,
-  theme-black
+  theme-black,
+  theme-ellipse
 );
 
 $light-theme-tokens: (
@@ -117,7 +118,8 @@ $light-theme-tokens: (
   theme-icon-filter: none,
   theme-progress: #408f80,
   theme-warning: #E0BE80,
-  theme-black: #000000
+  theme-black: #000000,
+  theme-ellipse: #E7F2FA
 );
 
 $dark-theme-tokens: (
@@ -144,7 +146,8 @@ $dark-theme-tokens: (
   theme-icon-filter: invert(1) brightness(2),
   theme-progress: #469788,
   theme-warning: #E0BE80,
-  theme-black: #000000
+  theme-black: #000000,
+  theme-ellipse: #4E4E4E
 );
 
 @mixin emit-theme-tokens($tokens) {

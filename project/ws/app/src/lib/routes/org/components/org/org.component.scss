@@ -162,7 +162,7 @@
 .default-banner{
   display: flex;
   justify-content: flex-end;
-  background: var(--theme-bg, #EEF8F8) !important;
+  background: var(--theme-ellipse, #EEF8F8) !important;
   width: 100%;
   height: 220px;
   overflow: hidden;
@@ -251,7 +251,7 @@ line-height: 20px;
 letter-spacing: -0.4px;
 }
 .org-details{
-color: var(--theme-accent, var(--theme-primary));
+color: var(--theme-accent, #1c5d95);
 font-size: 16px;
 font-family: Roboto, sans-serif;
 line-height: 18.93px;
@@ -792,7 +792,7 @@ letter-spacing: -0.28px;
 }
 
 .course-name{
-  color: var(--theme-accent, var(--theme-primary));
+  color: var(--theme-accent, #1c5d95);
   font-size: 16px;
   font-family: Roboto, sans-serif;
   letter-spacing: -0.32px;
@@ -842,7 +842,7 @@ height: 25px;
 font-size: 12px;
   border-radius: 15px;
 background: #519DB2;
-background: var(--theme-bg, #519DB2);
+background: var(--theme-ellipse, #519DB2);
 color: var(--theme-text, #FFF);
 margin: 0px;
     align-items: center;
@@ -989,8 +989,8 @@ letter-spacing: -2%;
     height: 38px;
     background-color: var(--theme-surface, #ffffff);
     border-radius: 50px;
-    color: var(--theme-accent, var(--theme-primary));
-    border: 1px solid var(--theme-accent, var(--theme-primary));
+    color: var(--theme-accent, #1c5d95);
+    border: 1px solid var(--theme-accent, #1c5d95);
     font-size: 16px;
     line-height: 19px;
     float: right;
@@ -998,9 +998,9 @@ letter-spacing: -2%;
     transition: all 0.3s ease;
 
     &.active {
-      background-color: var(--theme-accent, var(--theme-primary));
+      background-color: var(--theme-accent, #1c5d95);
       color: var(--theme-on-accent, white);
-      border-color: var(--theme-accent, var(--theme-primary));
+      border-color: var(--theme-accent, #1c5d95);
     }
   }
 }
