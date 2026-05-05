@@ -34,7 +34,8 @@
 
   <!-- Featured Section-->
   <section *ngIf="isHomePage && !isLoggedIn && bodyConfig">
-    <ws-web-public-container [userEnrollCourse]="userEnrollCourse()" [configData]="bodyConfig"></ws-web-public-container>
+    <ws-web-public-container [userEnrollCourse]="userEnrollCourse()"
+      [configData]="bodyConfig"></ws-web-public-container>
   </section>
 
   <!-- How does it Works -->
@@ -71,7 +72,7 @@
   <div class="height-adjust" [ngClass]="{'height-on-bottom custom-scroll':isXSmall$ && showNavbar,'height-adjust-setup' : isSetupPage,
         'height-on-top':!isXSmall$ &&showNavbar && isNavBarRequired}">
     <ws-dashboard [isEkshamata]="isEkshamata" class="mb-6" *ngIf="isLoggedIn && isHomePage && bodyConfig"
-      [configData]="bodyConfig" [userEnrolledCourse]="userEnrollCourse"></ws-dashboard>
+      [configData]="bodyConfig" [userEnrolledCourse]="userEnrollCourse()"></ws-dashboard>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>

@@ -285,7 +285,9 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       const content = responses.flatMap(res => res?.result?.content || [])
 
       if (!content.length) {
-        this.isLoading.set(false)
+        setTimeout(() => {
+          this.isLoading.set(false)
+        })
         return
       }
 
@@ -330,7 +332,9 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       // Create new array reference so the uiConfig signal notifies Angular of the update
       this.uiConfig.set([...this.uiConfig()])
     }
-    this.isLoading.set(false)
+    setTimeout(() => {
+      this.isLoading.set(false)
+    })
   }
 
   // For opening Course Page

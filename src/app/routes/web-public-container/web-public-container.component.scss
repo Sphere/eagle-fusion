@@ -355,4 +355,8 @@ height: 42px;
     background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
     background-size: 600px 100%;
   }
+
+  h3 {
+    color: var(--theme-text);
+  }
 }
