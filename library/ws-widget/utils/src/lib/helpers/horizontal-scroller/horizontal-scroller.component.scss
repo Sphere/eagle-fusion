@@ -81,7 +81,7 @@
 }
 
 ::ng-deep .dark-theme mat-icon {
-  color: black !important;
+  color: var(--icon-color) !important;
 }
 
 .nextLoading {
