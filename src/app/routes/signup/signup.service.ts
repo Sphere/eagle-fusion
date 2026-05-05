@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
+import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { map, share } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
@@ -19,7 +20,8 @@ export class SignupService {
   constructor(private http: HttpClient,
     private configSvc: ConfigurationsService,
     private userDataCacheSvc: UserDataCacheService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private router: Router,
   ) { }
 
   ssoValidateOTP(data: any): Observable<any> {
@@ -259,7 +261,7 @@ export class SignupService {
   }
 
   keyClockLogin() {
-    location.href = '/public/login'
+    this.router.navigateByUrl('/public/login')
   }
   private async fetchOrgSelectiveConfig(): Promise<void> {
     try {

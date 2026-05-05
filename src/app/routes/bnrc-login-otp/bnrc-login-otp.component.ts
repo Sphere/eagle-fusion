@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
@@ -29,7 +29,8 @@ export class BnrcLoginOtpComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private userProfileSvc: UserProfileService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
     this.loginOtpForm = this.fb.group({
       code: new UntypedFormControl('', [Validators.required]),
@@ -46,7 +47,7 @@ export class BnrcLoginOtpComponent implements OnInit {
 
 
 
-  async loginVerifyOtp() {
+  loginVerifyOtp() {
     let request: any = []
     request = {
       phone: this.loginData.value.phone,
@@ -67,17 +68,21 @@ export class BnrcLoginOtpComponent implements OnInit {
       validateOtpMethod(request).subscribe(
         (res: any) => {
           this.isLoading = false
+          this.disableSubmit = false
+          this.cdr.detectChanges()
           if (res.status === 'success') {
             this.openSnackbar(res.message.message)
             this.redirectToParent.emit(res)
-            return res
+          } else {
+            this.openSnackbar(res.message || 'OTP verification failed. Please try again.')
           }
         },
         (error: any) => {
           this.disableSubmit = false
           this.isLoading = false
+          this.cdr.detectChanges()
           const errorMessage = error.error && error.error.message ? error.error.message : (error.message || 'An unexpected error occurred')
-          this.openSnackbar(errorMessage)  // Handle error response
+          this.openSnackbar(errorMessage)
         }
       )
     }
@@ -100,9 +105,10 @@ export class BnrcLoginOtpComponent implements OnInit {
         : this.userProfileSvc.bnrcResendOtp.bind(this.userProfileSvc)
 
     resendOtpMethod(request).subscribe(
-      async (res: any) => {
+      (res: any) => {
         this.loginOtpForm.patchValue({ code: '' })
         this.isLoading = false
+        this.cdr.detectChanges()
         const res1 = res
         //this.openSnackbar(res.message)
         if (this.preferedLanguage || localStorage.getItem('preferedLanguage')) {
@@ -123,6 +129,7 @@ export class BnrcLoginOtpComponent implements OnInit {
       },
       (err: any) => {
         this.isLoading = false
+        this.cdr.detectChanges()
         if (localStorage.getItem(`preferedLanguage`)) {
           const reqObj = localStorage.getItem(`preferedLanguage`) || ''
           const lang = JSON.parse(reqObj) || ''

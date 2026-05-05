@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -70,7 +70,8 @@ export class UpsmfRegisterComponent implements OnInit {
     private dialog: MatDialog,
     private loader: LoaderService,
     private route: ActivatedRoute,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
     this.anmRegistrationForm = this.createInServiceFormGroup()
     this.preServiceForm = this.createPreServiceFormGroup()
@@ -418,9 +419,14 @@ export class UpsmfRegisterComponent implements OnInit {
 
       this.userProfileSvc.upsmfSendOtp(phone).subscribe(
         (res: any) => {
+          this.isSubmitting = false
+          this.loader.changeLoad.next(false)
           if (res.status === 'success') {
             this.otpPage = true
+            this.cdr.detectChanges()
             this.openSnackbar(res.message)
+          } else {
+            this.openSnackbar(res.message || 'Failed to send OTP. Please try again.')
           }
         },
         error => {
@@ -445,9 +451,14 @@ export class UpsmfRegisterComponent implements OnInit {
 
       this.userProfileSvc.upsmfSendOtp(phone).subscribe(
         (res: any) => {
+          this.isSubmitting = false
+          this.loader.changeLoad.next(false)
           if (res.status === 'success') {
             this.otpPage = true
+            this.cdr.detectChanges()
             this.openSnackbar(res.message)
+          } else {
+            this.openSnackbar(res.message || 'Failed to send OTP. Please try again.')
           }
         },
         error => {
@@ -471,9 +482,14 @@ export class UpsmfRegisterComponent implements OnInit {
       const phone = { phone: this.medicalOfficerForm.value.phone }
       this.userProfileSvc.upsmfSendOtp(phone).subscribe(
         (res: any) => {
+          this.isSubmitting = false
+          this.loader.changeLoad.next(false)
           if (res.status === 'success') {
             this.otpPage = true
+            this.cdr.detectChanges()
             this.openSnackbar(res.message)
+          } else {
+            this.openSnackbar(res.message || 'Failed to send OTP. Please try again.')
           }
         },
         error => {

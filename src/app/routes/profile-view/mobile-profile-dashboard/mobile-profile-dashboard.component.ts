@@ -455,6 +455,16 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     // Update language using LanguageService
     this.languageService.setLanguage(lang)
 
+    // Keep competency localStorage config in sync so the library picks up the new language on next init
+    const competencyConfig = JSON.parse(localStorage.getItem('competency') || '{}')
+    competencyConfig.language = lang
+    localStorage.setItem('competency', JSON.stringify(competencyConfig))
+
+    // Keep configSvc in sync so subsequent setConfig() calls read the correct language
+    if (this.configSvc.unMappedUser?.profileDetails?.preferences) {
+      this.configSvc.unMappedUser.profileDetails.preferences.language = lang
+    }
+
     // Update user profile in backend
     const obj = {
       preferences: {
@@ -491,6 +501,16 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
 
     // Update language using LanguageService
     this.languageService.setLanguage(form.value.language)
+
+    // Keep competency localStorage config in sync so the library picks up the new language on next init
+    const competencyConfig = JSON.parse(localStorage.getItem('competency') || '{}')
+    competencyConfig.language = form.value.language
+    localStorage.setItem('competency', JSON.stringify(competencyConfig))
+
+    // Keep configSvc in sync so subsequent setConfig() calls read the correct language
+    if (this.configSvc.unMappedUser?.profileDetails?.preferences) {
+      this.configSvc.unMappedUser.profileDetails.preferences.language = form.value.language
+    }
 
     const obj = {
       preferences: {

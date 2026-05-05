@@ -67,11 +67,11 @@ export class PublicTocComponent implements OnInit, OnDestroy {
             if (this.router.url !== redirectPath) {
               this.router.navigateByUrl(redirectPath)
             }
-            this.isLoading = false
+            Promise.resolve().then(() => { this.isLoading = false; this.cdr.markForCheck() })
           },
           err => {
             this.logger.error(err)
-            this.isLoading = false
+            Promise.resolve().then(() => { this.isLoading = false; this.cdr.markForCheck() })
           }
         )
       }

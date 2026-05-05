@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -48,7 +48,8 @@ export class MpRegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private loader: LoaderService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
     this.anmRegistrationForm = this.createFormGroup()
   }
@@ -328,9 +329,14 @@ export class MpRegisterComponent implements OnInit {
 
       this.userProfileSvc.mpSendOtp(phone).subscribe(
         (res: any) => {
+          this.isSubmitting = false
+          this.loader.changeLoad.next(false)
           if (res.status === 'success') {
             this.otpPage = true
+            this.cdr.detectChanges()
             this.openSnackbar(res.message)
+          } else {
+            this.openSnackbar(res.message || 'Failed to send OTP. Please try again.')
           }
         },
         error => {
