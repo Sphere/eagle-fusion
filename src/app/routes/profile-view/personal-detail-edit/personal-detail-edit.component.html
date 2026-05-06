@@ -1,6 +1,6 @@
 <div class="content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
-  <div [ngStyle]="!showbackButton ? {'display': 'none' } : {}">
-    <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
+  <div>
+    <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="true"
       [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
   </div>
   <p class="text-2xl mt-3">{{ data.title | translate }}</p>
@@ -48,8 +48,8 @@
           *ngIf="personalDetailForm.controls[field.key]?.hasError('pattern') && errorMsg">
           {{errorMsg}}
         </mat-error>
-        <div *ngIf="!isEkshamata && isEditableForSphere" class="personal-btn" style="width: 55%; float: right;">
-          <button *ngIf="field.type==='button'" type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
+        <div *ngIf="!isEkshamata && isEditableForSphere && field.type === 'button'" class="personal-btn" style="width: 55%; float: right;">
+          <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
             [disabled]="personalDetailForm?.invalid || savebtnDisable">{{field.label | translate}}</button>
         </div>
       </ng-container>

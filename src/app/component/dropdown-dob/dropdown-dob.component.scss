@@ -1,19 +1,27 @@
 .input-box {
-  padding: 3px 0 3px 0;
+  padding: 3px 0;
   border-radius: 6px;
   border: 1px solid var(--theme-border, #e3e3e3);
-  width: 100%;
+  flex: 1;
+  min-width: 0;
 }
-
 
 .select-box {
   border: none;
-  width: 97%;
+  width: 100%;
   height: 40px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 19px;
   background-color: transparent;
   color: var(--theme-inactive, #8c98a8);
+  padding: 0 4px;
+  box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    height: 38px;
+    padding: 0 2px;
+  }
 }
 
 

@@ -1,29 +1,13 @@
 @use 'ws-mixins';
 
 .content {
-  padding: 10px 0px 0px 10px;
+  padding: 10px 16px 0 16px;
   font-size: 16px;
   color: var(--theme-text, #101828);
-  // margin: auto;
-
-  // @include breakpoint-gt-s {
-  //   max-width: 30%;
-  // }
-
-  // @include breakpoint-gt-m {
-  //   max-width: 35%;
-  // }
-
-  // @include breakpoint-gt-l {
-  //   max-width: 30%;
-  // }
-
-  // @include breakpoint-s {
-  //   max-width: 50%;
-  // }
 
   @include ws-mixins.breakpoint-xs {
-    max-width: 90%;
+    max-width: 100%;
+    padding: 10px 12px 0 12px;
   }
 }
 
@@ -35,7 +19,34 @@
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+
+  label {
+    display: block;
+    margin-bottom: 4px !important;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .form-control {
+    margin-top: 0 !important;
+  }
+
+  @include ws-mixins.breakpoint-xs {
+    margin-bottom: 0.65rem;
+
+    label {
+      font-size: 13px;
+      margin-bottom: 4px !important;
+    }
+
+    .form-control {
+      height: 42px;
+      padding: 8px 12px;
+      font-size: 14px;
+      margin-top: 0 !important;
+    }
+  }
 }
 
 .form-control,
@@ -46,12 +57,12 @@
   border-radius: 8px;
 }
 
- @media (min-width:320px) and (max-width:600px) {
-    .personal-btn{
-      margin-top: 10px;
-      margin-bottom: 80px;
-    }
+@media (min-width: 320px) and (max-width: 600px) {
+  .personal-btn {
+    margin-top: 10px;
+    margin-bottom: 24px;
   }
+}
 ::placeholder {
   color: var(--theme-inactive, #bebebe) !important;
   opacity: 1;

@@ -4,6 +4,17 @@
 //   color: #f30808;
 //   font-weight: 500;
 // }
+.row {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 4px 8px;
+}
+
+mat-icon {
+  color: var(--theme-text, #101828);
+  cursor: pointer;
+}
+
 .save-btn {
   width: 88px;
   height: 38px;

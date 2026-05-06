@@ -527,6 +527,10 @@ color: var(--theme-text, #101828);
   }
 
   @include ws-mixins.breakpoint-xs {
+  .main-block {
+    padding: 0 12px;
+  }
+
    .whatsapp-icon {
   bottom: 9.3rem;
 }
