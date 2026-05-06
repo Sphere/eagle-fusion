@@ -610,12 +610,14 @@ img {
   .custom-wrapper,
   .nav-bar-bg1,
   .top-blue-color,
-  .otp-page,
+  // .otp-page,
   .login-page-content {
     background: var(--theme-app-background, #151515) !important;
     color: var(--theme-text, #ecf3f8);
   }
-
+  .form-control {
+    background-color: transparent !important;
+  }
   .background-ekshamta {
     background: linear-gradient(180deg, #0d171d 0%, #121f27 52%, #18251f 100%);
   }

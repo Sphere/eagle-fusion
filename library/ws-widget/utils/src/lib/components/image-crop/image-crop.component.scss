@@ -117,12 +117,19 @@ mat-mdc-dialog-content {
 }
 
 .toolbar {
-  left: 50%;
-  margin: 1em 0 0 -10em;
+  left: 20%;
+  margin: 1.2em 0 0 -10em;
   position: absolute;
   width: auto;
   border-radius: 4px;
 
+}
+
+.darktheme .toolbar {
+  li button {
+    background-color: transparent !important;
+    --mat-button-protected-container-color: transparent !important;
+  }
 }
 
 .cf:before,

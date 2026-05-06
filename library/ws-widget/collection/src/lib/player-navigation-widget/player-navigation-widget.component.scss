@@ -15,10 +15,10 @@
     justify-content: center !important;
     gap: 8px !important;
     padding: 12px 28px !important;
-    border: 2px solid var(--theme-success, #469588) !important;
+    border: 2px solid var(--theme-progress, #469588) !important;
     border-radius: 30px !important;
     background-color: transparent !important;
-    color: var(--theme-success, #469588) !important;
+    color: var(--theme-progress, #469588) !important;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
@@ -55,18 +55,18 @@
 
 // Previous button - Outlined style
 .prev-btn {
-    border: 2px solid var(--theme-success, #469588) !important;
+    border: 2px solid var(--theme-progress, #469588) !important;
     background-color: transparent !important;
-    color: var(--theme-success, #469588) !important;
+    color: var(--theme-progress, #469588) !important;
 
     img {
         filter: brightness(0) saturate(100%) invert(50%) sepia(54%) saturate(396%) hue-rotate(136deg) brightness(93%) contrast(87%);
     }
 
     &:disabled {
-        border: 2px solid var(--theme-success, #469588) !important;
+        border: 2px solid var(--theme-progress, #469588) !important;
         background-color: transparent !important;
-        color: var(--theme-success, #469588) !important;
+        color: var(--theme-progress, #469588) !important;
         opacity: 0.5;
         cursor: not-allowed;
         pointer-events: none;
@@ -80,8 +80,8 @@
 
 // Next button - Filled style
 .next-btn {
-    border: 2px solid var(--theme-success, #469588) !important;
-    background-color: var(--theme-success, #469588) !important;
+    border: 2px solid var(--theme-progress, #469588) !important;
+    background-color: var(--theme-progress, #469588) !important;
     color: white !important;
 
     img {
@@ -89,9 +89,9 @@
     }
 
     &:disabled {
-        border: 2px solid var(--theme-success, #469588) !important;
+        border: 2px solid var(--theme-progress, #469588) !important;
         background-color: transparent !important;
-        color: var(--theme-success, #469588) !important;
+        color: var(--theme-progress, #469588) !important;
         opacity: 0.5;
         cursor: not-allowed;
         pointer-events: none;

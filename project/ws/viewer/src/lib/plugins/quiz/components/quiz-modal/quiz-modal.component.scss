@@ -10,7 +10,7 @@
     place-self: end;
     font-weight: 400;
     font-size: 17px;
-    color: #000000 !important;
+    color: var(--icon-color) !important;
     background: none;
     border: none;
 
@@ -28,7 +28,7 @@
   font-size: 24px !important;
   line-height: 24px !important;
   letter-spacing: -0.02em !important;
-  color: #000000 !important;
+  color: var(--theme-text) !important;
   padding-left: 9px;
 
   @include ws-mixins.breakpoint-xs {
@@ -182,6 +182,10 @@
     width: auto;
     place-self: flex-start;
   }
+
+  span {
+    color: var(--theme-text);
+  }
 }
 
 // @media only screen and (max-width: 599px) {
@@ -216,7 +220,7 @@
   font-size: 40px !important;
   line-height: 48px;
   letter-spacing: -0.02em;
-  color: #000000;
+  color: var(--theme-text);
 }
 
 .result-score {
@@ -240,7 +244,7 @@
   font-weight: 400 !important;
   font-size: 20px !important;
   line-height: 24px;
-  color: #000000;
+  color: var(--theme-text);
 }
 
 .result-overview-container {
@@ -279,7 +283,7 @@
     .digit {
       font-weight: 400 !important;
       font-size: 40px !important;
-      color: #154976;
+      color: var(--theme-accent);
 
       @include ws-mixins.breakpoint-xs {
         font-weight: 400 !important;
@@ -290,7 +294,7 @@
     .lable {
       font-weight: 500 !important;
       font-size: 15px !important;
-      color: #154976;
+      color: var(--theme-accent);
       margin-top: 10px !important;
 
       @include ws-mixins.breakpoint-xs {
@@ -376,4 +380,8 @@
   background: var(--theme-bg, #192831) !important;
   color: var(--theme-text, #ecf3f8) !important;
   border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}
+
+::ng-deep .dark-theme .mat-mdc-progress-bar {
+    --mat-progress-bar-active-indicator-color: var(--theme-progress) !important;
 }
