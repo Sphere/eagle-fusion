@@ -272,3 +272,8 @@ $dark-theme-tokens: (
 .dark-theme %shimmer, .shimmer {
   background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px) !important;
 }
+
+.dark-theme .mat-mdc-progress-bar {
+    --mat-progress-bar-active-indicator-color: var(--theme-progress) !important;
+    --mat-progress-bar-track-color: rgba(33, 33, 33, .25);
+}

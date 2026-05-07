@@ -188,16 +188,6 @@ select, input {
     color: var(--theme-inactive, #8fa4b8) !important;
   }
 
-  .login-button {
-    background: #000;
-    color: var(--theme-text, #ecf3f8);
-  }
-
-  .login-button:disabled {
-    background: var(--theme-bg-disabled, #223541);
-    color: var(--theme-disabled, #ecf3f8);
-  }
-
   .text-danger {
     color: var(--theme-error, #ff6b6b) !important;
   }

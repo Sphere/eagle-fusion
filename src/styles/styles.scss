@@ -1297,6 +1297,15 @@ html::-webkit-scrollbar-corner {
   background: transparent;
 }
 
+.dark-theme {
+    .location-select-panel .mat-mdc-option.mat-mdc-option-active .mdc-list-item__primary-text {
+      color: var(--theme-bg) !important;
+  }
+  lib-discuss-start .discussion-start-modal .discussion-start-modal-content {
+    background: var(--theme-bg, #0e161b) !important;
+  }
+}
+
 // Location select panel (your-location page)
 .location-select-panel {
   .mat-mdc-option {

@@ -323,7 +323,7 @@
   justify-content: center;
 }
 
-:host-context(.dark-theme) {
+::ng-deep .dark-theme {
   .assesment-container,
   .quiz-question-wrapper,
   .result-wrapper,

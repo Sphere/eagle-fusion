@@ -474,6 +474,26 @@ mat-progress-bar {
     border-radius: 12px;
 }
 
+.dark-theme {
+  .timer,
+  .progress-summary {
+    background: var(--theme-bg, #10181e) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .result-overview {
+    background: var(--theme-bg, #1a2b38) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .result-score {
+    color: var(--theme-text);
+    span {
+      color: var(--theme-text);
+    }
+  }
+}
+
 .block-screen {
   position: fixed;
   top: 0;
@@ -489,7 +509,7 @@ mat-progress-bar {
   font-size: 20px;
 }
 
-:host-context(.dark-theme) {
+::ng-deep .dark-theme {
   .assesment-container,
   .question-wrapper,
   .result-wrapper,
@@ -505,17 +525,6 @@ mat-progress-bar {
   p,
   div {
     color: var(--theme-text, #ecf3f8);
-  }
-
-  .timer,
-  .progress-summary {
-    background: var(--theme-bg, #10181e) !important;
-    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
-  }
-
-  .result-overview {
-    background: var(--theme-surface, #1a2b38) !important;
-    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 
 
@@ -547,10 +556,6 @@ mat-progress-bar {
   .audio-progress-bar .mat-mdc-progress-bar-buffer,
   .mat-mdc-progress-bar .mat-mdc-progress-bar-buffer {
     background: var(--theme-surface, #0e161b) !important;
-  }
-
-  .progress-summary {
-    color: var(--theme-text, #ecf3f8) !important;
   }
 
   .block-screen {
