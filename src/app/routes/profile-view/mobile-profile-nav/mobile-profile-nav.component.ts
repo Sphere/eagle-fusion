@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Router } from '@angular/router'
-import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
+import { LogoutComponent, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
 import { LoggerService } from '@ws-widget/utils'
+import { Observable } from 'rxjs'
 
 @Component({
     standalone: false,
@@ -17,12 +18,15 @@ export class MobileProfileNavComponent implements OnInit {
   @Input() showLogOutIcon?: boolean
   @Input() trigerrNavigation?: boolean = false
   @Input() navigateTohome?: boolean = false
+  isXSmall$: Observable<boolean>
   constructor(
     private dialog: MatDialog,
     public router: Router,
     private contentSvc: WidgetContentService,
     private logger: LoggerService,
+    private valueSvc: ValueService,
   ) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
     this.contentSvc.backMessage.subscribe((data: any) => {
       if (data) {
         sessionStorage.setItem('clickedUrl', data)

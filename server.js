@@ -16,11 +16,18 @@ console.log('Files in dist path:', fs.existsSync(distPath) ? 'EXISTS' : 'DOES NO
 app.use(compression())
 
 // Serve static files with proper cache headers
+// index.html must never be cached — it references hashed bundles that change each build
 app.use(express.static(distPath, {
   maxAge: '1y',
   etag: false,
-  // Enable fallthrough so 404s go to the next handler
-  fallthrough: true
+  fallthrough: true,
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('index.html')) {
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
+      res.set('Pragma', 'no-cache')
+      res.set('Expires', '0')
+    }
+  }
 }))
 
 // Log all requests for debugging
@@ -45,6 +52,9 @@ app.get('*', (req, res) => {
 
     // Otherwise serve index.html for SPA routing
     console.log(`Serving index.html for SPA route: ${req.path}`)
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
+    res.set('Pragma', 'no-cache')
+    res.set('Expires', '0')
     return res.sendFile(indexPath)
   } catch (err) {
     console.error(`Error serving ${req.path}:`, err.message)
