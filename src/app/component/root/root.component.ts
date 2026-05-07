@@ -10,6 +10,7 @@ import {
   effect,
   HostListener,
   Signal,
+  computed,
 } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import {
@@ -108,6 +109,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   domain: string
   bodyConfig: any
   footerConfig: any
+  programConfig: any
+  // programSec: boolean = false
+  showProgramDet = computed(() => this.playlistSvc.showDetails())
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -480,6 +484,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
       const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
+      this.programConfig = this.playlistSvc.programs()
+      if (!!this.programConfig)
+        this.playlistSvc?.showDetails.set(false)
       this.configData = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
       this.bodyConfig = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }

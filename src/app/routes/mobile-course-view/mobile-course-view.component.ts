@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core'
 import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { of } from 'rxjs'
@@ -19,20 +19,24 @@ import { LoggerService, TelemetryService } from '../../../../library/ws-widget/u
 export class MobileCourseViewComponent implements OnInit {
 
   @Input() courseData: any = {}
-  @Input() cnePoints: any = false
-
   @Input() enableConfig = false
+  @Input() cnePoints: any = false
+  @Input() showProgress = false;
   @Input() displayConfig = {
     displayType: 'card-badges',
+    showProgress: false,
+    backGroundColor: 'String',
     badges: {
       orgIcon: true,
       certification: true,
+      isCertified: false
     },
   }
   displayStyle = 'none'
   isLoggedIn = false
   imgLoaded = false
-
+  @Input() programData: any
+  @Output() programClick = new EventEmitter();
   constructor(private router: Router,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -165,5 +169,10 @@ export class MobileCourseViewComponent implements OnInit {
       }
     }
 
+  }
+
+  onProgramClick() {
+    console.log("[1] card clicked, programData:", this.programData)
+    this.programClick.emit(this.programData)
   }
 }

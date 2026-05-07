@@ -139,6 +139,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
 import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
 import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
 import { RouterModule } from '@angular/router'
+import { ProgramHome } from './program/program-home/program-home'
 
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
   try {
@@ -310,6 +311,7 @@ export function initTranslate(translate: TranslateService) {
     WebNavLinkPageComponent,
     WebPublicComponent,
     WebCourseViewComponent,
+    ProgramHome
     // SearchRootComponent
   ],
   exports: [

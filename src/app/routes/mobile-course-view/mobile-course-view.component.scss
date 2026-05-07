@@ -452,3 +452,74 @@ padding: 5px 0px 0px 0px;
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+
+// ── Program card (card-program displayType) ──────────────────────────────────
+
+.program-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  padding: 16px;
+
+}
+
+.program-card .title {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(28, 93, 149, 1);
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.program-card .image-wrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.program-card .image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.program-card .badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(59, 136, 160, 1);
+  color: #ffffff;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-end-end-radius: 12px;
+  font-weight: 500;
+  z-index: 2;
+}
+
+.program-card .status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: #000;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-start-start-radius: 10px;
+  z-index: 2;
+
+  &.completed {
+    background: rgba(82, 173, 157, 1);
+    color: #ffffff;
+  }
+
+  &.in-progress {
+    background: rgba(240, 195, 110, 1);
+  }
+}
+// .tab-title{
+//   height: 3vh;
+// }
+.course-container-program {
+  margin: 0.8rem;
+}
