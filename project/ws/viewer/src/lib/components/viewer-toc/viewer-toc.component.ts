@@ -209,6 +209,24 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.logger.log(_data, '180')
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
+        // Restore course gating — individual resources don't carry the gatingEnabled flag
+        if (this.heirarchy) {
+          this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
+        }
+        // Reset playerState completion to null immediately so the nav widget doesn't inherit
+        // the previous resource's 100% and incorrectly enable the Next button during loading
+        const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
+        this.playerStateService.setState({
+          isValid: Boolean(this.collection),
+          prev: currentIndex > 0 ? this.queue[currentIndex - 1]?.viewerUrl : null,
+          prevTitle: currentIndex > 0 ? this.queue[currentIndex - 1]?.title : null,
+          next: currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1]?.viewerUrl : null,
+          nextTitle: currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1]?.title : null,
+          currentPercentage: null,
+          prevPercentage: null,
+          nextContentId: currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1]?.identifier : null,
+          firstResource: this.queue[0]?.viewerUrl || null,
+        })
         setTimeout(() => {
           this.processCurrentResourceChange()
           this.checkIndexOfResource()
@@ -697,13 +715,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 }
               } else {
 
-                if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage !== 100) {
-                  if (this.viewerDataSvc.getNode()) {
+                if (element[index].children[cindex - 1]) {
+                  if (element[index].children[cindex - 1].completionPercentage === 100) {
+                    element[index].children[cindex].disabledNode = false
+                  } else if (this.viewerDataSvc.getNode()) {
                     element[index].children[cindex].disabledNode = true
                   } else {
                     element[index].children[cindex].disabledNode = false
                   }
-
                 }
               }
             })
@@ -783,6 +802,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   private async processCollectionForTree(content?: any) {
     this.logger.log(content, 'processCollectionForTree')
+    // Restore course gating flag — resolver resets it on every resource navigation,
+    // and individual resources don't carry gatingEnabled (only the course collection does)
+    if (this.heirarchy) {
+      this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
+    }
     if (content && content.contentList) {
       this.logger.log(content)
       await this.processData(content.contentList)
@@ -1167,6 +1191,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(async data => {
           // tslint:disable-next-line: no-console
           this.logger.log(data['result']['contentList'])
+          // Ensure gating state is restored from the course hierarchy before mergeData runs
+          // (resolver resets gatingEnabled per resource, individual resources don't carry the flag)
+          if (this.heirarchy) {
+            this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
+          }
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
 
@@ -1258,13 +1287,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       }
                     } else {
 
-                      if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage !== 100) {
-                        if (this.viewerDataSvc.getNode()) {
+                      if (element[index].children[cindex - 1]) {
+                        if (element[index].children[cindex - 1].completionPercentage === 100) {
+                          element[index].children[cindex].disabledNode = false
+                        } else if (this.viewerDataSvc.getNode()) {
                           element[index].children[cindex].disabledNode = true
                         } else {
                           element[index].children[cindex].disabledNode = false
                         }
-
                       }
                     }
                   })

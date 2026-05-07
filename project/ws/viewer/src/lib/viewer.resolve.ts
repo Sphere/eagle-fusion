@@ -709,9 +709,12 @@ export class ViewerResolve {
       tap(content => {
         // tslint:disable-next-line: no-parameter-reassignment
         content = content.result.content
-        // Always set gating flag, even if false (previous course gating flag must be reset)
-        if (content) {
-          this.viewerDataSvc.setNode(content.gatingEnabled)
+        // Only set gating when the resource itself explicitly enables it.
+        // Individual resources (videos, PDFs) don't carry gatingEnabled — course-level gating
+        // is managed by the TOC component via the course hierarchy. Setting setNode(undefined)
+        // here would override the course's gating flag and break the lock/Next-button logic.
+        if (content && content.gatingEnabled === true) {
+          this.viewerDataSvc.setNode(true)
         }
         if (content.status === 'Deleted' || content.status === 'Expired') {
           this.router.navigate([
