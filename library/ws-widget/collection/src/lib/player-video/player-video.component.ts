@@ -64,6 +64,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   progressData: any
   private contentHistoryResponse: any = null  // Cache full progress response for messaging
   private lastSentProgressPercentage = -1  // Track last sent progress to avoid duplicates
+  private lastProgressIdentifier: string | null = null  // Detect video navigation to reset tracking
   videoQuestions!: {
     timestamp: { hours: 0, minutes: 0, seconds: 0 },
     timestampInSeconds: 0,
@@ -422,6 +423,13 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     // }
     const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
       try {
+        // Reset tracking state when navigating to a new video in a reused component instance
+        if (this.lastProgressIdentifier !== null && this.lastProgressIdentifier !== identifier) {
+          this.lastSentProgressPercentage = -1
+          this.contentHistoryResponse = null
+        }
+        this.lastProgressIdentifier = identifier
+
         // Ensure we have contentHistoryResponse - fetch if needed
         if (!this.contentHistoryResponse || !this.contentHistoryResponse.contentList || this.contentHistoryResponse.contentList.length === 0) {
           await this.fetchAndCacheContentHistory(identifier, batchId, collectionId)
@@ -739,14 +747,11 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               // This prevents TOC's updateKeyIfMatch from wiping out existing values
               const updatedContentList = this.contentHistoryResponse.contentList.map((item: any) => {
                 if (item.contentId === identifier) {
-                  // **CRITICAL**: When 100% completion, always set status to 2 (completed)
-                  // This ensures template condition for green checkmark passes
                   const finalStatus = percent === 100 ? 2 : status
                   return {
                     ...item,
                     completionPercentage: percent,
                     status: finalStatus,
-                    // **CRITICAL**: Ensure other fields are preserved
                     batchId: item.batchId,
                     courseId: item.courseId,
                     lastAccessTime: new Date().toISOString(),
@@ -754,13 +759,23 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                 } else {
                   return {
                     ...item,
-                    // **CRITICAL**: Preserve existing completionPercentage for non-video items
-                    // This ensures updateKeyIfMatch doesn't overwrite with undefined
                     completionPercentage: item.completionPercentage ?? 0,
                     status: item.status ?? 0,
                   }
                 }
               })
+              // If this video was never watched before, it won't be in contentHistoryResponse.contentList
+              // Add it so the TOC can show the progress circle
+              if (!updatedContentList.find((item: any) => item.contentId === identifier)) {
+                updatedContentList.push({
+                  contentId: identifier,
+                  completionPercentage: percent,
+                  status: percent === 100 ? 2 : status,
+                  batchId: batchId || '',
+                  courseId: collectionId,
+                  lastAccessTime: new Date().toISOString(),
+                })
+              }
               const messageData = { ...this.contentHistoryResponse, contentList: updatedContentList, type: 'Video' }
               this.logger.log('Sending cached data to TOC:', { percent, contentId: identifier, completionPercentage: percent, itemCount: updatedContentList.length, hasAllFields: updatedContentList.every((i: any) => i.completionPercentage !== undefined) })
               this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: identifier, completionPercentage: percent, status, mimeType: 'video/mp4', batchId: batchId || '' })
