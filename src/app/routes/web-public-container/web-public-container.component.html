@@ -1,7 +1,8 @@
-<div style="background-color:lightcyan;" *ngIf="programConfig">
+<div [ngClass]="!isXSmall() ? 'program-banner': 'program-banner-mob'" *ngIf="programConfig">
   <button *ngIf="showbackButton" (click)="backScreen()" mat-icon-button
     class="back-icon text-left"><mat-icon>chevron_left</mat-icon></button>
-  <h1 style="margin-left: 2rem; padding-top: 0.5rem; padding-bottom: 2rem; font-weight: 400;">{{selectedProgDet?.title}}
+  <h1>
+    {{selectedProgDet?.title}}
   </h1>
 </div>
 <div class="paddingView">
