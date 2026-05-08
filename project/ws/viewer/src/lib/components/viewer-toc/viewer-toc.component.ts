@@ -1,7 +1,7 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, ChangeDetectorRef,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, NgZone,
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
@@ -98,7 +98,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     public dialog: MatDialog,
     private onlineIndexedDbService: IndexedDBService,
     public quizService: QuizService,
-    private cdr: ChangeDetectorRef,  // **CRITICAL**: For triggering UI updates when tree data changes
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
     private logger: LoggerService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
@@ -313,27 +314,24 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     }
   }
   ngOnChanges() {
-    this.change = this.contentSvc.currentMessage.subscribe(async (data: any) => {
+    this.change = this.contentSvc.currentMessage.subscribe((data: any) => {
       if (data) {
-        this.isLoading = true
-        this.currentContentType = await data.type
-        if (data && data.type === "scorm") {
+        this.currentContentType = data.type
+        if (data.type === 'scorm') {
           localStorage.setItem('contentId', window.location.href)
         } else {
           localStorage.removeItem('contentId')
         }
         this.processCollectionForTree(data)
 
-        // **CRITICAL**: Update tree nodes with new progress data from message
-        // Without this, the UI tree doesn't show the updated completionPercentage
-        if (data && data.contentList && this.collection && this.collection.children) {
+        if (data.contentList && this.collection && this.collection.children) {
           this.updateTreeNodesWithProgress(this.collection.children, data.contentList)
+          this.nestedDataSource.data = [...this.collection.children]
+          this.ngZone.run(() => {
+            this.updateResourceChange()
+            this.cdr.detectChanges()
+          })
         }
-
-        // **CRITICAL**: Trigger Angular change detection after updating tree
-        // This ensures the UI updates immediately when progress changes (ticket display)
-        Promise.resolve().then(() => this.cdr.markForCheck())
-        // this.ngOnInit()
       }
     })
   }
@@ -1338,25 +1336,22 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const result = await dialogRef.afterClosed().toPromise()
     return !!result?.completed
   }
-  async updateResourceChange() {
-    const currentIndex = await this.queue.findIndex(c => c.identifier === this.resourceId)
+  updateResourceChange() {
+    const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
     const firstResource = (this.queue && this.queue[0]) ? this.queue[0].viewerUrl : ''
     const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
     const nextContentId = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].identifier : null
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
-    const currentPercentage = currentIndex < this.queue.length && this.queue[currentIndex] ? this.queue[currentIndex]!.completionPercentage! : null
-    this.logger.log(this.queue[currentIndex]?.completionPercentage)
-    const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
-    // tslint:disable-next-line:object-shorthand-properties-first
+    const currentPercentage = currentIndex >= 0 && this.queue[currentIndex] ? this.queue[currentIndex].completionPercentage ?? null : null
+    const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage ?? null : null
     this.playerStateService.setState({
       isValid: Boolean(this.collection),
-      // tslint:disable-next-line:object-shorthand-properties-first
       prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource,
     })
     this.isLoading = false
-    Promise.resolve().then(() => this.cdr.markForCheck())
+    this.cdr.markForCheck()
   }
 
   updatePassbookEntryPassbook(data: any, competency: any) {
