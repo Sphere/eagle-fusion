@@ -112,6 +112,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   programConfig: any
   // programSec: boolean = false
   showProgramDet = computed(() => this.playlistSvc.showDetails())
+  hasProgramConfig = false
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -151,7 +152,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     const t = this.injector.get(TranslateService, null as any)
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
     this.domain = window.location.hostname
-    if (this.domain.includes('ekshamata')) {
+    if (this.domain.includes('localhost')) {
       this.isEkshamata = true
     }
     this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
@@ -485,10 +486,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
       const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
       this.programConfig = this.playlistSvc.programs()
-      if (!!this.programConfig)
+      this.hasProgramConfig = !!this.programConfig && Object.keys(this.programConfig).length > 0
+      // Reset details page only when program config exists
+      if (this.hasProgramConfig) {
         this.playlistSvc?.showDetails.set(false)
+      }
       this.configData = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
-      this.bodyConfig = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
+      this.bodyConfig = this.configData
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
       this.showNavbar = true
       this.videoData = this.configData?.[this.configData?.length - 1]

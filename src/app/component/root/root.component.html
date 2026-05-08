@@ -79,14 +79,18 @@
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>
     </div>
     <!-- Feature Programs -->
-    <section *ngIf="isHomePage && isLoggedIn && programConfig && !showProgramDet()"
-      [ngStyle]="{'margin-bottom': isXSmall$ ? '4rem' : ''}">
-      <ws-program-home [configData]="programConfig" [userEnrollCourse]="userEnrollCourse()"></ws-program-home>
+    <section *ngIf="isHomePage && isLoggedIn && hasProgramConfig"
+      [ngStyle]="{ 'margin-bottom': isXSmall$ ? '4rem' : '' }">
+      <ws-program-home *ngIf="!showProgramDet()" [configData]="programConfig" [userEnrollCourse]="userEnrollCourse()">
+      </ws-program-home>
+      <ws-web-public-container *ngIf="showProgramDet()" [isEkshamata]="isEkshamata" [configData]="bodyConfig"
+        [programConfig]="programConfig" [userEnrollCourse]="userEnrollCourse()">
+      </ws-web-public-container>
     </section>
     <!-- Featured Section-->
-    <section *ngIf="isHomePage && isLoggedIn && bodyConfig && showProgramDet()"
+    <section *ngIf="isHomePage && isLoggedIn && !hasProgramConfig && bodyConfig"
       [ngStyle]="{'margin-bottom': isXSmall$ ? '4rem' : ''}">
-      <ws-web-public-container [isEkshamata]="isEkshamata" [configData]="bodyConfig" [programConfig]="programConfig"
+      <ws-web-public-container [isEkshamata]="isEkshamata" [configData]="bodyConfig"
         [userEnrollCourse]="userEnrollCourse()"></ws-web-public-container>
     </section>
     <!-- Desktop Footer -->
