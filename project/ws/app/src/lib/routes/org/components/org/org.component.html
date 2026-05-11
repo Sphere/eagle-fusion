@@ -107,7 +107,7 @@
 
       <!-- Language filter: filters all course sections by selected language (All / English / Hindi).
          Active button is highlighted via [class.active]. Resets cardLimit to 5 on change. -->
-      <div class="language-filter-container">
+      <div class="language-filter-container" *ngIf="currentOrgData?.showLanguageFilter">
         <div>
           <span class="filter-label">{{'Filter by Language' | translate}}</span>
         </div>
