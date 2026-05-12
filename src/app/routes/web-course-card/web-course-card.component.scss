@@ -1106,8 +1106,9 @@ padding: 5px 0px 0px 0px;
   100% { background-position: -200% 0; }
 }
 
-
-
+.level-det {
+  color: var(--theme-text);
+}
 // ── Program card (card-program displayType) ──────────────────────────────────
 
 .program-card {
@@ -1178,3 +1179,4 @@ padding: 5px 0px 0px 0px;
   width: 312px;
   margin: 0.8rem;
 }
+

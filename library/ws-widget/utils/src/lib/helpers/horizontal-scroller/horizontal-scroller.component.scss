@@ -80,8 +80,8 @@
   right: 4px;
 }
 
-::ng-deep .dark-theme mat-icon {
-  color: var(--icon-color) !important;
+::ng-deep .dark-theme .scroll-btn mat-icon {
+  color: black !important;
 }
 
 .nextLoading {

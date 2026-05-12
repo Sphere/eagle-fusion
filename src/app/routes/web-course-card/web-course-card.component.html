@@ -50,9 +50,9 @@
           <a class="btn start-btn">{{ 'Start now!' | translate }}</a>
         </div>
         <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
-          <div class="competency-card flex m-3">
+          <div class="competency-card flex">
             <img alt="" class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
-            <div>
+            <div class="level-det">
               <span>{{cometencyData[0]?.name}}, </span>
               <ng-container *ngFor="let competency of cometencyData; let last = last;">
                 <span>{{competency.levels}}</span>
