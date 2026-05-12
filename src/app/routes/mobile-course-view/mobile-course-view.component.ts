@@ -21,7 +21,7 @@ export class MobileCourseViewComponent implements OnInit {
   @Input() courseData: any = {}
   @Input() enableConfig = false
   @Input() cnePoints: any = false
-  @Input() showProgress = false;
+  @Input() showProgress = false
   @Input() displayConfig = {
     displayType: 'card-badges',
     showProgress: false,
@@ -29,14 +29,14 @@ export class MobileCourseViewComponent implements OnInit {
     badges: {
       orgIcon: true,
       certification: true,
-      isCertified: false
+      isCertified: false,
     },
   }
   displayStyle = 'none'
   isLoggedIn = false
   imgLoaded = false
   @Input() programData: any
-  @Output() programClick = new EventEmitter();
+  @Output() programClick = new EventEmitter()
   constructor(private router: Router,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,

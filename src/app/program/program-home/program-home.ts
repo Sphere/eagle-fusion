@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, Input, Output, signal } from '@angular/core'
+import { Component, computed, EventEmitter, Input, Output, signal, OnInit } from '@angular/core'
 // import { Router } from '@angular/router'
 import { Subject } from 'rxjs'
 import { ValueService } from '../../../../library/ws-widget/utils/src/lib/services/value.service'
@@ -9,17 +9,17 @@ import { PlaylistService } from '../../services/playlist.service'
   selector: 'ws-program-home',
   templateUrl: './program-home.html',
   styleUrl: './program-home.scss',
-  standalone: false
+  standalone: false,
 })
-export class ProgramHome {
+export class ProgramHome implements OnInit {
   @Input() configData: any
   @Input() userEnrollCourse: any
-  @Output() programClick = new EventEmitter();
+  @Output() programClick = new EventEmitter()
   isXSmall = computed(() => this.valueSvc.isMobile())
   isLoading = signal(true)
   programData = signal<any[]>([])
-  cometencyData: { name: any; levels: string }[] = [];
-  public unsubscribe = new Subject<void>();
+  cometencyData: { name: any; levels: string }[] = []
+  public unsubscribe = new Subject<void>()
   programList: any
   showDetails = signal(false)
   constructor(
@@ -79,37 +79,37 @@ export class ProgramHome {
       ...program,
       courseCount,
       payload,
-      programStatus
+      programStatus,
     }
-  };
+  }
 
 
   getStaticPlaylistForLang = (playlists: any[], playlistConfigId: string, defaultLang: string): any | null => {
     const playlist = playlists.find(
-      (p) =>
+      p =>
         p.playlistId === playlistConfigId &&
         p?.dataSource?.type === 'static' &&
         p.language === defaultLang &&
         this.isValidPlaylist(p)
     )
     return playlist || null
-  };
+  }
   getCompetencyPlaylistForLang = (playlists: any, playlistConfigId: string): any | null => {
     const playlist = playlists.find(
-      (p) =>
+      p =>
         p.playlistId === playlistConfigId &&
         p?.dataSource?.type === 'competency' &&
         this.isValidPlaylist(p)
     )
     return playlist || null
-  };
+  }
 
   isValidPlaylist = (playlist: any): boolean =>
     Boolean(
       playlist?.dataSource?.type &&
       Array.isArray(playlist?.dataSource?.payload) &&
       playlist.dataSource.payload.length > 0
-    );
+    )
 
   // computeProgramStatus$ = (dashboardService: any, allCourseIds: string[], userId: string, enrichedPrograms: any[], playlists: any[], sections: Section[], defaultLang: string): Observable<any> => {
   //   return dashboardService.getProgramStatus$(allCourseIds, userId).pipe(
