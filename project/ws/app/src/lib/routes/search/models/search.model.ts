@@ -263,6 +263,6 @@ export interface ISearchRequestV2 {
 }
 
 export interface ISearchRequestV3 {
-  language: string,
+  language?: string,
   query: string,
 }

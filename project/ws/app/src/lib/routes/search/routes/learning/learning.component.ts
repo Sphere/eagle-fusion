@@ -708,7 +708,12 @@ export class LearningComponent implements OnInit, OnDestroy {
 
   getSearchResults(withQuotes?: boolean, didYouMean = true) {
     this.prepareNewSearch(withQuotes)
-    this.newSearchRequestObject.language = this.getLangFromUrl() || this.getActiveLocale()
+    const explicitLang = this.getLangFromUrl()
+    if (explicitLang) {
+      this.newSearchRequestObject.language = explicitLang
+    } else {
+      delete this.newSearchRequestObject.language
+    }
 
     this.searchResultsSubscription = this.searchServ.getsearchLearning(this.newSearchRequestObject).subscribe(
       data => {

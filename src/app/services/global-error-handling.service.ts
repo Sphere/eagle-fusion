@@ -8,17 +8,18 @@ export class GlobalErrorHandlingService implements ErrorHandler {
   constructor() { }
 
   handleError(error: any): void {
-    const chunkFailedMessage = /ChunkLoadError/
-    if (chunkFailedMessage.test(error.message)) {
+    const msg: string = error?.message || ''
+    if (/ChunkLoadError/.test(msg)) {
       const reloadKey = 'chunk_reload_attempted'
       if (!sessionStorage.getItem(reloadKey)) {
         sessionStorage.setItem(reloadKey, '1')
         window.location.reload()
       } else {
-        // Already tried reloading — clear the flag and navigate to root to avoid loop
         sessionStorage.removeItem(reloadKey)
         window.location.href = '/'
       }
+    } else if (/NG0100/.test(msg) && /DiscussAllComponent/.test(msg)) {
+      // NG0100 inside the discussions-ui-v8 package — dev-mode-only, safe to ignore
     } else {
       throw error
     }

@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, Optional, SkipSelf } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -46,8 +46,7 @@ import { AppTocService } from './services/app-toc.service'
 
 // custom modules
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
-import { WrapperModule } from '../../../../../../../src/app/routes/discussion-forum/wrapper/wrapper.module'
+import { DiscussionUiModule, DiscussionService } from '@aastrika_npmjs/discussions-ui-v8'
 import {
   PipeDurationTransformModule,
   PipeSafeSanitizerModule,
@@ -162,7 +161,6 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     ProfileImageModule,
     NgCircleProgressModule.forRoot({}),
     DiscussionUiModule,
-    WrapperModule,
   ],
   providers: [
     AppTocResolverService,
@@ -172,6 +170,11 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     ApiService,
     AccessControlService,
     ProfileResolverService,
+    {
+      provide: DiscussionService,
+      useFactory: (existing: DiscussionService | null) => existing,
+      deps: [[new Optional(), new SkipSelf(), DiscussionService]],
+    },
   ],
   exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

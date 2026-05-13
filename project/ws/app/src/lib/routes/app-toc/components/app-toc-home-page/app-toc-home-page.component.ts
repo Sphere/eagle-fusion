@@ -409,8 +409,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   }
   redirectTo() {
     this.routelinK = 'discuss'
-    this.loadDiscussionWidget = true
     this.tocSvc._showComponent.next({ showComponent: false })
+    setTimeout(() => { this.loadDiscussionWidget = true }, 0)
   }
   toggleComponent(cname: string) {
     this.routelinK = ''
