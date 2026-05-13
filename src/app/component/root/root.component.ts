@@ -486,12 +486,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.showNavbar = true
       this.videoData = this.configData?.[this.configData?.length - 1]
       localStorage.setItem('videoData', JSON.stringify(this.videoData))
-      if (!this.themeSvc.hasStoredPreference() && this.orgDetails?.themeConfig?.isDark !== undefined) {
-        this.themeSvc.setTheme(!!this.orgDetails.themeConfig.isDark)
+      if (!this.themeSvc.hasStoredPreference() && this.orgDetails?.themeConfig?.isDark === false) {
+        this.themeSvc.setTheme(false)
       }
       const themeConfig = this.downtimeService.themeConfig()
       const theme = themeConfig?.[this.orgDetails?.themeConfig?.theme] || themeConfig?.['defaultTheme']
-      console.log("theme config ", themeConfig, theme)
       this.themeSvc.applyOrgTheme(theme)
       // Trigger change detection to ensure template updates with new data
       this.changeDetector.markForCheck()
