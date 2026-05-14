@@ -397,17 +397,22 @@ export class InitService {
     }
   }
 
-  private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
+  private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig | null> {
     // Load language-specific host config: host.config.json for en, host.config.hi.json for hi
-    const locale = this.locale || 'en'
-    const publicConfig: NsInstanceConfig.IConfig = await this.configCacheSvc.getHostConfig(locale).toPromise()
-    this.configSvc.instanceConfig = publicConfig
-    this.configSvc.rootOrg = publicConfig.rootOrg
-    this.configSvc.org = publicConfig.org
-    // TODO: set one org as default org :: use user preference
-    this.configSvc.activeOrg = publicConfig.org[0]
-    this.configSvc.appSetup = publicConfig.appSetup
-    return publicConfig
+    try {
+      const locale = this.locale || 'en'
+      const publicConfig: NsInstanceConfig.IConfig = await this.configCacheSvc.getHostConfig(locale).toPromise()
+      this.configSvc.instanceConfig = publicConfig
+      this.configSvc.rootOrg = publicConfig.rootOrg
+      this.configSvc.org = publicConfig.org
+      // TODO: set one org as default org :: use user preference
+      this.configSvc.activeOrg = publicConfig.org[0]
+      this.configSvc.appSetup = publicConfig.appSetup
+      return publicConfig
+    } catch (error) {
+      this.logger.warn('[InitService] fetchDefaultConfig failed (SSR/prerender context):', error)
+      return null
+    }
   }
 
   get locale(): string {
@@ -540,11 +545,12 @@ export class InitService {
     }
   }
 
-  private async fetchInstanceConfig(): Promise<NsInstanceConfig.IConfig> {
+  private async fetchInstanceConfig(): Promise<NsInstanceConfig.IConfig | null> {
     // TODO: use the rootOrg and org to fetch the instance
     const publicConfig = await this.http
       .get<NsInstanceConfig.IConfig>(`fusion-assets/files/site.config.json`)
       .toPromise()
+    if (!publicConfig) { return null }
     this.configSvc.instanceConfig = publicConfig
     this.configSvc.rootOrg = publicConfig.rootOrg
     this.configSvc.org = publicConfig.org
@@ -558,6 +564,7 @@ export class InitService {
     const featureConfigs = await this.http
       .get<IFeaturePermissionConfigs>(`fusion-assets/files/features.config.json`)
       .toPromise()
+    if (!featureConfigs) { return new Set() }
     this.configSvc.restrictedFeatures = new Set(
       Object.entries(featureConfigs)
         .filter(
@@ -571,10 +578,11 @@ export class InitService {
     const widgetConfigs = await this.http
       .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`fusion-assets/files/widgets.config.json`)
       .toPromise()
-    return widgetConfigs
+    return widgetConfigs || []
   }
 
   private processWidgetStatus(widgetConfigs: NsWidgetResolver.IRegistrationsPermissionConfig[]) {
+    if (!widgetConfigs) { this.configSvc.restrictedWidgets = new Set(); return this.configSvc.restrictedWidgets }
     this.configSvc.restrictedWidgets = new Set(
       widgetConfigs
         .filter(u =>

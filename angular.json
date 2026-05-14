@@ -61,9 +61,6 @@
                 "src/styles"
               ]
             },
-            "sassOptions": {
-              "silenceDeprecations": ["import"]
-            },
             "styles": [
               "src/styles/tailwind-output.css",
               "node_modules/video.js/dist/video-js.min.css",
@@ -201,7 +198,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/www/fusion/server",
+            "outputPath": "dist/fusion-server",
             "main": "src/main.server.ts",
             "tsConfig": "tsconfig.server.json",
             "sourceMap": true,
@@ -236,6 +233,7 @@
           "options": {
             "browserTarget": "fusion:build:production",
             "serverTarget": "fusion:server:production",
+            "discoverRoutes": false,
             "routes": [
               "/public/home",
               "/public/about",

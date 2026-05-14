@@ -489,6 +489,13 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/ssr@21":
+  version "21.2.11"
+  resolved "https://registry.yarnpkg.com/@angular/ssr/-/ssr-21.2.11.tgz#e34c0b0a5f66721d32eb5ea852b57750487b8bb3"
+  integrity sha512-YvqUtBXE0jxUU9V6ck7A06cjB/8PADqF+Argm2W+oFztoWgtM5BErAJ2PzccvEDmveUFDnFprtzEH6FSCcbqMg==
+  dependencies:
+    tslib "^2.3.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.28.6", "@babel/code-frame@^7.29.0":
   version "7.29.0"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.29.0.tgz"

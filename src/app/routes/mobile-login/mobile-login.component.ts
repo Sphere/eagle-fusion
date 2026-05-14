@@ -77,7 +77,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   checkGoogleAuth() {
     this.configCacheSvc.getHostConfig().subscribe((data: any) => {
-      this.googleAuth = data.googleAuth
+      if (data) { this.googleAuth = data.googleAuth }
     })
   }
 

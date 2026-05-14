@@ -22,8 +22,8 @@ RUN yarn install
 # Install specific packages (moment and vis-util)
 RUN yarn add moment vis-util
 
-# Production browser build
-RUN yarn build
+# Production build with prerendering for /public/home, /public/about, /public/contact
+RUN yarn prerender
 
 # Compress output
 RUN yarn run compress:brotli

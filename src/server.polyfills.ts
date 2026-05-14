@@ -4,9 +4,53 @@
 // runs its module-scope initialisation code in Node.js.
 const globalAny = global as any
 
+function mockElement(): any {
+  const el: any = {
+    style: {},
+    classList: { add: () => {}, remove: () => {}, contains: () => false, toggle: () => {} },
+    setAttribute: () => {},
+    getAttribute: () => null,
+    removeAttribute: () => {},
+    hasAttribute: () => false,
+    appendChild: () => el,
+    removeChild: () => {},
+    insertBefore: () => {},
+    replaceChild: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+    querySelector: () => null,
+    querySelectorAll: () => [],
+    getElementsByTagName: () => [],
+    innerHTML: '',
+    textContent: '',
+    src: '',
+    href: '',
+    canPlayType: () => '',
+    play: () => Promise.resolve(),
+    pause: () => {},
+    load: () => {},
+  }
+  return el
+}
+
 if (typeof globalAny['window'] === 'undefined') {
   globalAny['window'] = {
+    env: {
+      name: '',
+      production: false,
+      sitePath: '',
+      organisation: '',
+      framework: '',
+      channelId: '',
+      azureHost: '',
+      contentHost: '',
+      azureBucket: '',
+      azureOldHost: '',
+      azureOldBuket: '',
+    },
     location: {
+      host: '',
       hostname: '',
       href: '',
       origin: '',
@@ -14,20 +58,27 @@ if (typeof globalAny['window'] === 'undefined') {
       protocol: 'https:',
       search: '',
       hash: '',
+      port: '',
     },
     navigator: { userAgent: 'node.js', language: 'en', languages: ['en'] },
     document: {
       cookie: '',
       referrer: '',
       readyState: 'complete',
-      createElement: () => ({ style: {} }),
+      createElement: () => mockElement(),
+      createElementNS: () => mockElement(),
+      createTextNode: () => ({}),
       querySelector: () => null,
       querySelectorAll: () => [],
       getElementById: () => null,
-      body: { style: {}, classList: { add: () => {}, remove: () => {} } },
-      head: { appendChild: () => {}, querySelector: () => null },
+      getElementsByTagName: () => [],
+      getElementsByClassName: () => [],
+      body: mockElement(),
+      head: mockElement(),
+      documentElement: mockElement(),
       addEventListener: () => {},
       removeEventListener: () => {},
+      dispatchEvent: () => false,
     },
     localStorage: {
       getItem: () => null,
@@ -62,15 +113,43 @@ if (typeof globalAny['window'] === 'undefined') {
     WebSocket: undefined,
     crypto: globalAny['crypto'],
     performance: globalAny['performance'],
-    matchMedia: () => ({ matches: false, addListener: () => {}, removeListener: () => {} }),
+    matchMedia: () => ({ matches: false, media: '', addEventListener: () => {}, removeEventListener: () => {}, addListener: () => {}, removeListener: () => {}, dispatchEvent: () => false }),
     getComputedStyle: () => ({}),
     scrollTo: () => {},
     history: { pushState: () => {}, replaceState: () => {}, go: () => {}, back: () => {}, forward: () => {} },
   }
 }
 
+// global.document is a SEPARATE object from window.document intentionally.
+// video.js isReal() checks `document === window.document` — keeping them distinct
+// makes isReal() return false, preventing the TEST_VID crash.
+// Services that use bare `document` (e.g. BtnSettingsService) still find it here.
 if (typeof globalAny['document'] === 'undefined') {
-  globalAny['document'] = globalAny['window']['document']
+  globalAny['document'] = {
+    cookie: '',
+    referrer: '',
+    readyState: 'complete',
+    title: '',
+    createElement: () => mockElement(),
+    createElementNS: () => mockElement(),
+    createTextNode: () => ({ textContent: '' }),
+    createDocumentFragment: () => mockElement(),
+    querySelector: () => null,
+    querySelectorAll: () => [],
+    getElementById: () => null,
+    getElementsByTagName: () => [],
+    getElementsByClassName: () => [],
+    body: mockElement(),
+    head: mockElement(),
+    documentElement: mockElement(),
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }
+}
+
+if (typeof globalAny['location'] === 'undefined') {
+  globalAny['location'] = globalAny['window']['location']
 }
 
 if (typeof globalAny['navigator'] === 'undefined') {
