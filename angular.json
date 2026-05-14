@@ -61,6 +61,9 @@
                 "src/styles"
               ]
             },
+            "sassOptions": {
+              "silenceDeprecations": ["import"]
+            },
             "styles": [
               "src/styles/tailwind-output.css",
               "node_modules/video.js/dist/video-js.min.css",
@@ -207,6 +210,9 @@
               "includePaths": [
                 "src/styles"
               ]
+            },
+            "sassOptions": {
+              "silenceDeprecations": ["import"]
             }
           },
           "configurations": {
