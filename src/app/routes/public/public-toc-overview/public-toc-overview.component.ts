@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input, Inject, PLATFORM_ID } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 
 import { Subject } from 'rxjs'
 
@@ -34,13 +35,14 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private widgetContentSvc: WidgetContentService,
     private cdr: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: object,
   ) { }
 
   ngOnInit() {
     if (this.tocData) {
       this.content = this.tocData
     }
-    if (localStorage.getItem('tocData')) {
+    if (isPlatformBrowser(this.platformId) && localStorage.getItem('tocData')) {
       const data: any = localStorage.getItem('tocData')
       this.content = JSON.parse(data)
     }

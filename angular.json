@@ -194,6 +194,57 @@
               "src/**/*.html"
             ]
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/www/fusion/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "browserTarget": "fusion:build:production",
+            "serverTarget": "fusion:server:production",
+            "routes": [
+              "/public/home",
+              "/public/about",
+              "/public/contact"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "fusion:build:production",
+              "serverTarget": "fusion:server:production"
+            },
+            "development": {
+              "browserTarget": "fusion:build:development",
+              "serverTarget": "fusion:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     },

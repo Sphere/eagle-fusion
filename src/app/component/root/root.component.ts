@@ -10,7 +10,10 @@ import {
   effect,
   HostListener,
   Signal,
+  Inject,
+  PLATFORM_ID,
 } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 import { toSignal } from '@angular/core/rxjs-interop'
 import {
   NavigationCancel,
@@ -41,7 +44,7 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { split } from 'lodash'
 import { App } from '@capacitor/app'
 import dayjs from 'dayjs'
-import { Title } from '@angular/platform-browser'
+import { SeoService } from '../../services/seo.service'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
 import { Subscription } from 'rxjs'
@@ -121,7 +124,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
-    private titleService: Title,
     private activatedRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
     private userDataCacheSvc: UserDataCacheService,
@@ -134,8 +136,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private playlistSvc: PlaylistService,
     private logger: LoggerService,
     private downtimeService: DowntimeConfigService,
-    private themeSvc: ThemeService
+    private themeSvc: ThemeService,
+    private seoSvc: SeoService,
+    @Inject(PLATFORM_ID) private platformId: object,
   ) {
+    const isBrowser = isPlatformBrowser(this.platformId)
     this.userEnrollCourse = toSignal(
       this.configSvc.userProfile
         ? this.userSvc.fetchUserBatchList(this.configSvc.userProfile.userId || '').pipe(
@@ -146,9 +151,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     )
     const t = this.injector.get(TranslateService, null as any)
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
-    this.domain = window.location.hostname
-    if (this.domain.includes('ekshamata')) {
-      this.isEkshamata = true
+    if (isBrowser) {
+      this.domain = window.location.hostname
+      if (this.domain.includes('ekshamata')) {
+        this.isEkshamata = true
+      }
     }
     this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
       if (
@@ -178,17 +185,19 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     })
 
-    // Start with online=true for immediate rendering, then track actual online/offline events
-    this.online$ = merge(
-      of(true), // Start with true to ensure immediate render
-      fromEvent(window, 'online').pipe(mapTo(true)),
-      fromEvent(window, 'offline').pipe(mapTo(false)),
-    )
+    // Online/offline tracking and resize listener are browser-only
+    if (isBrowser) {
+      this.online$ = merge(
+        of(true),
+        fromEvent(window, 'online').pipe(mapTo(true)),
+        fromEvent(window, 'offline').pipe(mapTo(false)),
+      )
+      window.addEventListener('resize', () => {
+        this.valueSvc.updateWidth(window.innerWidth)
+      })
+    }
     this.networkStatus()
     this.mobileAppsSvc.init()
-    window.addEventListener('resize', () => {
-      this.valueSvc.updateWidth(window.innerWidth)
-    })
 
     effect(() => {
       this.isXSmall$ = this.valueSvc.isMobile()
@@ -238,7 +247,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (event instanceof NavigationEnd) {
       this.logger.log('Navigation ended to URL:', event.url)
-      const contentURL = localStorage.getItem('contentId')
+      const contentURL = isPlatformBrowser(this.platformId) ? localStorage.getItem('contentId') : null
       this.logger.log(contentURL)
       if (contentURL) {
         const url: any = contentURL
@@ -369,9 +378,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.playlistSvc.getPlaylistConfig().catch(err => {
         this.logger.warn('Failed to pre-warm playlist config cache:', err)
       })
-      localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
-      if (sessionStorage.getItem('cURL')) {
-        sessionStorage.removeItem('cURL')
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
+        if (sessionStorage.getItem('cURL')) {
+          sessionStorage.removeItem('cURL')
+        }
       }
       this.isLoggedIn = true
     } else {
@@ -392,7 +403,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.configSvc.isAuthenticated) {
       this.appStartRaised = true
-    } else {
+    } else if (isPlatformBrowser(this.platformId)) {
       if (
         window.location.href.indexOf('register') > 0 ||
         window.location.href.indexOf('forgot-password') > 0 ||
@@ -423,9 +434,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     // Application start telemetry
     this.telemetrySvc.getTelemetryConfig()
     this.telemetrySvc.impression('page-loaded', 'init', 'static-home')
-    App.addListener('backButton', () => {
-      window.history.go(-1)
-    })
+    if (isPlatformBrowser(this.platformId)) {
+      App.addListener('backButton', () => {
+        window.history.go(-1)
+      })
+    }
     this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
       this.showNavbar = display
       this.changeDetector.detectChanges()
@@ -439,12 +452,12 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isHomePage = (e.url == '/page/home' || e.url == '/public/home' || e.url == '/') ? true : false
         }
       })
-      if (window.location.pathname !== '/app/new-tnc')
+      if (!isPlatformBrowser(this.platformId) || window.location.pathname !== '/app/new-tnc')
         this.hideHeaderFooter = show
       this.changeDetector.detectChanges()
     })
 
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
+    if (isPlatformBrowser(this.platformId) && localStorage.getItem('orgValue') === 'nhsrc') {
       if (localStorage.getItem('url_before_login')) {
         const url = localStorage.getItem(`url_before_login`) || ''
         this.router.navigateByUrl(url)
@@ -763,25 +776,28 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.backToChatIcon()
     }
   }
-  // set page title
+  // set page title and SEO meta tags on every navigation
   setPageTitle() {
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
-        map(() => {
-          const appTitle = this.titleService.getTitle()
-          const child = this.activatedRoute.firstChild
-          if (child !== null) {
-            if (child.snapshot.data['title']) {
-              return child.snapshot.data['title']
-            }
-            return appTitle
-          }
-          return appTitle
-        }),
+        map(() => this.getDeepestRouteData()),
       )
-      .subscribe((title: string) => {
-        this.titleService.setTitle(title)
+      .subscribe(data => {
+        this.seoSvc.update({
+          title: data['title'],
+          description: data['seoDescription'],
+          keywords: data['seoKeywords'],
+          ogImage: data['seoOgImage'],
+        })
       })
+  }
+
+  private getDeepestRouteData(): Record<string, any> {
+    let route = this.activatedRoute
+    while (route.firstChild) {
+      route = route.firstChild
+    }
+    return route.snapshot.data || {}
   }
 }

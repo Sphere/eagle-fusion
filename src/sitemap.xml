@@ -1,82 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Static Pages -->
+  <!-- Static public pages -->
   <url>
     <loc>https://sphere.aastrika.org/public/home</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>https://sphere.aastrika.org/public/about</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/contact</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/faq/general</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/tnc</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
     <loc>https://sphere.aastrika.org/public/login</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
-  <url>
-    <loc>https://sphere.aastrika.org/public/about</loc>
-    <priority>0.6</priority>
-    <changefreq>monthly</changefreq>
-  </url>
 
-  <!-- Course Overview Pages -->
+  <!-- Course overview pages -->
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_1134170689871134721450/normal-labour-and-birth-and-amtsl</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_11342648503935795211688/integrated-sexual-and-reproductive-health-isrh</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_11357408383009587211503/implementing-respectful-maternity-care-in-healthcare-facilities</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_1134170690099118081470/respectful-maternity-care</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_11378822335428198411/hypertension-in-pregnancy</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_113789659935694848169/infection-prevention</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_1136137511548764161792/care-of-newborn-and-newborn-resuscitation</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_11376124906447667219/care-of-sick-newborn</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_1137533766819430401136/post-partum-haemorrhage-pph</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_11357413932438323211506/quality-of-care-in-maternal-and-newborn-healthcare</loc>
     <lastmod>2025-07-31</lastmod>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
+
 </urlset>

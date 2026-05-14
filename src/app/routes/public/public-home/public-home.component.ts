@@ -4,7 +4,10 @@ import {
   OnInit,
   Input,
   effect,
+  Inject,
+  PLATFORM_ID,
 } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 import { Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
@@ -28,9 +31,10 @@ export class PublicHomeComponent extends WidgetBaseComponent
     private router: Router,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
+    @Inject(PLATFORM_ID) private platformId: object,
   ) {
     super()
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
+    if (isPlatformBrowser(this.platformId) && localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/public/organisations/home')
     }
 
@@ -43,6 +47,8 @@ export class PublicHomeComponent extends WidgetBaseComponent
   }
 
   ngOnInit() {
+    if (!isPlatformBrowser(this.platformId)) { return }
+
     if (window.location.hostname?.includes('ekshamata')) {
       this.isEkshamata = true
     }
