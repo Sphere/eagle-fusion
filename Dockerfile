@@ -22,11 +22,10 @@ RUN yarn install
 # Install specific packages (moment and vis-util)
 RUN yarn add moment vis-util
 
-# Build + prerender public routes (replaces plain ng build)
-# Outputs browser bundle + prerendered HTML to dist/www/fusion/
-RUN yarn prerender
+# Production browser build
+RUN yarn build
 
-# Compress prerendered output
+# Compress output
 RUN yarn run compress:brotli
 
 # Change working directory to the app root
