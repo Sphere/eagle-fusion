@@ -7,7 +7,7 @@
     "dev": "npm run start:eagle-dev",
     "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production --output-path=dist/www --base-href=/",
     "build:server": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng run fusion:server:production",
-    "prerender": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng run fusion:prerender:production",
+    "prerender": "node generate-sitemap.js && node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng run fusion:prerender:production",
     "postbuild": "npm run compress:gzip && npm run compress:brotli",
     "compress:brotli": "gzipper --brotli --gzip-level=9 --verbose ./dist/www",
     "compress:gzip": "gzipper --verbose --gzip-level=9 ./dist/www",
