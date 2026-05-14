@@ -280,7 +280,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe(
             (data: any) => {
               let contentData: any
-              contentData = data['result']['contentList']?.find(
+              contentData = data?.['result']?.['contentList']?.find(
                 (obj: any) => obj.contentId === doId,
               )
               if (
