@@ -66,7 +66,7 @@
               "node_modules/video.js/dist/video-js.min.css",
               "node_modules/vis-network/dist/vis-network.min.css",
               "node_modules/videojs-markers/dist/videojs.markers.min.css",
-              "node_modules/material-icons/iconfont/material-icons.scss",
+              "node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/shepherd.js/dist/css/shepherd.css",
