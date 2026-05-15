@@ -18,27 +18,26 @@
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
         <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
           class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
-          <img class="banner-image" [style.height]="data.height" [src]="!isDark ? data.img : data.darkImg"
-            alt="Carousel" loading="lazy">
+          <img class="banner-image" width="700" height="350" [style.height]="data.height"
+            [src]="!isDark ? data.img : data.darkImg"
+            [alt]="data.name || 'Aastrika Sphere course banner'" loading="lazy">
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<div class="dot-container">
+  <button *ngFor="let _ of dataCarousel; let i = index"
+    (click)="goToSlide(i)"
+    class="carousel-dot"
+    [class.carousel-dot--active]="i === currentSlideIndex"
+    aria-label="Go to slide"></button>
+</div>
+
 <div *ngFor="let data of dataCarousel; let i = index">
   <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
-
-      <div>
-        <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
-          (click)="goToSlide(i)" class="round-buttons">
-          <img class="dot-icon" *ngIf="i === currentSlideIndex" src="/fusion-assets/icons/active_dot.svg"
-            alt="Active Dot">
-          <img class="dot-icon" *ngIf="i !== currentSlideIndex" src="/fusion-assets/icons/gray_dot.svg"
-            alt="Inactive Dot">
-        </button>
-      </div>
     </div>
   </div>
 </div>
