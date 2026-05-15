@@ -14,32 +14,26 @@
         </a>
       </div>
     </div>
-    <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
-      <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-        <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
-          class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
-          <img class="banner-image" width="700" height="350" [style.height]="data.height"
-            [src]="!isDark ? data.img : data.darkImg"
-            [alt]="data.name || 'Aastrika Sphere course banner'" loading="lazy">
+    <div class="slides-viewport">
+      <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
+        <div class="slide" *ngFor="let data of dataCarousel; let i = index">
+          <div class="slide-content" (click)="scrollToHowSphereWorks(data.scrollEmit)">
+            <div class="banner-shimmer" *ngIf="!imgsLoaded[i]"></div>
+            <img class="banner-image" [src]="!isDark ? data.img : data.darkImg"
+              [alt]="data.name || 'Aastrika Sphere course banner'" loading="lazy"
+              (load)="onBannerImgLoad(i)" (error)="onBannerImgLoad(i)" />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="dot-container">
+<div class="carousel-dots">
   <button *ngFor="let _ of dataCarousel; let i = index"
-    (click)="goToSlide(i)"
-    class="carousel-dot"
-    [class.carousel-dot--active]="i === currentSlideIndex"
-    aria-label="Go to slide"></button>
-</div>
-
-<div *ngFor="let data of dataCarousel; let i = index">
-  <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
-    <div [className]="data.scrollEmit">
-    </div>
-  </div>
+    class="dot-btn" [class.active]="i === currentSlideIndex"
+    (click)="goToSlide(i)" [attr.aria-label]="'Go to slide ' + (i + 1)">
+  </button>
 </div>
 <div class="flex info-block" [ngClass]="{'mobileInfo-block': isXsmall }">
   <div class="info-container" *ngFor="let bnstats of bannerStatus"
