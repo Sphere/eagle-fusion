@@ -1,10 +1,7 @@
 User-agent: *
-
-# Allow public pages
 Allow: /public/
 Allow: /assets/
-
-# Block authenticated app routes — no value for crawlers
+Allow: /sitemap.xml
 Disallow: /app/
 Disallow: /viewer/
 Disallow: /author/
