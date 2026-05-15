@@ -15,7 +15,7 @@ node() {
 
            stage('docker-build') {
                 sh '''
-                   SB_API_KEY=$(kubectl exec -n stage deployment/ui-proxies -- printenv SB_API_KEY)
+                   SB_API_KEY=$(kubectl exec -n stage deployment/ui-static -- printenv SB_API_KEY)
                    commit_id=$(git rev-parse --short HEAD)
                    echo $commit_id> commit_id.txt
                    cd $docker_file_path
