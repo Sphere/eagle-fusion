@@ -4,11 +4,6 @@
  *
  * Runs automatically before `yarn prerender` via the package.json script.
  * If the API is unreachable the existing sitemap is kept and the build continues.
- *
- * Environment variable:
- *   SB_API_KEY  — Bearer token for /api/content/v1/search (returns all 300+ courses).
- *                 Already a Jenkins secret used by the backend. If not set, falls back
- *                 to the public ratings API (returns only publicly visible courses).
  */
 
 const https = require('https')
@@ -19,13 +14,8 @@ const BASE_URL = 'https://sphere.aastrika.org'
 const SITEMAP_PATH = path.join(__dirname, 'src', 'sitemap.xml')
 const TODAY = new Date().toISOString().split('T')[0]
 const PAGE_SIZE = 200
-
-// Use authenticated content API if token provided, otherwise fall back to public API
-const API_TOKEN = process.env.SB_API_KEY
 const API_HOST = 'sphere.aastrika.org'
-const API_PATH = API_TOKEN ? '/api/content/v1/search' : '/apis/public/v8/ratingsSearch/getCourses'
-
-console.log(`[sitemap] Using ${API_TOKEN ? 'authenticated content API' : 'public ratings API (set SB_API_KEY env var for all courses)'}`)
+const API_PATH = '/api/content/v1/search'
 
 function slugify(text) {
   return text
@@ -39,19 +29,15 @@ function slugify(text) {
 function postJson(body) {
   return new Promise((resolve, reject) => {
     const raw = JSON.stringify(body)
-    const headers = {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(raw),
-      'Accept': 'application/json',
-    }
-    if (API_TOKEN) {
-      headers['Authorization'] = API_TOKEN  // value already includes "bearer " prefix
-    }
     const options = {
       hostname: API_HOST,
       path: API_PATH,
       method: 'POST',
-      headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(raw),
+        'Accept': 'application/json',
+      },
       timeout: 30000,
     }
     const req = https.request(options, res => {
@@ -69,9 +55,13 @@ function postJson(body) {
   })
 }
 
-function buildRequest(offset) {
-  if (API_TOKEN) {
-    return {
+async function fetchAllCourses() {
+  const all = []
+  let offset = 0
+
+  while (true) {
+    console.log(`[sitemap] Fetching courses offset=${offset} limit=${PAGE_SIZE}...`)
+    const res = await postJson({
       request: {
         filters: { primaryCategory: ['Course'], status: ['Live'] },
         fields: ['identifier', 'name', 'lastUpdatedOn'],
@@ -79,26 +69,7 @@ function buildRequest(offset) {
         offset,
         sort_by: { lastUpdatedOn: 'desc' },
       },
-    }
-  }
-  return {
-    request: {
-      filters: { primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'] },
-      limit: PAGE_SIZE,
-      offset,
-    },
-    query: '',
-    sort: [{ lastUpdatedOn: 'desc' }],
-  }
-}
-
-async function fetchAllCourses() {
-  const all = []
-  let offset = 0
-
-  while (true) {
-    console.log(`[sitemap] Fetching courses offset=${offset} limit=${PAGE_SIZE}...`)
-    const res = await postJson(buildRequest(offset))
+    })
 
     const courses = res?.result?.content || []
     const total = res?.result?.count || 0
