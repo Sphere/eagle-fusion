@@ -10,9 +10,13 @@ const app = express()
 // Prerender outputs to dist/www/fusion (matches angular.json outputPath)
 const distPath = path.join(__dirname, 'dist', 'www', 'fusion')
 
+// K8s mounts env.js and configurations at dist/www/assets/ (outside fusion/)
+const mountedAssetsPath = path.join(__dirname, 'dist', 'www', 'assets')
+
 console.log('Starting server...')
 console.log('Serving from:', distPath)
 console.log('Files in dist path:', fs.existsSync(distPath) ? 'EXISTS' : 'DOES NOT EXIST')
+console.log('Mounted assets path:', fs.existsSync(mountedAssetsPath) ? 'EXISTS' : 'DOES NOT EXIST')
 
 // Enable compression
 app.use(compression())
@@ -23,12 +27,25 @@ const HASHED_FILE = /\.[a-f0-9]{8,20}\.(js|css|mjs)$/
 // Files that are never hashed and must stay fresh
 const NO_CACHE_FILES = [
   'index.html',
-  'env.js',         // runtime config loaded at app start
+  'env.js',         // runtime config mounted by K8s at dist/www/assets/env.js
   'robots.txt',
   'sitemap.xml',
   'ngsw.json',      // service worker manifest
   'ngsw-worker.js',
 ]
+
+// Serve K8s-mounted assets (env.js, configurations/) from dist/www/assets/ at /assets/
+// This must come BEFORE the fusion static middleware so env.js from K8s takes priority
+app.use('/assets', express.static(mountedAssetsPath, {
+  fallthrough: true,
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('env.js')) {
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
+      res.set('Pragma', 'no-cache')
+      res.set('Expires', '0')
+    }
+  }
+}))
 
 app.use(express.static(distPath, {
   maxAge: 0,        // default: no cache (overridden per file type below)
