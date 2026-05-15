@@ -45,7 +45,7 @@ function postJson(body) {
       'Accept': 'application/json',
     }
     if (API_TOKEN) {
-      headers['Authorization'] = `bearer ${API_TOKEN}`
+      headers['Authorization'] = API_TOKEN  // value already includes "bearer " prefix
     }
     const options = {
       hostname: API_HOST,
