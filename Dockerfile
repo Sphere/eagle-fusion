@@ -4,9 +4,8 @@ FROM node:20.19.0
 # Build argument for cache busting
 ARG BUILDKIT_INLINE_CACHE=1
 
-# API key for sitemap generation (fetches all live courses)
+# API key for sitemap generation — build-time only, not stored in the image
 ARG SB_API_KEY
-ENV SB_API_KEY=$SB_API_KEY
 
 # Set the working directory in the container
 WORKDIR /app
@@ -27,7 +26,8 @@ RUN yarn install
 RUN yarn add moment vis-util
 
 # Production build with prerendering for /public/home, /public/about, /public/contact
-RUN yarn prerender
+# SB_API_KEY is passed inline so it's used only here and never stored in the image
+RUN SB_API_KEY=$SB_API_KEY yarn prerender
 
 # Compress output
 RUN yarn run compress:brotli
