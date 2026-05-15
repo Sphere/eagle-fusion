@@ -111,7 +111,7 @@ text-align: left;
 
 .info-block {
     flex-wrap: wrap;
-    margin-top: -19px;
+    margin-top: 0;
 }
 
 .mobileInfo-block {
@@ -232,16 +232,14 @@ text-align: center;
     overflow: hidden;
     width: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
-     position: relative;
-    z-index: 1;
 }
 // mobile view
 .mobileCarousel {
     padding-top: 0px !important;
     .carousel {
         flex-direction: column;
+        align-items: flex-start;
 
         .banner-heading-container {
             padding-inline: 1.5rem;
@@ -257,9 +255,12 @@ text-align: center;
             }
         }
 
-        .slides {
-            padding-left: 1rem;
+        .slides-viewport {
+            width: 100%;
+            flex: unset;
+            margin-left: 0;
         }
+
         .create-account {
             display: none;
         }
@@ -310,6 +311,11 @@ text-align: center;
   background: linear-gradient(90deg, #e8e8e8 0px, #d0d0d0 200px, #e8e8e8 400px);
   background-size: 800px 100%;
   animation: bannerShimmer 1.4s infinite linear;
+
+  @media (max-width: 767px) {
+    height: 180px;
+    border-radius: 8px;
+  }
 }
 
 
@@ -330,8 +336,11 @@ text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 12px;
   height: 40px;
+
+  @media (max-width: 767px) {
+    height: 32px;
+  }
 }
 
 .dot-btn {
@@ -339,19 +348,12 @@ text-align: center;
   height: 8px;
   border-radius: 50%;
   border: none;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.35);
   padding: 0;
   margin: 0 5px;
   cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
-  box-shadow: none;
-  transition: width 0.3s ease, background 0.3s ease, border-radius 0.3s ease;
-  &:focus, &:hover, &:active {
-    outline: none;
-    box-shadow: none;
-  }
+  transition: width 0.3s ease, background 0.3s ease;
+
   &.active {
     width: 24px;
     border-radius: 4px;
@@ -401,12 +403,6 @@ text-align: center;
 .create-account {
   position: relative;
   z-index: 10;
-}
-
-
-.slide {
-  position: relative;
-  z-index: 1;
 }
 
 

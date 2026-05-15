@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, effect, OnDestroy, Inject, PLATFORM_ID } from '@angular/core'
+import { Component, OnInit, ElementRef, effect, OnDestroy, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core'
 import { isPlatformBrowser } from '@angular/common'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
@@ -35,7 +35,8 @@ export class WebHomeComponent implements OnInit, OnDestroy {
     private languageSvc: LanguageService,
     private playlsSvc: PlaylistService,
     private logger: LoggerService,
-    private themeSvc: ThemeService
+    private themeSvc: ThemeService,
+    private cdr: ChangeDetectorRef
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -94,7 +95,9 @@ export class WebHomeComponent implements OnInit, OnDestroy {
 
 
   nextSlide(): void {
-    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel?.length
+    if (!this.dataCarousel?.length) return
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel.length
+    this.cdr.detectChanges()
   }
 
   prevSlide(): void {
@@ -108,6 +111,7 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   }
   onBannerImgLoad(index: number): void {
     this.imgsLoaded[index] = true
+    this.cdr.detectChanges()
   }
 
   scrollToHowSphereWorks(value: string) {
