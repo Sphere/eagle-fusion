@@ -4,6 +4,10 @@ FROM node:20.19.0
 # Build argument for cache busting
 ARG BUILDKIT_INLINE_CACHE=1
 
+# API key for sitemap generation (fetches all live courses)
+ARG SB_API_KEY
+ENV SB_API_KEY=$SB_API_KEY
+
 # Set the working directory in the container
 WORKDIR /app
 

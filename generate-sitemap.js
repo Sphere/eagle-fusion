@@ -25,7 +25,7 @@ const API_TOKEN = process.env.SB_API_KEY
 const API_HOST = 'sphere.aastrika.org'
 const API_PATH = API_TOKEN ? '/api/content/v1/search' : '/apis/public/v8/ratingsSearch/getCourses'
 
-console.log(`[sitemap] Using ${API_TOKEN ? 'authenticated content API' : 'public ratings API (set CONTENT_API_TOKEN for all courses)'}`)
+console.log(`[sitemap] Using ${API_TOKEN ? 'authenticated content API' : 'public ratings API (set SB_API_KEY env var for all courses)'}`)
 
 function slugify(text) {
   return text
