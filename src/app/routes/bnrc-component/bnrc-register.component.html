@@ -5,7 +5,7 @@
 </nav>
 <div *ngIf="!otpPage" class="content bnrc-page-content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
   <p class="text-2xl mt-2 header-title" i18n>E-kshamata Registration<span *ngIf=isANM> for ANM</span><span
-      *ngIf=inServiceGNM> for GNM </span><span *ngIf="isCHO"> for CHO</span> </p>
+      *ngIf=inServiceGNM> for GNM </span><span *ngIf="isCHO"> for CHO / Staff Nurses</span> </p>
   <p>Note - Please fill up this form in English only/ कृपया यह फॉर्म केवल अंग्रेजी में भरें</p>
   <form [formGroup]="bnrcDetailForm" class="mt-3 mb-10">
     <label i18n for="profession" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
@@ -313,6 +313,15 @@
 
     </div>
     <div *ngIf="cho">
+      <label i18n for="roleForInService" style="display: block;">Role / भूमिका <span class="red-icon">*</span></label>
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
+        <mat-select formControlName="roleForInService" i18n-placeholder placeholder="Select Role">
+          <mat-option [value]="role" *ngFor="let role of choRoleList">{{ role }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="bnrcDetailForm.get('roleForInService')?.invalid && bnrcDetailForm.get('roleForInService')?.touched">
+        Role is required.
+      </mat-error>
       <label i18n for="profession" style="display: block;">District / आप जिस ज़िले में काम कर रहे हैं
         / In which district you are working <span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
