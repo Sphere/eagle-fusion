@@ -203,7 +203,15 @@
   padding-top: 16px;
 
   @media (max-width: 767px) {
+    height: 32px;
     padding-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  :host {
+    display: block;
+    margin-bottom: 0 !important;
   }
 }
 
