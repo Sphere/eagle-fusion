@@ -261,7 +261,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                   // Card display config for CNE section cards (full thumbnail + badges overlay)
                   this.cneCourseCardConfig = {
                     displayType: 'card-badges',
-                    badges: { cneName: true, rating: true, sourceName: true },
+                    badges: { cneName: false, rating: true, sourceName: true },
                   }
 
                   // Card display config for Continue Learning and Completed cards (mini with progress bar)
