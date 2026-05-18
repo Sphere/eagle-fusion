@@ -83,9 +83,10 @@
   left: 8px !important;
   gap: 0px !important;
   border-radius: 10px!important;
-  box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
+  box-shadow: var(--theme-shadow, 0px 0px 4px rgb(0 0 0 / 15%));
+  border: 1px solid var(--theme-border, #00000014);
+  background: var(--theme-surface, #ffffff);
   margin: 5px 20px 5px 0px !important;
-  background: var(--theme-bg);
 
 }
 .course-container .name {
