@@ -166,6 +166,27 @@ h1 {
   }
 }
 
+::ng-deep .dark-theme {
+  .program-banner {
+    height: 275px;
+    // margin-top: 5rem;
+    background-repeat: no-repeat;
+    background-image: url('/fusion-assets/images/program-detail-web-dark.svg');
+    background-size: cover;
+  }
+
+  .program-banner-mob {
+    // margin-top: 5rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('/fusion-assets/images/program-detail-dark.svg') !important;
+  }
+
+  h1 {
+    color: var(--theme-primary);
+  }
+}
+
 @media only screen and (min-width: 600px) and (max-width: 959px) {
   .view-all-course-container {
     padding: 0px 50px;
