@@ -34,46 +34,43 @@
   <link id="id-app-webmanifest" rel="manifest" />
   <meta id="id-app-theme-color" name="theme-color" content="#000" />
   <link rel="stylesheet" href="/assets/theme-igot.scss">
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap">
+  <!-- Establish connections to font and analytics origins before they're needed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://connect.facebook.net">
+  <!-- Google Fonts — non-blocking: media=print flips to all once loaded, avoids render delay -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=swap"></noscript>
   <meta name="google-signin-client_id"
     content="836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com">
   <link rel="prefetch" as="script" href="https://apis.google.com/js/client:platform.js?onload=startApp">
   <link rel="prefetch" as="script" href='https://ind-widget.freshworks.com/widgets/82000001922.js'>
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics — async, does not block render -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNKYEF6EF7"></script>
   <script>
     window.dataLayer = window.dataLayer || []
     function gtag() { dataLayer.push(arguments) }
     gtag('js', new Date())
-
-    gtag('config', 'G-NNKYEF6EF7');
+    gtag('config', 'G-NNKYEF6EF7')
   </script>
-  <!-- <script type="text/javascript">
-    (function (c, l, a, r, i, t, y) {
-      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }
-      t = l.createElement(r); t.defer = true; t.src = "https://www.clarity.ms/tag/" + i
-      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y)
-    })(window, document, "clarity", "script", "ar1sqh47c0");
-  </script> -->
-
-  <!-- Meta Pixel Code -->
+  <!-- Facebook Pixel — deferred until after page load so it doesn't block FCP -->
   <script>
-    !function (f, b, e, v, n, t, s) {
-      if (f.fbq) return; n = f.fbq = function () {
-        n.callMethod ?
-          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-      }
-      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'
-      n.queue = []; t = b.createElement(e); t.async = !0
-      t.src = v; s = b.getElementsByTagName(e)[0]
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
-      'https://connect.facebook.net/en_US/fbevents.js')
-    fbq('init', '1495349214377708')
-    fbq('track', 'PageView');
+    window.addEventListener('load', function () {
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        }
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'
+        n.queue = []; t = b.createElement(e); t.async = !0
+        t.src = v; s = b.getElementsByTagName(e)[0]
+        s.parentNode.insertBefore(t, s)
+      }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js')
+      fbq('init', '1495349214377708')
+      fbq('track', 'PageView')
+    })
   </script>
-  <!-- End Meta Pixel Code -->
   <script defer src="/assets/env.js"></script>
 </head>
 
