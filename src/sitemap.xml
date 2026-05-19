@@ -14,6 +14,41 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://sphere.aastrika.org/public/blog</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/blog/how-to-earn-cne-points-online</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-01</lastmod>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/blog/inc-certification-guide-for-nurses</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-01</lastmod>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/blog/free-courses-for-anm-gnm-staff-nurses</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-01</lastmod>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/blog/what-is-amtsl-guide-for-healthcare-workers</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-01</lastmod>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/blog/maternal-health-training-online-india</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-01</lastmod>
+  </url>
+  <url>
     <loc>https://sphere.aastrika.org/public/contact</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>

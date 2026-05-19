@@ -1,0 +1,31 @@
+<div class="blog-list-page">
+  <div class="blog-hero">
+    <h1 class="blog-hero-title">Healthcare Training Blog</h1>
+    <p class="blog-hero-subtitle">
+      Guides for nurses, ANMs, GNMs and healthcare workers across India on CNE points,
+      INC certification, and professional development.
+    </p>
+  </div>
+
+  <div class="blog-grid">
+    <article
+      class="blog-card"
+      *ngFor="let article of articles"
+      (click)="navigate(article.slug)"
+      (keydown.enter)="navigate(article.slug)"
+      tabindex="0"
+      role="article"
+    >
+      <div class="blog-card-body">
+        <div class="blog-card-meta">
+          <span class="blog-date">{{ article.publishedDate }}</span>
+          <span class="blog-dot">·</span>
+          <span class="blog-read-time">{{ article.readTime }}</span>
+        </div>
+        <h2 class="blog-card-title">{{ article.title }}</h2>
+        <p class="blog-card-excerpt">{{ article.excerpt }}</p>
+        <span class="blog-read-link">Read article →</span>
+      </div>
+    </article>
+  </div>
+</div>

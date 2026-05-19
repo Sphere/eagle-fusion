@@ -1,0 +1,56 @@
+<div class="blog-article-page" *ngIf="article; else notFoundTpl">
+
+  <nav class="blog-breadcrumb">
+    <button class="back-link" (click)="goToBlogList()">← Back to Blog</button>
+  </nav>
+
+  <article class="blog-article">
+    <header class="article-header">
+      <div class="article-meta">
+        <span class="article-date">{{ article.publishedDate }}</span>
+        <span class="blog-dot">·</span>
+        <span class="article-read-time">{{ article.readTime }}</span>
+      </div>
+      <h1 class="article-title">{{ article.title }}</h1>
+      <p class="article-excerpt">{{ article.excerpt }}</p>
+    </header>
+
+    <div class="article-body">
+      <ng-container *ngFor="let section of article.sections">
+
+        <h2 class="section-heading" *ngIf="section.heading">{{ section.heading }}</h2>
+        <h3 class="section-subheading" *ngIf="section.subheading">{{ section.subheading }}</h3>
+
+        <p class="section-para" *ngFor="let para of section.paragraphs">{{ para }}</p>
+
+        <ul class="section-bullets" *ngIf="section.bullets?.length">
+          <li *ngFor="let bullet of section.bullets">{{ bullet }}</li>
+        </ul>
+
+        <div class="article-cta" *ngIf="section.cta">
+          <button class="cta-btn" (click)="navigateTo(section.cta!.route)">
+            {{ section.cta!.text }}
+          </button>
+        </div>
+
+      </ng-container>
+    </div>
+
+    <footer class="article-footer">
+      <p class="footer-note">
+        Ready to start learning? All courses on Aastrika Sphere are free and INC-certified.
+      </p>
+      <button class="cta-btn" (click)="navigateTo('/public/home')">
+        Browse all free courses →
+      </button>
+    </footer>
+  </article>
+
+</div>
+
+<ng-template #notFoundTpl>
+  <div class="not-found">
+    <p>Article not found.</p>
+    <button class="back-link" (click)="goToBlogList()">← Back to Blog</button>
+  </div>
+</ng-template>

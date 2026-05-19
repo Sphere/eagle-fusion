@@ -72,6 +72,7 @@ import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
+import { PublicBlogModule } from './routes/public/public-blog/public-blog.module'
 import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
@@ -351,6 +352,7 @@ export function initTranslate(translate: TranslateService) {
     PublicAboutModule,
     PublicHomeModule,
     PublicContactModule,
+    PublicBlogModule,
     PublicFaqModule,
     PipeSafeSanitizerModule,
     LogoutModule,

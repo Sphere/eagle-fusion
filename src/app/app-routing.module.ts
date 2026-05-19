@@ -16,6 +16,8 @@ import { PublicHomeComponent } from './routes/public/public-home/public-home.com
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
+import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
+import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
 import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
@@ -516,6 +518,19 @@ const routes: Routes = [
     resolve: {
       pageData: PageResolve,
     },
+  },
+  {
+    path: 'public/blog',
+    component: PublicBlogListComponent,
+    data: {
+      title: 'Healthcare Training Blog | Aastrika Sphere',
+      isPublic: true,
+    },
+  },
+  {
+    path: 'public/blog/:slug',
+    component: PublicBlogArticleComponent,
+    data: { isPublic: true },
   },
   {
     path: 'public/contact',
