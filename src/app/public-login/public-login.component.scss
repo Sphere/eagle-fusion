@@ -751,7 +751,14 @@ img {
 }
 
 
+.light-theme input:-webkit-autofill,
+.light-theme input:-webkit-autofill:hover,
+.light-theme input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg, #ffffff) inset !important;
+  -webkit-text-fill-color: var(--theme-text, #000000) !important;
+}
+
 ::ng-deep .mat-mdc-input-element:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px var(--theme-bg) inset !important;
-  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-fill-color: var(--theme-text, #000000) !important;
 }

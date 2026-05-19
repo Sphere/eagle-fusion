@@ -33,6 +33,7 @@ export class BnrcRegisterComponent implements OnInit {
   professions = ['Student', 'Faculty'] // 'In Service'
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   inserviceList = ['Public Health Facility', 'Private Health Facility']
+  choRoleList = ['CHO', 'Staff Nurses']
   facultyList = ['Diploma', 'Degree']
   courseSelection = ['ANM']
   districtUrl = '../../../fusion-assets/files/district.json'
@@ -313,7 +314,7 @@ export class BnrcRegisterComponent implements OnInit {
         this.professions = ['In Service']
         this.bnrcDetailForm.controls.role.setValue('In Service')
         this.professionalChange('CHO')
-        this.bnrcDetailForm.controls.roleForInService.setValue('CHO')
+        // roleForInService intentionally not pre-set — user must select CHO or Staff Nurses
       }
     })
     this.logger.log("districts", this.districts)
@@ -493,6 +494,7 @@ export class BnrcRegisterComponent implements OnInit {
         this.privateHealthFacility = false
         this.cho = true
 
+        setValidators('roleForInService', [Validators.required])
         setValidators('district', [Validators.required])
         setValidators('block', [Validators.required])
         setValidators('facilityName', [Validators.required])

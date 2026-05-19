@@ -75,9 +75,9 @@ export class SearchServService {
     return this.searchV7Wrapper(request)
   }
   searchV7Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV3> {
-    const v6Request: any = {
-      query: request.query,
-      language: request.language,
+    const v6Request: any = { query: request.query }
+    if (request.language) {
+      v6Request.language = request.language
     }
     return this.searchApi.getSearchV7Results(v6Request)
   }

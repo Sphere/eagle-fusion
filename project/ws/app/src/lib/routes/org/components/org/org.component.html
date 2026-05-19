@@ -213,29 +213,29 @@
                 <span class="header1">{{section.label | translate}}</span>
               </div>
             </div>
-            <!-- Desktop: horizontal scroll row -->
-            <ng-container *ngIf="isMobile === false">
-              <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
-                <div *ngFor="let course of getFilteredSectionCourses(section.courses)"
-                  style="align-self: flex-start; flex-shrink: 0;">
-                  <ws-web-course-card [displayConfig]="cneCourseCardConfig" [courseData]="course"></ws-web-course-card>
-                </div>
-              </ws-utils-horizontal-scroller>
-            </ng-container>
-            <!-- Mobile: stacked list with View all / Hide toggle -->
-            <ng-container *ngIf="isMobile === true">
-              <div
-                *ngFor="let course of getDisplayedItems(getFilteredSectionCourses(section.courses), showAllCneSectionMap[i])">
-                <ws-mobile-course-view [displayConfig]="cneCourseCardConfig"
-                  [courseData]="course"></ws-mobile-course-view>
-              </div>
-              <button *ngIf="getFilteredSectionCourses(section.courses)?.length > 5" (click)="toggleCneSection(i)"
-                class="view-all-course">
-                {{ showAllCneSectionMap[i] ? ('Hide' | translate) : ('View all' | translate) }}
-                <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
-              </button>
-            </ng-container>
           </div>
+          <!-- Desktop: horizontal scroll row -->
+          <ng-container *ngIf="isMobile === false">
+            <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
+              <div *ngFor="let course of getFilteredSectionCourses(section.courses)"
+                style="align-self: flex-start; flex-shrink: 0;">
+                <ws-web-course-card [displayConfig]="cneCourseCardConfig" [courseData]="course"></ws-web-course-card>
+              </div>
+            </ws-utils-horizontal-scroller>
+          </ng-container>
+          <!-- Mobile: stacked list with View all / Hide toggle -->
+          <ng-container *ngIf="isMobile === true">
+            <div
+              *ngFor="let course of getDisplayedItems(getFilteredSectionCourses(section.courses), showAllCneSectionMap[i])">
+              <ws-mobile-course-view [displayConfig]="cneCourseCardConfig"
+                [courseData]="course"></ws-mobile-course-view>
+            </div>
+            <button *ngIf="getFilteredSectionCourses(section.courses)?.length > 5" (click)="toggleCneSection(i)"
+              class="view-all-course">
+              {{ showAllCneSectionMap[i] ? ('Hide' | translate) : ('View all' | translate) }}
+              <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+            </button>
+          </ng-container>
         </section>
       </div>
 
