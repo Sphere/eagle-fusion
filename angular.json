@@ -234,17 +234,7 @@
             "browserTarget": "fusion:build:production",
             "serverTarget": "fusion:server:production",
             "discoverRoutes": false,
-            "routes": [
-              "/public/home",
-              "/public/about",
-              "/public/contact",
-              "/public/blog",
-              "/public/blog/how-to-earn-cne-points-online",
-              "/public/blog/inc-certification-guide-for-nurses",
-              "/public/blog/free-courses-for-anm-gnm-staff-nurses",
-              "/public/blog/what-is-amtsl-guide-for-healthcare-workers",
-              "/public/blog/maternal-health-training-online-india"
-            ]
+            "routesFile": "prerender-routes.txt"
           },
           "configurations": {
             "production": {

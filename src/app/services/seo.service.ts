@@ -1,5 +1,5 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core'
-import { isPlatformBrowser } from '@angular/common'
+import { Inject, Injectable } from '@angular/core'
+import { DOCUMENT } from '@angular/common'
 import { Meta, Title } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 
@@ -27,16 +27,13 @@ const BASE_URL = 'https://sphere.aastrika.org'
 export class SeoService {
   private canonicalEl: HTMLLinkElement | null = null
   private jsonLdEl: HTMLScriptElement | null = null
-  private isBrowser: boolean
 
   constructor(
-    @Inject(PLATFORM_ID) platformId: object,
+    @Inject(DOCUMENT) private doc: Document,
     private titleSvc: Title,
     private metaSvc: Meta,
     private router: Router,
-  ) {
-    this.isBrowser = isPlatformBrowser(platformId)
-  }
+  ) {}
 
   update(config: ISeoConfig = {}) {
     const title = config.title || DEFAULT_TITLE
@@ -68,18 +65,16 @@ export class SeoService {
     this.metaSvc.updateTag({ name: 'twitter:description', content: ogDescription })
     this.metaSvc.updateTag({ name: 'twitter:image', content: ogImage })
 
-    // DOM-dependent: skip on server
-    if (this.isBrowser) {
-      this.setCanonical(config.canonicalUrl || ogUrl)
-      this.setJsonLd(config.jsonLd || null)
-    }
+    // Canonical and JSON-LD — use injected DOCUMENT so these work during SSR/prerender too
+    this.setCanonical(config.canonicalUrl || ogUrl)
+    this.setJsonLd(config.jsonLd || null)
   }
 
   private setCanonical(url: string) {
     if (!this.canonicalEl) {
-      this.canonicalEl = document.createElement('link')
+      this.canonicalEl = this.doc.createElement('link')
       this.canonicalEl.setAttribute('rel', 'canonical')
-      document.head.appendChild(this.canonicalEl)
+      this.doc.head.appendChild(this.canonicalEl)
     }
     this.canonicalEl.setAttribute('href', url)
   }
@@ -90,9 +85,9 @@ export class SeoService {
       this.jsonLdEl = null
     }
     if (!schema) { return }
-    this.jsonLdEl = document.createElement('script')
+    this.jsonLdEl = this.doc.createElement('script')
     this.jsonLdEl.type = 'application/ld+json'
     this.jsonLdEl.text = JSON.stringify(schema)
-    document.head.appendChild(this.jsonLdEl)
+    this.doc.head.appendChild(this.jsonLdEl)
   }
 }
