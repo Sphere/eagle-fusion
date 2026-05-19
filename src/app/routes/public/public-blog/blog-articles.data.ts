@@ -123,7 +123,7 @@ export const BLOG_ARTICLES: IBlogArticle[] = [
       {
         heading: 'INC-Certified Courses on Aastrika Sphere',
         paragraphs: [
-          'All courses on Aastrika Sphere are INC-certified and designed in collaboration with clinical experts from leading institutions including AIIMS and the Ministry of Health and Family Welfare. The courses cover evidence-based clinical protocols and are regularly updated to reflect current guidelines.',
+          'All courses on Aastrika Sphere are INC-certified and designed in collaboration with clinical experts. The courses cover evidence-based clinical protocols and are regularly updated to reflect current guidelines.',
           'Upon completing a course and passing the assessment, you receive an INC-certified digital certificate that you can download, print, and submit as evidence of CNE credits.',
         ],
         cta: {
@@ -244,11 +244,10 @@ export const BLOG_ARTICLES: IBlogArticle[] = [
         ],
       },
       {
-        heading: 'The Three Steps of AMTSL',
+        heading: 'The Key Steps of AMTSL',
         bullets: [
           '1. Uterotonic administration — Giving oxytocin (10 IU IM) within one minute of the baby\'s birth to stimulate uterine contractions',
           '2. Controlled cord traction — Gently pulling the umbilical cord while applying counter-pressure on the uterus to deliver the placenta',
-          '3. Uterine massage — Massaging the uterine fundus after placenta delivery to maintain contraction and reduce bleeding',
         ],
       },
       {
