@@ -20,7 +20,10 @@
           <div class="slide-content" (click)="scrollToHowSphereWorks(data.scrollEmit)">
             <div class="banner-shimmer" *ngIf="!imgsLoaded[i]"></div>
             <img class="banner-image" [src]="!isDark ? data.img : data.darkImg"
-              [alt]="data.name || 'Aastrika Sphere course banner'" loading="lazy"
+              [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+              [attr.fetchpriority]="i === 0 ? 'high' : 'auto'"
+              width="832" height="280"
+              [alt]="data.name || 'Aastrika Sphere course banner'"
               (load)="onBannerImgLoad(i)" (error)="onBannerImgLoad(i)" />
           </div>
         </div>
@@ -39,7 +42,7 @@
   <div class="info-container" *ngFor="let bnstats of bannerStatus"
     [ngClass]="isXsmall ? bnstats?.classNameMob : bnstats?.className">
     <div class="flex info-box">
-      <img [src]="bnstats?.image" class="count-sphere-icons" alt="Sphere Icons" />
+      <img [src]="bnstats?.image" class="count-sphere-icons" alt="Sphere Icons" width="30" height="30" />
       <div class="info-number" *ngIf="bannerStatus">{{bnstats?.count}}</div>
     </div>
     <p class="info-text">{{ bnstats?.label | translate }}</p>
