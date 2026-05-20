@@ -322,13 +322,13 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     if (Array.isArray(this.configData)) {
       const completed = this.userEnrollCourse?.filter((item: any) => item.completionPercentage === 100) || []
       const incomplete = this.userEnrollCourse?.filter((item: any) => item.completionPercentage !== 100) || []
-       this.configData.forEach((element: any) => {
+      this.configData.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
           element.data = this.coursesForYou().filter(item =>
             incomplete?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
-          const courseList = this.programIdentifiers ? this.programCourses() : this.coursesForYou()
+          const courseList = this.programIdentifiers.length > 0 ? this.programCourses() : this.coursesForYou()
           element.data = courseList.filter(item =>
             !this.userEnrollCourse?.some(bItem => bItem.identifier === item.identifier)
           )
