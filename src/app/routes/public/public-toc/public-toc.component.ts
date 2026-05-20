@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { find, includes } from 'lodash'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import { Meta, Title } from '@angular/platform-browser'
-import { combineLatest } from 'rxjs'
+import { combineLatest, firstValueFrom } from 'rxjs'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { SeoService } from '../../../services/seo.service'
 
 @Component({
     standalone: false,
@@ -24,12 +24,10 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private orgService: OrgServiceService,
     private activeRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
-    private meta: Meta, private title: Title,
+    private seoSvc: SeoService,
     private logger: LoggerService,
     private cdr: ChangeDetectorRef
-  ) {
-
-  }
+  ) {}
   async ngOnInit() {
     // Wait for child route if any
     const childRoute = this.activeRoute.firstChild || this.activeRoute
@@ -83,9 +81,6 @@ export class PublicTocComponent implements OnInit, OnDestroy {
 
       if (!this.tocData) {
         await this.seachAPI(this.courseid)
-        this.title.setTitle('Aastrika Sphere - ' + this.tocData?.name)
-        this.meta.updateTag({ name: 'description', content: this.tocData?.description })
-        this.meta.updateTag({ name: 'keywords', content: this.tocData?.name })
       }
 
       this.checkRoute()
@@ -113,35 +108,50 @@ export class PublicTocComponent implements OnInit, OnDestroy {
       this.routelinK = 'license'
     }
   }
-  seachAPI(id: any) {
-    this.orgService.getSearchResultsById(id).subscribe((res: any) => {
+  async seachAPI(id: any): Promise<any> {
+    try {
+      const res = await firstValueFrom(this.orgService.getSearchResultsById(id))
       if (res) {
-        find(res.result.content
-          , findRes => {
-            if (findRes.identifier === id) {
-              this.tocData = findRes
-              this.cdr.detectChanges()
-              this.logger.log('findRes', findRes)
-              this.title.setTitle(`${this.tocData?.name} | Aastrika Sphere`)
+        const found = find(res.result.content, (c: any) => c.identifier === id)
+        if (found) {
+          this.tocData = found
+          this.cdr.detectChanges()
+          this.logger.log('findRes', found)
 
-              this.meta.updateTag({
-                name: 'description',
-                content: `Begin your journey to mastering pregnancy, childbirth, AMTSL & newborn care. Get 7.5 CNE credits & INC certification after each module.`,
-              })
+          const courseUrl = `https://sphere.aastrika.org${this.router.url.split('?')[0]}`
+          const description = this.tocData?.description ||
+            'Begin your journey to mastering pregnancy, childbirth, AMTSL & newborn care. Get 7.5 CNE credits & INC certification after each module.'
+          const keywords = `${this.tocData?.name}, AMTSL, childbirth, newborn care, maternal health, pregnancy, INC certificate, CNE credits, Aastrika Sphere`
 
-              this.meta.updateTag({
-                name: 'keywords',
-                content: `${this.tocData?.name}, AMTSL, childbirth, newborn care, maternal health, pregnancy, INC certificate, CNE credits, Aastrika Sphere`,
-              })
-
-              localStorage.setItem('tocData', JSON.stringify(this.tocData))
-              localStorage.setItem(`url_before_login`, `app/toc/` + `${id}` + `/overview`)
-            }
-
+          this.seoSvc.update({
+            title: `${this.tocData?.name} | Aastrika Sphere`,
+            description,
+            keywords,
+            ogType: 'article',
+            ogUrl: courseUrl,
+            ogImage: this.tocData?.appIcon || this.tocData?.posterImage,
+            canonicalUrl: courseUrl,
+            jsonLd: {
+              '@context': 'https://schema.org',
+              '@type': 'Course',
+              'name': this.tocData?.name,
+              'description': description,
+              'url': courseUrl,
+              'provider': {
+                '@type': 'Organization',
+                'name': 'Aastrika Sphere',
+                'sameAs': 'https://sphere.aastrika.org',
+              },
+            },
           })
-        return this.tocData
+
+          localStorage.setItem('tocData', JSON.stringify(this.tocData))
+          localStorage.setItem(`url_before_login`, `app/toc/${id}/overview`)
+        }
       }
-    })
+    } catch (e) {
+      this.logger.error(e)
+    }
     return this.tocData
   }
   ngOnDestroy() {

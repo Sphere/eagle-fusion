@@ -2,19 +2,20 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment: IEnvironment = {
-  name: (window as { [key: string]: any })['env']['name'],
-  production: false,
-  sitePath: (window as { [key: string]: any })['env']['sitePath'] || '',
-  organisation: (window as { [key: string]: any })['env']['organisation'] || '',
-  framework: (window as { [key: string]: any })['env']['framework'] || '',
-  channelId: (window as { [key: string]: any })['env']['channelId'] || '',
-  azureHost: (window as { [key: string]: any })['env']['azureHost'] || '',
-  contentHost: (window as { [key: string]: any })['env']['contentHost'] || '',
-  azureBucket: (window as { [key: string]: any })['env']['azureBucket'] || '',
+const _env = (window as { [key: string]: any })['env'] || {}
 
-  azureOldHost: (window as { [key: string]: any })['env']['azureOldHost'] || '',
-  azureOldBuket: (window as { [key: string]: any })['env']['azureOldBuket'] || '',
+export const environment: IEnvironment = {
+  name: _env['name'] || '',
+  production: false,
+  sitePath: _env['sitePath'] || '',
+  organisation: _env['organisation'] || '',
+  framework: _env['framework'] || '',
+  channelId: _env['channelId'] || '',
+  azureHost: _env['azureHost'] || '',
+  contentHost: _env['contentHost'] || '',
+  azureBucket: _env['azureBucket'] || '',
+  azureOldHost: _env['azureOldHost'] || '',
+  azureOldBuket: _env['azureOldBuket'] || '',
 }
 interface IEnvironment {
   name: string,

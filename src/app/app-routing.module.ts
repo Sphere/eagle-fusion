@@ -16,6 +16,8 @@ import { PublicHomeComponent } from './routes/public/public-home/public-home.com
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
+import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
+import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
 import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
@@ -64,7 +66,7 @@ import { MpRegisterComponent } from './routes/mp-component/mp-register.component
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
-const domain = window.location.hostname
+const domain = typeof window !== 'undefined' ? window.location.hostname : ''
 // this.domain = window.location.hostname
 
 const routes: Routes = [
@@ -78,7 +80,11 @@ const routes: Routes = [
     path: 'public/home',
     component: PublicHomeComponent,
     data: {
-      title: domain.includes('ekshamata') ? 'Ekshamata - Home' : 'Aastrika Sphere - Home',
+      title: domain.includes('ekshamata')
+        ? 'Ekshamata - Free CNE Courses for Healthcare Professionals'
+        : 'Aastrika Sphere - Free CNE Courses | INC Certified | Healthcare Training',
+      seoDescription: 'Earn CNE points and INC certification with free online healthcare courses on Aastrika Sphere. Courses on maternal health, newborn care, midwifery, and more — designed for nurses, midwives, and healthcare workers across India.',
+      seoKeywords: 'CNE points, CNE credits, INC certification, free healthcare courses, nursing courses online, maternal health training, newborn care, midwifery courses, healthcare e-learning India, Aastrika Sphere',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
@@ -195,7 +201,8 @@ const routes: Routes = [
   {
     path: 'public/login',
     data: {
-      title: 'Aastrika Sphere - Login',
+      title: 'Login - Aastrika Sphere',
+      seoDescription: 'Log in to Aastrika Sphere to access your healthcare training courses, track progress, and earn certifications.',
     },
     component: PublicLoginComponent,
   },
@@ -502,7 +509,8 @@ const routes: Routes = [
     path: 'public/about',
     component: PublicAboutComponent,
     data: {
-      title: 'Aastrika Sphere - About',
+      title: 'About Us - Aastrika Sphere',
+      seoDescription: 'Learn about Aastrika Sphere — a digital platform enabling health system strengthening and capacity building for healthcare professionals across India.',
       pageType: 'feature',
       pageKey: 'about',
       isPublic: true,
@@ -512,9 +520,24 @@ const routes: Routes = [
     },
   },
   {
+    path: 'public/blog',
+    component: PublicBlogListComponent,
+    data: {
+      title: 'Healthcare Training Blog | Aastrika Sphere',
+      isPublic: true,
+    },
+  },
+  {
+    path: 'public/blog/:slug',
+    component: PublicBlogArticleComponent,
+    data: { isPublic: true },
+  },
+  {
     path: 'public/contact',
     component: PublicContactComponent,
     data: {
+      title: 'Contact Us - Aastrika Sphere',
+      seoDescription: 'Get in touch with the Aastrika Sphere team for queries about our healthcare training courses, partnerships, or platform support.',
       pageType: 'feature',
       pageKey: 'public-faq',
     },
@@ -537,7 +560,8 @@ const routes: Routes = [
     path: 'public/tnc',
     component: TncComponent,
     data: {
-      title: 'Terms of Use - Aastrika',
+      title: 'Terms of Use - Aastrika Sphere',
+      seoDescription: 'Read the Terms of Use for Aastrika Sphere, the digital healthcare training platform.',
       isPublic: true,
     },
     resolve: {
@@ -556,7 +580,9 @@ const routes: Routes = [
     path: 'public/toc',
     component: PublicTocComponent,
     data: {
-      title: 'Aastrika Sphere - Course TOC',
+      title: 'Aastrika Sphere - Free Certified Healthcare Courses | CNE Points',
+      seoDescription: 'Explore free certified healthcare training courses on Aastrika Sphere. Earn CNE points and INC certification in maternal health, newborn care, and more.',
+      seoKeywords: 'CNE points, CNE credits, INC certification, free healthcare courses, nursing courses online, maternal health, newborn care, Aastrika Sphere',
     },
     children: [
       {

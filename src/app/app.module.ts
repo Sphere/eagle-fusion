@@ -72,6 +72,7 @@ import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
+import { PublicBlogModule } from './routes/public/public-blog/public-blog.module'
 import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
@@ -158,6 +159,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
 
+// Capacitor platform detection — safe in Node.js (Capacitor checks the environment internally)
 if (Capacitor.getPlatform() === 'ios') {
   // eslint-disable-next-line no-console
   console.log('iOS!')
@@ -169,40 +171,32 @@ if (Capacitor.getPlatform() === 'ios') {
   console.log('Web!')
 }
 
-const url = window.location.href
-// console.log(url)
+// All window/localStorage/sessionStorage access guarded — Node.js has no DOM
+if (typeof window !== 'undefined') {
+  const url = window.location.href
 
-if (url.indexOf('&code=') > 0) {
-  const code = url.slice(url.indexOf('&code=') + 6)
-  // localStorage.clear()
-  sessionStorage.setItem('code', code)
-}
+  if (url.indexOf('&code=') > 0) {
+    const code = url.slice(url.indexOf('&code=') + 6)
+    sessionStorage.setItem('code', code)
+  }
 
-// if (url.includes('token') && url.includes('moduleId')) {
-//   const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
-//   sessionStorage.setItem('sashakt_token', sashakt_token)
-//   const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
-//   sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
-// }
-
-// Conditions added for checking if nhsrc organisation is present in url
-if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
-  const queryString = window.location.search
-  const urlParams = new URLSearchParams(queryString)
-  const orgValue = urlParams.get('org')
-  if (orgValue) {
-    localStorage.setItem('orgValue', orgValue)
-    if (orgValue === 'nhsrc') {
-      if (url.indexOf('do_') > 0) {
-        // window.location.href = `${url}`
-        // eslint-disable-next-line no-console
-        console.log('app.module', url)
-        localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]}` + `/overview`)
-        // window.location.href = `${document.baseURI}organisations/home`
-      } else {
-        // eslint-disable-next-line no-console
-        console.log('line number 182 else in app module.ts', url)
-        window.location.href = `${document.baseURI}organisations/home`
+  // Conditions added for checking if nhsrc organisation is present in url
+  if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const orgValue = urlParams.get('org')
+    if (orgValue) {
+      localStorage.setItem('orgValue', orgValue)
+      if (orgValue === 'nhsrc') {
+        if (url.indexOf('do_') > 0) {
+          // eslint-disable-next-line no-console
+          console.log('app.module', url)
+          localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]}` + `/overview`)
+        } else {
+          // eslint-disable-next-line no-console
+          console.log('line number 182 else in app module.ts', url)
+          window.location.href = `${document.baseURI}organisations/home`
+        }
       }
     }
   }
@@ -360,6 +354,7 @@ export function initTranslate(translate: TranslateService) {
     PublicAboutModule,
     PublicHomeModule,
     PublicContactModule,
+    PublicBlogModule,
     PublicFaqModule,
     PipeSafeSanitizerModule,
     LogoutModule,

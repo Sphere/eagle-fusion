@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, effect, OnDestroy } from '@angular/core'
+import { Component, OnInit, ElementRef, effect, OnDestroy, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { ScrollService } from '../../services/scroll.service'
@@ -17,7 +18,7 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   showCreateBtn = false
   bannerStatus: any
   currentSlideIndex = 0
-  currentIndex = 0
+  imgsLoaded: boolean[] = []
   private intervalId: any
   lang: any = 'en'
   dataCarousel: any
@@ -25,6 +26,7 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   isXsmall = false
   isDark: boolean
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     private valueSvc: ValueService,
     public configSvc: ConfigurationsService,
@@ -33,7 +35,8 @@ export class WebHomeComponent implements OnInit, OnDestroy {
     private languageSvc: LanguageService,
     private playlsSvc: PlaylistService,
     private logger: LoggerService,
-    private themeSvc: ThemeService
+    private themeSvc: ThemeService,
+    private cdr: ChangeDetectorRef
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -66,9 +69,10 @@ export class WebHomeComponent implements OnInit, OnDestroy {
         this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' })
       }
     })
-    this.startCarousel()
     this.dataCarousel = this.config?.data
     this.bannerStatus = this.config?.bannerStats
+    this.imgsLoaded = new Array(this.dataCarousel?.length || 0).fill(false)
+    this.startCarousel()
   }
   createAcct() {
     this.router.navigateByUrl('app/create-account')
@@ -77,9 +81,10 @@ export class WebHomeComponent implements OnInit, OnDestroy {
     this.clearInterval()
   }
   startCarousel(): void {
+    if (!isPlatformBrowser(this.platformId)) return
     this.intervalId = setInterval(() => {
       this.nextSlide()
-    }, 3000) // Change slide every 3 seconds (adjust as needed)
+    }, 3000)
   }
 
   clearInterval(): void {
@@ -90,7 +95,9 @@ export class WebHomeComponent implements OnInit, OnDestroy {
 
 
   nextSlide(): void {
-    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel?.length
+    if (!this.dataCarousel?.length) return
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel.length
+    this.cdr.detectChanges()
   }
 
   prevSlide(): void {
@@ -98,13 +105,15 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   }
 
   goToSlide(index: number): void {
-    this.currentIndex = index
-    this.clearInterval() // Stop automatic sliding when manually navigating
-    setTimeout(() => {
-      this.currentSlideIndex = index // Set the current slide index manually after a short delay
-    }, 0)
-    this.logger.log('Navigating to slide:', index)
+    this.clearInterval()
+    this.currentSlideIndex = index
+    this.startCarousel()
   }
+  onBannerImgLoad(index: number): void {
+    this.imgsLoaded[index] = true
+    this.cdr.detectChanges()
+  }
+
   scrollToHowSphereWorks(value: string) {
     this.scrollService.scrollToDivEvent.emit(value)
   }

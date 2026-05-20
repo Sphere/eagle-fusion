@@ -3,63 +3,115 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Home - Aastrika Sphere</title>
+  <title>Aastrika Sphere - Free CNE Courses | INC Certified | Healthcare Training</title>
   <base href="/" />
   <meta id="id-app-description" name="description"
-    content="Sphere is a collaborative digital learning platform designed to enable health system strengthening and capacity building at scale." />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    content="Earn CNE points and INC certification with free online healthcare courses on Aastrika Sphere. Training for nurses, midwives, and healthcare workers across India." />
+  <meta name="keywords"
+    content="CNE points, CNE credits, INC certification, free healthcare courses, nursing courses online, maternal health training, newborn care, midwifery courses, healthcare e-learning India, Aastrika Sphere" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!-- <meta id="id-app-share-icon" content="IMAGE URL" property="og:image" /> -->
+  <!-- Open Graph defaults — overridden per-page by SeoService -->
+  <meta property="og:site_name" content="Aastrika Sphere" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Aastrika Sphere - Free CNE Courses | INC Certified | Healthcare Training" />
+  <meta property="og:description" content="Earn CNE points and INC certification with free online healthcare courses. Training for nurses, midwives, and healthcare workers across India." />
+  <meta property="og:url" content="https://sphere.aastrika.org/" />
   <meta property="og:image"
     content="https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1137952004583669761234/artifact/do_1137952004583669761234_1683984431271_favicon1683984430342.png" />
-  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_IN" />
+  <!-- Twitter / X card defaults -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aastrika Sphere - Free Certified Courses for Healthcare Professionals" />
+  <meta name="twitter:description" content="Sphere is a collaborative digital learning platform designed to enable health system strengthening and capacity building at scale." />
+  <meta name="twitter:image"
+    content="https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1137952004583669761234/artifact/do_1137952004583669761234_1683984431271_favicon1683984430342.png" />
+  <meta name="twitter:image:alt" content="Aastrika Sphere — Free INC-certified courses for healthcare professionals in India" />
   <link id="id-app-fav-icon" rel="icon" type="image/png" />
   <link id="id-app-x-icon" rel="icon" type="x-icon" />
   <link id="id-app-fav-icon" rel="icon" type="image/png" href="favicon.png" />
   <link id="id-app-webmanifest" rel="manifest" />
   <meta id="id-app-theme-color" name="theme-color" content="#000" />
   <link rel="stylesheet" href="/assets/theme-igot.scss">
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap">
+  <!-- Establish connections to font and analytics origins before they're needed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://connect.facebook.net">
+  <!-- Google Fonts — non-blocking: media=print flips to all once loaded, avoids render delay -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=optional">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=optional" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=optional"></noscript>
   <meta name="google-signin-client_id"
     content="836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com">
   <link rel="prefetch" as="script" href="https://apis.google.com/js/client:platform.js?onload=startApp">
   <link rel="prefetch" as="script" href='https://ind-widget.freshworks.com/widgets/82000001922.js'>
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics — async, does not block render -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNKYEF6EF7"></script>
   <script>
     window.dataLayer = window.dataLayer || []
     function gtag() { dataLayer.push(arguments) }
     gtag('js', new Date())
-
-    gtag('config', 'G-NNKYEF6EF7');
+    gtag('config', 'G-NNKYEF6EF7')
   </script>
-  <!-- <script type="text/javascript">
-    (function (c, l, a, r, i, t, y) {
-      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }
-      t = l.createElement(r); t.defer = true; t.src = "https://www.clarity.ms/tag/" + i
-      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y)
-    })(window, document, "clarity", "script", "ar1sqh47c0");
-  </script> -->
-
-  <!-- Meta Pixel Code -->
+  <!-- Facebook Pixel — deferred until after page load so it doesn't block FCP -->
   <script>
-    !function (f, b, e, v, n, t, s) {
-      if (f.fbq) return; n = f.fbq = function () {
-        n.callMethod ?
-          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-      }
-      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'
-      n.queue = []; t = b.createElement(e); t.async = !0
-      t.src = v; s = b.getElementsByTagName(e)[0]
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
-      'https://connect.facebook.net/en_US/fbevents.js')
-    fbq('init', '1495349214377708')
-    fbq('track', 'PageView');
+    window.addEventListener('load', function () {
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        }
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'
+        n.queue = []; t = b.createElement(e); t.async = !0
+        t.src = v; s = b.getElementsByTagName(e)[0]
+        s.parentNode.insertBefore(t, s)
+      }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js')
+      fbq('init', '1495349214377708')
+      fbq('track', 'PageView')
+    })
   </script>
-  <!-- End Meta Pixel Code -->
   <script defer src="/assets/env.js"></script>
+  <!-- Organization + WebSite structured data — helps Google identify brand and enable Sitelinks -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sphere.aastrika.org/#organization",
+        "name": "Aastrika Sphere",
+        "url": "https://sphere.aastrika.org",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1137952004583669761234/artifact/do_1137952004583669761234_1683984431271_favicon1683984430342.png"
+        },
+        "sameAs": [
+          "https://www.facebook.com/aastrikasphere",
+          "https://www.linkedin.com/company/aastrika-sphere"
+        ],
+        "description": "Aastrika Sphere is a free digital learning platform offering INC-certified courses for nurses, midwives, and healthcare workers across India."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://sphere.aastrika.org/#website",
+        "url": "https://sphere.aastrika.org",
+        "name": "Aastrika Sphere",
+        "publisher": { "@id": "https://sphere.aastrika.org/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://sphere.aastrika.org/app/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body class="mat-app-background mat-body mat-typography custom-scroll">

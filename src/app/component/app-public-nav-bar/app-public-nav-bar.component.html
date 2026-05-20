@@ -3,7 +3,7 @@
     <img loading="lazy" [src]="orgConfig?.appLogo" id="app-logo" alt="Application Logo" class="app-logo"
       *ngIf="!isXSmall$ && orgConfig?.appLogo" />
     <img loading="lazy" [src]="isDark ? orgConfig?.foundationLogoDark : orgConfig?.foundationLogo" width="110px"
-      height="65px" *ngIf="isXSmall$ && (orgConfig?.foundationLogo || orgConfig?.foundationLogoDark)" />
+      height="65px" alt="Aastrika Sphere" *ngIf="isXSmall$ && (orgConfig?.foundationLogo || orgConfig?.foundationLogoDark)" />
   </a>
   <div class="fix-ww">
     <ws-app-search-input-home *ngIf="!isXSmall$" title="search" class="my-search flex-1" [ref]="'home'">

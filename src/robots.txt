@@ -1,4 +1,20 @@
 User-agent: *
-Allow: /
+Allow: /public/
+Allow: /assets/
+Allow: /sitemap.xml
+Disallow: /app/
+Disallow: /viewer/
+Disallow: /author/
+Disallow: /embed/
+Disallow: /openid/
+Disallow: /page/
+Disallow: /organisations/
+Disallow: /page-leaders/
+Disallow: /certs/
+Disallow: /notification
+Disallow: /resources
+Disallow: /error-*
+Disallow: /login
+Disallow: /google/
 
 Sitemap: https://sphere.aastrika.org/sitemap.xml

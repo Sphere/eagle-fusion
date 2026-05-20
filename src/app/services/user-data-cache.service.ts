@@ -111,7 +111,7 @@ export class UserDataCacheService implements OnDestroy {
         retry(1),
         map((res: any) => {
           this.logger.log('[UserDataCache] API call successful, extracting response')
-          return res.result.response
+          return res && res.result ? res.result.response : null
         }),
         tap((data: any) => {
           this.logger.log('[UserDataCache] Caching data with userId:', data?.userId)

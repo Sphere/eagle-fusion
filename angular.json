@@ -66,7 +66,7 @@
               "node_modules/video.js/dist/video-js.min.css",
               "node_modules/vis-network/dist/vis-network.min.css",
               "node_modules/videojs-markers/dist/videojs.markers.min.css",
-              "node_modules/material-icons/iconfont/material-icons.scss",
+              "node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/shepherd.js/dist/css/shepherd.css",
@@ -194,6 +194,59 @@
               "src/**/*.html"
             ]
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/fusion-server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false,
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            }
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "browserTarget": "fusion:build:production",
+            "serverTarget": "fusion:server:production",
+            "discoverRoutes": false,
+            "routesFile": "prerender-routes.txt"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "fusion:build:production",
+              "serverTarget": "fusion:server:production"
+            },
+            "development": {
+              "browserTarget": "fusion:build:development",
+              "serverTarget": "fusion:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     },

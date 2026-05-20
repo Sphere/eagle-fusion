@@ -9,7 +9,7 @@ import { ConfigurationsService, LoggerService, TelemetryService, ValueService } 
 
 import { Observable } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Meta, Title } from '@angular/platform-browser'
+import { SeoService } from '../services/seo.service'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
@@ -49,8 +49,7 @@ export class PublicLoginComponent implements OnInit {
     public configSvc: ConfigurationsService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private meta: Meta,
-    private title: Title,
+    private seoSvc: SeoService,
     private telemetrySvc: TelemetryService,
     private logger: LoggerService,
     private translate: TranslateService,
@@ -87,16 +86,10 @@ export class PublicLoginComponent implements OnInit {
     // Initialize telemetry session ID if not present
     this.telemetrySessionId = this.getOrCreateSessionId()
 
-    this.title.setTitle('Aastrika Sphere | Free Certified Courses for Healthcare Professionals')
-
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.',
-    })
-
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps',
+    this.seoSvc.update({
+      title: 'Login - Aastrika Sphere | Free Certified Courses for Healthcare Professionals',
+      description: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.',
+      keywords: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps',
     })
     sessionStorage.clear()
     localStorage.removeItem('preferedLanguage')
