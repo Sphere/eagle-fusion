@@ -271,6 +271,7 @@ text-align: center;
   flex: 65%;
   overflow: hidden;
   min-width: 0;
+  aspect-ratio: 832 / 280;
 }
 
 .slides {
@@ -296,7 +297,9 @@ text-align: center;
 
 .banner-image {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 @keyframes bannerShimmer {
