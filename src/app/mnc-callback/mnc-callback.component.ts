@@ -65,6 +65,7 @@ export class MNCCallbackComponent implements OnInit {
         if (res.message === 'success') {
           this.logger.log('[MNC] Success - redirecting to org-details')
           sessionStorage.removeItem('mnc_userToken')
+          sessionStorage.removeItem('userDataCache')
           location.href = '/app/org-details?orgId=Maharashtra%20Nursing%20Council'
         }
       }, (err: any) => {
