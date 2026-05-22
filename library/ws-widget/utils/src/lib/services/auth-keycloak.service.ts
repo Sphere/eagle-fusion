@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { KeycloakEventLegacy, KeycloakEventTypeLegacy, KeycloakService } from 'keycloak-angular'
-import { ReplaySubject, firstValueFrom } from 'rxjs'
+import { ReplaySubject } from 'rxjs'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
 import { LoggerService } from './logger.service'
@@ -158,8 +158,8 @@ export class AuthKeycloakService {
       }
       const url = `${document.baseURI}`
       const redirectUrl = `${url}public/home`
-      await firstValueFrom(this.http.get(API_END_POINTS.LOGOUT_USER))
       window.location.href = redirectUrl
+      await this.http.get(API_END_POINTS.LOGOUT_USER).toPromise()
     } catch (error) { }
   }
   private addKeycloakEventListener() {
