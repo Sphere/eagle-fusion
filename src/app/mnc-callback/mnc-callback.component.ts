@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+import { catchError } from 'rxjs/operators'
+import { of } from 'rxjs'
 import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service.service'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
+import { API_END_POINTS } from '../constants/apiConstants'
 
 const FALLBACK_ERROR = 'Something went wrong. Please try again or contact support@aastrika.org'
 
@@ -15,21 +19,31 @@ export class MNCCallbackComponent implements OnInit {
 
   constructor(
     private orgService: OrgServiceService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private http: HttpClient
   ) { }
 
   /**
    * Called on component load.
-   * Reads the encrypted userToken from sessionStorage (set by index.html when
-   * MNC portal redirects to /openid/MNC?userToken=<jwt>) and triggers the callback.
+   * Clears any existing session first so a second user logging in via MNC SSO
+   * on the same browser does not inherit the previous user's connect.sid cookie.
+   * Then reads the encrypted userToken from sessionStorage and triggers the callback.
    */
   ngOnInit() {
     const mnc_userToken = sessionStorage.getItem('mnc_userToken') || null
     this.logger.log('[MNC] ngOnInit - userToken from sessionStorage:', mnc_userToken ? 'present' : 'missing')
     if (mnc_userToken) {
       this.isLoading = true
-      this.logger.log('[MNC] Initiating callback with userToken')
-      this.checkMNCCallback(mnc_userToken)
+      this.logger.log('[MNC] Clearing existing session before login')
+      this.http.get(API_END_POINTS.LOGOUT_USER).pipe(
+        catchError(err => {
+          this.logger.log('[MNC] Session clear failed (non-fatal):', err.status)
+          return of(null)
+        })
+      ).subscribe(() => {
+        this.logger.log('[MNC] Session cleared, initiating callback')
+        this.checkMNCCallback(mnc_userToken)
+      })
     } else {
       this.logger.log('[MNC] No userToken found in sessionStorage, skipping callback')
     }
@@ -49,6 +63,7 @@ export class MNCCallbackComponent implements OnInit {
         localStorage.setItem('loc', JSON.stringify(res))
         if (res.message === 'success') {
           this.logger.log('[MNC] Success - redirecting to org-details')
+          sessionStorage.removeItem('mnc_userToken')
           location.href = '/app/org-details?orgId=Maharashtra%20Nursing%20Council'
         }
       }, (err: any) => {
