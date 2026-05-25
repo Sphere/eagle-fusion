@@ -29,6 +29,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   coursesForYou = signal<any[]>([])
   coursesForEK = signal<any[]>([])
   programCourses = signal<any[]>([])
+  ashaLearningItems = signal<any[]>([])
   videoData: any
   homeFeatureData: any
   homeFeature: any
@@ -55,6 +56,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   uiConfig = signal<any[]>([])
   lang = ''
   isXSmall = computed(() => this.valueSvc.isMobile())
+  expandedCardId: string | null = null
 
   currentOffset = 0
   pageLimit = 500
@@ -158,6 +160,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       const { playlistId, dataSource } = element
 
       if (playlistId === 'COMPETENCY_PLAYLIST') {
+        this.ashaLearningItems.set(this.normalizeCompetencyPayload(dataSource?.payload))
         competencySearchArray.push(
           ...this.buildCompetencySearchArray(dataSource?.payload)
         )
@@ -265,6 +268,51 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
+  normalizeCompetencyPayload(payload: any): any[] {
+    if (!payload) {
+      return []
+    }
+
+    if (Array.isArray(payload) && payload.length > 0 && payload[0]?.id && Array.isArray(payload[0]?.levels)) {
+      return payload
+    }
+
+    if (Array.isArray(payload)) {
+      return payload.flatMap((item: any) => {
+        if (item?.id && Array.isArray(item.levels)) {
+          return [item]
+        }
+
+        if (item && typeof item === 'object') {
+          return Object.keys(item).map(key => {
+            const competency = item[key]
+            return {
+              id: competency?.id || competency?.competencyId || key,
+              title: competency?.title || competency?.name || competency?.competencyName,
+              levels: competency?.levels || competency?.additionalProperties?.competencyLevelDescription || [],
+              progress: competency?.progress || competency?.learnerPathProgress,
+            }
+          })
+        }
+        return []
+      })
+    }
+
+    if (typeof payload === 'object') {
+      return Object.keys(payload).map(key => {
+        const competency = payload[key]
+        return {
+          id: competency?.id || competency?.competencyId || key,
+          title: competency?.title || competency?.name || competency?.competencyName,
+          levels: competency?.levels || competency?.additionalProperties?.competencyLevelDescription || [],
+          progress: competency?.progress || competency?.learnerPathProgress,
+        }
+      })
+    }
+
+    return []
+  }
+
   private handleScrollEvents() {
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       const section = this.sections.find(
@@ -351,6 +399,11 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     setTimeout(() => {
       this.isLoading.set(false)
     })
+  }
+
+  onCardExpanded(id: string | undefined, expanded: boolean) {
+    if (!id) return
+    this.expandedCardId = expanded ? id : (this.expandedCardId === id ? null : this.expandedCardId)
   }
 
   // For opening Course Page

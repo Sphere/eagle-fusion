@@ -191,7 +191,15 @@ h1 {
   .view-all-course-container {
     padding: 0px 50px;
   }
+  .asha-learning-section {
+    padding: 0 85px;
+  }
 
+  .asha-learning-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
   .featuredCourse-section {
     padding: 0px 50px;
   }
@@ -410,5 +418,50 @@ h1 {
 
   h3 {
     color: var(--theme-text);
+  }
+}
+
+@media (min-width: 960px) {
+  .asha-learning-section {
+    padding: 0 120px;
+  }
+
+  .asha-learning-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    grid-auto-rows: minmax(160px, auto);
+    align-items: start;
+  }
+
+  .asha-card-wrapper {
+    transition: all 200ms ease;
+  }
+
+  .asha-card-wrapper.expanded {
+    grid-row: span 2;
+  }
+
+  /* Horizontal scroller item sizing: show ~4 cards per viewport */
+  .asha-learning-scroller {
+    display: flex;
+    gap: 24px;
+    padding: 8px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .asha-learning-scroller > div {
+    /* 4 cards per view with 24px gaps -> total gap = 3 * 24 = 72px */
+    flex: 0 0 calc((100% - 72px) / 4);
+    max-width: calc((100% - 72px) / 4);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+  }
+
+  .asha-learning-scroller > div ws-asha-learning-card,
+  .asha-learning-scroller > div > ws-asha-learning-card {
+    width: 100%;
   }
 }
