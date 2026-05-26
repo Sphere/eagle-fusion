@@ -15,6 +15,7 @@ Disallow: /notification
 Disallow: /resources
 Disallow: /error-*
 Disallow: /login
+Disallow: /public/login
 Disallow: /google/
 
 Sitemap: https://sphere.aastrika.org/sitemap.xml

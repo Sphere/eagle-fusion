@@ -14,6 +14,7 @@ export interface ISeoConfig {
   ogType?: string
   canonicalUrl?: string
   jsonLd?: object | null
+  noindex?: boolean
 }
 
 const DEFAULT_TITLE = 'Aastrika Sphere - Free CNE Courses | INC Certified | Healthcare Training'
@@ -64,6 +65,13 @@ export class SeoService {
     this.metaSvc.updateTag({ name: 'twitter:title', content: ogTitle })
     this.metaSvc.updateTag({ name: 'twitter:description', content: ogDescription })
     this.metaSvc.updateTag({ name: 'twitter:image', content: ogImage })
+
+    // robots — noindex for pages that should not appear in search results (login, OTP, etc.)
+    if (config.noindex) {
+      this.metaSvc.updateTag({ name: 'robots', content: 'noindex, nofollow' })
+    } else {
+      this.metaSvc.removeTag('name="robots"')
+    }
 
     // Canonical and JSON-LD — use injected DOCUMENT so these work during SSR/prerender too
     this.setCanonical(config.canonicalUrl || ogUrl)

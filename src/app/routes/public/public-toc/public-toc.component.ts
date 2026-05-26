@@ -110,7 +110,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   }
   async seachAPI(id: any): Promise<any> {
     try {
-      const res = await firstValueFrom(this.orgService.getSearchResultsById(id))
+      const res = await firstValueFrom(this.orgService.getSearchResultsV7ById(id))
       if (res) {
         const found = find(res.result.content, (c: any) => c.identifier === id)
         if (found) {

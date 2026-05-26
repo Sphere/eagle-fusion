@@ -113,7 +113,6 @@ function buildSitemap(courses) {
     { loc: '/public/contact',     priority: '0.6', changefreq: 'monthly' },
     { loc: '/public/faq/general', priority: '0.6', changefreq: 'monthly' },
     { loc: '/public/tnc',         priority: '0.3', changefreq: 'yearly' },
-    { loc: '/public/login',       priority: '0.5', changefreq: 'monthly' },
   ]
 
   const staticBlock = staticUrls.map(u => `

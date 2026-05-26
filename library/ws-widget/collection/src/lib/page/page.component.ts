@@ -1,6 +1,6 @@
 import { ExploreResolverService } from './../../../../resolver/src/lib/explore-resolver.service'
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { DomSanitizer, Meta, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
@@ -50,7 +50,8 @@ export class PageComponent extends WidgetBaseComponent
     private respondSvc: SubapplicationRespondService,
     private dialog: MatDialog,
     private exploreResolverSvc: ExploreResolverService,
-    public router: Router
+    public router: Router,
+    private meta: Meta
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -62,6 +63,8 @@ export class PageComponent extends WidgetBaseComponent
     })
   }
   ngOnInit() {
+    this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' })
+
     // Set authenticated based on user profile existence
     this.authenticated = !!(this.configSvc.userProfile)
 

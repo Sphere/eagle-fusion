@@ -90,6 +90,7 @@ export class PublicLoginComponent implements OnInit {
       title: 'Login - Aastrika Sphere | Free Certified Courses for Healthcare Professionals',
       description: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.',
       keywords: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps',
+      noindex: true,
     })
     sessionStorage.clear()
     localStorage.removeItem('preferedLanguage')

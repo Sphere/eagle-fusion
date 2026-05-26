@@ -78,7 +78,8 @@
             <div class="link-header">{{ configData?.menuItems?.[0]?.heading | translate }}</div>
           </mat-list-item>
           <mat-list-item *ngFor="let link of configData?.menuItems?.[0]?.links" style="list-style: none;">
-            <a [routerLink]="link.routerLink" [queryParams]="{ panel: link.type }">
+            <a [routerLink]="link.routerLink" [queryParams]="{ panel: link.type }"
+              [attr.rel]="(link.routerLink?.startsWith('/page/') || link.routerLink?.startsWith('/app/')) ? 'nofollow' : null">
               <span class="list-item" style="margin-top: 10px;">{{ link.label | translate }}</span>
             </a>
           </mat-list-item>

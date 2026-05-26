@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Static public pages -->
+  <!-- Static public pages and blog -->
 
   <url>
     <loc>https://sphere.aastrika.org/public/home</loc>
@@ -63,13 +63,7 @@
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>
-  <url>
-    <loc>https://sphere.aastrika.org/public/login</loc>
-    <priority>0.5</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- Course overview pages — auto-generated 2026-05-15 (497 courses) -->
+  <!-- Course overview pages — auto-generated 2026-05-19 (497 courses) -->
 
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_114567217130979328167/do_114567217130979328167</loc>
