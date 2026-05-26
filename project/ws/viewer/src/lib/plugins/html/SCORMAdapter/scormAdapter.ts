@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import { Subscription } from 'rxjs'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { first } from 'rxjs/operators'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
 @Injectable({

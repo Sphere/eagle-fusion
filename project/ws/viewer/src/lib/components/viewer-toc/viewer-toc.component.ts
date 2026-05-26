@@ -43,7 +43,7 @@ interface IViewerTocCard {
   showDownloadBtn: string
 }
 import { HttpClient } from '@angular/common/http'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { QuizService } from '../../plugins/quiz/quiz.service'
 import { CongratulationsPopupComponent } from '../../plugins/quiz/components/congratulations-popup/congratulations-popup.component'
 export type TCollectionCardType = 'content' | 'playlist' | 'goals'
@@ -63,7 +63,7 @@ interface ICollectionCard {
   selector: 'viewer-viewer-toc',
   templateUrl: './viewer-toc.component.html',
   styleUrls: ['./viewer-toc.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()

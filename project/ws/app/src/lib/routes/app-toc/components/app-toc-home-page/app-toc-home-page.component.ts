@@ -13,7 +13,7 @@ import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-o
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
 import { includes, get, map, filter, set, first, each, toInteger } from 'lodash'
 import moment from 'moment'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -30,11 +30,11 @@ const flattenItems = (items: any[], key: string | number) => {
   }, [])
 }
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-home-page',
-    templateUrl: './app-toc-home-page.component.html',
-    styleUrls: ['./app-toc-home-page.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-home-page',
+  templateUrl: './app-toc-home-page.component.html',
+  styleUrls: ['./app-toc-home-page.component.scss'],
+
 })
 export class AppTocHomePageComponent implements OnInit, OnDestroy {
   [x: string]: any

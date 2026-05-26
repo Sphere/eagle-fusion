@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { get, filter, toLower } from 'lodash'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
