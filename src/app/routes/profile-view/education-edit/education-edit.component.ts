@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, effect, ElementRef, Input, OnInit, ViewChild } from '@angular/core'
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, ValueService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -10,11 +10,11 @@ import { WidgetContentService } from '../../../../../library/ws-widget/collectio
 import { LanguageService } from '../../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-    standalone: false,
-    selector: 'ws-education-edit',
-    templateUrl: './education-edit.component.html',
-    styleUrls: ['./education-edit.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-education-edit',
+  templateUrl: './education-edit.component.html',
+  styleUrls: ['./education-edit.component.scss'],
+
 })
 export class EducationEditComponent implements OnInit {
   educationForm: UntypedFormGroup
@@ -29,6 +29,7 @@ export class EducationEditComponent implements OnInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
   isEditableForSphere = false
+  @Input() data: any
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -118,7 +119,7 @@ export class EducationEditComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         async (data: any) => {
           if (data) {
-            this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
+            this.isEditableForSphere = this.data?.isEditable ?? false
             if (this.isEditableForSphere) {
               this.educationForm.enable()
             } else {

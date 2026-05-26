@@ -206,8 +206,8 @@ export const API_END_POINTS = {
 
 export const S3_END_POINTS = {
   ORG_SELECTIVE_COURSE: `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`,
-  SPHERE_PROFILE_UPDATE_ORG: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/sphere_profile_update_org.json`,
-  EKSHAMATA_ORG_CONFIG: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ekshamataOrgConfig.json`,
+  // SPHERE_PROFILE_UPDATE_ORG: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/sphere_profile_update_org.json`,
+  // EKSHAMATA_ORG_CONFIG: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ekshamataOrgConfig.json`,
   QUIZ_CONFIG: `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/quiz-config.json?cb=${Date.now()}`,
   CONTACT_PAGE_CONFIG: `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/contact-page-content.json?v=${Date.now()}`,
   UP_DISTRICT_CONFIG: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/up_District.json?cb=${Date.now()}`,
