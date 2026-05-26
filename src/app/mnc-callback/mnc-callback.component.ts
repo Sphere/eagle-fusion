@@ -15,23 +15,18 @@ export class MNCCallbackComponent implements OnInit {
 
   constructor(
     private orgService: OrgServiceService,
-    private logger: LoggerService
+    private logger: LoggerService,
   ) { }
 
-  /**
-   * Called on component load.
-   * Reads the encrypted userToken from sessionStorage (set by index.html when
-   * MNC portal redirects to /openid/MNC?userToken=<jwt>) and triggers the callback.
-   */
   ngOnInit() {
-    const mnc_userToken = sessionStorage.getItem('mnc_userToken') || null
-    this.logger.log('[MNC] ngOnInit - userToken from sessionStorage:', mnc_userToken ? 'present' : 'missing')
+    const tokenFromUrl = new URLSearchParams(window.location.search).get('token')
+    const mnc_userToken = tokenFromUrl || sessionStorage.getItem('mnc_userToken') || null
+    this.logger.log('[MNC] ngOnInit - token source:', tokenFromUrl ? 'URL param' : (mnc_userToken ? 'sessionStorage' : 'missing'))
     if (mnc_userToken) {
       this.isLoading = true
-      this.logger.log('[MNC] Initiating callback with userToken')
       this.checkMNCCallback(mnc_userToken)
     } else {
-      this.logger.log('[MNC] No userToken found in sessionStorage, skipping callback')
+      this.logger.log('[MNC] No userToken found in URL or sessionStorage, skipping callback')
     }
   }
 
@@ -49,6 +44,8 @@ export class MNCCallbackComponent implements OnInit {
         localStorage.setItem('loc', JSON.stringify(res))
         if (res.message === 'success') {
           this.logger.log('[MNC] Success - redirecting to org-details')
+          sessionStorage.removeItem('mnc_userToken')
+          sessionStorage.removeItem('userDataCache')
           location.href = '/app/org-details?orgId=Maharashtra%20Nursing%20Council'
         }
       }, (err: any) => {

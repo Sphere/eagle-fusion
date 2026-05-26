@@ -324,7 +324,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       const incomplete = this.userEnrollCourse?.filter((item: any) => item.completionPercentage !== 100) || []
       this.configData.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
-          element.data = incomplete.filter(item =>
+          element.data = incomplete?.filter(item =>
             this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
@@ -340,7 +340,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
           element.data = !this.isEkshamata ? this.topCertifiedCourse() : this.coursesForEK()
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'COMPLETED') {
-          element.data = completed?.filter(item =>
+          element.data = completed.filter(item =>
             this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         }
