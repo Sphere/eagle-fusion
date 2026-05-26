@@ -12,8 +12,8 @@
   // width: 276px;
   // height: 100%;
   width: 312px;
-  height: 260px;
-  overflow: hidden;
+  min-height: 260px;
+  overflow: visible;
   margin-right: 23px;
   border: 1px solid var(--theme-border, #00000014);
   background: var(--theme-surface, #ffffff);
