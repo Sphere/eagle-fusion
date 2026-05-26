@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
 import { OrgHomeComponent } from './org-home/org-home.component'
 import { RouterModule, Routes } from '@angular/router'
-import { AppComponent } from './public/app/app.component'
 
 const routes: Routes = [
   {
@@ -26,25 +25,10 @@ const routes: Routes = [
     pathMatch: 'full',
     component: OrgHomeComponent,
   },
-  {
-    path: 'home',
-    pathMatch: 'full',
-    component: OrgHomeComponent,
-  },
-  {
-    path: 'home',
-    pathMatch: 'full',
-    component: OrgHomeComponent,
-  },
-  {
-    path: 'home',
-    pathMatch: 'full',
-    component: OrgHomeComponent,
-  },
 ]
 
 @NgModule({
-  declarations: [OrgHomeComponent, AppComponent],
+  declarations: [OrgHomeComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

@@ -103,7 +103,7 @@ import { ConfigService } from './routes/discussion-forum/wrapper/service/config.
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
-import { OrganisationsModule } from '../organisations/organisations.module'
+import { OrganisationsModule } from './organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'

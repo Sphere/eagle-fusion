@@ -50,7 +50,7 @@ import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.co
 import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
 import { MNCCallbackComponent } from './mnc-callback/mnc-callback.component'
-import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
+import { OrgHomeComponent } from './organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
@@ -446,7 +446,7 @@ const routes: Routes = [
   },
   {
     path: 'organisations',
-    loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
+    loadChildren: () => import('./organisations/organisations.module').then(u => u.OrganisationsModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
