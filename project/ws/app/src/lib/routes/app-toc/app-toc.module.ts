@@ -2,7 +2,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, Optional, SkipSelf } from '@angular/c
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { SharedModule } from '../../../../../../../src/app/shared/shared.module'
 import { AppTocRoutingModule } from './app-toc-routing.module'
 import { NgCircleProgressModule } from 'ng-circle-progress'
 
@@ -85,6 +84,7 @@ import { AssessmentDetailComponent } from './components/assessment-detail/assess
 import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from './components/app-toc-certificate-modal/app-toc-certificate-modal.component'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
+import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
   declarations: [
     ConfirmmodalComponent,
@@ -110,7 +110,6 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
   ],
   imports: [
     CommonModule,
-    SharedModule,
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
@@ -161,6 +160,7 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     ProfileImageModule,
     NgCircleProgressModule.forRoot({}),
     DiscussionUiModule,
+    TranslateModule,
   ],
   providers: [
     AppTocResolverService,
