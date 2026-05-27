@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+// import { HttpClient } from '@angular/common/http'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
@@ -23,7 +23,7 @@ import { PlayerStateService } from '../../../../player-state.service'
 import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 import { TranslateService } from '@ngx-translate/core'
-import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
+// import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 // declare var Telemetry: any
 @Component({
   standalone: false,
@@ -67,7 +67,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
   // Organizations where View Answers should not be shown if isCorrectAnswerPopUp is not present
   // Fetched from S3 configuration
-  private restrictedOrgIds: string[] = []
+  // private restrictedOrgIds: string[] = []
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -83,7 +83,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private contentSvc: WidgetContentService,
     private events: EventService,
     private dialog: MatDialog,
-    private http: HttpClient,
+    // private http: HttpClient,
     private logger: LoggerService,
     private plylsSvc: PlaylistService,
     private translate: TranslateService,
@@ -106,7 +106,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.proficiencyLevel = this.assesmentdata.generalData.name
       .replace('Proficency', 'Proficiency').split('Proficiency')[1]
     this.isCompetency = this.route.snapshot.queryParams.competency
-    this.fetchRestrictedOrgIds()
+    // this.fetchRestrictedOrgIds()
     // **CRITICAL**: Check current progress before sending update to avoid resetting completed assessments
     this.updateProgress()
   }
@@ -198,21 +198,21 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   /**
    * Fetch restricted organization names from S3 configuration file
    */
-  private fetchRestrictedOrgIds(): void {
-    const s3ConfigUrl = S3_END_POINTS.QUIZ_CONFIG
+  // private fetchRestrictedOrgIds(): void {
+  //   const s3ConfigUrl = S3_END_POINTS.QUIZ_CONFIG
 
-    this.http.get<any>(s3ConfigUrl).subscribe(
-      (config: any) => {
-        if (config && Array.isArray(config.restrictedOrgIds)) {
-          this.restrictedOrgIds = config.restrictedOrgIds
-          this.logger.log('Restricted org names loaded from S3:', this.restrictedOrgIds)
-        }
-      },
-      (error: any) => {
-        this.logger.warn('Failed to load restricted org names from S3:', error)
-      }
-    )
-  }
+  //   this.http.get<any>(s3ConfigUrl).subscribe(
+  //     (config: any) => {
+  //       if (config && Array.isArray(config.restrictedOrgIds)) {
+  //         this.restrictedOrgIds = config.restrictedOrgIds
+  //         this.logger.log('Restricted org names loaded from S3:', this.restrictedOrgIds)
+  //       }
+  //     },
+  //     (error: any) => {
+  //       this.logger.warn('Failed to load restricted org names from S3:', error)
+  //     }
+  //   )
+  // }
 
   /**
    * Check if View Answers button should be shown based on resource property and organization
