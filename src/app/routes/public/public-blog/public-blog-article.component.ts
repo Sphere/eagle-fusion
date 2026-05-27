@@ -43,7 +43,7 @@ export class PublicBlogArticleComponent implements OnInit {
         'headline': this.article.title,
         'description': this.article.metaDescription,
         'url': canonicalUrl,
-        'datePublished': '2026-05-01',
+        'datePublished': this.article.publishedDate,
         'publisher': {
           '@type': 'Organization',
           'name': 'Aastrika Sphere',

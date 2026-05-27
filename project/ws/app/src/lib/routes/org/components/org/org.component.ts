@@ -140,8 +140,6 @@ export class OrgComponent implements OnInit, OnDestroy {
       })
 
       this.formattedAbout = this.formatAbout(this.currentOrgData.about)
-      this.isLoading = false
-      this.detectViewChanges()
 
       const sections: any[] = this.currentOrgData.sections ?? []
 
@@ -157,7 +155,7 @@ export class OrgComponent implements OnInit, OnDestroy {
       forkJoin([
         allCourseIds.length ? this.orgService.getSearchResultsV7ById(allCourseIds) : of(null),
         needsUserData && userId ? this.userSvc.fetchUserBatchList(userId) : of([]),
-      ]).subscribe(([courseResult, userBatchList]: any[]) => {
+      ]).subscribe({ next: ([courseResult, userBatchList]: any[]) => {
         const fetchedCourses: any[] = courseResult?.result?.content ?? []
         const courseMap = new Map(fetchedCourses.map((c: any) => [c.identifier, c]))
 
@@ -208,14 +206,26 @@ export class OrgComponent implements OnInit, OnDestroy {
           this.competency_offered = new Set(this.competencyData.map((c: any) => c.competencyId)).size
         }
 
-        // tagSearch sections fire individual search calls and merge into existing section by title
-        // Must run here, after this.orgSections is assigned, so push goes into the live array
+        // Pre-populate tagSearch slots with empty courses so they are in the DOM before
+        // isLoading = false — prevents layout shift when search results arrive later.
         sections
           .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
           .forEach((sectionConfig: any) => {
             const existing = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)
-            const target = existing ?? { config: sectionConfig, courses: [], showAll: false }
-            if (!existing) { this.orgSections.push(target) }
+            if (!existing) {
+              this.orgSections.push({ config: sectionConfig, courses: [], showAll: false })
+            }
+          })
+
+        // All synchronous sections are ready — dismiss the shimmer now to avoid CLS
+        this.isLoading = false
+        this.detectViewChanges()
+
+        // tagSearch sections fire individual search calls and merge courses into the pre-existing slots
+        sections
+          .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
+          .forEach((sectionConfig: any) => {
+            const target = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)!
 
             // Build a deduplicated array of sourceNames: org's own name + taggedSourceName
             const sourceNames = [...new Set([
@@ -237,9 +247,12 @@ export class OrgComponent implements OnInit, OnDestroy {
                 this.detectViewChanges()
               })
           })
-
+      },
+      error: () => {
+        this.isLoading = false
         this.detectViewChanges()
-      })
+      },
+    })
 
     } catch (e) {
       this.isLoading = false
