@@ -114,7 +114,7 @@ h1 {
 ::ng-deep .search-card .mat-mdc-card {
   background: var(--theme-surface, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid var(--theme-border) !important;
   border-radius: 12px !important;
   box-shadow: none !important;
   width: 100%;
