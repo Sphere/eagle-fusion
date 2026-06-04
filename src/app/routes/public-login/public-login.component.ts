@@ -4,12 +4,12 @@ import { v4 as uuid } from 'uuid'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatDialog } from '@angular/material/dialog'
-import { CreateAccountDialogComponent } from '../routes/create-account-modal/create-account-dialog.component'
-import { ConfigurationsService, LoggerService, TelemetryService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
+import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
+import { ConfigurationsService, LoggerService, TelemetryService, ValueService } from 'library/ws-widget/utils/src/public-api'
 
 import { Observable } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { SeoService } from '../services/seo.service'
+import { SeoService } from '../../services/seo.service'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
