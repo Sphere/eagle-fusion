@@ -66,7 +66,6 @@ import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/
 import { RootComponent } from './component/root/root.component'
 import { LoginComponent } from './component/login/login.component'
 import { AppNavBarComponent } from './component/app-nav-bar/app-nav-bar.component'
-import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
@@ -271,7 +270,6 @@ export function initTranslate(translate: TranslateService) {
   declarations: [
     RootComponent,
     TncComponent,
-    InvalidUserComponent,
     LoginRootComponent,
     LoginRootDirective,
     OrgComponent,

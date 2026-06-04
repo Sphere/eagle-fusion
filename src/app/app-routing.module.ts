@@ -2,7 +2,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
-import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { ETopBar } from './constants/topBar.constants'
 import { ExternalUrlResolverService } from './guards/external-url-resolver.service'
@@ -183,17 +182,6 @@ const routes: Routes = [
     path: 'app/features',
     component: FeaturesComponent,
     canActivate: [GeneralGuard, EmptyRouteGuard],
-  },
-  {
-    path: 'app/invalid-user',
-    component: InvalidUserComponent,
-    data: {
-      pageType: 'feature',
-      pageKey: 'invalid-user',
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
   },
   {
     path: 'app/login',
