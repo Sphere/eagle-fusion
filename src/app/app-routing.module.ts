@@ -18,6 +18,7 @@ import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
 import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
+import { PublicCourseBlogComponent } from './routes/public/public-course-blog/public-course-blog.component'
 import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
@@ -530,6 +531,11 @@ const routes: Routes = [
   {
     path: 'public/blog/:slug',
     component: PublicBlogArticleComponent,
+    data: { isPublic: true },
+  },
+  {
+    path: 'public/course-blog/:courseId',
+    component: PublicCourseBlogComponent,
     data: { isPublic: true },
   },
   {

@@ -119,9 +119,28 @@ export class PublicTocComponent implements OnInit, OnDestroy {
           this.logger.log('findRes', found)
 
           const courseUrl = `https://sphere.aastrika.org${this.router.url.split('?')[0]}`
-          const description = this.tocData?.description ||
-            'Begin your journey to mastering pregnancy, childbirth, AMTSL & newborn care. Get 7.5 CNE credits & INC certification after each module.'
-          const keywords = `${this.tocData?.name}, AMTSL, childbirth, newborn care, maternal health, pregnancy, INC certificate, CNE credits, Aastrika Sphere`
+          const description = (this.tocData?.description || this.tocData?.name || '')
+            .replace(/<[^>]*>/g, '')
+            .slice(0, 160)
+            .trim()
+
+          const subjectArr: string[] = Array.isArray(this.tocData?.subject)
+            ? this.tocData.subject
+            : (this.tocData?.subject ? [this.tocData.subject] : [])
+          const keywordArr: string[] = Array.isArray(this.tocData?.keywords)
+            ? this.tocData.keywords
+            : (this.tocData?.keywords ? String(this.tocData.keywords).split(',').map((k: string) => k.trim()) : [])
+          const keywords = [
+            this.tocData?.name,
+            ...subjectArr,
+            ...keywordArr,
+            this.tocData?.sourceName,
+            'INC certificate',
+            'CNE credits',
+            'Aastrika Sphere',
+          ].filter(Boolean).join(', ')
+
+          const providerName = this.tocData?.sourceName || 'Aastrika Sphere'
 
           this.seoSvc.update({
             title: `${this.tocData?.name} | Aastrika Sphere`,
@@ -139,9 +158,17 @@ export class PublicTocComponent implements OnInit, OnDestroy {
               'url': courseUrl,
               'provider': {
                 '@type': 'Organization',
-                'name': 'Aastrika Sphere',
+                'name': providerName,
                 'sameAs': 'https://sphere.aastrika.org',
               },
+              ...(this.tocData?.averageRating ? {
+                'aggregateRating': {
+                  '@type': 'AggregateRating',
+                  'ratingValue': this.tocData.averageRating,
+                  'bestRating': 5,
+                  'ratingCount': this.tocData.totalRatingsCount || 1,
+                },
+              } : {}),
             },
           })
 

@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, BehaviorSubject } from 'rxjs'
+import { shareReplay } from 'rxjs/operators'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
@@ -11,8 +12,32 @@ import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConsta
 export class OrgServiceService {
   hideHeaderFooter = new BehaviorSubject<boolean>(false)
   sitePath = `assets/configurations/`
+  private orgConfigCache$: Observable<any> | null = null
+  private orgConfigCachedAt = 0
+  private readonly ORG_CONFIG_TTL_MS = 5 * 60 * 1000 // 5 minutes
 
   constructor(private http: HttpClient, private configSvc: ConfigurationsService, private logger: LoggerService) { }
+
+  getOrgConfig(): Observable<any> {
+    const now = Date.now()
+    if (!this.orgConfigCache$ || (now - this.orgConfigCachedAt) > this.ORG_CONFIG_TTL_MS) {
+      const body = {
+        request: {
+          type: 'org_config',
+          subtype: '*',
+          action: 'get',
+          component: 'web',
+          framework: '*',
+          rootOrgId: '*',
+        },
+      }
+      this.orgConfigCache$ = this.http.post<any>(API_END_POINTS.FORM_READ, body).pipe(
+        shareReplay(1)
+      )
+      this.orgConfigCachedAt = now
+    }
+    return this.orgConfigCache$
+  }
 
   resolve(): any {
     // return this.getOrgMetadata().pipe(

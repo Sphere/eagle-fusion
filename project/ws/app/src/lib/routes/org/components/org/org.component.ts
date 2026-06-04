@@ -8,27 +8,21 @@ import {
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { HttpClient } from '@angular/common/http'
 import { forkJoin, of, Subscription } from 'rxjs'
 import { WidgetUserService } from '@ws-widget/collection'
-import { uniqBy } from 'lodash'
+import { SeoService } from '../../../../../../../../../src/app/services/seo.service'
 
 @Component({
   standalone: false,
   selector: 'ws-app-org',
   templateUrl: './org.component.html',
   styleUrls: ['./org.component.scss'],
-
 })
 export class OrgComponent implements OnInit, OnDestroy {
   orgName!: string
-  courseData!: any
   routeSubscription: any
-  orgMetaList: any   // Full list of org entries from orgMeta.json
   currentOrgData: any
   btnText = ''
-  courseCount = 0
-  cardLimit = 5
   competencyData: { identifier: string, name: any; levels: string }[] = []
   rating = 4
   starCount = 5
@@ -41,35 +35,28 @@ export class OrgComponent implements OnInit, OnDestroy {
   formattedAbout!: string
   averageRating: any = ''
   totalRatings: any = ''
-  inProgressCourses: any[] = []        // Courses the user has started but not completed (0 < pct < 100)
-  completedCourses: any[] = []          // Courses the user has fully completed (pct === 100)
   orgUserCourseEnrolled: any = 0
-  enrolledCourseCardConfig: any         // Card display config for Continue Learning & Completed sections (card-mini)
   isMobile = false
   private mobileSubscription!: Subscription
   private isDestroyed = false
-  // True while orgMeta.json is being fetched; drives the shimmer skeleton in the template
   isLoading = false
-  // Track individual image load state so shimmer persists on banner/logo
-  // until the browser finishes downloading the S3 image (fires after isLoading = false)
   bannerLoaded = false
   logoLoaded = false
-  showAllUserEnrollCourses: boolean = false
-  showAllCompletedCourses: boolean = false
-  showAllCneSectionMap: { [index: number]: boolean } = {}
   selectedLanguage: string = 'all'
-  cneSections: { label: string, courses: any[] }[] = []  // CNE grouped sections built from orgMeta.json courseSections
-  cneCourseCardConfig: any              // Card display config for CNE section cards (card-badges)
 
-  constructor(private activateRoute: ActivatedRoute,
+  // All sections (continue learning, course groups, completed, tag search) resolved from ORG_CONFIG
+  orgSections: { config: any, courses: any[], showAll: boolean }[] = []
+
+  constructor(
+    private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
     private router: Router,
-    private http: HttpClient,
     private configSvc: ConfigurationsService,
     private readonly userSvc: WidgetUserService,
     private valueSvc: ValueService,
     private logger: LoggerService,
     private cdr: ChangeDetectorRef,
+    private seoSvc: SeoService,
   ) {
     this.mobileSubscription = this.valueSvc.isLtMedium$.subscribe(mobile => {
       this.isMobile = mobile
@@ -91,12 +78,6 @@ export class OrgComponent implements OnInit, OnDestroy {
       this.ratingArr.push(this.index)
     }
 
-    // Subscribe to queryParams instead of reading snapshot once.
-    // Angular reuses the same OrgComponent instance when the user navigates
-    // between /app/org-details?orgId=X and ?orgId=Y (same route, different
-    // query param), so ngOnInit would not re-fire. By subscribing here we
-    // react to every orgId change — including the home-redirect that sends
-    // an MNC user from another org's page to the MNC org page.
     this.routeSubscription = this.activateRoute.queryParams.subscribe(params => {
       this.orgName = (params['orgId'] || '').trim()
       this.resetOrgState()
@@ -109,31 +90,19 @@ export class OrgComponent implements OnInit, OnDestroy {
     })
   }
 
-  // Clears all data properties so a fresh load of a different org starts clean.
-  // Must be called before loadOrgData() whenever the orgId query param changes.
   private resetOrgState(): void {
-    this.isLoading = true   // show shimmer skeleton until orgMeta.json resolves
-    this.bannerLoaded = false  // reset so banner shimmer shows for the new org
-    this.logoLoaded = false    // reset so logo shimmer shows for the new org
-    this.courseData = undefined
+    this.isLoading = true
+    this.bannerLoaded = false
+    this.logoLoaded = false
     this.currentOrgData = undefined
-    this.inProgressCourses = []
-    this.completedCourses = []
-    this.cneSections = []
-    this.courseCount = 0
+    this.orgSections = []
     this.competencyData = []
     this.selectedLanguage = 'all'
-    this.cardLimit = 5
-    this.showAllUserEnrollCourses = false
-    this.showAllCompletedCourses = false
-    this.showAllCneSectionMap = {}
     this.orgUserCourseEnrolled = 0
     this.competency_offered = 0
     this.formattedAbout = ''
     this.averageRating = ''
     this.totalRatings = ''
-    this.enrolledCourseCardConfig = undefined
-    this.cneCourseCardConfig = undefined
     this.detectViewChanges()
   }
 
@@ -147,363 +116,186 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Contains the full org initialisation logic previously in ngOnInit.
-  // Extracted so it can be re-run whenever the orgId query param changes.
-  private loadOrgData(): void {
-    // Resolve the logged-in user's ID early so it's available inside async callbacks below.
-    // Prefer the mapped userProfile; fall back to the unMapped user object for SSO flows.
-    let userId: string | undefined
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId
-    } else {
-      userId = this.configSvc.unMappedUser?.id
-    }
+  private async loadOrgData(): Promise<void> {
+    const userId = this.configSvc.userProfile?.userId ?? this.configSvc.unMappedUser?.id
 
-    // orgMeta.json drives all org-level configuration: logo, banner, about text, and course layout.
-    // The cache-buster (?cb=...) ensures we always get the latest version and never serve stale data.
-    const url = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`
+    try {
+      const response: any = await this.orgService.getOrgConfig().toPromise()
+      const sources: any[] = response?.result?.form?.data?.sources ?? []
 
-    this.http.get(url, { responseType: 'text' })
-      .subscribe(
-        (results: any) => {
-          try {
-            const orgMetaConfig = JSON.parse(results)
-            this.orgMetaList = Array.isArray(orgMetaConfig?.sources) ? orgMetaConfig.sources : []
+      this.currentOrgData = sources.find((s: any) => s.sourceName?.trim() === this.orgName)
+      if (!this.currentOrgData) {
+        this.isLoading = false
+        this.detectViewChanges()
+        return
+      }
 
-            // Find the entry in orgMeta.json that matches the current org name
-            this.currentOrgData = this.orgMetaList.find(
-              (orgEntry: any) => orgEntry?.sourceName?.trim() === this.orgName
-            )
-            if (this.currentOrgData) {
-              this.formattedAbout = this.formatAbout(this.currentOrgData.about)
-              // Org meta resolved — replace shimmer skeleton with real content
-              this.isLoading = false
-              this.detectViewChanges()
+      this.seoSvc.update({
+        title: `${this.orgName} | Aastrika Sphere - Free Healthcare Courses`,
+        description: this.currentOrgData.about
+          ? this.currentOrgData.about.replace(/<[^>]*>/g, '').slice(0, 160)
+          : `Explore free healthcare courses offered by ${this.orgName} on Aastrika Sphere.`,
+        ogImage: this.currentOrgData.logo || undefined,
+        canonicalUrl: `https://sphere.aastrika.org/app/org-details?orgId=${encodeURIComponent(this.orgName)}`,
+      })
 
-              // ─── LAYOUT STRATEGY 1: courseSections (e.g. MNC) ───────────────────────────
-              // Used when an org configures named course groups in orgMeta.json, e.g.:
-              //   "courseSections": [
-              //     { "label": "5 CNE Hours Courses", "courseIds": ["do_xxx", ...] },
-              //     { "label": "10 CNE Hours Courses", "courseIds": ["do_yyy", ...] }
-              //   ]
-              // Renders: Continue Learning | CNE sections | Completed
-              if (this.currentOrgData?.courseSections) {
+      this.formattedAbout = this.formatAbout(this.currentOrgData.about)
 
-                // Flatten all course IDs across every section into a single array
-                // so we can fetch them all in one API call
-                // Flatten all course IDs across every section into one array for a single API call
-                const allCourseIds = this.currentOrgData.courseSections.flatMap((courseSection: any) => courseSection.courseIds)
+      const sections: any[] = this.currentOrgData.sections ?? []
 
-                // Fetch course metadata and the user's enrolled batch list in parallel
-                forkJoin([
-                  this.orgService.getSearchResultsV7ById(allCourseIds),       // course details from search API
-                  userId ? this.userSvc.fetchUserBatchList(userId) : of([]),   // user's enrolled courses (empty if not logged in)
-                ]).subscribe(([courseSearchResult, userBatchList]: any[]) => {
+      // Collect all explicit courseIds across courseGroup + courseList sections for a single batch fetch
+      const allCourseIds: string[] = sections
+        .filter((s: any) => ['courseGroup', 'courseList'].includes(s.sectionType))
+        .flatMap((s: any) => s.courseIds ?? [])
 
-                  // Build a lookup map: courseId → course object for O(1) access when building sections
-                  const fetchedCourses: any[] = courseSearchResult?.result?.content || []
-                  const coursesByIdentifier = new Map(fetchedCourses.map((course: any) => [course.identifier, course]))
-
-                  // Track IDs of courses the user has started or completed so they can be
-                  // excluded from the CNE sections and shown in the correct personal section
-                  const startedOrCompletedIds = new Set<string>()
-
-                    // Process each course from the user's enrolled batch list
-                    ; (Array.isArray(userBatchList) ? userBatchList : []).forEach((batchItem: any) => {
-                      const courseId = batchItem?.content?.identifier ?? batchItem?.courseId
-                      const completionPct = batchItem?.completionPercentage ?? 0
-
-                      // Only process courses that belong to this org's CNE sections.
-                      // Without this filter, courses from other orgs could leak into
-                      // this org's Continue Learning / Completed sections.
-                      if (courseId && allCourseIds.includes(courseId)) {
-                        if (completionPct >= 0 && completionPct < 100) {
-                          // STARTED (in-progress): move to "Continue Learning", hide from CNE sections
-                          startedOrCompletedIds.add(courseId)
-                          this.inProgressCourses.push({
-                            identifier: courseId,
-                            appIcon: batchItem.content.appIcon,
-                            thumbnail: batchItem.content.thumbnail,
-                            name: batchItem.content.name,
-                            completionPercentage: completionPct,
-                            sourceName: batchItem.content.sourceName,
-                            averageRating: batchItem.content.averageRating,
-                            lang: batchItem.content.lang || 'en'
-                          })
-                        } else if (completionPct === 100) {
-                          // COMPLETED: move to "Completed" section, hide from CNE sections
-                          startedOrCompletedIds.add(courseId)
-                          this.completedCourses.push({
-                            identifier: courseId,
-                            appIcon: batchItem.content.appIcon,
-                            thumbnail: batchItem.content.thumbnail,
-                            name: batchItem.content.name,
-                            completionPercentage: completionPct,
-                            sourceName: batchItem.content.sourceName,
-                            averageRating: batchItem.content.averageRating,
-                            lang: batchItem.content.lang || 'en',
-                          })
-                        }
-                        // completionPct === 0 means enrolled but not started: keep visible in CNE sections
-                      }
-                    })
-
-                  // Build each CNE section, excluding courses the user has already
-                  // started or completed (those are in Continue Learning / Completed)
-                  this.cneSections = this.currentOrgData.courseSections.map((courseSection: any) => ({
-                    label: courseSection.label,
-                    courses: (courseSection.courseIds as string[])
-                      .filter((courseId: string) => !startedOrCompletedIds.has(courseId)) // exclude started/completed
-                      .map((courseId: string) => coursesByIdentifier.get(courseId))        // resolve ID → course object
-                      .filter(Boolean),                                                      // drop IDs not found in search results
-                  }))
-
-                  // Card display config for CNE section cards (full thumbnail + badges overlay)
-                  this.cneCourseCardConfig = {
-                    displayType: 'card-badges',
-                    badges: { cneName: false, rating: true, sourceName: true },
-                  }
-
-                  // Card display config for Continue Learning and Completed cards (mini with progress bar)
-                  // Set unconditionally so the Completed section renders even if inProgressCourses is empty
-                  this.enrolledCourseCardConfig = {
-                    displayType: 'card-mini',
-                    badges: { rating: true, completionPercentage: true, certification: true, mobilesourceName: this.isMobile },
-                  }
-                  this.detectViewChanges()
-                })
-
-                // ─── LAYOUT STRATEGY 2: closedCoursesList (e.g. TNNMC, TNAI, Goa) ─────────
-                // Used when an org has a flat list of specific course IDs to always display.
-                // For TNNMC, also fetches the user's enrolled courses to show Continue Learning
-                // and Completed sections. Other orgs just show the flat course grid.
-              } else if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
-                this.logger.log("this.currentOrgData.closedCoursesList present", this.currentOrgData.closedCoursesList)
-
-                // TNNMC additionally shows personal Continue Learning / Completed sections
-                if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)' && this.currentOrgData) {
-                  forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((batchListResult: any) => {
-                    this.logger.log("batchListResult: ", batchListResult)
-                    this.formatmyCourseResponse(batchListResult[0])
-                    this.detectViewChanges()
-                  })
-                }
-
-                // Fetch courses by their explicit IDs AND by org name tag, then merge (deduplicated)
-                forkJoin([
-                  this.orgService.getSearchResultsV7ById(this.currentOrgData.closedCoursesList),
-                  this.orgService.getSearchV7Results(this.orgName),
-                ]).subscribe(([closedCoursesResult, taggedCoursesResult]: any[]) => {
-                  const explicitCourses = closedCoursesResult.result.content || []
-                  const orgTaggedCourses = (taggedCoursesResult.result.content || []).filter(
-                    (courseItem: any) => courseItem.sourceName === this.currentOrgData.sourceName
-                  )
-
-                  // Merge explicit + tagged courses, removing any duplicates by identifier
-                  const mergedCourses = [...explicitCourses, ...orgTaggedCourses]
-                  this.courseData = uniqBy(mergedCourses, 'identifier')
-
-                  this.courseCount = this.courseData
-
-                  this.logger.log("this.courseData", this.courseData)
-
-                  if (this.courseData.length > 0) {
-                    this.competencyData = this.groupCompetenciesById(this.courseData)
-                  }
-                  this.detectViewChanges()
-                })
-
-                // ─── LAYOUT STRATEGY 3: tag-based search (all other orgs) ────────────────
-                // No explicit course list configured — search by org name (sourceName field).
-                // Falls back to taggedSourceName if the primary search returns no results.
-              } else {
-                this.orgService.getSearchV7Results(this.orgName).subscribe((courseSearchResult: any) => {
-                  this.courseData = courseSearchResult.result.content.filter(
-                    (courseItem: any) => courseItem.sourceName === this.orgName
-                  )
-
-                  this.courseCount = this.courseData
-                  this.logger.log("this.courseData", this.courseData)
-                  if (this.courseData && this.courseData.length > 0) {
-                    this.competencyData = this.groupCompetenciesById(this.courseData)
-                  } else {
-                    this.logger.log("this.courseData", this.courseData)
-
-                    // Primary search returned nothing — try the fallback taggedSourceName
-                    this.orgService.getSearchResults(this.currentOrgData.taggedSourceName).subscribe((fallbackSearchResult: any) => {
-                      this.courseData = fallbackSearchResult.result.content.filter(
-                        (courseItem: any) => courseItem.sourceName === this.currentOrgData.taggedSourceName
-                      )
-                      this.courseCount = this.courseData
-                      this.logger.log("this.courseData", this.courseData)
-                      if (this.courseData && this.courseData.length > 0) {
-                        this.logger.log('l')
-                        this.competencyData = this.groupCompetenciesById(this.courseData)
-                      }
-                      this.detectViewChanges()
-                    })
-                  }
-                  this.detectViewChanges()
-                })
-              }
-            } else {
-              this.isLoading = false
-              this.detectViewChanges()
-            }
-          } catch (e) {
-            this.isLoading = false
-            this.logger.error('Error parsing JSON', e)
-            this.detectViewChanges()
-          }
-        },
-        error => {
-          this.isLoading = false
-          this.logger.error('HTTP error', error)
-          this.detectViewChanges()
-        }
+      const needsUserData = sections.some(
+        (s: any) => ['continueLearning', 'completed'].includes(s.sectionType)
       )
 
-    // TODO: Re-enable once apis/protected/v8/userEnrolledInSource is fixed (currently returning 500)
-    // this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
-    //   if (userEnrolled && userEnrolled.length > 0) {
-    //     this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
-    //     this.competency_offered = userEnrolled[0].competency_offered || undefined
-    //   }
-    // })
+      forkJoin([
+        allCourseIds.length ? this.orgService.getSearchResultsV7ById(allCourseIds) : of(null),
+        needsUserData && userId ? this.userSvc.fetchUserBatchList(userId) : of([]),
+      ]).subscribe({ next: ([courseResult, userBatchList]: any[]) => {
+        const fetchedCourses: any[] = courseResult?.result?.content ?? []
+        const courseMap = new Map(fetchedCourses.map((c: any) => [c.identifier, c]))
+
+        const inProgressCourses: any[] = []
+        const completedCourses: any[] = []
+        const startedOrCompletedIds = new Set<string>()
+
+        ;(userBatchList ?? []).forEach((item: any) => {
+          const id = item?.content?.identifier ?? item?.courseId
+          if (id && allCourseIds.includes(id)) {
+            const pct = item.completionPercentage ?? 0
+            const normalized = this.normalizeBatchItem(item)
+            if (pct === 100) {
+              completedCourses.push(normalized)
+              startedOrCompletedIds.add(id)
+            } else {
+              inProgressCourses.push(normalized)
+              startedOrCompletedIds.add(id)
+            }
+          }
+        })
+
+        this.orgSections = sections
+          .filter((s: any) => s.show !== false)
+          .filter((s: any) => s.sectionType !== 'tagSearch')
+          .map((sectionConfig: any) => {
+            let courses: any[] = []
+            switch (sectionConfig.sectionType) {
+              case 'continueLearning':
+                courses = inProgressCourses
+                break
+              case 'completed':
+                courses = completedCourses
+                break
+              case 'courseGroup':
+              case 'courseList':
+                courses = (sectionConfig.courseIds ?? [])
+                  .filter((id: string) => !startedOrCompletedIds.has(id))
+                  .map((id: string) => courseMap.get(id))
+                  .filter(Boolean)
+                break
+            }
+            return { config: sectionConfig, courses, showAll: false }
+          })
+
+        if (fetchedCourses.length > 0) {
+          this.competencyData = this.groupCompetenciesById(fetchedCourses)
+          this.competency_offered = new Set(this.competencyData.map((c: any) => c.competencyId)).size
+        }
+
+        // Pre-populate tagSearch slots with empty courses so they are in the DOM before
+        // isLoading = false — prevents layout shift when search results arrive later.
+        sections
+          .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
+          .forEach((sectionConfig: any) => {
+            const existing = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)
+            if (!existing) {
+              this.orgSections.push({ config: sectionConfig, courses: [], showAll: false })
+            }
+          })
+
+        // All synchronous sections are ready — dismiss the shimmer now to avoid CLS
+        this.isLoading = false
+        this.detectViewChanges()
+
+        // tagSearch sections fire individual search calls and merge courses into the pre-existing slots
+        sections
+          .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
+          .forEach((sectionConfig: any) => {
+            const target = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)!
+
+            // Build a deduplicated array of sourceNames: org's own name + taggedSourceName
+            const sourceNames = [...new Set([
+              this.orgName,
+              ...(sectionConfig.taggedSourceName ? [sectionConfig.taggedSourceName] : []),
+            ])]
+
+            this.orgService.getSearchV7Results(sourceNames)
+              .subscribe((result: any) => {
+                const incoming = (result?.result?.content ?? [])
+                  .filter((c: any) => sourceNames.includes(c.sourceName))
+                const existingIds = new Set(target.courses.map((c: any) => c.identifier))
+                const newCourses = incoming.filter((c: any) => !existingIds.has(c.identifier))
+                target.courses = [...target.courses, ...newCourses]
+                // Extend competencyData with tagSearch courses not already present
+                const existingCompIds = new Set(this.competencyData.map((c: any) => c.identifier))
+                const newCompetencies = this.groupCompetenciesById(newCourses.filter((c: any) => !existingCompIds.has(c.identifier)))
+                this.competencyData = [...this.competencyData, ...newCompetencies]
+                this.detectViewChanges()
+              })
+          })
+      },
+      error: () => {
+        this.isLoading = false
+        this.detectViewChanges()
+      },
+    })
+
+    } catch (e) {
+      this.isLoading = false
+      this.logger.error('Error loading org data from ORG_CONFIG', e)
+      this.detectViewChanges()
+    }
 
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
 
+  private normalizeBatchItem(item: any): any {
+    return {
+      identifier: item.content?.identifier,
+      appIcon: item.content?.appIcon,
+      thumbnail: item.content?.thumbnail,
+      name: item.content?.name,
+      completionPercentage: item.completionPercentage,
+      sourceName: item.content?.sourceName,
+      averageRating: item.content?.averageRating,
+      lang: item.content?.lang || 'en',
+    }
+  }
+
+  // Total number of courses across all non-personal sections (for the stats block)
+  get totalCourseCount(): number {
+    return this.orgSections
+      .filter((s: any) => !['continueLearning', 'completed'].includes(s.config?.sectionType))
+      .reduce((total, s) => total + (s.courses?.length ?? 0), 0)
+  }
+
   filterByLanguage(language: 'all' | 'en' | 'hi'): void {
     this.selectedLanguage = language
-    this.cardLimit = 5 // Reset card limit when filtering
-  }
-
-  getFilteredCourseData(): any[] {
-    if (!this.courseData) {
-      return []
-    }
-
-    if (this.selectedLanguage === 'all') {
-      return this.courseData
-    }
-
-    return this.courseData.filter((course: any) => {
-      const courseLanguage = course.lang || 'en'
-      return courseLanguage === this.selectedLanguage
-    })
-  }
-
-  getFilteredUserEnrollCourse(): any[] {
-    if (!this.inProgressCourses) {
-      return []
-    }
-
-    if (this.selectedLanguage === 'all') {
-      return this.inProgressCourses
-    }
-
-    return this.inProgressCourses.filter((course: any) => {
-      const courseLanguage = course.lang || 'en'
-      return courseLanguage === this.selectedLanguage
-    })
-  }
-
-  getFilteredCompletedCourse(): any[] {
-    if (!this.completedCourses) {
-      return []
-    }
-
-    if (this.selectedLanguage === 'all') {
-      return this.completedCourses
-    }
-
-    return this.completedCourses.filter((course: any) => {
-      const courseLanguage = course.lang || 'en'
-      return courseLanguage === this.selectedLanguage
-    })
   }
 
   getFilteredSectionCourses(courses: any[]): any[] {
     if (!courses) { return [] }
     if (this.selectedLanguage === 'all') { return courses }
-    return courses.filter((course: any) => {
-      const courseLanguage = course.lang || 'en'
-      return courseLanguage === this.selectedLanguage
-    })
+    return courses.filter((course: any) => (course.lang || 'en') === this.selectedLanguage)
   }
 
-  getDisplayedItems(items: any[], showAll: boolean): any[] {
-    if (showAll) {
-      return items
-    } else {
-      if (items.length > 5) {
-        return items.slice(0, 5)
-      } else {
-        return items
-      }
-    }
-  }
-
-  viewAllItems(section: string): void {
-    switch (section) {
-      case 'userEnrollCourses':
-        this.showAllUserEnrollCourses = !this.showAllUserEnrollCourses
-        break
-      case 'completedCourses':
-        this.showAllCompletedCourses = !this.showAllCompletedCourses
-        break
-    }
-  }
-
-  toggleCneSection(index: number): void {
-    this.showAllCneSectionMap[index] = !this.showAllCneSectionMap[index]
-  }
-
-  formatmyCourseResponse(batchList: any) {
-    // If this org has a closedCoursesList, filter the batch to only include those courses
-    if (this.currentOrgData?.closedCoursesList && this.currentOrgData?.closedCoursesList.length > 0) {
-      batchList = batchList.filter((batchItem: any) => this.currentOrgData.closedCoursesList.includes(batchItem.content.identifier))
-    }
-    this.logger.log("orgFiltered", batchList)
-
-    batchList.forEach((enrolledItem: any) => {
-      if (enrolledItem?.content?.identifier) {
-
-        // Normalize the batch item shape to match the card component's expected input
-        const normalizedCourse = {
-          identifier: enrolledItem.content?.identifier,
-          appIcon: enrolledItem.content?.appIcon,
-          thumbnail: enrolledItem.content?.thumbnail,
-          name: enrolledItem.content?.name,
-          dateTime: enrolledItem.dateTime,
-          completionPercentage: enrolledItem.completionPercentage,
-          sourceName: enrolledItem.content?.sourceName,
-          issueCertification: enrolledItem.content?.issueCertification,
-          averageRating: enrolledItem.content?.averageRating,
-          lang: enrolledItem.content?.lang || 'en',
-        }
-
-        if (enrolledItem.completionPercentage < 100) {
-          this.inProgressCourses.push(normalizedCourse)
-        } else {
-          this.completedCourses.push(normalizedCourse)
-        }
-      }
-    })
-    this.logger.log("personal courses", this.completedCourses, this.inProgressCourses)
-    if (this.inProgressCourses.length > 0 || this.completedCourses.length > 0) {
-      this.enrolledCourseCardConfig = {
-        displayType: 'card-mini',
-        badges: {
-          rating: true,
-          completionPercentage: true,
-          certification: true,
-          mobilesourceName: this.isMobile ? true : false,
-        },
-      }
-    }
-    this.detectViewChanges()
+  getDisplayedItems(items: any[], showAll: boolean, limit = 5): any[] {
+    if (showAll) { return items }
+    return items.length > limit ? items.slice(0, limit) : items
   }
 
   getStarImage(index: number, averageRating: number): string {
@@ -525,7 +317,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     if (!text) return text
     return text
       .replace(/\n/g, '<br>')
-      .replace(/\u2022/g, '&bull;')
+      .replace(/•/g, '&bull;')
       .replace(/\\u2019/g, '&#8217;')
       .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
   }
@@ -540,16 +332,7 @@ export class OrgComponent implements OnInit, OnDestroy {
       const path = url.startsWith('http') ? new URL(url).pathname : url
       this.router.navigateByUrl(path)
     } else {
-      // Navigation is now language-agnostic; translations handled via ngx-translate
       this.router.navigateByUrl('/page/home')
-    }
-  }
-
-  toggleCardLimit() {
-    if (this.cardLimit === 5) {
-      this.cardLimit = this.getFilteredCourseData().length
-    } else {
-      this.cardLimit = 5
     }
   }
 
@@ -564,16 +347,6 @@ export class OrgComponent implements OnInit, OnDestroy {
 
   goToProfile(id: string) {
     this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
-  }
-
-  ngOnDestroy() {
-    this.isDestroyed = true
-    this.orgService.hideHeaderFooter.next(false)
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe()
-    }
-    this.mobileSubscription?.unsubscribe()
-    this.orgService.hideHeaderFooter.next(false)
   }
 
   goToLink(a: string) {
@@ -617,8 +390,17 @@ export class OrgComponent implements OnInit, OnDestroy {
         })
       }
     })
-    const groupedCompetencies = Object.values(grouped)
-    this.logger.log("groupedCompetencies", groupedCompetencies)
-    return groupedCompetencies
+
+    return Object.values(grouped)
+  }
+
+  ngOnDestroy() {
+    this.isDestroyed = true
+    this.orgService.hideHeaderFooter.next(false)
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe()
+    }
+    this.mobileSubscription?.unsubscribe()
+    this.orgService.hideHeaderFooter.next(false)
   }
 }
