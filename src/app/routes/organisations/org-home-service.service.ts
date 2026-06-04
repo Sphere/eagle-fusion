@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, of, BehaviorSubject, throwError } from 'rxjs'
 import { ConfigurationsService } from '@ws-widget/utils'
-import { NsContent } from '../../../library/ws-widget/collection/src/public-api'
-import { API_END_POINTS } from '../constants/apiConstants'
+import { NsContent } from '../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
+import { API_END_POINTS } from '../../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',

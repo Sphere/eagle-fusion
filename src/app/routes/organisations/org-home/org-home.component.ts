@@ -4,8 +4,8 @@ import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configu
 import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { of } from 'rxjs'
-import { SignupService } from '../../routes/signup/signup.service'
-import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { SignupService } from '../../../routes/signup/signup.service'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { orderBy, get } from 'lodash'
 @Component({
   standalone: false,

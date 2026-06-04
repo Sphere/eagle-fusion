@@ -1,10 +1,8 @@
 import { ZipJSResolverService } from './services/zip-js-resolve.service'
-// import { NotificationService } from './../../../app/src/lib/routes/notification-v2/services/notification.service'
 import { AuthInitService } from './services/init.service'
 import { ContentAndDataReadMultiLangTOCResolver } from './services/content-and-data-read-multi-lang.service'
 import { InitResolver } from './services/init-resolve.service'
 import { LoaderService } from './services/loader.service'
-import { HomeModule } from '@ws/author/src/lib/routing/modules/home/home.module'
 import { NgModule, ErrorHandler } from '@angular/core'
 import { CommonModule, APP_BASE_HREF, PlatformLocation } from '@angular/common'
 
@@ -42,10 +40,12 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
 @NgModule({
   declarations: [AuthRootComponent, AuthNavigationComponent, TocComponent, ViewerComponent],
   imports: [
+    // ReactiveFormsModule,
+    // FormsModule,
+    // RouterModule,
     CommonModule,
     SharedModule,
     CreateModule,
-    HomeModule,
     WsAuthorRootRoutingModule,
     PipeSafeSanitizerModule,
     BtnPageBackModule,
@@ -59,7 +59,6 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
     ContentAndDataReadMultiLangTOCResolver,
     LoaderService,
     InitResolver,
-    // NotificationService,
     WorkFlowService,
     { provide: ErrorHandler, useClass: AuthoringErrorHandler },
     {

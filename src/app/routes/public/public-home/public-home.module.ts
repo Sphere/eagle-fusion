@@ -44,7 +44,6 @@ import { MyCoursesComponent } from '../../../component/my-courses/my-courses.com
 import { TncRendererComponent } from '../../../component/tnc-renderer/tnc-renderer.component'
 import { AlmostDoneComponent } from '../../almost-done/almost-done.component'
 import { AppPublicNavBarComponent } from '../../../component/app-public-nav-bar/app-public-nav-bar.component'
-import { DialogConfirmComponent } from '../../../component/dialog-confirm/dialog-confirm.component'
 import { BnrcLoginOtpComponent } from '../../bnrc-login-otp/bnrc-login-otp.component'
 import { VideoPopupComponent } from '../../how-does-it-works-popup/how-does-it-works-popup.component'
 import { TnnmcConfirmComponent } from '../../../component/tnnmc-dialog-confirm/tnnmc-confirm.component'
@@ -80,7 +79,6 @@ import { MatMenuModule } from '@angular/material/menu'
     TncRendererComponent,
     AlmostDoneComponent,
     AppPublicNavBarComponent,
-    DialogConfirmComponent,
     BnrcLoginOtpComponent,
     VideoPopupComponent,
     TnnmcConfirmComponent,
@@ -138,7 +136,6 @@ import { MatMenuModule } from '@angular/material/menu'
     TncRendererComponent,
     AlmostDoneComponent,
     AppPublicNavBarComponent,
-    DialogConfirmComponent,
     BnrcLoginOtpComponent,
     VideoPopupComponent,
     TnnmcConfirmComponent,

@@ -40,7 +40,7 @@ import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
-import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
+// import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
 import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
 import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
@@ -51,7 +51,7 @@ import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.co
 import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
 import { MNCCallbackComponent } from './mnc-callback/mnc-callback.component'
-import { OrgHomeComponent } from './organisations/org-home/org-home.component'
+import { OrgHomeComponent } from './routes/organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
@@ -94,10 +94,10 @@ const routes: Routes = [
       pageData: PageResolve,
     },
   },
-  {
-    path: 'aboutpoppage',
-    component: MobileAboutPopupComponent,
-  },
+  // {
+  //   path: 'aboutpoppage',
+  //   component: MobileAboutPopupComponent,
+  // },
   {
     path: 'app',
     loadChildren: () =>
@@ -447,7 +447,7 @@ const routes: Routes = [
   },
   {
     path: 'organisations',
-    loadChildren: () => import('./organisations/organisations.module').then(u => u.OrganisationsModule),
+    loadChildren: () => import('./routes/organisations/organisations.module').then(u => u.OrganisationsModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
