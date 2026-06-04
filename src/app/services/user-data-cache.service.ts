@@ -104,9 +104,9 @@ export class UserDataCacheService implements OnDestroy {
     }
 
     // If not cached and no call in progress, make the API call with retry
-    this.logger.log('[UserDataCache] No cache found, making API call to', API_END_POINTS.getUserProfile)
+    this.logger.log('[UserDataCache] No cache found, making API call to', API_END_POINTS.getUserdetailsFromRegistry)
     this.apiCall$ = this.http
-      .get<any>(API_END_POINTS.getUserProfile)
+      .get<any>(API_END_POINTS.getUserdetailsFromRegistry)
       .pipe(
         retry(1),
         map((res: any) => {

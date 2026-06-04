@@ -35,7 +35,7 @@ export class WidgetUserService {
       // tslint:disable-next-line: max-line-length
       path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_V2(userId, queryParams.orgdetails, queryParams.licenseDetails, queryParams.fields, queryParams.batchDetails)
       if (window.location.origin.indexOf('http://localhost:') === -1) {
-        path = `${window['env']['azureHost']}/${path}`
+        path = `${window['env']['azureHost']}${path}`
       }
 
       return this.http

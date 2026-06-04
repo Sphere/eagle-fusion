@@ -327,7 +327,7 @@ export class WidgetContentService {
         lastUpdatedOn: 'desc',
       },
     ]
-    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH, req)
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
   publicContentSearch(req: any) {
@@ -336,7 +336,7 @@ export class WidgetContentService {
       req.request.filters.lang = 'hi'
     }
     req.query = req.query || ''
-    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.SEARCH_V6PUBLIC,
       req,
     )
   }

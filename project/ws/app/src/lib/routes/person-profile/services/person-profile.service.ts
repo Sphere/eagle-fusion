@@ -33,7 +33,7 @@ export class PersonProfileService {
   }
 
   lastlearnt(): Observable<any> {
-    return this.http.get<any>(`${API_END_POINTS.lastlearnt}?pageSize=20`)
+    return this.http.get<any>(`${API_END_POINTS.CONTENT_HISTORY}?pageSize=20`)
   }
   getFollowers(wid: string, pageSize = 0, pageState?: string): Observable<any> {
     if (pageState) {
