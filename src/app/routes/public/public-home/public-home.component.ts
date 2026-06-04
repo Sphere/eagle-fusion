@@ -12,6 +12,8 @@ import { Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
+import { SeoService } from '../../../services/seo.service'
+import { UserAgentResolverService } from '../../../services/user-agent.service'
 @Component({
     standalone: false,
     selector: 'ws-public-home',
@@ -31,6 +33,8 @@ export class PublicHomeComponent extends WidgetBaseComponent
     private router: Router,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
+    private seoSvc: SeoService,
+    private userAgentSvc: UserAgentResolverService,
     @Inject(PLATFORM_ID) private platformId: object,
   ) {
     super()
@@ -47,7 +51,28 @@ export class PublicHomeComponent extends WidgetBaseComponent
   }
 
   ngOnInit() {
+    this.seoSvc.update({
+      title: 'Free Online Courses for Nurses in India | INC Certified | Aastrika Sphere',
+      description: 'Earn CNE points with 500+ free INC-certified online courses for nurses, ANMs, GNMs, midwives and healthcare workers across India. Maternal health, newborn care, and more — in Hindi and English.',
+      keywords: 'free nursing courses online India, INC certified courses, CNE points online, free courses for nurses India, ANM GNM courses online, healthcare training online India, maternal health courses nurses, free courses for healthcare workers',
+      canonicalUrl: 'https://sphere.aastrika.org/public/home',
+      ogType: 'website',
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        'name': 'Aastrika Sphere',
+        'url': 'https://sphere.aastrika.org',
+        'description': 'Free INC-certified online courses for nurses, ANMs, GNMs, midwives and healthcare workers across India.',
+        'potentialAction': {
+          '@type': 'SearchAction',
+          'target': 'https://sphere.aastrika.org/app/search?q={search_term_string}',
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    })
     if (!isPlatformBrowser(this.platformId)) { return }
+
+    this.userAgentSvc.requestGeolocation()
 
     if (window.location.hostname?.includes('ekshamata')) {
       this.isEkshamata = true

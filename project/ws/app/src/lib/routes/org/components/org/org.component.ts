@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { forkJoin, of, Subscription } from 'rxjs'
 import { WidgetUserService } from '@ws-widget/collection'
 import { SeoService } from '../../../../../../../../../src/app/services/seo.service'
+import { UserAgentResolverService } from '../../../../../../../../../src/app/services/user-agent.service'
 
 @Component({
   standalone: false,
@@ -57,6 +58,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     private logger: LoggerService,
     private cdr: ChangeDetectorRef,
     private seoSvc: SeoService,
+    private userAgentSvc: UserAgentResolverService,
   ) {
     this.mobileSubscription = this.valueSvc.isLtMedium$.subscribe(mobile => {
       this.isMobile = mobile
@@ -74,6 +76,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.userAgentSvc.requestGeolocation()
     for (this.index = 0; this.index < this.starCount; this.index++) {
       this.ratingArr.push(this.index)
     }

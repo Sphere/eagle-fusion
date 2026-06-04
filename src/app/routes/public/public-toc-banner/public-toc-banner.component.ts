@@ -7,7 +7,7 @@ import { Router } from '@angular/router'
     selector: 'ws-public-toc-banner',
     templateUrl: './public-toc-banner.component.html',
     styleUrls: ['./public-toc-banner.component.scss'],
-    
+
 })
 export class PublicTocBannerComponent implements OnInit {
   @Input() content: any

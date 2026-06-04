@@ -5,7 +5,7 @@ import {
   of,
 } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
-import { LoggerService, ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { LoggerService, ConfigurationsService, ValueService, TelemetryService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
@@ -70,7 +70,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private signupService: SignupService,
     private UserAgentResolverService: UserAgentResolverService,
     private readonly valueSvc: ValueService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private telemetrySvc: TelemetryService
   ) {
     effect(() => {
       this.isXSmall$ = this.valueSvc.isMobile() ? true : false
@@ -330,6 +331,15 @@ export class NewTncComponent implements OnInit, OnDestroy {
         })
       }
       this.isAcceptInProgress = true
+
+      const tncActorId = this.result?.userId || this.configSvc.userProfile?.userId || ''
+      this.telemetrySvc.registrationInteract(
+        { id: tncActorId, type: 'User' },
+        'create-account',
+        { type: 'TOUCH', subtype: 'accept-TNC', id: 'terms-n-conditions', pageid: 'terms-n-conditions', extra: { pos: [] } },
+        { id: 'Sphere', type: 'app-name', version: '', rollup: {} },
+      )
+
       const paramMap = this.activatedRoute.snapshot.queryParamMap
       const params: any = {}
 
@@ -416,6 +426,18 @@ export class NewTncComponent implements OnInit, OnDestroy {
       const res = await data
       this.loggerSvc.log(res.result.response)
       if (res.result.response === 'SUCCESS') {
+        this.telemetrySvc.registrationInteract(
+          { id: this.result.userId, type: 'User' },
+          'home',
+          { type: 'update-profile', subtype: 'success', id: 'profile', pageid: 'profile', extra: { pos: [] } },
+          undefined,
+          {
+            referrer: document.referrer || undefined,
+            screenWidth: screen.width,
+            screenHeight: screen.height,
+            language: navigator.language,
+          },
+        )
         localStorage.removeItem('utm_source')
         this.configSvc.profileDetailsStatus = true
         this.configSvc.hasAcceptedTnc = true
