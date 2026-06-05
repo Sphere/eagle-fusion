@@ -127,8 +127,16 @@ export class UserAgentResolverService {
           lowerCasedSource['_referrer'] = new URL(document.referrer).hostname.replace(/^www\./, '')
         } catch { }
       }
-      const utm_source = localStorage.setItem('utm_source', JSON.stringify(lowerCasedSource))
-      return utm_source
+      // Don't overwrite existing campaign UTM data with a referrer-only entry
+      if (!lowerCasedSource['utm_source']) {
+        const existing = localStorage.getItem('utm_source')
+        if (existing) {
+          try {
+            if (JSON.parse(existing)['utm_source']) { return }
+          } catch { }
+        }
+      }
+      localStorage.setItem('utm_source', JSON.stringify(lowerCasedSource))
     }
   }
 
