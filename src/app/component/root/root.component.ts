@@ -583,6 +583,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (
           event.url.includes('preview') ||
           event.url.includes('embed') ||
+          event.url.includes('/certs') ||
           event.url.includes('/public/register')
         ) {
           this.isNavBarRequired = false
