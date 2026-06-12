@@ -1,7 +1,7 @@
 import { EventResolverService } from './services/event-resolver.service'
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { AppEventComponent } from './components/app-event/app-event.component'
+// import { AppEventComponent } from './components/app-event/app-event.component'
 import { AppEventRoutingModule } from './app-event-routing.module'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
@@ -13,27 +13,28 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatCardModule } from '@angular/material/card'
-import { ProfileDetailModule } from './components/profile-detail/profile-detail.module'
+// import { ProfileDetailModule } from './components/profile-detail/profile-detail.module'
 import { HorizontalScrollerModule } from '@ws-widget/utils/src/lib/helpers/horizontal-scroller/horizontal-scroller.module'
-import { EventOverviewComponent } from './components/event-overview/event-overview.component'
-import { EventSessionsComponent } from './components/event-sessions/event-sessions.component'
+// import { EventOverviewComponent } from './components/event-overview/event-overview.component'
+// import { EventSessionsComponent } from './components/event-sessions/event-sessions.component'
 import { EventBannerComponent } from './components/event-banner/event-banner.component'
-import { AppGalleryComponent } from './components/app-gallery/app-gallery.component'
+// import { AppGalleryComponent } from './components/app-gallery/app-gallery.component'
 import { EventService } from './services/event.service'
-import { IframeLoaderComponent } from './components/iframe-loader/iframe-loader.component'
+// import { IframeLoaderComponent } from './components/iframe-loader/iframe-loader.component'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { BtnPageBackModule, BtnFullscreenModule } from '@ws-widget/collection'
-import { MeetupComponent } from './components/meetup/meetup.component'
+// import { MeetupComponent } from './components/meetup/meetup.component'
 import { CardDetailsModule } from './components/card-details/card-details.module'
 
 @NgModule({
-  declarations: [AppEventComponent,
-    EventOverviewComponent,
-    EventSessionsComponent,
+  declarations: [
+    // AppEventComponent,
+    // EventOverviewComponent,
+    // EventSessionsComponent,
     EventBannerComponent,
-    IframeLoaderComponent,
-    AppGalleryComponent,
-    MeetupComponent,
+    // IframeLoaderComponent,
+    // AppGalleryComponent,
+    // MeetupComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +51,7 @@ import { CardDetailsModule } from './components/card-details/card-details.module
     MatProgressSpinnerModule,
     MatToolbarModule,
     BtnPageBackModule,
-    ProfileDetailModule,
+    // ProfileDetailModule,
     MatSelectModule,
     MatTabsModule,
     BtnFullscreenModule,

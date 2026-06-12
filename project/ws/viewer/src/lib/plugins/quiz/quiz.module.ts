@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
 
 import { QuizComponent } from './quiz.component'
-import { OverviewComponent } from './components/overview/overview.component'
+// import { OverviewComponent } from './components/overview/overview.component'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
 
@@ -41,7 +41,7 @@ import { CongratulationsPopupComponent } from './components/congratulations-popu
 @NgModule({
   declarations: [
     QuizComponent,
-    OverviewComponent,
+    // OverviewComponent,
     QuestionComponent,
     SubmitQuizDialogComponent,
     AssesmentOverviewComponent,
