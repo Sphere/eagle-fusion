@@ -10,15 +10,15 @@ import { LoginGuard } from './guards/login.guard'
 import { EmptyRouteGuard } from './guards/empty-route.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
-import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
+// import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
-import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
+// import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
 import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
 import { PublicCourseBlogComponent } from './routes/public/public-course-blog/public-course-blog.component'
-import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
+// import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
@@ -496,7 +496,8 @@ const routes: Routes = [
   },
   {
     path: 'public/about',
-    component: PublicAboutComponent,
+    // component: PublicAboutComponent,
+    loadChildren: () => import('./routes/public/public-about/public-about.module').then(u => u.PublicAboutModule),
     data: {
       title: 'About Us - Aastrika Sphere',
       seoDescription: 'Learn about Aastrika Sphere — a digital platform enabling health system strengthening and capacity building for healthcare professionals across India.',
@@ -528,7 +529,8 @@ const routes: Routes = [
   },
   {
     path: 'public/contact',
-    component: PublicContactComponent,
+    // component: PublicContactComponent,
+    loadChildren: () => import('./routes/public/public-contact/public-contact.module').then(u => u.PublicContactModule),
     data: {
       title: 'Contact Us - Aastrika Sphere',
       seoDescription: 'Get in touch with the Aastrika Sphere team for queries about our healthcare training courses, partnerships, or platform support.',
@@ -595,7 +597,8 @@ const routes: Routes = [
   },
   {
     path: 'public/faq/:tab',
-    component: PublicFaqComponent,
+    // component: PublicFaqComponent,
+    loadChildren: () => import('./routes/public/public-faq/public-faq.module').then(u => u.PublicFaqModule),
   },
   {
     path: 'public/scrom-player',
