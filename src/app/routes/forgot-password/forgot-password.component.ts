@@ -1,5 +1,5 @@
 import { SignupService } from '../signup/signup.service'
-import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core'
     styleUrls: ['./forgot-password.component.scss'],
     
 })
-export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
+export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: UntypedFormGroup
   email: any
   emailOrMobile = ''
@@ -48,13 +48,6 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     this.resendOtpEnablePostTimer()
   }
 
-  ngAfterViewChecked() {
-    // To show the Resend button after 30s
-    setTimeout(() => {
-      this.showResend = true
-    }, 1000)
-  }
-
   forgotPassword(resendOTP?: string) {
     if (resendOTP) {
       this.resendOtpCounter = this.resendOtpCounter + 1
@@ -82,6 +75,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
             this.openSnackbar(this.translate.instant(res.message))
             this.resendOtpEnablePostTimer()
             this.showOtpPwd = true
+            this.showResend = true
           }
         },
         (error: any) => {
@@ -99,6 +93,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
           if (res.message) {
             this.openSnackbar(this.translate.instant(res.message))
             this.showOtpPwd = true
+            this.showResend = true
             this.resendOtpEnablePostTimer()
             this.showCheckEmailText = true
           }
