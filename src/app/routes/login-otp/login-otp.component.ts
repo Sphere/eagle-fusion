@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core'
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core'
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core'
   styleUrls: ['./login-otp.component.scss'],
 
 })
-export class LoginOtpComponent implements OnInit {
+export class LoginOtpComponent implements OnInit, OnDestroy {
   [x: string]: any
 
   isLoading = false
@@ -125,6 +125,13 @@ export class LoginOtpComponent implements OnInit {
       this.loginOtpForm.controls['code'].setValue(code)
     } else {
       this.logger.error('One or more OTP controls are missing')
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval)
+      this.interval = null
     }
   }
 
