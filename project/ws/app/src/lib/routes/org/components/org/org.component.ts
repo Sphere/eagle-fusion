@@ -146,10 +146,11 @@ export class OrgComponent implements OnInit, OnDestroy {
 
       const sections: any[] = this.currentOrgData.sections ?? []
 
-      // Collect all explicit courseIds across courseGroup + courseList sections for a single batch fetch
+      // Collect all explicit courseIds across courseGroup + courseList sections for a single batch fetch,
+      // excluding any IDs each section has opted to hide via `hideCourse`
       const allCourseIds: string[] = sections
         .filter((s: any) => ['courseGroup', 'courseList'].includes(s.sectionType))
-        .flatMap((s: any) => s.courseIds ?? [])
+        .flatMap((s: any) => (s.courseIds ?? []).filter((id: string) => !(s.hideCourse ?? []).includes(id)))
 
       const needsUserData = sections.some(
         (s: any) => ['continueLearning', 'completed'].includes(s.sectionType)
@@ -194,12 +195,14 @@ export class OrgComponent implements OnInit, OnDestroy {
                 courses = completedCourses
                 break
               case 'courseGroup':
-              case 'courseList':
+              case 'courseList': {
+                const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
                 courses = (sectionConfig.courseIds ?? [])
-                  .filter((id: string) => !startedOrCompletedIds.has(id))
+                  .filter((id: string) => !startedOrCompletedIds.has(id) && !hideCourseIds.has(id))
                   .map((id: string) => courseMap.get(id))
                   .filter(Boolean)
                 break
+              }
             }
             return { config: sectionConfig, courses, showAll: false }
           })
@@ -236,10 +239,12 @@ export class OrgComponent implements OnInit, OnDestroy {
               ...(sectionConfig.taggedSourceName ? [sectionConfig.taggedSourceName] : []),
             ])]
 
+            const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
+
             this.orgService.getSearchV7Results(sourceNames)
               .subscribe((result: any) => {
                 const incoming = (result?.result?.content ?? [])
-                  .filter((c: any) => sourceNames.includes(c.sourceName))
+                  .filter((c: any) => sourceNames.includes(c.sourceName) && !hideCourseIds.has(c.identifier))
                 const existingIds = new Set(target.courses.map((c: any) => c.identifier))
                 const newCourses = incoming.filter((c: any) => !existingIds.has(c.identifier))
                 target.courses = [...target.courses, ...newCourses]
