@@ -56,7 +56,8 @@
       <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5 flex flex-middle main">
         <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
           (click)="goToLink('https://indiannursingcouncil.org/')" alt="inc-logo" />
-        <span class="ml-5 mylearning">{{ currentOrgData.title || 'e-Learning for Maternal and Newborn Health Care' }}</span>
+        <span class="ml-5 mylearning">{{ currentOrgData.title || 'e-Learning for Maternal and Newborn Health Care'
+          }}</span>
       </div>
     </div>
 
@@ -110,10 +111,8 @@
         </div>
         <div class="filter-buttons">
           <ng-container *ngFor="let f of currentOrgData.languageFilters">
-            <button *ngIf="f.show !== false"
-              [class.active]="selectedLanguage === f.value"
-              (click)="filterByLanguage(f.value)"
-              class="filter-btn">{{ f.label }}</button>
+            <button *ngIf="f.show !== false" [class.active]="selectedLanguage === f.value"
+              (click)="filterByLanguage(f.value)" class="filter-btn">{{ f.label }}</button>
           </ng-container>
         </div>
       </div>
@@ -123,10 +122,8 @@
        All sections (continueLearning, courseGroup, courseList, completed, tagSearch)
        are driven by ORG_CONFIG.sources[i].sections[]. No hardcoded strategy branches.
        Each section's title, card config, limit, and button labels come from the Form API. -->
-    <div class="course-container py-1 px-4"
-      *ngFor="let section of orgSections; let i = index">
-      <section class="mt-4 view-all-course-container"
-        *ngIf="section.courses?.length > 0">
+    <div class="course-container py-1 px-4" *ngFor="let section of orgSections; let i = index">
+      <section class="mt-4 view-all-course-container" *ngIf="section.courses?.length > 0">
 
         <!-- Section header -->
         <div class="mb-4 line-label heading-line-yellow flex scroller-container">
@@ -156,8 +153,7 @@
                   <div class="flex">
                     <img
                       [src]="course.posterImage || course.thumbnail || course.appIcon || '/fusion-assets/images/frame-156.svg'"
-                      class="card-img no-prog ws-mat-primary-lite-background"
-                      [alt]="course.name" />
+                      class="card-img no-prog ws-mat-primary-lite-background" [alt]="course.name" />
                     <div class="course-name" [title]="course.name">
                       {{ course.name?.length > 40 ? course.name.slice(0, 40) + '...' : course.name }}
                     </div>
@@ -168,13 +164,14 @@
                   <ng-container *ngIf="course.averageRating && course.averageRating > 0">
                     <div class="rating-block mb-2">
                       <span class="average-rating">{{course.averageRating | number: '1.0-1'}}</span>
-                      <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i, course.averageRating)" alt="Star">
+                      <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i, course.averageRating)"
+                        alt="Star">
                     </div>
                   </ng-container>
                   <div *ngIf="course.cneName" class="flex cne-container">
                     <div class="flex cne-block mr-1">
                       <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
-                      <p class="cne-content mb-0">{{course.cneName}} CNE Points</p>
+                      <p class="cne-content mb-0">{{course.cneName}} CNE</p>
                     </div>
                     <p *ngIf="course.issueCertification" class="certified-text">{{'Certified' | translate}}</p>
                   </div>
@@ -196,10 +193,9 @@
           </div>
           <button
             *ngIf="section.config.button?.show !== false && getFilteredSectionCourses(section.courses)?.length > (section.config.limit || 5)"
-            (click)="section.showAll = !section.showAll"
-            class="view-all-course">
+            (click)="section.showAll = !section.showAll" class="view-all-course">
             {{ section.showAll ? ((section.config.button?.label2 || 'Hide') | translate)
-                                : ((section.config.button?.label1 || 'View all') | translate) }}
+            : ((section.config.button?.label1 || 'View all') | translate) }}
             <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
           </button>
         </ng-container>
@@ -210,9 +206,7 @@
             <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
               <div *ngFor="let course of getFilteredSectionCourses(section.courses)"
                 style="align-self: flex-start; flex-shrink: 0;">
-                <ws-web-course-card
-                  [displayConfig]="section.config.displayConfigWeb"
-                  [courseData]="course">
+                <ws-web-course-card [displayConfig]="section.config.displayConfigWeb" [courseData]="course">
                 </ws-web-course-card>
               </div>
             </ws-utils-horizontal-scroller>
@@ -222,17 +216,14 @@
                 getFilteredSectionCourses(section.courses),
                 section.showAll,
                 section.config.limit || 5)">
-              <ws-mobile-course-view
-                [displayConfig]="section.config.displayConfig"
-                [courseData]="course">
+              <ws-mobile-course-view [displayConfig]="section.config.displayConfig" [courseData]="course">
               </ws-mobile-course-view>
             </div>
             <button
               *ngIf="section.config.button?.show !== false && getFilteredSectionCourses(section.courses)?.length > (section.config.limit || 5)"
-              (click)="section.showAll = !section.showAll"
-              class="view-all-course">
+              (click)="section.showAll = !section.showAll" class="view-all-course">
               {{ section.showAll ? ((section.config.button?.label2 || 'Hide') | translate)
-                                  : ((section.config.button?.label1 || 'View all') | translate) }}
+              : ((section.config.button?.label1 || 'View all') | translate) }}
               <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
             </button>
           </ng-container>
