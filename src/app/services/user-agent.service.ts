@@ -296,19 +296,4 @@ export class UserAgentResolverService {
     }
   }
 
-  async isEditableForSphere(data: any): Promise<boolean> {
-    try {
-      const orgData = await this.http
-        .get<{ id: string }[]>(S3_END_POINTS.SPHERE_PROFILE_UPDATE_ORG)
-        .toPromise()
-      const allowedOrgIds = orgData.map(item => item.id)
-      const hasAccess = allowedOrgIds.includes(data?.rootOrgId)
-      this.logger.log('Editable Access Check:', { rootOrgId: data?.rootOrgId, hasAccess })
-      return hasAccess
-    } catch (error) {
-      this.logger.error('Error fetching org config:', error)
-      return false
-    }
-  }
-
 }
