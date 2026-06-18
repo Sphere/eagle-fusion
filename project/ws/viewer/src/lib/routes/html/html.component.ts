@@ -18,7 +18,7 @@ import { ViewerUtilService } from '../../viewer-util.service'
   selector: 'viewer-html',
   templateUrl: './html.component.html',
   styleUrls: ['./html.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class HtmlComponent implements OnInit, OnDestroy {

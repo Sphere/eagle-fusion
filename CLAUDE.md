@@ -66,12 +66,32 @@ eagle-fusion/
 | `@ws-widget/resolver` | `library/ws-widget/resolver` |
 | `@ws/app` | `project/ws/app/src/public-api` |
 | `@ws/viewer` | `project/ws/viewer` |
+| `@ws/author` | `project/ws/author` |
+| `@ws/admin` | `project/ws/admin` |
+| `@ws/analytics` | `project/ws/analytics` |
+| `@ws/learning-hub` | `project/ws/learning-hub` |
 
 ### Key Services
 - `ConfigurationsService` (`@ws-widget/utils`) — user prefs, locale, feature flags
 - `ValueService` (`@ws-widget/utils`) — responsive breakpoints; `isMobile` is a `computed()` signal (< 768px), `isXSmall$` / `isLtMedium$` are Observables — prefer the Observables in non-signal components to avoid CD issues
 - `SearchServService` — search API, autocomplete, language index
 - `LoggerService` — use instead of `console.log` (TSLint enforces no-console)
+- `ConfigCacheService` (`src/app/services/config-cache.service.ts`) — centralized config caching via BehaviorSubject + sessionStorage; use this instead of calling config endpoints directly
+
+### API Endpoint Constants
+All API paths are defined in `src/app/constants/apiConstants.ts`. Never hardcode URLs — use these constants:
+- `PROTECTED_SLAG_V8 = '/apis/protected/v8'` — authenticated endpoints
+- `PROXY_SLAG_V8 = '/apis/proxies/v8'` — proxy endpoints
+- `PUBLIC_SLAG_V8 = '/apis/public/v8'` — public endpoints
+- `S3_END_POINTS` — S3 asset URLs with cache-busting query params
+
+### HTTP Interceptors (auto-applied — do not add headers manually)
+| File | Purpose |
+|---|---|
+| `src/app/services/app-interceptor.service.ts` | Adds org/rootOrg/locale/userId headers; handles 419 session-expired; skips CORS URLs (S3, CloudFront) |
+| `src/app/services/app-retry-interceptor.service.ts` | Exponential backoff retry for 5xx errors (5s, 10s, 15s…) |
+| `src/app/services/asset-cache-interceptor.service.ts` | Caches static config/i18n JSON in sessionStorage |
+| `project/ws/viewer/src/lib/interceptors/cache-control.interceptor.ts` | Adds 12-hour cache headers for `/hierarchy/` requests |
 
 ---
 
@@ -145,9 +165,10 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 
 ## i18n
 - Library: `@ngx-translate/core` v17
-- Translation files in `src/assets/i18n/`
+- Translation files in `src/assets/i18n/` — `en.json` and `hi.json`
 - Always add `| translate` to user-facing strings in templates
 - Voice search language mapping: `'en' → 'en-IN'`, `'hi' → 'hi-IN'`
+- Key naming: use `SCREAMING_CASE` for new keys (e.g. `ENROLL_NOW`, `VIEW_COURSE`); full sentences used as keys for long strings — match the style of nearby keys
 
 ---
 

@@ -6,6 +6,7 @@ import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/
 import { combineLatest, firstValueFrom } from 'rxjs'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { SeoService } from '../../../services/seo.service'
+import { UserAgentResolverService } from '../../../services/user-agent.service'
 
 @Component({
     standalone: false,
@@ -26,9 +27,11 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private userProfileSvc: UserProfileService,
     private seoSvc: SeoService,
     private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userAgentSvc: UserAgentResolverService,
   ) {}
   async ngOnInit() {
+    this.userAgentSvc.requestGeolocation()
     // Wait for child route if any
     const childRoute = this.activeRoute.firstChild || this.activeRoute
 
@@ -143,8 +146,10 @@ export class PublicTocComponent implements OnInit, OnDestroy {
           const providerName = this.tocData?.sourceName || 'Aastrika Sphere'
 
           this.seoSvc.update({
-            title: `${this.tocData?.name} | Aastrika Sphere`,
-            description,
+            title: `${this.tocData?.name} | Free INC Course — ${providerName} | Aastrika Sphere`,
+            description: description
+              ? `${description} — Free INC-certified course by ${providerName}. Earn CNE points. No fees, no deadline.`.slice(0, 260)
+              : `${this.tocData?.name} — Free INC-certified online course by ${providerName} on Aastrika Sphere. Earn CNE points. No fees, no deadline.`,
             keywords,
             ogType: 'article',
             ogUrl: courseUrl,

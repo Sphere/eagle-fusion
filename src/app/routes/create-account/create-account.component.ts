@@ -10,11 +10,13 @@ import { LanguageDialogComponent } from '../language-dialog/language-dialog.comp
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 import { mustMatch } from '../password-validator'
 import { LoaderService } from '@ws/author/src/public-api'
-import { ConfigurationsService, LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, TelemetryService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { HttpClient } from '@angular/common/http'
 import { LanguageService } from '../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
 import { S3_END_POINTS } from '../../constants/apiConstants'
+import { UserAgentResolverService } from '../../services/user-agent.service'
+import { v4 as uuid } from 'uuid'
 
 // Constants
 const ASSET_PATHS = {
@@ -145,7 +147,9 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private logger: LoggerService,
     private translate: TranslateService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userAgentSvc: UserAgentResolverService,
+    private telemetrySvc: TelemetryService,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForms()
@@ -157,6 +161,10 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     this.setupPasswordValidation()
     this.setupEmailOrMobileValidation()
     this.loadStoredLanguage()
+    if (!localStorage.getItem('telemetrySessionId')) {
+      localStorage.setItem('telemetrySessionId', uuid())
+    }
+    this.userAgentSvc.requestGeolocation()
   }
 
   ngOnDestroy(): void {
@@ -590,8 +598,45 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   }
 
 
+  private fireAccountCreatedTelemetry(type: 'email' | 'mobile'): void {
+    this.telemetrySvc.registrationInteract(
+      { id: localStorage.getItem('telemetrySessionId') || '', type: 'Guest user' },
+      'create-account',
+      { type: 'TOUCH', subtype: 'CONFIRMED-clicked', id: 'create-account', pageid: 'create-account', extra: { pos: [], values: [{ option: type }] } },
+      undefined,
+      {
+        referrer: document.referrer || undefined,
+        screenWidth: screen.width,
+        screenHeight: screen.height,
+        language: navigator.language,
+        utmParams: this.userAgentSvc.getUtmParams(),
+      },
+    )
+  }
+
   private handleSignupSuccess(res: any, type: 'email' | 'mobile'): void {
     if (res.message === 'User successfully created') {
+      const geo = this.userAgentSvc.getStoredGeolocation()
+      if (geo) {
+        this.fireAccountCreatedTelemetry(type)
+      } else {
+        // Geo permission just granted but callback hasn't fired yet — wait up to 3s
+        const waited = { done: false }
+        const interval = setInterval(() => {
+          if (this.userAgentSvc.getStoredGeolocation() || waited.done) {
+            clearInterval(interval)
+            waited.done = true
+            this.fireAccountCreatedTelemetry(type)
+          }
+        }, 300)
+        setTimeout(() => {
+          if (!waited.done) {
+            clearInterval(interval)
+            waited.done = true
+            this.fireAccountCreatedTelemetry(type)
+          }
+        }, 3000)
+      }
       this.trackFacebookPixel(type)
       this.openSnackbar(this.translate.instant(res.message))
       this.navigateToOtpPage()

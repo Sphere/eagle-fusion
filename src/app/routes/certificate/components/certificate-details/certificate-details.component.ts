@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { trim, get, upperCase } from 'lodash'
 import moment from 'moment'
@@ -11,11 +11,11 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 // import { IImpressionEventInput,  } from '@project-sunbird/telemetry-sdk'
 
 @Component({
-    standalone: false,
-    selector: 'app-certificate-details',
-    templateUrl: './certificate-details.component.html',
-    styleUrls: ['./certificate-details.component.scss'],
-    
+  standalone: false,
+  selector: 'app-certificate-details',
+  templateUrl: './certificate-details.component.html',
+  styleUrls: ['./certificate-details.component.scss'],
+
 })
 export class CertificateDetailsComponent implements OnInit {
   appIcon: SafeUrl | null = null
@@ -35,12 +35,19 @@ export class CertificateDetailsComponent implements OnInit {
   recipient = ''
   courseName = ''
   issuedOn = ''
+  maskedEmail = ''
+  maskedPhone = ''
   watchVideoLink!: string
   urls = {
     HIERARCHY: 'course/v1/hierarchy',
     LEARNER_PREFIX: '/learner/',
   }
   @ViewChild('codeInputField', { static: false }) codeInputField!: ElementRef
+
+  /** Phone takes priority over email; empty when neither is available (no empty parentheses shown) */
+  get contactDisplay(): string {
+    return trim(this.maskedPhone) || trim(this.maskedEmail) || ''
+  }
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -49,15 +56,14 @@ export class CertificateDetailsComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     public apiService: ApiService,
     public router: Router,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.instance = upperCase(this.configService.rootOrg || 'aastrika')
-    if (this.configService.instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configService.instanceConfig.logos.appTransparent,
-      )
-    }
+    this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      'fusion-assets/images/Sphere_Logo_4.svg',
+    )
   }
 
   /** It will call the validate cert. api and course_details api (after taking courseId) */
@@ -76,6 +82,9 @@ export class CertificateDetailsComponent implements OnInit {
         this.recipient = get(certData, 'recipient.name')
         this.courseName = get(certData, 'badge.name')
         this.issuedOn = moment(new Date(get(certData, 'issuedOn'))).format('DD MMM YYYY')
+        this.maskedEmail = get(data, 'maskedEmail') || ''
+        this.maskedPhone = get(data, 'maskedPhone') || ''
+        this.cdr.detectChanges()
       },
       () => {
         this.wrongCertificateCode = true
@@ -83,6 +92,7 @@ export class CertificateDetailsComponent implements OnInit {
         this.codeInputField.nativeElement.value = ''
         this.codeInputField.nativeElement.focus()
         this.enableVerifyButton = false
+        this.cdr.detectChanges()
       }
     )
   }
@@ -95,15 +105,6 @@ export class CertificateDetailsComponent implements OnInit {
       this.enableVerifyButton = false
     }
   }
-  /** To redirect to courses tab (for mobile device, they will handle 'href' change) */
-  navigateToCoursesPage() {
-    if (this.activatedRoute.snapshot.queryParams.clientId === 'android') {
-      window.location.href = '/page/learn'
-    } else {
-      this.router.navigate(['/page/learn'])
-    }
-  }
-
   getCourseVideoUrl(courseId: string) {
     this.getCollectionHierarchy(courseId).subscribe(
       (response: any) => {

@@ -116,6 +116,7 @@ export class TelemetryService {
         const page = this.getPageDetails()
         const userAgent = this.UserAgentResolverService.getUserAgent()
         const cookie = this.UserAgentResolverService.generateCookie()
+        const utmParams = this.UserAgentResolverService.getUtmParams()
         const edata = {
           type,
           mode,
@@ -127,7 +128,12 @@ export class TelemetryService {
           timestamp: Date.now(),
           userAgent,
           cookie,
-          ...extras, // Spread extras to include type, subtype, id, pageid, values
+          ...(utmParams.utm_source ? { utm_source: utmParams.utm_source } : {}),
+          ...(utmParams.utm_medium ? { utm_medium: utmParams.utm_medium } : {}),
+          ...(utmParams.utm_campaign ? { utm_campaign: utmParams.utm_campaign } : {}),
+          ...(utmParams.utm_content ? { utm_content: utmParams.utm_content } : {}),
+          ...(utmParams.utm_term ? { utm_term: utmParams.utm_term } : {}),
+          ...extras,
         }
 
         const finalObject = {
@@ -592,6 +598,110 @@ export class TelemetryService {
       this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
+  /**
+   * Fires an INTERACT telemetry event for the registration/create-account flow.
+   * Matches the mobile app event structure. Guest events use sessionId as actor id;
+   * post-registration events use the real userId with type 'User'.
+   */
+  registrationInteract(
+    actor: { id: string; type: string },
+    env: string,
+    edata: {
+      type: string
+      subtype: string
+      id: string
+      pageid: string
+      extra?: { pos: any[]; values?: Record<string, any>[] }
+    },
+    object?: { id: string; type: string; version: string; rollup: any },
+    userContext?: {
+      referrer?: string
+      screenWidth?: number
+      screenHeight?: number
+      language?: string
+      utmParams?: {
+        utm_source?: string | null
+        utm_medium?: string | null
+        utm_campaign?: string | null
+        utm_content?: string | null
+        utm_term?: string | null
+      }
+    },
+  ) {
+    try {
+      if (this.telemetryConfig) {
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const cookie = this.UserAgentResolverService.generateCookie()
+        const deviceModel = this.UserAgentResolverService.getDeviceModel()
+        const guestId = this.getTelemetrySessionId
+
+        const geo = this.UserAgentResolverService.getStoredGeolocation()
+        const contextValues: Record<string, any>[] = [
+          { browserName: userAgent.browserName },
+          { OS: userAgent.OS },
+          ...(deviceModel ? [{ deviceModel }] : []),
+          ...(userContext?.referrer ? [{ referrer: userContext.referrer }] : []),
+          ...(userContext?.screenWidth ? [{ screenWidth: userContext.screenWidth, screenHeight: userContext.screenHeight }] : []),
+          ...(userContext?.language ? [{ language: userContext.language }] : []),
+          ...(userContext?.utmParams?.utm_source ? [{ utm_source: userContext.utmParams.utm_source }] : []),
+          ...(userContext?.utmParams?.utm_medium ? [{ utm_medium: userContext.utmParams.utm_medium }] : []),
+          ...(userContext?.utmParams?.utm_campaign ? [{ utm_campaign: userContext.utmParams.utm_campaign }] : []),
+          ...(userContext?.utmParams?.utm_content ? [{ utm_content: userContext.utmParams.utm_content }] : []),
+          ...(userContext?.utmParams?.utm_term ? [{ utm_term: userContext.utmParams.utm_term }] : []),
+          ...(geo ? [{ latitude: geo.latitude, longitude: geo.longitude, geoAccuracy: geo.accuracy }] : []),
+        ]
+
+        const enrichedEdata = {
+          ...edata,
+          extra: {
+            pos: [],
+            ...edata.extra,
+            values: [
+              ...(edata.extra?.values || []),
+              ...contextValues,
+            ],
+          },
+        }
+
+        const finalObject = {
+          id: 'ekstep.telemetry',
+          ver: '3.0',
+          ets: Date.now(),
+          events: [
+            {
+              eid: 'INTERACT',
+              ets: Date.now(),
+              ver: '3.0',
+              mid: '',
+              actor,
+              context: {
+                cdata: [{ id: guestId, type: 'Guest user' }],
+                env,
+                channel: this.telemetryConfig.channel,
+                pdata: {
+                  id: 'web-ui',
+                  pid: 'sphere.aastrika.org',
+                  ver: '1.0.0',
+                  platform: userAgent.OS || '',
+                },
+                sid: guestId,
+                did: cookie,
+              },
+              edata: enrichedEdata,
+              object: object || { id: '', type: '', version: '', rollup: {} },
+              tags: [],
+            },
+          ],
+        }
+        this.postPublicTelemetry(finalObject)
+      } else {
+        this.logger.error('Error Initializing Telemetry. Config missing.')
+      }
+    } catch (e) {
+      this.logger.log('Error in telemetry registrationInteract', e)
+    }
+  }
+
   postPublicTelemetry(data: any) {
     // this.logger.log("public telemetry")
     return this.http

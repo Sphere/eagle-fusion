@@ -1,18 +1,18 @@
 import { SignupService } from '../signup/signup.service'
-import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-    standalone: false,
-    selector: 'ws-forgot-password',
-    templateUrl: './forgot-password.component.html',
-    styleUrls: ['./forgot-password.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss'],
+
 })
-export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
+export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: UntypedFormGroup
   email: any
   emailOrMobile = ''
@@ -29,10 +29,12 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   maxResendTry = 4
   isEkshamtaLogin: any
 
-  constructor(private router: Router, private signupService: SignupService,
-    private fb: UntypedFormBuilder, private snackBar: MatSnackBar,
+  constructor(private readonly router: Router, private signupService: SignupService,
+    private readonly fb: UntypedFormBuilder, private snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
-    private translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly ngZone: NgZone
   ) {
     this.forgotPasswordForm = this.fb.group({
       otp: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
@@ -46,13 +48,6 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.resendOtpEnablePostTimer()
-  }
-
-  ngAfterViewChecked() {
-    // To show the Resend button after 30s
-    setTimeout(() => {
-      this.showResend = true
-    }, 1000)
   }
 
   forgotPassword(resendOTP?: string) {
@@ -78,14 +73,22 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
 
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
-          if (res.message) {
-            this.openSnackbar(this.translate.instant(res.message))
-            this.resendOtpEnablePostTimer()
-            this.showOtpPwd = true
-          }
+          this.ngZone.run(() => {
+            if (res.message) {
+              this.openSnackbar(this.translate.instant(res.message))
+              this.resendOtpEnablePostTimer()
+              this.showOtpPwd = true
+              this.showResend = true
+              this.cdr.detectChanges()
+            }
+          })
         },
         (error: any) => {
-          this.openSnackbar(this.translate.instant(error.error))
+          this.ngZone.run(() => {
+            const errMsg = error?.error?.message || error?.error || 'Oops! Something went wrong'
+            this.openSnackbar(this.translate.instant(errMsg))
+            this.cdr.detectChanges()
+          })
         })
       // tslint:disable-next-line: max-line-length
     } else if (/^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(this.emailOrMobile)) {
@@ -96,15 +99,23 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
       this.key = 'email'
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
-          if (res.message) {
-            this.openSnackbar(this.translate.instant(res.message))
-            this.showOtpPwd = true
-            this.resendOtpEnablePostTimer()
-            this.showCheckEmailText = true
-          }
+          this.ngZone.run(() => {
+            if (res.message) {
+              this.openSnackbar(this.translate.instant(res.message))
+              this.showOtpPwd = true
+              this.showResend = true
+              this.resendOtpEnablePostTimer()
+              this.showCheckEmailText = true
+              this.cdr.detectChanges()
+            }
+          })
         },
         (error: any) => {
-          this.openSnackbar(this.translate.instant(error.error.message))
+          this.ngZone.run(() => {
+            const errMsg = error?.error?.message || error?.error || 'Oops! Something went wrong'
+            this.openSnackbar(this.translate.instant(errMsg))
+            this.cdr.detectChanges()
+          })
         })
     }
   }
@@ -121,15 +132,22 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     }
     this.signupService.setPasswordWithOtp(requestBody).subscribe(
       (res: any) => {
-        if (res.response) {
-          this.openSnackbar(this.translate.instant(res.response))
-          setTimeout(() => {
-            window.open(res.link, '_self')
-          }, 2000)
-        }
+        this.ngZone.run(() => {
+          if (res.response) {
+            this.openSnackbar(this.translate.instant(res.response))
+            this.cdr.detectChanges()
+            setTimeout(() => {
+              window.open(res.link, '_self')
+            }, 2000)
+          }
+        })
       },
       (error: any) => {
-        this.openSnackbar(this.translate.instant(error.error.message || 'Oops! Something went wrong'))
+        this.ngZone.run(() => {
+          const errMsg = error?.error?.message || 'Oops! Something went wrong'
+          this.openSnackbar(this.translate.instant(errMsg))
+          this.cdr.detectChanges()
+        })
       }
     )
   }
@@ -138,17 +156,22 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     this.counter = 60
     this.disableResendButton = false
     setTimeout(() => {
-      this.disableResendButton = true
+      this.ngZone.run(() => {
+        this.disableResendButton = true
+        this.cdr.detectChanges()
+      })
     }, 1000)
     const interval = setInterval(() => {
-      this.resendOTPbtn = `Resend OTP(${(this.counter)})`
-      // tslint:disable-next-line:no-bitwise
-      this.counter = this.counter - 1
-      if (this.counter < 0) {
-        this.resendOTPbtn = 'Resend OTP'
-        clearInterval(interval)
-        this.disableResendButton = false
-      }
+      this.ngZone.run(() => {
+        this.resendOTPbtn = `Resend OTP(${(this.counter)})`
+        this.counter = this.counter - 1
+        if (this.counter < 0) {
+          this.resendOTPbtn = 'Resend OTP'
+          clearInterval(interval)
+          this.disableResendButton = false
+        }
+        this.cdr.detectChanges()
+      })
     }, 1000)
   }
 

@@ -167,7 +167,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
     // Subscribe to profile updates and clear cache when profile is modified
-    this.userProfileSvc.updateuser$.subscribe((updatedProfile: any) => {
+    this.userProfileSvc.updateuser$.pipe(takeUntil(this.destroy$)).subscribe((updatedProfile: any) => {
       if (updatedProfile) {
         this.logger.log('[RootComponent] Profile updated, refreshing user data cache', updatedProfile)
         this.userDataCacheSvc.clearUserData()
@@ -192,7 +192,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         fromEvent(window, 'online').pipe(mapTo(true)),
         fromEvent(window, 'offline').pipe(mapTo(false)),
       )
-      window.addEventListener('resize', () => {
+      fromEvent(window, 'resize').pipe(takeUntil(this.destroy$)).subscribe(() => {
         this.valueSvc.updateWidth(window.innerWidth)
       })
     }
@@ -439,21 +439,22 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         window.history.go(-1)
       })
     }
-    this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
+    this.rootSvc.showNavbarDisplay$.pipe(delay(500), takeUntil(this.destroy$)).subscribe(display => {
       this.showNavbar = display
       this.changeDetector.detectChanges()
     })
-    this.orgService.hideHeaderFooter.subscribe(show => {
-      this.router.events.subscribe((e: Event) => {
-        if (e instanceof NavigationStart) {
-          this.logger.log(e)
-        } else if (e instanceof NavigationEnd) {
-          this.logger.log(e)
-          this.isHomePage = (e.url == '/page/home' || e.url == '/public/home' || e.url == '/') ? true : false
-        }
-      })
-      if (!isPlatformBrowser(this.platformId) || window.location.pathname !== '/app/new-tnc')
+    // Track home-page state on navigation in a single subscription. Previously this
+    // router.events subscription was created inside the hideHeaderFooter callback, so a
+    // new (never-cleaned) router subscription leaked on every hideHeaderFooter emission.
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((e: Event) => {
+      if (e instanceof NavigationEnd) {
+        this.isHomePage = (e.url === '/page/home' || e.url === '/public/home' || e.url === '/')
+      }
+    })
+    this.orgService.hideHeaderFooter.pipe(takeUntil(this.destroy$)).subscribe(show => {
+      if (!isPlatformBrowser(this.platformId) || window.location.pathname !== '/app/new-tnc') {
         this.hideHeaderFooter = show
+      }
       this.changeDetector.detectChanges()
     })
 
@@ -583,6 +584,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (
           event.url.includes('preview') ||
           event.url.includes('embed') ||
+          event.url.includes('/certs') ||
           event.url.includes('/public/register')
         ) {
           this.isNavBarRequired = false
@@ -684,9 +686,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.appStartRaised = false
         }
         if (!this.configSvc.userProfile) {
-          if (this.paramsJSON && this.paramsJSON !== '{}') {
-            this.UserAgentResolverService.setSource(params)
-          }
+          this.UserAgentResolverService.setSource(params)
           this.logger.log('this.paramsJSON', this.paramsJSON)
           this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         }

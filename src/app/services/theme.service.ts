@@ -53,7 +53,7 @@ const CSS_VAR_MAP: Record<keyof OrgThemeColors, CssVarEntry> = {
   shadow: { cssVar: '--theme-shadow' },
   warning: { cssVar: '--theme-warning' },
   black: { cssVar: '--theme-black' },
-  ellipse: { cssVar: '--theme-ellipse' }
+  ellipse: { cssVar: '--theme-ellipse' },
 }
 
 @Injectable({
@@ -90,7 +90,7 @@ export class ThemeService {
     "shadow": "#0f172a14",
     "warning": "#E0BE80",
     "black": "#000000",
-    "ellipse": "#E7F2FA"
+    "ellipse": "#E7F2FA",
   }
 
   constructor() {
@@ -191,7 +191,7 @@ export class ThemeService {
 
     let css = `.light-theme {`;
 
-    (Object.keys(colors) as Array<keyof OrgThemeColors>).forEach((key) => {
+    (Object.keys(colors) as Array<keyof OrgThemeColors>).forEach(key => {
       const value = colors[key]
       const entry = CSS_VAR_MAP[key]
       if (!entry || !value) return
