@@ -1,82 +1,58 @@
-import { TestBed } from '@angular/core/testing'
+jest.mock('@ws-widget/collection', () => ({
+  WidgetContentService: class { getCouseByContentSearch = jest.fn(); changeWork = jest.fn() },
+  WidgetUserService: class {},
+}))
+jest.mock('../../../../../library/ws-widget/utils/src/public-api', () => ({
+  ConfigurationsService: class {},
+  ValueService: class {},
+  LoggerService: class { log = jest.fn(); warn = jest.fn(); error = jest.fn() },
+}))
+jest.mock('src/app/services/user-data-cache.service', () => ({ UserDataCacheService: class {} }))
+jest.mock('../../../services/language.service', () => ({ LanguageService: class {} }))
+jest.mock('src/app/services/user-agent.service', () => ({ UserAgentResolverService: class {} }))
+
+import { ChangeDetectorRef } from '@angular/core'
+import { Subject } from 'rxjs'
 import { WorkInfoListComponent } from './work-info-list.component'
-import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { HttpClientTestingModule } from '@angular/common/http/testing'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { WidgetContentService } from '@ws-widget/collection'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSelectModule } from '@angular/material/select'
-import { MatOptionModule } from '@angular/material/core'
-import { MatInputModule } from '@angular/material/input'
-import { MobileProfileNavComponent } from '../mobile-profile-nav/mobile-profile-nav.component'
-import { MatIconModule } from '@angular/material/icon'
-
-
-import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { UserAgentResolverService } from '../../../services/user-agent.service'
+import { WidgetContentService } from '@ws-widget/collection'
 import { HttpClient } from '@angular/common/http'
-// import { of } from 'rxjs'
-
-const mockProfileService: Partial<UserProfileService> = {}
-const mockConfigService: Partial<ConfigurationsService> = {}
-const mockValueService: Partial<ValueService> = {}
-const mockWidgetService: Partial<WidgetContentService> = {}
-const mockUserAgentService: Partial<UserAgentResolverService> = {}
-const mockHttpService: Partial<HttpClient> = {}
-const mockSnackBar: Partial<MatSnackBar> = {
-  open: jest.fn(),
-}
+import { LanguageService } from '../../../services/language.service'
 
 describe('WorkInfoListComponent', () => {
   let component: WorkInfoListComponent
+
+  const mockValueService = { isXSmall$: new Subject<boolean>() }
+  const mockConfigService = {} as ConfigurationsService
+  const mockUserProfileService = {} as UserProfileService
+  const mockWidgetContentService = {} as WidgetContentService
+  const mockUserAgentResolverService = {} as any
+  const mockSnackBar = { open: jest.fn() } as any as MatSnackBar
+  const mockHttpClient = {} as HttpClient
+  const mockLanguageService = {} as any as LanguageService
+  const mockLoggerService = { log: jest.fn(), warn: jest.fn(), error: jest.fn() } as any
+  const mockTranslateService = { instant: jest.fn(), get: jest.fn() } as any
+  const mockChangeDetectorRef = { detectChanges: jest.fn() } as any as ChangeDetectorRef
+
   beforeAll(() => {
     component = new WorkInfoListComponent(
-      mockConfigService as ConfigurationsService,
-      mockProfileService as UserProfileService,
-      mockValueService as ValueService,
-      mockWidgetService as WidgetContentService,
-      mockUserAgentService as UserAgentResolverService,
-      mockSnackBar as MatSnackBar,
-      mockHttpService as HttpClient,
-
+      mockConfigService,
+      mockUserProfileService,
+      mockValueService as any as ValueService,
+      mockWidgetContentService,
+      mockUserAgentResolverService,
+      mockSnackBar,
+      mockHttpClient,
+      mockLanguageService,
+      mockLoggerService,
+      mockTranslateService,
+      mockChangeDetectorRef
     )
-  })
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [WorkInfoListComponent, MobileProfileNavComponent],
-      imports: [
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientTestingModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatInputModule,
-        MatIconModule,
-        MatSnackBarModule,
-        NoopAnimationsModule,
-      ],
-      providers: [
-        { provide: ConfigurationsService, useValue: mockConfigService },
-        { provide: UserProfileService, useValue: mockProfileService },
-        { provide: ValueService, useValue: mockValueService },
-        { provide: WidgetContentService, useValue: mockWidgetService },
-        { provide: UserAgentResolverService, useValue: mockUserAgentService },
-        { provide: HttpClient, useValue: mockHttpService },
-        { provide: MatSnackBar, useValue: jest.fn() },
-      ],
-    }).compileComponents()
-  })
-
-
-  beforeEach(() => {
-    jest.clearAllMocks()
   })
 
   it('should create the component', () => {
     expect(component).toBeTruthy()
   })
-
 })

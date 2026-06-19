@@ -1,3 +1,26 @@
+jest.mock('@ws-widget/utils', () => ({
+  ConfigurationsService: class {},
+  LoggerService: class {},
+  ValueService: class {},
+}))
+jest.mock('@ws-widget/collection', () => ({
+  WidgetContentService: class {},
+  WidgetUserService: class {},
+}))
+jest.mock('src/app/services/user-data-cache.service', () => ({
+  UserDataCacheService: class {},
+}))
+jest.mock('src/app/services/user-agent.service', () => ({
+  UserAgentResolverService: class {
+    requestGeolocation = jest.fn()
+  },
+}))
+jest.mock('src/app/services/seo.service', () => ({
+  SeoService: class {
+    update = jest.fn()
+  },
+}))
+
 import { ActivatedRoute } from '@angular/router'
 import { OrgComponent } from './org.component'
 import { MatIconModule } from '@angular/material/icon'
@@ -7,6 +30,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { RouterTestingModule } from '@angular/router/testing'
 import { BehaviorSubject, of } from 'rxjs'
 import { OrgServiceService } from './../../org-service.service'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
+import { WidgetUserService } from '@ws-widget/collection'
+import { SeoService } from 'src/app/services/seo.service'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 describe('OrgComponent', () => {
   let fixture: ComponentFixture<OrgComponent>
@@ -22,6 +49,7 @@ describe('OrgComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             data: orgDataSubject.asObservable(),
+            queryParams: of({ orgId: 'Indian Nursing Council' }),
             snapshot: {
               queryParams: {
                 orgId: 'Indian Nursing Council',
@@ -29,7 +57,13 @@ describe('OrgComponent', () => {
             },
           },
         },
-        OrgServiceService, // Provide the actual service instance
+        OrgServiceService,
+        { provide: ConfigurationsService, useValue: { userProfile: { userId: 'u1' }, unMappedUser: null } },
+        { provide: WidgetUserService, useValue: { fetchUserBatchList: jest.fn().mockReturnValue(of([])) } },
+        { provide: ValueService, useValue: { isLtMedium$: of(false) } },
+        { provide: LoggerService, useValue: { log: jest.fn(), warn: jest.fn(), error: jest.fn() } },
+        { provide: SeoService, useValue: { update: jest.fn() } },
+        { provide: UserAgentResolverService, useValue: { requestGeolocation: jest.fn() } },
       ],
     })
       .compileComponents()
@@ -37,9 +71,10 @@ describe('OrgComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrgComponent)
-    orgService = TestBed.inject(OrgServiceService) // Inject the service
+    orgService = TestBed.inject(OrgServiceService)
     fixture.detectChanges()
   })
+
   it('should create', fakeAsync(() => {
     tick()
     fixture.detectChanges()
@@ -49,15 +84,14 @@ describe('OrgComponent', () => {
   it('should get enrolled user data and competency data for an organisation', done => {
     const orgName = 'Indian Nursing Council'
 
-    // Assume that getEnroledUserForCourses returns an observable
-    spyOn(orgService, 'getEnroledUserForCourses').and.returnValue(of([
+    jest.spyOn(orgService, 'getEnroledUserForCourses').mockReturnValue(of([
       { enrolled_users: '4866', competency_offered: '0' },
-    ]))
+    ]) as any)
 
-    orgService.getEnroledUserForCourses(orgName).subscribe(userEnrolled => {
+    orgService.getEnroledUserForCourses(orgName).subscribe((userEnrolled: any) => {
       expect(userEnrolled[0].enrolled_users).toEqual('4866')
       expect(userEnrolled[0].competency_offered).toEqual('0')
-      done() // Call done() to signal that the asynchronous operation is complete
+      done()
     })
   })
 })

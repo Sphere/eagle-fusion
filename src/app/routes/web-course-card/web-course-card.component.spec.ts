@@ -1,3 +1,7 @@
+jest.mock('src/app/services/user-data-cache.service', () => ({
+  UserDataCacheService: class {},
+}))
+
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { Router } from '@angular/router'
 import { of } from 'rxjs'
@@ -7,6 +11,7 @@ import { SignupService } from '../signup/signup.service'
 import { WebCourseCardComponent } from './web-course-card.component'
 import { Title } from '@angular/platform-browser'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 describe('WebCourseCardComponent', () => {
   let component: WebCourseCardComponent
@@ -20,6 +25,7 @@ describe('WebCourseCardComponent', () => {
     const routerSpy = {
       navigateByUrl: jest.fn(),
       navigate: jest.fn(),
+      url: '',
     }
     Object.defineProperty(window, 'localStorage', {
       value: {
@@ -48,7 +54,7 @@ describe('WebCourseCardComponent', () => {
       setTitle: jest.fn(),
     }
 
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       declarations: [WebCourseCardComponent],
       imports: [MatProgressBarModule /* other modules */],
       providers: [
@@ -57,9 +63,12 @@ describe('WebCourseCardComponent', () => {
         { provide: UserProfileService, useValue: userProfileSvcSpy },
         { provide: SignupService, useValue: signUpSvcSpy },
         { provide: Title, useValue: titleServiceSpy },
+        { provide: TelemetryService, useValue: { log: jest.fn(), audit: jest.fn(), interact: jest.fn() } },
+        { provide: LoggerService, useValue: { log: jest.fn(), warn: jest.fn(), error: jest.fn() } },
       ],
-    }).compileComponents()
-
+    })
+    TestBed.overrideComponent(WebCourseCardComponent, { set: { template: '' } })
+    await TestBed.compileComponents()
     fixture = TestBed.createComponent(WebCourseCardComponent)
     component = fixture.componentInstance
     router = TestBed.inject(Router)
@@ -77,8 +86,6 @@ describe('WebCourseCardComponent', () => {
     component.ngOnInit()
     expect(component.isUserLoggedIn).toBe(true)
   })
-
-
 
   it('should set isLoggedIn to false if configSvc.userProfile is null', () => {
     configSvc.userProfile = null
@@ -100,7 +107,6 @@ describe('WebCourseCardComponent', () => {
     ])
   })
 
-
   it('should call userProfileSvc and navigate in raiseTelemetry', () => {
     configSvc.unMappedUser = { id: 'user123' }
     const data = { identifier: 'course123' }
@@ -112,9 +118,8 @@ describe('WebCourseCardComponent', () => {
     const data = { name: 'Test Course', identifier: 'course123' }
     component.login(data)
     expect(titleService.setTitle).toHaveBeenCalledWith('Test Course - Aastrika')
-    expect(router.navigate).toHaveBeenCalledWith(['/public/toc/overview'], {
+    expect(router.navigate).toHaveBeenCalledWith(['/public/toc/overview', 'course123', 'test-course'], {
       state: { tocData: data },
-      queryParams: { courseId: 'course123' },
     })
   })
 
@@ -129,11 +134,10 @@ describe('WebCourseCardComponent', () => {
   it('should call login in redirectPage if user is not logged in', () => {
     component.isLoggedIn = false
     const course = { identifier: 'course123' }
-    jest.spyOn(component, 'login')
+    jest.spyOn(component, 'login').mockImplementation(() => {})
     component.redirectPage(course)
     expect(component.login).toHaveBeenCalledWith(course)
   })
-
 
   it('should call userProfileSvc and navigate in navigateToToc for unmapped user', () => {
     configSvc.userProfile = { userId: 'user123' }
@@ -142,9 +146,6 @@ describe('WebCourseCardComponent', () => {
     component.navigateToToc(contentIdentifier)
     expect(userProfileSvc.getUserdetailsFromRegistry).toHaveBeenCalledWith('unmappedUser')
   })
-
-
-
 
   it('should set displayConfig default values', () => {
     expect(component.displayConfig).toEqual({
@@ -155,14 +156,8 @@ describe('WebCourseCardComponent', () => {
         sourceName: true,
         rating: true,
         cnePoints: true,
+        cneName: true,
       },
     })
   })
-
-
-
-
-
-
-
 })
