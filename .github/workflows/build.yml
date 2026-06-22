@@ -12,26 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     environment: sonarcloud
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Install dependencies
-        run: yarn
+        run: npm install
       - name: Test and coverage
         run: npm run test-coverage
-      - name: Check token presence
-        run: |
-          if [ -z "$SONAR_TOKEN" ]; then
-            echo "ERROR: SONAR_TOKEN is empty or not set"
-            exit 1
-          else
-            echo "SONAR_TOKEN is set (length: ${#SONAR_TOKEN})"
-          fi
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
