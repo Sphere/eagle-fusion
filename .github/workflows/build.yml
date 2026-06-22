@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - feature/opt2
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -19,7 +20,7 @@ jobs:
       - name: Test and coverage
         run: npm run test-coverage
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@feature/opt2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

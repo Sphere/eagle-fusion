@@ -1,21 +1,25 @@
 globalThis.ngJest = {
-  tsconfig: 'tsconfig.spec.json', // this is the project root tsconfig
+  tsconfig: 'tsconfig.spec.json',
+  diagnostics: false,
 }
 
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
   preset: 'jest-preset-angular',
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'], // Ensure this path is correct
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   transform: {
-    '^.+\\.ts$': ['ts-jest', {
-      tsconfig: 'tsconfig.spec.json',
-      isolatedModules: true,
-      useESM: true,
-    }],
+    '^.+\\.(ts|mjs|js|html|svg)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: 'tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+        diagnostics: false,
+      },
+    ],
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!flat)/',
+    'node_modules/(?!(.*\\.mjs$|@angular|@ngx-translate|@ngrx|keycloak-angular|keycloak-js|lodash-es|uuid|flat))',
   ],
   testEnvironmentOptions: {
     url: "http://localhost",
@@ -78,7 +82,9 @@ module.exports = {
     '@ws/author/src/public-api': '<rootDir>/project/ws/author/src/public-api.ts',
     '@ws/author$': '<rootDir>/project/ws/author/src/public-api.ts',
     '@ws-widget/utils/src/lib/services/utility.service': '<rootDir>/library/ws-widget/utils/src/lib/services/utility.service.ts',
-    '^project/ws/app/src/lib/routes/org/org-service.service': '<rootDir>/project/ws/app/src/lib/routes/org/org-service.service.ts'
+    '^project/ws/app/src/lib/routes/org/org-service.service': '<rootDir>/project/ws/app/src/lib/routes/org/org-service.service.ts',
+    '^src/(.*)$': '<rootDir>/src/$1',
+    '^project/(.*)$': '<rootDir>/project/$1'
 
   }
 }

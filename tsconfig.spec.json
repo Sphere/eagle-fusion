@@ -3,30 +3,44 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": ["jest"],
-    "esModuleInterop": true, // 2. Avoids anoying warnings [check TS option](https://www.typescriptlang.org/tsconfig#esModuleInterop)
-    "emitDecoratorMetadata": true // 3. Make Angular's dependency injection work with jest
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@ws-widget/resolver": ["library/ws-widget/resolver"],
+      "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
+      "@ws-widget/collection": ["library/ws-widget/collection"],
+      "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
+      "@ws-widget/utils": ["library/ws-widget/utils"],
+      "@ws-widget/util": ["library/ws-widget/utils/src/public-api.ts"],
+      "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
+      "@aastrika_npmjs/comptency/competency/services/configuration-context": [
+        "node_modules/@aastrika_npmjs/comptency/competency/services/configuration-context"
+      ],
+      "@aastrika_npmjs/comptency/entry-module/services/configuration-context": [
+        "node_modules/@aastrika_npmjs/comptency/entry-module/services/configuration-context"
+      ],
+      "@ws/app": ["project/ws/app/src/public-api"],
+      "@ws/app/*": ["project/ws/app/*"],
+      "@ws/author": ["project/ws/author"],
+      "@ws/author/*": ["project/ws/author/*"],
+      "@ws/admin": ["project/ws/admin"],
+      "@ws/admin/*": ["project/ws/admin/*"],
+      "@ws/analytics": ["project/ws/analytics"],
+      "@ws/analytics/*": ["project/ws/analytics/*"],
+      "@ws/viewer": ["project/ws/viewer"],
+      "@ws/viewer/*": ["project/ws/viewer/*"],
+      "@ws/learning-hub": ["project/ws/learning-hub"],
+      "@ws/learning-hub/*": ["project/ws/learning-hub/*"],
+      "@aastrika_npmjs/comptency": ["node_modules/@aastrika_npmjs/comptency"],
+      "@aastrika_npmjs/comptency/*": ["node_modules/@aastrika_npmjs/comptency/*"],
+      "@ngx-translate/core": ["node_modules/@ngx-translate/core"]
+    }
   },
   "files": ["src/test.ts", "global.d.ts", "src/polyfills.ts"],
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
-  "paths": {
-    "@ws-widget/resolver": ["library/ws-widget/resolver"],
-    "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
-    "@ws-widget/collection": ["library/ws-widget/collection"],
-    "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
-    "@ws-widget/utils": ["library/ws-widget/utils"],
-    "@ws-widget/util": ["library/ws-widget/utils/src/public-api.ts"],
-    "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
-    "@ws/app": ["project/ws/app"],
-    "@ws/app/*": ["project/ws/app/*"],
-    "@ws/author": ["project/ws/author"],
-    "@ws/author/*": ["project/ws/author/*"],
-    "@ws/admin": ["project/ws/admin"],
-    "@ws/admin/*": ["project/ws/admin/*"],
-    "@ws/analytics": ["project/ws/analytics"],
-    "@ws/analytics/*": ["project/ws/analytics/*"],
-    "@ws/viewer": ["project/ws/viewer"],
-    "@ws/viewer/*": ["project/ws/viewer/*"],
-    "@ws/learning-hub": ["project/ws/learning-hub"],
-    "@ws/learning-hub/*": ["project/ws/learning-hub/*"]
-  }
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts",
+    "project/**/*.spec.ts",
+    "library/**/*.spec.ts"
+  ]
 }
