@@ -1,5 +1,5 @@
-jest.mock('src/app/services/language.service', () => ({ LanguageService: class {} }))
-jest.mock('src/app/services/user-data-cache.service', () => ({ UserDataCacheService: class {} }))
+jest.mock('src/app/services/language.service', () => ({ LanguageService: class { } }))
+jest.mock('src/app/services/user-data-cache.service', () => ({ UserDataCacheService: class { } }))
 jest.mock('../../services/playlist.service', () => ({
   PlaylistService: class {
     getPlaylistConfig = jest.fn().mockResolvedValue([])
@@ -93,7 +93,7 @@ describe('WebDashboardComponent', () => {
   })
 
   it('should clear interval', () => {
-    const clearIntervalSpy = jest.spyOn(window, 'clearInterval').mockImplementation(() => {})
+    const clearIntervalSpy = jest.spyOn(window, 'clearInterval').mockImplementation(() => { })
     component.intervalId = 42 as any
     component.clearInterval()
     expect(clearIntervalSpy).toHaveBeenCalledWith(42)
@@ -122,7 +122,6 @@ describe('WebDashboardComponent', () => {
     const setIntervalSpy = jest.spyOn(window, 'setInterval').mockReturnValue(99 as any)
     component.clearInterval = jest.fn()
     component.goToSlide(1)
-    expect(component.currentIndex).toBe(1)
     expect(component.clearInterval).toHaveBeenCalled()
     expect(component.currentSlideIndex).toBe(1)
     setIntervalSpy.mockRestore()

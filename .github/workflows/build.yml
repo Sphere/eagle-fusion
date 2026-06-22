@@ -12,13 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     environment: sonarcloud
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
       - name: Install dependencies
-        run: yarn
+        run: yarn --frozen-lockfile
       - name: Test and coverage
-        run: npm run test-coverage
+        run: yarn run test-coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
