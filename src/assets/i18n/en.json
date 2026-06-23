@@ -953,5 +953,15 @@
   "VIEW_COURSES": "View Courses",
   "IN_PROGRESS": "In Progress",
   "NO_RESULT_FOUND": "No result found",
-  "NO_DATA_DISPLAY_SELF_ASSESSMENT": "No data to display, please take self-assessment or pass courses to see data in the passbook"
+  "NO_DATA_DISPLAY_SELF_ASSESSMENT": "No data to display, please take self-assessment or pass courses to see data in the passbook",
+  "LEVELS_COMPLETED": "Levels Completed",
+  "CONTINUE_LEARNING": "Continue Learning",
+  "START_COURSE": "Start Course",
+  "VIEW_COURSE": "View Course",
+  "NO_COMPETENCY_COURSES": "No competency courses available at this time.",
+  "VIEW_ALL": "View All",
+  "VIEW_LESS": "View Less",
+  "PENDING": "Pending",
+  "LEVEL": "Level",
+  "COMPETENCY": "Competency"
 }

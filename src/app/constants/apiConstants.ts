@@ -108,6 +108,7 @@ export const API_END_POINTS = {
   COURSE_RECOMENDATION: (profession: string) =>
     `${PUBLIC_SLAG_V8}/mobileApp/courseRemommendationv2?profession=${profession}`,
   COURSE_RECOMMENDATION_V2: `${PUBLIC_SLAG_V8}/mobileApp/publicSearch/courseRecommendationCbp`,
+  GET_ASHA_PROGRESS: (userId: string) => `${PROTECTED_SLAG_V8}/learnerpath?userId=${userId}`,
   CONTENT_READ: (id: string) => `${PROXY_SLAG_V8}/action/content/v3/read/${id}`,
   CONTENT_HIERARCHY: (contentId: string, type: string) => `${PROXY_SLAG_V8}/action/content/v3/hierarchy/${contentId}?hierarchyType=${type}`,
   BATCH_CERT_ISSUE: `${PROXY_SLAG_V8}/course/batch/cert/v1/issue/`,

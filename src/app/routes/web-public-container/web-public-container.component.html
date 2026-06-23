@@ -1,5 +1,7 @@
 <div class="paddingView">
-  <ng-container *ngIf="isLoading()">
+
+  <!-- ── Competency user: full-page loading shimmer ─────────────────────── -->
+  <ng-container *ngIf="isLoading() && !isCompetencyUser()">
     <div class="top-course-container content" *ngFor="let i of [1, 2, 3]">
       <section class="mt-4 view-all-course-container">
         <!-- Header -->
@@ -23,7 +25,15 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!isLoading()">
+  <!-- ── Competency learning path ───────────────────────────────────────── -->
+  <ng-container *ngIf="!isLoading() && isCompetencyUser()">
+    <app-competency-course-list [playlists]="competencyPlaylists()" [designation]="competencyDesignation"
+      [role]="competencyRole" [section]="competencySection" [autoInit]="true">
+    </app-competency-course-list>
+  </ng-container>
+
+  <!-- ── Standard carousel (non-competency users) ──────────────────────── -->
+  <ng-container *ngIf="!isLoading() && !isCompetencyUser()">
     <div class="top-course-container content" *ngFor="let content of uiConfig(); let i = index;">
       <section *ngIf="content?.show && content?.data && content?.data?.length>0"
         class="mt-4 view-all-course-container {{content?.scrollEmit}}" #scrollToCneCourses
@@ -68,4 +78,5 @@
       </div>
     </div>
   </ng-container>
+
 </div>

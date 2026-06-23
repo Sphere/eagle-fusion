@@ -1,0 +1,67 @@
+<div class="ccl-wrapper">
+
+  <!-- ── Loading skeleton ──────────────────────────────────────────────────── -->
+  <ng-container *ngIf="isLoading">
+    <div class="ccl-skeleton__header"></div>
+    <div class="ccl-skeleton__card" *ngFor="let i of SKELETON_ITEMS">
+      <div class="ccl-skeleton__thumb"></div>
+      <div class="ccl-skeleton__body">
+        <div class="ccl-skeleton__line ccl-skeleton__line--tag"></div>
+        <div class="ccl-skeleton__line ccl-skeleton__line--title"></div>
+        <div class="ccl-skeleton__chips">
+          <div class="ccl-skeleton__chip" *ngFor="let c of [1,2,3,4,5]"></div>
+        </div>
+        <div class="ccl-skeleton__progress"></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ── Empty state ───────────────────────────────────────────────────────── -->
+  <ng-container *ngIf="!isLoading && ashaData.length === 0">
+    <div class="ccl-empty">
+      <mat-icon class="ccl-empty__icon">school</mat-icon>
+      <p class="ccl-empty__text">{{ 'NO_COMPETENCY_COURSES' | translate }}</p>
+    </div>
+  </ng-container>
+
+  <!-- ── Content ───────────────────────────────────────────────────────────── -->
+  <ng-container *ngIf="!isLoading && ashaData.length > 0">
+
+    <div class="px-1">
+      <ng-container *ngIf="ashaData?.length > 0">
+        <!-- Section for ongoing courses -->
+        <ng-container *ngIf="inProgressCourses?.length > 0">
+          <div class="asha-course-list">
+            <div class="bg-green line-label flex scroller-container">
+              <span class="header0">
+                {{ section?.text | translate }} ({{ inProgressCourses?.length }})</span>
+            </div>
+            <ng-container *ngFor="let cardData of getVisibleCourses(); let i = index">
+              <app-asha-learning [ashaData]="cardData" [inProgressCoursesCount]="inProgressCourses.length"
+                [expand]="cardData?.expand">
+              </app-asha-learning>
+            </ng-container>
+            <button (click)="viewAllCourse()" class="view-all-course">
+              {{ showAllCourses ? ("VIEW_LESS" | translate) : ("VIEW_ALL" | translate) }}
+              <img class="right-arrow" src="../../../fusion-assets/icons/Arrowpng.png" alt="" />
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- Section for completed courses -->
+        <ng-container *ngIf="completedCourses?.length > 0">
+          <div class="bg-green line-label flex scroller-container">
+            <span class="header3">
+              {{ 'COMPLETED' | translate }}({{ completedCourses?.length }})</span>
+          </div>
+          <ng-container *ngFor="let cardData of completedCourses">
+            <app-asha-learning-completed [ashaData]="cardData" [completedCount]="completedCourses.length"
+              [expand]="false"></app-asha-learning-completed>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+
+  </ng-container>
+
+</div>

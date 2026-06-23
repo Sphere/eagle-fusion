@@ -140,6 +140,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
 import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
 import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
 import { RouterModule } from '@angular/router'
+import { CompetencyCourseListModule } from './component/competency-course-list/competency-course-list.module'
 
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
   try {
@@ -349,6 +350,7 @@ export function initTranslate(translate: TranslateService) {
     MatTooltipModule,
     SearchModule,
     BtnFeatureModule,
+    CompetencyCourseListModule,
     PublicAboutModule,
     PublicHomeModule,
     PublicContactModule,

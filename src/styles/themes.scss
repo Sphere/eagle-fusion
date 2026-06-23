@@ -89,6 +89,7 @@ $theme-token-list: (
   theme-info-display-bg2,
   theme-icon-filter,
   theme-progress,
+  theme-inprogress,
   theme-warning,
   theme-black,
   theme-ellipse
@@ -117,6 +118,7 @@ $light-theme-tokens: (
   theme-info-display-bg2: #f5f5f5,
   theme-icon-filter: none,
   theme-progress: #408f80,
+  theme-inprogress: #F9F487,
   theme-warning: #E0BE80,
   theme-black: #000000,
   theme-ellipse: #E7F2FA
@@ -145,6 +147,7 @@ $dark-theme-tokens: (
   theme-info-display-bg2: #232323,
   theme-icon-filter: invert(1) brightness(2),
   theme-progress: #469788,
+  theme-inprogress: #F9F487,
   theme-warning: #E0BE80,
   theme-black: #000000,
   theme-ellipse: #4E4E4E

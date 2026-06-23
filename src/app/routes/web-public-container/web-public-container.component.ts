@@ -5,12 +5,10 @@ import { MatDialog } from '@angular/material/dialog'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
-import { forkJoin, Observable, of } from 'rxjs'
+import { forkJoin } from 'rxjs'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 import { Subject } from 'rxjs'
-import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
-import { catchError, map } from 'rxjs/operators'
 
 @Component({
   standalone: false,
@@ -53,6 +51,12 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   lang = ''
   isXSmall = computed(() => this.valueSvc.isMobile())
 
+  isCompetencyUser = signal(false)
+  competencyPlaylists = signal<any[]>([])
+  competencyDesignation = ''
+  competencyRole = ''
+  competencySection: any
+
   currentOffset = 0
   pageLimit = 500
   initialPageLimit = 10
@@ -68,7 +72,6 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     private langSvc: LanguageService,
     private valueSvc: ValueService,
     private logger: LoggerService,
-    private contentSvc: WidgetContentService,
   ) {
     this.lang = this.langSvc.getCurrentLanguage()
   }
@@ -134,126 +137,29 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private handleCompetencyFlow(rootOrgId: string, roleCheck: (roles: string[]) => boolean) {
-    const matchedElements = this.plyLsData?.filter(element =>
-      element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
+    const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
 
-    const listOfEnrolledCourseId = (this.userEnrollCourse || [])
-      .filter(course => course?.content?.identifier && !course?.content?.competency)
-      .map(course => course.content.identifier)
+    const competencyPlaylist = this.plyLsData?.find(element =>
+      element.orgId === rootOrgId &&
+      element.language === this.lang &&
+      element.playlistId === 'COMPETENCY_PLAYLIST' &&
+      roleCheck(element.role)
+    )
 
-    const competencySearchArray: string[] = []
-    let baseQuery: any = {}
-    let sourceName: string[] = []
-
-    for (const element of matchedElements || []) {
-      const { playlistId, dataSource } = element
-
-      if (playlistId === 'COMPETENCY_PLAYLIST') {
-        competencySearchArray.push(
-          ...this.buildCompetencySearchArray(dataSource?.payload)
-        )
-      }
-      if (playlistId === 'SEARCH_PLAYLIST') {
-        baseQuery = dataSource?.payload || {}
-
-        baseQuery.request = baseQuery.request || {}
-        baseQuery.request.filters = baseQuery.request.filters || {}
-
-        baseQuery.request.offset = this.currentOffset
-        baseQuery.request.limit = this.pageLimit
-
-        sourceName = baseQuery.request.filters.sourceName || []
-      }
-    }
-    this.currentOffset += this.initialPageLimit
-    this.pageLimit += this.initialPageLimit
-    if (!competencySearchArray.length) {
+    if (!competencyPlaylist) {
       this.isLoading.set(false)
       return
     }
 
-    this.searchContentByCompetencies$(baseQuery, competencySearchArray, sourceName, listOfEnrolledCourseId).subscribe((res: any) => {
-      this.coursesForYou.set(res || [])
-      this.yourPlansCourseIdentifier = this.coursesForYou().filter(item => item?.identifier).map(item => item.identifier)
-      this.updateCourseData()
-    })
-  }
+    this.competencyPlaylists.set([{ ...competencyPlaylist, playlistId: 'COMPETENCY_PLAYLIST' }])
+    this.competencyDesignation = designation
+    this.competencyRole = 'learner'
 
-  buildCompetencySearchArray = (competencyPayload: any[]): string[] => {
-    if (!Array.isArray(competencyPayload) || competencyPayload?.length === 0) {
-      return []
-    }
-    const competencySearchArray: string[] = []
-    competencyPayload.forEach(competencyObj => {
-      Object.keys(competencyObj).forEach(key => {
-        const competency = competencyObj[key]
-        const competencyId = competency?.id
-        if (!competencyId) return
+    const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST')
+    this.competencySection = sectionFromConfig || { text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
 
-        const levelDescriptions = competency?.additionalProperties?.competencyLevelDescription || []
-
-        levelDescriptions.forEach((levelDesc: any) => {
-          const level = levelDesc?.level
-          if (level) {
-            competencySearchArray.push(`${competencyId}-${level}`)
-          }
-        })
-      })
-    })
-    return competencySearchArray
-  }
-
-  searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
-    if (!Array.isArray(competencySearchArray) || competencySearchArray.length === 0) {
-      return of([])
-    }
-
-    const requestBody = typeof structuredClone === 'function'
-      ? structuredClone(baseQuery)
-      : JSON.parse(JSON.stringify(baseQuery))
-
-    requestBody.request = requestBody.request || {}
-    requestBody.request.filters = requestBody.request.filters || {}
-    requestBody.request.filters.competencySearch = competencySearchArray
-
-    return this.contentSvc.getCouseByContentSearch(competencySearchArray, true, requestBody).pipe(
-      map((res: any) => {
-        const content = res?.result?.content ?? []
-        return this.processRecommendedCourses(content, requiredSourceName, listOfEnrolledCourseId)
-      }),
-      catchError(err => {
-        console.error('Error fetching recommendation', err)
-        return of([])
-      })
-    )
-  }
-
-  recommendedCourse = (data: any[]) =>
-    (data || [])
-      .filter(item => item && item.identifier)
-      .map(item => ({
-        identifier: item.identifier,
-        appIcon: item.appIcon,
-        thumbnail: item.posterImage || item.thumbnail,
-        name: item.name,
-        sourceName: item.sourceName,
-        issueCertification: item.issueCertification,
-        averageRating: item.averageRating,
-        competency: item.competency,
-      }))
-
-  processRecommendedCourses = (courseList: any[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): any[] => {
-    const seen = new Set()
-    const enrolledSet = new Set(listOfEnrolledCourseId || [])
-    const sourceSet = new Set(requiredSourceName || [])
-
-    return this.recommendedCourse(courseList).filter(item => {
-      const id = item?.identifier
-      if (!id || seen.has(id) || enrolledSet.has(id)) return false
-      if (!sourceSet.has(item.sourceName)) return false
-      seen.add(id)
-      return true
-    })
+    this.isCompetencyUser.set(true)
+    this.isLoading.set(false)
   }
 
   private handleScrollEvents() {
@@ -309,7 +215,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     if (Array.isArray(this.configData)) {
       const completed = this.userEnrollCourse?.filter((item: any) => item.completionPercentage === 100) || []
       const incomplete = this.userEnrollCourse?.filter((item: any) => item.completionPercentage !== 100) || []
-       this.configData.forEach((element: any) => {
+      this.configData.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
           element.data = incomplete?.filter(item =>
             this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
