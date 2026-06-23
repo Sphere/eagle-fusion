@@ -963,5 +963,13 @@
   "VIEW_LESS": "View Less",
   "PENDING": "Pending",
   "LEVEL": "Level",
-  "COMPETENCY": "Competency"
+  "COMPETENCY": "Competency",
+  "START_SELF_ASSESSMENT": "Start Self Assessment",
+  "START_LEVEL": "Start Level {{level}}",
+  "ACHIEVED_SCORE": "{{result}}% Achieved",
+  "LEVEL_ID_PASSED": "Level {{level}} passed",
+  "GO_BACK_TO_HOME": "Go back to home",
+  "LEVEL_IS_NOT_CLEARED": "Take the course to achieve the level",
+  "COMPLETED_ALL_RECOMMENDED_COURSES": "You have started all the recommended courses - stay tuned for what’s next!",
+  "ASSESSMENT_SUMMARY": "Your attempt summary"
 }
