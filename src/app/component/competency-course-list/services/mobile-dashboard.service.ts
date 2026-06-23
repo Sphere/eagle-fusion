@@ -155,35 +155,115 @@ export class MobileDashboardService {
     return courses
       .map(course => {
         const courseId = String(course.competencyID || '').toLowerCase()
-        const matching: any[] = (progressRecords || []).filter(p => {
-          const pid = p.competencyid ?? p.competencyId ?? ''
-          return String(pid).toLowerCase() === courseId
+        // Normalize: the API returns 'competencylevel' as the level field, not 'levelId'.
+        // Map to 'levelId' here so the rest of the code and the component both see it consistently.
+        const rawProgress: any[] = (progressRecords || [])
+          .filter(p => {
+            const pid = p.competencyid ?? p.competencyId ?? ''
+            return String(pid).toLowerCase() === courseId
+          })
+          .map(p => ({ ...p, levelId: p.levelId ?? p.competencylevel }))
+
+        if (!course.levels?.length) {
+          return { ...course, progress: [] }
+        }
+
+        // Build courseId → level numbers from playlist (mirrors mobile groupLevelsByCourse)
+        const courseGroups = new Map<string, string[]>()
+        for (const level of course.levels) {
+          const levelCourseId = level.course?.[0]?.id
+          if (levelCourseId) {
+            if (!courseGroups.has(levelCourseId)) courseGroups.set(levelCourseId, [])
+            courseGroups.get(levelCourseId)!.push(String(level.level))
+          }
+        }
+
+        // Find completed course IDs using playlist level data
+        const completedCourseIds = new Set<string>()
+        rawProgress.forEach(p => {
+          if (p.passFailStatus === 'Pass' && p.contentType?.toLowerCase() === 'course') {
+            const matchingLevel = course.levels.find(
+              (l: any) => String(l.level) === String(p.levelId)
+            )
+            const levelCourseId = matchingLevel?.course?.[0]?.id
+            if (levelCourseId) completedCourseIds.add(levelCourseId)
+          }
         })
 
-        // Propagate course-level Pass to all associated level numbers
-        const courseGroups: Record<string, number[]> = {}
-        matching.filter(p => p.contentType === 'course' && p.passFailStatus === 'Pass').forEach(p => {
-          if (!courseGroups[p.contentId]) courseGroups[p.contentId] = []
-          courseGroups[p.contentId].push(p.levelId)
-        })
-
-        const expandedProgress: any[] = []
-        Object.values(courseGroups).forEach(levels => {
-          levels.forEach(levelId => {
-            expandedProgress.push({ levelId, passFailStatus: 'Pass', contentType: 'course' })
+        // Expand: mark ALL levels of each completed course as Pass
+        const expandedCoursePass = new Map<string, any>()
+        completedCourseIds.forEach(completedCourseId => {
+          const levelNums = courseGroups.get(completedCourseId) || []
+          const baseProgress = rawProgress.find(p => {
+            const lvl = course.levels.find((l: any) => String(l.level) === String(p.levelId))
+            return lvl?.course?.[0]?.id === completedCourseId && p.passFailStatus === 'Pass'
+          })
+          levelNums.forEach(levelNum => {
+            expandedCoursePass.set(levelNum, {
+              levelId: Number(levelNum),
+              competencyId: course.competencyID,
+              completionpercentage: 100,
+              passFailStatus: 'Pass',
+              attemptcount: baseProgress?.attemptcount || 1,
+              contentType: 'course',
+            })
           })
         })
 
-        const nonCourseProgress = matching.filter(p => p.contentType !== 'course')
-        const allProgress = [...expandedProgress, ...nonCourseProgress]
+        // Mobile pattern: combine ALL non-course records + expanded course records
+        // (using originalProgress ensures no raw record is dropped even with odd levelIds)
+        const originalProgress = new Map<string, any>()
+        rawProgress.forEach(p => originalProgress.set(String(p.levelId), p))
+
+        const finalProgress = new Map(originalProgress)
+        expandedCoursePass.forEach((entry, levelNum) => finalProgress.set(levelNum, entry))
+
+        const nonCourseProgress = rawProgress.filter(p => p.contentType?.toLowerCase() !== 'course')
+        const rawMerged = [...nonCourseProgress, ...Array.from(finalProgress.values())]
+
+        // Priority: if selfAssessment Pass exists for a level, drop course Pass for that level
+        // This prevents double-counting when both paths complete the same level
+        const levelsSaPass = new Set<string>(
+          rawMerged
+            .filter(p => p.contentType?.toLowerCase() === 'selfassessment' && p.passFailStatus === 'Pass')
+            .map(p => String(p.levelId))
+        )
 
         const seen = new Set<string>()
-        const progress = allProgress.filter(p => {
+        const progress = rawMerged.filter(p => {
+          if (
+            p.contentType?.toLowerCase() === 'course' &&
+            p.passFailStatus === 'Pass' &&
+            levelsSaPass.has(String(p.levelId))
+          ) return false // saPass already marks this level done; skip coursePass
+
           const key = `${p.levelId}-${p.contentType}-${p.passFailStatus}`
           if (seen.has(key)) return false
           seen.add(key)
           return true
         })
+
+        // Sequential inference: levels unlock in order 1 → 5.
+        // If level N passes, all levels below N must also have been completed.
+        // The API may only record the highest completed level, not one entry per level.
+        const passedLevelNums = new Set(
+          progress
+            .filter(p => p.passFailStatus === 'Pass')
+            .map(p => Number(p.levelId))
+            .filter(n => !isNaN(n) && n >= 1 && n <= 5)
+        )
+        const maxPassedLevel = passedLevelNums.size > 0 ? Math.max(...passedLevelNums) : 0
+        for (let l = 1; l < maxPassedLevel; l++) {
+          if (!passedLevelNums.has(l)) {
+            progress.push({
+              levelId: l,
+              competencyId: course.competencyID,
+              completionpercentage: 100,
+              passFailStatus: 'Pass',
+              contentType: 'course',
+            })
+          }
+        }
 
         return { ...course, progress }
       })
