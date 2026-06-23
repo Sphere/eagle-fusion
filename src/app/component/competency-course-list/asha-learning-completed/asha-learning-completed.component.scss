@@ -1,193 +1,55 @@
-@use 'ws-mixins';
+:host {
+  display: block;
+}
 
 .completed-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--mat-toolbar-container-background-color, #fff);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(46, 125, 50, 0.15);
-  margin-bottom: 12px;
-  border-left: 4px solid #2e7d32;
+  background-color: #E8F4F2 !important;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 20px;
+  margin-inline: 24%;
+  box-shadow: 0 0 8px #0f172a14;
 
-  @include ws-mixins.breakpoint-xs {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  &__thumb-wrap {
-    position: relative;
-    flex-shrink: 0;
-    width: 110px;
-    height: 82px;
-    border-radius: 8px;
-    overflow: visible;
-
-    @include ws-mixins.breakpoint-xs {
-      width: 80px;
-      height: 60px;
-    }
-  }
-
-  &__thumb {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-
-  &__meta {
-    flex: 1;
-    min-width: 0;
+  &__header {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
   }
 
-  &__competency {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--theme-accent, #2e6491);
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  &__label {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--theme-text-soft, #6b7280);
   }
 
   &__title {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--theme-primary, #333);
-    margin: 0;
-    line-height: 1.4;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  &__levels {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 2px;
-  }
-
-  &__actions {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-
-    @include ws-mixins.breakpoint-xs {
-      flex-direction: row;
-      align-items: center;
-      width: 100%;
-      justify-content: space-between;
-    }
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #111827;
+    margin: 0 0 16px 0;
+    line-height: 1.3;
   }
 }
 
-.completed-badge {
-  position: absolute;
-  bottom: -6px;
-  right: -6px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: #2e7d32;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-
-  mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    color: #fff;
-  }
+.completed-check-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  color: var(--theme-progress, #4a8f7f);
 }
 
-.level-dot {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 20px;
-  background: #e6f4ea;
-  color: #2e7d32;
-
-  mat-icon {
-    font-size: 13px;
-    width: 13px;
-    height: 13px;
-    color: #2e7d32;
-  }
-}
-
-.completed-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #2e7d32;
-  background: #e6f4ea;
-  padding: 4px 12px;
-  border-radius: 20px;
-  white-space: nowrap;
-
-  mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    color: #2e7d32;
-  }
-}
-
-.view-btn {
-  border-radius: 50px !important;
-  white-space: nowrap;
-  font-size: 13px !important;
-}
-
-:host-context(.dark-theme) {
-  .completed-card {
-    border-left-color: #4caf50;
-    border-color: rgba(76, 175, 80, 0.2);
-
-    &__title {
-      color: var(--theme-text, #ecf3f8);
-    }
-
-    &__competency {
-      color: var(--theme-accent, #92b2ce);
-    }
-  }
-
-  .level-dot {
-    background: rgba(46, 125, 50, 0.2);
-    color: #81c784;
-
-    mat-icon {
-      color: #81c784;
-    }
-  }
-
-  .completed-tag {
-    background: rgba(46, 125, 50, 0.15);
-    color: #81c784;
-
-    mat-icon {
-      color: #81c784;
-    }
-  }
-
-  .completed-badge {
-    background: #4caf50;
-  }
+.view-courses-btn {
+  width: 100%;
+  border-radius: 30px !important;
+  background-color: var(--theme-primary) !important;
+  color: var(--theme-on-accent, #fff) !important;
+  height: 44px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 44px;
 }

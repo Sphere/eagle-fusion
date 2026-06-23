@@ -137,7 +137,7 @@ export class AshaLearningComponent implements OnInit {
 
   getCourseId(competencyId: string, levelId: string, ashaData: any): string | null {
     // Extract the language from the ashaData
-    const language = ashaData.lang
+    const language = ashaData.lang || this.translate.getCurrentLang()
 
     // Iterate over the levels in the ashaData
     for (const level of ashaData.levels) {

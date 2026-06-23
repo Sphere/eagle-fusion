@@ -1,39 +1,17 @@
 <div class="completed-card">
-  <!-- Thumbnail with badge -->
-  <div class="completed-card__thumb-wrap">
-    <img
-      [src]="ashaData?.thumbnail || 'assets/fusion-assets/images/default-thumb.png'"
-      class="completed-card__thumb"
-      alt="course thumbnail"
-      (error)="$any($event.target).src='assets/fusion-assets/images/default-thumb.png'"
-    />
-    <div class="completed-badge">
-      <mat-icon>verified</mat-icon>
-    </div>
+
+  <!-- Header: checkmark badge + label -->
+  <div class="completed-card__header">
+    <mat-icon class="completed-check-icon">check_circle</mat-icon>
+    <span class="completed-card__label">{{ 'COMPETENCY' | translate }}</span>
   </div>
 
-  <!-- Meta -->
-  <div class="completed-card__meta">
-    <p class="completed-card__competency">{{ competencyName }}</p>
-    <h3 class="completed-card__title">{{ ashaData?.title }}</h3>
+  <!-- Competency name -->
+  <h3 class="completed-card__title">{{ ashaData?.title }}</h3>
 
-    <!-- All 5 levels passed chips -->
-    <div class="completed-card__levels">
-      <span *ngFor="let level of LEVELS" class="level-dot">
-        <mat-icon>check_circle</mat-icon>
-        {{ 'LEVEL' | translate }} {{ level }}
-      </span>
-    </div>
-  </div>
+  <!-- View Courses button -->
+  <button mat-flat-button class="view-courses-btn" (click)="navigateToCourse()">
+    {{ 'VIEW_COURSES' | translate }}
+  </button>
 
-  <!-- Actions -->
-  <div class="completed-card__actions">
-    <span class="completed-tag">
-      <mat-icon>emoji_events</mat-icon>
-      {{ 'COMPLETED' | translate }}
-    </span>
-    <button mat-stroked-button color="primary" class="view-btn" (click)="navigateToCourse()">
-      {{ 'VIEW_COURSE' | translate }}
-    </button>
-  </div>
 </div>

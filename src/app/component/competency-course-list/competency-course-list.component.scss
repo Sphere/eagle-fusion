@@ -198,8 +198,12 @@ height: 42px;
   padding: 8px !important;
 }
 .header0{
-    background-color: #DCFAFF !important;
+  background-color: #DCFAFF !important;
+  color:#4B4B4B !important;
+}
 
+.header3 {
+  background-color: #C2E3DD !important;
   color:#4B4B4B !important;
 }
 
@@ -226,7 +230,11 @@ height: 42px;
   background-color: #000; /* Adjust color as needed */
 }
 
-.bg-green::after{
+.bg-green::after {
+  background: #A4DFCA;
+}
+
+.bg-blue::after{
   background: #93DAE7;
 }
 .orange::after{
