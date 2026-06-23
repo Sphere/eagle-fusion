@@ -13,13 +13,13 @@ export class AshaLearningComponent implements OnInit {
   @Input() ashaData
   @Input() expand
   @Input() inProgressCoursesCount?: number
-  isExpanded: boolean = false;
-  btnName: string = "Start";
-  levels = [1, 2, 3, 4, 5];
-  showBtn = true;
-  completedLevels: number[] = [];
-  failedLevels: number[] = [];
-  currentLevel = 0;
+  isExpanded: boolean = false
+  btnName: string = "Start"
+  levels = [1, 2, 3, 4, 5]
+  showBtn = true
+  completedLevels: number[] = []
+  failedLevels: number[] = []
+  currentLevel = 0
   nextLevelInfo: any
   constructor(
     private router: Router,
@@ -166,12 +166,12 @@ export class AshaLearningComponent implements OnInit {
       console.error("ashaData or ashaData properties are undefined.")
     } else {
       // Iterate through each content in res
-      matchedContent = res.find((content) => {
+      matchedContent = res.find(content => {
         // Iterate through all levels in ashaData
-        for (let level of this.ashaData.levels) {
+        for (const level of this.ashaData.levels) {
           if (level.level == levelId) {
             // Iterate through all courses in the level
-            for (let course of level.course) {
+            for (const course of level.course) {
               const courseIdMatches = course.id === content.identifier
               const languageMatches = content.lang === this.ashaData.lang
 
@@ -188,9 +188,9 @@ export class AshaLearningComponent implements OnInit {
         }
 
         // If no match was found, look for courseIdMatches condition alone
-        for (let level of this.ashaData.levels) {
+        for (const level of this.ashaData.levels) {
           if (level.level == levelId) {
-            for (let course of level.course) {
+            for (const course of level.course) {
               const courseIdMatches = course.id === content.identifier
               if (courseIdMatches) {
                 console.log("Only courseIdMatches:", course.id, content.identifier)
@@ -227,7 +227,7 @@ export class AshaLearningComponent implements OnInit {
     }
 
     const completedLevels = _.filter(this.getEarnedProgress(), { passFailStatus: 'Pass' }).length
-    let totalPercentage = (completedLevels / 5) * 100 // Assuming 5 levels total
+    const totalPercentage = (completedLevels / 5) * 100 // Assuming 5 levels total
     this.showBtn = totalPercentage === 100 ? false : true
     return totalPercentage
   }
@@ -249,7 +249,7 @@ export class AshaLearningComponent implements OnInit {
       .filter((entry: any) => entry.passFailStatus === "Fail")
       .map((entry: any) => entry.levelId)
 
-    const nextLevel = this.levels.find((level) => !this.completedLevels.includes(level))
+    const nextLevel = this.levels.find(level => !this.completedLevels.includes(level))
 
     this.currentLevel = nextLevel ? this.levels.indexOf(nextLevel) : this.levels.length
   }
@@ -281,7 +281,7 @@ export class AshaLearningComponent implements OnInit {
 
     // Find the next incomplete level
     const nextIncompleteLevel = allLevels
-      .filter((level) => !completedLevels.includes(level))
+      .filter(level => !completedLevels.includes(level))
       .reduce((min, level) => (min === null || level < min ? level : min), null)
 
     // If all levels are completed
@@ -294,7 +294,7 @@ export class AshaLearningComponent implements OnInit {
 
     // If no entries exist for the next incomplete level, fallback to the closest lower completed level
     if (nextLevelEntries.length === 0) {
-      const lowerCompletedLevels = completedLevels.filter((level) => level < nextIncompleteLevel)
+      const lowerCompletedLevels = completedLevels.filter(level => level < nextIncompleteLevel)
       const fallbackLevel =
         lowerCompletedLevels.length > 0 ? Math.max(...lowerCompletedLevels) : Math.min(...completedLevels, 0)
       nextLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === fallbackLevel)

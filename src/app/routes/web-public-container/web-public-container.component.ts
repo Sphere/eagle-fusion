@@ -240,7 +240,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       ...this.featuredCourseIdentifier,
     ]
     const programIds = [
-      ...this.programIdentifiers
+      ...this.programIdentifiers,
     ]
 
     const requests = !this.configSvc?.unMappedUser ? [this.orgService.getTopLiveSearchResults(defaultIds, 'en')] :

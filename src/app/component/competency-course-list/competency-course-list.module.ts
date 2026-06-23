@@ -20,7 +20,7 @@ import { StepperComponent } from './stepper/stepper.component'
     CompetencyCourseListComponent,
     AshaLearningComponent,
     AshaLearningCompletedComponent,
-    StepperComponent
+    StepperComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +31,7 @@ import { StepperComponent } from './stepper/stepper.component'
     MatProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
   ],
   exports: [
     CompetencyCourseListComponent,

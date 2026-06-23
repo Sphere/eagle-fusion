@@ -25,8 +25,8 @@ export class MobileDashboardService {
     const competencies: any[] = item.dataSource?.payload || []
     if (!competencies.length) return null
 
-    const competencyIds: string[] = _.flatMap(competencies, (compObj) =>
-      Object.keys(compObj).map((key) => compObj[key].id)
+    const competencyIds: string[] = _.flatMap(competencies, compObj =>
+      Object.keys(compObj).map(key => compObj[key].id)
     )
     const competencyLevels: any[] = competencies.flatMap((compObj: any) =>
       Object.values(compObj).flatMap((comp: any) => {

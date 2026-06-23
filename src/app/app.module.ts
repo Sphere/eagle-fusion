@@ -308,7 +308,7 @@ export function initTranslate(translate: TranslateService) {
     WebPublicComponent,
     AshaLearningCardComponent,
     WebCourseViewComponent,
-    ProgramHome
+    ProgramHome,
     // SearchRootComponent
   ],
   exports: [

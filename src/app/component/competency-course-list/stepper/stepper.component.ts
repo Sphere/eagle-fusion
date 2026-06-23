@@ -1,15 +1,15 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 
 @Component({
   standalone: false,
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
-  styleUrls: ['./stepper.component.scss']
+  styleUrls: ['./stepper.component.scss'],
 })
-export class StepperComponent {
-  @Input() levels: number[] = [];
-  @Input() completedLevels: number[] = [];
-  @Input() failedLevels: number[] = [];
+export class StepperComponent implements OnInit {
+  @Input() levels: number[] = []
+  @Input() completedLevels: number[] = []
+  @Input() failedLevels: number[] = []
   @Input() currentLevel!: number
   constructor() {
 
