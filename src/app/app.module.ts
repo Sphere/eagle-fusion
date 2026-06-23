@@ -114,6 +114,7 @@ import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-fea
 import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
 import { UserAgentResolverService } from './services/user-agent.service'
 import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
+import { AshaLearningCardComponent } from './routes/asha-learning/asha-learning-card.component'
 import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
 import {
   PipeCountTransformModule,
@@ -141,6 +142,7 @@ import { DowntimeFullComponent } from './component/downtime-full/downtime-full.c
 import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
 import { RouterModule } from '@angular/router'
 import { CompetencyCourseListModule } from './component/competency-course-list/competency-course-list.module'
+import { ProgramHome } from './program/program-home/program-home'
 
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
   try {
@@ -304,7 +306,9 @@ export function initTranslate(translate: TranslateService) {
     WebFeaturedCourseComponent,
     WebNavLinkPageComponent,
     WebPublicComponent,
+    AshaLearningCardComponent,
     WebCourseViewComponent,
+    ProgramHome
     // SearchRootComponent
   ],
   exports: [

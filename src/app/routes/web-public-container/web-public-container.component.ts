@@ -26,6 +26,8 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   cneCourse = signal<any[]>([])
   coursesForYou = signal<any[]>([])
   coursesForEK = signal<any[]>([])
+  programCourses = signal<any[]>([])
+  ashaLearningItems = signal<any[]>([])
   videoData: any
   homeFeatureData: any
   homeFeature: any
@@ -34,10 +36,12 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   topCertifiedCourseIdentifier: any = []
   cneCoursesIdentifier: any = []
   yourPlansCourseIdentifier: any = []
+  programIdentifiers: any = []
   featuredCourseIdentifier: any = []
   @Input() userEnrollCourse: any
   @Input() isEkshamata: any
   @Input() configData: any
+  @Input() programConfig!: any
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
@@ -50,6 +54,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   uiConfig = signal<any[]>([])
   lang = ''
   isXSmall = computed(() => this.valueSvc.isMobile())
+  expandedCardId: string | null = null
 
   isCompetencyUser = signal(false)
   competencyPlaylists = signal<any[]>([])
@@ -61,7 +66,8 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   pageLimit = 500
   initialPageLimit = 10
   plyLsData: any[] = []
-
+  showbackButton = computed(() => this.playlistSvc.showDetails())
+  selectedProgDet = computed(() => this.playlistSvc.selectedProgram())()
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -77,6 +83,8 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async ngOnInit() {
+    console.log("selectedProgDet ", this.selectedProgDet)
+
     this.isLoading.set(true)
     this.handleScrollEvents()
     const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
@@ -84,30 +92,33 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     const rootOrgId = this.configSvc?.userProfile?.rootOrgId
     const roleCheck = (roles: string[]) =>
       roles?.some(r => r.toLowerCase() === designationLower)
-    if (Array.isArray(this.configData)) {
+    if (this.showbackButton() && !!this.programConfig) {
+      this.configData = this.programConfig?.tabs
+      this.uiConfig.set(this.configData)
+      this.programIdentifiers = this.selectedProgDet.payload
+    } else if (Array.isArray(this.configData)) {
       this.uiConfig.set(this.configData.slice(1, -1))
-    }
-    if (this.configSvc?.userProfile) {
-      this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-      this.logger.log('plyLsData', this.plyLsData)
+      if (this.configSvc?.userProfile) {
+        this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+        this.logger.log('plyLsData', this.plyLsData)
 
-      for (const element of this.plyLsData) {
-        if (element.orgId !== rootOrgId || element.language !== this.lang) continue
-        const { playlistId, dataSource } = element
-
-        if (designation && roleCheck(element.role)) {
-          if (playlistId === 'YOUR_PLANS_PLAYLIST') {
-            this.yourPlansCourseIdentifier = dataSource.payload
+        for (const element of this.plyLsData) {
+          if (element.orgId !== rootOrgId || element.language !== this.lang) continue
+          const { playlistId, dataSource } = element
+          if (designation && roleCheck(element.role)) {
+            if (playlistId === 'YOUR_PLANS_PLAYLIST') {
+              this.yourPlansCourseIdentifier = dataSource.payload
+            }
           }
-        }
-        if (playlistId === 'TOP_COURSE_PLAYLIST') {
-          this.topCertifiedCourseIdentifier = dataSource.payload
-        }
-        if (playlistId === 'CNE_COURSE_PLAYLIST') {
-          this.cneCoursesIdentifier = dataSource.payload
-        }
-        if (this.isEkshamata && playlistId === 'FEATURED_COURSE_PLAYLIST') {
-          this.featuredCourseIdentifier = dataSource.payload
+          if (playlistId === 'TOP_COURSE_PLAYLIST') {
+            this.topCertifiedCourseIdentifier = dataSource.payload
+          }
+          if (playlistId === 'CNE_COURSE_PLAYLIST') {
+            this.cneCoursesIdentifier = dataSource.payload
+          }
+          if (this.isEkshamata && playlistId === 'FEATURED_COURSE_PLAYLIST') {
+            this.featuredCourseIdentifier = dataSource.payload
+          }
         }
       }
     }
@@ -122,7 +133,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       })
     }
     // Main flow
-    if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0) {
+    if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0 || this.programIdentifiers.length > 0) {
       this.fetchEnvironmentConfigurations()
       return
     } else {
@@ -162,6 +173,51 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     this.isLoading.set(false)
   }
 
+  normalizeCompetencyPayload(payload: any): any[] {
+    if (!payload) {
+      return []
+    }
+
+    if (Array.isArray(payload) && payload.length > 0 && payload[0]?.id && Array.isArray(payload[0]?.levels)) {
+      return payload
+    }
+
+    if (Array.isArray(payload)) {
+      return payload.flatMap((item: any) => {
+        if (item?.id && Array.isArray(item.levels)) {
+          return [item]
+        }
+
+        if (item && typeof item === 'object') {
+          return Object.keys(item).map(key => {
+            const competency = item[key]
+            return {
+              id: competency?.id || competency?.competencyId || key,
+              title: competency?.title || competency?.name || competency?.competencyName,
+              levels: competency?.levels || competency?.additionalProperties?.competencyLevelDescription || [],
+              progress: competency?.progress || competency?.learnerPathProgress,
+            }
+          })
+        }
+        return []
+      })
+    }
+
+    if (typeof payload === 'object') {
+      return Object.keys(payload).map(key => {
+        const competency = payload[key]
+        return {
+          id: competency?.id || competency?.competencyId || key,
+          title: competency?.title || competency?.name || competency?.competencyName,
+          levels: competency?.levels || competency?.additionalProperties?.competencyLevelDescription || [],
+          progress: competency?.progress || competency?.learnerPathProgress,
+        }
+      })
+    }
+
+    return []
+  }
+
   private handleScrollEvents() {
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       const section = this.sections.find(
@@ -183,9 +239,12 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       ...this.yourPlansCourseIdentifier,
       ...this.featuredCourseIdentifier,
     ]
+    const programIds = [
+      ...this.programIdentifiers
+    ]
 
     const requests = !this.configSvc?.unMappedUser ? [this.orgService.getTopLiveSearchResults(defaultIds, 'en')] :
-      [this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers], this.lang)]
+      [this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers, ...programIds], this.lang)]
 
     return forkJoin(requests).subscribe((responses: any[]) => {
       const content = responses.flatMap(res => res?.result?.content || [])
@@ -201,12 +260,13 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       const topCertifiedSet = new Set(this.topCertifiedCourseIdentifier)
       const yourPlansSet = new Set(this.yourPlansCourseIdentifier)
       const featureSet = new Set(this.featuredCourseIdentifier)
+      const programSet = new Set(this.programIdentifiers)
 
       this.cneCourse.set(uniqBy(content.filter(item => cneSet.has(item.identifier)), 'identifier'))
       this.topCertifiedCourse.set(uniqBy(content.filter(item => topCertifiedSet.has(item.identifier)), 'identifier'))
       this.coursesForYou.set(uniqBy(content.filter(item => yourPlansSet.has(item.identifier)), 'identifier'))
       this.coursesForEK.set(uniqBy(content.filter(item => featureSet.has(item.identifier)), 'identifier'))
-
+      this.programCourses.set(uniqBy(content.filter(item => programSet.has(item.identifier)), 'identifier'))
       this.updateCourseData()
     })
   }
@@ -221,7 +281,8 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
             this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
-          element.data = this.coursesForYou().filter(item =>
+          const courseList = this.programIdentifiers.length > 0 ? this.programCourses() : this.coursesForYou()
+          element.data = courseList.filter(item =>
             !this.userEnrollCourse?.some(bItem => bItem.identifier === item.identifier)
           )
           element.displayData = element?.data?.slice(0, element.limit)
@@ -243,6 +304,11 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     setTimeout(() => {
       this.isLoading.set(false)
     })
+  }
+
+  onCardExpanded(id: string | undefined, expanded: boolean) {
+    if (!id) return
+    this.expandedCardId = expanded ? id : (this.expandedCardId === id ? null : this.expandedCardId)
   }
 
   // For opening Course Page
@@ -295,4 +361,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     this.destroy$.complete()
   }
 
+  backScreen() {
+    this.playlistSvc.showDetails.set(false)
+  }
 }

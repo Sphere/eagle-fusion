@@ -10,6 +10,7 @@ import {
   effect,
   HostListener,
   Signal,
+  computed,
   Inject,
   PLATFORM_ID,
 } from '@angular/core'
@@ -111,6 +112,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   domain: string
   bodyConfig: any
   footerConfig: any
+  programConfig: any
+  // programSec: boolean = false
+  showProgramDet = computed(() => this.playlistSvc.showDetails())
+  hasProgramConfig = false
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -494,8 +499,14 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
       const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
+      this.programConfig = this.playlistSvc.programs()
+      this.hasProgramConfig = !!this.programConfig && Object.keys(this.programConfig).length > 0
+      // Reset details page only when program config exists
+      if (this.hasProgramConfig) {
+        this.playlistSvc?.showDetails.set(false)
+      }
       this.configData = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
-      this.bodyConfig = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
+      this.bodyConfig = this.configData
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
       this.showNavbar = true
       this.videoData = this.configData?.[this.configData?.length - 1]

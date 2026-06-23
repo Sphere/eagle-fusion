@@ -20,6 +20,7 @@ export class PlaylistService {
   sections = computed(
     () => this.playlistData()?.LAYOUT_BODY?.sections ?? {}
   )
+  programs = computed(() => this.playlistData()?.LAYOUT_BODY?.programConfig ?? '')
 
   selectedTabConfig = computed(() => {
     const sections = this.sections()
@@ -33,6 +34,8 @@ export class PlaylistService {
 
   private earnedBadgesSubject = new BehaviorSubject<number>(0)
   earnedBadges$ = this.earnedBadgesSubject.asObservable()
+  showDetails = signal(false)
+  selectedProgram = signal<any | null>({})
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService,
@@ -60,7 +63,7 @@ export class PlaylistService {
         type: 'web_layout',
         subtype: 'v1',
         action: 'get',
-        component: (orgId && window.location.href.includes('ekshamata')) ? 'ekshamata' : 'web',
+        component: (orgId && window.location.href.includes('localhost')) ? 'ekshamata' : 'web',
         rootOrgId: orgId || '*',
       },
     }
@@ -72,6 +75,9 @@ export class PlaylistService {
         .toPromise()
 
       const data = response?.result?.form?.data ?? null
+      if (data?.LAYOUT_BODY?.programConfig) {
+        this.getPlaylistConfig()
+      }
       this.playlistData.set(data)
 
       return data

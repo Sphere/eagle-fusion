@@ -1,4 +1,45 @@
+// ── PROGRAMS section label with teal divider ─────────────────────────────────
 @use 'ws-mixins';
+.px-4 { padding: 0 16px; }
+
+.line-label {
+  position: relative;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.line-label::before,
+.line-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(147, 218, 231, 1);
+}
+
+.line-label span {
+  position: relative;
+  display: inline-block;
+  padding: 0 15px;
+  background: rgba(220, 250, 255, 1);
+  z-index: 9;
+  color: #4b4b4b;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 28.8px;
+  font-family: 'Roboto';
+  text-transform: uppercase;
+}
+
+// ── Program cards container ───────────────────────────────────────────────────
+.program-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+}
 
 .line-label {
   position: relative;
@@ -135,71 +176,11 @@ height: 42px;
 
 }
 
-h1 {
-  text-transform: uppercase;
-  margin-left: 8rem;
-  padding-top: 5rem;
-  padding-bottom: 2rem;
-  font-size: 54px;
-  font-weight: 400;
-  color: var(--theme-accent);
-}
-
-.program-banner {
-  height: 275px;
-  // margin-top: 5rem;
-  background-repeat: no-repeat;
-  background-image: url('/fusion-assets/images/program-detail-web.svg');
-  background-size: cover;
-}
-
-.program-banner-mob {
-  // margin-top: 5rem;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url('/fusion-assets/images/program-detail.svg') !important;
-  h1 {
-    margin-left: 2rem;
-    padding-top: 0.5rem;
-    padding-bottom: 2rem;
-    font-size: 24px;
-  }
-}
-
-::ng-deep .dark-theme {
-  .program-banner {
-    height: 275px;
-    // margin-top: 5rem;
-    background-repeat: no-repeat;
-    background-image: url('/fusion-assets/images/program-detail-web-dark.svg');
-    background-size: cover;
-  }
-
-  .program-banner-mob {
-    // margin-top: 5rem;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url('/fusion-assets/images/program-detail-dark.svg') !important;
-  }
-
-  h1 {
-    color: var(--theme-primary);
-  }
-}
-
 @media only screen and (min-width: 600px) and (max-width: 959px) {
   .view-all-course-container {
     padding: 0px 50px;
   }
-  .asha-learning-section {
-    padding: 0 85px;
-  }
 
-  .asha-learning-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-  }
   .featuredCourse-section {
     padding: 0px 50px;
   }
@@ -418,50 +399,5 @@ h1 {
 
   h3 {
     color: var(--theme-text);
-  }
-}
-
-@media (min-width: 960px) {
-  .asha-learning-section {
-    padding: 0 120px;
-  }
-
-  .asha-learning-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 24px;
-    grid-auto-rows: minmax(160px, auto);
-    align-items: start;
-  }
-
-  .asha-card-wrapper {
-    transition: all 200ms ease;
-  }
-
-  .asha-card-wrapper.expanded {
-    grid-row: span 2;
-  }
-
-  /* Horizontal scroller item sizing: show ~4 cards per viewport */
-  .asha-learning-scroller {
-    display: flex;
-    gap: 24px;
-    padding: 8px 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .asha-learning-scroller > div {
-    /* 4 cards per view with 24px gaps -> total gap = 3 * 24 = 72px */
-    flex: 0 0 calc((100% - 72px) / 4);
-    max-width: calc((100% - 72px) / 4);
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-  }
-
-  .asha-learning-scroller > div ws-asha-learning-card,
-  .asha-learning-scroller > div > ws-asha-learning-card {
-    width: 100%;
   }
 }
