@@ -161,4 +161,88 @@ describe('WorkInfoEditComponent', () => {
       expect(mockUnsubscribe).toHaveBeenCalled()
     })
   })
+
+  describe('ngOnInit', () => {
+    it('should call getUserDetails when userProfile is set', () => {
+      sessionStorage.setItem('work', 'true')
+      const spy = jest.spyOn(component as any, 'getUserDetails')
+      component.ngOnInit()
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('should set workLog from sessionStorage', () => {
+      sessionStorage.setItem('work', 'true')
+      component.ngOnInit()
+      expect(component.workLog).toBe('true')
+    })
+
+    it('should set workLog to null when sessionStorage is empty', () => {
+      component.workLog = 'something'
+      mockConfigSvc.userProfile = null
+      component.ngOnInit()
+      expect(component.workLog).toBeNull()
+    })
+  })
+
+  describe('getUserDetails', () => {
+    it('should skip API call when userProfile is null', () => {
+      mockConfigSvc.userProfile = null
+      component['getUserDetails']()
+      expect(mockUserProfileSvc.getUserdetailsFromRegistry).not.toHaveBeenCalled()
+    })
+
+    it('should fetch user data and call updateForm when workLog is true', () => {
+      component.workLog = 'true'
+      const spy = jest.spyOn(component, 'updateForm')
+      component['getUserDetails']()
+      expect(mockUserProfileSvc.getUserdetailsFromRegistry).toHaveBeenCalledWith('unmapped-1')
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('should reset form when workLog edit is false', () => {
+      component.workLog = { edit: false }
+      const resetSpy = jest.spyOn(component.workInfoForm, 'reset')
+      component['getUserDetails']()
+      expect(resetSpy).toHaveBeenCalled()
+    })
+
+    it('should call updateForm when route has isEdit param', () => {
+      component.workLog = 'true'
+      const updateSpy = jest.spyOn(component, 'updateForm')
+      mockRoute.queryParams.next({ isEdit: true })
+      component['getUserDetails']()
+      expect(updateSpy).toHaveBeenCalled()
+    })
+  })
+
+  describe('onSubmit', () => {
+    let componentWithMocks: any
+
+    beforeEach(() => {
+      componentWithMocks = new WorkInfoEditComponent(
+        mockConfigSvc,
+        mockUserProfileSvc,
+        mockRouter,
+        mockSnackBar,
+        mockRoute,
+        mockValueSvc,
+        { getUserAgent: jest.fn().mockReturnValue({ OS: 'Mac', browserName: 'Chrome' }), generateCookie: jest.fn().mockReturnValue('cookie') } as any,
+        mockContentSvc,
+        { getCurrentLanguage: jest.fn().mockReturnValue('en') } as any,
+        mockLogger,
+        { instant: jest.fn().mockReturnValue('Success') } as any,
+      )
+      componentWithMocks.userProfileData = { professionalDetails: [] }
+    })
+
+    it('should call updateProfileDetails and navigate to workinfo-list on success', () => {
+      componentWithMocks.onSubmit({ organizationName: 'Test Org', designation: 'Dev' })
+      expect(mockUserProfileSvc.updateProfileDetails).toHaveBeenCalled()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/workinfo-list'])
+    })
+
+    it('should not throw when form has no doj', () => {
+      expect(() => componentWithMocks.onSubmit({ organizationName: 'Org' })).not.toThrow()
+    })
+  })
 })

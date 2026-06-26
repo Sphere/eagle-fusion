@@ -4,6 +4,9 @@ jest.mock('src/app/routes/signup/signup.service', () => ({
     sendOTP = jest.fn()
     resendOTP = jest.fn()
     fetchStartUpDetails = jest.fn()
+    ssoValidateOTP = jest.fn()
+    ssoValidateOrgOTP = jest.fn()
+    generateOtp = jest.fn()
   },
 }))
 
@@ -190,6 +193,146 @@ describe('PublicLoginComponent', () => {
     it('should return short phone as-is', () => {
       const result = (component as any).maskPhone('123')
       expect(result).toBe('123')
+    })
+  })
+
+  describe('ngOnInit', () => {
+    it('should call seoSvc.update', () => {
+      component.ngOnInit()
+      expect(mockSeoSvc.update).toHaveBeenCalledWith(
+        expect.objectContaining({ noindex: true }),
+      )
+    })
+
+    it('should clear localStorage keys on init', () => {
+      localStorage.setItem('loginbtn', 'true')
+      localStorage.setItem('userUUID', 'some-uuid')
+      component.ngOnInit()
+      expect(localStorage.getItem('loginbtn')).toBeNull()
+      expect(localStorage.getItem('userUUID')).toBeNull()
+    })
+  })
+
+  describe('moveFocus', () => {
+    it('should call next.focus() when current has 1 character', () => {
+      const current = { value: '5' }
+      const next = { focus: jest.fn() }
+      component.moveFocus(current, next)
+      expect(next.focus).toHaveBeenCalled()
+    })
+
+    it('should not focus next when current is empty', () => {
+      const current = { value: '' }
+      const next = { focus: jest.fn() }
+      component.moveFocus(current, next)
+      expect(next.focus).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('backSpaceEvent', () => {
+    it('should call previous.focus() on Backspace with empty field', () => {
+      const event = { key: 'Backspace' } as KeyboardEvent
+      const current = { value: '' }
+      const previous = { focus: jest.fn() }
+      component.initializeForm()
+      component.backSpaceEvent(event, current, previous)
+      expect(previous.focus).toHaveBeenCalled()
+    })
+
+    it('should not focus previous when field has value', () => {
+      const event = { key: 'Backspace' } as KeyboardEvent
+      const current = { value: '1' }
+      const previous = { focus: jest.fn() }
+      component.initializeForm()
+      component.backSpaceEvent(event, current, previous)
+      expect(previous.focus).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('handleKeyDown', () => {
+    it('should call toggle2 on Enter key', () => {
+      const spy = jest.spyOn(component, 'toggle2')
+      const event = { key: 'Enter', preventDefault: jest.fn() } as any
+      component.handleKeyDown(event)
+      expect(spy).toHaveBeenCalled()
+      expect(event.preventDefault).toHaveBeenCalled()
+    })
+
+    it('should not call toggle2 for other keys', () => {
+      const spy = jest.spyOn(component, 'toggle2')
+      const event = { key: 'Tab', preventDefault: jest.fn() } as any
+      component.handleKeyDown(event)
+      expect(spy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('handleKeyDowns', () => {
+    it('should open dialog on Enter key', () => {
+      const event = { key: 'Enter', preventDefault: jest.fn() } as any
+      component.handleKeyDowns(event)
+      expect(mockDialog.open).toHaveBeenCalled()
+      expect(event.preventDefault).toHaveBeenCalled()
+    })
+  })
+
+  describe('handleKeyDown1', () => {
+    it('should call passwordOrOtp with type on Enter', () => {
+      const spy = jest.spyOn(component, 'passwordOrOtp')
+      const event = { key: 'Enter', preventDefault: jest.fn() } as any
+      component.handleKeyDown1(event, 'password')
+      expect(spy).toHaveBeenCalledWith('password')
+      expect(event.preventDefault).toHaveBeenCalled()
+    })
+  })
+
+  describe('redirect', () => {
+    it('should set otpPage false when val is not createAccount', () => {
+      component.otpPage = true
+      component.redirect('other')
+      expect(component.otpPage).toBe(false)
+    })
+
+    it('should set window.location.href for createAccount', () => {
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { ...window.location, href: '' },
+      })
+      component.redirect('createAccount')
+      expect(window.location.href).toBe('/public/home')
+    })
+  })
+
+  describe('initializeForm', () => {
+    it('should create phone OTP form when emailPhoneType is phone', () => {
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      expect(component.OTPForm.get('otp1')).toBeTruthy()
+      expect(component.OTPForm.get('otp4')).toBeTruthy()
+    })
+
+    it('should create email OTP form when emailPhoneType is email', () => {
+      component.emailPhoneType = 'email'
+      component.initializeForm()
+      expect(component.OTPForm.get('OTPcode')).toBeTruthy()
+      expect(component.OTPForm.get('otp1')).toBeNull()
+    })
+  })
+
+  describe('startTimer', () => {
+    it('should reset timer to 600', () => {
+      jest.useFakeTimers()
+      component.resendTimer = 0
+      component.startTimer()
+      expect(component.resendTimer).toBe(600)
+      jest.useRealTimers()
+    })
+
+    it('should decrement timer on each interval tick', () => {
+      jest.useFakeTimers()
+      component.startTimer()
+      jest.advanceTimersByTime(2000)
+      expect(component.resendTimer).toBe(598)
+      jest.useRealTimers()
     })
   })
 })

@@ -11,6 +11,9 @@ jest.mock('../signup/signup.service', () => ({
     verifyOTP = jest.fn()
     resendOTP = jest.fn()
     fetchStartUpDetails = jest.fn()
+    ssoValidateOTP = jest.fn()
+    ssoValidateOrgOTP = jest.fn()
+    generateOtp = jest.fn()
   },
 }))
 
@@ -45,7 +48,7 @@ describe('LoginOtpComponent', () => {
     }
     mockDialog = { open: jest.fn().mockReturnValue({ afterClosed: jest.fn().mockReturnValue({ subscribe: jest.fn() }) }) }
     mockLogger = { log: jest.fn(), error: jest.fn() }
-    mockCdr = { detectChanges: jest.fn() }
+    mockCdr = { detectChanges: jest.fn(), markForCheck: jest.fn() }
     mockNgZone = { run: jest.fn((fn: any) => fn()), runOutsideAngular: jest.fn((fn: any) => fn()) }
 
     component = new LoginOtpComponent(
@@ -126,6 +129,174 @@ describe('LoginOtpComponent', () => {
       expect(component.interval).toBeTruthy()
       component.ngOnDestroy()
       expect(component.interval).toBeNull()
+    })
+  })
+
+  describe('startTimer', () => {
+    it('should reset resendTimer to 600', () => {
+      component.resendTimer = 0
+      component.startTimer()
+      expect(component.resendTimer).toBe(600)
+    })
+
+    it('should reset resendTimerText to 10:00', () => {
+      component.resendTimerText = '00:00'
+      component.startTimer()
+      expect(component.resendTimerText).toBe('10:00')
+    })
+
+    it('should decrement timer on each tick', () => {
+      component.startTimer()
+      jest.advanceTimersByTime(1000)
+      expect(component.resendTimer).toBe(599)
+    })
+
+    it('should clear interval when timer reaches zero', () => {
+      component.startTimer()
+      jest.advanceTimersByTime(600 * 1000)
+      expect(component.interval).toBeNull()
+    })
+
+    it('should set isBelowOneMinute true when resendTimer < 60', () => {
+      component.startTimer()
+      jest.advanceTimersByTime((600 - 59) * 1000)
+      expect(component.isBelowOneMinute).toBe(true)
+    })
+  })
+
+  describe('updateOtpCode', () => {
+    it('should combine otp1-4 into code control', () => {
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      component.loginOtpForm.patchValue({ otp1: '1', otp2: '2', otp3: '3', otp4: '4' })
+      component.updateOtpCode()
+      expect(component.loginOtpForm.get('code')?.value).toBe('1234')
+    })
+
+    it('should log error when controls missing (email form)', () => {
+      component.emailPhoneType = 'email'
+      component.initializeForm()
+      component.updateOtpCode()
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+  })
+
+  describe('moveFocus', () => {
+    it('should focus next input when current has a value', () => {
+      const current = { value: '1' }
+      const next = { focus: jest.fn() }
+      component.moveFocus(current, next)
+      expect(next.focus).toHaveBeenCalled()
+    })
+
+    it('should not focus next input when current is empty', () => {
+      const current = { value: '' }
+      const next = { focus: jest.fn() }
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      component.moveFocus(current, next)
+      expect(next.focus).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('backSpaceEvent', () => {
+    it('should focus previous when Backspace on empty field', () => {
+      const event = { key: 'Backspace' } as KeyboardEvent
+      const current = { value: '' }
+      const previous = { focus: jest.fn() }
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      component.backSpaceEvent(event, current, previous)
+      expect(previous.focus).toHaveBeenCalled()
+    })
+
+    it('should not focus previous when field has value', () => {
+      const event = { key: 'Backspace' } as KeyboardEvent
+      const current = { value: '5' }
+      const previous = { focus: jest.fn() }
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      component.backSpaceEvent(event, current, previous)
+      expect(previous.focus).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('redirectToSignUp', () => {
+    it('should emit true to redirectToParent', () => {
+      const spy = jest.spyOn(component.redirectToParent, 'emit')
+      component.redirectToSignUp()
+      expect(spy).toHaveBeenCalledWith('true')
+    })
+  })
+
+  describe('redirectToMobileLogin', () => {
+    it('should emit true to redirectToParent', () => {
+      const spy = jest.spyOn(component.redirectToParent, 'emit')
+      component.redirectToMobileLogin()
+      expect(spy).toHaveBeenCalledWith('true')
+    })
+  })
+
+  describe('redirect', () => {
+    it('should emit "otp" to backToCreate', () => {
+      const spy = jest.spyOn(component.backToCreate, 'emit')
+      component.redirect()
+      expect(spy).toHaveBeenCalledWith('otp')
+    })
+  })
+
+  describe('help', () => {
+    it('should open dialog', () => {
+      component.help()
+      expect(mockDialog.open).toHaveBeenCalled()
+    })
+  })
+
+  describe('handleKeyDown', () => {
+    it('should open dialog on Enter key', () => {
+      const event = { key: 'Enter', preventDefault: jest.fn() } as any
+      component.handleKeyDown(event)
+      expect(mockDialog.open).toHaveBeenCalled()
+      expect(event.preventDefault).toHaveBeenCalled()
+    })
+
+    it('should not open dialog for other keys', () => {
+      const event = { key: 'Tab', preventDefault: jest.fn() } as any
+      component.handleKeyDown(event)
+      expect(mockDialog.open).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('resendOTP', () => {
+    it('should call generateOtp with email when emailPhoneType is email', () => {
+      const { of } = require('rxjs')
+      mockSignupService.generateOtp = jest.fn().mockReturnValue(of({ msg: 'OTP sent 123456' }))
+      component.signUpdata = { value: { emailOrMobile: 'user@test.com' } }
+      component.emailPhoneType = 'email'
+      component.initializeForm()
+      component.resendOTP('email')
+      expect(mockSignupService.generateOtp).toHaveBeenCalledWith({ email: 'user@test.com' })
+    })
+
+    it('should call generateOtp with phone when emailPhoneType is phone', () => {
+      const { of } = require('rxjs')
+      mockSignupService.generateOtp = jest.fn().mockReturnValue(of({ message: 'OTP sent' }))
+      component.signUpdata = { value: { emailOrMobile: '9876543210' } }
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      component.resendOTP('phone')
+      expect(mockSignupService.generateOtp).toHaveBeenCalledWith({ phone: '9876543210' })
+    })
+
+    it('should use loginData username when signUpdata is not provided', () => {
+      const { of } = require('rxjs')
+      mockSignupService.generateOtp = jest.fn().mockReturnValue(of({ message: 'OTP sent' }))
+      component.signUpdata = null
+      component.loginData = { value: { username: '9876543210' } }
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      component.resendOTP('phone')
+      expect(mockSignupService.generateOtp).toHaveBeenCalledWith({ phone: '9876543210' })
     })
   })
 })

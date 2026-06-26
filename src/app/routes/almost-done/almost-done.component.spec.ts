@@ -131,4 +131,135 @@ describe('AlmostDoneComponent', () => {
     expect(component.almostDoneForm.controls.orgOtherSpecify.clearValidators).toHaveBeenCalled()
     expect(component.orgOthersField).toBeFalsy()
   })
+
+  it('should set professionOthersField true and add validators when Others selected', () => {
+    component.professionSelect('Others')
+    expect(component.professionOthersField).toBe(true)
+    expect(component.rnFieldDisabled).toBe(true)
+  })
+
+  it('should set professionOthersField false and set null when null selected', () => {
+    component.professionSelect('null')
+    expect(component.professionOthersField).toBe(false)
+    expect(component.almostDoneForm.controls.profession.value).toBeNull()
+  })
+
+  it('should enable rnField for Midwives', () => {
+    component.professionSelect('Midwives')
+    expect(component.rnFieldDisabled).toBe(false)
+  })
+
+  it('should enable rnField for ANM/MPW', () => {
+    component.professionSelect('ANM/MPW')
+    expect(component.rnFieldDisabled).toBe(false)
+  })
+
+  it('should set orgOthersField true when Others is selected in orgTypeSelect', () => {
+    component.orgTypeSelect('Others')
+    expect(component.orgOthersField).toBe(true)
+  })
+
+  it('should set orgType null when null is passed to orgTypeSelect', () => {
+    component.orgTypeSelect('null')
+    expect(component.almostDoneForm.controls.orgType.value).toBeNull()
+  })
+
+  it('should compute getDegree and getAcademics', () => {
+    component.studentCourse = 'BSC Nursing'
+    component.studentInstitute = 'AIIMS'
+    const degrees = component.getDegree('GRADUATE')
+    expect(degrees).toHaveLength(1)
+    expect(degrees[0].nameOfQualification).toBe('BSC Nursing')
+    expect(degrees[0].nameOfInstitute).toBe('AIIMS')
+
+    const academics = component.getAcademics()
+    expect(academics).toHaveLength(1)
+  })
+
+  it('should build org object in getOrganisationsHistory for normal backgroundSelect', () => {
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Public')
+    component.almostDoneForm.controls.orgName.setValue('Apollo')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs).toHaveLength(1)
+    expect(orgs[0].orgType).toBe('Public')
+    expect(orgs[0].name).toBe('Apollo')
+    expect(orgs[0].designation).toBe('Nurse')
+  })
+
+  it('should add ASHA-specific fields to org in getOrganisationsHistory', () => {
+    component.backgroundSelect = 'ASHA'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('PHC')
+    component.almostDoneForm.controls.profession.setValue('ASHA')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.locationselect.setValue('District1')
+    component.almostDoneForm.controls.block.setValue('Block1')
+    component.almostDoneForm.controls.professSelected.setValue('ASHA')
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs[0].locationselect).toBe('District1')
+    expect(orgs[0].block).toBe('Block1')
+  })
+
+  it('should build constructReq without userProfile', () => {
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990-01-01', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    const req = component.constructReq()
+    expect(req).toHaveProperty('profileReq')
+    expect(req.profileReq.personalDetails.dob).toBe('1990-01-01')
+  })
+
+  it('should call updateProfileDetails on updateProfile', async () => {
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990-01-01', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.updateProfile()
+    expect(mockUserProfileService.updateProfileDetails).toHaveBeenCalled()
+  })
+
+  it('should set hideAsha true when country is not India', async () => {
+    component.yourBackground = { value: { country: 'USA', state: '', distict: '' } }
+    await component.ngOnInit()
+    expect(component.hideAsha).toBe(true)
+  })
+
+  it('assignFields profession case should set designation', () => {
+    component.assignFields('profession', 'Nurse', {})
+    expect(component.createUserForm.controls.designation.value).toBe('Nurse')
+  })
+
+  it('assignFields block case should set blockEntered', () => {
+    component.assignFields('block', 'Block A', {})
+    expect(component.blockEntered).toBe(true)
+    component.assignFields('block', '', {})
+    expect(component.blockEntered).toBe(false)
+  })
+
+  it('assignFields subcentre case should set subcentreEntered', () => {
+    component.assignFields('subcentre', 'Sub A', {})
+    expect(component.subcentreEntered).toBe(true)
+  })
+
+  it('assignFields locationselect case should set form value', () => {
+    component.assignFields('locationselect', 'Location A', {})
+    expect(component.almostDoneForm.controls.locationselect.value).toBe('Location A')
+  })
+
+  it('openSnackbar should call snackBar.open', () => {
+    component.openSnackbar('Test message')
+    expect(mockMatSnackBar.open).toHaveBeenCalledWith('Test message', undefined, { duration: 2000 })
+  })
 })

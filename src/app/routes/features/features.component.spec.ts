@@ -117,4 +117,91 @@ describe('FeaturesComponent', () => {
       expect(mockDialog.open).toHaveBeenCalled()
     })
   })
+
+  describe('startTour', () => {
+    it('should call unsubscribeResponse when responseSubscription is set', () => {
+      const mockSub = { unsubscribe: jest.fn() }
+      component['responseSubscription'] = mockSub as any
+      component.startTour()
+      expect(mockRespondSvc.unsubscribeResponse).toHaveBeenCalled()
+      expect(mockSub.unsubscribe).toHaveBeenCalled()
+    })
+
+    it('should not throw when responseSubscription is null', () => {
+      component['responseSubscription'] = null
+      expect(() => component.startTour()).not.toThrow()
+    })
+  })
+
+  describe('ngOnInit', () => {
+    it('should set featureGroups after debounce', () => {
+      jest.useFakeTimers()
+      component.ngOnInit()
+      jest.advanceTimersByTime(600)
+      expect(component.featureGroups).toBeDefined()
+      jest.useRealTimers()
+    })
+
+    it('should navigate with q param when query changes', () => {
+      jest.useFakeTimers()
+      component.ngOnInit()
+      component.queryControl.setValue('angular')
+      jest.advanceTimersByTime(600)
+      expect(mockRouter.navigate).toHaveBeenCalledWith([], { queryParams: { q: 'angular' } })
+      jest.useRealTimers()
+    })
+
+    it('should set isTourGuideAvailable when restrictedFeatures does not include tourGuide', () => {
+      mockConfigSvc.restrictedFeatures = new Set(['otherFeature'])
+      mockConfigSvc.tourGuideNotifier = {
+        next: jest.fn(),
+        subscribe: jest.fn((cb: any) => { cb(true); return { unsubscribe: jest.fn() } }),
+      }
+      jest.useFakeTimers()
+      component.ngOnInit()
+      jest.advanceTimersByTime(600)
+      expect(component.isTourGuideAvailable).toBe(true)
+      jest.useRealTimers()
+    })
+
+    it('should NOT set isTourGuideAvailable when restrictedFeatures has tourGuide', () => {
+      mockConfigSvc.restrictedFeatures = new Set(['tourGuide'])
+      mockConfigSvc.tourGuideNotifier = {
+        next: jest.fn(),
+        subscribe: jest.fn((cb: any) => { cb(true); return { unsubscribe: jest.fn() } }),
+      }
+      jest.useFakeTimers()
+      component.ngOnInit()
+      jest.advanceTimersByTime(600)
+      expect(component.isTourGuideAvailable).toBe(false)
+      jest.useRealTimers()
+    })
+  })
+
+  describe('constructor with appsConfig', () => {
+    it('should call tourGuideNotifier.next(true) when appsConfig has tourGuide', () => {
+      mockConfigSvc.appsConfig = { tourGuide: { steps: [] }, groups: [], features: {} }
+      component = new FeaturesComponent(mockDialog, mockRouter, mockRoute, mockConfigSvc, mockRespondSvc, mockValueSvc, mockAccessService)
+      expect(mockConfigSvc.tourGuideNotifier.next).toHaveBeenCalledWith(true)
+    })
+
+    it('should populate featuresConfig when appsConfig has groups', () => {
+      mockConfigSvc.appsConfig = {
+        groups: [{ hasRole: [], featureIds: ['f1'], name: 'Group 1' }],
+        features: { f1: { name: 'Feature 1', keywords: ['kw1'], description: 'desc1' } },
+      }
+      component = new FeaturesComponent(mockDialog, mockRouter, mockRoute, mockConfigSvc, mockRespondSvc, mockValueSvc, mockAccessService)
+      expect(component['featuresConfig']).toHaveLength(1)
+    })
+
+    it('should skip groups that hasRole returns false for', () => {
+      mockAccessService.hasRole = jest.fn().mockReturnValue(false)
+      mockConfigSvc.appsConfig = {
+        groups: [{ hasRole: ['admin'], featureIds: ['f1'], name: 'Admin Group' }],
+        features: { f1: { name: 'Feature 1', keywords: [], description: '' } },
+      }
+      component = new FeaturesComponent(mockDialog, mockRouter, mockRoute, mockConfigSvc, mockRespondSvc, mockValueSvc, mockAccessService)
+      expect(component['featuresConfig']).toHaveLength(0)
+    })
+  })
 })

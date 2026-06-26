@@ -262,4 +262,176 @@ describe('NewTncComponent', () => {
       expect(() => component.ngOnDestroy()).not.toThrow()
     })
   })
+
+  describe('ngOnInit', () => {
+    it('should set tncData when response.tnc.data exists', async () => {
+      const tncData = { termsAndConditions: [] }
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: tncData }, isPublic: false }))
+      await component.ngOnInit()
+      expect(component.tncData).toEqual(tncData)
+      expect(component.isPublic).toBe(false)
+    })
+
+    it('should navigate to error when tnc data is null', async () => {
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['error-service-unavailable'])
+    })
+
+    it('should call fetchStartUpDetails and createTncFormFields', async () => {
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      expect(mockSignupService.fetchStartUpDetails).toHaveBeenCalled()
+    })
+
+    it('should call getUserdetailsFromRegistry when unMappedUser is set', async () => {
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      mockConfigSvc.unMappedUser = { id: 'unmapped-1' }
+      await component.ngOnInit()
+      expect(mockUserProfileSvc.getUserdetailsFromRegistry).toHaveBeenCalledWith('unmapped-1')
+    })
+
+    it('should set showAcceptbtn true when tncAccepted is undefined', async () => {
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: {} } },
+      }))
+      await component.ngOnInit()
+      expect(component.showAcceptbtn).toBe(true)
+    })
+
+    it('should set showAcceptbtn false when tncAccepted is true', async () => {
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: { tncAccepted: true } } },
+      }))
+      await component.ngOnInit()
+      expect(component.showAcceptbtn).toBe(false)
+    })
+  })
+
+  describe('homePage', () => {
+    it('should set location.href to /page/home when result.userId exists', async () => {
+      const origLocation = window.location
+      Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ userId: 'result-user-1', tncStatus: true })
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      component.homePage()
+      expect(window.location.href).toBe('/page/home')
+      Object.defineProperty(window, 'location', { writable: true, value: origLocation })
+    })
+  })
+
+  describe('gotoLogin', () => {
+    it('should call http.get for logout and clear storage keys', async () => {
+      localStorage.setItem('telemetrySessionId', 'abc')
+      localStorage.setItem('loginbtn', 'true')
+      await component.gotoLogin()
+      expect(mockHttp.get).toHaveBeenCalledWith('/apis/logout')
+      expect(localStorage.getItem('telemetrySessionId')).toBeNull()
+    })
+  })
+
+  describe('getTnc', () => {
+    beforeEach(async () => {
+      component.tncData = {
+        termsAndConditions: [
+          { name: 'Generic T&C', language: 'en', version: '1.0' },
+          { name: 'Data Privacy', language: 'en', version: '1.0' },
+        ],
+      } as any
+    })
+
+    it('should return early when locale matches tncTerm language', () => {
+      component.getTnc('en')
+      expect(mockTncProtectedSvc.getTnc).not.toHaveBeenCalled()
+      expect(mockTncPublicSvc.getPublicTnc).not.toHaveBeenCalled()
+    })
+
+    it('should call tncProtectedSvc when locale differs and not public', () => {
+      component.isPublic = false
+      mockTncProtectedSvc.getTnc.mockReturnValue(of({ termsAndConditions: [{}, {}] }))
+      component.getTnc('hi')
+      expect(mockTncProtectedSvc.getTnc).toHaveBeenCalledWith('hi')
+    })
+
+    it('should call tncPublicSvc when locale differs and isPublic', () => {
+      component.isPublic = true
+      mockTncPublicSvc.getPublicTnc.mockReturnValue(of({ termsAndConditions: [{}, {}] }))
+      component.getTnc('hi')
+      expect(mockTncPublicSvc.getPublicTnc).toHaveBeenCalled()
+    })
+
+    it('should not call any service when tncData is null', () => {
+      component.tncData = null
+      component.getTnc('hi')
+      expect(mockTncProtectedSvc.getTnc).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('getDp', () => {
+    beforeEach(() => {
+      component.tncData = {
+        termsAndConditions: [
+          { name: 'Generic T&C', language: 'en', version: '1.0' },
+          { name: 'Data Privacy', language: 'en', version: '1.0' },
+        ],
+      } as any
+    })
+
+    it('should return early when locale matches dpTerm language', () => {
+      component.getDp('en')
+      expect(mockTncProtectedSvc.getTnc).not.toHaveBeenCalled()
+    })
+
+    it('should call tncProtectedSvc when locale differs and not public', () => {
+      component.isPublic = false
+      mockTncProtectedSvc.getTnc.mockReturnValue(of({ termsAndConditions: [{}, {}] }))
+      component.getDp('hi')
+      expect(mockTncProtectedSvc.getTnc).toHaveBeenCalledWith('hi')
+    })
+
+    it('should call tncPublicSvc when locale differs and isPublic', () => {
+      component.isPublic = true
+      mockTncPublicSvc.getPublicTnc.mockReturnValue(of({ termsAndConditions: [{}, {}] }))
+      component.getDp('hi')
+      expect(mockTncPublicSvc.getPublicTnc).toHaveBeenCalled()
+    })
+  })
+
+  describe('acceptTnc', () => {
+    it('should set errorInAccepting false when tncData is null', () => {
+      component.tncData = null
+      component.acceptTnc()
+      expect(component.errorInAccepting).toBe(false)
+    })
+
+    it('should set isAcceptInProgress true when tncData exists', async () => {
+      component.tncData = {
+        termsAndConditions: [
+          { name: 'Generic T&C', language: 'en', version: '1.0' },
+          { name: 'Data Privacy', language: 'en', version: '1.0' },
+        ],
+      } as any
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ userId: 'result-user-1', tncStatus: true })
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      component.acceptTnc()
+      expect(component.isAcceptInProgress).toBe(true)
+    })
+
+    it('should set termsAccepted to generalTnc version', async () => {
+      component.tncData = {
+        termsAndConditions: [
+          { name: 'Generic T&C', language: 'en', version: 'v2' },
+          { name: 'Data Privacy', language: 'en', version: 'v1' },
+        ],
+      } as any
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      component.acceptTnc()
+      expect(component.termsAccepted).toBe('v2')
+    })
+  })
 })

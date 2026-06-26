@@ -127,5 +127,60 @@ describe('UserAgentResolverService', () => {
       service.requestGeolocation()
       expect(JSON.parse(sessionStorage.getItem('telemetryGeoLocation')!)).toEqual(geoData)
     })
+
+    it('sets unavailable when navigator.geolocation is absent', () => {
+      const origGeo = (navigator as any).geolocation
+      Object.defineProperty(navigator, 'geolocation', { value: undefined, configurable: true })
+      sessionStorage.removeItem('telemetryGeoLocation')
+      service.requestGeolocation()
+      expect(sessionStorage.getItem('telemetryGeoLocation')).toBe('unavailable')
+      Object.defineProperty(navigator, 'geolocation', { value: origGeo, configurable: true })
+    })
+
+    it('proceeds when existing value is "denied"', () => {
+      sessionStorage.setItem('telemetryGeoLocation', 'denied')
+      const origPerms = (navigator as any).permissions
+      Object.defineProperty(navigator, 'permissions', { value: undefined, configurable: true })
+      const origGeo = navigator.geolocation
+      Object.defineProperty(navigator, 'geolocation', {
+        value: { getCurrentPosition: jest.fn() },
+        configurable: true,
+      })
+      expect(() => service.requestGeolocation()).not.toThrow()
+      Object.defineProperty(navigator, 'geolocation', { value: origGeo, configurable: true })
+      Object.defineProperty(navigator, 'permissions', { value: origPerms, configurable: true })
+    })
+  })
+
+  describe('getCookie', () => {
+    it('returns null when cookie is not set', () => {
+      expect(service.getCookie('NONEXISTENT')).toBeNull()
+    })
+  })
+
+  describe('isCookieExpired', () => {
+    it('returns true when cookie does not exist', () => {
+      expect(service.isCookieExpired('NONEXISTENT_COOKIE')).toBe(true)
+    })
+  })
+
+  describe('generateCookie', () => {
+    it('returns a cookie string', () => {
+      const result = service.generateCookie()
+      expect(typeof result).toBe('string')
+    })
+  })
+
+  describe('getOsInfo', () => {
+    it('returns null for unknown user agent', () => {
+      const originalUA = navigator.userAgent
+      Object.defineProperty(navigator, 'userAgent', {
+        value: 'Unknown Browser',
+        configurable: true,
+      })
+      const result = service.getOsInfo()
+      expect(result).toBeNull()
+      Object.defineProperty(navigator, 'userAgent', { value: originalUA, configurable: true })
+    })
   })
 })

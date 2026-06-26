@@ -51,7 +51,7 @@ describe('WebDashboardComponent', () => {
         },
         {
           provide: LanguageService,
-          useValue: {},
+          useValue: { getCurrentLanguage: jest.fn().mockReturnValue('en') },
         },
         {
           provide: PlaylistService,
@@ -59,6 +59,7 @@ describe('WebDashboardComponent', () => {
             getPlaylistConfig: jest.fn().mockResolvedValue([]),
             orgDetails: jest.fn().mockReturnValue({}),
             footerConfig: jest.fn().mockReturnValue({}),
+            setEarnedBadges: jest.fn(),
           },
         },
         {
@@ -125,5 +126,68 @@ describe('WebDashboardComponent', () => {
     expect(component.clearInterval).toHaveBeenCalled()
     expect(component.currentSlideIndex).toBe(1)
     setIntervalSpy.mockRestore()
+  })
+
+  it('shouldShowBadges should be false when showCompletedCourses is false', () => {
+    component.uiConfig = { badges: { showCompletedCourses: false } }
+    component.noOfBadges = 5
+    expect(component.shouldShowBadges).toBe(false)
+  })
+
+  it('shouldShowBadges should be false when noOfBadges is 0', () => {
+    component.uiConfig = { badges: { showCompletedCourses: true } }
+    component.noOfBadges = 0
+    expect(component.shouldShowBadges).toBe(false)
+  })
+
+  it('shouldShowBadges should be true when showCompletedCourses is true and noOfBadges > 0', () => {
+    component.uiConfig = { badges: { showCompletedCourses: true } }
+    component.noOfBadges = 3
+    expect(component.shouldShowBadges).toBe(true)
+  })
+
+  it('onBannerImgLoad should set imgsLoaded[index] to true', () => {
+    component.imgsLoaded = [false, false, false]
+    component.onBannerImgLoad(1)
+    expect(component.imgsLoaded[1]).toBe(true)
+    expect(component.imgsLoaded[0]).toBe(false)
+  })
+
+  it('scrollToHowSphereWorks should emit value on scrollService', () => {
+    const emitSpy = jest.spyOn(component.scrollService.scrollToDivEvent, 'emit')
+    component.scrollToHowSphereWorks('howSphereWorks')
+    expect(emitSpy).toHaveBeenCalledWith('howSphereWorks')
+  })
+
+  it('nextSlide should return early when dataCarousel is empty', () => {
+    component.dataCarousel = []
+    component.currentSlideIndex = 0
+    component.nextSlide()
+    expect(component.currentSlideIndex).toBe(0)
+  })
+
+  it('ngOnDestroy should call clearInterval', () => {
+    const spy = jest.spyOn(component, 'clearInterval')
+    component.ngOnDestroy()
+    expect(spy).toHaveBeenCalled()
+  })
+
+  it('ngOnInit should start carousel and set preferedLanguage', async () => {
+    jest.useFakeTimers()
+    component.configData = null
+    await component.ngOnInit()
+    expect(component.preferedLanguage.id).toBe('en')
+    jest.useRealTimers()
+  })
+
+  it('ngOnInit should read lang from unMappedUser preference when set', async () => {
+    jest.useFakeTimers()
+    const configSvc = TestBed.inject(ConfigurationsService) as any
+    configSvc.unMappedUser = { id: 'user123', profileDetails: { preferences: { language: 'hi' } } }
+    configSvc.userProfile = null
+    component.configData = null
+    await component.ngOnInit()
+    expect(component.lang).toBe('hi')
+    jest.useRealTimers()
   })
 })

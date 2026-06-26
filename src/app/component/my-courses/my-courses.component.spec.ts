@@ -445,4 +445,86 @@ describe('MyCoursesComponent', () => {
       expect(() => component.ngOnDestroy()).not.toThrow()
     })
   })
+
+  describe('tabClick', () => {
+    it('should set selectedIndex to 1', () => {
+      component = createComponent()
+      component.selectedIndex = 0
+      component.tabClick()
+      expect(component.selectedIndex).toBe(1)
+    })
+  })
+
+  describe('onTabChange', () => {
+    it('should set selectedIndex to given value', () => {
+      component = createComponent()
+      component.onTabChange(2)
+      expect(component.selectedIndex).toBe(2)
+    })
+
+    it('should initialize displayLimit for new tab', () => {
+      component = createComponent()
+      component.onTabChange(3)
+      expect(component.displayLimit[3]).toBe(component['PAGE_SIZE'])
+    })
+
+    it('should not overwrite existing displayLimit', () => {
+      component = createComponent()
+      component.displayLimit[0] = 20
+      component.onTabChange(0)
+      expect(component.displayLimit[0]).toBe(20)
+    })
+  })
+
+  describe('showMore', () => {
+    it('should increase displayLimit by PAGE_SIZE', () => {
+      component = createComponent()
+      const pageSize = component['PAGE_SIZE']
+      component.displayLimit[0] = pageSize
+      component.showMore(0, pageSize * 3)
+      expect(component.displayLimit[0]).toBe(pageSize * 2)
+    })
+
+    it('should cap displayLimit at totalLength', () => {
+      component = createComponent()
+      const pageSize = component['PAGE_SIZE']
+      component.displayLimit[0] = pageSize
+      component.showMore(0, pageSize + 1)
+      expect(component.displayLimit[0]).toBe(pageSize + 1)
+    })
+  })
+
+  describe('navigateToToc', () => {
+    it('should navigate to about-you when profileReq.personalDetails.dob is missing', async () => {
+      mockSignupService.getUserData.mockResolvedValue({ profileDetails: { profileReq: { personalDetails: {} } } })
+      mockConfigSvc.unMappedUser = { id: 'u1' }
+      component = createComponent()
+      await component.navigateToToc('do_123')
+      expect(mockRouter.navigate).toHaveBeenCalledWith(
+        ['/app/about-you'],
+        expect.objectContaining({ queryParams: expect.objectContaining({ redirect: '/app/toc/do_123/overview' }) }),
+      )
+    })
+
+    it('should use url_before_login redirect when present', async () => {
+      mockSignupService.getUserData.mockResolvedValue({ profileDetails: { profileReq: { personalDetails: {} } } })
+      mockConfigSvc.unMappedUser = { id: 'u1' }
+      localStorage.setItem('url_before_login', '/app/toc/saved/overview')
+      component = createComponent()
+      await component.navigateToToc('do_123')
+      expect(mockRouter.navigate).toHaveBeenCalledWith(
+        ['/app/about-you'],
+        expect.objectContaining({ queryParams: { redirect: '/app/toc/saved/overview' } }),
+      )
+      localStorage.removeItem('url_before_login')
+    })
+
+    it('should not navigate when unMappedUser is null', async () => {
+      mockSignupService.getUserData.mockResolvedValue(null)
+      mockConfigSvc.unMappedUser = null
+      component = createComponent()
+      await component.navigateToToc('do_123')
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+  })
 })

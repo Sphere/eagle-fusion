@@ -183,5 +183,72 @@ describe('LeadershipDashboardComponent', () => {
       component.loadMore()
       expect(component.currentPage).toBe(0)
     })
+
+    it('should increment page and call loadLeaderboard when not disabled and not loading', () => {
+      component.infiniteDisabled = false
+      component.loading = false
+      component.currentPage = 0
+      mockUserProfileSvc.getLeaderBoardData.mockReturnValue(of({
+        result: { content: { leaderboardList: [] } },
+      }))
+      component.loadMore()
+      expect(component.currentPage).toBe(1)
+      expect(mockUserProfileSvc.getLeaderBoardData).toHaveBeenCalled()
+    })
+  })
+
+  describe('loadLeaderboard', () => {
+    it('should set loading to true on reset and false after success', () => {
+      mockUserProfileSvc.getLeaderBoardData.mockReturnValue(of({
+        result: { content: { leaderboardList: [{ userId: 'u5', points: 20, rank: 5 }] } },
+      }))
+      component.loadLeaderboard(true)
+      expect(component.loading).toBe(false)
+    })
+
+    it('should append results to restUsers', () => {
+      const newUsers = [{ userId: 'u5', points: 20, rank: 5 }]
+      mockUserProfileSvc.getLeaderBoardData.mockReturnValue(of({
+        result: { content: { leaderboardList: newUsers } },
+      }))
+      component.restUsers = []
+      component.loadLeaderboard(false)
+      expect(component.restUsers).toHaveLength(1)
+    })
+
+    it('should set infiniteDisabled when returned list is smaller than pageSize', () => {
+      mockUserProfileSvc.getLeaderBoardData.mockReturnValue(of({
+        result: { content: { leaderboardList: [{ userId: 'u5' }] } },
+      }))
+      component.loadLeaderboard(false)
+      expect(component.infiniteDisabled).toBe(true)
+    })
+
+    it('should set loading false and infiniteDisabled true on error', () => {
+      const { throwError } = require('rxjs')
+      mockUserProfileSvc.getLeaderBoardData.mockReturnValue(throwError(() => new Error('fail')))
+      component.loadLeaderboard(false)
+      expect(component.loading).toBe(false)
+      expect(component.infiniteDisabled).toBe(true)
+    })
+  })
+
+  describe('openInfoPopup', () => {
+    it('should open dialog with LeadershipDashboardInfoComponent', () => {
+      component.openInfoPopup()
+      expect(mockDialog.open).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ width: '100%', panelClass: 'congratulations-dialog' }),
+      )
+    })
+  })
+
+  describe('evaluatePinState', () => {
+    it('should set isPinnedVisible true when rows is empty and currentUser exists', () => {
+      component['rows'] = { length: 0, toArray: jest.fn().mockReturnValue([]) } as any
+      component.currentUser = { userId: 'u1' }
+      component.evaluatePinState()
+      expect(component.isPinnedVisible).toBe(true)
+    })
   })
 })

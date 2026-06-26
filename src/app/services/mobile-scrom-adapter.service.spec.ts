@@ -213,4 +213,127 @@ describe('MobileScromAdapterService', () => {
       expect(service.LMSGetLastError()).toBe(101)
     })
   })
+
+  describe('setProperties', () => {
+    it('should set multiple properties at once', () => {
+      service.setProperties({ userId: 'u1', batchId: 'b1', courseId: 'c1' })
+      expect(service.getProperty('userId')).toBe('u1')
+      expect(service.getProperty('batchId')).toBe('b1')
+      expect(service.getProperty('courseId')).toBe('c1')
+    })
+  })
+
+  describe('LMSInitialize', () => {
+    it('should return true', () => {
+      expect(service.LMSInitialize()).toBe(true)
+    })
+
+    it('should call store.setItem with Initialized true', () => {
+      service.LMSInitialize()
+      expect(mockStore.setItem).toHaveBeenCalledWith('Initialized', true)
+    })
+
+    it('should set store.contentKey to contentId', () => {
+      service.contentId = 'content-123'
+      service.LMSInitialize()
+      expect(mockStore.contentKey).toBe('content-123')
+    })
+  })
+
+  describe('LMSFinish', () => {
+    it('should return false when not initialized', () => {
+      mockStore.getItem.mockReturnValue(null)
+      expect(service.LMSFinish()).toBe(false)
+    })
+
+    it('should call store.clearAll when initialized', () => {
+      mockStore.getItem.mockImplementation((key: string) => {
+        if (key === 'Initialized') return true
+        return null
+      })
+      mockStore.getAll.mockReturnValue(null)
+      service.LMSFinish()
+      expect(mockStore.clearAll).toHaveBeenCalled()
+    })
+  })
+
+  describe('LMSGetValue', () => {
+    it('should return false when not initialized', () => {
+      mockStore.getItem.mockReturnValue(null)
+      expect(service.LMSGetValue('cmi.core.lesson_status')).toBe(false)
+    })
+
+    it('should return empty string when value not found', () => {
+      mockStore.getItem.mockReturnValue(true)
+      mockStore.getAll.mockReturnValue({})
+      expect(service.LMSGetValue('cmi.core.lesson_status')).toBe('')
+    })
+
+    it('should return value when found', () => {
+      mockStore.getItem.mockReturnValue(true)
+      mockStore.getAll.mockReturnValue({ 'cmi.core.lesson_status': 'completed' })
+      expect(service.LMSGetValue('cmi.core.lesson_status')).toBe('completed')
+    })
+  })
+
+  describe('LMSSetValue', () => {
+    it('should return false when not initialized', () => {
+      mockStore.getItem.mockReturnValue(null)
+      expect(service.LMSSetValue('cmi.core.lesson_status', 'completed')).toBe(false)
+    })
+
+    it('should call store.setItem and return getItem result when initialized', () => {
+      mockStore.getItem.mockImplementation((key: string) => {
+        if (key === 'Initialized') return true
+        return 'completed'
+      })
+      const result = service.LMSSetValue('cmi.core.lesson_status', 'completed')
+      expect(mockStore.setItem).toHaveBeenCalledWith('cmi.core.lesson_status', 'completed')
+      expect(result).toBe('completed')
+    })
+  })
+
+  describe('postCordovaMessage', () => {
+    it('should throw error when webkit is not available', () => {
+      expect(() => service.postCordovaMessage(50)).toThrow('Cordova IAB postMessage API not found!')
+    })
+  })
+
+  describe('LMSGetErrorString', () => {
+    it('should return errorString for known code', () => {
+      const result = service.LMSGetErrorString(101)
+      expect(result).toBe('General Exception')
+    })
+
+    it('should return empty string for unknown code', () => {
+      expect(service.LMSGetErrorString(999)).toBe('')
+    })
+  })
+
+  describe('LMSGetDiagnostic', () => {
+    it('should return diagnostic for known code', () => {
+      const result = service.LMSGetDiagnostic(101)
+      expect(result).toBe('General diagnostic')
+    })
+
+    it('should return empty string for unknown code', () => {
+      expect(service.LMSGetDiagnostic(999)).toBe('')
+    })
+  })
+
+  describe('LMSCommit', () => {
+    it('should return false when store.getAll returns null', () => {
+      mockStore.getItem.mockReturnValue(true)
+      mockStore.getAll.mockReturnValue(null)
+      expect(service.LMSCommit()).toBe(false)
+    })
+
+    it('should return false for data with other lesson status (calls updateScromProgress)', () => {
+      const { of } = require('rxjs')
+      mockStore.getItem.mockReturnValue(true)
+      mockStore.getAll.mockReturnValue({ 'cmi.core.lesson_status': 'unknown', 'cmi.core.session_time': '0:01:00.0' })
+      service['http'] = { post: jest.fn().mockReturnValue(of({ result: {} })) } as any
+      expect(service.LMSCommit()).toBe(false)
+    })
+  })
 })

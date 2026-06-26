@@ -182,4 +182,104 @@ describe('SignupService', () => {
       })
     })
   })
+
+  it('loginAPI calls http.post with newLogin endpoint', (done) => {
+    const data = { username: 'user', password: 'pass' }
+    service.loginAPI(data).subscribe(() => {
+      expect(mockHttp.post).toHaveBeenCalledWith('/api/login', data)
+      done()
+    })
+  })
+
+  it('ssoWithMobileEmail calls http.post with newssowithMobileEmail endpoint', (done) => {
+    const data = { mobile: '9999999999' }
+    service.ssoWithMobileEmail(data).subscribe(() => {
+      expect(mockHttp.post).toHaveBeenCalledWith('/api/sso/mobile-email', data)
+      done()
+    })
+  })
+
+  it('ssoWithMobileEmailOrgForm calls http.post with newssowithMobileEmailOrgForm endpoint', (done) => {
+    const data = { form: 'data' }
+    service.ssoWithMobileEmailOrgForm(data).subscribe(() => {
+      expect(mockHttp.post).toHaveBeenCalledWith('/api/sso/org-form', data)
+      done()
+    })
+  })
+
+  it('verifyUserMobile calls http.post with VERIFY_FPW_OTP endpoint', (done) => {
+    const data = { otp: '123456', mobile: '9999999999' }
+    service.verifyUserMobile(data).subscribe(() => {
+      expect(mockHttp.post).toHaveBeenCalledWith('/api/fpw/otp/verify', data)
+      done()
+    })
+  })
+
+  it('validateOtp calls http.post with VALIDATE_OTP endpoint', (done) => {
+    const data = { otp: '654321' }
+    service.validateOtp(data).subscribe(() => {
+      expect(mockHttp.post).toHaveBeenCalledWith('/api/otp/validate2', data)
+      done()
+    })
+  })
+
+  describe('getUserData', () => {
+    it('returns userPidProfile and sets unMappedUser when unMappedUser is undefined', async () => {
+      const profile = { userId: 'u1', roles: ['PUBLIC'] }
+      mockUserDataCacheSvc.getUserData = jest.fn().mockReturnValue(of(profile))
+      mockConfigSvc.unMappedUser = undefined
+      const result = await service.getUserData()
+      expect(result).toEqual(profile)
+      expect(mockConfigSvc.unMappedUser).toEqual(profile)
+    })
+
+    it('returns error object on exception', async () => {
+      mockUserDataCacheSvc.getUserData = jest.fn().mockReturnValue({
+        toPromise: () => Promise.reject(new Error('network error')),
+      })
+      const result = await service.getUserData()
+      expect(result).toBeInstanceOf(Error)
+      expect(mockConfigSvc.userProfile).toBeNull()
+    })
+  })
+
+  describe('fetchStartUpDetails', () => {
+    it('returns default result when instanceConfig is null', async () => {
+      mockConfigSvc.instanceConfig = null
+      const result = await service.fetchStartUpDetails()
+      expect(result.tncStatus).toBe(true)
+      expect(result.isActive).toBe(true)
+    })
+
+    it('sets configSvc.userProfile when instanceConfig is set and role includes PUBLIC', async () => {
+      const profile = {
+        userId: 'u1',
+        firstName: 'Test',
+        lastName: 'User',
+        userName: 'testuser',
+        email: 'test@test.com',
+        roles: ['PUBLIC'],
+        rootOrgId: 'org1',
+        channel: 'org1',
+        thumbnail: null,
+        isDeleted: false,
+        profileDetails: { preferences: { language: 'en' }, mandatoryFieldsExists: true },
+      }
+      mockConfigSvc.instanceConfig = { someKey: true }
+      mockUserDataCacheSvc.getUserData = jest.fn().mockReturnValue(of(profile))
+      mockHttp.get = jest.fn().mockReturnValue(of(null))
+      const result = await service.fetchStartUpDetails()
+      expect(result.userId).toBe('u1')
+      expect(mockConfigSvc.userProfile).not.toBeNull()
+    })
+
+    it('handles exception and sets userProfile null', async () => {
+      mockConfigSvc.instanceConfig = { someKey: true }
+      mockUserDataCacheSvc.getUserData = jest.fn().mockReturnValue({
+        toPromise: () => Promise.reject(new Error('fail')),
+      })
+      const result = await service.fetchStartUpDetails()
+      expect(mockConfigSvc.userProfile).toBeNull()
+    })
+  })
 })

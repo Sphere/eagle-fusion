@@ -228,4 +228,133 @@ describe('CreateAccountComponent', () => {
       expect(component.institutes).toEqual([])
     })
   })
+
+  describe('redirect', () => {
+    it('should set langPage true for lang val', () => {
+      component.redirect('lang')
+      jest.runAllTimers()
+      expect(component.langPage).toBe(true)
+    })
+
+    it('should set langPage true for createAccount val', () => {
+      component.redirect('createAccount')
+      jest.runAllTimers()
+      expect(component.langPage).toBe(true)
+      expect(component.createAccount).toBe(false)
+    })
+
+    it('should set createAccount true for confirmPassword val', () => {
+      component.redirect('confirmPassword')
+      jest.runAllTimers()
+      expect(component.createAccount).toBe(true)
+    })
+
+    it('should set createAccount true for unknown val (default)', () => {
+      component.redirect('unknown')
+      jest.runAllTimers()
+      expect(component.createAccount).toBe(true)
+    })
+  })
+
+  describe('help', () => {
+    it('should open dialog with help selected', () => {
+      component.help()
+      expect(mockDialog.open).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ data: expect.objectContaining({ selected: 'help' }) }),
+      )
+    })
+  })
+
+  describe('handleKeyDown', () => {
+    it('should call help on Enter key', () => {
+      const spy = jest.spyOn(component, 'help')
+      const event = { key: 'Enter', preventDefault: jest.fn() } as any
+      component.handleKeyDown(event)
+      expect(spy).toHaveBeenCalled()
+      expect(event.preventDefault).toHaveBeenCalled()
+    })
+
+    it('should call help on Space key', () => {
+      const spy = jest.spyOn(component, 'help')
+      const event = { key: ' ', preventDefault: jest.fn() } as any
+      component.handleKeyDown(event)
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('should not call help for other keys', () => {
+      const spy = jest.spyOn(component, 'help')
+      const event = { key: 'Tab', preventDefault: jest.fn() } as any
+      component.handleKeyDown(event)
+      expect(spy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('selectedDistrict getter', () => {
+    it('should return district form value', () => {
+      component.createAccountForm.get('district')?.setValue('Delhi')
+      expect(component.selectedDistrict).toBe('Delhi')
+    })
+
+    it('should return empty string when not set', () => {
+      component.createAccountForm.get('district')?.setValue(null)
+      expect(component.selectedDistrict).toBe('')
+    })
+  })
+
+  describe('eventTrigger', () => {
+    it('should return early when form is falsy', () => {
+      expect(() => component.eventTrigger('Signup', 'user')).not.toThrow()
+      expect(mockSignupService.plumb5SendEvent).not.toHaveBeenCalled()
+    })
+
+    it('should call plumb5SendEvent and plumb5SendForm when form is provided', () => {
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'test@test.com' })
+      component.eventTrigger('Signup', 'user', component.createAccountForm)
+      expect(mockSignupService.plumb5SendEvent).toHaveBeenCalled()
+      expect(mockSignupService.plumb5SendForm).toHaveBeenCalled()
+    })
+  })
+
+  describe('showParentForm', () => {
+    it('should reinitialize form for "true" event', () => {
+      component.showParentForm('true')
+      expect(component.createAccountForm.get('firstname')).toBeTruthy()
+    })
+
+    it('should not change form for other events', () => {
+      const originalForm = component.createAccountForm
+      component.showParentForm('false')
+      expect(component.createAccountForm).toBe(originalForm)
+    })
+  })
+
+  describe('onSubmit', () => {
+    it('should set emailPhoneType to phone for 10-digit number', () => {
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: '9876543210' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(component.emailPhoneType).toBe('phone')
+      expect(component.isMobile).toBe(true)
+    })
+
+    it('should set emailPhoneType to email for email input', () => {
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'test@example.com' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(component.emailPhoneType).toBe('email')
+    })
+
+    it('should open snackbar for invalid input', () => {
+      component.createAccountForm.patchValue({ emailOrMobile: 'invalid' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
+
+  describe('ngOnDestroy', () => {
+    it('should complete without error', () => {
+      expect(() => component.ngOnDestroy()).not.toThrow()
+    })
+  })
 })

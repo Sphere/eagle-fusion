@@ -99,4 +99,152 @@ describe('DowntimeConfigService', () => {
   it('ngOnDestroy clears the refresh timer without throwing', () => {
     expect(() => service.ngOnDestroy()).not.toThrow()
   })
+
+  it('isBypassed returns true when userProfile rootOrgId is in bypassOrgs', () => {
+    mockConfigSvc.userProfile = { rootOrgId: 'bypass-org' }
+    service['currentConfig'] = { bypassOrgs: ['bypass-org'], isEnabled: false, type: 'full', content: {} } as any
+    expect(service.isBypassed()).toBe(true)
+  })
+
+  it('isBypassed returns false when userProfile rootOrgId is not in bypassOrgs', () => {
+    mockConfigSvc.userProfile = { rootOrgId: 'other-org' }
+    service['currentConfig'] = { bypassOrgs: ['bypass-org'], isEnabled: false, type: 'full', content: {} } as any
+    expect(service.isBypassed()).toBe(false)
+  })
+
+  it('isBypassed returns false when userProfile is null', () => {
+    mockConfigSvc.userProfile = null
+    service['currentConfig'] = { bypassOrgs: ['bypass-org'], isEnabled: false, type: 'full', content: {} } as any
+    expect(service.isBypassed()).toBe(false)
+  })
+
+  it('initializeDowntimeConfig returns downtime state with isDowntime true when config is enabled', (done) => {
+    const fullConfig = {
+      result: {
+        form: {
+          data: {
+            schemas: {
+              DOWN_TIME_INFO: {
+                WEB: {
+                  default: {
+                    isEnabled: true,
+                    type: 'full',
+                    content: { icon: 'warning', title: 'Down', message: 'Maintenance' },
+                    refreshInterval: 0,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+    mockHttp.post.mockReturnValue(of(fullConfig))
+    service.initializeDowntimeConfig().subscribe(state => {
+      expect(state.isDowntime).toBe(true)
+      expect(state.type).toBe('full')
+      done()
+    })
+  })
+
+  it('initializeDowntimeConfig returns partial downtime when type is partial', (done) => {
+    const config = {
+      result: {
+        form: {
+          data: {
+            schemas: {
+              DOWN_TIME_INFO: {
+                WEB: {
+                  default: {
+                    isEnabled: true,
+                    type: 'partial',
+                    content: {},
+                    refreshInterval: 0,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+    mockHttp.post.mockReturnValue(of(config))
+    service.initializeDowntimeConfig().subscribe(state => {
+      expect(state.type).toBe('partial')
+      done()
+    })
+  })
+
+  it('initializeDowntimeConfig returns false when isEnabled is false', (done) => {
+    const config = {
+      result: {
+        form: {
+          data: {
+            schemas: {
+              DOWN_TIME_INFO: {
+                WEB: {
+                  default: {
+                    isEnabled: false,
+                    type: 'full',
+                    content: {},
+                    refreshInterval: 0,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+    mockHttp.post.mockReturnValue(of(config))
+    service.initializeDowntimeConfig().subscribe(state => {
+      expect(state.isDowntime).toBe(false)
+      done()
+    })
+  })
+
+  it('initializeDowntimeConfig returns false when DOWN_TIME_INFO.WEB is missing', (done) => {
+    const config = {
+      result: {
+        form: {
+          data: {
+            schemas: {},
+          },
+        },
+      },
+    }
+    mockHttp.post.mockReturnValue(of(config))
+    service.initializeDowntimeConfig().subscribe(state => {
+      expect(state.isDowntime).toBe(false)
+      done()
+    })
+  })
+
+  it('initializeDowntimeConfig schedules auto-refresh when refreshTimer > 0', (done) => {
+    const config = {
+      result: {
+        form: {
+          data: {
+            schemas: {
+              DOWN_TIME_INFO: {
+                WEB: {
+                  default: {
+                    isEnabled: true,
+                    type: 'full',
+                    content: {},
+                    refreshInterval: 300,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+    mockHttp.post.mockReturnValue(of(config))
+    service.initializeDowntimeConfig().subscribe(() => {
+      expect(mockNgZone.runOutsideAngular).toHaveBeenCalled()
+      done()
+    })
+  })
 })

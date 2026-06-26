@@ -130,5 +130,74 @@ describe('MobileLoginComponent', () => {
       component.checkGoogleAuth()
       expect(component.googleAuth).toBe(true)
     })
+
+    it('should not change googleAuth when config data is falsy', () => {
+      mockConfigCacheSvc.getHostConfig.mockReturnValue(of(null))
+      component.googleAuth = false
+      component.checkGoogleAuth()
+      expect(component.googleAuth).toBe(false)
+    })
+  })
+
+  describe('generateOtp', () => {
+    it('should call signupService.generateOtp with email request when type is email', () => {
+      mockSignupService.generateOtp.mockReturnValue(of({ message: 'Success' }))
+      component.generateOtp('email', 'user@test.com')
+      expect(mockSignupService.generateOtp).toHaveBeenCalledWith({ email: 'user@test.com' })
+    })
+
+    it('should call signupService.generateOtp with mobileNumber when type is phone', () => {
+      mockSignupService.generateOtp.mockReturnValue(of({ message: 'Success' }))
+      component.generateOtp('phone', '9876543210')
+      expect(mockSignupService.generateOtp).toHaveBeenCalledWith({ mobileNumber: '9876543210' })
+    })
+  })
+
+  describe('loginUser', () => {
+    it('should set emailPhoneType to phone when username has >= 10 digits', () => {
+      component.loginForm.get('username')?.setValue('9876543210')
+      component.loginForm.get('password')?.setValue('password')
+      mockContentSvc.loginAuth.mockReturnValue(of({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 400, error: { params: { errmsg: 'bad request' } } })
+      component.loginUser()
+      expect(component.emailPhoneType).toBe('phone')
+    })
+
+    it('should set emailPhoneType to email when username is valid email', () => {
+      component.loginForm.get('username')?.setValue('user@test.com')
+      component.loginForm.get('password')?.setValue('password')
+      mockContentSvc.loginAuth.mockReturnValue(of({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 400, error: { params: { errmsg: 'bad' } } })
+      component.loginUser()
+      expect(component.emailPhoneType).toBe('email')
+    })
+  })
+
+  describe('ngOnInit', () => {
+    it('should set emailPhoneType to phone when signUpdata has phone number', () => {
+      component['signUpdata'] = {
+        value: { emailOrMobile: '9876543210' },
+      }
+      component.ngOnInit()
+      expect(component.emailPhoneType).toBe('phone')
+    })
+
+    it('should set emailPhoneType to email when signUpdata has email', () => {
+      component['signUpdata'] = {
+        value: { emailOrMobile: 'test@example.com' },
+      }
+      component.ngOnInit()
+      expect(component.emailPhoneType).toBe('email')
+    })
+
+    it('should set emailPhoneType to email when URL includes email-otp', () => {
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { ...window.location, href: 'http://localhost/email-otp' },
+      })
+      component['signUpdata'] = null
+      component.ngOnInit()
+      expect(component.emailPhoneType).toBe('email')
+    })
   })
 })

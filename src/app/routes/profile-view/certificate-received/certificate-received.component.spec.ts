@@ -53,4 +53,39 @@ describe('CertificateReceivedComponent', () => {
     component.certificateData = { id: '123', name: 'My Certificate' }
     expect(component.certificateData.id).toBe('123')
   })
+
+  describe('convertToJpeg else branch (printUri path)', () => {
+    let OriginalImage: any
+    let assignedSrc: string
+
+    beforeEach(() => {
+      assignedSrc = ''
+      OriginalImage = (global as any).Image
+      const MockImage = function (this: any) {
+        this.onload = null
+        Object.defineProperty(this, 'src', {
+          set(v: string) { assignedSrc = v },
+          get() { return assignedSrc },
+        })
+      } as any
+      ;(global as any).Image = MockImage
+    })
+
+    afterEach(() => {
+      ;(global as any).Image = OriginalImage
+    })
+
+    it('should create an Image and set its src to printUri', () => {
+      component.convertToJpeg({ rcCerticate: false, printUri: 'https://example.com/cert.png', name: 'Test Cert' })
+      expect(assignedSrc).toBe('https://example.com/cert.png')
+    })
+
+    it('should not call fetch for the else branch', () => {
+      const fetchMock = jest.fn()
+      ;(window as any).fetch = fetchMock
+      component.convertToJpeg({ rcCerticate: false, printUri: 'https://example.com/img.png', name: 'Cert' })
+      expect(fetchMock).not.toHaveBeenCalled()
+      delete (window as any).fetch
+    })
+  })
 })
