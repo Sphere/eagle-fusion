@@ -1,0 +1,90 @@
+jest.mock('@ws-widget/utils', () => ({
+  ConfigurationsService: class {
+    userProfile = null
+    userPreference = null
+    activeOrg = null
+    rootOrg = null
+    hostPath = 'https://sphere.aastrika.org'
+  },
+  LoggerService: class {
+    log = jest.fn()
+    warn = jest.fn()
+    error = jest.fn()
+  },
+}))
+
+import { of } from 'rxjs'
+import { HttpRequest, HttpResponse } from '@angular/common/http'
+import { AppInterceptorService } from './app-interceptor.service'
+import { ConfigurationsService } from '@ws-widget/utils'
+
+describe('AppInterceptorService', () => {
+  let service: AppInterceptorService
+  let mockHandler: any
+  let mockConfigSvc: any
+  let mockLogger: any
+
+  beforeEach(() => {
+    mockConfigSvc = new ConfigurationsService()
+    mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    mockHandler = {
+      handle: jest.fn().mockReturnValue(of(new HttpResponse({ status: 200, body: {} }))),
+    }
+    service = new AppInterceptorService(mockConfigSvc, mockLogger, 'en-US')
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('should create', () => {
+    expect(service).toBeTruthy()
+  })
+
+  it('passes through S3 external URLs without adding headers', (done) => {
+    const req = new HttpRequest('GET', 'https://sunbirdcontent.s3-ap-south-1.amazonaws.com/img.png')
+    service.intercept(req, mockHandler).subscribe(() => {
+      expect(mockHandler.handle).toHaveBeenCalledWith(req)
+      done()
+    })
+  })
+
+  it('passes through static CDN URLs', (done) => {
+    const req = new HttpRequest('GET', 'https://static.example.com/asset.js')
+    service.intercept(req, mockHandler).subscribe(() => {
+      expect(mockHandler.handle).toHaveBeenCalledWith(req)
+      done()
+    })
+  })
+
+  it('passes through when userProfile is null', (done) => {
+    mockConfigSvc.userProfile = null
+    const req = new HttpRequest('GET', '/apis/data')
+    service.intercept(req, mockHandler).subscribe(() => {
+      expect(mockHandler.handle).toHaveBeenCalled()
+      done()
+    })
+  })
+
+  it('passes through SCORM content state read endpoint', (done) => {
+    mockConfigSvc.userProfile = { userId: 'u-1' }
+    const req = new HttpRequest('GET', '/api/course/v1/content/state/read')
+    service.intercept(req, mockHandler).subscribe(() => {
+      expect(mockHandler.handle).toHaveBeenCalled()
+      done()
+    })
+  })
+
+  it('adds org and rootOrg headers when both are set and user is logged in', (done) => {
+    mockConfigSvc.userProfile = { userId: 'u-1' }
+    mockConfigSvc.activeOrg = 'test-org'
+    mockConfigSvc.rootOrg = 'root-org'
+    const req = new HttpRequest('GET', '/apis/protected/v8/data')
+    service.intercept(req, mockHandler).subscribe(() => {
+      const modifiedReq = mockHandler.handle.mock.calls[0][0] as HttpRequest<any>
+      expect(modifiedReq.headers.get('org')).toBe('test-org')
+      expect(modifiedReq.headers.get('rootOrg')).toBe('root-org')
+      done()
+    })
+  })
+})
