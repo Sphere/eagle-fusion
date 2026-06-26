@@ -191,4 +191,145 @@ describe('WebNavLinkPageComponent', () => {
       expect(mockThemeService.setTheme).toHaveBeenCalledWith(true)
     })
   })
+
+  describe('ngOnInit', () => {
+    it('should set isDark from themeService', async () => {
+      mockThemeService.isDark.mockReturnValue(true)
+      await component.ngOnInit()
+      expect(component.isDark).toBe(true)
+    })
+
+    it('should set data from configSvc.unMappedUser profileDetails', async () => {
+      mockConfigSvc.unMappedUser = { profileDetails: { profileReq: { personalDetails: { dob: '01/01/1990' } } } }
+      await component.ngOnInit()
+      expect(component.data).toEqual({ dob: '01/01/1990' })
+    })
+
+    it('should subscribe to notificationCountUpdated event', async () => {
+      await component.ngOnInit()
+      expect(mockEvents.subscribe).toHaveBeenCalledWith('notificationCountUpdated', expect.any(Function))
+    })
+
+    it('should update numberOfNotification when event fires with count > 1', async () => {
+      mockEvents.subscribe = jest.fn((event: string, cb: Function) => cb(3))
+      await component.ngOnInit()
+      expect(component.numberOfNotification).toBe('1+')
+    })
+
+    it('should call getUserData and set userData', async () => {
+      mockSignupService.getUserData.mockResolvedValue({ profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } } })
+      await component.ngOnInit()
+      expect(component.userData).toEqual({ profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } } })
+    })
+  })
+
+  describe('ngOnChanges', () => {
+    it('should call syncMenuWithUrl when menuItems changes and has length', () => {
+      const spy = jest.spyOn(component as any, 'syncMenuWithUrl')
+      component.ngOnChanges({ menuItems: { currentValue: component.menuItems, previousValue: [], firstChange: true, isFirstChange: () => true } })
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('should not call syncMenuWithUrl when menuItems changes to empty array', () => {
+      const spy = jest.spyOn(component as any, 'syncMenuWithUrl')
+      component.menuItems = []
+      component.ngOnChanges({ menuItems: { currentValue: [], previousValue: component.menuItems, firstChange: false, isFirstChange: () => false } })
+      expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('should not react when other input properties change', () => {
+      const spy = jest.spyOn(component as any, 'syncMenuWithUrl')
+      component.ngOnChanges({ orgData: { currentValue: {}, previousValue: null, firstChange: true, isFirstChange: () => true } })
+      expect(spy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('redirect', () => {
+    it('should navigate to /app/search/home for search tab', async () => {
+      const item = { id: 'search', title: 'Search', redirect: '/app/search', active: false, show: false }
+      await component.redirect(item)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/search/home'])
+    })
+
+    it('should navigate to route for mycourses when dob is set', async () => {
+      component.userData = { profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } } }
+      const item = { id: 'account', title: 'My Courses', redirect: '/app/user/my_courses', active: false, show: false }
+      await component.redirect(item)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/user/my_courses'])
+    })
+
+    it('should navigate to about-you for mycourses when dob is not set', async () => {
+      component.userData = null
+      const item = { id: 'account', title: 'My Courses', redirect: '/app/user/my_courses', active: false, show: false }
+      await component.redirect(item)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/about-you'], expect.any(Object))
+    })
+
+    it('should call openNotificationDialog for notification tab', async () => {
+      const spy = jest.spyOn(component, 'openNotificationDialog').mockImplementation(() => {})
+      const item = { id: 'notification', title: 'Notification', redirect: '', active: false, show: false }
+      await component.redirect(item)
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('should navigate to route for home without org config', async () => {
+      mockConfigSvc.orgSelectiveCourseConfig = null
+      const item = { id: 'home', title: 'Home', redirect: '/page/home', active: false, show: false }
+      await component.redirect(item)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/page/home'])
+    })
+
+    it('should set menu active state on redirect', async () => {
+      const item = component.menuItems[2] // search
+      await component.redirect(item)
+      expect(item.active).toBe(true)
+    })
+  })
+
+  describe('openNotificationDialog', () => {
+    it('should open dialog when notificationDialogRef is null', () => {
+      component.notificationDialogRef = null
+      component.openNotificationDialog()
+      expect(mockDialog.open).toHaveBeenCalled()
+    })
+
+    it('should not open dialog if notificationDialogRef already exists', () => {
+      component.notificationDialogRef = { afterClosed: jest.fn().mockReturnValue({ subscribe: jest.fn() }) } as any
+      component.openNotificationDialog()
+      expect(mockDialog.open).not.toHaveBeenCalled()
+    })
+
+    it('should set notificationDialogRef to null on afterClosed', () => {
+      const afterClosedCb = jest.fn()
+      mockDialog.open = jest.fn().mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue({ subscribe: jest.fn((cb: any) => cb()) }),
+      })
+      component.openNotificationDialog()
+      expect(component.notificationDialogRef).toBeNull()
+    })
+  })
+
+  describe('syncMenuWithUrl', () => {
+    it('should set Account active for profile-view path', () => {
+      mockLocation.path.mockReturnValue('/app/profile-view')
+      ;(component as any).syncMenuWithUrl()
+      const accountItem = component.menuItems.find(i => i.title === 'Account')
+      expect(accountItem?.active).toBe(true)
+    })
+
+    it('should set Home active for page/home path', () => {
+      mockLocation.path.mockReturnValue('/page/home')
+      ;(component as any).syncMenuWithUrl()
+      const homeItem = component.menuItems.find(i => i.title === 'Home')
+      expect(homeItem?.active).toBe(true)
+    })
+
+    it('should set Search active for search path', () => {
+      component.menuItems.push({ id: 'search', title: 'Search', show: false, active: false, redirect: '/app/search' })
+      mockLocation.path.mockReturnValue('/app/search/home')
+      ;(component as any).syncMenuWithUrl()
+      const searchItem = component.menuItems.find(i => i.title === 'Search')
+      expect(searchItem?.active).toBe(true)
+    })
+  })
 })

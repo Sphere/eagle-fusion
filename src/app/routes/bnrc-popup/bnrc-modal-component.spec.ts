@@ -43,6 +43,13 @@ describe('BnrcmodalComponent', () => {
     expect(component.data.from).toBe('bnrc')
   })
 
+  describe('ngOnInit', () => {
+    it('should log data.from on ngOnInit', () => {
+      component.ngOnInit()
+      expect(mockLogger.log).toHaveBeenCalledWith('yes here', 'bnrc')
+    })
+  })
+
   describe('done', () => {
     let originalLocation: any
 

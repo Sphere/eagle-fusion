@@ -167,4 +167,92 @@ describe('WebHomeComponent', () => {
       expect(component.clearInterval).toHaveBeenCalled()
     })
   })
+
+  describe('createAcct', () => {
+    it('should navigate to app/create-account', () => {
+      component.createAcct()
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('app/create-account')
+    })
+  })
+
+  describe('scrollToHowSphereWorks', () => {
+    it('should emit the value on scrollToDivEvent', () => {
+      component.scrollToHowSphereWorks('scrollToHowSphereWorks')
+      expect(mockScrollService.scrollToDivEvent.emit).toHaveBeenCalledWith('scrollToHowSphereWorks')
+    })
+  })
+
+  describe('clearInterval', () => {
+    it('should call global clearInterval when intervalId is set', () => {
+      const spy = jest.spyOn(global, 'clearInterval')
+      ;(component as any).intervalId = 42
+      component.clearInterval()
+      expect(spy).toHaveBeenCalledWith(42)
+    })
+
+    it('should not call global clearInterval when intervalId is null', () => {
+      const spy = jest.spyOn(global, 'clearInterval')
+      ;(component as any).intervalId = null
+      component.clearInterval()
+      expect(spy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('startCarousel', () => {
+    it('should advance slide index after 3 seconds', () => {
+      component.dataCarousel = [1, 2, 3]
+      component.currentSlideIndex = 0
+      component.startCarousel()
+      jest.advanceTimersByTime(3001)
+      expect(component.currentSlideIndex).toBe(1)
+    })
+  })
+
+  describe('ngOnInit', () => {
+    it('should call loadPlaylistData when bodyConfig returns empty string', async () => {
+      mockPlaylistSvc.bodyConfig.mockReturnValue('')
+      await component.ngOnInit()
+      expect(mockPlaylistSvc.loadPlaylistData).toHaveBeenCalled()
+    })
+
+    it('should set config from bodyConfig when it returns a non-empty value', async () => {
+      const mockConfig = { data: [1, 2], bannerStats: { total: 10 } }
+      mockPlaylistSvc.bodyConfig.mockReturnValue([mockConfig])
+      await component.ngOnInit()
+      expect(component.config).toEqual(mockConfig)
+    })
+
+    it('should set lang from userProfile preferences when available', async () => {
+      mockConfigSvc.unMappedUser = { profileDetails: { preferences: { language: 'hi' } } }
+      await component.ngOnInit()
+      expect(component.lang).toBe('hi')
+    })
+
+    it('should set lang from languageSvc when no userProfile preference', async () => {
+      mockConfigSvc.unMappedUser = null
+      mockLanguageSvc.getCurrentLanguage.mockReturnValue('en')
+      await component.ngOnInit()
+      expect(component.lang).toBe('en')
+    })
+
+    it('should set dataCarousel and bannerStatus from config', async () => {
+      const mockConfig = { data: ['a', 'b'], bannerStats: { count: 5 } }
+      mockPlaylistSvc.bodyConfig.mockReturnValue([mockConfig])
+      await component.ngOnInit()
+      expect(component.dataCarousel).toEqual(['a', 'b'])
+      expect(component.bannerStatus).toEqual({ count: 5 })
+    })
+
+    it('should scroll to target div when scrollToDivEvent fires with valid id', async () => {
+      mockScrollService.scrollToDivEvent.subscribe = jest.fn((cb: Function) => cb('scrollToHowSphereWorks'))
+      await component.ngOnInit()
+      expect(mockElementRef.nativeElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+    })
+
+    it('should not scroll when scrollToDivEvent fires with unknown id', async () => {
+      mockScrollService.scrollToDivEvent.subscribe = jest.fn((cb: Function) => cb('unknownDiv'))
+      await component.ngOnInit()
+      expect(mockElementRef.nativeElement.scrollIntoView).not.toHaveBeenCalled()
+    })
+  })
 })

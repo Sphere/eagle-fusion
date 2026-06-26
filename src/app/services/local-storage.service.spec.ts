@@ -89,5 +89,46 @@ describe('LocalStorageService', () => {
       await service.deleteOneStorage('myKey')
       expect(localStorage.getItem('user-123myKey')).toBeNull()
     })
+
+    it('removes key without prefix when userProfile is null', async () => {
+      mockConfigSvc.userProfile = null
+      localStorage.setItem('myKey', 'value')
+      await service.deleteOneStorage('myKey')
+      expect(localStorage.getItem('myKey')).toBeNull()
+    })
+  })
+
+  describe('hasKey', () => {
+    it('returns false when key is not in storage', async () => {
+      const result = await service.hasKey('nonexistent')
+      expect(result).toBe(false)
+    })
+
+    it('returns false when stored value keys do not include the prefixed key', async () => {
+      localStorage.setItem('user-123myKey', JSON.stringify({ differentKey: 'value' }))
+      const result = await service.hasKey('myKey')
+      expect(result).toBe(false)
+    })
+
+    it('returns false when userProfile is null and key not found', async () => {
+      mockConfigSvc.userProfile = null
+      const result = await service.hasKey('absent')
+      expect(result).toBe(false)
+    })
+  })
+
+  describe('error paths', () => {
+    it('setLocalStorage should throw and log error when value cannot be stringified', async () => {
+      const circular: any = {}
+      circular.self = circular
+      await expect(service.setLocalStorage('myKey', circular)).rejects.toThrow()
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+
+    it('getLocalStorage should throw and log error when stored value is invalid JSON', async () => {
+      localStorage.setItem('user-123badKey', 'not-valid-json{')
+      await expect(service.getLocalStorage('badKey')).rejects.toThrow()
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
   })
 })

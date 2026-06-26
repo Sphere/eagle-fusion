@@ -167,4 +167,143 @@ describe('UpsmfRegisterComponent', () => {
       expect(mockSnackBar.open).toHaveBeenCalledWith('Error message', 'X', expect.any(Object))
     })
   })
+
+  describe('onDobChange', () => {
+    it('should set dob on anmRegistrationForm when isInService=true', () => {
+      component.isInService = true
+      component.onDobChange('1990-01-01')
+      expect(component.anmRegistrationForm.get('dob')?.value).toBe('1990-01-01')
+    })
+
+    it('should not throw when isPreService=true (dob field not present in preServiceForm)', () => {
+      component.isInService = false
+      component.isPreService = true
+      expect(() => component.onDobChange('1990-01-01')).not.toThrow()
+    })
+  })
+
+  describe('onMedicalOfficerDobChange', () => {
+    it('should set dob on medicalOfficerForm', () => {
+      component.onMedicalOfficerDobChange('1985-05-10')
+      expect(component.medicalOfficerForm.get('dob')?.value).toBe('1985-05-10')
+    })
+  })
+
+  describe('onDateOfJoiningChange', () => {
+    it('should set dateOfJoining on medicalOfficerForm', () => {
+      component.onDateOfJoiningChange('2010-03-15')
+      expect(component.medicalOfficerForm.get('dateOfJoining')?.value).toBe('2010-03-15')
+    })
+  })
+
+  describe('onFacilityTypeChange', () => {
+    it('should populate availableFacilities when all selections are set', () => {
+      component.biharDistrictData = { 'UP': { 'Block1': { 'PHC': [{ name: 'Facility1' }] } } }
+      component.anmRegistrationForm.get('district')?.setValue('UP')
+      component.anmRegistrationForm.get('block')?.setValue('Block1')
+      component.onFacilityTypeChange('PHC')
+      expect(component.availableFacilities).toEqual([{ name: 'Facility1' }])
+    })
+
+    it('should clear availableFacilities for unknown facility type', () => {
+      component.biharDistrictData = {}
+      component.onFacilityTypeChange('Unknown')
+      expect(component.availableFacilities).toEqual([])
+    })
+  })
+
+  describe('onSubmit', () => {
+    it('should call onSubmitInService when isInService=true', () => {
+      component.isInService = true
+      const spy = jest.spyOn(component, 'onSubmitInService').mockImplementation(() => {})
+      component.onSubmit()
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('should call onSubmitPreService when isPreService=true', () => {
+      component.isInService = false
+      component.isPreService = true
+      const spy = jest.spyOn(component, 'onSubmitPreService').mockImplementation(() => {})
+      component.onSubmit()
+      expect(spy).toHaveBeenCalled()
+    })
+  })
+
+  describe('onSubmitInService', () => {
+    it('should call upsmfSendOtp and set otpPage=true on success status=success', () => {
+      component.isInService = true
+      component.userProfileSvc = {
+        upsmfSendOtp: jest.fn().mockReturnValue(of({ status: 'success', message: 'OTP sent' })),
+      } as any
+      component.anmRegistrationForm.patchValue({
+        firstName: 'John', lastName: 'Doe', phone: '9876543210',
+        dob: '1990-01-01', regNurseRegMidwifeNumber: 'REG001', roleForInService: 'Government',
+      })
+      component.onSubmitInService()
+      expect(component.otpPage).toBe(true)
+    })
+
+    it('should call openSnackbar when otp response is not success', () => {
+      component.userProfileSvc = {
+        upsmfSendOtp: jest.fn().mockReturnValue(of({ status: 'fail', message: 'Error' })),
+      } as any
+      component.anmRegistrationForm.patchValue({
+        firstName: 'John', lastName: 'Doe', phone: '9876543210',
+        dob: '1990-01-01', regNurseRegMidwifeNumber: 'REG001', roleForInService: 'Government',
+      })
+      component.onSubmitInService()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+
+    it('should not call upsmfSendOtp when form is invalid', () => {
+      const mockSendOtp = jest.fn()
+      component.userProfileSvc = { upsmfSendOtp: mockSendOtp } as any
+      component.onSubmitInService()
+      expect(mockSendOtp).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('onSubmitPreService', () => {
+    it('should call upsmfSendOtp when preServiceForm is valid', () => {
+      component.isPreService = true
+      component.isInService = false
+      const mockSendOtp = jest.fn().mockReturnValue(of({ status: 'success', message: 'OTP sent' }))
+      component.userProfileSvc = { upsmfSendOtp: mockSendOtp } as any
+      component.preServiceForm.patchValue({
+        firstName: 'Jane', lastName: 'Doe', phone: '9876543210',
+        district: 'UP', role: 'Student',
+      })
+      component.onSubmitPreService()
+      expect(mockSendOtp).toHaveBeenCalled()
+    })
+  })
+
+  describe('assignFields', () => {
+    it('should log field info without throwing', () => {
+      component.assignFields('phone', '1234567890', {})
+      expect(mockLogger.log).toHaveBeenCalled()
+    })
+  })
+
+  describe('createUser', () => {
+    it('should call upsmfRegistration and open dialog on SUCCESS', () => {
+      component.isInService = true
+      component.isGovernmentEmployee = false
+      component.userProfileSvc = {
+        upsmfRegistration: jest.fn().mockReturnValue(of({ status: 'SUCCESS' })),
+      } as any
+      component.createUser({})
+      expect(mockDialog.open).toHaveBeenCalled()
+    })
+
+    it('should call openSnackbar when upsmfRegistration status is not SUCCESS', () => {
+      component.isInService = true
+      component.isGovernmentEmployee = false
+      component.userProfileSvc = {
+        upsmfRegistration: jest.fn().mockReturnValue(of({ status: 'FAIL', message: 'Failed' })),
+      } as any
+      component.createUser({})
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Failed', 'X', expect.any(Object))
+    })
+  })
 })

@@ -155,4 +155,39 @@ describe('TncComponent', () => {
     await component.ngOnInit()
     expect(() => component.ngOnDestroy()).not.toThrow()
   })
+
+  it('getTnc should return early when locale matches tncTerm language', async () => {
+    await component.ngOnInit()
+    // locale 'en' equals tncTerm.language 'en', so should return early
+    const result = component.getTnc('en')
+    expect(result).toBeUndefined()
+    expect(mockTncProtectedSvc.getTnc).not.toHaveBeenCalled()
+  })
+
+  describe('getDp', () => {
+    it('should call tncProtectedSvc.getTnc when not public and locale differs from dpTerm language', async () => {
+      await component.ngOnInit()
+      component.getDp('hi') // dpTerm language is 'en', 'hi' != 'en'
+      expect(mockTncProtectedSvc.getTnc).toHaveBeenCalledWith('hi')
+    })
+
+    it('should call tncPublicSvc.getPublicTnc when isPublic=true', async () => {
+      routeDataSubject.next({ tnc: { data: tncData }, isPublic: true })
+      await component.ngOnInit()
+      component.getDp('hi')
+      expect(mockTncPublicSvc.getPublicTnc).toHaveBeenCalled()
+    })
+
+    it('should return early when locale matches dpTerm language', async () => {
+      await component.ngOnInit()
+      const result = component.getDp('en') // dpTerm language is 'en'
+      expect(result).toBeUndefined()
+    })
+
+    it('should not call service when tncData is null', () => {
+      component.tncData = null
+      component.getDp('hi')
+      expect(mockTncProtectedSvc.getTnc).not.toHaveBeenCalled()
+    })
+  })
 })

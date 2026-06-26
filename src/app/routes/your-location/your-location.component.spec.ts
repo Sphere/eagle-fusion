@@ -89,4 +89,69 @@ describe('YourLocationComponent', () => {
       expect(component.aboutYouForm.get('dob')?.value).toEqual(date)
     })
   })
+
+  describe('onDateChange', () => {
+    it('should set invalidDob to false for date more than 18 years ago', () => {
+      const pastDate = new Date()
+      pastDate.setFullYear(pastDate.getFullYear() - 20)
+      component.onDateChange(pastDate)
+      expect(component.invalidDob).toBe(false)
+    })
+
+    it('should set invalidDob to true for date less than 18 years ago', () => {
+      const recentDate = new Date()
+      recentDate.setFullYear(recentDate.getFullYear() - 10)
+      component.onDateChange(recentDate)
+      expect(component.invalidDob).toBe(true)
+    })
+  })
+
+  describe('countrySelect', () => {
+    beforeEach(() => {
+      component.countries = [
+        { name: 'India', countryCode: '+91' },
+        { name: 'USA', countryCode: '+1' },
+      ]
+      mockHttp.get = jest.fn().mockReturnValue(of({ states: ['UP', 'Bihar'] }))
+    })
+
+    it('should set countryCode and load states for India', () => {
+      component.countrySelect({ value: 'India' })
+      expect(component.selectDisable).toBe(false)
+      expect(mockHttp.get).toHaveBeenCalledWith(component.stateUrl)
+    })
+
+    it('should set selectDisable true and clear state/district for non-India', () => {
+      component.aboutYouForm.patchValue({ state: 'UP', distict: 'Agra' })
+      component.countrySelect({ value: 'USA' })
+      expect(component.selectDisable).toBe(true)
+      expect(component.aboutYouForm.get('state')?.value).toBeNull()
+      expect(component.aboutYouForm.get('distict')?.value).toBeNull()
+    })
+
+    it('should set countryCode via setCountryCode', () => {
+      component.countrySelect({ value: 'India' })
+      expect(component.aboutYouForm.get('countryCode')?.value).toBe('+91')
+    })
+  })
+
+  describe('stateSelect', () => {
+    it('should set disticts for the selected state', () => {
+      mockHttp.get = jest.fn().mockReturnValue(of({
+        states: [
+          { state: 'UP', districts: ['Agra', 'Lucknow'] },
+          { state: 'Bihar', districts: ['Patna'] },
+        ],
+      }))
+      component.stateSelect({ value: 'UP' })
+      expect(component.disticts).toEqual(['Agra', 'Lucknow'])
+    })
+
+    it('should call disableNextBtn', () => {
+      const spy = jest.spyOn(component, 'disableNextBtn')
+      mockHttp.get = jest.fn().mockReturnValue(of({ states: [] }))
+      component.stateSelect({ value: 'UP' })
+      expect(spy).toHaveBeenCalled()
+    })
+  })
 })

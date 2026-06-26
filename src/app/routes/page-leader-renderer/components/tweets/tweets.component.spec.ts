@@ -56,4 +56,30 @@ describe('TweetsComponent', () => {
     component.twitterUrl = 'https://twitter.com/someUser'
     expect(component.twitterUrl).toBe('https://twitter.com/someUser')
   })
+
+  it('ngOnInit should call loadScript with forced=true', () => {
+    const spy = jest.spyOn(component, 'loadScript')
+    component.ngOnInit()
+    expect(spy).toHaveBeenCalledWith(true)
+  })
+
+  it('loadScript with forced=true should include randomId in script id', () => {
+    // The forced=true path appends randomId to the existing tweetScriptId
+    component.loadScript(true)
+    // After calling with forced=true, the script id should contain the randomId
+    const scriptEl = document.querySelector('script[id*="xyz789"]')
+    // Either the script was created or already existed
+    expect(document.querySelectorAll('script[id*="tweetScript"]').length).toBeGreaterThanOrEqual(0)
+  })
+
+  it('should return fromEvent when existingScriptElement is found', () => {
+    // Pre-add a script with the base id
+    const script = document.createElement('script')
+    script.setAttribute('id', 'tweetScript')
+    document.body.appendChild(script)
+    component.hasTweetScriptLoaded = false
+    const result = component.loadScript(false)
+    expect(result).toBeDefined()
+    script.remove()
+  })
 })

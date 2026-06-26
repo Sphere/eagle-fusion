@@ -178,6 +178,84 @@ describe('FeaturesComponent', () => {
     })
   })
 
+  describe('filteredFeatures', () => {
+    let componentWithFeatures: FeaturesComponent
+
+    beforeEach(() => {
+      mockConfigSvc.appsConfig = {
+        groups: [{ hasRole: [], featureIds: ['f1', 'f2'], name: 'Group 1' }],
+        features: {
+          f1: { name: 'Angular Testing', keywords: ['unit', 'test'], description: 'testing angular desc' },
+          f2: { name: 'React Guide', keywords: ['jsx'], description: null },
+        },
+      }
+      componentWithFeatures = new FeaturesComponent(
+        mockDialog, mockRouter, mockRoute, mockConfigSvc, mockRespondSvc, mockValueSvc, mockAccessService,
+      )
+    })
+
+    it('should return all featuresConfig when query is empty', () => {
+      const result = (componentWithFeatures as any).filteredFeatures('')
+      expect(result).toHaveLength(1)
+      expect(result[0].featureWidgets).toHaveLength(2)
+    })
+
+    it('should filter by feature name match', () => {
+      const result = (componentWithFeatures as any).filteredFeatures('angular')
+      expect(result).toHaveLength(1)
+      expect(result[0].featureWidgets).toHaveLength(1)
+    })
+
+    it('should filter by keyword match', () => {
+      const result = (componentWithFeatures as any).filteredFeatures('unit')
+      expect(result).toHaveLength(1)
+      expect(result[0].featureWidgets).toHaveLength(1)
+    })
+
+    it('should filter by description match', () => {
+      const result = (componentWithFeatures as any).filteredFeatures('testing angular desc')
+      expect(result).toHaveLength(1)
+    })
+
+    it('should return empty array when no features match query', () => {
+      const result = (componentWithFeatures as any).filteredFeatures('xyz-no-match')
+      expect(result).toHaveLength(0)
+    })
+
+    it('should return empty array when featuresConfig is null', () => {
+      componentWithFeatures['featuresConfig'] = null as any
+      const result = (componentWithFeatures as any).filteredFeatures('query')
+      expect(result).toEqual([])
+    })
+  })
+
+  describe('queryMatchForFeature', () => {
+    it('should return false when feature is undefined', () => {
+      const result = (component as any).queryMatchForFeature(undefined, 'query')
+      expect(result).toBe(false)
+    })
+
+    it('should return true when feature name includes query (case-sensitive)', () => {
+      const feature = { name: 'angular testing', keywords: [], description: null }
+      expect((component as any).queryMatchForFeature(feature, 'angular')).toBe(true)
+    })
+
+    it('should return true when keyword includes query', () => {
+      const feature = { name: 'Test', keywords: ['angular', 'jest'], description: null }
+      expect((component as any).queryMatchForFeature(feature, 'jest')).toBe(true)
+    })
+
+    it('should return true when description includes query', () => {
+      const feature = { name: 'Test', keywords: [], description: 'a testing framework' }
+      expect((component as any).queryMatchForFeature(feature, 'framework')).toBe(true)
+    })
+
+    it('should return false when nothing matches', () => {
+      const feature = { name: 'angular', keywords: ['rxjs'], description: 'reactive' }
+      expect((component as any).queryMatchForFeature(feature, 'xyz-no-match')).toBe(false)
+    })
+  })
+
   describe('constructor with appsConfig', () => {
     it('should call tourGuideNotifier.next(true) when appsConfig has tourGuide', () => {
       mockConfigSvc.appsConfig = { tourGuide: { steps: [] }, groups: [], features: {} }

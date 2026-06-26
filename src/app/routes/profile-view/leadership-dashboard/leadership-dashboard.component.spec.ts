@@ -250,5 +250,106 @@ describe('LeadershipDashboardComponent', () => {
       component.evaluatePinState()
       expect(component.isPinnedVisible).toBe(true)
     })
+
+    it('should set isPinnedVisible true when user not in restUsers', () => {
+      component['rows'] = { length: 1, toArray: jest.fn().mockReturnValue([{ nativeElement: {} }]) } as any
+      component.restUsers = [{ userId: 'other' }]
+      component.currentUserId = 'u1'
+      component.evaluatePinState()
+      expect(component.isPinnedVisible).toBe(true)
+    })
+
+    it('should set isPinnedVisible based on row rect when user is found in restUsers', () => {
+      const mockRect = { top: 9999 }
+      const mockEl = { nativeElement: { getBoundingClientRect: jest.fn().mockReturnValue(mockRect) } }
+      component['rows'] = { length: 1, toArray: jest.fn().mockReturnValue([mockEl]) } as any
+      component.restUsers = [{ userId: 'u1' }]
+      component.currentUserId = 'u1'
+      component.evaluatePinState()
+      expect(component.isPinnedVisible).toBe(true)
+    })
+  })
+
+  describe('onScroll / evaluatePinOnScroll', () => {
+    it('onScroll should call evaluatePinOnScroll', () => {
+      const spy = jest.spyOn(component, 'evaluatePinOnScroll')
+      component.onScroll()
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('evaluatePinOnScroll should set isPinnedVisible true when rows empty', () => {
+      component['rows'] = { length: 0, toArray: jest.fn().mockReturnValue([]) } as any
+      component.evaluatePinOnScroll()
+      expect(component.isPinnedVisible).toBe(true)
+    })
+
+    it('evaluatePinOnScroll should set isPinnedVisible true when user not in restUsers', () => {
+      component['rows'] = { length: 1, toArray: jest.fn().mockReturnValue([{}]) } as any
+      component.restUsers = [{ userId: 'other' }]
+      component.currentUserId = 'u1'
+      component.evaluatePinOnScroll()
+      expect(component.isPinnedVisible).toBe(true)
+    })
+
+    it('evaluatePinOnScroll should check rect when user row is found', () => {
+      const mockRect = { top: 5 }
+      const mockEl = { nativeElement: { getBoundingClientRect: jest.fn().mockReturnValue(mockRect) } }
+      component['rows'] = { length: 1, toArray: jest.fn().mockReturnValue([mockEl]) } as any
+      component.restUsers = [{ userId: 'u1' }]
+      component.currentUserId = 'u1'
+      component.evaluatePinOnScroll()
+      expect(component.isPinnedVisible).toBe(false)
+    })
+  })
+
+  describe('ngAfterViewInit', () => {
+    it('should subscribe to rows.changes and call evaluatePinState after timeout', () => {
+      jest.useFakeTimers()
+      const subscribeCallback = jest.fn()
+      component['rows'] = { changes: { subscribe: jest.fn((cb: any) => cb()) }, length: 0, toArray: jest.fn().mockReturnValue([]) } as any
+      component.currentUser = { userId: 'u1' }
+      jest.spyOn(component, 'setupInfiniteScroll').mockImplementation(() => {})
+      component.ngAfterViewInit()
+      expect(component['rows'].changes.subscribe).toHaveBeenCalled()
+      jest.advanceTimersByTime(400)
+      jest.useRealTimers()
+    })
+  })
+
+  describe('setupInfiniteScroll', () => {
+    it('should not throw when scrollTrigger is not set', () => {
+      component.scrollTrigger = undefined as any
+      expect(() => component.setupInfiniteScroll()).not.toThrow()
+    })
+
+    it('should create and start IntersectionObserver when scrollTrigger is set', () => {
+      const observeMock = jest.fn()
+      const disconnectMock = jest.fn()
+      const mockObserver = { observe: observeMock, disconnect: disconnectMock }
+      ;(global as any).IntersectionObserver = jest.fn().mockImplementation((cb: any) => {
+        cb([{ isIntersecting: true }])
+        return mockObserver
+      })
+      component.scrollTrigger = { nativeElement: document.createElement('div') } as any
+      component.infiniteDisabled = false
+      component.loading = false
+      jest.spyOn(component, 'loadMore').mockImplementation(() => {})
+      component.setupInfiniteScroll()
+      expect(observeMock).toHaveBeenCalled()
+    })
+  })
+
+  describe('ngOnDestroy', () => {
+    it('should disconnect intersectionObserver if it exists', () => {
+      const disconnectMock = jest.fn()
+      component['intersectionObserver'] = { disconnect: disconnectMock } as any
+      component.ngOnDestroy()
+      expect(disconnectMock).toHaveBeenCalled()
+    })
+
+    it('should not throw when intersectionObserver is not set', () => {
+      component['intersectionObserver'] = undefined as any
+      expect(() => component.ngOnDestroy()).not.toThrow()
+    })
   })
 })

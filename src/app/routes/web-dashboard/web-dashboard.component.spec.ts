@@ -11,6 +11,7 @@ jest.mock('../../services/playlist.service', () => ({
 import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { NO_ERRORS_SCHEMA } from '@angular/core'
 import { RouterTestingModule } from '@angular/router/testing'
+import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { EventEmitter } from '@angular/core'
 import { of } from 'rxjs'
@@ -189,5 +190,57 @@ describe('WebDashboardComponent', () => {
     await component.ngOnInit()
     expect(component.lang).toBe('hi')
     jest.useRealTimers()
+  })
+
+  it('startCarousel should invoke nextSlide after 3 seconds', () => {
+    jest.useFakeTimers()
+    const nextSlideSpy = jest.spyOn(component, 'nextSlide')
+    component.startCarousel()
+    jest.advanceTimersByTime(3100)
+    expect(nextSlideSpy).toHaveBeenCalled()
+    jest.useRealTimers()
+  })
+
+  it('ngOnInit should set bannerFirstImage when isEkshamata and hostedInfo exists', async () => {
+    const configSvc = TestBed.inject(ConfigurationsService) as any
+    configSvc.hostedInfo = { org: 'ekshamata' }
+    component.isEkshamata = true
+    component.configData = null
+    await component.ngOnInit()
+    expect(component.bannerFirstImage).toBe('/fusion-assets/images/ekshamata-logo.svg')
+  })
+
+  it('ngOnInit calculateBadges should count completed courses matching playlist', async () => {
+    const plylsSvc = TestBed.inject(PlaylistService) as any
+    plylsSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+      { language: 'en', dataSource: { payload: ['course1', 'course2'] } },
+    ])
+    const configSvc = TestBed.inject(ConfigurationsService) as any
+    configSvc.userProfile = { language: 'en' }
+    component.configData = [{ badges: { showCompletedCourses: true } }]
+    component.userEnrolledCourse = [
+      { identifier: 'course1', completionPercentage: 100 },
+      { identifier: 'course2', completionPercentage: 50 },
+    ]
+    await component.ngOnInit()
+    expect(component.noOfBadges).toBe(1)
+  })
+
+  it('ngOnInit calculateBadges should handle getPlaylistConfig error', async () => {
+    const plylsSvc = TestBed.inject(PlaylistService) as any
+    plylsSvc.getPlaylistConfig = jest.fn().mockRejectedValue(new Error('Fetch failed'))
+    component.configData = [{ badges: { showCompletedCourses: true } }]
+    await component.ngOnInit()
+    expect(component.noOfBadges).toBe(0)
+  })
+
+  it('constructor should navigate to /organisations/home when orgValue is nhsrc', () => {
+    const router = TestBed.inject(Router)
+    const navSpy = jest.spyOn(router, 'navigateByUrl').mockImplementation(jest.fn() as any)
+    localStorage.setItem('orgValue', 'nhsrc')
+    TestBed.createComponent(WebDashboardComponent)
+    expect(navSpy).toHaveBeenCalledWith('/organisations/home')
+    localStorage.removeItem('orgValue')
+    navSpy.mockRestore()
   })
 })

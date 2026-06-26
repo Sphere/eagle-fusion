@@ -299,4 +299,128 @@ describe('LoginOtpComponent', () => {
       expect(mockSignupService.generateOtp).toHaveBeenCalledWith({ phone: '9876543210' })
     })
   })
+
+  describe('verifyOtp', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      component.loginOtpForm.patchValue({ otp1: '1', otp2: '2', otp3: '3', otp4: '4' })
+      component.updateOtpCode()
+    })
+
+    it('should call ssoValidateOTP with phone request when emailOrMobile >= 10 digits', () => {
+      const { of } = require('rxjs')
+      component.signUpdata = { value: { emailOrMobile: '9876543210', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(of({ msg: 'Success' }))
+      component.verifyOtp()
+      expect(mockSignupService.ssoValidateOTP).toHaveBeenCalledWith(expect.objectContaining({ phone: '9876543210' }))
+    })
+
+    it('should call ssoValidateOTP with email request when emailOrMobile is an email', () => {
+      const { of } = require('rxjs')
+      component.emailPhoneType = 'email'
+      component.initializeForm()
+      component.loginOtpForm.patchValue({ code: '1234' })
+      component.signUpdata = { value: { emailOrMobile: 'user@test.com', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(of({ msg: 'Success' }))
+      component.verifyOtp()
+      expect(mockSignupService.ssoValidateOTP).toHaveBeenCalledWith(expect.objectContaining({ email: 'user@test.com' }))
+    })
+
+    it('should call ssoValidateOrgOTP when isOrgSelectiveCourse is true', () => {
+      const { of } = require('rxjs')
+      localStorage.setItem('isOrgSelectiveCourse', 'true')
+      component.signUpdata = { value: { emailOrMobile: '9876543210', password: 'pass' } }
+      mockSignupService.ssoValidateOrgOTP = jest.fn().mockReturnValue(of({ msg: 'Success' }))
+      component.verifyOtp()
+      expect(mockSignupService.ssoValidateOrgOTP).toHaveBeenCalled()
+    })
+
+    it('should set sessionStorage login-btn and set isLoading=false on success', () => {
+      const { of } = require('rxjs')
+      component.signUpdata = { value: { emailOrMobile: '9876543210', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(of({ msg: 'OTP verified' }))
+      component.verifyOtp()
+      expect(sessionStorage.getItem('login-btn')).toBe('clicked')
+      expect(component.isLoading).toBe(false)
+    })
+
+    it('should call openSnackbar and set isLoading=false on error', () => {
+      const { throwError } = require('rxjs')
+      component.signUpdata = { value: { emailOrMobile: '9876543210', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(
+        throwError(() => ({ error: { error: 'Invalid OTP' } }))
+      )
+      component.verifyOtp()
+      expect(component.isLoading).toBe(false)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
+
+  describe('loginVerifyOtp', () => {
+    beforeEach(() => {
+      component.emailPhoneType = 'phone'
+      component.initializeForm()
+      component.loginOtpForm.patchValue({ otp1: '1', otp2: '2', otp3: '3', otp4: '4' })
+      component.updateOtpCode()
+    })
+
+    it('should call ssoValidateOTP with phone request when username has no @', () => {
+      const { of } = require('rxjs')
+      component.loginData = { value: { username: '9876543210', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(of({ message: 'Success' }))
+      component.loginVerifyOtp()
+      expect(mockSignupService.ssoValidateOTP).toHaveBeenCalledWith(expect.objectContaining({ phone: '9876543210' }))
+    })
+
+    it('should call ssoValidateOTP with email request when username has @', () => {
+      const { of } = require('rxjs')
+      component.loginData = { value: { username: 'user@test.com', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(of({ message: 'Success' }))
+      component.loginVerifyOtp()
+      expect(mockSignupService.ssoValidateOTP).toHaveBeenCalledWith(expect.objectContaining({ email: 'user@test.com' }))
+    })
+
+    it('should call ssoValidateOrgOTP when isOrgSelectiveCourse is true', () => {
+      const { of } = require('rxjs')
+      localStorage.setItem('isOrgSelectiveCourse', 'true')
+      component.loginData = { value: { username: '9876543210', password: 'pass' } }
+      mockSignupService.ssoValidateOrgOTP = jest.fn().mockReturnValue(of({ message: 'Success' }))
+      component.loginVerifyOtp()
+      expect(mockSignupService.ssoValidateOrgOTP).toHaveBeenCalled()
+    })
+
+    it('should open snackbar on success', () => {
+      const { of } = require('rxjs')
+      component.loginData = { value: { username: '9876543210', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(of({ message: 'Verified' }))
+      component.loginVerifyOtp()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+
+    it('should call openSnackbar on error', () => {
+      const { throwError } = require('rxjs')
+      component.loginData = { value: { username: 'user@test.com', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(
+        throwError(() => ({ error: { error: 'OTP error', message: '' } }))
+      )
+      component.loginVerifyOtp()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
+
+  describe('resendOTP error path', () => {
+    it('should open snackbar on generateOtp error', () => {
+      const { throwError } = require('rxjs')
+      mockSignupService.generateOtp = jest.fn().mockReturnValue(
+        throwError(() => ({ error: { error: 'Failed to resend' } }))
+      )
+      component.signUpdata = { value: { emailOrMobile: 'user@test.com' } }
+      component.emailPhoneType = 'email'
+      component.initializeForm()
+      component.resendOTP('email')
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
 })

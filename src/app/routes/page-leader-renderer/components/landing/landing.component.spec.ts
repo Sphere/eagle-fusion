@@ -123,4 +123,96 @@ describe('LandingComponent', () => {
       expect(mockRouter.navigate).toHaveBeenCalledWith([], { queryParams: { tab: 'Articles' } })
     })
   })
+
+  describe('fetchUserId', () => {
+    beforeEach(() => {
+      component.leaderData = {
+        profile: { emailId: 'leader@test.com', name: 'Leader' },
+        tabs: [],
+        mailMeta: { placeholder: '', emailTo: '', name: '', subject: '' },
+      } as any
+    })
+
+    it('should set leaderUuid and enable follow on success', () => {
+      mockLeaderSvc.emailToUserId = jest.fn().mockReturnValue(of({ userId: 'leader-uuid' }))
+      component.fetchUserId()
+      expect(component.leaderUuid).toBe('leader-uuid')
+      expect(component.isFollowDisabled).toBe(false)
+    })
+
+    it('should set isFollowDisabled=true on error', () => {
+      mockLeaderSvc.emailToUserId = jest.fn().mockReturnValue(throwError(() => new Error('fail')))
+      component.fetchUserId()
+      expect(component.isFollowDisabled).toBe(true)
+    })
+  })
+
+  describe('openSendMailDialog', () => {
+    it('should open SendMailDialogComponent when leaderData is set', () => {
+      component.leaderData = {
+        profile: { emailId: 'leader@test.com', name: 'Leader' },
+        tabs: [],
+        mailMeta: { placeholder: 'Hi', emailTo: 'leader@test.com', name: 'Leader', subject: 'Hello' },
+      } as any
+      component.openSendMailDialog()
+      expect(mockDialog.open).toHaveBeenCalled()
+    })
+
+    it('should not open dialog when leaderData is null', () => {
+      component.leaderData = null
+      component.openSendMailDialog()
+      expect(mockDialog.open).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('follow / unFollow / toggleFollow', () => {
+    beforeEach(() => {
+      component.leaderData = {
+        profile: { emailId: 'leader@test.com', name: 'Leader Name' },
+        tabs: [],
+        mailMeta: {} as any,
+      } as any
+      component.leaderUuid = 'leader-uuid'
+      component.followed = { nativeElement: { value: 'Followed' } } as any
+      component.unfollowed = { nativeElement: { value: 'Unfollowed' } } as any
+      component.followUnfollowError = { nativeElement: { value: 'Error' } } as any
+    })
+
+    it('follow should call followUser and open snackbar on success', () => {
+      mockLeaderSvc.followUser = jest.fn().mockReturnValue(of({}))
+      component.follow()
+      expect(mockLeaderSvc.followUser).toHaveBeenCalled()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+      expect(component.isFetchingFollow).toBe(false)
+    })
+
+    it('follow should revert following on error', () => {
+      mockLeaderSvc.followUser = jest.fn().mockReturnValue(throwError(() => new Error('fail')))
+      component.follow()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Error')
+      expect(component.isFetchingFollow).toBe(false)
+    })
+
+    it('unFollow should call unFollowUser and remove from following list on success', () => {
+      mockLeaderSvc.unFollowUser = jest.fn().mockReturnValue(of({}))
+      component.loggedUserFollowData.following = [{ id: 'leader-uuid', email: '', firstname: '' }]
+      component.unFollow()
+      expect(mockLeaderSvc.unFollowUser).toHaveBeenCalled()
+      expect(component.loggedUserFollowData.following.length).toBe(0)
+    })
+
+    it('toggleFollow should call unFollow when already following', () => {
+      component.loggedUserFollowData = { followers: [], following: [{ id: 'leader-uuid', email: '', firstname: '' }] }
+      mockLeaderSvc.unFollowUser = jest.fn().mockReturnValue(of({}))
+      component.toggleFollow()
+      expect(mockLeaderSvc.unFollowUser).toHaveBeenCalled()
+    })
+
+    it('toggleFollow should call follow when not following', () => {
+      component.loggedUserFollowData = { followers: [], following: [] }
+      mockLeaderSvc.followUser = jest.fn().mockReturnValue(of({}))
+      component.toggleFollow()
+      expect(mockLeaderSvc.followUser).toHaveBeenCalled()
+    })
+  })
 })

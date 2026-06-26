@@ -335,5 +335,99 @@ describe('MobileScromAdapterService', () => {
       service['http'] = { post: jest.fn().mockReturnValue(of({ result: {} })) } as any
       expect(service.LMSCommit()).toBe(false)
     })
+
+    it('should call telemetry methods for incomplete lesson_status', () => {
+      const { of } = require('rxjs')
+      mockStore.getItem.mockReturnValue(true)
+      mockStore.getAll.mockReturnValue({
+        'cmi.core.lesson_status': 'incomplete',
+        'cmi.core.session_time': '0:01:00.0',
+      })
+      service['http'] = { post: jest.fn().mockReturnValue(of({ result: {} })) } as any
+      service['route'] = { snapshot: { queryParamMap: { keys: ['key1'], get: jest.fn().mockReturnValue('val1') } } } as any
+      service.LMSCommit()
+      expect(service['telemetrySvc'].paramTriggerStart).toHaveBeenCalled()
+      expect(service['telemetrySvc'].paramTriggerEnd).toHaveBeenCalled()
+    })
+
+    it('should call updateScromProgress for completed lesson_status', () => {
+      const { of } = require('rxjs')
+      mockStore.getItem.mockReturnValue(true)
+      mockStore.getAll.mockReturnValue({
+        'cmi.core.lesson_status': 'completed',
+        'cmi.core.session_time': '0:01:00.0',
+      })
+      const mockPost = jest.fn().mockReturnValue(of({ result: {} }))
+      service['http'] = { post: mockPost } as any
+      service['route'] = { snapshot: { queryParamMap: { keys: [], get: jest.fn() } } } as any
+      service.LMSCommit()
+      expect(mockPost).toHaveBeenCalled()
+    })
+  })
+
+  describe('postCordovaMessage', () => {
+    it('should call postMessage when webkit is available', () => {
+      const postMessageMock = jest.fn()
+      Object.defineProperty(window, 'webkit', {
+        writable: true,
+        value: { messageHandlers: { cordova_iab: { postMessage: postMessageMock } } },
+      })
+      expect(() => service.postCordovaMessage(75)).not.toThrow()
+      expect(postMessageMock).toHaveBeenCalled()
+      Object.defineProperty(window, 'webkit', { writable: true, value: undefined })
+    })
+  })
+
+  describe('downladFile', () => {
+    it('should log without throwing', () => {
+      expect(() => service.downladFile()).not.toThrow()
+      expect(mockLogger.log).toHaveBeenCalledWith('downladFile')
+    })
+  })
+
+  describe('loadDataV2', () => {
+    it('should post to the content state read endpoint', () => {
+      const { of } = require('rxjs')
+      const mockPost = jest.fn().mockReturnValue(of(null))
+      service['http'] = { post: mockPost } as any
+      const req = { request: { fields: [] } }
+      service.loadDataV2(req, { Authorization: 'token', userToken: 'ut' })
+      expect(mockPost).toHaveBeenCalledWith('/api/content/state/read', req, expect.any(Object))
+    })
+
+    it('should set progressdetails from responseData when contentId matches', () => {
+      const { of } = require('rxjs')
+      service.contentId = 'do_123'
+      const responseData = {
+        result: {
+          contentList: [{
+            contentId: 'do_123',
+            progressdetails: {
+              'cmi.core.lesson_status': 'completed',
+              'cmi.core.exit': '',
+              'cmi.core.session_time': '0:01:00.0',
+              'cmi.suspend_data': '',
+              'Initialized': true,
+            },
+          }],
+        },
+      }
+      const mockPost = jest.fn().mockReturnValue(of(responseData))
+      service['http'] = { post: mockPost } as any
+      const req = { request: { fields: [] } }
+      service.loadDataV2(req, { Authorization: 'token', userToken: 'ut' })
+      expect(mockStore.setAll).toHaveBeenCalled()
+    })
+  })
+
+  describe('initzeroProgress', () => {
+    it('should return an observable from http.post', () => {
+      const { of } = require('rxjs')
+      const mockPost = jest.fn().mockReturnValue(of({}))
+      service['http'] = { post: mockPost } as any
+      const result = service.initzeroProgress()
+      expect(mockPost).toHaveBeenCalledWith('/api/content/state/update', expect.any(Object), expect.any(Object))
+      expect(result).toBeTruthy()
+    })
   })
 })

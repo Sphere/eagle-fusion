@@ -446,6 +446,71 @@ describe('MyCoursesComponent', () => {
     })
   })
 
+  describe('searchContentByCompetencies$', () => {
+    beforeEach(() => { component = createComponent() })
+
+    it('should return of([]) for empty competencySearchArray', done => {
+      component.searchContentByCompetencies$({}, [], ['SRC'], []).subscribe(res => {
+        expect(res).toEqual([])
+        done()
+      })
+    })
+
+    it('should call getCouseByContentSearch and return processed courses', done => {
+      mockContentSvc.getCouseByContentSearch = jest.fn().mockReturnValue(of({
+        result: { content: [{ identifier: 'c1', sourceName: 'SRC', appIcon: '', thumbnail: '', name: 'C1', issueCertification: false }] },
+      }))
+      component.searchContentByCompetencies$({}, ['comp1-1'], ['SRC'], []).subscribe(res => {
+        expect(res.length).toBe(1)
+        expect(res[0].identifier).toBe('c1')
+        done()
+      })
+    })
+
+    it('should return of([]) when getCouseByContentSearch errors', done => {
+      mockContentSvc.getCouseByContentSearch = jest.fn().mockReturnValue(throwError(() => new Error('fail')))
+      component.searchContentByCompetencies$({}, ['comp1-1'], ['SRC'], []).subscribe(res => {
+        expect(res).toEqual([])
+        done()
+      })
+    })
+  })
+
+  describe('navigateToToc with dob present', () => {
+    it('should set location.href when dob is present in profileDetails', async () => {
+      Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+      mockSignupService.getUserData.mockResolvedValue({
+        profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } },
+      })
+      mockConfigSvc.unMappedUser = { id: 'u1' }
+      component = createComponent()
+      await component.navigateToToc('do_123')
+      // location.href gets set, no navigate call
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('handleProfessionalCourses via ngOnInit with profDetails', () => {
+    it('should call orgService.getTopLiveSearchResults when YOUR_PLANS_PLAYLIST element matches', async () => {
+      mockConfigSvc.unMappedUser = {
+        profileDetails: { profileReq: { professionalDetails: [{ designation: 'Nurse' }] } },
+      }
+      mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+        { orgId: 'org1', role: ['Nurse'], playlistId: 'YOUR_PLANS_PLAYLIST', language: 'en', dataSource: { payload: ['do_123'] } },
+      ])
+      component = createComponent()
+      await component.ngOnInit()
+      expect(mockOrgService.getTopLiveSearchResults).toHaveBeenCalled()
+    })
+
+    it('should set coursesForYou empty when no professional details', async () => {
+      mockConfigSvc.unMappedUser = null
+      component = createComponent()
+      await component.ngOnInit()
+      expect(component.coursesForYou).toEqual([])
+    })
+  })
+
   describe('tabClick', () => {
     it('should set selectedIndex to 1', () => {
       component = createComponent()

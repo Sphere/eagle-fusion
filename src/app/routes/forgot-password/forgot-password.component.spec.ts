@@ -175,4 +175,59 @@ describe('ForgotPasswordComponent', () => {
     expect(spy).toHaveBeenCalled()
     jest.useRealTimers()
   })
+
+  it('should open snackbar on email forgotPassword error', () => {
+    mockSignupService.forgotPassword = jest.fn().mockReturnValue(
+      throwError(() => ({ error: { message: 'Email not found' } })),
+    )
+    component.emailForm.get('userInput')?.setValue('user@test.com')
+    component.forgotPassword()
+    expect(mockSnackBar.open).toHaveBeenCalled()
+  })
+
+  it('onSubmit should open snackbar on error', () => {
+    mockSignupService.setPasswordWithOtp = jest.fn().mockReturnValue(
+      throwError(() => ({ error: { message: 'OTP invalid' } })),
+    )
+    component.forgotPasswordForm.patchValue({ otp: '000000' })
+    component.onSubmit()
+    expect(mockSnackBar.open).toHaveBeenCalled()
+  })
+
+  it('onSubmit should call window.open after 2 seconds when response.link exists', () => {
+    jest.useFakeTimers()
+    const openSpy = jest.fn()
+    Object.defineProperty(window, 'open', { writable: true, value: openSpy })
+    mockSignupService.setPasswordWithOtp = jest.fn().mockReturnValue(of({ response: 'OK', link: '/home' }))
+    component.forgotPasswordForm.patchValue({ otp: '123456' })
+    component.onSubmit()
+    jest.advanceTimersByTime(2500)
+    expect(openSpy).toHaveBeenCalledWith('/home', '_self')
+    jest.useRealTimers()
+  })
+
+  it('resendOtpEnablePostTimer setTimeout should set disableResendButton true', () => {
+    jest.useFakeTimers()
+    component.resendOtpEnablePostTimer()
+    jest.advanceTimersByTime(1100)
+    expect(component.disableResendButton).toBe(true)
+    jest.useRealTimers()
+  })
+
+  it('resendOtpEnablePostTimer setInterval should decrement counter and set resendOTPbtn text', () => {
+    jest.useFakeTimers()
+    component.resendOtpEnablePostTimer()
+    jest.advanceTimersByTime(2100) // advance 2 ticks past counter start of 60
+    expect(component.counter).toBeLessThan(60)
+    jest.useRealTimers()
+  })
+
+  it('resendOtpEnablePostTimer should clearInterval when counter < 0', () => {
+    jest.useFakeTimers()
+    component.resendOtpEnablePostTimer()
+    jest.advanceTimersByTime(65000) // advance 65 seconds to let counter go below 0
+    expect(component.disableResendButton).toBe(false)
+    expect(component.resendOTPbtn).toBe('Resend OTP')
+    jest.useRealTimers()
+  })
 })

@@ -87,4 +87,72 @@ describe('AppInterceptorService', () => {
       done()
     })
   })
+
+  it('passes through when user is logged in but no activeOrg/rootOrg', (done) => {
+    mockConfigSvc.userProfile = { userId: 'u-1' }
+    mockConfigSvc.activeOrg = null
+    mockConfigSvc.rootOrg = null
+    const req = new HttpRequest('GET', '/apis/data')
+    service.intercept(req, mockHandler).subscribe(() => {
+      expect(mockHandler.handle).toHaveBeenCalled()
+      done()
+    })
+  })
+
+  it('adds Accept headers for .json requests when logged in', (done) => {
+    mockConfigSvc.userProfile = { userId: 'u-1' }
+    mockConfigSvc.activeOrg = null
+    const req = new HttpRequest('GET', '/api/config.json')
+    service.intercept(req, mockHandler).subscribe(() => {
+      const modifiedReq = mockHandler.handle.mock.calls[0][0] as HttpRequest<any>
+      expect(modifiedReq.headers.get('Accept')).toContain('application/json')
+      done()
+    })
+  })
+
+  it('includes userPreference selectedLangGroup when set', (done) => {
+    mockConfigSvc.userProfile = { userId: 'u-1' }
+    mockConfigSvc.activeOrg = 'org-1'
+    mockConfigSvc.rootOrg = 'root-1'
+    mockConfigSvc.userPreference = { selectedLangGroup: 'hi,en' }
+    const req = new HttpRequest('GET', '/apis/data')
+    service.intercept(req, mockHandler).subscribe(() => {
+      expect(mockHandler.handle).toHaveBeenCalled()
+      done()
+    })
+  })
+
+  it('propagates 419 error in authenticated path', (done) => {
+    const { throwError: rxThrow } = require('rxjs')
+    const { HttpErrorResponse } = require('@angular/common/http')
+    mockConfigSvc.userProfile = { userId: 'u-1' }
+    mockConfigSvc.activeOrg = 'org-1'
+    mockConfigSvc.rootOrg = 'root-1'
+    mockHandler.handle = jest.fn().mockReturnValue(rxThrow(new HttpErrorResponse({ status: 419 })))
+    const req = new HttpRequest('GET', '/apis/protected/data')
+    service.intercept(req, mockHandler).subscribe({
+      next: () => {},
+      error: (err: any) => {
+        expect(err.status).toBe(419)
+        done()
+      },
+    })
+  })
+
+  it('propagates non-419 error in authenticated path', (done) => {
+    const { throwError: rxThrow } = require('rxjs')
+    const { HttpErrorResponse } = require('@angular/common/http')
+    mockConfigSvc.userProfile = { userId: 'u-1' }
+    mockConfigSvc.activeOrg = 'org-1'
+    mockConfigSvc.rootOrg = 'root-1'
+    mockHandler.handle = jest.fn().mockReturnValue(rxThrow(new HttpErrorResponse({ status: 500 })))
+    const req = new HttpRequest('GET', '/apis/data')
+    service.intercept(req, mockHandler).subscribe({
+      next: () => {},
+      error: (err: any) => {
+        expect(err.status).toBe(500)
+        done()
+      },
+    })
+  })
 })

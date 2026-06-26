@@ -273,6 +273,120 @@ describe('WorkInfoListComponent', () => {
     })
   })
 
+  describe('professionalChange', () => {
+    const baseProfileData: any = {
+      userId: 'u-1', id: 'u-1',
+      personalDetails: {
+        firstname: 'F', middlename: '', surname: 'L', about: '', dob: '',
+        nationality: '', domicileMedium: '', regNurseRegMidwifeNumber: '',
+        nationalUniqueId: '', doctorRegNumber: '', instituteName: '',
+        nursingCouncil: '', gender: '', maritalStatus: '', category: '',
+        knownLanguages: [], countryCode: '', mobile: '', telephone: '',
+        primaryEmail: 'f@t.com', secondaryEmail: '', postalAddress: 'India,UP,Dist',
+        pincode: '', osName: '', browserName: '', userCookie: '',
+        primaryEmailType: 'personal', service: '', cadre: '', allotmentYear: '',
+        otherDetailsDoj: '', payType: '', civilListNo: '', employeeCode: '',
+        otherDetailsOfficeAddress: '', otherDetailsOfficePinCode: '',
+        skillAquiredDesc: '', certificationDesc: '', interests: [], hobbies: [],
+      },
+      academics: [],
+      professionalDetails: [{
+        profession: 'Healthcare Worker', designation: 'GNM', locationselect: 'Dist',
+        selectBackground: null, osid: 'os-1', block: '', subcentre: '',
+        professionOtherSpecify: '', qualification: '', instituteName: '', nameOther: '',
+      }],
+    }
+
+    beforeEach(() => {
+      component.userProfileData = { ...baseProfileData, personalDetails: { ...baseProfileData.personalDetails } } as any
+    })
+
+    it('should clear validators and set Healthcare Worker validators', () => {
+      component.professionalChange('Healthcare Worker')
+      expect(component.personalDetailForm.controls.orgType.validator).toBeTruthy()
+      expect(component.personalDetailForm.controls.designation.validator).toBeTruthy()
+    })
+
+    it('should set Student designation validator', () => {
+      component.professionalChange('Student')
+      expect(component.personalDetailForm.controls.designation.validator).toBeTruthy()
+    })
+
+    it('should handle Others case without selectBackground', () => {
+      component.userProfileData.professionalDetails[0].selectBackground = null
+      component.userProfileData.personalDetails.regNurseRegMidwifeNumber = ''
+      component.professionalChange('Others')
+      expect(component.personalDetailForm.get('selectBackground')?.value).toBeNull()
+    })
+
+    it('should handle ASHA case and invoke loadDistrictsByState onDone callback', () => {
+      mockHttpClient.get.mockReturnValue(of({ states: [{ state: 'UP', districts: ['Dist'] }] }))
+      component.professionalChange('ASHA')
+      expect(component.personalDetailForm.get('locationselect')?.value).toBe('Dist')
+    })
+
+    it('should handle default case and clear orgType', () => {
+      component.professionalChange('Unknown')
+      expect(component.personalDetailForm.get('orgType')?.value).toBeNull()
+    })
+  })
+
+  describe('onSubmit', () => {
+    const minimalProfile: any = {
+      userId: 'u-1', id: 'u-1',
+      personalDetails: {
+        firstname: 'F', middlename: '', surname: 'L', about: '', dob: '',
+        nationality: '', domicileMedium: '', regNurseRegMidwifeNumber: '',
+        nationalUniqueId: '', doctorRegNumber: '', instituteName: '',
+        nursingCouncil: '', gender: '', maritalStatus: '', category: '',
+        knownLanguages: [], countryCode: '', mobile: '', telephone: '',
+        primaryEmail: 'f@t.com', secondaryEmail: '', postalAddress: '',
+        pincode: '', osName: '', browserName: '', userCookie: '',
+        primaryEmailType: 'personal', service: '', cadre: '', allotmentYear: '',
+        otherDetailsDoj: '', payType: '', civilListNo: '', employeeCode: '',
+        otherDetailsOfficeAddress: '', otherDetailsOfficePinCode: '',
+        skillAquiredDesc: '', certificationDesc: '', interests: [], hobbies: [],
+      },
+      academics: [],
+      professionalDetails: [{
+        osid: 'os-1', block: '', subcentre: '', professionOtherSpecify: '',
+        qualification: '', instituteName: '', locationselect: '', selectBackground: null, nameOther: '',
+      }],
+    }
+
+    beforeEach(() => {
+      component.userProfileData = { ...minimalProfile, personalDetails: { ...minimalProfile.personalDetails } } as any
+      mockConfigService.userProfile = { userId: 'u-1' }
+      mockConfigService.unMappedUser = { profileDetails: { preferences: { language: 'en' }, userSource: null } }
+      mockUserProfileService.updateProfileDetails = jest.fn().mockReturnValue(of({ success: true }))
+      component['UserAgentResolverService'] = {
+        getUserAgent: jest.fn().mockReturnValue({ OS: 'Mac', browserName: 'Chrome' }),
+        generateCookie: jest.fn().mockReturnValue('cookie-xyz'),
+      }
+      component['contentSvc'] = { changeWork: jest.fn() } as any
+    })
+
+    it('should call updateProfileDetails and openSnackbar on success', () => {
+      component.onSubmit(component.personalDetailForm)
+      expect(mockUserProfileService.updateProfileDetails).toHaveBeenCalled()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+
+    it('should emit profession via passProfession', () => {
+      const spy = jest.spyOn(component.passProfession, 'emit')
+      component.personalDetailForm.patchValue({ profession: 'ASHA' })
+      component.onSubmit(component.personalDetailForm)
+      expect(spy).toHaveBeenCalledWith('ASHA')
+    })
+  })
+
+  describe('openSnackbar', () => {
+    it('should call snackBar.open with message', () => {
+      component.openSnackbar('Test message')
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Test message', 'X', expect.any(Object))
+    })
+  })
+
   describe('ngOnDestroy', () => {
     it('should unsubscribe mobileSubscription', () => {
       const spy = jest.spyOn(component['mobileSubscription'] as any, 'unsubscribe')

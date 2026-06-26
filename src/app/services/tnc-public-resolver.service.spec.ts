@@ -92,4 +92,19 @@ describe('TncPublicResolverService', () => {
       done()
     })
   })
+
+  it('assignAdminToDepartment calls http.post with ASSIGN_ADMIN endpoint', (done) => {
+    service.assignAdminToDepartment({ admin: 'u-1' }).subscribe(() => {
+      expect(mockHttp.post).toHaveBeenCalledWith('/apis/assign-admin', expect.any(Object))
+      done()
+    })
+  })
+
+  it('verifyUserMobile calls http.post with VERIFY_OTP endpoint and passes through response', (done) => {
+    service.verifyUserMobile({ otp: '1234' }).subscribe(res => {
+      expect(mockHttp.post).toHaveBeenCalledWith('/apis/verify-otp', expect.any(Object))
+      expect(res).toEqual({ success: true })
+      done()
+    })
+  })
 })

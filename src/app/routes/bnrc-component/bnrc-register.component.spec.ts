@@ -192,4 +192,245 @@ describe('BnrcRegisterComponent', () => {
       expect(mockLogger.log).toHaveBeenCalled()
     })
   })
+
+  describe('ngOnInit', () => {
+    it('should call http.get twice for district and institute data', () => {
+      mockHttp.get.mockReturnValue(of([]))
+      component.ngOnInit()
+      expect(mockHttp.get).toHaveBeenCalledWith('https://s3/districts.json')
+      expect(mockHttp.get).toHaveBeenCalledWith('https://s3/institutes.json')
+    })
+
+    it('should populate districts when district data is non-empty array', () => {
+      mockHttp.get.mockReturnValue(of([{ Patna: { Block1: [], Block2: [] } }]))
+      component.ngOnInit()
+      expect(component.districts).toEqual(['Patna'])
+    })
+
+    it('should handle queryParams service=Student', () => {
+      mockRoute.queryParams = new BehaviorSubject({ service: 'Student' })
+      mockHttp.get.mockReturnValue(of([]))
+      component['route'] = mockRoute as any
+      component.ngOnInit()
+      expect(component.Student).toBe(true)
+    })
+
+    it('should handle queryParams service=Faculty', () => {
+      mockRoute.queryParams = new BehaviorSubject({ service: 'Faculty' })
+      mockHttp.get.mockReturnValue(of([]))
+      component['route'] = mockRoute as any
+      component.ngOnInit()
+      expect(component.Faculty).toBe(true)
+    })
+
+    it('should handle queryParams service=CHO', () => {
+      mockRoute.queryParams = new BehaviorSubject({ service: 'CHO' })
+      mockHttp.get.mockReturnValue(of([]))
+      component['route'] = mockRoute as any
+      component.ngOnInit()
+      expect(component.isCHO).toBe(true)
+    })
+
+    it('should handle queryParams service=inservice', () => {
+      mockRoute.queryParams = new BehaviorSubject({ service: 'inservice' })
+      mockHttp.get.mockReturnValue(of([]))
+      component['route'] = mockRoute as any
+      component.ngOnInit()
+      expect(component.isInservice).toBe(true)
+    })
+  })
+
+  describe('onDistrictChange', () => {
+    it('should set blocks from registrationData when district is selected', () => {
+      component.registrationData = { Patna: { Block1: [], Block2: [] } }
+      component.selectedDistrict = 'Patna'
+      component.onDistrictChange()
+      expect(component.blocks).toEqual(['Block1', 'Block2'])
+    })
+
+    it('should clear blocks when no district selected', () => {
+      component.selectedDistrict = ''
+      component.onDistrictChange()
+      expect(component.blocks).toEqual([])
+    })
+  })
+
+  describe('onBlockChange', () => {
+    it('should set aamShcList from registrationData', () => {
+      component.registrationData = { Patna: { Block1: [{ name: 'SHC1', nin: 1 }] } }
+      component.selectedDistrict = 'Patna'
+      component.selectedBlock = 'Block1'
+      component.onBlockChange()
+      expect(component.aamShcList).toEqual([{ name: 'SHC1', nin: 1 }])
+    })
+
+    it('should set empty aamShcList when block not found', () => {
+      component.registrationData = {}
+      component.selectedDistrict = 'Missing'
+      component.selectedBlock = 'Block'
+      component.onBlockChange()
+      expect(component.aamShcList).toEqual([])
+    })
+  })
+
+  describe('ngOnInit — valueChanges subscriptions', () => {
+    beforeEach(() => {
+      mockHttp.get.mockReturnValue(of([]))
+      component.ngOnInit()
+    })
+
+    it('should update currentDistrictInstitutes when district changes to non-empty', () => {
+      component.institutesData = { Patna: ['Institute1', 'Institute2'] }
+      component.biharDistrictData = { Patna: { Block1: [], Block2: [] } }
+      component.bnrcDetailForm.get('district')?.setValue('Patna')
+      expect(component.currentDistrictInstitutes).toHaveLength(2)
+    })
+
+    it('should clear currentDistrictInstitutes when district changes to empty', () => {
+      component.bnrcDetailForm.get('district')?.setValue('')
+      expect(component.currentDistrictInstitutes).toEqual([])
+    })
+
+    it('should update aamShcs when block changes with both district and block set', () => {
+      component.biharDistrictData = { Patna: { Block1: [{ name: 'SHC1', nin: 1 }] } }
+      component.bnrcDetailForm.get('district')?.setValue('Patna')
+      component.bnrcDetailForm.get('block')?.setValue('Block1')
+      expect(component.aamShcs).toEqual([{ name: 'SHC1', nin: 1 }])
+    })
+
+    it('should clear aamShcs when block changes without district', () => {
+      component.bnrcDetailForm.get('block')?.setValue('Block1')
+      expect(component.aamShcs).toEqual([])
+    })
+
+    it('should set nin when facilityName changes with nin', () => {
+      component.bnrcDetailForm.get('facilityName')?.setValue({ name: 'SHC1', nin: 42 })
+      expect(component.bnrcDetailForm.get('nin')?.value).toBe(42)
+    })
+  })
+
+  describe('ngOnInit — GNM-Bihar and isXSmall paths', () => {
+    it('should set inServiceGNM=true for service=GNM-Bihar', () => {
+      mockRoute.queryParams = new BehaviorSubject({ service: 'GNM-Bihar' })
+      mockHttp.get.mockReturnValue(of([]))
+      component['route'] = mockRoute as any
+      component.ngOnInit()
+      expect(component.inServiceGNM).toBe(true)
+    })
+
+    it('should set showbackButton=true when isXSmall is true', () => {
+      const { isXSmall$ } = require('rxjs')
+      component['valueSvc'] = { isXSmall$: { subscribe: jest.fn((cb: any) => cb(true)) } } as any
+      mockHttp.get.mockReturnValue(of([]))
+      component.ngOnInit()
+      expect(component.showbackButton).toBe(true)
+    })
+  })
+
+  describe('ngOnInit — institute data subscribe', () => {
+    it('should set institutesData from http response', () => {
+      const mockInstituteData = { Patna: ['Institute A'] }
+      mockHttp.get.mockImplementation((url: string) => {
+        if (url.includes('institutes')) return of(mockInstituteData)
+        return of([])
+      })
+      component.ngOnInit()
+      expect(component.institutesData).toEqual(mockInstituteData)
+    })
+  })
+
+  describe('checkInstitute', () => {
+    it('should do nothing when instituteName is empty', () => {
+      component.bnrcDetailForm.get('instituteName')?.setValue('')
+      expect(() => component.checkInstitute()).not.toThrow()
+    })
+
+    it('should clear and set error when institute not in list', () => {
+      component.institutes = [{ name: 'ValidInstitute' }]
+      component.bnrcDetailForm.get('instituteName')?.setValue('InvalidInstitute')
+      component.checkInstitute()
+      expect(component.bnrcDetailForm.get('instituteName')?.value).toBeNull()
+    })
+
+    it('should not clear when institute is in list', () => {
+      component.institutes = [{ name: 'ValidInstitute' }]
+      component.bnrcDetailForm.get('instituteName')?.setValue('ValidInstitute')
+      component.checkInstitute()
+      expect(component.bnrcDetailForm.get('instituteName')?.value).toBe('ValidInstitute')
+    })
+  })
+
+  describe('onSubmit', () => {
+    it('should call bnrcSendOtp when form is valid and phone is set', () => {
+      mockUserProfileSvc.bnrcSendOtp = jest.fn().mockReturnValue(of({ status: 'success', message: 'OTP sent' }))
+      component.bnrcDetailForm.patchValue({
+        firstName: 'Test',
+        lastName: 'User',
+        phone: '9876543210',
+        role: 'Student',
+        district: 'Patna',
+      })
+      jest.spyOn(component, 'checkInstitute').mockImplementation(() => {})
+      component.onSubmit()
+      expect(mockUserProfileSvc.bnrcSendOtp).toHaveBeenCalled()
+    })
+
+    it('should set isSubmitting=true and otpPage=true when form is valid', () => {
+      mockUserProfileSvc.bnrcSendOtp = jest.fn().mockReturnValue(of({ status: 'success', message: 'OTP sent' }))
+      component.bnrcDetailForm.patchValue({
+        firstName: 'Test',
+        lastName: 'User',
+        phone: '9876543210',
+        role: 'Student',
+        district: 'Patna',
+      })
+      jest.spyOn(component, 'checkInstitute').mockImplementation(() => {})
+      component.onSubmit()
+      expect(component.otpPage).toBe(true)
+    })
+
+    it('should not call bnrcSendOtp when form is invalid', () => {
+      component.bnrcDetailForm.reset()
+      jest.spyOn(component, 'checkInstitute').mockImplementation(() => {})
+      component.onSubmit()
+      expect(mockUserProfileSvc.bnrcSendOtp).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('createUser', () => {
+    it('should call bnrcRegistration and open dialog on success', () => {
+      mockUserProfileSvc.bnrcRegistration = jest.fn().mockReturnValue(of({ status: 'SUCCESS', message: 'Done' }))
+      component.bnrcDetailForm.patchValue({
+        firstName: 'Test', lastName: 'User', phone: '9876543210',
+        role: 'Student', district: 'Patna',
+      })
+      component.createUser({})
+      expect(mockUserProfileSvc.bnrcRegistration).toHaveBeenCalled()
+      expect(mockDialog.open).toHaveBeenCalled()
+    })
+
+    it('should call openSnackbar on non-SUCCESS response', () => {
+      mockUserProfileSvc.bnrcRegistration = jest.fn().mockReturnValue(of({ status: 'FAILED', message: 'Error occurred' }))
+      component.bnrcDetailForm.patchValue({ phone: '9876543210' })
+      const spy = jest.spyOn(component, 'openSnackbar')
+      component.createUser({})
+      expect(spy).toHaveBeenCalledWith('Error occurred')
+    })
+
+    it('should set nin from facilityName when isCHO=true', () => {
+      mockUserProfileSvc.bnrcRegistration = jest.fn().mockReturnValue(of({ status: 'SUCCESS', message: 'Done' }))
+      component.isCHO = true
+      component.bnrcDetailForm.get('facilityName')?.setValue({ name: 'CHO Facility', nin: 12345 })
+      component.createUser({})
+      expect(mockUserProfileSvc.bnrcRegistration).toHaveBeenCalled()
+    })
+
+    it('should call openSnackbar on error', () => {
+      const { throwError } = require('rxjs')
+      mockUserProfileSvc.bnrcRegistration = jest.fn().mockReturnValue(throwError(() => ({ error: { message: 'Server error' } })))
+      const spy = jest.spyOn(component, 'openSnackbar')
+      component.createUser({})
+      expect(spy).toHaveBeenCalledWith('Server error')
+    })
+  })
 })

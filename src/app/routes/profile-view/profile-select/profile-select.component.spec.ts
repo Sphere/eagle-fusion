@@ -117,6 +117,49 @@ describe('ProfileSelectComponent', () => {
     expect(mockUserProfileSvc.getUserdetailsFromRegistry).not.toHaveBeenCalled()
   })
 
+  describe('uploadProfileImg', () => {
+    it('should show snackbar for invalid file type', () => {
+      const invalidFile = new File(['x'], 'test.txt', { type: 'text/plain' })
+      component.uploadProfileImg(invalidFile)
+      expect(mockSnackBar.openFromComponent).toHaveBeenCalled()
+    })
+
+    it('should show snackbar when file exceeds max size', () => {
+      const bigFile = new File(['x'.repeat(6000000)], 'big.jpg', { type: 'image/jpeg' })
+      Object.defineProperty(bigFile, 'size', { value: 6000000 })
+      component.uploadProfileImg(bigFile)
+      expect(mockSnackBar.openFromComponent).toHaveBeenCalled()
+    })
+
+    it('should open dialog for valid file', () => {
+      const validFile = new File(['x'], 'test.jpg', { type: 'image/jpeg' })
+      const { of: rxOf } = require('rxjs')
+      mockDialog.open = jest.fn().mockReturnValue({ afterClosed: jest.fn().mockReturnValue(rxOf(null)) })
+      component.uploadProfileImg(validFile)
+      expect(mockDialog.open).toHaveBeenCalled()
+    })
+
+    it('should trigger reader.onload and call onSubmit when dialog returns a file', () => {
+      component.userProfileData = { profileReq: { personalDetails: {} }, preferences: {} }
+      const validFile = new File(['x'], 'photo.jpg', { type: 'image/jpeg' })
+      const cropResult = new File(['cropped'], 'photo.jpg', { type: 'image/jpeg' })
+      const { of: rxOf } = require('rxjs')
+
+      const mockReader = { readAsDataURL: jest.fn(), result: 'data:image/jpeg;base64,abc', onload: null as any }
+      const OrigFileReader = global.FileReader
+      ;(global as any).FileReader = jest.fn().mockImplementation(() => mockReader)
+      mockDialog.open = jest.fn().mockReturnValue({ afterClosed: jest.fn().mockReturnValue(rxOf(cropResult)) })
+      mockUserProfileSvc.updateProfileDetails = jest.fn().mockReturnValue(rxOf({ success: true }))
+
+      component.uploadProfileImg(validFile)
+      // Manually trigger reader.onload (afterClosed callback already set it up)
+      mockReader.onload({})
+
+      expect(component.photoUrl).toBe('data:image/jpeg;base64,abc')
+      ;(global as any).FileReader = OrigFileReader
+    })
+  })
+
   it('should set photo value on selectProfile()', () => {
     component.userProfileData = {
       profileReq: { personalDetails: { photo: '' } },

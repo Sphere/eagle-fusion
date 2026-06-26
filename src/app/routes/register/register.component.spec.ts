@@ -155,5 +155,81 @@ describe('RegisterComponent', () => {
     it('should not throw when unseenCtrlSub is not set', () => {
       expect(() => component.ngOnDestroy()).not.toThrow()
     })
+
+    it('should unsubscribe unseenCtrlSub when it is open', () => {
+      const fakeSub = { closed: false, unsubscribe: jest.fn() }
+      component['unseenCtrlSub'] = fakeSub as any
+      component.ngOnDestroy()
+      expect(fakeSub.unsubscribe).toHaveBeenCalled()
+    })
+  })
+
+  describe('resendOTP', () => {
+    it('should call snackBar.open with response message on success', () => {
+      mockTncService.registerWithMobile = jest.fn().mockReturnValue(of({ message: 'OTP Sent' }))
+      component.emailOrMobile = '9876543210'
+      component.resendOTP()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('OTP Sent', undefined, expect.any(Object))
+    })
+
+    it('should call snackBar.open with error on failure', () => {
+      mockTncService.registerWithMobile = jest.fn().mockReturnValue(throwError(() => 'network error'))
+      component.emailOrMobile = '9876543210'
+      component.resendOTP()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('network error', undefined, expect.any(Object))
+    })
+  })
+
+  describe('onSubmit (email path)', () => {
+    beforeEach(() => {
+      component.email = true
+    })
+
+    it('should navigate to /app/profile/dashboard on full success', () => {
+      mockTncService.signup = jest.fn().mockReturnValue(of({ userId: 'u1' }))
+      mockTncService.assignAdminToDepartment = jest.fn().mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      component.signupForm.patchValue({ firstName: 'John', lastName: 'Doe', password: 'pass123' })
+      component.onSubmit(component.signupForm)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/profile/dashboard'])
+    })
+
+    it('should navigate to /public/register when assignAdminToDepartment fails', () => {
+      mockTncService.signup = jest.fn().mockReturnValue(of({ userId: 'u1' }))
+      mockTncService.assignAdminToDepartment = jest.fn().mockReturnValue(throwError(() => 'assign error'))
+      component.signupForm.patchValue({ firstName: 'John', lastName: 'Doe', password: 'pass123' })
+      component.onSubmit(component.signupForm)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/public/register'])
+    })
+
+    it('should call openSnackbar with error when signup fails', () => {
+      mockTncService.signup = jest.fn().mockReturnValue(throwError(() => 'signup error'))
+      component.signupForm.patchValue({ firstName: 'John', lastName: 'Doe', password: 'pass123' })
+      component.onSubmit(component.signupForm)
+      expect(mockSnackBar.open).toHaveBeenCalledWith(expect.stringContaining('User Creation'), undefined, expect.any(Object))
+    })
+  })
+
+  describe('onSubmit (mobile path)', () => {
+    beforeEach(() => {
+      component.email = false
+      component.emailOrMobile = '9876543210'
+    })
+
+    it('should call authSvc.login after 5000ms when verifyUserMobile returns Success', () => {
+      mockTncService.verifyUserMobile = jest.fn().mockReturnValue(of({ message: 'Success' }))
+      component.signupForm.patchValue({ firstName: 'John', lastName: 'Doe', password: 'pass123', otp: '123456' })
+      component.onSubmit(component.signupForm)
+      jest.advanceTimersByTime(5001)
+      expect(mockAuthSvc.login).toHaveBeenCalledWith('S', expect.any(String))
+    })
+
+    it('should call openSnackbar on verifyUserMobile error', () => {
+      mockTncService.verifyUserMobile = jest.fn().mockReturnValue(
+        throwError(() => ({ error: { error: 'OTP mismatch' } }))
+      )
+      component.signupForm.patchValue({ firstName: 'John', lastName: 'Doe', password: 'pass123', otp: '000000' })
+      component.onSubmit(component.signupForm)
+      expect(mockSnackBar.open).toHaveBeenCalledWith('OTP mismatch', undefined, expect.any(Object))
+    })
   })
 })

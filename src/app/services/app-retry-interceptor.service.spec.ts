@@ -46,4 +46,18 @@ describe('AppRetryInterceptorService', () => {
       done()
     })
   })
+
+  it('should throw error for 4xx without retrying', (done) => {
+    const { throwError } = require('rxjs')
+    const { HttpErrorResponse } = require('@angular/common/http')
+    mockHandler.handle = jest.fn().mockReturnValue(throwError(new HttpErrorResponse({ status: 400 })))
+    const req = new HttpRequest('GET', '/api/data')
+    service.intercept(req, mockHandler).subscribe({
+      next: () => {},
+      error: (err: any) => {
+        expect(err.status).toBe(400)
+        done()
+      },
+    })
+  })
 })

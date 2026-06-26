@@ -29,7 +29,7 @@ jest.mock('../../services/theme.service', () => ({
   },
 }))
 
-import { Subject } from 'rxjs'
+import { Subject, of } from 'rxjs'
 import { AppNavBarComponent } from './app-nav-bar.component'
 import { NavigationStart, NavigationEnd } from '@angular/router'
 import { SimpleChanges } from '@angular/core'
@@ -346,6 +346,143 @@ describe('AppNavBarComponent', () => {
       component = createComponent()
       component.changeLanguage()
       expect(mockDialog.open).toHaveBeenCalled()
+    })
+
+    it('should update preferedLanguage from afterClosed result', () => {
+      mockDialog.open = jest.fn().mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of(['hindi'])),
+      })
+      component = createComponent()
+      component.changeLanguage()
+      expect(component.preferedLanguage).toEqual(['hindi'])
+    })
+  })
+
+  describe('setUIData', () => {
+    it('should set menuItems filtered by webMenuItems when config is set and not mobile', async () => {
+      mockPlaylistSvc.orgDetails.mockReturnValue({ appLogo: 'logo.png', foundationLogo: 'fl.png', foundationLogoDark: 'fld.png' })
+      mockPlaylistSvc.headerConfig.mockReturnValue({
+        menuItems: [{ id: 'home' }, { id: 'search' }, { id: 'profile' }],
+        webMenuItems: ['home', 'search'],
+        mobileMenuItems: ['home'],
+      })
+      component = createComponent()
+      component.isXSmall = false
+      await component.setUIData()
+      expect(component.menuItems).toHaveLength(2)
+    })
+
+    it('should set menuItems filtered by mobileMenuItems when isXSmall is true', async () => {
+      mockPlaylistSvc.orgDetails.mockReturnValue({ appLogo: 'logo.png' })
+      mockPlaylistSvc.headerConfig.mockReturnValue({
+        menuItems: [{ id: 'home' }, { id: 'search' }],
+        webMenuItems: ['home', 'search'],
+        mobileMenuItems: ['home'],
+      })
+      component = createComponent()
+      component.isXSmall = true
+      await component.setUIData()
+      expect(component.menuItems).toHaveLength(1)
+    })
+
+    it('should call loadPlaylistData when orgData is empty string', async () => {
+      mockPlaylistSvc.orgDetails.mockReturnValue('')
+      mockPlaylistSvc.headerConfig.mockReturnValue(null)
+      component = createComponent()
+      await component.setUIData()
+      expect(mockPlaylistSvc.loadPlaylistData).toHaveBeenCalled()
+    })
+  })
+
+  describe('ngOnInit', () => {
+    it('should call setUIData and set domain', async () => {
+      mockPlaylistSvc.orgDetails.mockReturnValue({})
+      mockPlaylistSvc.headerConfig.mockReturnValue(null)
+      component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      await component.ngOnInit()
+      expect(component.setUIData).toHaveBeenCalled()
+      expect(component.domain).toBe(window.location.hostname)
+    })
+
+    it('should set hideCreateButton false when orgValue is nhsrc', async () => {
+      localStorage.setItem('orgValue', 'nhsrc')
+      component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      await component.ngOnInit()
+      expect(component.hideCreateButton).toBe(false)
+      localStorage.removeItem('orgValue')
+    })
+
+    it('should set featureApps from appsConfig', async () => {
+      mockConfigSvc.appsConfig = { features: { home: {}, search: {} } }
+      component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      await component.ngOnInit()
+      expect(component.featureApps).toEqual(['home', 'search'])
+    })
+
+    it('should set instanceVal and navbar config from instanceConfig', async () => {
+      mockConfigSvc.instanceConfig = {
+        logos: { appBottomNav: 'bottom-icon.png' },
+        showNavBarInSetup: false,
+      }
+      mockConfigSvc.primaryNavBar = { color: 'blue' }
+      mockConfigSvc.pageNavBar = { color: 'red' }
+      mockConfigSvc.primaryNavBarConfig = { show: true }
+      component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      await component.ngOnInit()
+      expect(component.instanceVal).toBe('testOrg')
+      expect(component.primaryNavbarBackground).toEqual({ color: 'blue' })
+    })
+
+    it('should set showAppNavBar false for /app/setup with instanceConfig no showNavBarInSetup', async () => {
+      mockConfigSvc.instanceConfig = { showNavBarInSetup: false, logos: {} }
+      component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      await component.ngOnInit()
+      routerEventsSubject.next(new NavigationEnd(1, '/app/setup', '/app/setup'))
+      expect(component.showAppNavBar).toBe(false)
+    })
+
+    it('should hide search icon on /search/home route', async () => {
+      mockConfigSvc.instanceConfig = null
+      component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      await component.ngOnInit()
+      routerEventsSubject.next(new NavigationEnd(1, '/search/home', '/search/home'))
+      expect(component.showSearchIcon).toBe(false)
+    })
+
+    it('should show search icon on normal routes', async () => {
+      component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      await component.ngOnInit()
+      routerEventsSubject.next(new NavigationEnd(1, '/app/home', '/app/home'))
+      expect(component.showSearchIcon).toBe(true)
+    })
+  })
+
+  describe('navigate with menuItems', () => {
+    it('should clear active state on all menuItems before navigating', () => {
+      mockConfigSvc.unMappedUser = null
+      component = createComponent()
+      component.menuItems = [{ id: 'home', active: true }, { id: 'search', active: true }]
+      component.navigate()
+      expect(component.menuItems.every(item => !item.active)).toBe(true)
+    })
+  })
+
+  describe('onPopState', () => {
+    it('should assign location.href to /page/home', () => {
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: '' },
+      })
+      component = createComponent()
+      component.onPopState({})
+      expect(window.location.href).toBe('/page/home')
     })
   })
 })

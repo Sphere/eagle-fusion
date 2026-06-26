@@ -175,5 +175,67 @@ describe('EducationEditComponent', () => {
       component.getUserDetails()
       expect(mockUserProfileSvc.getUserdetailsFromRegistry).not.toHaveBeenCalled()
     })
+
+    it('should disable form when isEditable is false', () => {
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: { photo: '' } } },
+      }))
+      component.data = { isEditable: false }
+      component.getUserDetails()
+      expect(component.educationForm.disabled).toBe(true)
+    })
+
+    it('should enable form when isEditable is true', () => {
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: { photo: '' } } },
+      }))
+      component.data = { isEditable: true }
+      component.getUserDetails()
+      expect(component.educationForm.disabled).toBe(false)
+    })
+  })
+
+  describe('ngOnInit', () => {
+    it('should call updateForm when workLog.edit is true', () => {
+      const academic = { type: 'X_STANDARD', nameOfQualification: 'Math', nameOfInstitute: 'School', yearOfPassing: '2005' }
+      sessionStorage.setItem('academic', JSON.stringify({ edit: true, academic }))
+      const spy = jest.spyOn(component, 'updateForm')
+      component.ngOnInit()
+      expect(spy).toHaveBeenCalledWith(academic)
+    })
+
+    it('should reset form when workLog.edit is false', () => {
+      sessionStorage.setItem('academic', JSON.stringify({ edit: false }))
+      const spy = jest.spyOn(component.educationForm, 'reset')
+      component.ngOnInit()
+      expect(spy).toHaveBeenCalled()
+    })
+
+    it('should call updateForm when route queryParams has nameOfInstitute', () => {
+      sessionStorage.setItem('academic', JSON.stringify({ edit: false }))
+      mockRoute.queryParams = { subscribe: jest.fn((cb: any) => cb({ nameOfInstitute: 'AIIMS', type: 'GRADUATE', nameOfQualification: 'MBBS', yearOfPassing: '2010' })) }
+      component['route'] = mockRoute
+      const spy = jest.spyOn(component, 'updateForm')
+      component.ngOnInit()
+      expect(spy).toHaveBeenCalledWith(expect.objectContaining({ nameOfInstitute: 'AIIMS' }))
+    })
+  })
+
+  describe('onSubmit', () => {
+    it('should call updateProfileDetails and open snackbar on success', () => {
+      mockUserProfileSvc.updateProfileDetails = jest.fn().mockReturnValue(of({ res: true }))
+      const mockForm = { value: component.educationForm.value, reset: jest.fn() }
+      component.onSubmit(mockForm)
+      expect(mockUserProfileSvc.updateProfileDetails).toHaveBeenCalled()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+      expect(mockForm.reset).toHaveBeenCalled()
+    })
+
+    it('should call contentSvc.changeWork after successful update', () => {
+      mockUserProfileSvc.updateProfileDetails = jest.fn().mockReturnValue(of({ res: true }))
+      const mockForm = { value: component.educationForm.value, reset: jest.fn() }
+      component.onSubmit(mockForm)
+      expect(mockContentSvc.changeWork).toHaveBeenCalledWith(expect.objectContaining({ type: 'academic' }))
+    })
   })
 })

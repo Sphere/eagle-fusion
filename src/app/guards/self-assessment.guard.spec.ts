@@ -16,6 +16,7 @@ jest.mock('@ws-widget/collection', () => ({
   viewerRouteGenerator: jest.fn().mockReturnValue({ url: '/viewer/do_1', queryParams: {} }),
 }))
 
+import { of } from 'rxjs'
 import { SelfAssessmentGuard } from './self-assessment.guard'
 
 describe('SelfAssessmentGuard', () => {
@@ -145,6 +146,46 @@ describe('SelfAssessmentGuard', () => {
           }),
         }),
       )
+    })
+  })
+
+  describe('selfAsesment', () => {
+    it('should return false and call getContent and getCourseBatch', () => {
+      const contentResult = of({ result: { content: { children: [], competencies_v1: null } } })
+      const batchResult = of({ content: [{ batchId: 'b1', courseId: 'c1', enrollmentEndDate: null }] })
+      mockContentSvc.fetchContent = jest.fn().mockReturnValue(contentResult)
+      mockContentSvc.fetchCourseBatches = jest.fn().mockReturnValue(batchResult)
+      mockContentSvc.enrollUserToBatch = jest.fn().mockReturnValue(of([{ batchId: 'b1' }]))
+      mockContentSvc.fetchContentHistoryV2 = jest.fn().mockReturnValue(of({ result: { contentList: [] } }))
+      mockContentSvc.getFirstChildInHierarchy = jest.fn().mockReturnValue({ identifier: 'child1', mimeType: 'application/json' })
+      mockConfigSvc.userProfile = { userId: 'user-1' }
+      guard['configSvc'] = mockConfigSvc
+      const result = guard.selfAsesment({ contentId: 'do_123', contentType: 'Course' })
+      expect(result).toBe(false)
+      expect(mockContentSvc.fetchContent).toHaveBeenCalledWith('do_123')
+    })
+  })
+
+  describe('navigateToplayer', () => {
+    it('should call routeNavigation with START when contentList is empty', () => {
+      mockContentSvc.fetchContentHistoryV2 = jest.fn().mockReturnValue(of({ result: { contentList: [] } }))
+      mockContentSvc.getFirstChildInHierarchy = jest.fn().mockReturnValue({ identifier: 'child1', mimeType: 'application/json' })
+      guard.eventData = { contentId: 'do_123', contentType: 'Course' }
+      guard.content = { children: [] }
+      guard['resumeDataLink'] = null
+      const routeNavSpy = jest.spyOn(guard, 'routeNavigation')
+      guard.navigateToplayer({ batchId: 'batch-1' })
+      expect(mockContentSvc.fetchContentHistoryV2).toHaveBeenCalled()
+    })
+
+    it('should call routeNavigation with RESUME when contentList has items', () => {
+      const contentList = [{ contentId: 'child1', progressdetails: { mimeType: 'application/json' } }]
+      mockContentSvc.fetchContentHistoryV2 = jest.fn().mockReturnValue(of({ result: { contentList } }))
+      guard.eventData = { contentId: 'do_123', contentType: 'Course' }
+      guard['resumeDataLink'] = null
+      const routeNavSpy = jest.spyOn(guard, 'routeNavigation')
+      guard.navigateToplayer({ batchId: 'batch-2' })
+      expect(mockContentSvc.fetchContentHistoryV2).toHaveBeenCalled()
     })
   })
 })

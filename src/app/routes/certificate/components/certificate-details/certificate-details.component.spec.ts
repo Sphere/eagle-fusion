@@ -156,11 +156,76 @@ describe('CertificateDetailsComponent', () => {
       )
     })
 
+    it('should set viewCertificate, recipient, courseName, maskedEmail and maskedPhone on success', () => {
+      const certData = {
+        recipient: { name: 'John Doe' },
+        badge: { name: 'Test Course' },
+        issuedOn: '2023-01-15T00:00:00.000Z',
+      }
+      const response = {
+        response: { json: certData },
+        maskedEmail: 'j***@example.com',
+        maskedPhone: '+91-98***',
+      }
+      mockCertSvc.validateCertificate = jest.fn().mockReturnValue(of(response))
+      component.codeInputField = { nativeElement: { value: '', focus: jest.fn() } } as any
+      component.certificateCode = 'ABC123'
+      component.certificateVerify()
+      expect(component.viewCertificate).toBe(true)
+      expect(component.loader).toBe(false)
+      expect(component.recipient).toBe('John Doe')
+      expect(component.courseName).toBe('Test Course')
+      expect(component.maskedEmail).toBe('j***@example.com')
+      expect(component.maskedPhone).toBe('+91-98***')
+    })
+
     it('should set wrongCertificateCode on API error', () => {
       component.codeInputField = { nativeElement: { value: '', focus: jest.fn() } } as any
       mockCertSvc.validateCertificate.mockReturnValue(throwError(() => new Error('API error')))
       component.certificateVerify()
       expect(component.wrongCertificateCode).toBe(true)
+      expect(component.loader).toBe(false)
+      expect(component.enableVerifyButton).toBe(false)
+    })
+  })
+
+  describe('getCourseVideoUrl', () => {
+    it('should set watchVideoLink and extract contentId from URL', () => {
+      const response = { result: { content: { certVideoUrl: 'https://example.com/do_12345/video.mp4' } } }
+      mockApiService.get = jest.fn().mockReturnValue(of(response))
+      component.getCourseVideoUrl('course_123')
+      expect(component.watchVideoLink).toBe('https://example.com/do_12345/video.mp4')
+      expect(component.contentId).toBe('do_12345')
+    })
+
+    it('should not set contentId when certVideoUrl is absent', () => {
+      const response = { result: { content: {} } }
+      mockApiService.get = jest.fn().mockReturnValue(of(response))
+      component.getCourseVideoUrl('course_123')
+      expect(component.watchVideoLink).toBeFalsy()
+    })
+
+    it('should handle error silently', () => {
+      mockApiService.get = jest.fn().mockReturnValue(throwError(() => new Error('err')))
+      expect(() => component.getCourseVideoUrl('course_123')).not.toThrow()
+    })
+  })
+
+  describe('getCollectionHierarchy', () => {
+    it('should return observable that sets collectionData', done => {
+      const response = { result: { content: { id: 'c1' } } }
+      mockApiService.get = jest.fn().mockReturnValue(of(response))
+      component.getCollectionHierarchy('course_123').subscribe(res => {
+        expect(res).toEqual(response)
+        expect(component.collectionData).toEqual({ id: 'c1' })
+        done()
+      })
+    })
+
+    it('should build request URL from identifier', () => {
+      mockApiService.get = jest.fn().mockReturnValue(of({ result: { content: {} } }))
+      component.getCollectionHierarchy('abc_789')
+      expect(mockApiService.get).toHaveBeenCalledWith('course/v1/hierarchy/abc_789', {})
     })
   })
 })

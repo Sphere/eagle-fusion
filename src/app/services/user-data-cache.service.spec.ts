@@ -102,4 +102,60 @@ describe('UserDataCacheService', () => {
   it('ngOnDestroy does not throw', () => {
     expect(() => service.ngOnDestroy()).not.toThrow()
   })
+
+  describe('window debug methods', () => {
+    it('window.clearUserCache clears data', () => {
+      service.setUserData({ userId: 'u-1' })
+      ;(window as any).clearUserCache()
+      expect(service.getCachedUserData()).toBeNull()
+    })
+
+    it('window.getUserCached returns current cached data', () => {
+      service.setUserData({ userId: 'u-2' })
+      const result = (window as any).getUserCached()
+      expect(result).toEqual({ userId: 'u-2' })
+    })
+
+    it('window.getCacheExpirationTime returns null when no cacheTimestamp', () => {
+      const result = (window as any).getCacheExpirationTime()
+      expect(result).toBeNull()
+    })
+
+    it('window.getCacheExpirationTime returns Date when cacheTimestamp is set', () => {
+      service.setUserData({ userId: 'u-3' })
+      const result = (window as any).getCacheExpirationTime()
+      expect(result).toBeInstanceOf(Date)
+    })
+  })
+
+  describe('setupCacheExpiration timeout callback', () => {
+    it('should call clearUserData when 6-hour timeout fires', () => {
+      service.setUserData({ userId: 'u-1' })
+      expect(service.isDataLoaded()).toBe(true)
+      jest.advanceTimersByTime(6 * 60 * 60 * 1000)
+      expect(service.getCachedUserData()).toBeNull()
+    })
+  })
+
+  describe('getUserData catchError', () => {
+    it('should set apiCall$ to null and rethrow error on http failure', (done) => {
+      const { throwError } = require('rxjs')
+      mockHttp.get = jest.fn().mockReturnValue(throwError(() => new Error('Network error')))
+      service.getUserData().subscribe({
+        error: () => {
+          expect(service['apiCall$']).toBeNull()
+          done()
+        },
+      })
+    })
+  })
+
+  describe('restoreFromCache without userId', () => {
+    it('should clear sessionStorage when cached JSON has no userId', () => {
+      sessionStorage.setItem('userDataCache', JSON.stringify({ name: 'no-uid' }))
+      const svc = new UserDataCacheService(mockHttp, mockLogger)
+      expect(sessionStorage.getItem('userDataCache')).toBeNull()
+      svc.ngOnDestroy()
+    })
+  })
 })

@@ -199,5 +199,229 @@ describe('MobileLoginComponent', () => {
       component.ngOnInit()
       expect(component.emailPhoneType).toBe('email')
     })
+
+    it('should call googleAuthenticate when google token and isSignedIn are in localStorage', () => {
+      localStorage.setItem('google_token', 'tok123')
+      localStorage.setItem('google_isSignedIn', 'true')
+      mockConfigCacheSvc.getHostConfig = jest.fn().mockReturnValue(of({ googleAuth: true }))
+      component['signUpdata'] = null
+      component.ngOnInit()
+      expect(mockContentSvc.googleAuthenticate).toHaveBeenCalled()
+    })
+  })
+
+  describe('signinChanged', () => {
+    it('should remove and set google_isSignedIn in localStorage', () => {
+      component.signinChanged(true)
+      expect(localStorage.getItem('google_isSignedIn')).toBe('true')
+    })
+  })
+
+  describe('ngAfterViewInit', () => {
+    it('should not call googleInit when googleAuth is false', () => {
+      const spy = jest.spyOn(component, 'googleInit').mockImplementation(() => {})
+      component.googleAuth = false
+      component.ngAfterViewInit()
+      expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('should call googleInit when googleAuth is true', () => {
+      const spy = jest.spyOn(component, 'googleInit').mockImplementation(() => {})
+      component.googleAuth = true
+      component.ngAfterViewInit()
+      expect(spy).toHaveBeenCalled()
+    })
+  })
+
+  describe('loginUser advanced paths', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: '' },
+      })
+    })
+
+    it('should set localStorage loginbtn on status=200 with roles', async () => {
+      mockContentSvc.loginAuth = jest.fn().mockReturnValue(of({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 200, roles: ['PUBLIC'], userId: 'u1',
+      })
+      component.loginForm.get('username')?.setValue('user@test.com')
+      component.loginForm.get('password')?.setValue('pass')
+      component.loginUser()
+      // Allow async resolution
+      await Promise.resolve()
+      expect(localStorage.getItem('loginbtn')).toBe('userLoggedIn')
+    })
+
+    it('should set otpPage=true on status=200 with no roles', async () => {
+      mockContentSvc.loginAuth = jest.fn().mockReturnValue(of({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 200, roles: [], userId: 'u1',
+      })
+      component.loginForm.get('username')?.setValue('user@test.com')
+      component.loginForm.get('password')?.setValue('pass')
+      component.loginUser()
+      await Promise.resolve()
+      expect(component.otpPage).toBe(true)
+      expect(component.loginVerification).toBe(true)
+    })
+
+    it('should call openSnackbar on status=401', async () => {
+      mockContentSvc.loginAuth = jest.fn().mockReturnValue(of({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 401, error: { params: { errmsg: 'Unauthorized' } },
+      })
+      component.loginForm.get('username')?.setValue('9876543210')
+      component.loginForm.get('password')?.setValue('pass')
+      component.loginUser()
+      await Promise.resolve()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Unauthorized', undefined, expect.any(Object))
+    })
+
+    it('should call openSnackbar on status=419', async () => {
+      mockContentSvc.loginAuth = jest.fn().mockReturnValue(of({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 419, error: { params: { errmsg: 'Session expired' } },
+      })
+      component.loginForm.get('username')?.setValue('9876543210')
+      component.loginForm.get('password')?.setValue('pass')
+      component.loginUser()
+      await Promise.resolve()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Session expired', undefined, expect.any(Object))
+    })
+  })
+
+  describe('generateOtp error path', () => {
+    it('should call openSnackbar on generateOtp error', () => {
+      const { throwError } = require('rxjs')
+      mockSignupService.generateOtp = jest.fn().mockReturnValue(throwError(() => 'network error'))
+      component.generateOtp('email', 'user@test.com')
+      expect(mockSnackBar.open).toHaveBeenCalledWith('network error', undefined, expect.any(Object))
+    })
+  })
+
+  describe('userChanged', () => {
+    it('should set google_token in localStorage from user response', () => {
+      Object.defineProperty(window, 'location', { writable: true, value: { href: '', reload: jest.fn() } })
+      const mockUser = { getAuthResponse: jest.fn().mockReturnValue({ id_token: 'tok_abc' }) }
+      component.userChanged(mockUser)
+      expect(localStorage.getItem('google_token')).toBe('tok_abc')
+    })
+  })
+
+  describe('attachSignin', () => {
+    it('should call auth2.attachClickHandler', () => {
+      component.auth2 = { attachClickHandler: jest.fn() }
+      component.attachSignin({})
+      expect(component.auth2.attachClickHandler).toHaveBeenCalled()
+    })
+
+    it('error callback should log the error', () => {
+      component['logger'] = { log: jest.fn() }
+      component.auth2 = {
+        attachClickHandler: jest.fn((_el: any, _opts: any, _success: any, errCb: any) => {
+          errCb({ message: 'test error' })
+        }),
+      }
+      component.attachSignin({})
+      expect(component['logger'].log).toHaveBeenCalled()
+    })
+  })
+
+  describe('googleInit', () => {
+    it('should load auth2 and call attachSignin', () => {
+      const mockAuth2 = {
+        attachClickHandler: jest.fn(),
+        isSignedIn: { listen: jest.fn() },
+        currentUser: { listen: jest.fn() },
+      }
+      ;(global as any).gapi = {
+        load: jest.fn((_name: string, cb: any) => cb()),
+        auth2: { init: jest.fn().mockReturnValue(mockAuth2) },
+      }
+      component.myDiv = { nativeElement: {} } as any
+      const attachSpy = jest.spyOn(component, 'attachSignin').mockImplementation(() => {})
+      component.googleInit()
+      expect((global as any).gapi.load).toHaveBeenCalledWith('auth2', expect.any(Function))
+      expect(attachSpy).toHaveBeenCalled()
+      delete (global as any).gapi
+    })
+  })
+
+  describe('googleAuthenticate subscribe callbacks', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+      localStorage.setItem('google_token', 'tok123')
+      localStorage.setItem('google_isSignedIn', 'true')
+      mockConfigCacheSvc.getHostConfig = jest.fn().mockReturnValue(of({ googleAuth: true }))
+      component['signUpdata'] = null
+    })
+
+    it('should call openSnackbar on status 401 from fetchStartUpDetails', async () => {
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 401, error: { params: { errmsg: 'Unauthorized' } },
+      })
+      component.ngOnInit()
+      await Promise.resolve(); await Promise.resolve()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Unauthorized', undefined, expect.any(Object))
+    })
+
+    it('should call openSnackbar on status 419 from fetchStartUpDetails', async () => {
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 419, error: { params: { errmsg: 'Session expired' } },
+      })
+      component.ngOnInit()
+      await Promise.resolve(); await Promise.resolve()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Session expired', undefined, expect.any(Object))
+    })
+
+    it('should redirect to /page/home on status 200 with roles', async () => {
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 200, roles: ['PUBLIC'],
+      })
+      mockContentSvc.googleAuthenticate = jest.fn().mockReturnValue(of({ msg: 'Welcome' }))
+      component.ngOnInit()
+      await Promise.resolve(); await Promise.resolve()
+      expect(window.location.href).toBe('/page/home')
+    })
+
+    it('should redirect to url_before_login on status 200 with roles when set', async () => {
+      localStorage.setItem('url_before_login', '/my/path')
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 200, roles: ['PUBLIC'],
+      })
+      mockContentSvc.googleAuthenticate = jest.fn().mockReturnValue(of({ msg: 'ok' }))
+      component.ngOnInit()
+      await Promise.resolve(); await Promise.resolve()
+      expect(window.location.href).toBe('/my/path')
+    })
+
+    it('should navigate to /app/login on googleAuthenticate error', () => {
+      const { throwError } = require('rxjs')
+      component['logger'] = { log: jest.fn() }
+      mockContentSvc.googleAuthenticate = jest.fn().mockReturnValue(throwError(() => new Error('Auth failed')))
+      component.ngOnInit()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/login'])
+    })
+  })
+
+  describe('loginUser url_before_login redirect', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+    })
+
+    it('should redirect to url_before_login on status 200 with roles', async () => {
+      localStorage.setItem('url_before_login', '/saved/path')
+      mockContentSvc.loginAuth = jest.fn().mockReturnValue(of({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({
+        status: 200, roles: ['PUBLIC'], userId: 'u1',
+      })
+      component.loginForm.get('username')?.setValue('user@test.com')
+      component.loginForm.get('password')?.setValue('pass')
+      component.loginUser()
+      await Promise.resolve()
+      expect(window.location.href).toBe('/saved/path')
+    })
   })
 })

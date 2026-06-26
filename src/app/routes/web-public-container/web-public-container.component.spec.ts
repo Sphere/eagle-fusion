@@ -789,4 +789,198 @@ describe('WebPublicComponent', () => {
       expect(component.isXSmall()).toBe(true)
     })
   })
+
+  // ─── ngOnInit plyLsData loop (lines 92-109) ───────────────────────────────
+
+  describe('ngOnInit plyLsData element processing', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+      ;(mockConfigSvc as any).userProfile = { rootOrgId: 'org1' }
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('should populate topCertifiedCourseIdentifier from matching plyLsData element', async () => {
+      ;(mockPlaylistSvc.getPlaylistConfig as jest.Mock).mockResolvedValue([{
+        orgId: 'org1', language: 'en', playlistId: 'TOP_COURSE_PLAYLIST',
+        dataSource: { payload: ['c1', 'c2'] }, role: [],
+      }])
+      jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
+      await component.ngOnInit()
+      expect(component['topCertifiedCourseIdentifier']).toEqual(['c1', 'c2'])
+    })
+
+    it('should populate cneCoursesIdentifier from matching plyLsData element', async () => {
+      ;(mockPlaylistSvc.getPlaylistConfig as jest.Mock).mockResolvedValue([{
+        orgId: 'org1', language: 'en', playlistId: 'CNE_COURSE_PLAYLIST',
+        dataSource: { payload: ['cne1'] }, role: [],
+      }])
+      jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
+      await component.ngOnInit()
+      expect(component['cneCoursesIdentifier']).toEqual(['cne1'])
+    })
+
+    it('should skip elements with mismatched orgId or language', async () => {
+      ;(mockPlaylistSvc.getPlaylistConfig as jest.Mock).mockResolvedValue([{
+        orgId: 'other-org', language: 'en', playlistId: 'TOP_COURSE_PLAYLIST',
+        dataSource: { payload: ['c1'] }, role: [],
+      }])
+      jest.spyOn(component as any, 'handleCompetencyFlow').mockImplementation(() => {})
+      await component.ngOnInit()
+      expect(component['topCertifiedCourseIdentifier']).toEqual([])
+    })
+
+    it('should populate yourPlansCourseIdentifier when designation matches role', async () => {
+      ;(mockConfigSvc as any).unMappedUser = {
+        profileDetails: { profileReq: { professionalDetails: [{ designation: 'Doctor' }] } },
+      }
+      ;(mockPlaylistSvc.getPlaylistConfig as jest.Mock).mockResolvedValue([{
+        orgId: 'org1', language: 'en', playlistId: 'YOUR_PLANS_PLAYLIST',
+        dataSource: { payload: ['plan1'] }, role: ['doctor'],
+      }])
+      jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
+      await component.ngOnInit()
+      expect(component['yourPlansCourseIdentifier']).toEqual(['plan1'])
+    })
+
+    it('should populate featuredCourseIdentifier when isEkshamata and FEATURED_COURSE_PLAYLIST', async () => {
+      component.isEkshamata = true
+      ;(mockPlaylistSvc.getPlaylistConfig as jest.Mock).mockResolvedValue([{
+        orgId: 'org1', language: 'en', playlistId: 'FEATURED_COURSE_PLAYLIST',
+        dataSource: { payload: ['feat1'] }, role: [],
+      }])
+      jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
+      await component.ngOnInit()
+      expect(component['featuredCourseIdentifier']).toEqual(['feat1'])
+    })
+  })
+
+  // ─── handleCompetencyFlow internals ───────────────────────────────────────
+
+  describe('handleCompetencyFlow', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('should set isLoading false and return when no competency array', () => {
+      component['plyLsData'] = []
+      ;(component as any).handleCompetencyFlow('org1', () => false)
+      expect(component.isLoading()).toBe(false)
+    })
+
+    it('should process COMPETENCY_PLAYLIST and build search array', () => {
+      const competencyPayload = [{
+        comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
+      }]
+      component['plyLsData'] = [{
+        orgId: 'org1', role: ['doctor'],
+        playlistId: 'COMPETENCY_PLAYLIST',
+        dataSource: { payload: competencyPayload },
+      }]
+      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
+      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
+      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
+      ;(component as any).handleCompetencyFlow('org1', roleCheck)
+      expect(mockContentSvc.getCouseByContentSearch).toHaveBeenCalled()
+    })
+
+    it('should process SEARCH_PLAYLIST and set base query', () => {
+      component['plyLsData'] = [{
+        orgId: 'org1', role: ['doctor'],
+        playlistId: 'SEARCH_PLAYLIST',
+        dataSource: { payload: { request: { filters: { sourceName: ['Src'] } } } },
+      }, {
+        orgId: 'org1', role: ['doctor'],
+        playlistId: 'COMPETENCY_PLAYLIST',
+        dataSource: { payload: [{
+          comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
+        }] },
+      }]
+      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
+      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
+      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
+      ;(component as any).handleCompetencyFlow('org1', roleCheck)
+      expect(mockContentSvc.getCouseByContentSearch).toHaveBeenCalled()
+    })
+
+    it('should set coursesForYou and call updateCourseData after subscribe', () => {
+      const competencyPayload = [{
+        comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
+      }]
+      component['plyLsData'] = [{
+        orgId: 'org1', role: ['doctor'],
+        playlistId: 'COMPETENCY_PLAYLIST',
+        dataSource: { payload: competencyPayload },
+      }]
+      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
+      const updateSpy = jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
+      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
+      ;(component as any).handleCompetencyFlow('org1', roleCheck)
+      expect(updateSpy).toHaveBeenCalled()
+    })
+  })
+
+  // ─── fetchEnvironmentConfigurations internals ─────────────────────────────
+
+  describe('fetchEnvironmentConfigurations', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('should set topCertifiedCourse and cneCourse from API response', () => {
+      component['topCertifiedCourseIdentifier'] = ['top1']
+      component['cneCoursesIdentifier'] = ['cne1']
+      ;(mockOrgService.getTopLiveSearchResults as jest.Mock).mockReturnValue(of({
+        result: { content: [
+          { identifier: 'top1', name: 'Top Course' },
+          { identifier: 'cne1', name: 'CNE Course' },
+        ] },
+      }))
+      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
+      ;(component as any).fetchEnvironmentConfigurations()
+      expect(component.topCertifiedCourse()).toHaveLength(1)
+      expect(component.cneCourse()).toHaveLength(1)
+    })
+
+    it('should set isLoading false via setTimeout when content is empty', () => {
+      ;(mockOrgService.getTopLiveSearchResults as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
+      ;(component as any).fetchEnvironmentConfigurations()
+      jest.runAllTimers()
+      expect(component.isLoading()).toBe(false)
+    })
+
+    it('should use defaultIds (top+cne) when unMappedUser is null', () => {
+      ;(mockConfigSvc as any).unMappedUser = null
+      component['topCertifiedCourseIdentifier'] = ['top1']
+      component['cneCoursesIdentifier'] = ['cne1']
+      ;(mockOrgService.getTopLiveSearchResults as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
+      ;(component as any).fetchEnvironmentConfigurations()
+      expect(mockOrgService.getTopLiveSearchResults).toHaveBeenCalledWith(
+        expect.arrayContaining(['top1', 'cne1']),
+        'en',
+      )
+    })
+
+    it('should include yourPlans and featured identifiers when unMappedUser is set', () => {
+      ;(mockConfigSvc as any).unMappedUser = { id: 'u1' }
+      component['topCertifiedCourseIdentifier'] = ['top1']
+      component['yourPlansCourseIdentifier'] = ['plan1']
+      ;(mockOrgService.getTopLiveSearchResults as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
+      ;(component as any).fetchEnvironmentConfigurations()
+      expect(mockOrgService.getTopLiveSearchResults).toHaveBeenCalledWith(
+        expect.arrayContaining(['top1', 'plan1']),
+        'en',
+      )
+    })
+  })
 })

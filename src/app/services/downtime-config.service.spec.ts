@@ -220,6 +220,85 @@ describe('DowntimeConfigService', () => {
     })
   })
 
+  it('themeConfig computed returns empty string when updateInfo is null', () => {
+    expect(service.themeConfig()).toBe('')
+  })
+
+  it('themeConfig computed returns THEME_CONFIG_WEB after data loads', (done) => {
+    const config = {
+      result: {
+        form: {
+          data: {
+            schemas: { THEME_CONFIG_WEB: 'my-theme' },
+          },
+        },
+      },
+    }
+    mockHttp.post.mockReturnValue(of(config))
+    service.initializeDowntimeConfig().subscribe(() => {
+      expect(service.themeConfig()).toBe('my-theme')
+      done()
+    })
+  })
+
+  it('fetchDowntimeConfig catchError returns default state on http error', (done) => {
+    const { throwError } = require('rxjs')
+    mockHttp.post.mockReturnValue(throwError(() => new Error('Network error')))
+    service.initializeDowntimeConfig().subscribe(state => {
+      expect(state.isDowntime).toBe(false)
+      done()
+    })
+  })
+
+  it('setInterval callback triggers refreshDowntimeConfig when timer fires', (done) => {
+    const intervalConfig = {
+      result: {
+        form: {
+          data: {
+            schemas: {
+              DOWN_TIME_INFO: {
+                WEB: {
+                  default: { isEnabled: true, type: 'full', content: {}, refreshInterval: 1 },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+    mockHttp.post.mockReturnValue(of(intervalConfig))
+    service.initializeDowntimeConfig().subscribe(() => {
+      jest.advanceTimersByTime(1001)
+      expect(mockHttp.post).toHaveBeenCalledTimes(2)
+      done()
+    })
+  })
+
+  it('refreshDowntimeConfig error callback reschedules when currentConfig has refreshInterval', (done) => {
+    const { throwError } = require('rxjs')
+    const successConfig = {
+      result: {
+        form: {
+          data: {
+            schemas: {
+              DOWN_TIME_INFO: {
+                WEB: {
+                  default: { isEnabled: true, type: 'full', content: {}, refreshInterval: 1 },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+    mockHttp.post.mockReturnValueOnce(of(successConfig))
+      .mockReturnValue(throwError(() => new Error('Refresh error')))
+    service.initializeDowntimeConfig().subscribe(() => {
+      expect(() => jest.advanceTimersByTime(1001)).not.toThrow()
+      done()
+    })
+  })
+
   it('initializeDowntimeConfig schedules auto-refresh when refreshTimer > 0', (done) => {
     const config = {
       result: {

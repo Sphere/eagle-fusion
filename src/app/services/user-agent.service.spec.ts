@@ -172,15 +172,198 @@ describe('UserAgentResolverService', () => {
   })
 
   describe('getOsInfo', () => {
+    const setUA = (ua: string) => Object.defineProperty(navigator, 'userAgent', { value: ua, configurable: true })
+    const restoreUA = (ua: string) => Object.defineProperty(navigator, 'userAgent', { value: ua, configurable: true })
+
     it('returns null for unknown user agent', () => {
       const originalUA = navigator.userAgent
-      Object.defineProperty(navigator, 'userAgent', {
-        value: 'Unknown Browser',
-        configurable: true,
-      })
+      setUA('Unknown Browser')
       const result = service.getOsInfo()
       expect(result).toBeNull()
-      Object.defineProperty(navigator, 'userAgent', { value: originalUA, configurable: true })
+      restoreUA(originalUA)
+    })
+
+    it('returns MacOS for Macintosh user agent', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)')
+      expect(service.getOsInfo()).toBe('MacOS')
+      restoreUA(orig)
+    })
+
+    it('returns iOS for iPhone user agent', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)')
+      expect(service.getOsInfo()).toBe('iOS')
+      restoreUA(orig)
+    })
+
+    it('returns Windows for Windows NT user agent', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (Windows NT 10.0; Win64; x64)')
+      expect(service.getOsInfo()).toBe('Windows')
+      restoreUA(orig)
+    })
+
+    it('returns Android for Android user agent', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (Linux; android 11; SM-G991B)')
+      expect(service.getOsInfo()).toBe('Android')
+      restoreUA(orig)
+    })
+
+    it('returns Linux for Linux x86 user agent', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (X11; linux x86_64)')
+      expect(service.getOsInfo()).toBe('Linux')
+      restoreUA(orig)
+    })
+  })
+
+  describe('getDeviceModel', () => {
+    const setUA = (ua: string) => Object.defineProperty(navigator, 'userAgent', { value: ua, configurable: true })
+
+    it('returns Android device model from UA', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (Linux; Android 11; SM-G991B) AppleWebKit/537.36')
+      expect(service.getDeviceModel()).toBe('SM-G991B')
+      setUA(orig)
+    })
+
+    it('returns iPhone for iOS UA', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)')
+      expect(service.getDeviceModel()).toBe('iPhone')
+      setUA(orig)
+    })
+  })
+
+  describe('getCookie', () => {
+    it('returns null when cookie is not set', () => {
+      expect(service.getCookie('NONEXISTENT')).toBeNull()
+    })
+
+    it('returns decoded value when cookie is set', () => {
+      document.cookie = 'MY_TEST_COOKIE=hello%20world'
+      const result = service.getCookie('MY_TEST_COOKIE')
+      expect(result).toBe('hello world')
+    })
+  })
+
+  describe('isCookieExpired', () => {
+    it('returns true when cookie does not exist', () => {
+      expect(service.isCookieExpired('NONEXISTENT_COOKIE')).toBe(true)
+    })
+
+    it('returns false when cookie exists (no expires attribute in value)', () => {
+      document.cookie = 'MY_VALID_COOKIE=validvalue'
+      expect(service.isCookieExpired('MY_VALID_COOKIE')).toBe(false)
+    })
+  })
+
+  describe('generateCookie', () => {
+    it('returns a cookie string when USERUID is not set', () => {
+      const result = service.generateCookie()
+      expect(typeof result).toBe('string')
+    })
+
+    it('returns existing USERUID value when cookie already exists', () => {
+      document.cookie = 'USERUID=existing-id-123'
+      const result = service.generateCookie()
+      expect(result).toBe('existing-id-123')
+    })
+  })
+
+  describe('requestGeolocation permissions callbacks', () => {
+    let origGeo: any
+    let origPerms: any
+
+    beforeEach(() => {
+      origGeo = (navigator as any).geolocation
+      origPerms = (navigator as any).permissions
+      sessionStorage.removeItem('telemetryGeoLocation')
+    })
+
+    afterEach(() => {
+      Object.defineProperty(navigator, 'geolocation', { value: origGeo, configurable: true })
+      Object.defineProperty(navigator, 'permissions', { value: origPerms, configurable: true })
+    })
+
+    it('sets denied when permissions.query resolves with denied state', async () => {
+      Object.defineProperty(navigator, 'geolocation', {
+        value: { getCurrentPosition: jest.fn() },
+        configurable: true,
+      })
+      Object.defineProperty(navigator, 'permissions', {
+        value: { query: jest.fn().mockResolvedValue({ state: 'denied' }) },
+        configurable: true,
+      })
+      service.requestGeolocation()
+      await Promise.resolve(); await Promise.resolve()
+      expect(sessionStorage.getItem('telemetryGeoLocation')).toBe('denied')
+    })
+
+    it('calls doGetCurrentPosition when permissions.query resolves with granted', async () => {
+      const getCurrentPositionMock = jest.fn()
+      Object.defineProperty(navigator, 'geolocation', {
+        value: { getCurrentPosition: getCurrentPositionMock },
+        configurable: true,
+      })
+      Object.defineProperty(navigator, 'permissions', {
+        value: { query: jest.fn().mockResolvedValue({ state: 'granted' }) },
+        configurable: true,
+      })
+      service.requestGeolocation()
+      await Promise.resolve(); await Promise.resolve()
+      expect(getCurrentPositionMock).toHaveBeenCalled()
+    })
+
+    it('calls doGetCurrentPosition on permissions.query catch', async () => {
+      const getCurrentPositionMock = jest.fn()
+      Object.defineProperty(navigator, 'geolocation', {
+        value: { getCurrentPosition: getCurrentPositionMock },
+        configurable: true,
+      })
+      Object.defineProperty(navigator, 'permissions', {
+        value: { query: jest.fn().mockRejectedValue(new Error('denied')) },
+        configurable: true,
+      })
+      service.requestGeolocation()
+      await Promise.resolve(); await Promise.resolve()
+      expect(getCurrentPositionMock).toHaveBeenCalled()
+    })
+  })
+
+  describe('doGetCurrentPosition callbacks', () => {
+    let origGeo: any
+
+    beforeEach(() => {
+      origGeo = (navigator as any).geolocation
+      sessionStorage.removeItem('telemetryGeoLocation')
+    })
+
+    afterEach(() => {
+      Object.defineProperty(navigator, 'geolocation', { value: origGeo, configurable: true })
+    })
+
+    it('stores geo data on success', () => {
+      const mockPosition = { coords: { latitude: 12.9, longitude: 77.5, accuracy: 50 } }
+      Object.defineProperty(navigator, 'geolocation', {
+        value: { getCurrentPosition: jest.fn((success: any) => success(mockPosition)) },
+        configurable: true,
+      })
+      ;(service as any).doGetCurrentPosition()
+      const stored = JSON.parse(sessionStorage.getItem('telemetryGeoLocation')!)
+      expect(stored.latitude).toBe(12.9)
+      expect(stored.longitude).toBe(77.5)
+    })
+
+    it('stores denied on error', () => {
+      Object.defineProperty(navigator, 'geolocation', {
+        value: { getCurrentPosition: jest.fn((_success: any, error: any) => error()) },
+        configurable: true,
+      })
+      ;(service as any).doGetCurrentPosition()
+      expect(sessionStorage.getItem('telemetryGeoLocation')).toBe('denied')
     })
   })
 })

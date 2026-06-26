@@ -90,5 +90,50 @@ describe('CreateAccountDialogComponent', () => {
       mockDocument.getElementById.mockReturnValue(null)
       expect(() => component.showChat()).not.toThrow()
     })
+
+    it('should call btn.click and dialogRef.close when Open chat button is found', () => {
+      jest.useFakeTimers()
+      const mockBtn = { getAttribute: jest.fn().mockReturnValue('Open chat'), click: jest.fn() }
+      const mockEl = { style: { display: '' }, querySelector: jest.fn().mockReturnValue(mockBtn) }
+      mockDocument.getElementById.mockReturnValue(mockEl)
+      component.showChat()
+      jest.advanceTimersByTime(400)
+      expect(mockBtn.click).toHaveBeenCalled()
+      expect(mockDialogRef.close).toHaveBeenCalled()
+      jest.useRealTimers()
+    })
+
+    it('should warn when no button found inside widget', () => {
+      jest.useFakeTimers()
+      const mockEl = { style: { display: '' }, querySelector: jest.fn().mockReturnValue(null) }
+      mockDocument.getElementById.mockReturnValue(mockEl)
+      component.showChat()
+      jest.advanceTimersByTime(400)
+      expect(mockLogger.warn).toHaveBeenCalled()
+      jest.useRealTimers()
+    })
+
+    it('should not click when button aria-label is not "Open chat"', () => {
+      jest.useFakeTimers()
+      const mockBtn = { getAttribute: jest.fn().mockReturnValue('Close chat'), click: jest.fn() }
+      const mockEl = { style: { display: '' }, querySelector: jest.fn().mockReturnValue(mockBtn) }
+      mockDocument.getElementById.mockReturnValue(mockEl)
+      component.showChat()
+      jest.advanceTimersByTime(400)
+      expect(mockBtn.click).not.toHaveBeenCalled()
+      jest.useRealTimers()
+    })
+  })
+
+  describe('confirm', () => {
+    it('should call dialogRef.close with provided data', () => {
+      component.confirm('confirm')
+      expect(mockDialogRef.close).toHaveBeenCalledWith('confirm')
+    })
+
+    it('should log the data before closing', () => {
+      component.confirm('login')
+      expect(mockLogger.log).toHaveBeenCalledWith('login')
+    })
   })
 })

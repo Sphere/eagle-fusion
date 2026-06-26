@@ -357,4 +357,142 @@ describe('CreateAccountComponent', () => {
       expect(() => component.ngOnDestroy()).not.toThrow()
     })
   })
+
+  describe('ngOnInit', () => {
+    it('should not throw and call requestGeolocation', () => {
+      expect(() => component.ngOnInit()).not.toThrow()
+      expect(mockUserAgentSvc.requestGeolocation).toHaveBeenCalled()
+    })
+
+    it('should load stored language from localStorage', () => {
+      localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'hi', lang: 'हिंदी' }))
+      component.ngOnInit()
+      expect(component.preferedLanguage.id).toBe('hi')
+    })
+  })
+
+  describe('langChanged', () => {
+    it('should set createAccount page state', () => {
+      component.langChanged()
+      jest.runAllTimers()
+      expect(component.createAccount).toBe(true)
+      expect(component.langPage).toBe(false)
+    })
+  })
+
+  describe('homePage', () => {
+    it('should navigate to /page/home when unMappedUser has id and isOrgSelectiveCourse is false', () => {
+      localStorage.setItem('isOrgSelectiveCourse', 'false')
+      mockConfigSvc.unMappedUser = { id: 'user-1' }
+      component.homePage()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/page/home'])
+    })
+
+    it('should navigate to /public/home when unMappedUser has no id', () => {
+      localStorage.setItem('isOrgSelectiveCourse', 'false')
+      mockConfigSvc.unMappedUser = null
+      component.homePage()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/public/home'])
+    })
+
+    it('should not navigate when isOrgSelectiveCourse is true', () => {
+      localStorage.setItem('isOrgSelectiveCourse', 'true')
+      component.homePage()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('gotoHome', () => {
+    it('should call router.navigate with /page/home', () => {
+      mockRouter.navigate = jest.fn().mockReturnValue(Promise.resolve(true))
+      component.gotoHome()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/page/home'])
+    })
+  })
+
+  describe('userExist', () => {
+    it('should open CreateAccountDialogComponent with userExist selected', () => {
+      component.userExist()
+      expect(mockDialog.open).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ data: expect.objectContaining({ selected: 'userExist' }) }),
+      )
+    })
+
+    it('should navigate to login when dialog returns "login"', () => {
+      mockDialog.open = jest.fn().mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of('login')),
+      })
+      component.userExist()
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/public/login')
+    })
+  })
+
+  describe('optionSelected', () => {
+    it('should open dialog with name and firstname/lastname', () => {
+      component.createAccountForm.patchValue({ firstname: 'Jane', lastname: 'Doe' })
+      component.optionSelected()
+      expect(mockDialog.open).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ data: expect.objectContaining({ selected: 'name' }) }),
+      )
+    })
+
+    it('should set confirmPassword page when loginSelected=password and dialog returns confirm', () => {
+      mockDialog.open = jest.fn().mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of('confirm')),
+      })
+      component.loginSelected = 'password'
+      component.optionSelected()
+      jest.runAllTimers()
+      expect(component.confirmPassword).toBe(true)
+    })
+  })
+
+  describe('changeLanguage', () => {
+    it('should open LanguageDialogComponent and update language on close', () => {
+      mockDialog.open = jest.fn().mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of({ id: 'hi', lang: 'हिंदी' })),
+      })
+      component.changeLanguage()
+      expect(mockLanguageService.setLanguage).toHaveBeenCalledWith('hi')
+    })
+  })
+
+  describe('onSubmit success path', () => {
+    it('should open snackbar on successful signup with mobile', () => {
+      mockSignupService.ssoWithMobileEmail = jest.fn().mockReturnValue(
+        of({ message: 'User successfully created', userId: 'u1' })
+      )
+      mockUserAgentSvc.getStoredGeolocation = jest.fn().mockReturnValue({ lat: 0 })
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: '9876543210' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+
+    it('should open snackbar for error status response', () => {
+      mockSignupService.ssoWithMobileEmail = jest.fn().mockReturnValue(
+        of({ status: 'error', message: 'User already exists' })
+      )
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'test@example.com' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
+
+  describe('onSubmit error path', () => {
+    it('should call openSnackbar and userExist on signup error', () => {
+      const { throwError } = require('rxjs')
+      mockSignupService.ssoWithMobileEmail = jest.fn().mockReturnValue(
+        throwError(() => ({ error: { message: 'Network error' } }))
+      )
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'test@example.com' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+      expect(mockDialog.open).toHaveBeenCalled()
+    })
+  })
 })

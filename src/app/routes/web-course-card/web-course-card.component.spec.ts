@@ -160,4 +160,69 @@ describe('WebCourseCardComponent', () => {
       },
     })
   })
+
+  it('slugify should convert text to lowercase hyphenated slug', () => {
+    expect(component.slugify('Hello World')).toBe('hello-world')
+    expect(component.slugify('Nursing & Care')).toBe('nursing-and-care')
+    expect(component.slugify('--Test Course--')).toBe('test-course')
+  })
+
+  it('showPopup should set displayStyle to block', () => {
+    component.showPopup()
+    expect(component.displayStyle).toBe('block')
+  })
+
+  it('closePopup should set displayStyle to none', () => {
+    component.displayStyle = 'block'
+    component.closePopup()
+    expect(component.displayStyle).toBe('none')
+  })
+
+  it('orgLogin should navigate to public/login', () => {
+    component.orgLogin()
+    expect(router.navigateByUrl).toHaveBeenCalledWith('public/login')
+  })
+
+  it('clickToRedirect should store url and navigate when userProfile is null', () => {
+    configSvc.userProfile = null
+    const data = { identifier: 'do_123' }
+    component.clickToRedirect(data)
+    expect(localStorage.setItem).toHaveBeenCalledWith('url_before_login', '/app/toc/do_123/overview')
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/app/toc/do_123/overview')
+  })
+
+  it('clickToRedirect should call raiseTelemetry when user is logged in', () => {
+    configSvc.userProfile = { userId: 'u1' } as any
+    configSvc.unMappedUser = { id: 'unmapped-1' } as any
+    const spy = jest.spyOn(component, 'raiseTelemetry').mockImplementation(() => {})
+    const data = { identifier: 'do_123' }
+    component.clickToRedirect(data)
+    expect(spy).toHaveBeenCalledWith(data)
+  })
+
+  it('redirectPage should call showPopup when on org-selective-course route and not logged in', () => {
+    component.isLoggedIn = false
+    ;(router as any).url = '/org-selective-course/test'
+    const spy = jest.spyOn(component, 'showPopup').mockImplementation(() => {})
+    component.redirectPage({ identifier: 'do_123' })
+    expect(spy).toHaveBeenCalled()
+  })
+
+  it('orgCreateAccount should navigate to create-account path when orgSelectiveCourseConfig is set', () => {
+    ;(configSvc as any).orgSelectiveCourseConfig = { stateCode: 'TN', orgName: 'TestOrg', signupRole: 'Student' }
+    component.orgCreateAccount()
+    expect(router.navigateByUrl).toHaveBeenCalledWith(expect.stringContaining('/app/create-account/TN/TestOrg/Student'))
+  })
+
+  it('orgCreateAccount should navigate to /app/create-account when no org config', () => {
+    ;(configSvc as any).orgSelectiveCourseConfig = null
+    component.orgCreateAccount()
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/app/create-account')
+  })
+
+  it('navigateToToc should call keyClockLogin when userProfile is null', () => {
+    configSvc.userProfile = null
+    component.navigateToToc('do_123')
+    expect(router.navigateByUrl).toHaveBeenCalledWith('app/login')
+  })
 })
