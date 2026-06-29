@@ -155,6 +155,38 @@ describe('WorkInfoEditComponent', () => {
     })
   })
 
+  describe('workMessage subscribe async callback', () => {
+    it('invokes async callback, sets workLog, and calls getUserDetails', async () => {
+      let capturedCallback: any
+      const contentSvcWithCb = {
+        workMessage: {
+          subscribe: jest.fn((cb: any) => {
+            capturedCallback = cb
+            return { unsubscribe: jest.fn() }
+          }),
+        },
+      }
+      new WorkInfoEditComponent(
+        mockConfigSvc,
+        mockUserProfileSvc,
+        mockRouter,
+        mockSnackBar,
+        mockRoute,
+        mockValueSvc,
+        { getUserAgent: jest.fn().mockReturnValue({}), generateCookie: jest.fn() } as any,
+        contentSvcWithCb,
+        { getCurrentLanguage: jest.fn().mockReturnValue('en') } as any,
+        mockLogger,
+        { instant: jest.fn() } as any,
+      )
+      capturedCallback({ edit: true })
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(mockLogger.log).toHaveBeenCalledWith(expect.anything(), 'here')
+      expect(mockUserProfileSvc.getUserdetailsFromRegistry).toHaveBeenCalled()
+    })
+  })
+
   describe('ngOnDestroy', () => {
     it('should unsubscribe workMessage subscription', () => {
       component.ngOnDestroy()

@@ -141,6 +141,38 @@ describe('EducationEditComponent', () => {
     expect(mockContentSvc.workMessage.subscribe).toHaveBeenCalled()
   })
 
+  describe('workMessage subscribe async callback', () => {
+    it('invokes async callback with truthy data and calls getUserDetails', async () => {
+      let capturedCallback: any
+      const contentSvcWithCb = {
+        workMessage: {
+          subscribe: jest.fn((cb: any) => {
+            capturedCallback = cb
+            return { unsubscribe: jest.fn() }
+          }),
+        },
+        changeWork: jest.fn(),
+      }
+      new EducationEditComponent(
+        mockConfigSvc,
+        mockUserProfileSvc,
+        mockSnackBar,
+        mockRoute,
+        mockValueSvc,
+        mockUserAgentSvc,
+        contentSvcWithCb,
+        mockLangSvc,
+        mockLogger,
+        mockTranslate,
+      )
+      capturedCallback({ edit: true })
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(mockLogger.log).toHaveBeenCalledWith(expect.anything(), 'here')
+      expect(mockUserProfileSvc.getUserdetailsFromRegistry).toHaveBeenCalled()
+    })
+  })
+
   describe('updateForm', () => {
     it('should patch institutionName and yearPassing', () => {
       component.updateForm({

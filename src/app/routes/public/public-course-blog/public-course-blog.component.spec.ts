@@ -136,6 +136,38 @@ describe('PublicCourseBlogComponent', () => {
     })
   })
 
+  describe('getKeywordsList', () => {
+    it('should return subject items when only subject is provided', () => {
+      const result = component.getKeywordsList({ subject: 'Nursing' })
+      expect(result).toContain('Nursing')
+    })
+
+    it('should split string keywords and trim each item via map callback', () => {
+      const result = component.getKeywordsList({ keywords: 'health, care , wellness' })
+      expect(result).toContain('health')
+      expect(result).toContain('care')
+      expect(result).toContain('wellness')
+    })
+
+    it('should handle array keywords via map callback', () => {
+      const result = component.getKeywordsList({ keywords: ['health', ' care '] })
+      expect(result).toContain('health')
+      expect(result).toContain('care')
+    })
+
+    it('should return empty array when neither subject nor keywords provided', () => {
+      const result = component.getKeywordsList({})
+      expect(result).toEqual([])
+    })
+
+    it('should combine subject and keywords and deduplicate', () => {
+      const result = component.getKeywordsList({ subject: 'Nursing', keywords: 'Nursing, care' })
+      const nursingCount = result.filter((k: string) => k === 'Nursing').length
+      expect(nursingCount).toBe(1)
+      expect(result).toContain('care')
+    })
+  })
+
   describe('formatDate', () => {
     it('should return empty string for falsy input', () => {
       expect(component.formatDate('')).toBe('')

@@ -774,6 +774,20 @@ describe('WebPublicComponent', () => {
 
       expect(mockScrollService.scrollToElement).not.toHaveBeenCalled()
     })
+
+    it('should invoke the sections.find predicate callback (line 262) when event fires', () => {
+      const nativeEl = { getAttribute: jest.fn().mockReturnValue('target-section') }
+      localComponent.sections = {
+        find: jest.fn().mockImplementation((predicate: any) => {
+          const fakeSection = { nativeElement: nativeEl }
+          return predicate(fakeSection) ? { nativeElement: nativeEl } : null
+        }),
+      } as any
+      ;(localComponent as any).handleScrollEvents()
+      localScroll$.next('target-section')
+      expect(nativeEl.getAttribute).toHaveBeenCalledWith('data-scroll')
+      expect(mockScrollService.scrollToElement).toHaveBeenCalledWith(nativeEl)
+    })
   })
 
   // ─── isXSmall computed ────────────────────────────────────────────────────
@@ -909,6 +923,17 @@ describe('WebPublicComponent', () => {
       expect(mockContentSvc.getCouseByContentSearch).toHaveBeenCalled()
     })
 
+    it('should run filter callback on userEnrollCourse items (lines 141-142)', () => {
+      component.userEnrollCourse = [
+        { content: { identifier: 'c1', competency: null } },
+        { content: { identifier: 'c2', competency: ['comp'] } },
+        { content: {} },
+      ]
+      component['plyLsData'] = []
+      ;(component as any).handleCompetencyFlow('org1', () => false)
+      expect(component.isLoading()).toBe(false)
+    })
+
     it('should set coursesForYou and call updateCourseData after subscribe', () => {
       const competencyPayload = [{
         comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
@@ -923,6 +948,23 @@ describe('WebPublicComponent', () => {
       const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
       ;(component as any).handleCompetencyFlow('org1', roleCheck)
       expect(updateSpy).toHaveBeenCalled()
+    })
+
+    it('covers filter and map callbacks on line 177 when coursesForYou is non-empty', () => {
+      const competencyPayload = [{
+        comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
+      }]
+      component['plyLsData'] = [{
+        orgId: 'org1', role: ['doctor'],
+        playlistId: 'COMPETENCY_PLAYLIST',
+        dataSource: { payload: competencyPayload },
+      }]
+      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: { content: [{ identifier: 'c1' }] } }))
+      jest.spyOn(component, 'processRecommendedCourses').mockReturnValue([{ identifier: 'c1' }] as any)
+      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
+      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
+      ;(component as any).handleCompetencyFlow('org1', roleCheck)
+      expect(component.yourPlansCourseIdentifier).toEqual(['c1'])
     })
   })
 

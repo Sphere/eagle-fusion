@@ -363,6 +363,41 @@ describe('MobileScromAdapterService', () => {
       service.LMSCommit()
       expect(mockPost).toHaveBeenCalled()
     })
+
+    it('completed status: covers forEach callback (163-165) and setTimeout callbacks (197, 200)', async () => {
+      jest.useFakeTimers()
+      const { of } = require('rxjs')
+      mockStore.getItem.mockReturnValue(true)
+      mockStore.getAll.mockReturnValue({
+        'cmi.core.lesson_status': 'completed',
+        'cmi.core.session_time': '0:01:00.0',
+      })
+      service['http'] = { post: jest.fn().mockReturnValue(of({ result: {} })) } as any
+      service['route'] = {
+        snapshot: { queryParamMap: { keys: ['courseType'], get: jest.fn().mockReturnValue('course123') } },
+      } as any
+      const lmsFinishSpy = jest.spyOn(service, 'LMSFinish').mockReturnValue(false as any)
+      const cordovaSpy = jest.spyOn(service, 'postCordovaMessage').mockImplementation(() => {})
+      service.LMSCommit()
+      await Promise.resolve()  // flush the async subscribe callback's await
+      jest.runAllTimers()
+      expect(lmsFinishSpy).toHaveBeenCalled()
+      expect(cordovaSpy).toHaveBeenCalledWith(100)
+      jest.useRealTimers()
+    })
+
+    it('completed status error: covers catchError in updateScromProgress (357-358) and error callback (206-207)', () => {
+      const { throwError } = require('rxjs')
+      mockStore.getItem.mockReturnValue(true)
+      mockStore.getAll.mockReturnValue({
+        'cmi.core.lesson_status': 'completed',
+        'cmi.core.session_time': '0:01:00.0',
+      })
+      service['http'] = { post: jest.fn().mockReturnValue(throwError(() => new Error('net error'))) } as any
+      service['route'] = { snapshot: { queryParamMap: { keys: [], get: jest.fn() } } } as any
+      expect(() => service.LMSCommit()).not.toThrow()
+      expect(mockLogger.error).toHaveBeenCalledWith('SCORM progress update failed:', expect.any(Error))
+    })
   })
 
   describe('postCordovaMessage', () => {
@@ -393,6 +428,14 @@ describe('MobileScromAdapterService', () => {
       const req = { request: { fields: [] } }
       service.loadDataV2(req, { Authorization: 'token', userToken: 'ut' })
       expect(mockPost).toHaveBeenCalledWith('/api/content/state/read', req, expect.any(Object))
+    })
+
+    it('covers catchError callback (268-269) when http.post errors', () => {
+      const { throwError } = require('rxjs')
+      service['http'] = { post: jest.fn().mockReturnValue(throwError(() => new Error('net fail'))) } as any
+      const req = { request: { fields: [] } }
+      expect(() => service.loadDataV2(req, { Authorization: 'token', userToken: 'ut' })).not.toThrow()
+      expect(mockLogger.error).toHaveBeenCalledWith('Error occurred:', expect.any(Error))
     })
 
     it('should set progressdetails from responseData when contentId matches', () => {
