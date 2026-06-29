@@ -4,6 +4,8 @@ Object.defineProperty(window, 'fcWidget', {
   value: {
     init: jest.fn(),
     setConfig: jest.fn(),
+    open: jest.fn(),
+    show: jest.fn(),
   },
   writable: true,
 })
