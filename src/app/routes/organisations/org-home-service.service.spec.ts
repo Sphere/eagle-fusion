@@ -107,6 +107,31 @@ describe('OrgServiceService', () => {
     })
   })
 
+  describe('getDatabyOrgId', () => {
+    it('calls http.get with the course.json URL and returns data', (done) => {
+      mockHttp.get.mockReturnValue(of({ courses: [{ id: 'c1' }] }))
+      service.getDatabyOrgId().then(data => {
+        expect(data).toEqual({ courses: [{ id: 'c1' }] })
+        expect(mockHttp.get).toHaveBeenCalledWith(expect.stringContaining('course.json'))
+        done()
+      })
+    })
+  })
+
+  describe('setConnectSid', () => {
+    it('calls http.post with keycloak endpoint and returns response', (done) => {
+      mockHttp.post.mockReturnValue(of({ session: 'abc' }))
+      service.setConnectSid('auth-code-123').subscribe(data => {
+        expect(data).toEqual({ session: 'abc' })
+        expect(mockHttp.post).toHaveBeenCalledWith(
+          expect.stringContaining('keycloak'),
+          {}
+        )
+        done()
+      })
+    })
+  })
+
   describe('handleError', () => {
     it('returns an observable that throws the given error', (done) => {
       const err = new Error('test error')

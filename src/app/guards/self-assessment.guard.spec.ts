@@ -164,6 +164,30 @@ describe('SelfAssessmentGuard', () => {
       expect(result).toBe(false)
       expect(mockContentSvc.fetchContent).toHaveBeenCalledWith('do_123')
     })
+
+    it('covers forEach callback and subscribe next callback with valid children and competencies_v1', () => {
+      const competencyData = [{ id: 'comp1' }]
+      const contentResult = of({
+        result: {
+          content: {
+            children: [{ identifier: 'child-1', index: 1 }],
+            competencies_v1: JSON.stringify(competencyData),
+          },
+        },
+      })
+      const batchResult = of({ content: [{ batchId: 'b1', courseId: 'c1', enrollmentEndDate: '2099-12-31' }] })
+      mockContentSvc.fetchContent = jest.fn().mockReturnValue(contentResult)
+      mockContentSvc.fetchCourseBatches = jest.fn().mockReturnValue(batchResult)
+      mockContentSvc.fetchContentHistoryV2 = jest.fn().mockReturnValue(of({ result: { contentList: [] } }))
+      mockContentSvc.getFirstChildInHierarchy = jest.fn().mockReturnValue({ identifier: 'child-1', mimeType: 'video/mp4' })
+      mockConfigSvc.userProfile = { userId: 'user-1' }
+      guard['configSvc'] = mockConfigSvc
+      guard['resumeDataLink'] = null
+      jest.spyOn(guard, 'routeNavigation').mockImplementation(jest.fn())
+      const result = guard.selfAsesment({ contentId: 'do_456', contentType: 'Course' })
+      expect(result).toBe(false)
+      expect(mockContentSvc.fetchContentHistoryV2).toHaveBeenCalled()
+    })
   })
 
   describe('navigateToplayer', () => {

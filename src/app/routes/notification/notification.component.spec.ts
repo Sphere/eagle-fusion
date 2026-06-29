@@ -1,5 +1,9 @@
+jest.mock('socket.io-client', () => ({
+  io: jest.fn(),
+}))
+
 import { NotificationsComponent } from './notification.component'
-import { of } from 'rxjs'
+import { of, Subject } from 'rxjs'
 import { ChangeDetectorRef } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { Socket } from 'socket.io-client'
@@ -341,5 +345,70 @@ describe('NotificationsComponent', () => {
     component.movedX = -100
     component.onTouchEnd({} as TouchEvent, element, 0)
     expect(element.style.transform).toBe('translateX(-80px)')
+  })
+
+  it('isWebView$ map callback emits opposite of isXSmall$', () => {
+    const xSmallSubject = new Subject<boolean>()
+    const localValueSvc = { isXSmall$: xSmallSubject.asObservable() }
+    const localComponent = new NotificationsComponent(
+      mockEvents, mockStorage, mockRouter, mockRenderer,
+      mockConfigSvc, localValueSvc as any,
+      mockDialogRef as MatDialogRef<any>, mockCdr as ChangeDetectorRef,
+      { log: jest.fn(), warn: jest.fn(), error: jest.fn() } as any,
+    )
+    const results: boolean[] = []
+    localComponent.isWebView$.subscribe((v: boolean) => results.push(v))
+    xSmallSubject.next(false)
+    xSmallSubject.next(true)
+    expect(results).toEqual([true, false])
+  })
+
+  it('connectSocket creates socket, handles connect event, and calls setAllNotificationList', async () => {
+    const { io: mockIo } = require('socket.io-client')
+    const mockSocketObj = {
+      on: jest.fn((event: string, cb: any) => { if (event === 'connect') cb() }),
+      emit: jest.fn(),
+      connected: true,
+      disconnect: jest.fn(),
+    }
+    mockIo.mockReturnValue(mockSocketObj)
+    const logSpy = jest.fn()
+    ;(component as any).logger = { log: logSpy, warn: jest.fn(), error: jest.fn() }
+    await component.connectSocket()
+    expect(mockSocketObj.on).toHaveBeenCalledWith('connect', expect.any(Function))
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Connected'))
+  })
+
+  it('ngAfterViewInit renderer listen callback is invocable and does not throw', () => {
+    let capturedCallback: Function | undefined
+    mockRenderer.listen = jest.fn((_target: any, _event: any, cb: any) => { capturedCallback = cb })
+    component.ngAfterViewInit()
+    expect(() => capturedCallback!(new Event('click'))).not.toThrow()
+  })
+
+  it('handleAction with unknown message hits default branch', () => {
+    component.handleAction('unknown_action')
+    expect(component.dropdownContent).toBe(true)
+  })
+
+  it('readNotification calls notificationAction and returns early when item is already read', async () => {
+    const item = { id: '1', status: 'read', data: { actionData: { actionType: 'course', identifier: 'do_1' } } }
+    const spy = jest.spyOn(component, 'notificationAction').mockResolvedValue(undefined as any)
+    await component.readNotification(item)
+    expect(spy).toHaveBeenCalledWith(item)
+    expect(mockSocket.emit).not.toHaveBeenCalledWith('markAsRead', expect.any(Object))
+  })
+
+  it('notificationAction calls closeDailog when dropdownContent is true', async () => {
+    component.dropdownContent = true
+    const closeSpy = jest.spyOn(component, 'closeDailog')
+    await component.notificationAction({ data: {} })
+    expect(closeSpy).toHaveBeenCalled()
+  })
+
+  it('notificationAction handles other actionType', async () => {
+    const item = { data: { actionData: { actionType: 'other', identifier: 'other-1' } } }
+    await expect(component.notificationAction(item)).resolves.not.toThrow()
+    expect(mockDialogRef.close).toHaveBeenCalled()
   })
 })

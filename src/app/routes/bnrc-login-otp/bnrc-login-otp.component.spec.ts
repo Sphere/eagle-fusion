@@ -165,6 +165,37 @@ describe('BnrcLoginOtpComponent', () => {
     expect(mockSnackBar.open).toHaveBeenCalledWith('', undefined, { duration: 3000 })
   })
 
+  it('ngOnInit sets loginVerification true when loginData is set', () => {
+    const mockRouter = { url: 'uttarpradesh/register' }
+    const mockFormBuilder = new FormBuilder()
+    const mockSnackBar = { open: jest.fn() }
+    const mockUserProfileSvc = { upsmfValidateOtp: jest.fn(), bnrcValidateOtp: jest.fn(), mpValidateOtp: jest.fn() }
+    const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    const comp = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
+    comp.loginData = { value: { phone: '9876543210' } }
+    comp.ngOnInit()
+    expect(comp.loginVerification).toBe(true)
+  })
+
+  it('resendOTP error callback shows snackbar when no preferedLanguage', () => {
+    const mockRouter = { url: 'uttarpradesh/register' }
+    const mockFormBuilder = new FormBuilder()
+    const mockSnackBar = { open: jest.fn() }
+    const mockUserProfileSvc = {
+      upsmfResendOtp: jest.fn().mockReturnValue({
+        subscribe: (_s: Function, error: Function) => error({ error: { error: 'OTP error', message: 'Bad OTP' } }),
+      }),
+      bnrcResendOtp: jest.fn(),
+      mpResendOtp: jest.fn(),
+    }
+    const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    const comp = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
+    comp.loginData = { value: { phone: '9876543210' } }
+    localStorage.removeItem('preferedLanguage')
+    comp.resendOTP()
+    expect(mockSnackBar.open).toHaveBeenCalledWith('OTP error', undefined, { duration: 3000 })
+  })
+
   it('should handle unexpected response structures gracefully', () => {
     const mockRouter = { url: 'uttarpradesh/register' }
     const mockFormBuilder = new FormBuilder()

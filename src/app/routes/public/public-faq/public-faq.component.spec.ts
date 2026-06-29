@@ -113,4 +113,12 @@ describe('PublicFaqComponent', () => {
     component.ngOnInit()
     expect(() => component.ngOnDestroy()).not.toThrow()
   })
+
+  it('mode$ emits "side" for false and "over" for true from isLtMedium$', () => {
+    let result: any
+    component.mode$.subscribe((v: any) => { result = v })
+    expect(result).toBe('side')
+    ltMediumSubject.next(true)
+    expect(result).toBe('over')
+  })
 })

@@ -136,6 +136,26 @@ describe('GeneralGuard', () => {
     expect(result).toBe(true)
   })
 
+  it('covers getUserdetailsFromRegistry success callback when unMappedUser is set', async () => {
+    const { of } = require('rxjs')
+    mockConfigSvc.userProfile = { language: 'en', userId: 'u1' }
+    mockConfigSvc.unMappedUser = { id: 'u1' }
+    mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+      profileDetails: { profileReq: { personalDetails: { tncAccepted: 'true', dob: '1990-01-01' } } },
+    }))
+    await guard.canActivate(makeRoute())
+    expect(mockLogger.log).toHaveBeenCalled()
+  })
+
+  it('covers getUserdetailsFromRegistry error callback when request fails', async () => {
+    const { throwError } = require('rxjs')
+    mockConfigSvc.userProfile = { language: 'en', userId: 'u1' }
+    mockConfigSvc.unMappedUser = { id: 'u1' }
+    mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(throwError(() => new Error('fail')))
+    const result = await guard.canActivate(makeRoute())
+    expect(result).toBe(true)
+  })
+
   it('restores user from cache when userProfile is null and cache has data', async () => {
     mockConfigSvc.userProfile = null
     mockConfigSvc.instanceConfig = { disablePidCheck: true }

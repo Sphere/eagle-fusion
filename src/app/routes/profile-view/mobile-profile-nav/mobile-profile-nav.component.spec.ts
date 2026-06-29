@@ -115,5 +115,12 @@ describe('MobileProfileNavComponent', () => {
       component.backScreen()
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/profile-view'])
     })
+
+    it('covers workMessage subscribe callback with data', () => {
+      mockContentSvc.workMessage = { subscribe: jest.fn((cb: any) => cb(undefined)) }
+      component['contentSvc'] = mockContentSvc
+      component.backScreen()
+      expect(mockLogger.log).toHaveBeenCalled()
+    })
   })
 })

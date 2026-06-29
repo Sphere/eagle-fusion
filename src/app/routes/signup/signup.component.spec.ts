@@ -87,6 +87,13 @@ describe('SignupComponent', () => {
       component.generateOtp()
       expect(mockSignupService.generateOtp).not.toHaveBeenCalled()
     })
+
+    it('should call openSnackbar when generateOtp returns error', () => {
+      component.signupForm.get('emailOrMobile')?.setValue('9876543210')
+      mockSignupService.generateOtp.mockReturnValue(throwError(() => 'API error'))
+      component.generateOtp()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
   })
 
   describe('verifyOtp', () => {
@@ -131,6 +138,30 @@ describe('SignupComponent', () => {
     it('should open snackbar on error', () => {
       mockSignupService.registerWithMobile.mockReturnValue(throwError(() => 'error'))
       component.resendOTP()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
+
+  describe('onSubmit error callbacks', () => {
+    it('should call openSnackbar when signup returns error', () => {
+      component.signupForm.get('emailOrMobile')?.setValue('test@email.com')
+      mockSignupService.signup.mockReturnValue(throwError(() => ({ error: { msg: 'Server error' } })))
+      const mockForm = {
+        value: { firstName: 'A', lastName: 'B', emailOrMobile: 'test@email.com', password: 'pass' },
+        reset: jest.fn(),
+      }
+      component.onSubmit(mockForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+
+    it('should call openSnackbar when registerWithMobile returns error in onSubmit', () => {
+      component.signupForm.get('emailOrMobile')?.setValue('9876543210')
+      mockSignupService.registerWithMobile.mockReturnValue(throwError(() => ({ error: { msg: 'Mobile error' } })))
+      const mockForm = {
+        value: { firstName: 'A', lastName: 'B', emailOrMobile: '9876543210', password: 'pass' },
+        reset: jest.fn(),
+      }
+      component.onSubmit(mockForm)
       expect(mockSnackBar.open).toHaveBeenCalled()
     })
   })

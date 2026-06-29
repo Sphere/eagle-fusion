@@ -333,6 +333,92 @@ describe('UserAgentResolverService', () => {
     })
   })
 
+  describe('isInternalHost (private)', () => {
+    it('returns true for exact internal host (localhost)', () => {
+      expect((service as any).isInternalHost('localhost')).toBe(true)
+    })
+
+    it('returns true for subdomain of internal host', () => {
+      expect((service as any).isInternalHost('sub.sphere.aastrika.org')).toBe(true)
+    })
+
+    it('returns false for external host', () => {
+      expect((service as any).isInternalHost('google.com')).toBe(false)
+    })
+  })
+
+  describe('getOrgIdFromReferrer (private)', () => {
+    let origReferrer: string
+
+    beforeEach(() => {
+      origReferrer = document.referrer
+    })
+
+    afterEach(() => {
+      Object.defineProperty(document, 'referrer', { value: origReferrer, configurable: true })
+    })
+
+    it('returns orgId when referrer has org-details path with orgId param', () => {
+      Object.defineProperty(document, 'referrer', {
+        value: 'https://sphere.aastrika.org/org-details?orgId=org-abc',
+        configurable: true,
+      })
+      expect((service as any).getOrgIdFromReferrer()).toBe('org-abc')
+    })
+
+    it('returns null when referrer does not contain org-details', () => {
+      Object.defineProperty(document, 'referrer', {
+        value: 'https://example.com/home',
+        configurable: true,
+      })
+      expect((service as any).getOrgIdFromReferrer()).toBeNull()
+    })
+
+    it('returns null when referrer is empty string', () => {
+      Object.defineProperty(document, 'referrer', { value: '', configurable: true })
+      expect((service as any).getOrgIdFromReferrer()).toBeNull()
+    })
+  })
+
+  describe('getUserAgent browser branches', () => {
+    const setUA = (ua: string) => Object.defineProperty(navigator, 'userAgent', { value: ua, configurable: true })
+
+    it('returns firefox for Firefox UA', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 Gecko/20100101 Firefox/109.0')
+      expect(service.getUserAgent().browserName).toBe('firefox')
+      setUA(orig)
+    })
+
+    it('returns safari for Safari-only UA', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (Macintosh) AppleWebKit/605 Version/16.1 Safari/604')
+      expect(service.getUserAgent().browserName).toBe('safari')
+      setUA(orig)
+    })
+
+    it('returns opera for OPR UA', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 OPR/91.0')
+      expect(service.getUserAgent().browserName).toBe('opera')
+      setUA(orig)
+    })
+
+    it('returns edge for Edg UA', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 Edg/109.0')
+      expect(service.getUserAgent().browserName).toBe('edge')
+      setUA(orig)
+    })
+
+    it('returns No browser detection for unknown UA', () => {
+      const orig = navigator.userAgent
+      setUA('UnknownBrowser/1.0')
+      expect(service.getUserAgent().browserName).toBe('No browser detection')
+      setUA(orig)
+    })
+  })
+
   describe('doGetCurrentPosition callbacks', () => {
     let origGeo: any
 

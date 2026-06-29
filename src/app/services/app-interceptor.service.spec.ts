@@ -122,6 +122,19 @@ describe('AppInterceptorService', () => {
     })
   })
 
+  it('catchError in unauthenticated path propagates non-419 errors', (done) => {
+    const { throwError: rxThrow } = require('rxjs')
+    const { HttpErrorResponse } = require('@angular/common/http')
+    // userProfile null → enters the public/unauthenticated catchError block
+    mockConfigSvc.userProfile = null
+    mockHandler.handle = jest.fn().mockReturnValue(rxThrow(new HttpErrorResponse({ status: 500 })))
+    const req = new HttpRequest('GET', '/apis/public/data')
+    service.intercept(req, mockHandler).subscribe({
+      next: () => {},
+      error: (err: any) => { expect(err.status).toBe(500); done() },
+    })
+  })
+
   it('propagates 419 error in authenticated path', (done) => {
     const { throwError: rxThrow } = require('rxjs')
     const { HttpErrorResponse } = require('@angular/common/http')

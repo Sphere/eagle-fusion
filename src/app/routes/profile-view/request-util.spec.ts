@@ -1,5 +1,6 @@
 import {
   checkvalue,
+  constructReq,
   getDateFromText,
   getClass10,
   getClass12,
@@ -8,6 +9,46 @@ import {
   populateAcademics,
   getOrganisationsHistory,
 } from './request-util'
+
+describe('constructReq', () => {
+  const minUserProfile = {
+    userId: 'u-1',
+    personalDetails: {
+      firstname: 'Jane',
+      middlename: '',
+      surname: 'Doe',
+      about: '',
+      photo: '',
+      dob: '',
+      nationality: '',
+      domicileMedium: '',
+      regNurseRegMidwifeNumber: '',
+      gender: '',
+      maritalStatus: '',
+      knownLanguages: '',
+      mobile: '',
+      telephone: '',
+      primaryEmail: 'jane@example.com',
+      postalAddress: '',
+      pincode: '',
+      osName: '',
+      browserName: '',
+      userCookie: '',
+    },
+  }
+
+  it('returns a profileReq object with the correct userId', () => {
+    const result = constructReq({}, minUserProfile, { OS: 'Mac', browserName: 'Chrome' }, 'session-cookie')
+    expect(result.profileReq.userId).toBe('u-1')
+    expect(result.profileReq.id).toBe('u-1')
+  })
+
+  it('uses form fields when present in form', () => {
+    const form = { firstname: 'Alice', value: {} }
+    const result = constructReq(form, minUserProfile, {}, '')
+    expect(result.profileReq.personalDetails.firstname).toBe('Alice')
+  })
+})
 
 describe('checkvalue', () => {
   it('returns the value when it is a regular string', () => {

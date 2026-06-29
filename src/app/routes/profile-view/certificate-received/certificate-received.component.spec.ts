@@ -87,5 +87,34 @@ describe('CertificateReceivedComponent', () => {
       expect(fetchMock).not.toHaveBeenCalled()
       delete (window as any).fetch
     })
+
+    it('triggers img.onload callback and processes image via canvas', () => {
+      const mockCtx = { drawImage: jest.fn() }
+      const mockCanvas = {
+        getContext: jest.fn().mockReturnValue(mockCtx),
+        toDataURL: jest.fn().mockReturnValue('data:image/jpeg;base64,dGVzdA=='),
+        width: 0,
+        height: 0,
+      }
+      const getElemSpy = jest.spyOn(document, 'getElementById').mockReturnValue(mockCanvas as any)
+      const FileSaver = require('file-saver')
+      const saveAsSpy = jest.spyOn(FileSaver, 'saveAs').mockImplementation(jest.fn())
+
+      ;(global as any).Image = function (this: any) {
+        this.onload = null
+        this.width = 500
+        this.height = 400
+        Object.defineProperty(this, 'src', {
+          set(v: string) { if (this.onload) { this.onload() } },
+          get() { return '' },
+        })
+      }
+
+      component.convertToJpeg({ rcCerticate: false, printUri: 'https://example.com/cert.png', name: 'Test Cert' })
+      expect(saveAsSpy).toHaveBeenCalled()
+
+      getElemSpy.mockRestore()
+      saveAsSpy.mockRestore()
+    })
   })
 })

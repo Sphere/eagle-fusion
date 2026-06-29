@@ -1,3 +1,8 @@
+jest.mock('rxjs/operators', () => ({
+  ...jest.requireActual('rxjs/operators'),
+  delay: () => (source: any) => source,
+}))
+
 jest.mock('src/app/services/user-data-cache.service', () => ({
   UserDataCacheService: class {},
 }))

@@ -99,6 +99,16 @@ describe('OrgHomeComponent', () => {
     expect(mockOrgService.fetchUserBatchList).not.toHaveBeenCalled()
   })
 
+  it('should invoke enrollment filter callback when fetchUserBatchList returns items', () => {
+    mockConfigSvc.userProfile = { userId: 'user-123' }
+    mockOrgService.fetchUserBatchList = jest.fn().mockReturnValue(
+      of([{ contentId: 'course-1', dateTime: '2024-01-01' }])
+    )
+    component.ngOnInit()
+    expect(mockOrgService.fetchUserBatchList).toHaveBeenCalledWith('user-123')
+    expect(component.resultResponse).toBeDefined()
+  })
+
   it('should call keyClockLogin when userProfile is null on navigateToToc', () => {
     component.navigateToToc('course-1')
     expect(mockSignupSvc.keyClockLogin).toHaveBeenCalled()

@@ -243,4 +243,11 @@ describe('WebDashboardComponent', () => {
     localStorage.removeItem('orgValue')
     navSpy.mockRestore()
   })
+
+  it('detectChanges triggers effect callback and toSignal map callback', () => {
+    const themeSvc = TestBed.inject(ThemeService) as any
+    fixture.detectChanges()
+    expect(themeSvc.isDark).toHaveBeenCalled()
+    expect(component.isDark).toBe(false)
+  })
 })

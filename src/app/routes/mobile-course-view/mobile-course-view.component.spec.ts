@@ -1,3 +1,8 @@
+jest.mock('rxjs/operators', () => ({
+  ...jest.requireActual('rxjs/operators'),
+  delay: () => (source: any) => source,
+}))
+
 jest.mock('lodash', () => ({
   forEach: (arr: any[], fn: (v: any) => void) => (arr || []).forEach(fn),
   get: (obj: any, path: string, def?: any) => {
@@ -205,6 +210,21 @@ describe('MobileCourseViewComponent', () => {
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
         expect.stringContaining('/app/create-account/TN'),
       )
+    })
+  })
+
+  describe('navigateToToc', () => {
+    it('covers mergeMap and subscribe callbacks with unMappedUser set', () => {
+      const { of: rxOf } = require('rxjs')
+      const mockUserProfileSvc = {
+        getUserdetailsFromRegistry: jest.fn().mockReturnValue(rxOf({ profileDetails: { profileReq: {} } })),
+        isBackgroundDetailsFilled: jest.fn().mockReturnValue(true),
+      }
+      mockRouter.navigateByUrl = jest.fn()
+      component['configSvc'] = { userProfile: { userId: 'u1' }, unMappedUser: { id: 'u1' } }
+      component['userProfileSvc'] = mockUserProfileSvc
+      component.navigateToToc('do_123')
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/app/toc/do_123/overview')
     })
   })
 

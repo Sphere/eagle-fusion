@@ -243,6 +243,36 @@ describe('SignupService', () => {
     })
   })
 
+  describe('plumb5SendEvent', () => {
+    it('calls http.post with plumb5 EventDetails URL and returns response via map', (done) => {
+      const data = { event: 'pageview' }
+      mockHttp.post.mockReturnValue(of({ status: 'ok' }))
+      service.plumb5SendEvent(data).subscribe((result: any) => {
+        expect(result).toEqual({ status: 'ok' })
+        expect(mockHttp.post).toHaveBeenCalledWith(
+          expect.stringContaining('plumb5'),
+          data,
+        )
+        done()
+      })
+    })
+  })
+
+  describe('plumb5SendForm', () => {
+    it('calls http.post with plumb5 FormInfoDetails URL and returns response via map', (done) => {
+      const data = { form: 'signup' }
+      mockHttp.post.mockReturnValue(of({ status: 'form-saved' }))
+      service.plumb5SendForm(data).subscribe((result: any) => {
+        expect(result).toEqual({ status: 'form-saved' })
+        expect(mockHttp.post).toHaveBeenCalledWith(
+          expect.stringContaining('plumb5'),
+          data,
+        )
+        done()
+      })
+    })
+  })
+
   describe('fetchStartUpDetails', () => {
     it('returns default result when instanceConfig is null', async () => {
       mockConfigSvc.instanceConfig = null
@@ -280,6 +310,72 @@ describe('SignupService', () => {
       })
       const result = await service.fetchStartUpDetails()
       expect(mockConfigSvc.userProfile).toBeNull()
+    })
+
+    it('fetchOrgSelectiveConfig find callback matches rootOrgId', async () => {
+      const profile = {
+        userId: 'u1', firstName: 'Test', lastName: 'User', userName: 'testuser',
+        email: 'test@test.com', roles: ['PUBLIC'], rootOrgId: 'org-match',
+        channel: 'org1', thumbnail: null, isDeleted: false,
+        profileDetails: { preferences: { language: 'en' }, mandatoryFieldsExists: true },
+      }
+      const orgData = {
+        states: [{
+          organisations: [
+            { orgId: 'org-match', orgName: 'Apollo', redirectUrl: '/app/org' },
+            { orgId: 'other-org', orgName: 'Other' },
+          ],
+        }],
+      }
+      mockConfigSvc.instanceConfig = { someKey: true }
+      mockUserDataCacheSvc.getUserData = jest.fn().mockReturnValue(of(profile))
+      mockHttp.get = jest.fn().mockReturnValue(of(orgData))
+      await service.fetchStartUpDetails()
+      expect(mockConfigSvc.orgSelectiveCourseConfig).toEqual({ orgId: 'org-match', orgName: 'Apollo', redirectUrl: '/app/org' })
+    })
+
+    it('fetchOrgSelectiveConfig find callback matches org URL param', async () => {
+      const profile = {
+        userId: 'u1', firstName: 'Test', lastName: 'User', userName: 'testuser',
+        email: 'test@test.com', roles: ['PUBLIC'], rootOrgId: 'different-org',
+        channel: 'org1', thumbnail: null, isDeleted: false,
+        profileDetails: { preferences: { language: 'en' }, mandatoryFieldsExists: true },
+      }
+      const orgData = {
+        states: [{
+          organisations: [{ orgId: 'org-url', orgName: 'Apollo Hospital' }],
+        }],
+      }
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { search: '?org=apollo+hospital', assign: jest.fn(), href: '', origin: 'http://localhost' },
+      })
+      mockConfigSvc.instanceConfig = { someKey: true }
+      mockUserDataCacheSvc.getUserData = jest.fn().mockReturnValue(of(profile))
+      mockHttp.get = jest.fn().mockReturnValue(of(orgData))
+      await service.fetchStartUpDetails()
+      expect(mockConfigSvc.orgSelectiveCourseConfig).toEqual({ orgId: 'org-url', orgName: 'Apollo Hospital' })
+      Object.defineProperty(window, 'location', { writable: true, value: { search: '', href: '' } })
+    })
+
+    it('fetchOrgSelectiveConfig covers flatMap and map when no match found', async () => {
+      const profile = {
+        userId: 'u1', firstName: 'Test', lastName: 'User', userName: 'testuser',
+        email: 'test@test.com', roles: ['PUBLIC'], rootOrgId: 'no-match-org',
+        channel: 'org1', thumbnail: null, isDeleted: false,
+        profileDetails: { preferences: { language: 'en' }, mandatoryFieldsExists: true },
+      }
+      const orgData = {
+        states: [{
+          organisations: [{ orgId: 'other-org', orgName: 'Other Org' }],
+        }],
+      }
+      Object.defineProperty(window, 'location', { writable: true, value: { search: '', href: '' } })
+      mockConfigSvc.instanceConfig = { someKey: true }
+      mockUserDataCacheSvc.getUserData = jest.fn().mockReturnValue(of(profile))
+      mockHttp.get = jest.fn().mockReturnValue(of(orgData))
+      await service.fetchStartUpDetails()
+      expect(mockLogger.warn).toHaveBeenCalledWith('No matching org found in org-selective-course.json')
     })
   })
 })

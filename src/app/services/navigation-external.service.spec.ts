@@ -30,6 +30,17 @@ describe('NavigationExternalService', () => {
     expect(service.dummy).toBe(2)
   })
 
+  it('triggers navigateTo when NAVIGATION_DATA_INCOMING event is dispatched on document', () => {
+    // fromEvent subscriptions persist across beforeEach calls, so pass null params
+    // to avoid cross-instance mutation of shared params object
+    const navigateSpy = jest.spyOn(service, 'navigateTo')
+    const event = new CustomEvent('NAVIGATION_DATA_INCOMING', {
+      detail: { url: '/app/home', params: null },
+    })
+    document.dispatchEvent(event)
+    expect(navigateSpy).toHaveBeenCalledWith('/app/home', null)
+  })
+
   describe('navigateTo', () => {
     it('calls router.navigate with provided url', () => {
       service.navigateTo('/app/search')

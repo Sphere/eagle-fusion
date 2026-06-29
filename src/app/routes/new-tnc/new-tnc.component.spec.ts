@@ -1,3 +1,8 @@
+jest.mock('rxjs/operators', () => ({
+  ...jest.requireActual('rxjs/operators'),
+  delay: () => (source: any) => source,
+}))
+
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),
   effect: (fn: any) => { fn(); return {} },
@@ -310,6 +315,53 @@ describe('NewTncComponent', () => {
     })
   })
 
+  describe('updateUser', () => {
+    it('covers subscribe callback, getUserdetailsFromRegistry pipe, and navigateToHome', async () => {
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({ userId: 'result-user-1', tncStatus: true })
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: { tncAccepted: false } } },
+      }))
+      mockUserProfileSvc.updateProfileDetails = jest.fn().mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      mockUserProfileSvc.isBackgroundDetailsFilled = jest.fn().mockReturnValue(true)
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: '', assign: jest.fn(), origin: 'https://test.com' },
+      })
+      await component.ngOnInit()
+      component.updateUser({ request: { userId: 'result-user-1', profileDetails: {}, tncAcceptedVersion: 'v1', tncAcceptedOn: 1 } })
+      await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+      expect(mockTelemetrySvc.registrationInteract).toHaveBeenCalled()
+    })
+
+    it('covers navigateToHome with orgSelectiveConfig matching rootOrgId with queryParams in URL', async () => {
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({ userId: 'result-user-1', tncStatus: true })
+      mockUserProfileSvc.updateProfileDetails = jest.fn().mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      mockUserProfileSvc.isBackgroundDetailsFilled = jest.fn().mockReturnValue(true)
+      ;(mockConfigSvc as any).orgSelectiveCourseConfig = {
+        orgId: 'org-1',
+        redirectUrl: '/app/org-selective?source=campaign&mode=learn',
+      }
+      mockConfigSvc.userProfile = { ...mockConfigSvc.userProfile, rootOrgId: 'org-1' }
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: '', assign: jest.fn(), origin: 'https://test.com' },
+      })
+      await component.ngOnInit()
+      component.updateUser({ request: { userId: 'result-user-1', profileDetails: {}, tncAcceptedVersion: 'v1', tncAcceptedOn: 1 } })
+      await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+      expect(window.location.assign).toHaveBeenCalled()
+    })
+
+    it('covers updateUser error callback', async () => {
+      const { throwError } = require('rxjs')
+      mockUserProfileSvc.updateProfileDetails = jest.fn().mockReturnValue(throwError(() => new Error('update failed')))
+      expect(() => component.updateUser({ request: {} })).not.toThrow()
+      expect(component.errorInAccepting).toBe(true)
+    })
+  })
+
   describe('homePage', () => {
     it('should set location.href to /page/home when result.userId exists', async () => {
       const origLocation = window.location
@@ -400,7 +452,48 @@ describe('NewTncComponent', () => {
     })
   })
 
+  describe('ngOnInit error and else branch', () => {
+    it('covers error callback when getUserdetailsFromRegistry throws', async () => {
+      const { throwError } = require('rxjs')
+      mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(throwError(() => new Error('API error')))
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      expect(component.showAcceptbtn).toBe(true)
+    })
+
+    it('covers else branch when unMappedUser is null and result.userId exists', async () => {
+      mockConfigSvc.unMappedUser = null
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({ userId: 'user-X', tncStatus: false })
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      expect(component.showAcceptbtn).toBe(true)
+    })
+  })
+
   describe('acceptTnc', () => {
+    it('covers paramMap.keys forEach callback when keys are present', async () => {
+      component.tncData = {
+        termsAndConditions: [{ name: 'Generic T&C', language: 'en', version: 'v1' }],
+      } as any
+      mockRoute.snapshot.queryParamMap = { keys: ['code'], get: jest.fn().mockReturnValue('value123') }
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      component.acceptTnc()
+      expect(component.isAcceptInProgress).toBe(true)
+    })
+
+    it('covers localStorage preferedLanguage truthy branch', async () => {
+      component.tncData = {
+        termsAndConditions: [{ name: 'Generic T&C', language: 'en', version: 'v1' }],
+      } as any
+      localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'hi' }))
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      await component.ngOnInit()
+      component.acceptTnc()
+      expect(component.isAcceptInProgress).toBe(true)
+      localStorage.removeItem('preferedLanguage')
+    })
+
     it('should set errorInAccepting false when tncData is null', () => {
       component.tncData = null
       component.acceptTnc()

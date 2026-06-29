@@ -82,4 +82,28 @@ describe('TweetsComponent', () => {
     expect(result).toBeDefined()
     script.remove()
   })
+
+  it('triggers tap callback and sets hasTweetScriptLoaded when load fires on existing script', async () => {
+    const script = document.createElement('script')
+    document.body.appendChild(script)
+    jest.spyOn(document, 'getElementById').mockReturnValue(script as any)
+    component.hasTweetScriptLoaded = false
+    const promise = component.loadScript(false)
+    script.dispatchEvent(new Event('load'))
+    await promise
+    expect(component.hasTweetScriptLoaded).toBe(true)
+    jest.restoreAllMocks()
+    script.remove()
+  })
+
+  it('triggers tap callback and sets hasTweetScriptLoaded when load fires on new script', async () => {
+    component.hasTweetScriptLoaded = false
+    const promise = component.loadScript(false)
+    const scriptEl = document.getElementById('tweetScript')
+    if (scriptEl) {
+      scriptEl.dispatchEvent(new Event('load'))
+    }
+    await promise
+    expect(component.hasTweetScriptLoaded).toBe(true)
+  })
 })

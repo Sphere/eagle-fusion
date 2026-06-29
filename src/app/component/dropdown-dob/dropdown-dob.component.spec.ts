@@ -55,6 +55,15 @@ describe('DropdownDobComponent', () => {
       expect(component.initYear).toHaveBeenCalled()
     })
 
+    it('should call updateForm after 500ms setTimeout callback', async () => {
+      jest.useRealTimers()
+      const spy = jest.spyOn(component, 'updateForm')
+      component.dob = '10/5/1990'
+      component.ngOnInit()
+      await new Promise(resolve => setTimeout(resolve, 600))
+      expect(spy).toHaveBeenCalled()
+    }, 3000)
+
     it('should disable the form when isEkshamata is true', () => {
       component.isEkshamata = true
       component.ngOnInit()

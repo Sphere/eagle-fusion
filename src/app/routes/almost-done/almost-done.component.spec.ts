@@ -262,4 +262,111 @@ describe('AlmostDoneComponent', () => {
     component.openSnackbar('Test message')
     expect(mockMatSnackBar.open).toHaveBeenCalledWith('Test message', undefined, { duration: 2000 })
   })
+
+  it('ngOnInit with ASHA backgroundSelect triggers http.get subscribe and map callback', async () => {
+    const statesData = { states: [{ state: 'UP', districts: ['Dist1', 'Dist2'] }] }
+    mockHttpClient.get.mockReturnValue(of(statesData))
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist1' } }
+    component.backgroundSelect = 'ASHA'
+    await component.ngOnInit()
+    expect(component.disticts).toEqual(['Dist1', 'Dist2'])
+  })
+
+  it('chooseBackground Asha Facilitator triggers http.get subscribe and map callback', () => {
+    const statesData = { states: [{ state: 'UP', districts: ['D1', 'D2'] }] }
+    mockHttpClient.get.mockReturnValue(of(statesData))
+    component.yourBackground = { value: { state: 'UP', distict: 'D1' } }
+    component.chooseBackground('Asha Facilitator')
+    expect(component.disticts).toEqual(['D1', 'D2'])
+  })
+
+  it('chooseBackground Asha Trainer triggers http.get subscribe and map callback', () => {
+    const statesData = { states: [{ state: 'MH', districts: ['Pune'] }] }
+    mockHttpClient.get.mockReturnValue(of(statesData))
+    component.yourBackground = { value: { state: 'MH', distict: 'Pune' } }
+    component.chooseBackground('Asha Trainer')
+    expect(component.disticts).toEqual(['Pune'])
+  })
+
+  it('assignFields with Healthcare Volunteer triggers valueChanges callback', () => {
+    component.backgroundSelect = 'Healthcare Volunteer'
+    component.assignFields('profession', 'Nurse', {})
+    component.almostDoneForm.controls.professSelected.setValue('ASHA')
+    expect(component.enableSubmit).toBe(false)
+  })
+
+  it('assignFields with Student triggers valueChanges callback on instituteName change', () => {
+    component.backgroundSelect = 'Student'
+    component.assignFields('institutionName', 'College', {})
+    ;(component.almostDoneForm.controls as any).instituteName.setValue('AIIMS')
+    expect(component.enableSubmit).toBe(false)
+  })
+
+  it('assignFields organizationType case sets orgType', () => {
+    component.assignFields('organizationType', 'Private', {})
+    expect(component.createUserForm.controls.orgType.value).toBe('Private')
+  })
+
+  it('assignFields organizationName case sets orgName', () => {
+    component.assignFields('organizationName', 'Apollo Hospital', {})
+    expect(component.createUserForm.controls.orgName.value).toBe('Apollo Hospital')
+  })
+
+  it('assignFields coursename case sets studentCourse', () => {
+    component.assignFields('coursename', 'BSc Nursing', {})
+    expect(component.studentCourse).toBe('BSc Nursing')
+  })
+
+  it('assignFields institutionName sets studentInstitute when not faculty', () => {
+    component.profession = 'nurse'
+    component.assignFields('institutionName', 'AIIMS', {})
+    expect(component.studentInstitute).toBe('AIIMS')
+  })
+
+  it('assignFields institutionName sets orgName when profession is faculty', () => {
+    component.profession = 'faculty'
+    component.almostDoneForm.controls.orgName.setValue('')
+    component.assignFields('institutionName', 'Delhi College', {})
+    expect(component.createUserForm.controls.orgName.value).toBe('Delhi College')
+  })
+
+  it('getOrganisationsHistory adds Others selectBackground field', () => {
+    component.backgroundSelect = 'Others'
+    component.almostDoneForm.controls.orgType.setValue('Private')
+    component.almostDoneForm.controls.orgName.setValue('Test Org')
+    component.almostDoneForm.controls.profession.setValue('Doctor')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.selectBackground.setValue('Asha Facilitator')
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs[0].selectBackground).toBe('Asha Facilitator')
+  })
+
+  it('getOrganisationsHistory Student adds qualification and instituteName', () => {
+    component.backgroundSelect = 'Student'
+    component.almostDoneForm.controls.orgType.setValue('Education')
+    component.almostDoneForm.controls.orgName.setValue('University')
+    component.almostDoneForm.controls.profession.setValue('Student')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.courseName.setValue('MBBS')
+    ;(component.almostDoneForm.controls as any).instituteName.setValue('AIIMS')
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs[0].qualification).toBe('MBBS')
+    expect(orgs[0].instituteName).toBe('AIIMS')
+  })
+
+  it('constructReq uses configSvc.userProfile when present', () => {
+    ;(mockConfigService as any).userProfile = { email: 'nurse@example.com', firstName: 'John', middleName: 'K', lastName: 'Doe' }
+    ;(mockConfigService as any).unMappedUser = { id: 'u-123' }
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'D1', dob: '1990-01-01', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Public')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    const req = component.constructReq()
+    expect(req.profileReq.personalDetails.primaryEmail).toBe('nurse@example.com')
+  })
 })

@@ -219,6 +219,27 @@ describe('LoginComponent', () => {
     })
   })
 
+  describe('ngOnInit filter callback', () => {
+    it('filters channel_how_to from links when isXSmall is false', () => {
+      component = createComponent()
+      component.ngOnInit()
+      dataSubject.next({
+        pageData: {
+          data: {
+            navigationBar: {
+              links: [
+                { widgetData: { actionBtnId: 'home', config: {} } },
+                { widgetData: { actionBtnId: 'channel_how_to', config: {} } },
+              ],
+            },
+          },
+        },
+      })
+      expect(component.links).toHaveLength(1)
+      expect(component.links[0].widgetData.actionBtnId).toBe('home')
+    })
+  })
+
   describe('getNavLinks', () => {
     beforeEach(() => {
       component = createComponent()

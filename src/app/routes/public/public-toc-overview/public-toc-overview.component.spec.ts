@@ -107,4 +107,14 @@ describe('PublicTocOverviewComponent', () => {
     component.ngOnDestroy()
     expect(spy).toHaveBeenCalled()
   })
+
+  it('getLicenseConfig error callback calls getLicenseConfig again on 404', () => {
+    const { HttpErrorResponse } = require('@angular/common/http')
+    mockWidgetContentSvc.fetchConfig = jest.fn()
+      .mockReturnValueOnce(throwError(() => new HttpErrorResponse({ status: 404 })))
+      .mockReturnValue(of(licenseData))
+    component.getLicenseConfig()
+    expect(mockWidgetContentSvc.fetchConfig).toHaveBeenCalledTimes(2)
+    expect(mockCdr.markForCheck).toHaveBeenCalled()
+  })
 })

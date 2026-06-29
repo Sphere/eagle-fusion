@@ -274,6 +274,14 @@ describe('DowntimeConfigService', () => {
     })
   })
 
+  it('refreshDowntimeConfig error callback is called when fetchDowntimeConfig itself errors', () => {
+    const { throwError } = require('rxjs')
+    // catchError inside fetchDowntimeConfig swallows http errors, so spy on the private method directly
+    jest.spyOn(service as any, 'fetchDowntimeConfig').mockReturnValue(throwError(() => new Error('Network fail')))
+    service['currentConfig'] = { refreshInterval: 5, isEnabled: true, type: 'full', content: {} } as any
+    expect(() => (service as any).refreshDowntimeConfig()).not.toThrow()
+  })
+
   it('refreshDowntimeConfig error callback reschedules when currentConfig has refreshInterval', (done) => {
     const { throwError } = require('rxjs')
     const successConfig = {

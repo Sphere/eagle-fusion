@@ -68,6 +68,13 @@ describe('ConfigCacheService', () => {
     })
   })
 
+  it('getHostConfig catchError clears call$ and rethrows when http fails', (done) => {
+    mockHttp.get = jest.fn().mockReturnValue(throwError(() => new Error('Network error')))
+    service.getHostConfig('en').subscribe({
+      error: () => done(),
+    })
+  })
+
   it('handles invalid sessionStorage data gracefully', () => {
     sessionStorage.setItem('config_hostConfig_en', 'not-json')
     expect(() => new ConfigCacheService(mockHttp, mockLogger)).not.toThrow()

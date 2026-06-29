@@ -1,6 +1,6 @@
 jest.mock('@angular/core', () => {
   const actual = jest.requireActual('@angular/core')
-  return { ...actual, effect: jest.fn() }
+  return { ...actual, effect: jest.fn((cb: any) => cb()) }
 })
 
 import { AppPublicNavBarComponent } from './app-public-nav-bar.component'
