@@ -7,6 +7,8 @@ import { SignupService } from '../signup/signup.service'
 import { WebCourseCardComponent } from './web-course-card.component'
 import { Title } from '@angular/platform-browser'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
+import { TranslateModule } from '@ngx-translate/core'
 
 describe('WebCourseCardComponent', () => {
   let component: WebCourseCardComponent
@@ -20,6 +22,7 @@ describe('WebCourseCardComponent', () => {
     const routerSpy = {
       navigateByUrl: jest.fn(),
       navigate: jest.fn(),
+      url: '/home',
     }
     Object.defineProperty(window, 'localStorage', {
       value: {
@@ -50,13 +53,15 @@ describe('WebCourseCardComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [WebCourseCardComponent],
-      imports: [MatProgressBarModule /* other modules */],
+      imports: [MatProgressBarModule, TranslateModule.forRoot()],
       providers: [
         { provide: Router, useValue: routerSpy },
         { provide: ConfigurationsService, useValue: configSvcSpy },
         { provide: UserProfileService, useValue: userProfileSvcSpy },
         { provide: SignupService, useValue: signUpSvcSpy },
         { provide: Title, useValue: titleServiceSpy },
+        { provide: TelemetryService, useValue: { log: jest.fn(), interact: jest.fn() } },
+        { provide: LoggerService, useValue: { log: jest.fn(), warn: jest.fn(), error: jest.fn() } },
       ],
     }).compileComponents()
 
@@ -112,9 +117,8 @@ describe('WebCourseCardComponent', () => {
     const data = { name: 'Test Course', identifier: 'course123' }
     component.login(data)
     expect(titleService.setTitle).toHaveBeenCalledWith('Test Course - Aastrika')
-    expect(router.navigate).toHaveBeenCalledWith(['/public/toc/overview'], {
+    expect(router.navigate).toHaveBeenCalledWith(['/public/toc/overview', 'course123', 'test-course'], {
       state: { tocData: data },
-      queryParams: { courseId: 'course123' },
     })
   })
 
@@ -129,7 +133,7 @@ describe('WebCourseCardComponent', () => {
   it('should call login in redirectPage if user is not logged in', () => {
     component.isLoggedIn = false
     const course = { identifier: 'course123' }
-    jest.spyOn(component, 'login')
+    jest.spyOn(component, 'login').mockImplementation(() => {})
     component.redirectPage(course)
     expect(component.login).toHaveBeenCalledWith(course)
   })
@@ -155,6 +159,7 @@ describe('WebCourseCardComponent', () => {
         sourceName: true,
         rating: true,
         cnePoints: true,
+        cneName: true,
       },
     })
   })

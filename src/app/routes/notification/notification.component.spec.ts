@@ -64,7 +64,8 @@ describe('NotificationsComponent', () => {
       mockConfigSvc,
       mockValueSvc,
       mockDialogRef as MatDialogRef<any>,
-      mockCdr as ChangeDetectorRef
+      mockCdr as ChangeDetectorRef,
+      { log: jest.fn() } as any
     )
     component.socket = mockSocket as unknown as Socket
     component.user_id = 'user123' // Initialize user_id here

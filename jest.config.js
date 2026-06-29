@@ -8,14 +8,16 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'], // Ensure this path is correct
   transform: {
-    '^.+\\.ts$': ['ts-jest', {
-      tsconfig: 'tsconfig.spec.json',
-      isolatedModules: true,
-      useESM: true,
-    }],
+    '^.+\\.(ts|js|mjs|html|svg)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.html$',
+      },
+    ],
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!flat)/',
+    'node_modules/(?!(.*\\.mjs$|uuid|keycloak-js|keycloak-angular))',
   ],
   testEnvironmentOptions: {
     url: "http://localhost",
@@ -39,8 +41,11 @@ module.exports = {
     'library/.*\\.spec\\.ts$', // Exclude spec files in library folder
   ],
   moduleDirectories: ['node_modules', 'src'],
+  modulePaths: ['<rootDir>'],
   moduleNameMapper: {
-    '^@ws-widget/utils$': '<rootDir>/library/ws-widget/utils/src/lib/services/configurations.service.ts',
+    '^src/(.*)$': '<rootDir>/src/$1',
+    '^@ionic/angular$': '<rootDir>/__mocks__/ionic-angular.ts',
+    '^@ws-widget/utils$': '<rootDir>/library/ws-widget/utils/src/public-api.ts',
     '^@ws-widget/collection$': '<rootDir>/library/ws-widget/collection/src/public-api.ts',
     '^@ws-widget/resolver$': '<rootDir>/library/ws-widget/resolver/src/public-api.ts',
     '^@ws-widget/utils/src/lib/services/configurations.service$': '<rootDir>/library/ws-widget/utils/src/lib/services/configurations.service.ts',

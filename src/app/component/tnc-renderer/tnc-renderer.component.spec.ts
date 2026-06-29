@@ -42,20 +42,20 @@ describe('TncRendererComponent', () => {
 
   it('should emit the selected locale when changeTncLang is called', () => {
     const locale = 'en'
-    spyOn(component.tncChange, 'emit')
+    jest.spyOn(component.tncChange, 'emit')
     component.changeTncLang(locale)
     expect(component.tncChange.emit).toHaveBeenCalledWith(locale)
   })
 
   it('should emit the selected locale when changeDpLang is called', () => {
     const locale = 'en'
-    spyOn(component.dpChange, 'emit')
+    jest.spyOn(component.dpChange, 'emit')
     component.changeDpLang(locale)
     expect(component.dpChange.emit).toHaveBeenCalledWith(locale)
   })
 
   it('should emit an event when backBtnClick is called', () => {
-    spyOn(component.backBtn, 'emit')
+    jest.spyOn(component.backBtn, 'emit')
     component.backBtnClick()
     expect(component.backBtn.emit).toHaveBeenCalled()
   })

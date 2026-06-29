@@ -5,19 +5,32 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatInputModule } from '@angular/material/input'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
+import { TranslateModule } from '@ngx-translate/core'
 import { RouterTestingModule } from '@angular/router/testing'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { HttpClient } from '@angular/common/http'
 import { UserAgentResolverService } from '../../services/user-agent.service'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 const mockConfigService: Partial<ConfigurationsService> = {}
-const mockUserProfileService: Partial<UserProfileService> = {}
+const mockUserProfileService: Partial<UserProfileService> = {
+  updateProfileDetails: jest.fn().mockReturnValue({ subscribe: jest.fn() }),
+}
 const mockRouterService: Partial<Router> = {}
 const mockActivatedRouteService: Partial<ActivatedRoute> = {}
-const mockHttpService: Partial<HttpClient> = {}
-const mockUserAgentService: Partial<UserAgentResolverService> = {}
-const mockSignupService: Partial<SignupService> = {}
+const mockHttpService: Partial<HttpClient> = {
+  get: jest.fn().mockReturnValue({ subscribe: jest.fn() }),
+} as any
+const mockUserAgentService: Partial<UserAgentResolverService> = {
+  getUserAgent: jest.fn().mockReturnValue(''),
+  generateCookie: jest.fn().mockReturnValue(''),
+}
+const mockSignupService: Partial<SignupService> = {
+  fetchStartUpDetails: jest.fn().mockResolvedValue({}),
+}
+const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+const mockTranslate = { get: jest.fn(), instant: jest.fn(), use: jest.fn() }
 
 const mockFormBuilder: Partial<FormBuilder> = {
   group: jest.fn(),
@@ -33,20 +46,20 @@ describe('PublicLoginComponent', () => {
     component = new AlmostDoneComponent(
       mockConfigService as ConfigurationsService,
       mockUserProfileService as UserProfileService,
-      // mockRouterService as Router,
       mockMatSnackBar as MatSnackBar,
       mockFormBuilder as FormBuilder,
       mockActivatedRouteService as ActivatedRoute,
       mockHttpService as HttpClient,
       mockUserAgentService as UserAgentResolverService,
       mockSignupService as SignupService,
-
+      mockLogger as any,
+      mockTranslate as any,
     )
   })
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AlmostDoneComponent],
-      imports: [RouterModule, MatInputModule, MatSnackBarModule, ReactiveFormsModule, RouterTestingModule],
+      imports: [RouterModule, MatInputModule, MatSnackBarModule, ReactiveFormsModule, RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         FormBuilder,
         { provide: ConfigurationsService, useValue: mockConfigService },
@@ -57,6 +70,7 @@ describe('PublicLoginComponent', () => {
         { provide: UserAgentResolverService, useValue: mockUserAgentService },
         { provide: SignupService, useValue: mockSignupService },
         { provide: MatSnackBar, useValue: jest.fn() },
+        { provide: LoggerService, useValue: mockLogger },
       ],
     })
       .compileComponents()
@@ -64,6 +78,7 @@ describe('PublicLoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AlmostDoneComponent)
     component = fixture.componentInstance
+    component.yourBackground = { value: { country: '', state: '', distict: '', dob: '', countryCode: '' } }
     fixture.detectChanges()
   })
   beforeEach(() => {
@@ -97,7 +112,7 @@ describe('PublicLoginComponent', () => {
   })
 
   it('should call redirectToParent.emit() on redirectToYourBackground()', () => {
-    spyOn(component.redirectToParent, 'emit')
+    jest.spyOn(component.redirectToParent, 'emit')
     component.redirectToYourBackground()
     expect(component.redirectToParent.emit).toHaveBeenCalledWith('true')
   })
@@ -107,7 +122,7 @@ describe('PublicLoginComponent', () => {
     component.backgroundSelect = 'Background'
     component.almostDoneForm.controls.professSelected.setValue('ASHA')
     component.almostDoneForm.controls.locationselect.setValue('Location')
-    spyOn(component, 'updateProfile')
+    jest.spyOn(component, 'updateProfile')
 
     component.onsubmit()
 
@@ -118,7 +133,7 @@ describe('PublicLoginComponent', () => {
     component.profession = 'Profession'
     component.createUserForm.controls.designation.setValue('Designation')
     component.almostDoneForm.controls.profession.setValue('Profession')
-    spyOn(component.almostDoneForm.controls.professionOtherSpecify, 'clearValidators')
+    jest.spyOn(component.almostDoneForm.controls.professionOtherSpecify, 'clearValidators')
 
     component.professionSelect('New Profession')
 
@@ -131,7 +146,7 @@ describe('PublicLoginComponent', () => {
 
   it('should update orgType and enableSubmit on orgTypeSelect()', () => {
     component.almostDoneForm.controls.orgType.setValue('OrgType')
-    spyOn(component.almostDoneForm.controls.orgOtherSpecify, 'clearValidators')
+    jest.spyOn(component.almostDoneForm.controls.orgOtherSpecify, 'clearValidators')
 
     component.orgTypeSelect('New OrgType')
 

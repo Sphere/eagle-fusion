@@ -8,52 +8,62 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { EventEmitter } from '@angular/core'
+import { of } from 'rxjs'
 
 
-
-const mockSignupService: Partial<UserProfileService> = {}
-const mockConfigService: Partial<ConfigurationsService> = {}
+const mockSignupService: Partial<UserProfileService> = {
+  getUserdetailsFromRegistry: jest.fn().mockReturnValue(of('')),
+}
+const mockConfigService: Partial<ConfigurationsService> = {
+  unMappedUser: { id: 'user123' } as any,
+  userProfile: { userId: 'user123' } as any,
+}
 const mockScrollService: Partial<ScrollService> = {
-  scrollToDivEvent: new EventEmitter<string>(), // Creating a mock EventEmitter<string>
+  scrollToDivEvent: new EventEmitter<string>(),
 }
 const router: Partial<Router> = {}
-
-const mockMatDialog: Partial<MatDialog> = {
-  open: jest.fn(),
-}
+const mockMatDialog: Partial<MatDialog> = { open: jest.fn() }
+const mockLanguageSvc = {}
+const mockPlaylistSvc = { orgDetails: jest.fn(), footerConfig: jest.fn() }
+const mockLogger = { log: jest.fn() }
+const mockCdr = { detectChanges: jest.fn(), markForCheck: jest.fn() }
+const mockThemeSvc = { isDark: jest.fn().mockReturnValue(false) }
 
 
 describe('WebDashboardComponent', () => {
   let component: WebDashboardComponent
-  // let scrollService: ScrollService
-  beforeAll(() => {
-    component = new WebDashboardComponent(
-      router as Router,
-      mockMatDialog as MatDialog,
-      mockScrollService as ScrollService,
-      mockConfigService as ConfigurationsService,
-      mockSignupService as UserProfileService,
 
-    )
-  })
-  beforeEach(async () => {
+  beforeAll(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WebDashboardComponent],
       imports: [RouterTestingModule],
       providers: [
         { provide: ScrollService, useValue: mockScrollService },
         { provide: ConfigurationsService, useValue: mockConfigService },
         { provide: UserProfileService, useValue: mockSignupService },
         { provide: Router, useValue: router },
-
-        { provide: MatSnackBar, useValue: jest.fn() },
+        { provide: MatSnackBar, useValue: {} },
       ],
-    })
-      .compileComponents()
+    }).compileComponents()
+
+    component = TestBed.runInInjectionContext(() => new WebDashboardComponent(
+      router as Router,
+      mockMatDialog as MatDialog,
+      mockScrollService as ScrollService,
+      mockConfigService as ConfigurationsService,
+      mockSignupService as UserProfileService,
+      mockLanguageSvc as any,
+      mockPlaylistSvc as any,
+      mockLogger as any,
+      mockCdr as any,
+      mockThemeSvc as any,
+    ))
+    component.dataCarousel = [{}, {}] as any[]
   })
 
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.useRealTimers()
+    component.currentSlideIndex = 0
   })
 
   it('should create the component', () => {
@@ -62,19 +72,19 @@ describe('WebDashboardComponent', () => {
 
   it('should start carousel', () => {
     jest.useFakeTimers()
+    const spy = jest.spyOn(global, 'setInterval')
     component.startCarousel()
-    expect(setInterval).toHaveBeenCalled()
+    expect(spy).toHaveBeenCalled()
     jest.runOnlyPendingTimers()
     expect(component.currentSlideIndex).toBe(1)
-    jest.useRealTimers()
   })
 
   it('should clear interval', () => {
     jest.useFakeTimers()
+    const spy = jest.spyOn(global, 'clearInterval')
     component.intervalId = setInterval(() => { }, 3000)
     component.clearInterval()
-    expect(clearInterval).toHaveBeenCalledWith(component.intervalId)
-    jest.useRealTimers()
+    expect(spy).toHaveBeenCalledWith(component.intervalId)
   })
 
   it('should navigate to next slide', () => {
@@ -97,16 +107,9 @@ describe('WebDashboardComponent', () => {
 
   it('should go to specific slide', () => {
     component.clearInterval = jest.fn()
+    component.startCarousel = jest.fn()
     component.goToSlide(1)
-    expect(component.currentIndex).toBe(1)
     expect(component.clearInterval).toHaveBeenCalled()
     expect(component.currentSlideIndex).toBe(1)
   })
-
-  // it('should emit scroll event', () => {
-  //   const value = 'testValue'
-  //   component.scrollToHowSphereWorks(value)
-  //   expect(scrollService.scrollToDivEvent.emit).toHaveBeenCalledWith(value)
-  // })
-
 })

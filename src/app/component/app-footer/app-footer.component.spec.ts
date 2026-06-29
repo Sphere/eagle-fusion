@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing'
 import { AppFooterComponent } from './app-footer.component'
 import { of } from 'rxjs'
 
@@ -5,8 +6,10 @@ describe('AppFooterComponent', () => {
   let component: AppFooterComponent
   let mockConfigSvc: any
   let mockValueSvc: any
-  let mockDomSanitizer: any
   let mockRouter: any
+  let mockPlaylistSvc: any
+  let mockLogger: any
+  let mockThemeSvc: any
 
   beforeEach(() => {
     mockConfigSvc = {
@@ -29,26 +32,31 @@ describe('AppFooterComponent', () => {
       isXSmall$: of(false),
       isLtMedium$: of(false),
     }
-    mockDomSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockReturnValue('safe-url'),
-    }
     mockRouter = {
       url: '/page/home',
       navigateByUrl: jest.fn(),
     }
+    mockPlaylistSvc = {
+      orgDetails: jest.fn().mockReturnValue({ appLogo: 'app-logo-url' }),
+      footerConfig: jest.fn().mockReturnValue({}),
+    }
+    mockLogger = { log: jest.fn() }
+    mockThemeSvc = { isDark: jest.fn().mockReturnValue(false) }
 
-    component = new AppFooterComponent(
+    component = TestBed.runInInjectionContext(() => new AppFooterComponent(
       mockConfigSvc,
       mockValueSvc,
-      mockDomSanitizer,
-      mockRouter
-    )
+      mockRouter,
+      mockPlaylistSvc,
+      mockLogger,
+      mockThemeSvc
+    ))
   })
 
   it('should initialize component with default values', () => {
     expect(component.isXSmall).toBe(false)
     expect(component.termsOfUser).toBe(true)
-    expect(component.appIcon).toBe('safe-url')
+    expect(component.appIcon).toBe('app-logo-url')
     expect(component.isMedium).toBe(false)
     expect(component.currentYear).toBe(new Date().getFullYear())
     expect(component.isLoggedIn).toBe(true)
@@ -56,48 +64,41 @@ describe('AppFooterComponent', () => {
 
   it('should set termsOfUser to false if restricted', () => {
     mockConfigSvc.restrictedFeatures.add('termsOfUser')
-    component = new AppFooterComponent(
+    component = TestBed.runInInjectionContext(() => new AppFooterComponent(
       mockConfigSvc,
       mockValueSvc,
-      mockDomSanitizer,
-      mockRouter
-    )
+      mockRouter,
+      mockPlaylistSvc,
+      mockLogger,
+      mockThemeSvc
+    ))
     expect(component.termsOfUser).toBe(false)
   })
 
   it('should update isXSmall and isMedium based on valueSvc observables', () => {
     mockValueSvc.isXSmall$ = of(true)
     mockValueSvc.isLtMedium$ = of(true)
-    component = new AppFooterComponent(
+    component = TestBed.runInInjectionContext(() => new AppFooterComponent(
       mockConfigSvc,
       mockValueSvc,
-      mockDomSanitizer,
-      mockRouter
-    )
+      mockRouter,
+      mockPlaylistSvc,
+      mockLogger,
+      mockThemeSvc
+    ))
     component.ngOnInit()
     expect(component.isXSmall).toBe(true)
     expect(component.isMedium).toBe(true)
   })
 
-  it('should set appIcon based on instanceConfig', () => {
-    expect(mockDomSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('app-logo-url')
-    expect(component.appIcon).toBe('safe-url')
+  it('should set appIcon from playlistSvc.orgDetails', () => {
+    expect(mockPlaylistSvc.orgDetails).toHaveBeenCalled()
+    expect(component.appIcon).toBe('app-logo-url')
   })
 
   it('should set isLoggedIn based on userProfile', () => {
     expect(component.isLoggedIn).toBe(true)
   })
-
-  it('should set appIcon based on isEkshamata input in ngOnInit', () => {
-    component.isEkshamata = true
-    component.ngOnInit()
-    expect(component.appIcon).toBe('/fusion-assets/images/aastrika-foundation-logo.svg')
-
-    component.isEkshamata = false
-    component.ngOnInit()
-    expect(component.appIcon).toBe('/fusion-assets/images/sphere-new-logo.svg')
-  })
-
 
   it('should redirect to the correct route based on text', async () => {
     await component.redirect('home')

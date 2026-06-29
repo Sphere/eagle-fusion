@@ -17,11 +17,13 @@ import { MatIconModule } from '@angular/material/icon'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { UserAgentResolverService } from '../../../services/user-agent.service'
 import { HttpClient } from '@angular/common/http'
-// import { of } from 'rxjs'
+import { of } from 'rxjs'
 
 const mockProfileService: Partial<UserProfileService> = {}
 const mockConfigService: Partial<ConfigurationsService> = {}
-const mockValueService: Partial<ValueService> = {}
+const mockValueService: Partial<ValueService> = {
+  isXSmall$: of(false),
+}
 const mockWidgetService: Partial<WidgetContentService> = {}
 const mockUserAgentService: Partial<UserAgentResolverService> = {}
 const mockHttpService: Partial<HttpClient> = {}

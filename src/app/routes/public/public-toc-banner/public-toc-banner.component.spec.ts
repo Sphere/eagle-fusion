@@ -6,8 +6,9 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 import { HttpClient } from '@angular/common/http'
 import { Router } from '@angular/router'
 import { of } from 'rxjs'
+import { TranslateModule } from '@ngx-translate/core'
 import { Pipe, PipeTransform } from '@angular/core'
-@Pipe({ name: 'pipeDurationTransform' })
+@Pipe({ name: 'pipeDurationTransform', standalone: false })
 class MockPipeDurationTransform implements PipeTransform {
   transform(value: any): any {
     return value
@@ -23,8 +24,8 @@ describe('PublicTocBannerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PublicTocBannerComponent, MockPipeDurationTransform],
-      imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [SignupService],
+      imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
+      providers: [{ provide: SignupService, useValue: { keyClockLogin: jest.fn() } }],
     }).compileComponents()
   })
 
@@ -34,7 +35,7 @@ describe('PublicTocBannerComponent', () => {
     httpClient = TestBed.inject(HttpClient)
     signUpService = TestBed.inject(SignupService)
     router = TestBed.inject(Router)
-    spyOn(httpClient, 'get').and.returnValue(of({}))
+    jest.spyOn(httpClient, 'get').mockReturnValue(of({}) as any)
     fixture.detectChanges()
   })
 
@@ -61,13 +62,13 @@ describe('PublicTocBannerComponent', () => {
   })
 
   it('should call signUpSvc keyClockLogin method on login', () => {
-    const signUpSvcSpy = spyOn(signUpService, 'keyClockLogin')
+    const signUpSvcSpy = jest.spyOn(signUpService, 'keyClockLogin').mockImplementation(() => {})
     component.login()
     expect(signUpSvcSpy).toHaveBeenCalled()
   })
 
   it('should navigate to create account page', () => {
-    const routerSpy = spyOn(router, 'navigateByUrl')
+    const routerSpy = jest.spyOn(router, 'navigateByUrl').mockImplementation(() => Promise.resolve(true))
     component.createAcct()
     expect(routerSpy).toHaveBeenCalledWith('app/create-account')
   })

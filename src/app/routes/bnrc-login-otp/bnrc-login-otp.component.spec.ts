@@ -42,7 +42,7 @@ describe('BnrcLoginOtpComponent', () => {
 
   it('should open snackbar when calling openSnackbar method', () => {
     const snackBar = TestBed.inject(MatSnackBar)
-    spyOn(snackBar, 'open')
+    jest.spyOn(snackBar, 'open')
 
     component.openSnackbar('Test message')
 
@@ -53,7 +53,7 @@ describe('BnrcLoginOtpComponent', () => {
 
   // loginVerifyOtp successfully validates OTP and emits event on success
   it('should emit event and show success message when OTP is validated successfully', () => {
-    const mockRouter = { url: 'upsmf/register' }
+    const mockRouter = { url: 'uttarpradesh/register' }
     const mockFormBuilder = new FormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
@@ -63,7 +63,7 @@ describe('BnrcLoginOtpComponent', () => {
       bnrcValidateOtp: jest.fn(),
     }
     const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
-    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any)
+    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
     component.loginData = { value: { phone: '1234567890' } }
     component.loginOtpForm.setValue({ code: '1234' })
     component.redirectToParent.emit = jest.fn()
@@ -76,7 +76,7 @@ describe('BnrcLoginOtpComponent', () => {
 
   // loginVerifyOtp handles error response and shows appropriate error message
   it('should show error message when OTP validation fails', () => {
-    const mockRouter = { url: 'upsmf/register' }
+    const mockRouter = { url: 'uttarpradesh/register' }
     const mockFormBuilder = new FormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
@@ -86,7 +86,7 @@ describe('BnrcLoginOtpComponent', () => {
       bnrcValidateOtp: jest.fn(),
     }
     const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
-    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any)
+    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
     component.loginData = { value: { phone: '1234567890' } }
     component.loginOtpForm.setValue({ code: '1234' })
 
@@ -97,7 +97,7 @@ describe('BnrcLoginOtpComponent', () => {
 
   // resendOTP successfully resends OTP and shows success message
   it('should resend OTP successfully and show success message', () => {
-    const mockRouter = { url: 'upsmf/register' }
+    const mockRouter = { url: 'uttarpradesh/register' }
     const mockFormBuilder = new FormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
@@ -107,7 +107,7 @@ describe('BnrcLoginOtpComponent', () => {
       bnrcResendOtp: jest.fn(),
     }
     const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
-    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any)
+    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
     component.loginData = { value: { phone: '1234567890' } }
     component.loginOtpForm.patchValue({ code: '1234' })
 
@@ -117,16 +117,16 @@ describe('BnrcLoginOtpComponent', () => {
   })
 
   // loginVerifyOtp uses correct validation method based on URL
-  it('should use upsmfValidateOtp method when URL includes "upsmf/register"', () => {
-    const mockRouter = { url: 'upsmf/register' }
+  it('should use upsmfValidateOtp method when URL includes "uttarpradesh/register"', () => {
+    const mockRouter = { url: 'uttarpradesh/register' }
     const mockFormBuilder = new FormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
-      upsmfValidateOtp: jest.fn(),
+      upsmfValidateOtp: jest.fn().mockReturnValue({ subscribe: jest.fn() }),
       bnrcValidateOtp: jest.fn(),
     }
     const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
-    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any)
+    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
     component.loginData = { value: { phone: '1234567890' } }
     component.loginOtpForm.setValue({ code: '1234' })
 
@@ -137,7 +137,7 @@ describe('BnrcLoginOtpComponent', () => {
 
   // loginVerifyOtp handles case when loginData is null or undefined
   it('should handle case when loginData is null or undefined', () => {
-    const mockRouter = { url: 'upsmf/register' }
+    const mockRouter = { url: 'uttarpradesh/register' }
     const mockFormBuilder = new FormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
@@ -145,7 +145,7 @@ describe('BnrcLoginOtpComponent', () => {
       bnrcValidateOtp: jest.fn(),
     }
     const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
-    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any)
+    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
     component.loginData = null
     component.loginOtpForm.setValue({ code: '1234' })
     component.redirectToParent.emit = jest.fn()
@@ -162,7 +162,7 @@ describe('BnrcLoginOtpComponent', () => {
 
   // openSnackbar handles case when primaryMsg is empty or null
   it('should handle empty primaryMsg in openSnackbar', () => {
-    const mockRouter = { url: 'upsmf/register' }
+    const mockRouter = { url: 'uttarpradesh/register' }
     const mockFormBuilder = new FormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
@@ -170,7 +170,7 @@ describe('BnrcLoginOtpComponent', () => {
       bnrcValidateOtp: jest.fn(),
     }
     const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
-    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any)
+    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
 
     component.openSnackbar('')
 
@@ -180,7 +180,7 @@ describe('BnrcLoginOtpComponent', () => {
   // loginVerifyOtp should log the current URL for debugging
   // loginVerifyOtp should handle unexpected response structures gracefully
   it('should handle unexpected response structures gracefully', () => {
-    const mockRouter = { url: 'upsmf/register' }
+    const mockRouter = { url: 'uttarpradesh/register' }
     const mockFormBuilder = new FormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
@@ -190,7 +190,7 @@ describe('BnrcLoginOtpComponent', () => {
       bnrcValidateOtp: jest.fn(),
     }
     const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
-    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any)
+    const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
     component.loginData = { value: { phone: '1234567890' } }
     component.loginOtpForm.setValue({ code: '1234' })
     component.redirectToParent.emit = jest.fn()
