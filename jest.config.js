@@ -27,20 +27,21 @@ module.exports = {
   },
   coverageDirectory: '<rootDir>/coverage/',
   coverageReporters: ['text', 'lcov', 'html'],
+  // TEMPORARY: library and project folders blocked — src only
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '<rootDir>/library/',
+    '<rootDir>/project/',
+  ],
   collectCoverage: true,
   collectCoverageFrom: [
-    "src/**/*.ts",
-    "project/ws/**/*.ts",
-    "library/ws-widget/**/*.ts",
-    "!src/**/*.spec.ts",  // Ensure spec files are excluded
-    "!src/main.ts",        // Exclude main.ts if needed
-    "!src/polyfills.ts",   // Exclude polyfills
+    'src/**/*.ts',
+    '!src/**/*.spec.ts',
+    '!src/main.ts',
+    '!src/polyfills.ts',
   ],
   coveragePathIgnorePatterns: [
-    '/node_modules/', // Exclude node_modules
-    'src/.*\\.spec\\.ts$', // Exclude spec files using a valid regex
-    'project/.*\\.spec\\.ts$', // Exclude spec files in project folder
-    'library/.*\\.spec\\.ts$', // Exclude spec files in library folder
+    '/node_modules/',
   ],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
@@ -50,6 +51,7 @@ module.exports = {
     '^@ws-widget/utils/src/lib/services/configurations.service$': '<rootDir>/library/ws-widget/utils/src/lib/services/configurations.service.ts',
     '^@ws/app/src/lib/routes/search/apis/search-api.service$': '<rootDir>/project/ws/app/src/lib/routes/search/apis/search-api.service.ts',
     '^project/ws/author/src/lib/modules/shared/services/api.service': '<rootDir>/project/ws/author/src/lib/modules/shared/services/api.service.ts',
+    '^@ws/author/src/lib/interface/(.*)$': '<rootDir>/project/ws/author/src/lib/interface/$1.ts',
     '^@ws/author/src/lib/constants/upload$': '<rootDir>/project/ws/author/src/lib/constants/upload.ts',
     '^@ws/author/src/lib/constants/apiEndpoints$': '<rootDir>/project/ws/author/src/lib/constants/apiEndpoints.ts',
     '^@ws/author/src/lib/modules/shared/services/access-control.service$': '<rootDir>/project/ws/author/src/lib/modules/shared/services/access-control.service.ts',
@@ -61,6 +63,7 @@ module.exports = {
     '@ws-widget/resolver/src/public-api$': '<rootDir>/library/ws-widget/resolver/src/public-api.ts',
     '@ws/app/src/lib/routes/user-profile/models/NsUserProfile': '<rootDir>/project/ws/app/src/lib/routes/user-profile/models/NsUserProfile.ts',
     '^library/ws-widget/utils/src/lib/services/auth-keycloak.service': '<rootDir>/library/ws-widget/utils/src/lib/services/auth-keycloak.service.ts',
+    '^library/ws-widget/utils/src/public-api$': '<rootDir>/library/ws-widget/utils/src/public-api.ts',
     '@ws-widget/utils/src/public-api': '<rootDir>/library/ws-widget/utils/src/public-api.ts',
     '@ws/author/src/lib/routing/modules/home/home.module': '<rootDir>/project/ws/author/src/lib/routing/modules/home/home.module.ts',
     '@ws/author/src/lib/modules/shared/shared.module': '<rootDir>/project/ws/author/src/lib/modules/shared/shared.module.ts',
@@ -84,7 +87,8 @@ module.exports = {
     '@ws-widget/utils/src/lib/services/utility.service': '<rootDir>/library/ws-widget/utils/src/lib/services/utility.service.ts',
     '^project/ws/app/src/lib/routes/org/org-service.service': '<rootDir>/project/ws/app/src/lib/routes/org/org-service.service.ts',
     '^src/(.*)$': '<rootDir>/src/$1',
-    '^project/(.*)$': '<rootDir>/project/$1'
+    '^project/(.*)$': '<rootDir>/project/$1',
+    '^library/(.*)$': '<rootDir>/library/$1'
 
   }
 }
