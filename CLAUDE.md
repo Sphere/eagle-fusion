@@ -117,6 +117,8 @@ All API paths are defined in `src/app/constants/apiConstants.ts`. Never hardcode
 - Use `@include breakpoint-xs`, `breakpoint-s`, `breakpoint-gt-xs` mixins for responsiveness
 - Mobile breakpoint for cards: `500px` (matches `ws-mobile-course-view`)
 - Encapsulation is `ViewEncapsulation.None` on some search components — scope styles with host selector
+- **Don't fight a global utility `!important` with a component `!important`** — global styles (`styles.scss`, utility files, Tailwind) are injected into `<head>` *after* component styles, so the global wins regardless of specificity. Remove the utility class and add a custom class without `!important`, or move spacing to the parent via `gap`.
+- **Angular Material MDC overrides:** if an MDC component (`mat-form-field`, `mat-checkbox`…) has uncontrollable height/spacing, replace it with a native HTML element instead of fighting it with `::ng-deep` / `--mdc-*` tokens / `!important`. `formControlName` and `[(ngModel)]` work identically on native elements.
 
 ### HTML Templates
 - Use `| translate` pipe for all user-visible strings (ngx-translate)
@@ -139,6 +141,16 @@ When adding shimmer/skeleton loading:
 2. Clear `content = []` at the start of every new search/fetch to allow shimmer to appear
 3. Match skeleton structure to the real card layout (image dimensions, text line widths)
 4. Use shared `shimmer-anim` keyframes — do not duplicate the animation
+
+---
+
+## Design & Styling Tasks
+When a task is "apply this design system" / "use these tokens" / "make this modern":
+1. Restyle the **existing** component(s) in place — update SCSS (colors, radius, spacing, shadows, font) and only the HTML strictly needed to apply them.
+2. Do **not** scaffold new reusable components, modules, or page sections (stats cards, activity widgets, etc.) unless explicitly asked for "a reusable X" or "extract into a shared component".
+3. If a design memo describes net-new sections, treat that as a separate feature — flag and confirm scope before building; don't bundle it into a token/style update.
+
+Principle: **enhance, don't invent.** A visual/token update restyles what exists.
 
 ---
 
@@ -173,12 +185,38 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 ---
 
 ## Testing
-- Framework: **Jest 29** with `jest-preset-angular`
-- Test files: `*.spec.ts` alongside source files
-- No mocking of real HTTP/database calls — integration style preferred
-- Run `yarn run jest-cache` if tests behave unexpectedly after dependency changes
+- Framework: **Jest** with `jest-preset-angular`. Config: `jest.config.js`, `setup-jest.ts`, `tsconfig.spec.json`.
+- Test files: `*.spec.ts` alongside source files.
+- **Ship tests with every change.** New/changed component, service, pipe, guard, or util → add/extend its `*.spec.ts` covering the new logic and touched branches, in the **same** change (not a follow-up). Don't let new code create coverage debt; keep the coverage floor satisfied and raise it as coverage climbs.
+- Conventions: `jest.spyOn`; for heavy components prefer direct instantiation with mocked deps over brittle full `TestBed` rendering; use `NO_ERRORS_SCHEMA` / `CUSTOM_ELEMENTS_SCHEMA` + `provideHttpClient` / `provideHttpClientTesting` where needed.
+- Run `yarn run jest-cache` if tests behave unexpectedly after dependency changes.
+- Always run `nvs use 20` before `yarn test` / builds (Node 20 required).
 
 ---
 
-## Current Branch
-`feature/angular-21` — active development branch (Angular 21 upgrade). Main branch is `master`.
+## Commit & Branch Conventions
+- **Conventional Commits**: `type(scope): summary` — `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `build`. Example: `fix(search): send Sunbird-compatible payload`.
+- **No AI attribution**: never add `Co-Authored-By: Claude …` or "Generated with Claude Code" to commit messages, PRs, or docs. Commits are attributed only to the author.
+- **Branches**: cut feature/fix branches from `master`; name them `feature/<short-desc>` or `fix/<short-desc>`.
+- A pre-commit hook runs `lint:fix` and a pre-push hook runs a production build. (Note: the repo-wide ESLint config currently references the removed `@typescript-eslint/ban-types` rule, so the lint hook fails until that's fixed — a known issue.)
+
+---
+
+## Release Process
+- **Release notes** live in `RELEASE_NOTES/`; start from `RELEASE_NOTES/TEMPLATE.md`. File name: `RELEASE_NOTES/release-X.Y.Z.md`.
+- **Tag**: `vX.Y.Z` (immutable marker + GitHub Release). **Build/deploy branch**: `release-X.Y.Z` (Jenkins deploy source). Branch and tag names always differ.
+- Flow: verify green (`nvs use 20` → lint + `yarn test` + `yarn run build`) → write release notes + version on a branch → PR into the trunk → cut `release-X.Y.Z` + tag `vX.Y.Z` → publish the GitHub Release from the tag (`gh release create vX.Y.Z --notes-file RELEASE_NOTES/release-X.Y.Z.md`) → manual Jenkins deploy from the **branch**.
+- Each release gets its own new `release-X.Y.Z`; never advance a previous/frozen release branch. Rollback = redeploy the previous release branch.
+- Release notes structure: header table, plain-language Summary, ✨ Features, 🐛 Fixes, 🏗️ Build/CI, 📚 Docs/Chore, ⚠️ Deploy notes & risk, ✅ Pre-deploy checklist, Release & rollback. Each bullet ends with its short commit SHA.
+
+---
+
+## Documentation
+- Project docs live in **`docs/`**; follow **[docs/DOC_STYLEGUIDE.md](docs/DOC_STYLEGUIDE.md)** for format and brand styling.
+- For substantial/shared docs, ship a Markdown source **and** a self-contained Word-compatible HTML companion (brand colors: navy `#17283C`, teal `#1E8F8E`, gold `#F0A500`). Reference example: `docs/recommendation-api-migration.{md,html}`.
+- Reference code with repo-relative links and include short SHAs when documenting commits/releases.
+
+---
+
+## Branches
+Main branch is **`master`**. Feature work happens on `feature/*` branches and merges back to `master` via PR.
