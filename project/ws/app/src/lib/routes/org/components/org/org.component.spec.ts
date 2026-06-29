@@ -24,7 +24,6 @@ const mockSeoSvc = { setMetaData: jest.fn() }
 const mockUserAgentSvc = { requestGeolocation: jest.fn() }
 const mockUserSvc = {}
 const mockOrgService = {
-  getEnroledUserForCourses: jest.fn().mockReturnValue(of([])),
   getCompetencyForCourses: jest.fn().mockReturnValue(of([])),
   fetchStartUpDetails: jest.fn().mockReturnValue(of({})),
   hideHeaderFooter: new BehaviorSubject<boolean>(false),
@@ -33,7 +32,6 @@ const mockOrgService = {
 describe('OrgComponent', () => {
   let fixture: ComponentFixture<OrgComponent>
   const orgDataSubject = new BehaviorSubject({ orgData: { data: { sources: [] } } })
-  let orgService: OrgServiceService
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
@@ -63,7 +61,6 @@ describe('OrgComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrgComponent)
-    orgService = TestBed.inject(OrgServiceService) as any
     fixture.detectChanges()
   })
 
@@ -73,17 +70,4 @@ describe('OrgComponent', () => {
     expect(fixture.componentInstance).toBeTruthy()
   }))
 
-  it('should get enrolled user data and competency data for an organisation', done => {
-    const orgName = 'Indian Nursing Council'
-
-    jest.spyOn(orgService, 'getEnroledUserForCourses').mockReturnValue(of([
-      { enrolled_users: '4866', competency_offered: '0' },
-    ]) as any)
-
-    orgService.getEnroledUserForCourses(orgName).subscribe((userEnrolled: any[]) => {
-      expect(userEnrolled[0].enrolled_users).toEqual('4866')
-      expect(userEnrolled[0].competency_offered).toEqual('0')
-      done()
-    })
-  })
 })

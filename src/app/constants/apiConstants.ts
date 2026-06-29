@@ -153,7 +153,6 @@ export const API_END_POINTS = {
   SEARCH_V7PUBLIC: `${PUBLIC_SLAG_V8}/publicSearch/getCourses`,
   Sashakt_Auth: `${PUBLIC_SLAG_V8}/sashaktAuth/login`,
   Maternity_Auth: `${PUBLIC_SLAG_V8}/maternityFoundation/login`,
-  ENROLLED_USER: `apis/protected/v8/userEnrolledInSource`,
   Tnai_Auth: `${PUBLIC_SLAG_V8}/tnai/login`,
   MNC_Auth: `${PUBLIC_SLAG_V8}/mnc/login`,
   Tnnmc_Auth: `${PUBLIC_SLAG_V8}/tnnmc/login`,
