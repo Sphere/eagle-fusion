@@ -21,7 +21,7 @@ describe('AppRetryInterceptorService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('passes through GET request and returns response', (done) => {
+  it('passes through GET request and returns response', done => {
     const req = new HttpRequest('GET', '/api/data')
     service.intercept(req, mockHandler).subscribe(event => {
       if (event instanceof HttpResponse) {
@@ -31,7 +31,7 @@ describe('AppRetryInterceptorService', () => {
     })
   })
 
-  it('skips retry for requests with excludeRetry=true in body', (done) => {
+  it('skips retry for requests with excludeRetry=true in body', done => {
     const req = new HttpRequest('POST', '/api/data', { excludeRetry: true })
     service.intercept(req, mockHandler).subscribe(() => {
       expect(mockHandler.handle).toHaveBeenCalledTimes(1)
@@ -39,7 +39,7 @@ describe('AppRetryInterceptorService', () => {
     })
   })
 
-  it('calls handler once on first successful request', (done) => {
+  it('calls handler once on first successful request', done => {
     const req = new HttpRequest('GET', '/api/endpoint')
     service.intercept(req, mockHandler).subscribe(() => {
       expect(mockHandler.handle).toHaveBeenCalledTimes(1)
@@ -47,7 +47,7 @@ describe('AppRetryInterceptorService', () => {
     })
   })
 
-  it('should throw error for 4xx without retrying', (done) => {
+  it('should throw error for 4xx without retrying', done => {
     const { throwError } = require('rxjs')
     const { HttpErrorResponse } = require('@angular/common/http')
     mockHandler.handle = jest.fn().mockReturnValue(throwError(new HttpErrorResponse({ status: 400 })))

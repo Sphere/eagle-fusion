@@ -72,14 +72,14 @@ describe('DowntimeConfigService', () => {
     expect(service.isBypassed()).toBe(false)
   })
 
-  it('initializeDowntimeConfig fetches and updates state', (done) => {
+  it('initializeDowntimeConfig fetches and updates state', done => {
     service.initializeDowntimeConfig().subscribe(state => {
       expect(state.isDowntime).toBe(false)
       done()
     })
   })
 
-  it('initializeDowntimeConfig handles API error gracefully', (done) => {
+  it('initializeDowntimeConfig handles API error gracefully', done => {
     mockHttp.post.mockReturnValue(of({ result: null }))
     const svc2 = new DowntimeConfigService(mockNgZone, mockHttp, mockConfigSvc)
     svc2.initializeDowntimeConfig().subscribe(state => {
@@ -89,7 +89,7 @@ describe('DowntimeConfigService', () => {
     svc2.ngOnDestroy()
   })
 
-  it('getDowntimeState returns an observable', (done) => {
+  it('getDowntimeState returns an observable', done => {
     service.getDowntimeState().subscribe(state => {
       expect(state).toBeDefined()
       done()
@@ -118,7 +118,7 @@ describe('DowntimeConfigService', () => {
     expect(service.isBypassed()).toBe(false)
   })
 
-  it('initializeDowntimeConfig returns downtime state with isDowntime true when config is enabled', (done) => {
+  it('initializeDowntimeConfig returns downtime state with isDowntime true when config is enabled', done => {
     const fullConfig = {
       result: {
         form: {
@@ -147,7 +147,7 @@ describe('DowntimeConfigService', () => {
     })
   })
 
-  it('initializeDowntimeConfig returns partial downtime when type is partial', (done) => {
+  it('initializeDowntimeConfig returns partial downtime when type is partial', done => {
     const config = {
       result: {
         form: {
@@ -175,7 +175,7 @@ describe('DowntimeConfigService', () => {
     })
   })
 
-  it('initializeDowntimeConfig returns false when isEnabled is false', (done) => {
+  it('initializeDowntimeConfig returns false when isEnabled is false', done => {
     const config = {
       result: {
         form: {
@@ -203,7 +203,7 @@ describe('DowntimeConfigService', () => {
     })
   })
 
-  it('initializeDowntimeConfig returns false when DOWN_TIME_INFO.WEB is missing', (done) => {
+  it('initializeDowntimeConfig returns false when DOWN_TIME_INFO.WEB is missing', done => {
     const config = {
       result: {
         form: {
@@ -224,7 +224,7 @@ describe('DowntimeConfigService', () => {
     expect(service.themeConfig()).toBe('')
   })
 
-  it('themeConfig computed returns THEME_CONFIG_WEB after data loads', (done) => {
+  it('themeConfig computed returns THEME_CONFIG_WEB after data loads', done => {
     const config = {
       result: {
         form: {
@@ -241,7 +241,7 @@ describe('DowntimeConfigService', () => {
     })
   })
 
-  it('fetchDowntimeConfig catchError returns default state on http error', (done) => {
+  it('fetchDowntimeConfig catchError returns default state on http error', done => {
     const { throwError } = require('rxjs')
     mockHttp.post.mockReturnValue(throwError(() => new Error('Network error')))
     service.initializeDowntimeConfig().subscribe(state => {
@@ -250,7 +250,7 @@ describe('DowntimeConfigService', () => {
     })
   })
 
-  it('setInterval callback triggers refreshDowntimeConfig when timer fires', (done) => {
+  it('setInterval callback triggers refreshDowntimeConfig when timer fires', done => {
     const intervalConfig = {
       result: {
         form: {
@@ -282,7 +282,7 @@ describe('DowntimeConfigService', () => {
     expect(() => (service as any).refreshDowntimeConfig()).not.toThrow()
   })
 
-  it('refreshDowntimeConfig error callback reschedules when currentConfig has refreshInterval', (done) => {
+  it('refreshDowntimeConfig error callback reschedules when currentConfig has refreshInterval', done => {
     const { throwError } = require('rxjs')
     const successConfig = {
       result: {
@@ -307,7 +307,7 @@ describe('DowntimeConfigService', () => {
     })
   })
 
-  it('initializeDowntimeConfig schedules auto-refresh when refreshTimer > 0', (done) => {
+  it('initializeDowntimeConfig schedules auto-refresh when refreshTimer > 0', done => {
     const config = {
       result: {
         form: {

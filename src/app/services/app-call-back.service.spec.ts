@@ -30,7 +30,7 @@ describe('AppCallBackService', () => {
     )
   })
 
-  it('webviewCookieSet returns an observable', (done) => {
+  it('webviewCookieSet returns an observable', done => {
     service.webviewCookieSet('test-token').subscribe(res => {
       expect(res).toEqual({ success: true })
       done()

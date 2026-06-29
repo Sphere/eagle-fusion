@@ -28,7 +28,7 @@ describe('CertificateService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('validateCertificate calls apiService.post with VALIDATE_CERTIFICATE endpoint', (done) => {
+  it('validateCertificate calls apiService.post with VALIDATE_CERTIFICATE endpoint', done => {
     const certData = { certId: 'cert-123', userId: 'user-1' }
     service.validateCertificate(certData).subscribe(() => {
       expect(mockApiSvc.post).toHaveBeenCalledWith('/apis/validate-certificate', certData)
@@ -36,7 +36,7 @@ describe('CertificateService', () => {
     })
   })
 
-  it('validateCertificate returns the observable from apiService.post', (done) => {
+  it('validateCertificate returns the observable from apiService.post', done => {
     mockApiSvc.post.mockReturnValue(of({ responseCode: 'OK', result: { isValid: true } }))
     service.validateCertificate({}).subscribe(res => {
       expect((res as any).responseCode).toBe('OK')

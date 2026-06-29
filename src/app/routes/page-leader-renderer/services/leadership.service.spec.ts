@@ -37,35 +37,35 @@ describe('LeadershipService', () => {
     expect(service.randomId).toBe(1)
   })
 
-  it('shareTextMail calls http.post with EMAIL_TEXT endpoint', (done) => {
+  it('shareTextMail calls http.post with EMAIL_TEXT endpoint', done => {
     service.shareTextMail({ subject: 'Hello', body: 'World', to: [] } as any).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/apis/email-text', expect.any(Object))
       done()
     })
   })
 
-  it('emailToUserId calls http.get with full email URL', (done) => {
+  it('emailToUserId calls http.get with full email URL', done => {
     service.emailToUserId('user@example.com').subscribe(() => {
       expect(mockHttp.get).toHaveBeenCalledWith('/apis/email-to-userid/user@example.com')
       done()
     })
   })
 
-  it('fetchUserFollow calls http.post with userId in body', (done) => {
+  it('fetchUserFollow calls http.post with userId in body', done => {
     service.fetchUserFollow('user-123').subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/apis/user-follow-data', { userid: 'user-123' })
       done()
     })
   })
 
-  it('followUser calls http.post with USER_FOLLOW endpoint', (done) => {
+  it('followUser calls http.post with USER_FOLLOW endpoint', done => {
     service.followUser({ followId: 'u-2' }).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/apis/user-follow', { followId: 'u-2' })
       done()
     })
   })
 
-  it('unFollowUser calls http.post with USER_UNFOLLOW endpoint', (done) => {
+  it('unFollowUser calls http.post with USER_UNFOLLOW endpoint', done => {
     service.unFollowUser({ followId: 'u-2' }).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/apis/user-unfollow', { followId: 'u-2' })
       done()

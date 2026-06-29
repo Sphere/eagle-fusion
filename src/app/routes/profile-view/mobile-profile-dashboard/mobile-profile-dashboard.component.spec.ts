@@ -733,7 +733,7 @@ describe('MobileProfileDashboardComponent', () => {
   })
 
   describe('processCertiFicate', () => {
-    it('should return from([true]) when certificateIdArray is empty', (done) => {
+    it('should return from([true]) when certificateIdArray is empty', done => {
       const data = { generalCertificates: [], sunbirdRcCertificates: [] }
       component.processCertiFicate(data).subscribe({
         next: (v: any) => { expect(v).toBe(true); done() },

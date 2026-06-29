@@ -21,7 +21,7 @@ describe('PrerenderHttpInterceptor (browser)', () => {
     expect(interceptor).toBeTruthy()
   })
 
-  it('passes all requests through unchanged in browser mode', (done) => {
+  it('passes all requests through unchanged in browser mode', done => {
     const req = new HttpRequest('GET', '/apis/public/v8/data')
     interceptor.intercept(req, mockHandler).subscribe(() => {
       expect(mockHandler.handle).toHaveBeenCalledWith(req)
@@ -29,7 +29,7 @@ describe('PrerenderHttpInterceptor (browser)', () => {
     })
   })
 
-  it('passes non-public requests through in browser mode', (done) => {
+  it('passes non-public requests through in browser mode', done => {
     const req = new HttpRequest('GET', '/apis/protected/v8/data')
     interceptor.intercept(req, mockHandler).subscribe(() => {
       expect(mockHandler.handle).toHaveBeenCalledWith(req)
@@ -53,7 +53,7 @@ describe('PrerenderHttpInterceptor (SSR)', () => {
     jest.clearAllMocks()
   })
 
-  it('rewrites public API URL with absolute base in SSR mode', (done) => {
+  it('rewrites public API URL with absolute base in SSR mode', done => {
     const req = new HttpRequest('GET', '/apis/public/v8/toc/content')
     interceptor.intercept(req, mockHandler).subscribe(() => {
       const calledReq = mockHandler.handle.mock.calls[0][0] as HttpRequest<any>
@@ -62,7 +62,7 @@ describe('PrerenderHttpInterceptor (SSR)', () => {
     })
   })
 
-  it('returns empty 200 response for non-public URLs in SSR mode', (done) => {
+  it('returns empty 200 response for non-public URLs in SSR mode', done => {
     const req = new HttpRequest('GET', '/apis/protected/v8/data')
     interceptor.intercept(req, mockHandler).subscribe((event: any) => {
       expect(mockHandler.handle).not.toHaveBeenCalled()
@@ -72,7 +72,7 @@ describe('PrerenderHttpInterceptor (SSR)', () => {
     })
   })
 
-  it('returns empty 200 response for relative asset paths in SSR mode', (done) => {
+  it('returns empty 200 response for relative asset paths in SSR mode', done => {
     const req = new HttpRequest('GET', '/fusion-assets/files/apps.json')
     interceptor.intercept(req, mockHandler).subscribe((event: any) => {
       expect(mockHandler.handle).not.toHaveBeenCalled()
@@ -81,7 +81,7 @@ describe('PrerenderHttpInterceptor (SSR)', () => {
     })
   })
 
-  it('preserves the original URL in the empty response for SSR non-public requests', (done) => {
+  it('preserves the original URL in the empty response for SSR non-public requests', done => {
     const req = new HttpRequest('GET', '/some/other/path')
     interceptor.intercept(req, mockHandler).subscribe((event: any) => {
       expect(event.url).toBe('/some/other/path')

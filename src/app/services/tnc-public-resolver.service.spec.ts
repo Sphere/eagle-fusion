@@ -63,7 +63,7 @@ describe('TncPublicResolverService', () => {
     expect(mockHttp.get).toHaveBeenCalledWith('/fusion-assets/files/tnc.config.hi.json')
   })
 
-  it('resolve returns wrapped data on success', (done) => {
+  it('resolve returns wrapped data on success', done => {
     service.resolve().subscribe(res => {
       expect((res as any).data).toBeDefined()
       expect((res as any).error).toBeNull()
@@ -71,7 +71,7 @@ describe('TncPublicResolverService', () => {
     })
   })
 
-  it('resolve wraps error on failure', (done) => {
+  it('resolve wraps error on failure', done => {
     mockHttp.get.mockReturnValue(throwError(() => new Error('fail')))
     service.resolve().subscribe(res => {
       expect((res as any).data).toBeNull()
@@ -79,28 +79,28 @@ describe('TncPublicResolverService', () => {
     })
   })
 
-  it('signup calls http.post with USER_SIGNUP_NEW endpoint', (done) => {
+  it('signup calls http.post with USER_SIGNUP_NEW endpoint', done => {
     service.signup({ email: 'test@test.com' }).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/apis/signup', expect.any(Object))
       done()
     })
   })
 
-  it('registerWithMobile calls http.post', (done) => {
+  it('registerWithMobile calls http.post', done => {
     service.registerWithMobile({ mobile: '9999999999' }).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/apis/register-mobile', expect.any(Object))
       done()
     })
   })
 
-  it('assignAdminToDepartment calls http.post with ASSIGN_ADMIN endpoint', (done) => {
+  it('assignAdminToDepartment calls http.post with ASSIGN_ADMIN endpoint', done => {
     service.assignAdminToDepartment({ admin: 'u-1' }).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/apis/assign-admin', expect.any(Object))
       done()
     })
   })
 
-  it('verifyUserMobile calls http.post with VERIFY_OTP endpoint and passes through response', (done) => {
+  it('verifyUserMobile calls http.post with VERIFY_OTP endpoint and passes through response', done => {
     service.verifyUserMobile({ otp: '1234' }).subscribe(res => {
       expect(mockHttp.post).toHaveBeenCalledWith('/apis/verify-otp', expect.any(Object))
       expect(res).toEqual({ success: true })

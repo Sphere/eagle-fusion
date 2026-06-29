@@ -23,7 +23,7 @@ describe('AssetCacheInterceptorService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('passes through non-GET requests without caching', (done) => {
+  it('passes through non-GET requests without caching', done => {
     const req = new HttpRequest('POST', 'http://localhost/fusion-assets/files/apps.json', {})
     service.intercept(req, mockHandler).subscribe(() => {
       expect(mockHandler.handle).toHaveBeenCalled()
@@ -31,7 +31,7 @@ describe('AssetCacheInterceptorService', () => {
     })
   })
 
-  it('passes through non-cacheable GET requests', (done) => {
+  it('passes through non-cacheable GET requests', done => {
     const req = new HttpRequest('GET', 'http://localhost/api/data')
     service.intercept(req, mockHandler).subscribe(() => {
       expect(mockHandler.handle).toHaveBeenCalled()
@@ -39,7 +39,7 @@ describe('AssetCacheInterceptorService', () => {
     })
   })
 
-  it('returns cached response without calling handler when cache is present', (done) => {
+  it('returns cached response without calling handler when cache is present', done => {
     const cacheKey = 'asset_cache:fusion-assets/files/apps.json'
     sessionStorage.setItem(cacheKey, JSON.stringify({ version: 'cached-v1' }))
     const req = new HttpRequest('GET', 'http://localhost/fusion-assets/files/apps.json')
@@ -52,7 +52,7 @@ describe('AssetCacheInterceptorService', () => {
     })
   })
 
-  it('fetches from HTTP and caches response for cacheable URL', (done) => {
+  it('fetches from HTTP and caches response for cacheable URL', done => {
     const req = new HttpRequest('GET', 'http://localhost/fusion-assets/files/apps.json')
     service.intercept(req, mockHandler).subscribe(event => {
       if (event instanceof HttpResponse) {
@@ -63,7 +63,7 @@ describe('AssetCacheInterceptorService', () => {
     })
   })
 
-  it('caches i18n JSON files', (done) => {
+  it('caches i18n JSON files', done => {
     const req = new HttpRequest('GET', 'http://localhost/assets/i18n/en.json')
     service.intercept(req, mockHandler).subscribe(event => {
       if (event instanceof HttpResponse) {

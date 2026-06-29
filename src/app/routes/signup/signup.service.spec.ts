@@ -102,7 +102,7 @@ describe('SignupService', () => {
     expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/public/login')
   })
 
-  it('ssoValidateOTP calls http.post with validateOTP endpoint', (done) => {
+  it('ssoValidateOTP calls http.post with validateOTP endpoint', done => {
     const data = { otp: '123456' }
     service.ssoValidateOTP(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/otp/validate', data)
@@ -110,7 +110,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('ssoValidateOrgOTP calls http.post with validateOrgOTP endpoint', (done) => {
+  it('ssoValidateOrgOTP calls http.post with validateOrgOTP endpoint', done => {
     const data = { otp: '654321' }
     service.ssoValidateOrgOTP(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/org/otp/validate', data)
@@ -118,7 +118,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('sendOTP calls http.post with sendUserOTP endpoint', (done) => {
+  it('sendOTP calls http.post with sendUserOTP endpoint', done => {
     const data = { mobile: '9999999999' }
     service.sendOTP(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/otp/send', data)
@@ -126,7 +126,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('resendOTP calls http.post with resendOTP endpoint', (done) => {
+  it('resendOTP calls http.post with resendOTP endpoint', done => {
     const data = { mobile: '9999999999' }
     service.resendOTP(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/otp/resend', data)
@@ -134,7 +134,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('signup calls http.post with SIGNUP endpoint', (done) => {
+  it('signup calls http.post with SIGNUP endpoint', done => {
     const data = { name: 'Test User' }
     service.signup(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/signup', data)
@@ -142,7 +142,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('registerWithMobile calls http.post with REGISTER_USERWITH_MOBILE endpoint', (done) => {
+  it('registerWithMobile calls http.post with REGISTER_USERWITH_MOBILE endpoint', done => {
     const data = { mobile: '8888888888' }
     service.registerWithMobile(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/register/mobile', data)
@@ -150,7 +150,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('forgotPassword calls http.post with RESET_FPW_PASSWORD endpoint', (done) => {
+  it('forgotPassword calls http.post with RESET_FPW_PASSWORD endpoint', done => {
     const req = { email: 'test@example.com' }
     service.forgotPassword(req).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/fpw/reset', req)
@@ -158,7 +158,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('setPasswordWithOtp calls http.post with SET_FPW_OTP endpoint', (done) => {
+  it('setPasswordWithOtp calls http.post with SET_FPW_OTP endpoint', done => {
     const req = { otp: '111222', newPassword: 'newPass' }
     service.setPasswordWithOtp(req).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/fpw/otp/set', req)
@@ -174,7 +174,7 @@ describe('SignupService', () => {
       expect(obs1).toBe(obs2)
     })
 
-    it('calls http.post with GENERATE_OTP on first call', (done) => {
+    it('calls http.post with GENERATE_OTP on first call', done => {
       const data = { mobile: '1234567890' }
       service.generateOtp(data).subscribe(() => {
         expect(mockHttp.post).toHaveBeenCalledWith('/api/otp/generate', data)
@@ -183,7 +183,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('loginAPI calls http.post with newLogin endpoint', (done) => {
+  it('loginAPI calls http.post with newLogin endpoint', done => {
     const data = { username: 'user', password: 'pass' }
     service.loginAPI(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/login', data)
@@ -191,7 +191,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('ssoWithMobileEmail calls http.post with newssowithMobileEmail endpoint', (done) => {
+  it('ssoWithMobileEmail calls http.post with newssowithMobileEmail endpoint', done => {
     const data = { mobile: '9999999999' }
     service.ssoWithMobileEmail(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/sso/mobile-email', data)
@@ -199,7 +199,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('ssoWithMobileEmailOrgForm calls http.post with newssowithMobileEmailOrgForm endpoint', (done) => {
+  it('ssoWithMobileEmailOrgForm calls http.post with newssowithMobileEmailOrgForm endpoint', done => {
     const data = { form: 'data' }
     service.ssoWithMobileEmailOrgForm(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/sso/org-form', data)
@@ -207,7 +207,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('verifyUserMobile calls http.post with VERIFY_FPW_OTP endpoint', (done) => {
+  it('verifyUserMobile calls http.post with VERIFY_FPW_OTP endpoint', done => {
     const data = { otp: '123456', mobile: '9999999999' }
     service.verifyUserMobile(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/fpw/otp/verify', data)
@@ -215,7 +215,7 @@ describe('SignupService', () => {
     })
   })
 
-  it('validateOtp calls http.post with VALIDATE_OTP endpoint', (done) => {
+  it('validateOtp calls http.post with VALIDATE_OTP endpoint', done => {
     const data = { otp: '654321' }
     service.validateOtp(data).subscribe(() => {
       expect(mockHttp.post).toHaveBeenCalledWith('/api/otp/validate2', data)
@@ -244,7 +244,7 @@ describe('SignupService', () => {
   })
 
   describe('plumb5SendEvent', () => {
-    it('calls http.post with plumb5 EventDetails URL and returns response via map', (done) => {
+    it('calls http.post with plumb5 EventDetails URL and returns response via map', done => {
       const data = { event: 'pageview' }
       mockHttp.post.mockReturnValue(of({ status: 'ok' }))
       service.plumb5SendEvent(data).subscribe((result: any) => {
@@ -259,7 +259,7 @@ describe('SignupService', () => {
   })
 
   describe('plumb5SendForm', () => {
-    it('calls http.post with plumb5 FormInfoDetails URL and returns response via map', (done) => {
+    it('calls http.post with plumb5 FormInfoDetails URL and returns response via map', done => {
       const data = { form: 'signup' }
       mockHttp.post.mockReturnValue(of({ status: 'form-saved' }))
       service.plumb5SendForm(data).subscribe((result: any) => {

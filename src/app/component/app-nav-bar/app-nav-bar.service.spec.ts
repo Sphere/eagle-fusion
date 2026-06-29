@@ -15,14 +15,14 @@ describe('appNavBarService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('currentOption emits initial empty string', (done) => {
+  it('currentOption emits initial empty string', done => {
     service.currentOption.subscribe(val => {
       expect(val).toBe('')
       done()
     })
   })
 
-  it('changeNavBarActive emits the new name', (done) => {
+  it('changeNavBarActive emits the new name', done => {
     const values: string[] = []
     service.currentOption.subscribe(val => values.push(val))
     service.changeNavBarActive('home')
@@ -30,7 +30,7 @@ describe('appNavBarService', () => {
     done()
   })
 
-  it('changeNavBarActive updates to latest value', (done) => {
+  it('changeNavBarActive updates to latest value', done => {
     let latest = ''
     service.currentOption.subscribe(val => latest = val)
     service.changeNavBarActive('search')

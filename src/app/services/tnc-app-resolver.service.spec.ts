@@ -46,7 +46,7 @@ describe('TncAppResolverService', () => {
     expect(mockHttp.get).not.toHaveBeenCalledWith(expect.stringContaining('?locale'))
   })
 
-  it('resolve returns wrapped data on success', (done) => {
+  it('resolve returns wrapped data on success', done => {
     service.resolve().subscribe(res => {
       expect((res as any).data).toEqual({ version: '1.0', terms: [] })
       expect((res as any).error).toBeNull()
@@ -54,7 +54,7 @@ describe('TncAppResolverService', () => {
     })
   })
 
-  it('resolve wraps error on HTTP failure', (done) => {
+  it('resolve wraps error on HTTP failure', done => {
     mockHttp.get.mockReturnValue(throwError(() => new Error('Network error')))
     service.resolve().subscribe(res => {
       expect((res as any).data).toBeNull()

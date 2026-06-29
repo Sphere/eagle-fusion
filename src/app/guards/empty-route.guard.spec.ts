@@ -23,7 +23,7 @@ describe('EmptyRouteGuard', () => {
     expect(guard).toBeTruthy()
   })
 
-  it('returns false during full downtime', (done) => {
+  it('returns false during full downtime', done => {
     mockDowntimeSvc.getDowntimeState.mockReturnValue(of({ isDowntime: true, type: 'full' }))
     const result$ = guard.canActivate({} as any, {} as any) as any
     result$.subscribe((result: boolean) => {
@@ -32,7 +32,7 @@ describe('EmptyRouteGuard', () => {
     })
   })
 
-  it('returns true when there is no downtime', (done) => {
+  it('returns true when there is no downtime', done => {
     mockDowntimeSvc.getDowntimeState.mockReturnValue(of({ isDowntime: false, type: null }))
     const result$ = guard.canActivate({} as any, {} as any) as any
     result$.subscribe((result: boolean) => {
@@ -41,7 +41,7 @@ describe('EmptyRouteGuard', () => {
     })
   })
 
-  it('returns true during partial downtime (type is not "full")', (done) => {
+  it('returns true during partial downtime (type is not "full")', done => {
     mockDowntimeSvc.getDowntimeState.mockReturnValue(of({ isDowntime: true, type: 'partial' }))
     const result$ = guard.canActivate({} as any, {} as any) as any
     result$.subscribe((result: boolean) => {
@@ -50,7 +50,7 @@ describe('EmptyRouteGuard', () => {
     })
   })
 
-  it('calls getDowntimeState exactly once per canActivate call', (done) => {
+  it('calls getDowntimeState exactly once per canActivate call', done => {
     mockDowntimeSvc.getDowntimeState.mockReturnValue(of({ isDowntime: false, type: null }))
     const result$ = guard.canActivate({} as any, {} as any) as any
     result$.subscribe(() => {

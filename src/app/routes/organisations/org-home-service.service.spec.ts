@@ -40,7 +40,7 @@ describe('OrgServiceService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('hideHeaderFooter defaults to false', (done) => {
+  it('hideHeaderFooter defaults to false', done => {
     service.hideHeaderFooter.subscribe(v => {
       expect(v).toBe(false)
       done()
@@ -48,7 +48,7 @@ describe('OrgServiceService', () => {
   })
 
   describe('getOrgMetadata', () => {
-    it('calls http.get and returns the response', (done) => {
+    it('calls http.get and returns the response', done => {
       service.getOrgMetadata().subscribe(data => {
         expect(data).toEqual({ name: 'test-org' })
         done()
@@ -57,7 +57,7 @@ describe('OrgServiceService', () => {
   })
 
   describe('resolve', () => {
-    it('returns wrapped data with error null', (done) => {
+    it('returns wrapped data with error null', done => {
       service.resolve().subscribe(res => {
         expect(res.data).toEqual({ name: 'test-org' })
         expect(res.error).toBeNull()
@@ -65,7 +65,7 @@ describe('OrgServiceService', () => {
       })
     })
 
-    it('returns error when getOrgMetadata fails', (done) => {
+    it('returns error when getOrgMetadata fails', done => {
       mockHttp.get.mockReturnValue(throwError(() => new Error('Network error')))
       service.resolve().subscribe(res => {
         expect(res.data).toBeNull()
@@ -108,7 +108,7 @@ describe('OrgServiceService', () => {
   })
 
   describe('getDatabyOrgId', () => {
-    it('calls http.get with the course.json URL and returns data', (done) => {
+    it('calls http.get with the course.json URL and returns data', done => {
       mockHttp.get.mockReturnValue(of({ courses: [{ id: 'c1' }] }))
       service.getDatabyOrgId().then(data => {
         expect(data).toEqual({ courses: [{ id: 'c1' }] })
@@ -119,7 +119,7 @@ describe('OrgServiceService', () => {
   })
 
   describe('setConnectSid', () => {
-    it('calls http.post with keycloak endpoint and returns response', (done) => {
+    it('calls http.post with keycloak endpoint and returns response', done => {
       mockHttp.post.mockReturnValue(of({ session: 'abc' }))
       service.setConnectSid('auth-code-123').subscribe(data => {
         expect(data).toEqual({ session: 'abc' })
@@ -133,10 +133,10 @@ describe('OrgServiceService', () => {
   })
 
   describe('handleError', () => {
-    it('returns an observable that throws the given error', (done) => {
+    it('returns an observable that throws the given error', done => {
       const err = new Error('test error')
       service.handleError(err as any).subscribe({
-        error: (e) => {
+        error: e => {
           expect(e).toBe(err)
           done()
         },

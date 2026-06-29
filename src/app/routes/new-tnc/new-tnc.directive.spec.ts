@@ -17,7 +17,7 @@ describe('ScrollDetectorDirective', () => {
     expect(directive).toBeTruthy()
   })
 
-  it('emits true when user has scrolled to the bottom', (done) => {
+  it('emits true when user has scrolled to the bottom', done => {
     directive.scrolled.subscribe((value: boolean) => {
       expect(value).toBe(true)
       done()
@@ -25,7 +25,7 @@ describe('ScrollDetectorDirective', () => {
     directive.onScroll(makeScrollEvent(300, 200, 100))
   })
 
-  it('emits false when user has not reached the bottom', (done) => {
+  it('emits false when user has not reached the bottom', done => {
     directive.scrolled.subscribe((value: boolean) => {
       expect(value).toBe(false)
       done()
@@ -33,7 +33,7 @@ describe('ScrollDetectorDirective', () => {
     directive.onScroll(makeScrollEvent(300, 50, 100))
   })
 
-  it('emits true when scrollHeight equals scrollTop + clientHeight exactly', (done) => {
+  it('emits true when scrollHeight equals scrollTop + clientHeight exactly', done => {
     directive.scrolled.subscribe((value: boolean) => {
       expect(value).toBe(true)
       done()

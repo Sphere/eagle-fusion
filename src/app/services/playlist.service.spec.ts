@@ -87,7 +87,7 @@ describe('PlaylistService', () => {
     expect(mockHttp.post).toHaveBeenCalledTimes(2)
   })
 
-  it('setEarnedBadges emits count on earnedBadges$', (done) => {
+  it('setEarnedBadges emits count on earnedBadges$', done => {
     service.setEarnedBadges(10)
     service.earnedBadges$.subscribe(count => {
       expect(count).toBe(10)
@@ -95,7 +95,7 @@ describe('PlaylistService', () => {
     })
   })
 
-  it('setEarnedBadges with isIncrement=true adds to current value', (done) => {
+  it('setEarnedBadges with isIncrement=true adds to current value', done => {
     service.setEarnedBadges(5)
     service.setEarnedBadges(3, true)
     service.earnedBadges$.subscribe(count => {
@@ -104,7 +104,7 @@ describe('PlaylistService', () => {
     })
   })
 
-  it('setEarnedBadges with count=0 emits 0', (done) => {
+  it('setEarnedBadges with count=0 emits 0', done => {
     service.setEarnedBadges(10)
     service.setEarnedBadges(0)
     service.earnedBadges$.subscribe(count => {
@@ -113,7 +113,7 @@ describe('PlaylistService', () => {
     })
   })
 
-  it('setEarnedBadges keeps higher currentCount when count < current', (done) => {
+  it('setEarnedBadges keeps higher currentCount when count < current', done => {
     service.setEarnedBadges(10)
     service.setEarnedBadges(3)
     service.earnedBadges$.subscribe(count => {

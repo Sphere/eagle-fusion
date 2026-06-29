@@ -86,7 +86,7 @@ describe('PublicAboutComponent', () => {
     expect(() => component.ngOnDestroy()).not.toThrow()
   })
 
-  it('isSmallScreen$ map callback emits breakpoint matches value', (done) => {
+  it('isSmallScreen$ map callback emits breakpoint matches value', done => {
     component.isSmallScreen$.subscribe((v: boolean) => {
       expect(typeof v).toBe('boolean')
       done()

@@ -8,6 +8,20 @@ import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
+
+// The root node_modules/lodash is 3.x which lacks uniqBy (added in lodash 4).
+// Provide a minimal shim so component code that calls uniqBy works in tests.
+jest.mock('lodash', () => ({
+  uniqBy: (arr: any[], key: string) => {
+    const seen = new Set()
+    return (arr || []).filter((item: any) => {
+      const k = item[key]
+      if (seen.has(k)) return false
+      seen.add(k)
+      return true
+    })
+  },
+}))
 // The component imports WidgetContentService from the full collection public-api.
 // Mocking the public-api prevents its transitive Angular Material imports from
 // failing in the jsdom test environment.
@@ -971,15 +985,7 @@ describe('WebPublicComponent', () => {
   // ─── fetchEnvironmentConfigurations internals ─────────────────────────────
 
   describe('fetchEnvironmentConfigurations', () => {
-    beforeEach(() => {
-      jest.useFakeTimers()
-    })
-
-    afterEach(() => {
-      jest.useRealTimers()
-    })
-
-    it('should set topCertifiedCourse and cneCourse from API response', () => {
+    it('should set topCertifiedCourse and cneCourse from API response', done => {
       component['topCertifiedCourseIdentifier'] = ['top1']
       component['cneCoursesIdentifier'] = ['cne1']
       ;(mockOrgService.getTopLiveSearchResults as jest.Mock).mockReturnValue(of({
@@ -988,17 +994,22 @@ describe('WebPublicComponent', () => {
           { identifier: 'cne1', name: 'CNE Course' },
         ] },
       }))
-      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
+      // Verify signal state inside the mock — called after all signal.set() calls
+      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {
+        expect(component.topCertifiedCourse()).toHaveLength(1)
+        expect(component.cneCourse()).toHaveLength(1)
+        done()
+      })
       ;(component as any).fetchEnvironmentConfigurations()
-      expect(component.topCertifiedCourse()).toHaveLength(1)
-      expect(component.cneCourse()).toHaveLength(1)
     })
 
     it('should set isLoading false via setTimeout when content is empty', () => {
+      jest.useFakeTimers()
       ;(mockOrgService.getTopLiveSearchResults as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
       ;(component as any).fetchEnvironmentConfigurations()
       jest.runAllTimers()
       expect(component.isLoading()).toBe(false)
+      jest.useRealTimers()
     })
 
     it('should use defaultIds (top+cne) when unMappedUser is null', () => {

@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatCardModule } from '@angular/material/card'
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
-import { RouterTestingModule } from '@angular/router/testing'
 import { BehaviorSubject, of, Subject } from 'rxjs'
 import { OrgServiceService } from './../../org-service.service'
 import { ConfigurationsService, ValueService, LoggerService } from '@ws-widget/utils'
@@ -36,8 +35,9 @@ describe('OrgComponent', () => {
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       declarations: [OrgComponent],
-      imports: [MatIconModule, MatCardModule, HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
+      imports: [MatIconModule, MatCardModule, HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
+        { provide: Router, useValue: { navigate: jest.fn(), navigateByUrl: jest.fn(), url: '/' } },
         {
           provide: ActivatedRoute,
           useValue: {

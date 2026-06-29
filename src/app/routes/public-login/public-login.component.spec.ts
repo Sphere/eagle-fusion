@@ -26,6 +26,22 @@ jest.mock('@ws-widget/utils/src/public-api', () => ({
   },
 }))
 
+jest.mock('library/ws-widget/utils/src/public-api', () => ({
+  ConfigurationsService: class {
+    userProfile = null
+    unMappedUser = null
+    orgSelectiveCourseConfig = null
+  },
+  ValueService: class {
+    isXSmall$ = { subscribe: jest.fn() }
+  },
+  LoggerService: class { log = jest.fn(); error = jest.fn() },
+  TelemetryService: class {
+    interactForLogin = jest.fn()
+    interact = jest.fn()
+  },
+}))
+
 jest.mock('../create-account-modal/create-account-dialog.component', () => ({
   CreateAccountDialogComponent: class {},
 }))

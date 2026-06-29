@@ -1175,6 +1175,22 @@ describe('RootComponent', () => {
       await localMocks.comp.ngOnInit()
       expect(localMocks.comp.appStartRaised).toBe(true)
     })
+
+    it('covers App.addListener backButton callback when isPlatformBrowser=true', async () => {
+      const { isPlatformBrowser } = require('@angular/common')
+      isPlatformBrowser.mockReturnValue(true)
+      const { App } = require('@capacitor/app')
+      let backButtonCb: any
+      App.addListener = jest.fn((event: string, cb: any) => { if (event === 'backButton') backButtonCb = cb })
+      const origHistory = window.history.go
+      window.history.go = jest.fn()
+      await localMocks.comp.ngOnInit()
+      expect(backButtonCb).toBeDefined()
+      backButtonCb()
+      expect(window.history.go).toHaveBeenCalledWith(-1)
+      window.history.go = origHistory
+      isPlatformBrowser.mockReturnValue(false)
+    })
   })
 
   describe('setUpFormData', () => {

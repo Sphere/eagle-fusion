@@ -30,14 +30,14 @@ describe('ConfigCacheService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('getHostConfig makes HTTP call and returns data', (done) => {
+  it('getHostConfig makes HTTP call and returns data', done => {
     service.getHostConfig('en').subscribe(data => {
       expect(data).toEqual({ rootOrg: 'test-org' })
       done()
     })
   })
 
-  it('getHostConfig caches and returns same data on second call', (done) => {
+  it('getHostConfig caches and returns same data on second call', done => {
     service.getHostConfig('en').subscribe(() => {
       service.getHostConfig('en').subscribe(data => {
         expect(data).toEqual({ rootOrg: 'test-org' })
@@ -58,7 +58,7 @@ describe('ConfigCacheService', () => {
     expect(mockHttp.get).not.toHaveBeenCalledWith(expect.stringContaining('host.config.hi.json'))
   })
 
-  it('restores cached data from sessionStorage on init', (done) => {
+  it('restores cached data from sessionStorage on init', done => {
     const cached = { rootOrg: 'from-session' }
     sessionStorage.setItem('config_hostConfig_en', JSON.stringify(cached))
     const svc2 = new ConfigCacheService(mockHttp, mockLogger)
@@ -68,7 +68,7 @@ describe('ConfigCacheService', () => {
     })
   })
 
-  it('getHostConfig catchError clears call$ and rethrows when http fails', (done) => {
+  it('getHostConfig catchError clears call$ and rethrows when http fails', done => {
     mockHttp.get = jest.fn().mockReturnValue(throwError(() => new Error('Network error')))
     service.getHostConfig('en').subscribe({
       error: () => done(),

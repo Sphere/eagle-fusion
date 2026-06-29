@@ -16,7 +16,7 @@ describe('ExternalUrlResolverService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('canActivate opens the external URL and returns false', (done) => {
+  it('canActivate opens the external URL and returns false', done => {
     const openSpy = jest.spyOn(window, 'open').mockImplementation(jest.fn())
     const mockRoute = {
       paramMap: { get: jest.fn().mockReturnValue('https://example.com') },

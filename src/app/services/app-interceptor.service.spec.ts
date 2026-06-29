@@ -41,7 +41,7 @@ describe('AppInterceptorService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('passes through S3 external URLs without adding headers', (done) => {
+  it('passes through S3 external URLs without adding headers', done => {
     const req = new HttpRequest('GET', 'https://sunbirdcontent.s3-ap-south-1.amazonaws.com/img.png')
     service.intercept(req, mockHandler).subscribe(() => {
       expect(mockHandler.handle).toHaveBeenCalledWith(req)
@@ -49,7 +49,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('passes through static CDN URLs', (done) => {
+  it('passes through static CDN URLs', done => {
     const req = new HttpRequest('GET', 'https://static.example.com/asset.js')
     service.intercept(req, mockHandler).subscribe(() => {
       expect(mockHandler.handle).toHaveBeenCalledWith(req)
@@ -57,7 +57,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('passes through when userProfile is null', (done) => {
+  it('passes through when userProfile is null', done => {
     mockConfigSvc.userProfile = null
     const req = new HttpRequest('GET', '/apis/data')
     service.intercept(req, mockHandler).subscribe(() => {
@@ -66,7 +66,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('passes through SCORM content state read endpoint', (done) => {
+  it('passes through SCORM content state read endpoint', done => {
     mockConfigSvc.userProfile = { userId: 'u-1' }
     const req = new HttpRequest('GET', '/api/course/v1/content/state/read')
     service.intercept(req, mockHandler).subscribe(() => {
@@ -75,7 +75,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('adds org and rootOrg headers when both are set and user is logged in', (done) => {
+  it('adds org and rootOrg headers when both are set and user is logged in', done => {
     mockConfigSvc.userProfile = { userId: 'u-1' }
     mockConfigSvc.activeOrg = 'test-org'
     mockConfigSvc.rootOrg = 'root-org'
@@ -88,7 +88,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('passes through when user is logged in but no activeOrg/rootOrg', (done) => {
+  it('passes through when user is logged in but no activeOrg/rootOrg', done => {
     mockConfigSvc.userProfile = { userId: 'u-1' }
     mockConfigSvc.activeOrg = null
     mockConfigSvc.rootOrg = null
@@ -99,7 +99,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('adds Accept headers for .json requests when logged in', (done) => {
+  it('adds Accept headers for .json requests when logged in', done => {
     mockConfigSvc.userProfile = { userId: 'u-1' }
     mockConfigSvc.activeOrg = null
     const req = new HttpRequest('GET', '/api/config.json')
@@ -110,7 +110,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('includes userPreference selectedLangGroup when set', (done) => {
+  it('includes userPreference selectedLangGroup when set', done => {
     mockConfigSvc.userProfile = { userId: 'u-1' }
     mockConfigSvc.activeOrg = 'org-1'
     mockConfigSvc.rootOrg = 'root-1'
@@ -122,7 +122,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('catchError in unauthenticated path propagates non-419 errors', (done) => {
+  it('catchError in unauthenticated path propagates non-419 errors', done => {
     const { throwError: rxThrow } = require('rxjs')
     const { HttpErrorResponse } = require('@angular/common/http')
     // userProfile null → enters the public/unauthenticated catchError block
@@ -135,7 +135,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('propagates 419 error in authenticated path', (done) => {
+  it('propagates 419 error in authenticated path', done => {
     const { throwError: rxThrow } = require('rxjs')
     const { HttpErrorResponse } = require('@angular/common/http')
     mockConfigSvc.userProfile = { userId: 'u-1' }
@@ -152,7 +152,7 @@ describe('AppInterceptorService', () => {
     })
   })
 
-  it('propagates non-419 error in authenticated path', (done) => {
+  it('propagates non-419 error in authenticated path', done => {
     const { throwError: rxThrow } = require('rxjs')
     const { HttpErrorResponse } = require('@angular/common/http')
     mockConfigSvc.userProfile = { userId: 'u-1' }

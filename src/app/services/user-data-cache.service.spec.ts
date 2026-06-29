@@ -70,14 +70,14 @@ describe('UserDataCacheService', () => {
     expect(sessionStorage.getItem('userDataCache')).toBeNull()
   })
 
-  it('getUserData fetches from API when cache is empty', (done) => {
+  it('getUserData fetches from API when cache is empty', done => {
     service.getUserData().subscribe(data => {
       expect(data).toEqual({ userId: 'user-1', name: 'Test' })
       done()
     })
   })
 
-  it('getUserData returns cached data on second call without extra API call', (done) => {
+  it('getUserData returns cached data on second call without extra API call', done => {
     service.getUserData().subscribe(() => {
       service.getUserData().subscribe(data => {
         expect(data).toEqual({ userId: 'user-1', name: 'Test' })
@@ -138,7 +138,7 @@ describe('UserDataCacheService', () => {
   })
 
   describe('getUserData catchError', () => {
-    it('should set apiCall$ to null and rethrow error on http failure', (done) => {
+    it('should set apiCall$ to null and rethrow error on http failure', done => {
       const { throwError } = require('rxjs')
       mockHttp.get = jest.fn().mockReturnValue(throwError(() => new Error('Network error')))
       service.getUserData().subscribe({
