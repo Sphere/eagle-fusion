@@ -231,6 +231,27 @@ this.tocData.totalRatingsCount ??= this.tocData.totalNumberOfRatings  // public-
     <li>Grep confirms zero remaining references to any removed constant/route (<code>SEARCH_V8PUBLIC</code>, <code>SEARCH_V6PUBLIC</code>, <code>PUBLIC_CONTENT_SEARCH</code>, <code>COURSE_RECOM*</code>, <code>ENROLLED_USER</code>, <code>userEnrolledInSource</code>).</li>
   </ul>
 
+  <h3>6.1 &nbsp; Proxy-level verification (UI-proxy)</h3>
+  <p>Both proxy handlers were reviewed and the real frontend payloads were run against the live proxy. <code>publicSearch/getCourses</code> forwards <code>request.filters</code> to Sunbird <code>content/v1/search</code> and honors the knobs the frontend uses:</p>
+  <table>
+    <tr><th>Request knob</th><th>Honored?</th><th>Live result</th></tr>
+    <tr><td><code>primaryCategory</code>, <code>status</code></td><td>✅</td><td>only Course / Live returned</td></tr>
+    <tr><td><code>sourceName</code></td><td>✅</td><td>28 items for MoHFW</td></tr>
+    <tr><td><code>identifier</code> (by-id)</td><td>✅</td><td>exact course returned</td></tr>
+    <tr><td><code>lang</code></td><td>✅</td><td>Hindi subset (175 items)</td></tr>
+    <tr><td><code>request.facets</code></td><td>✅</td><td>response facets = requested set (<code>primaryCategory,mimeType,sourceName</code>)</td></tr>
+    <tr><td>ratings (<code>averageRating</code> / <code>totalNumberOfRatings</code>)</td><td>✅</td><td>present on 100% of items in every scenario</td></tr>
+  </table>
+  <div class="info">
+    <strong>Known proxy behaviors (verified not to be regressions for this data):</strong>
+    <ul>
+      <li><code>contentType</code> is force-set to <code>["Course","CourseUnit"]</code> (client value overridden). In practice no <code>CourseUnit</code> items surfaced — every scenario returned 100% <code>primaryCategory=Course</code> — so course searches stay course-only.</li>
+      <li><code>result.count</code> is the returned-array length (browse cap <strong>200</strong>, up from the old route's 20), not total ES hits. The V7 search path never paginated, so no behaviour change.</li>
+      <li><code>request.fields</code> projection and top-level <code>sort</code> are ignored (proxy returns full docs and hardcodes <code>lastUpdatedOn desc</code> for browse) — same effective result.</li>
+      <li>No <code>bulkRatingLookup</code> enrichment — but ratings come from the ES index natively (confirmed above), so nothing is lost.</li>
+    </ul>
+  </div>
+
   <hr class="section-divider">
 
   <h2>7. Follow-ups (out of scope for this repo)</h2>

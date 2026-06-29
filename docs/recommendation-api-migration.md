@@ -125,6 +125,26 @@ this.tocData.totalRatingsCount ??= this.tocData.totalNumberOfRatings  // public-
 - Live proxy checks of `publicSearch/getCourses`: empty query → `count 160`, 160 items, facets present, `averageRating` + `totalNumberOfRatings` present per item; text query `"breast"` → `count 13`.
 - Grep confirms zero remaining references to any removed constant/route (`SEARCH_V8PUBLIC`, `SEARCH_V6PUBLIC`, `PUBLIC_CONTENT_SEARCH`, `COURSE_RECOM*`, `ENROLLED_USER`, `userEnrolledInSource`).
 
+### Proxy-level verification (UI-proxy)
+
+Both proxy handlers were reviewed and the real frontend payloads were run against the live proxy. `publicSearch/getCourses` forwards `request.filters` to Sunbird `content/v1/search` and honors the knobs the frontend uses:
+
+| Request knob | Honored? | Live result |
+|---|---|---|
+| `primaryCategory`, `status` | ✅ | only Course / Live returned |
+| `sourceName` | ✅ | 28 items for MoHFW |
+| `identifier` (by-id) | ✅ | exact course returned |
+| `lang` | ✅ | Hindi subset (175 items) |
+| `request.facets` | ✅ | response facets = requested set (`primaryCategory,mimeType,sourceName`) |
+| ratings (`averageRating` / `totalNumberOfRatings`) | ✅ | present on 100% of items in every scenario |
+
+**Known proxy behaviors (verified not to be regressions for this data):**
+
+- `contentType` is force-set to `["Course","CourseUnit"]` (client value overridden). In practice no `CourseUnit` items surfaced — every scenario returned 100% `primaryCategory=Course` — so course searches stay course-only.
+- `result.count` is the returned-array length (browse cap **200**, up from the old route's 20), not total ES hits. The V7 search path never paginated, so no behaviour change.
+- `request.fields` projection and top-level `sort` are ignored (proxy returns full docs and hardcodes `lastUpdatedOn desc` for browse) — same effective result.
+- No `bulkRatingLookup` enrichment — but ratings come from the ES index natively (confirmed above), so nothing is lost.
+
 ---
 
 ## 7. Follow-ups (out of scope for this repo)
