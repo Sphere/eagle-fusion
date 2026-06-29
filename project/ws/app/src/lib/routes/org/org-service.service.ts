@@ -63,7 +63,7 @@ export class OrgServiceService {
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
-    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
   getSearchV7Results(source?: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
@@ -91,7 +91,7 @@ export class OrgServiceService {
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
-    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
   getSearchResultsV7ById(identifier?: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
@@ -128,7 +128,7 @@ export class OrgServiceService {
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
-    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
   getTopLiveSearchResults(identifiers: any, lang?: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
@@ -144,7 +144,7 @@ export class OrgServiceService {
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
-    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
   setSashaktId(token: any, id: any): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.Sashakt_Auth}?token=${token}&moduleId=${id}`)
