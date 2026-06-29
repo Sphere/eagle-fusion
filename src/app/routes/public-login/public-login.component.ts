@@ -289,7 +289,8 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
         this.ngZone.run(() => {
           this.isLoginLoading = false
           this.cdr.detectChanges()
-          localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
+          // Persist only the login status — never the access/refresh tokens (XSS exposure).
+          localStorage.setItem('loginDetailsWithToken', JSON.stringify({ msg: res.msg, status: res.status }))
           this.logger.log(res.status)
           this.openSnackbar(this.translate.instant("USER_AUTH_SUCCESS"))
 
@@ -443,7 +444,8 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
         this.ngZone.run(() => {
           this.isLoginLoading = false
           this.cdr.detectChanges()
-          localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
+          // Persist only the login status — never the access/refresh tokens (XSS exposure).
+          localStorage.setItem('loginDetailsWithToken', JSON.stringify({ msg: res.msg, status: res.status }))
           this.logger.log(res)
           this.openSnackbar(this.translate.instant(res.msg ?? res.message))
           setTimeout(() => {

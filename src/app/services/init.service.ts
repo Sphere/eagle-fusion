@@ -78,8 +78,8 @@ export class InitService {
     if (authenticated) {
       if (loginData) {
         const parsedData = JSON.parse(loginData)
-        const token = parsedData.token?.access_token ? true : false
-        if (!token)
+        // Gate on the persisted login status, not a stored token (tokens are no longer persisted).
+        if (parsedData.status !== 'success')
           this.authSvc.logout()
       } else {
         this.authSvc.logout()
