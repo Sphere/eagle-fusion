@@ -119,12 +119,12 @@ export class SearchApiService {
   getSearchCompetencyCourses(body: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
     const req = body
-    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
 
 
   getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
-    return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
+    return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V7PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
         this.logger.log("res getSearchV6Results", res)
         const tempArray = []
@@ -165,7 +165,7 @@ export class SearchApiService {
   }
 
   getSearchV7Results(body: NSSearch.ISearchV6RequestV2): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.SEARCH_V8PUBLIC, body)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, body)
       .pipe(map((res: any) => {
 
         if (res.result.content.length > 0) {

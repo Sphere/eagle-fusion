@@ -48,6 +48,9 @@ export class BnrcLoginOtpComponent implements OnInit {
 
 
   loginVerifyOtp() {
+    if (!this.loginData) {
+      return
+    }
     let request: any = []
     request = {
       phone: this.loginData.value.phone,
