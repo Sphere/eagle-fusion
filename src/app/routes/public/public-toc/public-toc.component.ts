@@ -118,6 +118,9 @@ export class PublicTocComponent implements OnInit, OnDestroy {
         const found = find(res.result.content, (c: any) => c.identifier === id)
         if (found) {
           this.tocData = found
+          // Sunbird content/v1/search returns the rating count as totalNumberOfRatings;
+          // map it onto totalRatingsCount, which the SEO JSON-LD consumes.
+          this.tocData.totalRatingsCount ??= this.tocData.totalNumberOfRatings
           this.cdr.detectChanges()
           this.logger.log('findRes', found)
 

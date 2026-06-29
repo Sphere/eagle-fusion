@@ -55,6 +55,9 @@ export class PublicCourseBlogComponent implements OnInit {
           return
         }
         this.course = content[0]
+        // Sunbird content/v1/search returns the rating count as totalNumberOfRatings;
+        // map it onto totalRatingsCount, which the template + SEO JSON-LD consume.
+        this.course.totalRatingsCount ??= this.course.totalNumberOfRatings
         this.isLoading = false
         this.updateSeo()
       },
