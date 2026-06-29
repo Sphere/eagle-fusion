@@ -8,7 +8,7 @@ jest.mock('../../../../library/ws-widget/collection/src/lib/_services/widget-con
 
 jest.mock('../../constants/apiConstants', () => ({
   API_END_POINTS: {
-    SEARCH_V6PUBLIC: '/apis/search/v6/public',
+    SEARCH_V7PUBLIC: '/apis/search/v7/public',
     KEYCLOAK_COOKIE: '/apis/keycloak',
     FETCH_USER_ENROLLMENT_LIST: (userId: string) => `/apis/enrollment/${userId}`,
   },
@@ -76,10 +76,10 @@ describe('OrgServiceService', () => {
   })
 
   describe('getSearchResults', () => {
-    it('calls http.post with SEARCH_V6PUBLIC URL', () => {
+    it('calls http.post with SEARCH_V7PUBLIC URL', () => {
       service.getSearchResults().subscribe()
       expect(mockHttp.post).toHaveBeenCalledWith(
-        '/apis/search/v6/public',
+        '/apis/search/v7/public',
         expect.any(Object)
       )
     })

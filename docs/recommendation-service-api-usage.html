@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recommendation Service API Usage — Eagle-Fusion Frontend</title>
+  <style>
+    body {
+      font-family: 'Open Sans', Calibri, Arial, sans-serif;
+      font-size: 11pt;
+      color: #0D1218;
+      margin: 72pt 72pt 72pt 72pt;
+      line-height: 1.5;
+    }
+    h1 { font-size: 18pt; font-weight: 700; color: #17283C; border-bottom: 2pt solid #17283C; padding-bottom: 4pt; margin-top: 24pt; }
+    h2 { font-size: 14pt; font-weight: 600; color: #17283C; margin-top: 20pt; margin-bottom: 6pt; }
+    h3 { font-size: 12pt; font-weight: 600; color: #18293D; margin-top: 14pt; margin-bottom: 4pt; }
+    p  { margin: 6pt 0; }
+    a  { color: #186E6E; text-decoration: underline; }
+    code {
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      font-size: 9pt;
+      background-color: #F6F7F9;
+      padding: 1pt 3pt;
+      border-radius: 2pt;
+    }
+    pre {
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      font-size: 8.5pt;
+      background-color: #F6F7F9;
+      border: 1pt solid #D8DEE5;
+      border-left: 3pt solid #1E8F8E;
+      padding: 10pt 12pt;
+      margin: 8pt 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 10pt 0;
+      font-size: 10pt;
+    }
+    th {
+      background-color: #17283C;
+      color: #ffffff;
+      padding: 6pt 8pt;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      border: 0.5pt solid #D8DEE5;
+      padding: 5pt 8pt;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background-color: #F6F7F9; }
+    ul, ol { margin: 6pt 0 6pt 20pt; padding: 0; }
+    li { margin: 3pt 0; }
+    .meta { color: #7C8696; font-size: 10pt; margin-bottom: 4pt; }
+    .info {
+      background-color: #E3F7F6;
+      border-left: 4pt solid #1E8F8E;
+      padding: 8pt 12pt;
+      margin: 10pt 0;
+      font-size: 10pt;
+    }
+    .note {
+      background-color: #FEF6E0;
+      border-left: 4pt solid #F0A500;
+      padding: 8pt 12pt;
+      margin: 10pt 0;
+      font-size: 10pt;
+    }
+    .section-divider { border: none; border-top: 1pt solid #D8DEE5; margin: 20pt 0; }
+    .label-yes  { color: #15803D; font-weight: bold; }
+    .label-cond { color: #B45309; font-weight: bold; }
+    .label-no   { color: #7C8696; }
+  </style>
+</head>
+<body>
+
+  <h1>Recommendation Service API Usage — Eagle-Fusion Frontend</h1>
+  <p class="meta">Scope: Aastrika Sphere web frontend (eagle-fusion). Maps the 15 recommendation-service endpoints (7 functional groups) and their uiproxy routes against actual usage in this repository.</p>
+  <p class="meta">Generated: 2026-06-26 &nbsp;|&nbsp; Service base: <code>RECOMMENDATION_API_BASE_V2</code> (default <code>http://localhost:8086</code>)</p>
+
+  <div class="info">
+    <strong>Bottom line:</strong> This web frontend touches only the <strong>Course Recommendation</strong> and <strong>Rating</strong> groups, and only through <strong>search/rating</strong> routes that power course cards.
+    <ul>
+      <li><span class="label-yes">Actively used</span> — <code>publicSearch/getcourse</code> (via <code>SEARCH_V8PUBLIC</code>) and <code>bulkRatingLookup</code> (indirectly, via <code>ratingsSearch/getCourses</code>).</li>
+      <li><span class="label-cond">Defined but not wired</span> — <code>courseRemommendationv2</code> (GET) and <code>courseRecommendationCbp</code> (POST CBP): service wrappers exist, but no component calls them.</li>
+      <li><span class="label-no">Not used at all</span> — Competency Reports, Data Summary, CBP Activity Logs, Learner Path, Homepage Config, and the <code>recommendationEngineV2</code> portal route.</li>
+    </ul>
+  </div>
+
+  <p>Terminology: <strong>"Used"</strong> = a constant is sent over HTTP from a method that has a live caller. <strong>"Defined / not wired"</strong> = the constant and its service wrapper exist but no component invokes the wrapper (dead code). <strong>"Not used"</strong> = no reference to the path or constant anywhere in source. All paths are declared in <a href="../src/app/constants/apiConstants.ts">src/app/constants/apiConstants.ts</a> — never hardcoded.</p>
+
+  <hr class="section-divider">
+
+  <h2>1. Coverage Matrix — all 15 endpoints</h2>
+
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Service endpoint</th>
+      <th>uiproxy route the frontend would call</th>
+      <th>Frontend constant</th>
+      <th>Status</th>
+    </tr>
+
+    <tr><td>1</td><td>GET /course/recommendation</td><td>GET apis/protected/v8/recommendationEngineV2</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+    <tr><td>1</td><td>GET /course/recommendation (mobileApp)</td><td>GET apis/public/v8/mobileApp/courseRemommendationv2</td><td><code>COURSE_RECOMENDATION</code></td><td><span class="label-cond">DEFINED — NOT WIRED</span></td></tr>
+    <tr><td>1</td><td>POST /publicSearch/getcourse</td><td>POST apis/public/v8/ratingsSearch/recommendation/publicSearch/getcourse</td><td><code>SEARCH_V8PUBLIC</code></td><td><span class="label-yes">USED</span></td></tr>
+    <tr><td>1</td><td>POST /publicSearch/getcourse (other variants)</td><td>protected/v8/recommendationEngineV2/... · public/v8/courseRecommendation/...</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+    <tr><td>1</td><td>POST /publicSearch/CoursesRecomendationCBP</td><td>POST apis/public/v8/mobileApp/publicSearch/courseRecommendationCbp</td><td><code>COURSE_RECOMMENDATION_V2</code></td><td><span class="label-cond">DEFINED — NOT WIRED</span></td></tr>
+
+    <tr><td>2</td><td>GET /competency/reports/passbook</td><td>GET apis/public/v8/competencyReporting/reports/passbook</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+    <tr><td>2</td><td>GET /competency/reports/assessment</td><td>GET apis/public/v8/competencyReporting/reports/assessment</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+    <tr><td>2</td><td>GET /competency/reports/course_enroll</td><td>(no proxy route)</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+
+    <tr><td>3</td><td>GET /course/source_name/users</td><td>GET apis/protected/v8/userEnrolledInSource</td><td><code>ENROLLED_USER</code></td><td><span class="label-cond">DEFINED — TEST-ONLY</span></td></tr>
+
+    <tr><td>4</td><td>POST /bulkRatingLookup</td><td>(server-side only, inside ratingsSearch)</td><td><code>SEARCH_V6PUBLIC</code> / <code>PUBLIC_CONTENT_SEARCH</code></td><td><span class="label-yes">USED (indirect)</span></td></tr>
+
+    <tr><td>5</td><td>POST /cbp_activity_logs</td><td>(no proxy route)</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+
+    <tr><td>6</td><td>GET /learnerpath</td><td>protected/v8/learnerPath · public/v8/mobileApp/learnerPath</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+    <tr><td>6</td><td>POST /learnerpath</td><td>protected/v8/learnerPath · public/v8/mobileApp/learnerPath</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+
+    <tr><td>7</td><td>POST /homepageconfig</td><td>POST apis/public/v8/mobileApp/create/homepageconfig</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+    <tr><td>7</td><td>GET /homepageconfig</td><td>GET apis/public/v8/mobileApp/read/homepageconfig</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+    <tr><td>7</td><td>GET/PUT/DELETE /homepageconfig/{id}</td><td>apis/public/v8/mobileApp/{getById,updateById,deleteById}/homepageconfig/{id}</td><td>—</td><td><span class="label-no">NOT USED</span></td></tr>
+  </table>
+
+  <p class="meta">Tally: 2 actively used · 2 defined-but-unwired · 1 test-only · 10 not used.</p>
+
+  <hr class="section-divider">
+
+  <h2>2. Used APIs — where & what we render</h2>
+
+  <h3>2.1 &nbsp; Rating: POST /bulkRatingLookup &nbsp;→&nbsp; <code>ratingsSearch/getCourses</code></h3>
+  <p>Not called directly. The frontend hits <code>SEARCH_V6PUBLIC</code> / <code>PUBLIC_CONTENT_SEARCH</code> (both <code>/public/v8/ratingsSearch/getCourses</code>); the service enriches each result with rating data via <code>bulkRatingLookup</code> server-side. This is the workhorse course-search call — Live courses filtered by category / source / language / identifier, sorted by <code>lastUpdatedOn</code>.</p>
+
+  <p><strong>Request shape (typical):</strong></p>
+  <pre>{
+  request: {
+    filters: {
+      primaryCategory: ['Course'],
+      contentType: ['Course'],
+      status: ['Live'],
+      sourceName: '&lt;org / partner&gt;',   // optional
+      lang: 'hi',                          // added when Hindi
+      identifier: ['&lt;courseId&gt;', ...]   // optional (by-id lookups)
+    }
+  },
+  query: '',
+  sort: [{ lastUpdatedOn: 'desc' }]
+}</pre>
+
+  <p><strong>Called from:</strong></p>
+  <table>
+    <tr><th>Location</th><th>Method</th><th>What is shown</th></tr>
+    <tr>
+      <td><a href="../src/organisations/org-home-service.service.ts">src/organisations/org-home-service.service.ts</a></td>
+      <td><code>getSearchResults()</code>, <code>getLiveSearchResults()</code></td>
+      <td>Org-home landing page — list of Live courses; identifiers cross-checked against the user's enrolments to show enrolled state.</td>
+    </tr>
+    <tr>
+      <td><a href="../project/ws/app/src/lib/routes/org/org-service.service.ts">project/ws/app/.../org/org-service.service.ts</a></td>
+      <td><code>getSearchResults()</code>, <code>getSearchResultsById()</code>, <code>getLiveSearchResults()</code>, <code>getTopLiveSearchResults()</code></td>
+      <td>Org landing page sections — course cards per section (by source / identifier list / language).</td>
+    </tr>
+    <tr>
+      <td><a href="../project/ws/app/src/lib/routes/search/apis/search-api.service.ts">project/ws/app/.../search/apis/search-api.service.ts</a></td>
+      <td><code>getSearchCompetencyCourses()</code>, <code>getSearchV6Results()</code></td>
+      <td>Main search results page — result grid + facet/filter sidebar (<code>res.result.facets</code>).</td>
+    </tr>
+    <tr>
+      <td><a href="../library/ws-widget/collection/src/lib/_services/widget-content.service.ts">library/ws-widget/collection/.../widget-content.service.ts:330,339</a></td>
+      <td><code>searchV6()</code>, <code>publicContentSearch()</code></td>
+      <td>Content-strip widgets (single &amp; multiple) on home / landing pages — horizontal course carousels.</td>
+    </tr>
+  </table>
+
+  <h3>2.2 &nbsp; Course Recommendation: POST /publicSearch/getcourse &nbsp;→&nbsp; <code>SEARCH_V8PUBLIC</code></h3>
+  <p>Constant: <code>SEARCH_V8PUBLIC</code> → <code>/public/v8/ratingsSearch/recommendation/publicSearch/getcourse</code>. (A sibling constant <code>SEARCH_V7PUBLIC</code> → <code>/public/v8/publicSearch/getCourses</code> hits the related non-recommendation route.)</p>
+  <table>
+    <tr><th>Location</th><th>Method</th><th>What is shown</th></tr>
+    <tr>
+      <td><a href="../project/ws/app/src/lib/routes/search/apis/search-api.service.ts">project/ws/app/.../search/apis/search-api.service.ts:168</a></td>
+      <td><code>SEARCH_V8PUBLIC</code> via <code>getSearchV7Results()</code></td>
+      <td>Search results page (V7/V8 path) — <code>res.result.content</code> list rendered as result cards.</td>
+    </tr>
+  </table>
+
+  <hr class="section-divider">
+
+  <h2>3. Defined but not wired (dead wrappers)</h2>
+
+  <h3>3.1 &nbsp; GET courseRemommendationv2 &nbsp;→&nbsp; <code>COURSE_RECOMENDATION</code></h3>
+  <p>Constant <code>COURSE_RECOMENDATION(profession)</code> → <code>/public/v8/mobileApp/courseRemommendationv2?profession=…</code>, wrapped by <a href="../library/ws-widget/collection/src/lib/_services/widget-content.service.ts">widget-content.service.ts:407</a> <code>fetchCourseRemommendations()</code>. <strong>No component calls this method</strong> — the only reference is its own definition.</p>
+
+  <h3>3.2 &nbsp; POST courseRecommendationCbp &nbsp;→&nbsp; <code>COURSE_RECOMMENDATION_V2</code></h3>
+  <p>Constant <code>COURSE_RECOMMENDATION_V2</code> → <code>/public/v8/mobileApp/publicSearch/courseRecommendationCbp</code> (the <strong>mobileApp</strong> variant, not the <code>protected/v8/recommendationEngineV2/...</code> portal route). Wrapped by <a href="../library/ws-widget/collection/src/lib/_services/widget-content.service.ts">widget-content.service.ts:419</a>, which builds a designation-based payload:</p>
+  <pre>{
+  offset: 1, limit: 300,
+  search_text: req.designation,
+  search_fieldnames: ['rolesMapped'],
+  course_status: 'Live',
+  primaryCategory: 'Course',
+  orgId: req.orgId,
+  language: req.language
+}</pre>
+  <div class="note">
+    <strong>Attention:</strong> Both <code>fetchCourseRemommendations()</code> and <code>COURSE_RECOMMENDATION_V2()</code> are <strong>defined but have no callers</strong> anywhere in the repo — effectively dead code. The intended use (role/designation-based "recommended for you" cards) is not wired into any component. Flag for cleanup or wiring.
+  </div>
+
+  <h3>3.3 &nbsp; GET /course/source_name/users &nbsp;→&nbsp; <code>ENROLLED_USER</code> (test-only)</h3>
+  <p>Constant <code>ENROLLED_USER</code> → <code>apis/protected/v8/userEnrolledInSource</code>, wrapped by <a href="../project/ws/app/src/lib/routes/org/org-service.service.ts">org-service.service.ts:115</a> <code>getEnroledUserForCourses(sourceName)</code>. This proxy path corresponds to the Data-Summary <em>source_name/users</em> endpoint. The wrapper is currently referenced <strong>only in the org component spec</strong> (<code>org.component.spec.ts</code>) — no production component invokes it, so it is not exercised by real page flows today.</p>
+
+  <hr class="section-divider">
+
+  <h2>4. Not used (no references in this repo)</h2>
+  <ul>
+    <li><strong>Course Recommendation — <code>recommendationEngineV2</code> (GET /course/recommendation):</strong> no <code>recommendationEngine</code> references at all.</li>
+    <li><strong>Competency Reports</strong> — <code>passbook</code>, <code>assessment</code>, <code>course_enroll</code>: no <code>competencyReporting</code> references.</li>
+    <li><strong>CBP Activity Logs</strong> (<code>cbp_activity_logs</code>): not referenced (also has no proxy route).</li>
+    <li><strong>Learner Path</strong> (GET/POST <code>learnerpath</code>): no <code>learnerPath</code> / <code>learnerpath</code> references.</li>
+    <li><strong>Homepage Config</strong> (all CRUD on <code>homepageconfig</code>): no <code>homepageconfig</code> references.</li>
+  </ul>
+  <p>Per the service's "Used By" mapping these are consumed by the mobile App and/or portal-CBP clients, not by this web frontend.</p>
+
+  <hr class="section-divider">
+
+  <h2>5. Fields the frontend actually renders</h2>
+  <p>All used routes return Sunbird-style course objects (<code>res.result.content[]</code>). Rendered fields:</p>
+  <table>
+    <tr><th>Field</th><th>Where shown</th></tr>
+    <tr><td><code>name</code> / <code>identifier</code></td><td>Card title; routing to <code>/toc/&lt;id&gt;/overview</code></td></tr>
+    <tr><td><code>appIcon</code> / <code>thumbnail</code> / <code>posterImage</code></td><td>Card image (desktop &amp; mobile layouts)</td></tr>
+    <tr><td><code>sourceName</code></td><td>Provider/partner label; section filtering</td></tr>
+    <tr><td><code>averageRating</code> / <code>totalRatingsCount</code></td><td>Star rating on cards (enriched via bulkRatingLookup)</td></tr>
+    <tr><td><code>duration</code></td><td>Course duration ("Xh Ym")</td></tr>
+    <tr><td><code>medium</code> / <code>lang</code></td><td>Language label; Hindi filter</td></tr>
+    <tr><td><code>res.result.facets</code></td><td>Search filter sidebar</td></tr>
+  </table>
+
+</body>
+</html>

@@ -9,7 +9,6 @@ export const API_END_POINTS = {
     `${PROTECTED_SLAG_V8}/user/group/fetchUserGroup?userId=${userId}`,
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  SEARCH_V6PUBLIC: `${PUBLIC_SLAG_V8}/ratingsSearch/getCourses`,
   KEYCLOAK_COOKIE: `${PUBLIC_SLAG_V8}/emailMobile/authv2`,
   VALIDATE_CERTIFICATE: `${PUBLIC_SLAG_V8}/certificate/validate`,
   USER_SIGNUP: `${PUBLIC_SLAG_V8}/register/registerUserWithEmail`,
@@ -102,9 +101,6 @@ export const API_END_POINTS = {
   FETCH_GENERAL_RC_CERTIFICATE: () =>
     // tslint:disable-next-line: max-line-length
     `${PROTECTED_SLAG_V8}/rcCert/user/enrollment/list/adhocCertificates?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  COURSE_RECOMENDATION: (profession: string) =>
-    `${PUBLIC_SLAG_V8}/mobileApp/courseRemommendationv2?profession=${profession}`,
-  COURSE_RECOMMENDATION_V2: `${PUBLIC_SLAG_V8}/mobileApp/publicSearch/courseRecommendationCbp`,
   // CONTENT_READ: (id: string) => `${PROXY_SLAG_V8}/action/content/v3/read/${id}`,
   // CONTENT_HIERARCHY: (contentId: string, type: string) => `${PROXY_SLAG_V8}/action/content/v3/hierarchy/${contentId}?hierarchyType=${type}`,
   BATCH_CERT_ISSUE: `${PROXY_SLAG_V8}/course/batch/cert/v1/issue/`,
@@ -155,7 +151,6 @@ export const API_END_POINTS = {
   SEARCH_V7PUBLIC: `${PUBLIC_SLAG_V8}/publicSearch/getCourses`,
   Sashakt_Auth: `${PUBLIC_SLAG_V8}/sashaktAuth/login`,
   Maternity_Auth: `${PUBLIC_SLAG_V8}/maternityFoundation/login`,
-  ENROLLED_USER: `${PROTECTED_SLAG_V8}/userEnrolledInSource`,
   Tnai_Auth: `${PUBLIC_SLAG_V8}/tnai/login`,
   MNC_Auth: `${PUBLIC_SLAG_V8}/mnc/login`,
   Tnnmc_Auth: `${PUBLIC_SLAG_V8}/tnnmc/login`,
@@ -173,7 +168,6 @@ export const API_END_POINTS = {
   // SKILL_DATA: `/api/managerRecommendedSkills`,
   SOCIAL_VIEW_SEARCH_RESULT: `${PROTECTED_SLAG_V8}/social/post/search`,
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
-  SEARCH_V8PUBLIC: `${PUBLIC_SLAG_V8}/ratingsSearch/recommendation/publicSearch/getcourse`,
   translateFilters: (lang: string) => `${PROTECTED_SLAG_V8}/translate/filterdata/${lang}`,
   updateProfileDetails: `${PROTECTED_SLAG_V8}/user/profileDetails/updateUser`,
   updateProfileWithSourceDetails: `${PROTECTED_SLAG_V8}/user/profileDetails/v2/updateUser`,

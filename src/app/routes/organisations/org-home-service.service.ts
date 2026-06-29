@@ -30,7 +30,7 @@ export class OrgServiceService {
   getSearchResults(): Observable<any> {
     // tslint:disable-next-line:max-line-length
     const req = { request: { filters: { primaryCategory: ['Course'], contentType: ['Course'], sourceName: 'Ministry of Health and Family Welfare' } }, query: '', sort: [{ lastUpdatedOn: 'desc' }] }
-    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
 
   getDatabyOrgId(): Promise<any> {
@@ -58,7 +58,7 @@ export class OrgServiceService {
         }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
       }
     }
-    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
 
   setConnectSid(authCode: any): Observable<any> {
