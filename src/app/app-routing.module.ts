@@ -52,7 +52,6 @@ import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.componen
 import { MNCCallbackComponent } from './mnc-callback/mnc-callback.component'
 import { OrgHomeComponent } from './routes/organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
-import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
@@ -290,7 +289,8 @@ const routes: Routes = [
   },
   {
     path: 'app/user/competency',
-    component: CompetencyDashboardComponent,
+    loadChildren: () =>
+      import('./routes/competency/competency.module').then(u => u.CompetencyModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {

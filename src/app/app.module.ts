@@ -100,9 +100,9 @@ import { LanguageDialogComponent } from './routes/language-dialog/language-dialo
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
-import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
-import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
-import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
+// @aastrika/comptency modules (EntryModule, SelfAssessmentModule, CompetencyModule)
+// are now lazy-loaded via src/app/routes/competency/competency.module.ts on the
+// /app/user/competency route, keeping the heavy package out of the main bundle.
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
 import { UserAgentResolverService } from './services/user-agent.service'
@@ -367,9 +367,6 @@ export function initTranslate(translate: TranslateService) {
     NgxExtendedPdfViewerModule,
     ImageCropModule,
     SharedModule,
-    EntryModule,
-    SelfAssessmentModule,
-    CompetencyModule,
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,
