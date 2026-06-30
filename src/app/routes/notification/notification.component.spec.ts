@@ -236,11 +236,13 @@ describe('NotificationsComponent', () => {
     expect(component.dropdownContent).toBe(false)
   })
 
-  it('getAccessToken should return token from localStorage', async () => {
+  it('getAccessToken should not read tokens from localStorage (tokens are no longer persisted)', async () => {
+    // Security: access/refresh tokens are no longer persisted in localStorage,
+    // so getAccessToken must return '' even when legacy token data is present.
     const tokenData = JSON.stringify({ token: { access_token: 'my-token-123' } })
     localStorage.setItem('loginDetailsWithToken', tokenData)
     const result = await component.getAccessToken()
-    expect(result).toBe('my-token-123')
+    expect(result).toBe('')
     localStorage.removeItem('loginDetailsWithToken')
   })
 
