@@ -78,6 +78,11 @@ export class QuizService {
   updatePassbook(passbookBody: any) {
     return this.http.patch(`${API_END_POINTS.UPDATE_PASSBOOK}`, passbookBody)
   }
+
+  // ASHA-home extra flow: record a self-assessment attempt against the learner path.
+  updateAshaAssessment(req: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.UPDATE_ASHA_PROGRESS, req)
+  }
   createAssessmentSubmitRequest(
     identifier: string,
     title: string,

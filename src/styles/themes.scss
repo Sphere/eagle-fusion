@@ -91,6 +91,7 @@ $theme-token-list: (
   theme-progress,
   theme-inprogress,
   theme-warning,
+  theme-fail,
   theme-black,
   theme-ellipse
 );
@@ -120,6 +121,7 @@ $light-theme-tokens: (
   theme-progress: #408f80,
   theme-inprogress: #F9F487,
   theme-warning: #E0BE80,
+  theme-fail: #ce9a39,
   theme-black: #000000,
   theme-ellipse: #E7F2FA
 );
@@ -149,6 +151,7 @@ $dark-theme-tokens: (
   theme-progress: #469788,
   theme-inprogress: #F9F487,
   theme-warning: #E0BE80,
+  theme-fail: #ce9a39,
   theme-black: #000000,
   theme-ellipse: #4E4E4E
 );

@@ -11,9 +11,10 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
-import { includes, get, map, filter, set, first, each, toInteger } from 'lodash'
+import { includes, get, map, filter, set, first, each, toInteger } from 'lodash-es'
 import moment from 'moment'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { TranslateService } from '@ngx-translate/core'
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -30,11 +31,11 @@ const flattenItems = (items: any[], key: string | number) => {
   }, [])
 }
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-home-page',
-    templateUrl: './app-toc-home-page.component.html',
-    styleUrls: ['./app-toc-home-page.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-home-page',
+  templateUrl: './app-toc-home-page.component.html',
+  styleUrls: ['./app-toc-home-page.component.scss'],
+
 })
 export class AppTocHomePageComponent implements OnInit, OnDestroy {
   [x: string]: any
@@ -98,6 +99,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   finishedPercentage: any | undefined
   selectedIndex = 0
   visibleTabs: string[] = ['overview']
+  // ASHA-home flow: query params carried in when a course is opened from the ASHA learning card.
+  ashaData: any = {}
+  navigateAshaHome = false
   @HostListener('window:scroll', [])
   handleScroll() {
     const windowScroll = window.pageYOffset
@@ -120,7 +124,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private authAccessControlSvc: AccessControlService,
     private discussiConfig: DiscussConfigResolve,
     private onlineIndexedDbService: IndexedDBService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
@@ -132,6 +137,12 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit() {
+    // ASHA-home flow: capture the asha context (isAsha + competency/level/course params)
+    // passed in the query string so this course page can drive asha-specific navigation.
+    this.route.queryParams.subscribe((queryParams: any) => {
+      this.ashaData = queryParams || {}
+      this.navigateAshaHome = this.ashaData.isAsha === 'true'
+    })
     this.checkRoute()
     try {
       this.isInIframe = window.self !== window.top

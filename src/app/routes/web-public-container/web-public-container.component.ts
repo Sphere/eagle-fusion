@@ -132,12 +132,18 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
         }
       })
     }
-    // Main flow
+    // Evaluate competency eligibility first so isCompetencyUser is set correctly even
+    // when standard playlist identifiers also exist (the fallback above can populate them).
+    if (this.handleCompetencyFlow(rootOrgId, roleCheck)) {
+      return
+    }
+
+    // Main flow (non-competency users)
     if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0 || this.programIdentifiers.length > 0) {
       this.fetchEnvironmentConfigurations()
       return
     } else {
-      this.handleCompetencyFlow(rootOrgId, roleCheck)
+      this.isLoading.set(false)
     }
   }
 
@@ -147,7 +153,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private handleCompetencyFlow(rootOrgId: string, roleCheck: (roles: string[]) => boolean) {
+  private handleCompetencyFlow(rootOrgId: string, roleCheck: (roles: string[]) => boolean): boolean {
     const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
 
     const competencyPlaylist = this.plyLsData?.find(element =>
@@ -158,8 +164,8 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     )
 
     if (!competencyPlaylist) {
-      this.isLoading.set(false)
-      return
+      // Not a competency user — let the caller fall through to the standard flow.
+      return false
     }
 
     this.competencyPlaylists.set([{ ...competencyPlaylist, playlistId: 'COMPETENCY_PLAYLIST' }])
@@ -171,6 +177,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
 
     this.isCompetencyUser.set(true)
     this.isLoading.set(false)
+    return true
   }
 
   normalizeCompetencyPayload(payload: any): any[] {

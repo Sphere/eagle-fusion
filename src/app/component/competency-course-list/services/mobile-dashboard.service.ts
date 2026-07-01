@@ -33,7 +33,10 @@ export class MobileDashboardService {
         const levels: any[] = comp.additionalProperties?.competencyLevelDescription || []
         return levels.map((l: any) => ({
           competencyId: comp.id,
-          name: comp.name,
+          // The level keeps its OWN name; the competency name is carried separately
+          // (competencyName) only so the card title can be derived, then stripped.
+          name: l.name || l.levelName,
+          competencyName: comp.name,
           level: l.level,
           levelName: l.name || l.levelName,
           description: l.description,
@@ -63,14 +66,18 @@ export class MobileDashboardService {
       const key = String(level.competencyId)
       if (!competencyMap.has(key)) {
         competencyMap.set(key, {
-          title: level.name,
-          competencyID: level.competencyId,
+          title: level.competencyName || level.name,
+          competencyID: String(level.competencyId),
           contentId: level.course?.[0]?.id || '',
           batchId: '',
+          isAsha: 'true',
           levels: [],
         })
       }
-      competencyMap.get(key).levels.push(level)
+      // Strip the helper competencyName so card levels keep only their own fields.
+      const cleanLevel = { ...level }
+      delete cleanLevel.competencyName
+      competencyMap.get(key).levels.push(cleanLevel)
     }
 
     const courses = Array.from(competencyMap.values())
@@ -100,8 +107,14 @@ export class MobileDashboardService {
           const named = this.getFormattedCompetencyCoursesWithFilter(rawCourses, competencyLevels, competencyIds)
           named.forEach((n: any) => {
             const key = String(n.competencyID)
-            if (competencyMap.has(key) && n.title) {
-              competencyMap.get(key).title = n.title
+            if (competencyMap.has(key)) {
+              const existing = competencyMap.get(key)
+              competencyMap.set(key, {
+                ...existing,
+                ...n,
+                competencyID: existing.competencyID,
+                levels: existing.levels,
+              })
             }
           })
         }
@@ -121,85 +134,99 @@ export class MobileDashboardService {
     competencyLevels: any[],
     competencyIds: string[]
   ): any[] {
+    const uniqueIds = competencyIds.map(String)
     return courses
       .map(course => {
-        try {
-          const parsed = JSON.parse(course.competencies_v1 || '[]')
-          const competencyID = parsed[0]?.competencyId
-          if (!competencyID || !competencyIds.map(String).includes(String(competencyID))) return null
-          const levels = competencyLevels.filter(l => l.competencyId === competencyID)
-          const batchId = course.batches?.[0]?.batchId || ''
-          return {
-            title: course.name,
-            contentId: course.identifier,
-            contentType: course.contentType,
-            subTitle: course.subTitle || '',
-            description: course.description || '',
-            creator: course.creator || '',
-            duration: course.duration || 0,
-            batchId,
-            thumbnail: course.posterImage || course.appIcon || '',
-            childContent: course.childNodes || [],
-            competencyID,
-            levels,
-            lang: course.lang || course.language,
+        const matchedLevel = competencyLevels.find(l =>
+          (l.course || []).some((c: any) => c.id === course.identifier)
+        )
+        let competencyID = matchedLevel?.competencyId
+        if (competencyID === undefined || competencyID === null) {
+          try {
+            competencyID = JSON.parse(course.competencies_v1 || '[]')[0]?.competencyId
+          } catch {
+            competencyID = undefined
           }
-        } catch {
+        }
+        if (competencyID === undefined || competencyID === null || !uniqueIds.includes(String(competencyID))) {
           return null
+        }
+        const levels = competencyLevels.filter(l => String(l.competencyId) === String(competencyID))
+        const batchId = course.batches?.[0]?.batchId || ''
+        return {
+          title: course.name,
+          contentId: course.identifier,
+          contentType: course.contentType,
+          subTitle: course.subTitle || '',
+          description: course.description || '',
+          creator: course.creator || '',
+          duration: course.duration || 0,
+          batchId,
+          thumbnail: course.posterImage || course.appIcon || '',
+          childContent: (course.childNodes || course.children || []).length,
+          competencyID,
+          levels,
+          lang: course.lang || course.language,
         }
       })
       .filter(Boolean)
   }
 
   private mergeProgressData(courses: any[], progressRecords: any[]): any[] {
-    return courses
-      .map(course => {
-        const courseId = String(course.competencyID || '').toLowerCase()
-        // Normalize: the API returns 'competencylevel' as the level field, not 'levelId'.
-        // Map to 'levelId' here so the rest of the code and the component both see it consistently.
-        const rawProgress: any[] = (progressRecords || [])
-          .filter(p => {
-            const pid = p.competencyid ?? p.competencyId ?? ''
-            return String(pid).toLowerCase() === courseId
-          })
-          .map(p => ({ ...p, levelId: p.levelId ?? p.competencylevel }))
-
-        if (!course.levels?.length) {
-          return { ...course, progress: [] }
-        }
-
-        // Build courseId → level numbers from playlist (mirrors mobile groupLevelsByCourse)
-        const courseGroups = new Map<string, string[]>()
-        for (const level of course.levels) {
-          const levelCourseId = level.course?.[0]?.id
-          if (levelCourseId) {
-            if (!courseGroups.has(levelCourseId)) courseGroups.set(levelCourseId, [])
-            courseGroups.get(levelCourseId)!.push(String(level.level))
-          }
-        }
-
-        // Find completed course IDs using playlist level data
-        const completedCourseIds = new Set<string>()
-        rawProgress.forEach(p => {
-          if (p.passFailStatus === 'Pass' && p.contentType?.toLowerCase() === 'course') {
-            const matchingLevel = course.levels.find(
-              (l: any) => String(l.level) === String(p.levelId)
-            )
-            const levelCourseId = matchingLevel?.course?.[0]?.id
-            if (levelCourseId) completedCourseIds.add(levelCourseId)
-          }
+    const merged = courses.map(course => {
+      const courseKey = String(course.competencyID || '').toLowerCase()
+      // The API returns 'competencylevel' as the level field; normalize to numeric 'levelId'.
+      const rawProgress: any[] = (progressRecords || [])
+        .filter(p => {
+          const pid = p.competencyid ?? p.competencyId ?? ''
+          return String(pid).toLowerCase() === courseKey
         })
+        .map(p => ({ ...p, levelId: p.levelId ?? p.competencylevel }))
 
-        // Expand: mark ALL levels of each completed course as Pass
-        const expandedCoursePass = new Map<string, any>()
-        completedCourseIds.forEach(completedCourseId => {
-          const levelNums = courseGroups.get(completedCourseId) || []
-          const baseProgress = rawProgress.find(p => {
-            const lvl = course.levels.find((l: any) => String(l.level) === String(p.levelId))
-            return lvl?.course?.[0]?.id === completedCourseId && p.passFailStatus === 'Pass'
-          })
-          levelNums.forEach(levelNum => {
-            expandedCoursePass.set(levelNum, {
+      if (!course.levels?.length) {
+        return { ...course, progress: [] }
+      }
+
+      // Map every course id (across all languages) to the level numbers it appears in
+      // (mirrors mobile groupLevelsByCourse — iterates ALL courses, not just course[0]).
+      const courseGroups = new Map<string, string[]>()
+      for (const level of course.levels) {
+        ; (level.course || []).forEach((c: any) => {
+          if (!c?.id) {
+            return
+          }
+          if (!courseGroups.has(c.id)) {
+            courseGroups.set(c.id, [])
+          }
+          courseGroups.get(c.id)!.push(String(level.level))
+        })
+      }
+
+      // Identify completed courses (a Pass on a 'course' content type) by their level.
+      const completedCourseIds = new Set<string>()
+      rawProgress.forEach(p => {
+        if (p.passFailStatus === 'Pass' && p.contentType?.toLowerCase() === 'course') {
+          const matchingLevel = course.levels.find((l: any) => String(l.level) === String(p.levelId))
+          const levelCourseId = matchingLevel?.course?.[0]?.id
+          if (levelCourseId) {
+            completedCourseIds.add(levelCourseId)
+          }
+        }
+      })
+
+      // Keep original per-level progress, then expand each completed course across all the
+      // levels that course covers. NO sequential inference (matches mobile) — only the
+      // levels actually tied to a completed course are marked Pass.
+      const finalProgress = new Map<string, any>()
+      rawProgress.forEach(p => finalProgress.set(String(p.levelId), p))
+
+      completedCourseIds.forEach(completedCourseId => {
+        const baseProgress = rawProgress.find(p => {
+          const lvl = course.levels.find((l: any) => String(l.level) === String(p.levelId))
+          return lvl?.course?.[0]?.id === completedCourseId && p.passFailStatus === 'Pass'
+        })
+          ; (courseGroups.get(completedCourseId) || []).forEach(levelNum => {
+            finalProgress.set(levelNum, {
               levelId: Number(levelNum),
               competencyId: course.competencyID,
               completionpercentage: 100,
@@ -208,66 +235,37 @@ export class MobileDashboardService {
               contentType: 'course',
             })
           })
-        })
-
-        // Mobile pattern: combine ALL non-course records + expanded course records
-        // (using originalProgress ensures no raw record is dropped even with odd levelIds)
-        const originalProgress = new Map<string, any>()
-        rawProgress.forEach(p => originalProgress.set(String(p.levelId), p))
-
-        const finalProgress = new Map(originalProgress)
-        expandedCoursePass.forEach((entry, levelNum) => finalProgress.set(levelNum, entry))
-
-        const nonCourseProgress = rawProgress.filter(p => p.contentType?.toLowerCase() !== 'course')
-        const rawMerged = [...nonCourseProgress, ...Array.from(finalProgress.values())]
-
-        // Priority: if selfAssessment Pass exists for a level, drop course Pass for that level
-        // This prevents double-counting when both paths complete the same level
-        const levelsSaPass = new Set<string>(
-          rawMerged
-            .filter(p => p.contentType?.toLowerCase() === 'selfassessment' && p.passFailStatus === 'Pass')
-            .map(p => String(p.levelId))
-        )
-
-        const seen = new Set<string>()
-        const progress = rawMerged.filter(p => {
-          if (
-            p.contentType?.toLowerCase() === 'course' &&
-            p.passFailStatus === 'Pass' &&
-            levelsSaPass.has(String(p.levelId))
-          ) return false // saPass already marks this level done; skip coursePass
-
-          const key = `${p.levelId}-${p.contentType}-${p.passFailStatus}`
-          if (seen.has(key)) return false
-          seen.add(key)
-          return true
-        })
-
-        // Sequential inference: levels unlock in order 1 → 5.
-        // If level N passes, all levels below N must also have been completed.
-        // The API may only record the highest completed level, not one entry per level.
-        const passedLevelNums = new Set(
-          progress
-            .filter(p => p.passFailStatus === 'Pass')
-            .map(p => Number(p.levelId))
-            .filter(n => !isNaN(n) && n >= 1 && n <= 5)
-        )
-        const maxPassedLevel = passedLevelNums.size > 0 ? Math.max(...passedLevelNums) : 0
-        for (let l = 1; l < maxPassedLevel; l++) {
-          if (!passedLevelNums.has(l)) {
-            progress.push({
-              levelId: l,
-              competencyId: course.competencyID,
-              completionpercentage: 100,
-              passFailStatus: 'Pass',
-              contentType: 'course',
-            })
-          }
-        }
-
-        return { ...course, progress }
       })
-      .sort((a, b) => String(a.competencyID).localeCompare(String(b.competencyID)))
+
+      const nonCourseProgress = rawProgress.filter(p => p.contentType?.toLowerCase() !== 'course')
+      const mergedProgress = [...nonCourseProgress, ...Array.from(finalProgress.values())]
+      const deduped = _.uniqBy(mergedProgress, (p: any) => `${p.levelId}-${p.contentType}-${p.passFailStatus}`)
+
+      // Slim each record to the normalized shape the card/UI expects.
+      const progress = deduped.map((p: any) => ({
+        attemptcount: p.attemptcount ?? 0,
+        competencyId: p.competencyId ?? p.competencyid ?? course.competencyID,
+        completionpercentage: p.completionpercentage ?? 0,
+        contentType: p.contentType,
+        levelId: Number(p.levelId ?? p.competencylevel),
+        passFailStatus: p.passFailStatus,
+      }))
+
+      // The self-assessment lives in its OWN course (the courseid on a selfAssessment progress
+      // record), NOT the per-level learning course. Point contentId there so the guard fetches
+      // the course that holds the assessment quiz. Fall back to the existing contentId when
+      // there's no self-assessment progress yet.
+      const selfAssessmentCourseId = rawProgress
+        .find((p: any) => p.contentType?.toLowerCase() === 'selfassessment' && p.courseid)?.courseid
+
+      return {
+        ...course,
+        ...(selfAssessmentCourseId ? { contentId: selfAssessmentCourseId } : {}),
+        progress,
+      }
+    })
+
+    return _.sortBy(merged, (item: any) => Number(item.competencyID))
   }
 
   private setCoursesState(courses: any[]): { ashaData: any[], completedCourses: any[], inProgressCourses: any[] } {

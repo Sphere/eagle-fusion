@@ -40,6 +40,7 @@ import {
   ConfigurationsService,
 } from '@ws-widget/utils'
 import moment from 'moment'
+import _ from 'lodash'
 // import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
   standalone: false,
@@ -109,7 +110,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   public dialogQuiz: any
   showCompletionMsg = false
   enrolledCourse: any
-  subscription: any
   castResourceSubscribe: any
   // **CRITICAL**: Store assessment progress to avoid redundant fetches
   private assessmentCurrentProgress: any = null
@@ -117,6 +117,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
+  isAsha = false;
+  private isAshaSubscription: Subscription
+  private isCurrentcardDataSubscribe: Subscription
   constructor(
     private events: EventService,
     public dialog: MatDialog,
@@ -138,10 +141,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
   openOverviewDialog() {
     let overviewData: any = {}
-    if (this.subscription) {
-      this.subscription.unsubscribe()
-    }
-    this.viewerSvc.competencyAsessment.next(false)
+    // this.viewerSvc.competencyAsessment.next(false)
     overviewData = {
       learningObjective: this.learningObjective,
       complexityLevel: this.complexityLevel,
@@ -169,6 +169,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'close-overview') {
           if (result.competency) {
             this.router.navigate([`/app/user/competency`])
+          } else if (result.asha) {
+            this.router.navigate([`page/home`])
           } else {
             this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
               if (isNull(data.nextResource)) {
@@ -228,7 +230,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           }
 
         }
-        this.dialogOverview = null
+        // this.dialogOverview = null
       })
     }
   }
@@ -295,6 +297,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
     this.startTime = 0
     this.timeLeft = 0
+
+    if (this.isAshaSubscription) {
+      this.isAshaSubscription.unsubscribe()
+    }
+
+    if (this.isCurrentcardDataSubscribe) {
+      this.isCurrentcardDataSubscribe.unsubscribe()
+    }
   }
 
   openCongratulationPopup(): Promise<boolean> {
@@ -343,6 +353,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               name: this.name,
               collectionId: this.collectionId,
               gating: this.viewerDataSvc.gatingEnabled,
+              mimeType: this.viewerDataSvc?.resource?.mimeType,
+              isCorrectAnswerPopUp: this.viewerDataSvc?.resource?.isCorrectAnswerPopUp || undefined
+
             },
             // **CRITICAL**: Pass existing progress data to modal so it doesn't reset completed assessments
             currentProgress: this.assessmentCurrentProgress,
@@ -413,19 +426,30 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.dialogAssesment.afterClosed().subscribe((result: any) => {
       this.loggerSvc.log(result.event)
       if (result) {
-        if (result.event === 'NEXT_COMPETENCY' && result.competency) {
+        if (result.event === "NEXT_COMPETENCY" && result.competency) {
           this.nextCompetency()
         }
-        if (result.event === 'FAILED_COMPETENCY') {
+        if (result.event === "FAILED_COMPETENCY") {
           this.router.navigate([`/app/user/competency`])
         }
-        if (result.event === 'VIEW_COURSES') {
+        if (result.event === "VIEW_COURSES") {
           this.viewCompetencyCourses(result)
         }
 
-        if (result.event === 'CLOSE') {
+        if (result.event === "FAILED_ASHA") {
+          this.router.navigate([`page/home`])
+        }
+
+        if (result.event === "VIEW_ASHA_COURSES") {
+          this.navigateToAshaCourses(result)
+          // this.viewCompetencyCourses(result)
+        }
+
+        if (result.event === "CLOSE") {
           if (result.competency) {
             this.router.navigate([`/app/user/competency`])
+          } else if (result.asha) {
+            this.router.navigate([`page/home`])
           } else {
 
             this.closeBtnDialog()
@@ -525,6 +549,84 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
+  navigateToAshaCourses(data) {
+    let currentData
+
+    currentData = this.contentSvc.getAshaCardData()
+    console.log("Is ASHA card:", currentData)
+
+    if (data.competencyId && data.competencyLevel) {
+      let identifier: any = this.getCourseId(
+        data.competencyId,
+        data.competencyLevel,
+        currentData
+      )
+
+      this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe((res) => {
+        console.log(res.result.content[0])
+        // navigationdata = this.getNavigationData(res.result.content, data.competencyLevel, data, currentData)
+        const navigationdata = res.result.content[0]
+        let batchId = navigationdata.batches[0].batchId
+
+        let ashaData = {
+          isAsha: true,
+          userid: this.configSvc.userProfile.userId || "",
+          batchid: batchId,
+          contentid: navigationdata.identifier,
+          competencylevel: data.competencyLevel,
+          completionpercentage: 0,
+          progress: "course",
+          competencyid: data.competencyId,
+          competencyName: data?.title
+        }
+
+        this.contentSvc.setAshaData(ashaData)
+
+        this.router.navigate(
+          [`/app/toc/${navigationdata.identifier}/overview`],
+          {
+            queryParams: {
+              primaryCategory: "course",
+              batchId: batchId,
+              competencyid: data.competencyId,
+              levelId: data.competencyLevel,
+              courseid: data.courseid,
+              isAsha: true,
+            },
+          }
+        )
+      })
+    }
+  }
+
+  getCourseId(
+    competencyId: string,
+    levelId: string,
+    ashaData: any
+  ): string | null {
+    // Extract the language from the ashaData
+    const language = ashaData.lang
+
+    // Iterate over the levels in the ashaData
+    for (const level of ashaData.levels) {
+      // Check if the competencyId and levelId match
+      if (
+        level.competencyId.toString() == competencyId &&
+        level.level == levelId
+      ) {
+        // Iterate over the courses in the matched level
+        for (const course of level.course) {
+          // Check if the course language matches the input language (ashaData.lang)
+          if (course.lang == language) {
+            return course.id // Return the matched course ID
+          }
+        }
+      }
+    }
+
+    // If no match is found, return null
+    return null
+  }
 
   nextCompetency() {
     this.viewState = 'answer'

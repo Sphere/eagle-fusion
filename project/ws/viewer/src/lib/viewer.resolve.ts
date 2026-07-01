@@ -30,14 +30,10 @@ export class ViewerResolve {
     batchId: string | null
   ): Promise<{ isAccessible: boolean; redirectUrl?: string; redirectParams?: { [key: string]: any } }> {
     try {
-      // collectionId is now required for validation
+      // Without collectionId there is no hierarchy to validate against — skip gating and allow access
       if (!collectionId) {
-        // Return false if no collection ID - user must access through proper course navigation
-        this.logger.warn('No collectionId provided - cannot validate gating')
-        return {
-          isAccessible: false,
-          redirectUrl: '/app/home',
-        }
+        this.logger.warn('No collectionId provided - skipping gating validation, allowing access')
+        return { isAccessible: true }
       }
 
       // Fetch the course/collection content with full hierarchy
@@ -761,7 +757,7 @@ export class ViewerResolve {
       }),
       catchError(error => {
         // Only log gating errors, don't fail the entire resolution
-        if (error.message !== 'Resource not accessible due to gating') {
+        if (error.message !== 'Resource not accessible due to gating or missing course context') {
           this.viewerDataSvc.updateResource(null, error)
         }
         return of({ error, data: null })

@@ -39,23 +39,28 @@ export class QuizComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dataSubscription = this.activatedRoute.data.subscribe(
       async data => {
-        this.quizData = data.content.data
-        if (this.alreadyRaised && this.oldData) {
-          this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+        try {
+          this.quizData = data.content.data
+          if (this.alreadyRaised && this.oldData) {
+            this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+          }
+          if (this.quizData && this.quizData.artifactUrl.indexOf('content-store') >= 0) {
+            await this.setS3Cookie(this.quizData.identifier)
+          }
+          if (this.quizData) {
+            this.quizJson = await this.transformQuiz(this.quizData)
+          }
+          if (this.quizData) {
+            this.oldData = this.quizData
+            this.alreadyRaised = true
+            this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.quizData)
+          }
+        } catch (_e) {
+          // transformQuiz can fail if the quiz artifact URL is unreachable; keep going so the quiz shell renders
+        } finally {
+          this.isFetchingDataComplete = true
+          this.cdr.detectChanges()
         }
-        if (this.quizData && this.quizData.artifactUrl.indexOf('content-store') >= 0) {
-          await this.setS3Cookie(this.quizData.identifier)
-        }
-        if (this.quizData) {
-          this.quizJson = await this.transformQuiz(this.quizData)
-        }
-        if (this.quizData) {
-          this.oldData = this.quizData
-          this.alreadyRaised = true
-          this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.quizData)
-        }
-        this.isFetchingDataComplete = true
-        this.cdr.detectChanges()
       },
       () => { },
     )
@@ -122,13 +127,15 @@ export class QuizComponent implements OnInit, OnDestroy {
       if (this.forPreview && quizJSON) {
         quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
       }
-      quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-        if (question.multiSelection && question.questionType === undefined) {
-          question.questionType = 'mcq-mca'
-        } else if (!question.multiSelection && question.questionType === undefined) {
-          question.questionType = 'mcq-sca'
-        }
-      })
+      if (quizJSON && quizJSON.questions) {
+        quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
+          if (question.multiSelection && question.questionType === undefined) {
+            question.questionType = 'mcq-mca'
+          } else if (!question.multiSelection && question.questionType === undefined) {
+            question.questionType = 'mcq-sca'
+          }
+        })
+      }
       this.viewSvc.competencyAsessment.next(true)
       return quizJSON
     } {
@@ -144,13 +151,15 @@ export class QuizComponent implements OnInit, OnDestroy {
       if (this.forPreview && quizJSON) {
         quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
       }
-      quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-        if (question.multiSelection && question.questionType === undefined) {
-          question.questionType = 'mcq-mca'
-        } else if (!question.multiSelection && question.questionType === undefined) {
-          question.questionType = 'mcq-sca'
-        }
-      })
+      if (quizJSON && quizJSON.questions) {
+        quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
+          if (question.multiSelection && question.questionType === undefined) {
+            question.questionType = 'mcq-mca'
+          } else if (!question.multiSelection && question.questionType === undefined) {
+            question.questionType = 'mcq-sca'
+          }
+        })
+      }
       return quizJSON
     }
 

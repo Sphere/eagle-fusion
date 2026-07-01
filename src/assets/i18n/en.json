@@ -984,5 +984,6 @@
   "NOTE_CLEAR_ASSESSMENT": "Note: You didn’t clear the level {{nextLevel}} assessment . Complete the given course to complete level {{nextLevel}}.",
   "LEVEL_NOTE": "Note: Complete the level 1 assessment to progress to the next level.",
   "COMPETENCY_ACHIEVED": "Competency Achieved",
-  "LEVELS": "Levels:"
+  "LEVELS": "Levels:",
+  "FAIL_ASSESSMENT": "Self Assessment not cleared"
 }

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { TranslateService } from '@ngx-translate/core'
 import * as _ from 'lodash-es'
+import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
   standalone: false,
@@ -23,7 +24,8 @@ export class AshaLearningComponent implements OnInit {
   nextLevelInfo: any
   constructor(
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private contentSvc: WidgetContentService
   ) { }
 
   async ngOnInit() {
@@ -81,57 +83,86 @@ export class AshaLearningComponent implements OnInit {
 
   startSelfAssesment(data: any, event: Event) {
     event.stopPropagation()
-
-    if (this.isAdminGrantedProgress() || !data?.progress?.length) {
-      this.router.navigate(['/app/user/self-assessment'], { queryParams: { competencyId: data.competencyID } })
+    this.contentSvc.setAshaCardData(data)
+    if (this.isAdminGrantedProgress()) {
+      this.router.navigate(['/app/user/self-assessment'], { queryParams: data })
       return
     }
 
     const earnedProgress = this.getEarnedProgress()
-    const completedLevels = earnedProgress
-      .filter((entry: any) => entry.passFailStatus === 'Pass')
-      .map((entry: any) => entry.levelId)
+    if (data?.progress?.length) {
+      this.btnName = "Continue"
+      const completedLevels = earnedProgress
+        .filter((entry: any) => entry.passFailStatus === 'Pass')
+        .map((entry: any) => entry.levelId)
 
-    const allLevels = [1, 2, 3, 4, 5]
-    const nextIncompleteLevel: number | null = allLevels
-      .filter(level => !completedLevels.includes(level))
-      .reduce((min: number | null, level: number) => (min === null || level < min ? level : min), null)
+      const allLevels = [1, 2, 3, 4, 5]
+      const nextIncompleteLevel: number | null = allLevels
+        .filter(level => !completedLevels.includes(level))
+        .reduce((min: number | null, level: number) => (min === null || level < min ? level : min), null)
 
-    let highestLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === nextIncompleteLevel)
+      let highestLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === nextIncompleteLevel)
 
-    if (!highestLevelEntries.length) {
-      const lowerDone = completedLevels.filter((l: number) => l < (nextIncompleteLevel ?? Infinity))
-      const fallback = lowerDone.length > 0 ? Math.max(...lowerDone) : Math.min(...completedLevels)
-      highestLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === fallback)
-    }
+      if (!highestLevelEntries.length) {
+        const lowerDone = completedLevels.filter((l: number) => l < (nextIncompleteLevel ?? Infinity))
+        const fallback = lowerDone.length > 0 ? Math.max(...lowerDone) : Math.min(...completedLevels)
+        highestLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === fallback)
+      }
 
-    const highestLevelEntry =
-      highestLevelEntries.find((e: any) => e.passFailStatus === 'Pass' && e.contentType === 'course') ||
-      highestLevelEntries[0]
+      const highestLevelEntry =
+        highestLevelEntries.find((e: any) => e.passFailStatus === 'Pass' && e.contentType === 'course') ||
+        highestLevelEntries[0]
 
-    const { contentType, passFailStatus, levelId, completionpercentage } = highestLevelEntry || {}
+      const { contentType, passFailStatus, levelId, completionpercentage } = highestLevelEntry || {}
 
-    if (contentType === 'selfAssessment' && passFailStatus === 'Pass') {
-      this.router.navigate(['/app/user/self-assessment'], { queryParams: { competencyId: data.competencyID } })
-      return
-    }
+      if (contentType === 'selfAssessment' && passFailStatus === 'Pass') {
+        this.router.navigate(['/app/user/self-assessment'], { queryParams: data })
+        return
+      } else {
+        // Prepare to navigate to the course (for Cases 2, 3, and 4)
+        let nextLevelId = levelId || nextIncompleteLevel
 
-    let targetLevelId = levelId || nextIncompleteLevel
-    if (completionpercentage === 100) targetLevelId = (targetLevelId ?? 0) + 1
+        // Move to the next level if the current level is completed (100% completion)
+        if (completionpercentage === 100) {
+          nextLevelId += 1
+        }
 
-    const courseId = this.getCourseId(data.competencyID, targetLevelId, data)
-    if (courseId) {
-      this.router.navigate([`/app/toc/${courseId}/overview`], {
-        queryParams: {
-          primaryCategory: 'Course',
-          batchId: data.batchId,
-          competencyid: data.competencyID,
-          levelId: targetLevelId,
-          isAsha: true,
-        },
-      })
+        let identifier: any = this.getCourseId(data.competencyID, nextLevelId, data)
+
+
+        this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe((res) => {
+          console.log(res.result.content[0])
+          const navigationdata = res.result.content[0]
+          const batchId = navigationdata.batches[0].batchId
+
+          let ashaData = {
+            isAsha: true,
+            batchid: batchId,
+            contentid: navigationdata.identifier,
+            competencylevel: nextLevelId,
+            completionpercentage: 0,
+            progress: "course",
+            competencyid: data.competencyID,
+            competencyName: data.title
+          }
+
+          this.contentSvc.setAshaData(ashaData)
+
+          // Navigate to the course page
+          this.router.navigate([`/app/toc/${navigationdata.identifier}/overview`], {
+            queryParams: {
+              primaryCategory: "Course",
+              batchId: batchId,
+              competencyid: data.competencyID,
+              levelId: nextLevelId,
+              courseid: data.contentId,
+              isAsha: true,
+            },
+          })
+        })
+      }
     } else {
-      this.router.navigate(['/app/user/self-assessment'], { queryParams: { competencyId: data.competencyID } })
+      this.router.navigate(['/app/user/self-assessment'], { queryParams: data })
     }
   }
 
