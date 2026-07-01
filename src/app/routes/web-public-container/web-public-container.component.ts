@@ -347,28 +347,33 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   // To view all course
   viewAllCourse(content: any) {
     const courseType = content?.button?.courseType
-    const isViewingAll = content?.data?.length === content?.displayData?.length
 
+    // Desktop: "View All" always navigates to the full listing page on a single
+    // click. (Previously navigation was gated behind the expand/collapse toggle,
+    // so when all items were already shown it took two clicks — and the
+    // router.navigate() Promise was wrongly assigned to content.displayData.)
+    if (!this.isXSmall()) {
+      if (courseType == 'continueLearning' || courseType == 'completed' || courseType == 'formatForYouCourses') {
+        this.router.navigate(['app/user/my_courses'], { queryParams: { courseType } })
+      } else if (courseType == 'topCourse' || courseType == 'cneCourses') {
+        this.router.navigate(['app/search/topCourse'], {
+          queryParams: {
+            courseType,
+            data: courseType == 'topCourse' ? this.topCertifiedCourseIdentifier : this.cneCoursesIdentifier,
+          },
+        })
+      }
+      return
+    }
+
+    // Mobile: toggle inline expand / collapse.
+    const isViewingAll = content?.data?.length === content?.displayData?.length
     if (courseType == 'continueLearning' || courseType == 'completed' || courseType == 'formatForYouCourses') {
-      if (isViewingAll) {
-        // Hide - reset to initial limit
-        content.displayData = (courseType == 'formatForYouCourses' ? this.coursesForYou() : this.userEnrollCourse).slice(0, content.limit)
-      } else {
-        // View all
-        content.displayData = this.isXSmall() ?
-          (courseType == 'formatForYouCourses' ? this.coursesForYou() : this.userEnrollCourse)
-          : this.router.navigate(['app/user/my_courses'], { queryParams: { courseType: courseType } })
-      }
+      const full = courseType == 'formatForYouCourses' ? this.coursesForYou() : this.userEnrollCourse
+      content.displayData = isViewingAll ? full.slice(0, content.limit) : full
     } else if (courseType == 'topCourse' || courseType == 'cneCourses') {
-      if (isViewingAll) {
-        // Hide - reset to initial limit
-        content.displayData = (courseType == 'topCourse' ? this.topCertifiedCourse() : this.cneCourse()).slice(0, content.limit)
-      } else {
-        // View all
-        content.displayData = this.isXSmall() ?
-          (courseType == 'topCourse' ? this.topCertifiedCourse() : this.cneCourse())
-          : this.router.navigate(['app/search/topCourse'], { queryParams: { courseType: courseType, data: courseType == 'topCourse' ? this.topCertifiedCourseIdentifier : this.cneCoursesIdentifier } })
-      }
+      const full = courseType == 'topCourse' ? this.topCertifiedCourse() : this.cneCourse()
+      content.displayData = isViewingAll ? full.slice(0, content.limit) : full
     }
   }
 

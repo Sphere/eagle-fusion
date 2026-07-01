@@ -241,10 +241,17 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
   loadPageNum(pageNum: number) {
     // this.raiseTelemetry('pageChange')
-    if (pageNum < 1 || pageNum > this.totalPages) {
+    // Coerce to a real number: page values arrive as strings from the number
+    // input, the (pageChange) event and query params. A string here breaks
+    // next/prev arithmetic ("19" + 1 -> "191"), the pdf viewer's
+    // scrollPageIntoView (rejects string pages), and the progress high-water
+    // mark comparison (maxPageReached). That in turn blocks reaching the last
+    // page and stops progress from ever completing.
+    const page = Number(pageNum)
+    if (!page || page < 1 || page > this.totalPages) {
       return
     }
-    this.currentPage.setValue(pageNum)
+    this.currentPage.setValue(page)
     // if (!this.widgetData.disableTelemetry) {
     //   this.eventDispatcher(WsEvents.EnumTelemetrySubType.StateChange)
     // }

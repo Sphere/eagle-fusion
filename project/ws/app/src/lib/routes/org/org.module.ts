@@ -37,7 +37,7 @@ import { TranslateModule } from '@ngx-translate/core'
     WidgetResolverModule,
     CardContentModule,
     InfiniteScrollModule,
-    TranslateModule
+    TranslateModule,
   ],
   exports: [],
   providers: [PipeContentRoutePipe],

@@ -1328,6 +1328,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   async openCongratulationPopup(): Promise<boolean> {
     const dialogRef = this.dialog.open(CongratulationsPopupComponent, {
       panelClass: 'congratulations-dialog',
+      width: '360px',
+      maxWidth: '90vw',
       data: {
         collectionId: this.collectionId,
       },
@@ -1362,7 +1364,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         typeName: 'competency',
         competencyDetails: [
           {
-            competencyId: competency.competencyId,
+            // Send competencyId as a string. competencies_v1 parses it as a
+            // number, but the passbook API expects a string (the working
+            // selfAssessment call sends "106", not 106) — a number triggers a
+            // backend BAD_REQUEST: "Failed to update passbook details".
+            competencyId: competency.competencyId?.toString(),
             additionalParams: {
               competencyName: competency.competencyName,
             },
