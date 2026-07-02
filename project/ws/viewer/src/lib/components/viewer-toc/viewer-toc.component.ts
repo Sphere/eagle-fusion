@@ -24,7 +24,7 @@ import { of, Subscription } from 'rxjs'
 import { catchError, delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
-import { PlayerStateService } from '../../player-state.service'
+import { PlayerStateService, buildPlayerStateForResource } from '../../player-state.service'
 import { isNull, isEmpty } from 'lodash'
 import { saveAs } from 'file-saver'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
@@ -216,20 +216,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.heirarchy) {
           this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
         }
-        // Reset playerState completion to null immediately so the nav widget doesn't inherit
-        // the previous resource's 100% and incorrectly enable the Next button during loading
-        const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
-        this.playerStateService.setState({
-          isValid: Boolean(this.collection),
-          prev: currentIndex > 0 ? this.queue[currentIndex - 1]?.viewerUrl : null,
-          prevTitle: currentIndex > 0 ? this.queue[currentIndex - 1]?.title : null,
-          next: currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1]?.viewerUrl : null,
-          nextTitle: currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1]?.title : null,
-          currentPercentage: null,
-          prevPercentage: null,
-          nextContentId: currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1]?.identifier : null,
-          firstResource: this.queue[0]?.viewerUrl || null,
-        })
+        this.seedPlayerStateForCurrentResource()
         setTimeout(() => {
           this.processCurrentResourceChange()
           this.checkIndexOfResource()
@@ -1362,6 +1349,23 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     const result = await dialogRef.afterClosed().toPromise()
     return !!result?.completed
+  }
+  /**
+   * Seed playerState with the CURRENT resource's own known completion the moment we
+   * navigate to it, instead of blanking it to null.
+   *
+   * Blanking to null left the Next button disabled when revisiting an already-completed
+   * resource: processCurrentResourceChange() doesn't re-fetch progress (so
+   * updateResourceChange never runs), and a player already at 100% sends no fresh
+   * progress message — so null was never restored. The queue node is the same object
+   * that drives the completion tick, so reading its completionPercentage keeps the Next
+   * gate in sync with the tick for every content type. Indexing by the new resourceId
+   * means we never inherit the previous resource's percentage.
+   */
+  seedPlayerStateForCurrentResource() {
+    this.playerStateService.setState(
+      buildPlayerStateForResource(this.queue, this.resourceId, Boolean(this.collection)),
+    )
   }
   updateResourceChange() {
     const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)

@@ -14,6 +14,51 @@ export interface IPlayerSateStore {
   nextContentId: string | null
   firstResource: string | null
 }
+
+/** Minimal shape of a queue leaf node needed to derive player navigation state. */
+export interface IPlayerQueueNode {
+  identifier: string
+  viewerUrl: string
+  title: string
+  completionPercentage?: number
+}
+
+/**
+ * Derive the player navigation state for the resource identified by `resourceId`
+ * from the leaf-node queue. Kept as a pure function so the completion-sync logic
+ * that drives the Next button can be unit-tested without the heavy TOC component
+ * import graph.
+ *
+ * `currentPercentage` is taken from the resource's OWN queue node (the same object
+ * that drives the completion tick), so the Next gate stays in sync with the tick
+ * on every navigation — including revisiting an already-completed resource, where
+ * no fresh progress message is emitted. Indexing by `resourceId` means the previous
+ * resource's percentage is never inherited. An undefined percentage collapses to null.
+ */
+export function buildPlayerStateForResource(
+  queue: IPlayerQueueNode[],
+  resourceId: string | null,
+  isValid: boolean,
+): {
+  isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next: string | null
+  currentPercentage: number | null; prevPercentage: number | null; nextContentId: string | null; firstResource: string | null
+} {
+  const safeQueue = queue || []
+  const currentIndex = safeQueue.findIndex(c => c.identifier === resourceId)
+  const hasPrev = currentIndex > 0
+  const hasNext = currentIndex >= 0 && currentIndex + 1 < safeQueue.length
+  return {
+    isValid,
+    prev: hasPrev ? safeQueue[currentIndex - 1]?.viewerUrl : null,
+    prevTitle: hasPrev ? safeQueue[currentIndex - 1]?.title : null,
+    next: hasNext ? safeQueue[currentIndex + 1]?.viewerUrl : null,
+    nextTitle: hasNext ? safeQueue[currentIndex + 1]?.title : null,
+    currentPercentage: currentIndex >= 0 ? safeQueue[currentIndex]?.completionPercentage ?? null : null,
+    prevPercentage: hasPrev ? safeQueue[currentIndex - 1]?.completionPercentage ?? null : null,
+    nextContentId: hasNext ? safeQueue[currentIndex + 1]?.identifier : null,
+    firstResource: safeQueue[0]?.viewerUrl || null,
+  }
+}
 @Injectable({
   providedIn: 'root',
 })
