@@ -22,7 +22,7 @@ export class MobileDashboardService {
     const isUserDesignationInRoles = rolesInPlaylist.includes(designation.toLowerCase())
     if (!isUserDesignationInRoles) return null
 
-    const competencies: any[] = item.dataSource?.payload || []
+    const competencies: any[] = item.dataSource?.payload || item?.payload || []
     if (!competencies.length) return null
 
     const competencyIds: string[] = _.flatMap(competencies, compObj =>

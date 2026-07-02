@@ -93,9 +93,24 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     const roleCheck = (roles: string[]) =>
       roles?.some(r => r.toLowerCase() === designationLower)
     if (this.showbackButton() && !!this.programConfig) {
-      this.configData = this.programConfig?.tabs
-      this.uiConfig.set(this.configData)
-      this.programIdentifiers = this.selectedProgDet.payload
+      this.isCompetencyUser.set(this.selectedProgDet?.type === 'competency')
+      if (this.isCompetencyUser()) {
+        // this.handleCompetencyFlow(rootOrgId, roleCheck)
+        this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: 'COMPETENCY_PLAYLIST' }])
+        this.competencyDesignation = designation
+        this.competencyRole = 'learner'
+
+        const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST')
+        this.competencySection = sectionFromConfig || { text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
+
+        this.isCompetencyUser.set(true)
+        this.isLoading.set(false)
+        return
+      } else {
+        this.configData = this.programConfig?.tabs
+        this.uiConfig.set(this.configData)
+        this.programIdentifiers = this.selectedProgDet.payload
+      }
     } else if (Array.isArray(this.configData)) {
       this.uiConfig.set(this.configData.slice(1, -1))
       if (this.configSvc?.userProfile) {
