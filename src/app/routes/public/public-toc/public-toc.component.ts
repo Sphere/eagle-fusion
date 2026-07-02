@@ -6,6 +6,7 @@ import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/
 import { combineLatest, firstValueFrom } from 'rxjs'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { SeoService } from '../../../services/seo.service'
+import { UserAgentResolverService } from '../../../services/user-agent.service'
 
 @Component({
     standalone: false,
@@ -26,9 +27,11 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private userProfileSvc: UserProfileService,
     private seoSvc: SeoService,
     private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userAgentSvc: UserAgentResolverService,
   ) {}
   async ngOnInit() {
+    this.userAgentSvc.requestGeolocation()
     // Wait for child route if any
     const childRoute = this.activeRoute.firstChild || this.activeRoute
 
@@ -110,7 +113,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   }
   async seachAPI(id: any): Promise<any> {
     try {
-      const res = await firstValueFrom(this.orgService.getSearchResultsById(id))
+      const res = await firstValueFrom(this.orgService.getSearchResultsV7ById(id))
       if (res) {
         const found = find(res.result.content, (c: any) => c.identifier === id)
         if (found) {
@@ -119,13 +122,34 @@ export class PublicTocComponent implements OnInit, OnDestroy {
           this.logger.log('findRes', found)
 
           const courseUrl = `https://sphere.aastrika.org${this.router.url.split('?')[0]}`
-          const description = this.tocData?.description ||
-            'Begin your journey to mastering pregnancy, childbirth, AMTSL & newborn care. Get 7.5 CNE credits & INC certification after each module.'
-          const keywords = `${this.tocData?.name}, AMTSL, childbirth, newborn care, maternal health, pregnancy, INC certificate, CNE credits, Aastrika Sphere`
+          const description = (this.tocData?.description || this.tocData?.name || '')
+            .replace(/<[^>]*>/g, '')
+            .slice(0, 160)
+            .trim()
+
+          const subjectArr: string[] = Array.isArray(this.tocData?.subject)
+            ? this.tocData.subject
+            : (this.tocData?.subject ? [this.tocData.subject] : [])
+          const keywordArr: string[] = Array.isArray(this.tocData?.keywords)
+            ? this.tocData.keywords
+            : (this.tocData?.keywords ? String(this.tocData.keywords).split(',').map((k: string) => k.trim()) : [])
+          const keywords = [
+            this.tocData?.name,
+            ...subjectArr,
+            ...keywordArr,
+            this.tocData?.sourceName,
+            'INC certificate',
+            'CNE credits',
+            'Aastrika Sphere',
+          ].filter(Boolean).join(', ')
+
+          const providerName = this.tocData?.sourceName || 'Aastrika Sphere'
 
           this.seoSvc.update({
-            title: `${this.tocData?.name} | Aastrika Sphere`,
-            description,
+            title: `${this.tocData?.name} | Free INC Course — ${providerName} | Aastrika Sphere`,
+            description: description
+              ? `${description} — Free INC-certified course by ${providerName}. Earn CNE points. No fees, no deadline.`.slice(0, 260)
+              : `${this.tocData?.name} — Free INC-certified online course by ${providerName} on Aastrika Sphere. Earn CNE points. No fees, no deadline.`,
             keywords,
             ogType: 'article',
             ogUrl: courseUrl,
@@ -139,9 +163,17 @@ export class PublicTocComponent implements OnInit, OnDestroy {
               'url': courseUrl,
               'provider': {
                 '@type': 'Organization',
-                'name': 'Aastrika Sphere',
+                'name': providerName,
                 'sameAs': 'https://sphere.aastrika.org',
               },
+              ...(this.tocData?.averageRating ? {
+                'aggregateRating': {
+                  '@type': 'AggregateRating',
+                  'ratingValue': this.tocData.averageRating,
+                  'bestRating': 5,
+                  'ratingCount': this.tocData.totalRatingsCount || 1,
+                },
+              } : {}),
             },
           })
 

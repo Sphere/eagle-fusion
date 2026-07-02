@@ -231,7 +231,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.fullScreenContainer !== container) {
       Promise.resolve().then(() => {
         this.fullScreenContainer = container
-        this.changeDetector.detectChanges()
+        this.changeDetector.markForCheck()
       })
     }
   }

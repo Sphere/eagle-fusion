@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git status:*)",
+      "Bash(git branch:*)",
+      "Bash(git show:*)",
+      "Bash(git stash list:*)",
+      "Bash(nvs use*)",
+      "Bash(nvs list*)",
+      "Bash(node --version:*)",
+      "Bash(yarn --version:*)",
+      "Bash(yarn run lint:*)",
+      "Bash(yarn run lint:fix:*)",
+      "Bash(yarn test:*)",
+      "Bash(yarn run test*)",
+      "Bash(yarn run jest-cache:*)",
+      "Bash(ls:*)"
+    ],
+    "deny": []
+  }
+}

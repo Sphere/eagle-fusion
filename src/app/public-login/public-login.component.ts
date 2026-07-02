@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, NgZone, OnInit, OnDestroy } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { v4 as uuid } from 'uuid'
 import { SignupService } from 'src/app/routes/signup/signup.service'
@@ -19,7 +19,7 @@ import { TranslateService } from '@ngx-translate/core'
   styleUrls: ['./public-login.component.scss'],
 
 })
-export class PublicLoginComponent implements OnInit {
+export class PublicLoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup
   loginPwdForm: FormGroup
   OTPForm: FormGroup
@@ -90,6 +90,7 @@ export class PublicLoginComponent implements OnInit {
       title: 'Login - Aastrika Sphere | Free Certified Courses for Healthcare Professionals',
       description: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.',
       keywords: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps',
+      noindex: true,
     })
     sessionStorage.clear()
     localStorage.removeItem('preferedLanguage')
@@ -566,6 +567,13 @@ export class PublicLoginComponent implements OnInit {
       })
     }
   }
+  ngOnDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval)
+      this.interval = null
+    }
+  }
+
   startTimer() {
     if (this.interval) {
       clearInterval(this.interval)

@@ -1,0 +1,17 @@
+<div class="completed-card">
+
+  <!-- Header: checkmark badge + label -->
+  <div class="completed-card__header">
+    <mat-icon class="completed-check-icon">check_circle</mat-icon>
+    <span class="completed-card__label">{{ 'COMPETENCY' | translate }}</span>
+  </div>
+
+  <!-- Competency name -->
+  <h3 class="completed-card__title">{{ ashaData?.title }}</h3>
+
+  <!-- View Courses button -->
+  <button mat-flat-button class="view-courses-btn" (click)="viewCourses(ashaData)">
+    {{ 'VIEW_COURSES' | translate }}
+  </button>
+
+</div>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Static public pages -->
+  <!-- Static public pages and blog -->
 
   <url>
     <loc>https://sphere.aastrika.org/public/home</loc>
@@ -49,6 +49,24 @@
     <lastmod>2026-05-01</lastmod>
   </url>
   <url>
+    <loc>https://sphere.aastrika.org/public/blog/newborn-resuscitation-golden-minute-guide</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/blog/newborn-care-hindi-nurses-asha-guide</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/public/blog/integrated-sexual-reproductive-health-isrh-guide</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+  <url>
     <loc>https://sphere.aastrika.org/public/contact</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
@@ -63,13 +81,191 @@
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>
+
+  <!-- Organisation landing pages -->
+
   <url>
-    <loc>https://sphere.aastrika.org/public/login</loc>
-    <priority>0.5</priority>
-    <changefreq>monthly</changefreq>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Aastrika%20Foundation</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Fernandez%20Foundation</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Maternity%20Foundation</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Indian%20Nursing%20Council</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=State%20Institute%20of%20Health%20and%20Family%20Welfare%2C%20UP</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Manyata%20(FOGSI-MSD)</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=LaQshya</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=UNFPA</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=WHO</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=ICM</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=NQOCN</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=I%20Love%209%20Months</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Noora%20Health</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=IPE%20Global</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=MoHFW</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Ministry%20of%20Health%20and%20Family%20Welfare</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=KAHER%20Institute%20of%20Nursing%20Sciences</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Jhpiego</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=The%20White%20Ribbon%20Alliance%2C%20India</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=The%20White%20Ribbon%20Alliance</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Pronto%20India%20Foundation</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=White%20Ribbon%20Alliance%20India</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=UPTSU</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=C-Safe</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Path</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=KLE%20Institute%20of%20Physiotherapy%2CBelgavi</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=IHAT</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Wonder4Health</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=EngenderHealth</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=TRAINED%20NURSES'%20ASSOCIATION%20OF%20INDIA%20(TNAI)</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council%20(TNNMC)</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Maharashtra%20Nursing%20Council</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Market%20Access%20360</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Madhya%20Pradesh%20-%20National%20Health%20Mission</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://sphere.aastrika.org/app/org-details?orgId=Goa%20Nursing%20Council</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
   </url>
 
-  <!-- Course overview pages — auto-generated 2026-05-15 (497 courses) -->
+  <!-- Course overview pages — auto-generated 2026-05-27 (497 courses) -->
 
   <url>
     <loc>https://sphere.aastrika.org/public/toc/overview/do_114567217130979328167/do_114567217130979328167</loc>

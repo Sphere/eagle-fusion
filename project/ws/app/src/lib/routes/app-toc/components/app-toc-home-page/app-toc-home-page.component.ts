@@ -11,9 +11,10 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
-import { includes, get, map, filter, set, first, each, toInteger } from 'lodash'
+import { includes, get, map, filter, set, first, each, toInteger } from 'lodash-es'
 import moment from 'moment'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { TranslateService } from '@ngx-translate/core'
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -30,11 +31,11 @@ const flattenItems = (items: any[], key: string | number) => {
   }, [])
 }
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-home-page',
-    templateUrl: './app-toc-home-page.component.html',
-    styleUrls: ['./app-toc-home-page.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-home-page',
+  templateUrl: './app-toc-home-page.component.html',
+  styleUrls: ['./app-toc-home-page.component.scss'],
+
 })
 export class AppTocHomePageComponent implements OnInit, OnDestroy {
   [x: string]: any
@@ -98,6 +99,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   finishedPercentage: any | undefined
   selectedIndex = 0
   visibleTabs: string[] = ['overview']
+  // ASHA-home flow: query params carried in when a course is opened from the ASHA learning card.
+  ashaData: any = {}
+  navigateAshaHome = false
   @HostListener('window:scroll', [])
   handleScroll() {
     const windowScroll = window.pageYOffset
@@ -120,7 +124,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private authAccessControlSvc: AccessControlService,
     private discussiConfig: DiscussConfigResolve,
     private onlineIndexedDbService: IndexedDBService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
@@ -132,6 +137,12 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit() {
+    // ASHA-home flow: capture the asha context (isAsha + competency/level/course params)
+    // passed in the query string so this course page can drive asha-specific navigation.
+    this.route.queryParams.subscribe((queryParams: any) => {
+      this.ashaData = queryParams || {}
+      this.navigateAshaHome = this.ashaData.isAsha === 'true'
+    })
     this.checkRoute()
     try {
       this.isInIframe = window.self !== window.top
@@ -295,6 +306,15 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     const initData = this.tocSvc.initData(data, true)
     this.content = initData.content
     this.errorCode = initData.errorCode
+
+    // Reset progress state for the newly-loaded course. This component is reused across
+    // /app/toc/:id/overview navigations (e.g. ASHA "start next level"), and these are only
+    // *set* when progress history exists — so without resetting, a fresh course would keep
+    // the previous course's percentage (stale progress bar + wrong button). A full refresh
+    // works only because it recreates the component. The async progress fetch below
+    // repopulates these when the course actually has progress.
+    this.optmisticPercentage = 0
+    this.finishedPercentage = undefined
 
     switch (this.errorCode) {
       case NsAppToc.EWsTocErrorCode.API_FAILURE: {
@@ -699,11 +719,21 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   }
 
   generateQuery(type: 'RESUME' | 'START_OVER' | 'START'): { [key: string]: string } {
+    // Carry the ASHA context onto the viewer route so the player (viewer-toc) can detect an
+    // ASHA course and show the complete-courses flow. Without this the flag is lost on the
+    // overview → viewer navigation and survives page reloads via the URL.
+    const ashaParams: { [key: string]: string } = this.navigateAshaHome ? {
+      isAsha: this.ashaData.isAsha,
+      competencyid: this.ashaData.competencyid,
+      levelId: this.ashaData.levelId,
+      courseid: this.ashaData.courseid,
+    } : {}
     if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
       let qParams: { [key: string]: string } = {
         ...this.firstResourceLink.queryParams,
         viewMode: type,
         batchId: this.getBatchId(),
+        ...ashaParams,
       }
       if (this.contextId && this.contextPath) {
         qParams = {
@@ -722,6 +752,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         ...this.resumeDataLink.queryParams,
         batchId: this.getBatchId(),
         viewMode: 'RESUME',
+        ...ashaParams,
       }
       if (this.contextId && this.contextPath) {
         qParams = {
@@ -741,6 +772,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     return {
       batchId: this.getBatchId(),
       viewMode: type,
+      ...ashaParams,
     }
   }
 }

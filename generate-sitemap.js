@@ -34,6 +34,46 @@ const STATIC_ROUTES = [
   '/public/blog/maternal-health-training-online-india',
 ]
 
+// Org landing pages — kept in sync with the form API org_config source list
+const ORG_NAMES = [
+  'Aastrika Foundation',
+  'Fernandez Foundation',
+  'Maternity Foundation',
+  'Indian Nursing Council',
+  'State Institute of Health and Family Welfare, UP',
+  'Manyata (FOGSI-MSD)',
+  'LaQshya',
+  'UNFPA',
+  'WHO',
+  'ICM',
+  'NQOCN',
+  'I Love 9 Months',
+  'Noora Health',
+  'IPE Global',
+  'MoHFW',
+  'Ministry of Health and Family Welfare',
+  'KAHER Institute of Nursing Sciences',
+  'Jhpiego',
+  'The White Ribbon Alliance, India',
+  'The White Ribbon Alliance',
+  'Pronto India Foundation',
+  'White Ribbon Alliance India',
+  'UPTSU',
+  'C-Safe',
+  'Path',
+  'KLE Institute of Physiotherapy,Belgavi',
+  'IHAT',
+  'Wonder4Health',
+  'EngenderHealth',
+  'Tamil Nadu Nurses and Midwives Council',
+  'TRAINED NURSES\' ASSOCIATION OF INDIA (TNAI)',
+  'Tamil Nadu Nurses and Midwives Council (TNNMC)',
+  'Maharashtra Nursing Council',
+  'Market Access 360',
+  'Madhya Pradesh - National Health Mission',
+  'Goa Nursing Council',
+]
+
 function slugify(text) {
   return text
     .toLowerCase()
@@ -113,7 +153,6 @@ function buildSitemap(courses) {
     { loc: '/public/contact',     priority: '0.6', changefreq: 'monthly' },
     { loc: '/public/faq/general', priority: '0.6', changefreq: 'monthly' },
     { loc: '/public/tnc',         priority: '0.3', changefreq: 'yearly' },
-    { loc: '/public/login',       priority: '0.5', changefreq: 'monthly' },
   ]
 
   const staticBlock = staticUrls.map(u => `
@@ -121,6 +160,13 @@ function buildSitemap(courses) {
     <loc>${BASE_URL}${u.loc}</loc>
     <priority>${u.priority}</priority>
     <changefreq>${u.changefreq}</changefreq>${u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : ''}
+  </url>`).join('')
+
+  const orgBlock = ORG_NAMES.map(name => `
+  <url>
+    <loc>${BASE_URL}/app/org-details?orgId=${encodeURIComponent(name)}</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
   </url>`).join('')
 
   const courseBlock = courses
@@ -144,6 +190,9 @@ function buildSitemap(courses) {
 
   <!-- Static public pages and blog -->
 ${staticBlock}
+
+  <!-- Organisation landing pages -->
+${orgBlock}
 
   <!-- Course overview pages — auto-generated ${TODAY} (${courses.length} courses) -->
 ${courseBlock}

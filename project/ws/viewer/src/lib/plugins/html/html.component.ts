@@ -41,6 +41,9 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   scormInitializedIds = new Set<string>()
   currentProcessingContentId: string | null = null
   contentHistorySubscription: Subscription | null = null
+  // Stored bound reference so removeEventListener can match the one added in the constructor
+  private readonly boundReceiveMessage = this.receiveMessage.bind(this)
+  private progressInterval: any = null
   @HostListener('window:blur', [])
   onBlur(): void {
     if (this.urlContains.includes('youtube') && this.htmlContent !== null) {
@@ -121,7 +124,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   ) {
     (window as any).API = this.scormAdapterService
     // if (window.addEventListener) {
-    window.addEventListener('message', this.receiveMessage.bind(this))
+    window.addEventListener('message', this.boundReceiveMessage)
   }
 
   ngOnInit() {
@@ -142,7 +145,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
 
   ngOnDestroy() {
-    window.removeEventListener('message', this.receiveMessage)
+    window.removeEventListener('message', this.boundReceiveMessage)
+    if (this.progressInterval) {
+      clearInterval(this.progressInterval)
+      this.progressInterval = null
+    }
     // Cleanup tracking and subscriptions
     if (this.contentHistorySubscription) {
       this.contentHistorySubscription.unsubscribe()
@@ -407,9 +414,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             },
             3000,
           )
-          setInterval(
+          this.progressInterval = setInterval(
             () => {
               this.progress -= 1
+              if (this.progress <= 0) {
+                clearInterval(this.progressInterval)
+                this.progressInterval = null
+              }
             },
             30,
           )

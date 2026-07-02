@@ -23,7 +23,7 @@ import { v4 as uuid } from 'uuid'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { UserDataCacheService } from './user-data-cache.service'
 import { ConfigCacheService } from './config-cache.service'
-import { S3_END_POINTS } from '../constants/apiConstants'
+import { S3_END_POINTS, API_END_POINTS } from '../constants/apiConstants'
 
 interface IFeaturePermissionConfigs {
   [id: string]: Omit<NsWidgetResolver.IPermissions, 'feature'>
@@ -256,16 +256,23 @@ export class InitService {
    * orgMeta.json — no TypeScript changes needed.
    */
   private async fetchOrgHomeRedirectConfig(): Promise<void> {
-    const orgMeta = await this.http
-      .get<any>(`https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`)
-      .toPromise()
+    const body = {
+      request: {
+        type: 'org_config',
+        subtype: '*',
+        action: 'get',
+        component: 'web',
+        framework: '*',
+        rootOrgId: '*',
+      },
+    }
+    const result = await this.http.post<any>(API_END_POINTS.FORM_READ, body).toPromise()
+    const homeRedirectOrgs: { orgId: string; redirectUrl: string }[] =
+      result?.result?.form?.data?.homeRedirectOrgs ?? []
 
-    if (orgMeta && Array.isArray(orgMeta.homeRedirectOrgs)) {
+    if (homeRedirectOrgs.length > 0) {
       this.configSvc.orgHomeRedirectMap = new Map(
-        orgMeta.homeRedirectOrgs.map((entry: { orgId: string; redirectUrl: string }) => [
-          entry.orgId,
-          entry.redirectUrl,
-        ])
+        homeRedirectOrgs.map(entry => [entry.orgId, entry.redirectUrl])
       )
       this.logger.log('[InitService] orgHomeRedirectMap loaded:', this.configSvc.orgHomeRedirectMap)
     }

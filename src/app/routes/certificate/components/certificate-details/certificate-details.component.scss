@@ -33,23 +33,28 @@
   position: fixed;
   left: 0;
   right: 0;
-  // top: 0;
+  top: 0;
+  bottom: 0;
   height: 100%;
   overflow: auto;
   background: var(--white);
   z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  padding: 2rem 1rem;
 }
 
 .sb-certificatePage {
   width: 100%;
-  min-height: 35rem;
-  margin: 0 auto 3rem;
+  margin: 0 auto;
   text-align: center;
   position: relative;
   display: flex;
   flex-direction: column;
-  // margin-left: auto;
-  //   margin-right: auto;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .sb-certificatePage .sb-certificatePage-overlay {
@@ -90,6 +95,12 @@
 
 .sb-certificatePage .sb-certificatePage-logo {
   height: 3.5rem;
+}
+
+.sb-certificatePage .sb-icon-badge {
+  width: 4.5rem;
+  height: auto;
+  margin: 0 auto .75rem;
 }
 
 img {
@@ -163,6 +174,14 @@ label {
 .sb-certificatePage .sb-certificatePage-holder-details .sb-btn-arrow {
   border-top: .0625rem solid var(--gray-200);
   border-bottom: .0625rem solid var(--gray-200);
+}
+
+.sb-certificatePage .sb-certificatePage-holder-contact {
+  font-size: .875rem;
+  line-height: 1.25rem;
+  color: var(--gray-800);
+  margin: -1rem 0 1.5rem;
+  word-break: break-word;
 }
 
 .loading {

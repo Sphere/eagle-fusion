@@ -51,8 +51,10 @@
           matTooltip="Edit Rating">edit</mat-icon>
       </div>
     </div>
-    <div *ngIf="optmisticPercentage !== null && content !== undefined">
-      <!-- Content goes here -->
+    <div *ngIf="(optmisticPercentage || content?.completionPercentage) && content !== undefined">
+      <!-- Only render the progress block when the course actually has progress/completion;
+           a brand-new course (optmisticPercentage 0/undefined, no completionPercentage)
+           shows no progress bar. -->
       <div *ngIf="(optmisticPercentage < 100 && finishedPercentage !== undefined); else elseBlock" class="progress-section">
         <mat-progress-bar [mode]="'determinate'" [value]="optmisticPercentage" class="new-w desktop"
           [attr.aria-labelledby]="'m-c-'+ content?.identifier"

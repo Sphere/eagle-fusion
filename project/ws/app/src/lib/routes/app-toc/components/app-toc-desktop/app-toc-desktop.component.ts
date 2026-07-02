@@ -924,12 +924,21 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   generateQuery(type: 'RESUME' | 'START_OVER' | 'START'): { [key: string]: string } {
-
+    // Carry the ASHA context onto the viewer route so the player (viewer-toc) can detect an
+    // ASHA course and show the complete-courses flow (lost otherwise on overview → viewer).
+    const q = this.route.snapshot.queryParams
+    const ashaParams: { [key: string]: string } = q.isAsha === 'true' ? {
+      isAsha: q.isAsha,
+      competencyid: q.competencyid,
+      levelId: q.levelId,
+      courseid: q.courseid,
+    } : {}
     if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
       let qParams: { [key: string]: string } = {
         ...this.firstResourceLink.queryParams,
         viewMode: type,
         batchId: this.getBatchId(),
+        ...ashaParams,
       }
       if (this.contextId && this.contextPath) {
         qParams = {
@@ -948,6 +957,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         ...this.resumeDataLink.queryParams,
         batchId: this.getBatchId(),
         viewMode: 'RESUME',
+        ...ashaParams,
       }
       if (this.contextId && this.contextPath) {
         qParams = {
@@ -967,6 +977,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return {
       batchId: this.getBatchId(),
       viewMode: type,
+      ...ashaParams,
     }
   }
 

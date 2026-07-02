@@ -2,6 +2,7 @@ User-agent: *
 Allow: /public/
 Allow: /assets/
 Allow: /sitemap.xml
+Allow: /app/org-details
 Disallow: /app/
 Disallow: /viewer/
 Disallow: /author/
@@ -15,6 +16,7 @@ Disallow: /notification
 Disallow: /resources
 Disallow: /error-*
 Disallow: /login
+Disallow: /public/login
 Disallow: /google/
 
 Sitemap: https://sphere.aastrika.org/sitemap.xml

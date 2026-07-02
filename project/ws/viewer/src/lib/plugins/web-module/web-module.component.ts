@@ -108,8 +108,14 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     if (this.screenSizeSubscription) {
       this.screenSizeSubscription.unsubscribe()
     }
+    if (this.scrollTimeInterval) {
+      clearInterval(this.scrollTimeInterval)
+      this.scrollTimeInterval = null
+    }
     // this.saveContinueLearning(this.widgetData.identifier)
-    this.fireRealTimeProgress(this.widgetData.identifier)
+    if (this.widgetData && this.widgetData.identifier) {
+      this.fireRealTimeProgress(this.widgetData.identifier)
+    }
   }
 
   // saveContinueLearning(id: string) {

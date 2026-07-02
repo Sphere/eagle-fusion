@@ -7,6 +7,10 @@
   </ng-container>
 </div>
 <div class="assesment-container mt-3 mb-3">
+  <div class="gif-wrapper" *ngIf="isShownGrif && isCompetencyComplted">
+    <img src="fusion-assets/icons/celebration-top.gif" class="gif-top" />
+    <img src="fusion-assets/icons/celebration-bottom.gif" class="gif-bottom" />
+  </div>
   <ng-container *ngIf="(isXSmall$ | async) === false">
     <button type="button" class="close" (click)="closePopup()">&times;</button>
   </ng-container>
@@ -53,16 +57,6 @@
             ('ASSESSMENT.YOUR_SCORE_IS' | translate)}}</h4>
           <h1 class="result-score text-center">{{result}}<span>%</span></h1>
         </div>
-
-
-
-        <!-- <h1 class="result-title"><span i18n>Result : </span> <span class="text-green-600" *ngIf="isCompleted"
-            i18n>Pass</span>
-          <span class="text-red-600" *ngIf="!isCompleted" i18n> Did not pass</span>
-        </h1>
-        <h4 class="result-score-title text-center" i18n>Your score is :</h4>
-        <h1 class="result-score text-center">{{result}}<span>%</span></h1> -->
-
         <div class="result-overview-container">
           <div class="result-overview">
             <h4 class="digit">{{numUnanswered}}</h4>
@@ -83,28 +77,55 @@
         <div class="child">
           <ng-container *ngIf="isCompetencyComplted">
             <p class="congrats-title">{{ 'ASSESSMENT.CONGRATULATIONS' | translate }}</p>
-            <!-- <p class="proficiceny-level  m-0">{{ 'ASSESSMENT.PROFICIENCY_LEVEL' | translate }} {{competencyLevelId}} {{ 'ASSESSMENT.UNLOCKED' | translate }}</p> -->
-            <p class="proficiceny-level  m-0"><span>{{ 'ASSESSMENT.LEVEL' | translate }} </span>{{competencyLevelId}}
-              <span>{{ 'ASSESSMENT.IS_ACHIEVED' | translate }}
-              </span>
-            </p>
+            <div><img class="result-img" src="fusion-assets/icons/pass_assessment.svg" alt="pass" /></div>
+            <!-- <p class="proficiceny-level  m-0">Proficiency Level {{competencyLevelId}} unlocked</p> -->
+            <p class="proficiceny-level  m-0 mt-2" *ngIf="nextCompetencyLevel<6">{{'LEVEL_ID_PASSED' | translate :
+              {'level' : competencyLevelId} }}</p>
+            <p class="achieved-score mt-1" *ngIf="nextCompetencyLevel<6">{{'ACHIEVED_SCORE' | translate : {'result' :
+              result} }}</p>
+            <p class="proficiceny-level  m-0" *ngIf="nextCompetencyLevel===6">{{'COMPETENCY_ACHIEVED' | translate}}</p>
           </ng-container>
           <ng-container *ngIf="!isCompetencyComplted">
-            <p class="fail-title">{{ 'ASSESSMENT.YOU_DIDNT_PASS' | translate }}</p>
-            <p class="proficiceny-level-fail m-0"><span>{{ 'ASSESSMENT.YOUR_LEVEL' | translate }} </span>
-              {{competencyLevelId}} <span>{{ 'ASSESSMENT.IS_NOT_CLEARED' | translate }}
-              </span></p>
+            <p class="fail-title">{{'FAIL_ASSESSMENT' | translate}}</p>
+            <div class="progress-bar mb-3" [ngStyle]="{ 'background': getConicGradient(result)}">
+              <div class="progress-label">{{ result }}%</div>
+            </div>
+            <p class="proficiceny-level-fail m-0">{{'LEVEL_IS_NOT_CLEARED' | translate}}</p>
+          </ng-container>
+          <ng-container *ngIf="!isAshaHome">
+            <div class="mt-5 d-flex gap-5 flex-col align-items-center">
+              <button *ngIf="isCompetencyComplted" class="btn next-btn btn-active width-auto"
+                [disabled]='!isCompetencyComplted' mat-raised-button (click)="nextCompetency()">{{'NEXT' |
+                translate}}</button>
+              <button class="btn btn-active btn-xll width-auto" *ngIf="!isCompetencyComplted" mat-raised-button
+                (click)="viewCourses()">{{'RELEVANT_COURSES' | translate}}</button>
+              <button class="btn btn-active btn-xll width-auto" *ngIf="!isCompetencyComplted" mat-raised-button
+                (click)="CompetencyDashboard()">{{'GO_TO_COMPETENCY' | translate}}</button>
+            </div>
           </ng-container>
 
-          <div class="mt-5 action-stack">
-            <button *ngIf="isCompetencyComplted" class="btn next-btn btn-active result-action-btn" [disabled]='!isCompetencyComplted'
-              mat-raised-button (click)="nextCompetency()">{{ 'ASSESSMENT.NEXT' | translate }}</button>
-            <button class="btn btn-active btn-xll result-action-btn" *ngIf="!isCompetencyComplted" mat-raised-button
-              (click)="CompetencyDashboard()">{{ 'ASSESSMENT.GO_TO_COMPETENCY_DASHBOARD' | translate }}</button>
-            <button class="btn btn-active btn-xll result-action-btn" *ngIf="!isCompetencyComplted" mat-raised-button
-              (click)="viewCourses()">{{ 'ASSESSMENT.VIEW_RELEVANT_COURSES' | translate }}</button>
+          <ng-container *ngIf="isAshaHome">
+            <div class="mt-4 d-flex gap-5 flex-col align-items-center w-full" *ngIf="nextCompetencyLevel < 6">
+              <button *ngIf="isCompetencyComplted" class="asha-btn-retake" [disabled]='!isCompetencyComplted'
+                mat-raised-button (click)="nextCompetency()">{{'START_LEVEL' | translate: {'level':
+                nextCompetencyLevel} }}</button>
+              <button class="asha-btn-retake" *ngIf="!isCompetencyComplted" (click)="viewAshaCourses()">
+                {{'Start Learning' | translate}}</button>
+              <button class="asha-btn-home" (click)="goToAshaHome()">
+                <img src="fusion-assets/icons/home_outline.svg" alt="home" />
+                {{'GO_BACK_TO_HOME' | translate}}</button>
+            </div>
+            <div class="mt-4 d-flex gap-5 flex-col align-items-center w-full" *ngIf="nextCompetencyLevel===6">
+              <button class="asha-btn-retake  mt-5 mb-3" (click)="goToAshaHome()">
+                <img src="fusion-assets/icons/home_blue_bg.svg" alt="home" />
+                {{'GO_BACK_TO_HOME' | translate}}
+              </button>
+            </div>
+            <div class="banner-img">
+              <img class="logo-img" src="fusion-assets/icons/Language-bg.svg" alt="">
+            </div>
+          </ng-container>
 
-          </div>
         </div>
       </div>
 
@@ -119,11 +140,14 @@
     </div>
     <div class="ml-auto pt-3">
       <ng-container *ngIf="tabIndex === 0 ">
-        <button class="btn" [disabled]='diablePrevious' mat-raised-button (click)="previousQuestion()">{{
-          'ASSESSMENT.BACK' | translate }}</button>
-        <button class="btn btn-active" *ngIf="!showSubmit" [disabled]='disableNext' mat-raised-button
-          (click)="nextQuestion()">{{ 'ASSESSMENT.NEXT' | translate }}</button>
-        <!-- <button class="btn btn-active" *ngIf="showSubmit" mat-raised-button (click)="proceedToSubmit()">Submit</button> -->
+        <button class="btn width-auto" [disabled]='diablePrevious' mat-raised-button (click)="previousQuestion()">
+          {{ 'ASSESSMENT.BACK' | translate }}</button>
+        <button class="btn btn-active width-auto"
+          *ngIf="quizService.questionState.active_slide_index + 1 !== quizService.questionState.slides.length "
+          [disabled]='disableNext' mat-raised-button (click)="nextQuestion()">{{'ASSESSMENT.NEXT' | translate}}</button>
+        <button class="btn btn-active width-auto"
+          *ngIf="quizService.questionState.active_slide_index + 1 === quizService.questionState.slides.length"
+          mat-raised-button (click)="proceedToSubmit()">{{ 'Submit' | translate}}</button>
 
       </ng-container>
     </div>
@@ -131,13 +155,10 @@
 
       <ng-container *ngIf="tabIndex === 1 && !isCompetency">
         <div class="text-center pt-5 flex justify-content-center">
-          <button
-            *ngIf="(result === 100 || result < passPercentage) || (result>= passPercentage && canShowViewAnswers())"
-            class="btn width-auto" mat-raised-button (click)="retakeQuiz()">
-            {{((result === 100 || result < passPercentage) ? 'Retake Assessment' : 'View Answers' )|translate}}</button>
-              <!-- <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()" i18n>Retake Assessment</button> -->
-              <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()"
-                mat-raised-button>{{"Continue" | translate}}</button>
+          <button class="btn width-auto" mat-raised-button (click)="retakeQuiz()">{{(getCorrectAnswerPopUp() ?
+            'View Answers' : 'Retake Assessment') | translate}}</button>
+          <button class="btn btn-active width-auto" [disabled]="disableContinue" (click)="closeDone()"
+            mat-raised-button>{{'Continue' | translate}}</button>
         </div>
 
 

@@ -6,7 +6,9 @@
   </h1>
 </div>
 <div class="paddingView">
-  <ng-container *ngIf="isLoading()">
+
+  <!-- ── Competency user: full-page loading shimmer ─────────────────────── -->
+  <ng-container *ngIf="isLoading() && !isCompetencyUser()">
     <div class="top-course-container content" *ngFor="let i of [1, 2, 3]">
       <section class="mt-4 view-all-course-container">
         <!-- Header -->
@@ -30,7 +32,33 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!isLoading()">
+  <!-- ── Competency learning path ───────────────────────────────────────── -->
+  <ng-container *ngIf="!isLoading() && isCompetencyUser()">
+    <app-competency-course-list [playlists]="competencyPlaylists()" [designation]="competencyDesignation"
+      [role]="competencyRole" [section]="competencySection" [autoInit]="true">
+    </app-competency-course-list>
+  </ng-container>
+
+  <!-- ── Standard carousel (non-competency users) ──────────────────────── -->
+  <ng-container *ngIf="!isLoading() && !isCompetencyUser()">
+    <section *ngIf="ashaLearningItems()?.length > 0"
+      class="ml-2 mr-2 mt-4 view-all-course-container asha-learning-section">
+      <div class="line-label flex scroller-container">
+        <span class="header0">{{ 'COMPETENCIES' | translate }}</span>
+      </div>
+      <ws-utils-horizontal-scroller *ngIf="!isXSmall()" class="asha-learning-scroller" [loadStatus]="'done'">
+        <div *ngFor="let competency of ashaLearningItems()">
+          <ws-asha-learning-card [competency]="competency" [expanded]="expandedCardId === competency?.id"
+            (expandedChange)="onCardExpanded(competency?.id, $event)"></ws-asha-learning-card>
+        </div>
+      </ws-utils-horizontal-scroller>
+      <div *ngIf="isXSmall()" class="asha-learning-list">
+        <div *ngFor="let competency of ashaLearningItems()">
+          <ws-asha-learning-card [competency]="competency" [expanded]="expandedCardId === competency?.id"
+            (expandedChange)="onCardExpanded(competency?.id, $event)"></ws-asha-learning-card>
+        </div>
+      </div>
+    </section>
     <div class="top-course-container content" *ngFor="let content of uiConfig(); let i = index;">
       <section *ngIf="content?.show && content?.data && content?.data?.length>0"
         class="mt-4 view-all-course-container {{content?.scrollEmit}}" #scrollToCneCourses
@@ -75,4 +103,5 @@
       </div>
     </div>
   </ng-container>
+
 </div>

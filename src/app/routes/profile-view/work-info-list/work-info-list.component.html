@@ -72,11 +72,8 @@
               <mat-option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <select *ngIf="!isEditableForSphere" [id]="field?.key" class="form-control select-box" [formControlName]="field.key"
-            [required]="field.required">
-            <option [value]="null" [disabled]="field.disabled">{{ field.placeholder | translate }}</option>
-            <option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</option>
-          </select>
+          <input *ngIf="!isEditableForSphere" type="text" class="form-control"
+            [value]="personalDetailForm.get(field.key)?.value || ''" readonly disabled />
         </div>
         <div class="form-group input-box" *ngIf="field.type === 'text'">
           <label [for]="field.key" *ngIf="field.label || !isEditableForSphere">

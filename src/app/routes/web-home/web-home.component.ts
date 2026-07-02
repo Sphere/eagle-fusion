@@ -26,7 +26,7 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   isXsmall = false
   isDark: boolean
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(PLATFORM_ID) private platformId: object,
     private router: Router,
     private valueSvc: ValueService,
     public configSvc: ConfigurationsService,

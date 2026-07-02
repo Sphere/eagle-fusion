@@ -36,6 +36,7 @@ import { ViewQuizQuestionComponent } from './components/view-quiz-question/view-
 import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
 import { ViewAnswerComponent } from './components/view-answer/view-answer.component'
 import { CongratulationsPopupComponent } from './components/congratulations-popup/congratulations-popup.component'
+import { CompleteCoursesModalComponent } from './components/complete-courses-modal/complete-courses-modal.component'
 // import { ConfirmmodalComponent } from './confirm-modal-component'
 
 @NgModule({
@@ -55,6 +56,7 @@ import { CongratulationsPopupComponent } from './components/congratulations-popu
     ViewQuizQuestionComponent,
     CloseQuizModalComponent,
     CongratulationsPopupComponent,
+    CompleteCoursesModalComponent,
     // ConfirmmodalComponent,
   ],
   imports: [
@@ -77,6 +79,6 @@ import { CongratulationsPopupComponent } from './components/congratulations-popu
     MatTabsModule,
     MatProgressBarModule,
   ],
-  exports: [QuizComponent, CongratulationsPopupComponent],
+  exports: [QuizComponent, CongratulationsPopupComponent, CompleteCoursesModalComponent],
 })
 export class QuizModule { }
