@@ -7,16 +7,19 @@
     <loc>https://sphere.aastrika.org/public/home</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
+    <lastmod>2026-07-02</lastmod>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/about</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
+    <lastmod>2026-07-02</lastmod>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/blog</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2026-07-02</lastmod>
   </url>
   <url>
     <loc>https://sphere.aastrika.org/public/blog/how-to-earn-cne-points-online</loc>
