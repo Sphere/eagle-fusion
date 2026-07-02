@@ -190,8 +190,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             if (!(isNull(nextResource) || isEmpty(nextResource))) {
               this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
               this.playerStateService.trigger$.complete()
-
-            } else {
+            } else if (this.isCurrentResourceLastLeaf()) {
+              // Only return to the overview when the completed video is genuinely
+              // the final leaf. Previously an unresolved next-resource (empty
+              // string, e.g. before playerState is populated) also fell here and
+              // bounced a completed mid-course video back to the TOC.
               this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                 queryParams: {
                   primaryCategory: 'Course',
@@ -199,7 +202,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 },
               })
             }
-
           }
         }
       }
@@ -312,6 +314,20 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const index = this.queue.findIndex(x => x.identifier === this.resourceId)
       this.scrollToUserView(index)
     }
+  }
+
+  /**
+   * True only when the current resource is the last leaf node in the collection
+   * queue. Used to decide whether a completed video should return to the course
+   * overview — we must not bounce back to the TOC for mid-course resources just
+   * because the next resource couldn't be resolved yet.
+   */
+  private isCurrentResourceLastLeaf(): boolean {
+    if (!this.queue || !this.queue.length || !this.resourceId) {
+      return false
+    }
+    const index = this.queue.findIndex(x => x.identifier === this.resourceId)
+    return index >= 0 && index === this.queue.length - 1
   }
   ngOnChanges() {
     this.change = this.contentSvc.currentMessage.subscribe((data: any) => {
@@ -765,18 +781,27 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.logger.error('Error inserting data:', error)
       }
     )
-    const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
-    this.logger.log('Aggregate value:', aggregateValue)
-    this.logger.log(this.heirarchy, 'content')
     const uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
     this.logger.log(uniqueIdsOfType.length, this.heirarchy!.childNodes.length) // Output: [1, 3]
-    const percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
+    // Only aggregate progress for resources that still exist in the current course
+    // hierarchy. Editing a live course leaves orphaned progress records for removed
+    // resources; their 100% would otherwise inflate the numerator (e.g. 5×100 over a
+    // 5-resource course reads as 100%), making the viewer think the whole course is
+    // complete and bounce the learner to the overview the moment a still-incomplete
+    // resource (e.g. भाग 2-1) loads.
+    const currentResourceIds = new Set(uniqueIdsOfType)
+    const relevantProgress = arr1.filter((o: any) => currentResourceIds.has(o.contentId))
+    const aggregateValue = this.calculateAggregate(relevantProgress, 'completionPercentage')
+    this.logger.log('Aggregate value:', aggregateValue)
+    this.logger.log(this.heirarchy, 'content')
+    const denominator = uniqueIdsOfType.length * 100
+    const percentage = denominator ? Math.round((aggregateValue) / denominator * 100) : 0
     this.logger.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
     const progress = Math.min(Math.max(percentage, 0), 100)
     return progress
   }
   calculateAggregate(arr: any, field: string): number {
-    const val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
+    const val = arr.reduce((total: number, obj: any) => total + (Number(obj[field]) || 0), 0)
     this.logger.log(val)
     return val
   }

@@ -519,7 +519,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     this.dispose = initObj.dispose
     initObj.player.ready(() => {
       if (Array.isArray(this.widgetData.subtitles)) {
-        this.widgetData.subtitles.forEach((u, index) => {
+        this.widgetData.subtitles.filter((u: any) => u?.url).forEach((u, index) => {
           initObj.player.addRemoteTextTrack(
             {
               default: index === 0,
