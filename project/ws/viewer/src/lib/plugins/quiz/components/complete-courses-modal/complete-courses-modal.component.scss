@@ -1,0 +1,78 @@
+.congrats-title {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 40px;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: var(--theme-success);
+  }
+
+  .proficiceny-level {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: -0.02em;
+    // color: #1C5D95;
+  }
+
+  .asha-btn-retake{
+    background-color: var(--theme-primary) !important;
+    width: 100%;
+    height: 35px;
+    color: var(--theme-bg) !important;
+     border-radius: 30px;
+  }
+
+
+  .asha-btn-home{
+    border: 1px solid var(--theme-primary) !important;
+      background-color: var(--theme-bg) !important;
+      color: var(--theme-primary) !important;
+      width: 100% !important;
+      height: 35px;
+  }
+
+
+  .complete-courses-modal{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    margin: 2rem;
+}
+.close-icon{
+  place-self: flex-end;
+  font-weight: 400;
+  font-size: 25px;
+  color: black;
+}
+
+.achieved-score{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 2.3rem;
+  letter-spacing: -0.02em;
+  color: var(--theme-success);
+  text-align: center;
+}
+
+.banner-img{
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 8px;
+    width: 76%;
+    margin-inline: auto;
+}
+
+.pass-img{
+  text-align: center;
+}

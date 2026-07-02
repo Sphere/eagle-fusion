@@ -305,7 +305,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   closeDone() {
     this.dialogRef.close({
       event: this.route.snapshot.queryParams.isAsha ? 'DONE_ASHA' : 'DONE',
-      asha: this.route.snapshot.queryParams.isAsha,
+      asha: this.route.snapshot.queryParams.isAsha || this.isAshaHome,
     })
   }
 

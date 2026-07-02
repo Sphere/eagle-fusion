@@ -1,0 +1,37 @@
+<div class="complete-courses-modal">
+
+
+  <div *ngIf="data.navigateNextCourse === true || data.navigateNextCourse === 'true'">
+    <!-- <div>{{data.navigateNextCourse}}</div> -->
+    <p class="congrats-title" i18n>{{'ASSESSMENT.CONGRATULATIONS' | translate}}</p>
+    <div class="pass-img"><img class="result-img" src="fusion-assets/icons/pass_assessment.svg" alt="pass" /></div>
+    <p class="proficiceny-level  m-0 mt-2">{{'LEVEL_ID_PASSED' | translate : {'level' : data.competencyLevel}
+      }}</p>
+    <p class="achieved-score mt-1">{{'ACHIEVED_SCORE' | translate : {'result' : 100} }}</p>
+
+    <button class="asha-btn-retake mt-5 mb-3" (click)="startNextCourse()" i18n>{{'START_ASHA_COURSE' | translate:
+      {'level': nextLevel} }}</button>
+    <button class="asha-btn-home" (click)="goToAshaHome()" i18n>
+      <img src="fusion-assets/icons/home_outline.svg" alt="home" />
+      {{'GO_BACK_TO_HOME' | translate}}</button>
+
+  </div>
+
+
+  <div *ngIf="data.navigateNextCourse === false || data.navigateNextCourse === 'false'">
+    <!-- <div>{{data.navigateNextCourse}}</div> -->
+    <p class="congrats-title" i18n>{{'ASSESSMENT.CONGRATULATIONS' | translate}}</p>
+    <div class="pass-img"><img class="result-img" src="fusion-assets/icons/pass_assessment.svg" alt="pass" /></div>
+    <p class="proficiceny-level  m-0">{{'COMPETENCY_ACHIEVED' | translate}}</p>
+
+    <button class="asha-btn-retake  mt-5 mb-3" (click)="goToAshaHome()" i18n>
+      <img src="fusion-assets/icons/home_blue_bg.svg" alt="home" />
+      {{'GO_BACK_TO_HOME' | translate}}
+    </button>
+  </div>
+
+  <div class="banner-img">
+    <img class="logo-img" src="fusion-assets/icons/Language-bg.svg" alt="">
+  </div>
+
+</div>

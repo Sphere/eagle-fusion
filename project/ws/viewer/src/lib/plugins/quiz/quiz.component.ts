@@ -390,35 +390,98 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
    * Navigate after assessment completion based on gating and resources
    */
   private navigateAfterAssessment(): void {
+    const isAsha = this.route.snapshot.queryParams.isAsha === 'true'
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (isNull(data.nextResource)) {
-        // No next resource - go to course overview
-        this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          queryParams: {
-            primaryCategory: 'Course',
-            batchId: this.route.snapshot.queryParams.batchId,
-          },
-        })
+        // ASHA course completion is surfaced by the TOC's complete-courses modal (opened
+        // from the progress update just fired), which stays in the viewer — so don't route
+        // to /app/toc here.
+        if (isAsha) {
+          return
+        }
+        // Last resource in the course. If this attempt completes the course, show the
+        // completion congratulations (same flow as the quiz plugin / mobile app) before
+        // routing to the course overview; otherwise route directly.
+        this.handleCourseCompletionOrNavigate(data)
       } else {
         // Has next resource
         if (this.viewerDataSvc.gatingEnabled) {
           // If gating is enabled, only navigate if passed (completion 100%)
           if (data.currentCompletionPercentage === 100) {
             this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-          } else {
-            // Gating enabled but not completed - go to TOC overview
-            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-              queryParams: {
-                primaryCategory: 'Course',
-                batchId: this.route.snapshot.queryParams.batchId,
-              },
-            })
+          } else if (!isAsha) {
+            // Gating enabled but not completed - go to TOC overview (ASHA stays in viewer)
+            this.navigateToCourseOverview()
           }
         } else {
           // No gating - always allow navigation to next resource
           this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
         }
       }
+    })
+  }
+
+  /**
+   * On the last resource, mirror the quiz plugin / mobile app behaviour: if the course is
+   * now complete, show the congratulations popup + confirmation modal and route to the
+   * course overview on confirm. Otherwise (or on any failure) route directly.
+   */
+  private handleCourseCompletionOrNavigate(data: any): void {
+    let userId = ''
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        if (courses && courses.length) {
+          this.enrolledCourse = courses.find((course: any) => course.courseId === this.collectionId)
+        }
+        // Show the "recently completed" message only if the course was completed just now.
+        if (this.enrolledCourse && this.enrolledCourse.completedOn) {
+          const completedDuration = moment.duration(moment(new Date()).diff(moment(this.enrolledCourse.completedOn)))
+          this.showCompletionMsg = completedDuration.asMinutes() <= 0.5
+        } else {
+          this.showCompletionMsg = false
+        }
+        const courseCompleted =
+          (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100) ||
+          data.currentCompletionPercentage === 100
+        if (courseCompleted && this.contentSvc.showConformation && this.dialog.openDialogs.length === 0) {
+          this.openCongratulationPopup().then((isCompleted: boolean) => {
+            if (isCompleted) {
+              const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                width: '300px',
+                height: '420px',
+                panelClass: 'overview-modal',
+                disableClose: true,
+                data: { request: { courseId: this.collectionId }, message: 'Congratulations!, you have completed the course' },
+              })
+              confirmdialog.afterClosed().subscribe((res: any) => {
+                if (res?.event === 'CONFIRMED' || res?.event === 'close-complete') {
+                  this.navigateToCourseOverview()
+                }
+              })
+            } else {
+              this.navigateToCourseOverview()
+            }
+          })
+        } else {
+          this.navigateToCourseOverview()
+        }
+      },
+      (error: any) => {
+        this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+        this.navigateToCourseOverview()
+      }
+    )
+  }
+
+  private navigateToCourseOverview(): void {
+    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+      queryParams: {
+        primaryCategory: 'Course',
+        batchId: this.route.snapshot.queryParams.batchId,
+      },
     })
   }
 
@@ -458,7 +521,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
-        } else if (result.event === 'DONE') {
+        } else if (result.event === 'DONE' || result.event === 'DONE_ASHA') {
           const Id = this.identifier
           const collectionId = this.collectionId
           const batchId = this.route.snapshot.queryParams.batchId
@@ -633,45 +696,44 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (isNull(data.nextResource)) {
         // tslint:disable-next-line
-        if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
-          && this.contentSvc.showConformation) {
-          const isDialogOpen = this.dialog.openDialogs.length > 0
-          if (!isDialogOpen) {
-            const data = {
-              courseId: this.collectionId,
-            }
-            this.openCongratulationPopup().then(isCompleted => {
-              if (isCompleted) {
-                const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                  width: '300px',
-                  height: '420px',
-                  panelClass: 'overview-modal',
-                  disableClose: true,
-                  data: { request: data, message: 'Congratulations!, you have completed the course' },
-                })
+        // if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
+        //   && this.contentSvc.showConformation) {
+        //   const isDialogOpen = this.dialog.openDialogs.length > 0
+        //   if (!isDialogOpen) {
+        //     const data = {
+        //       courseId: this.collectionId,
+        //     }
+        //     this.openCongratulationPopup().then(isCompleted => {
+        //       if (isCompleted) {
+        //         const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+        //           width: '300px',
+        //           height: '420px',
+        //           panelClass: 'overview-modal',
+        //           disableClose: true,
+        //           data: { request: data, message: 'Congratulations!, you have completed the course' },
+        //         })
 
-                confirmdialog.afterClosed().subscribe((res: any) => {
-                  if (res.event === 'CONFIRMED') {
-                    this.router.navigate([`/app/user/competency`])
-                  }
-                })
-              }
-            })
-          }
+        //         confirmdialog.afterClosed().subscribe((res: any) => {
+        //           if (res.event === 'CONFIRMED') {
+        //             this.router.navigate([`/app/user/competency`])
+        //           }
+        //         })
+        //       }
+        //     })
+        //   }
 
-        } else {
-          this.router.navigate([`/app/user/competency`])
-        }
+        // } else {
+        this.router.navigate([`/app/user/competency`])
+        // }
 
       } else {
+        // Just navigate. The route container resets isFetchingDataComplete, so the next
+        // resource recreates the quiz plugin fresh, and that plugin opens its own overview
+        // via ngOnChanges with the correct level data. Opening it from here — by resetting
+        // viewState/dialogOverview or subscribing to the stale competencyAsessment$
+        // (a BehaviorSubject still holding `true`, which fires immediately) — pops a second,
+        // stale overview for the previous/completed level before navigation completes.
         this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-        this.subscription = this.viewerSvc.competencyAsessment$.subscribe(res => {
-          if (res) {
-            setTimeout(() => {
-              this.openOverviewDialog()
-            }, 500)
-          }
-        })
       }
       return
     })
@@ -804,7 +866,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'RETAKE_QUIZ') {
           // this.openOverviewDialog(result.event)
           this.closeQuizBtnDialog(result.event)
-        } else if (result.event === 'DONE') {
+        } else if (result.event === 'DONE' || result.event === 'DONE_ASHA') {
 
           const Id = this.identifier
           const collectionId = this.collectionId

@@ -307,6 +307,15 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     this.content = initData.content
     this.errorCode = initData.errorCode
 
+    // Reset progress state for the newly-loaded course. This component is reused across
+    // /app/toc/:id/overview navigations (e.g. ASHA "start next level"), and these are only
+    // *set* when progress history exists — so without resetting, a fresh course would keep
+    // the previous course's percentage (stale progress bar + wrong button). A full refresh
+    // works only because it recreates the component. The async progress fetch below
+    // repopulates these when the course actually has progress.
+    this.optmisticPercentage = 0
+    this.finishedPercentage = undefined
+
     switch (this.errorCode) {
       case NsAppToc.EWsTocErrorCode.API_FAILURE: {
         this.errorWidgetData.widgetData.errorType = ErrorType.internalServer
@@ -710,11 +719,21 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   }
 
   generateQuery(type: 'RESUME' | 'START_OVER' | 'START'): { [key: string]: string } {
+    // Carry the ASHA context onto the viewer route so the player (viewer-toc) can detect an
+    // ASHA course and show the complete-courses flow. Without this the flag is lost on the
+    // overview → viewer navigation and survives page reloads via the URL.
+    const ashaParams: { [key: string]: string } = this.navigateAshaHome ? {
+      isAsha: this.ashaData.isAsha,
+      competencyid: this.ashaData.competencyid,
+      levelId: this.ashaData.levelId,
+      courseid: this.ashaData.courseid,
+    } : {}
     if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
       let qParams: { [key: string]: string } = {
         ...this.firstResourceLink.queryParams,
         viewMode: type,
         batchId: this.getBatchId(),
+        ...ashaParams,
       }
       if (this.contextId && this.contextPath) {
         qParams = {
@@ -733,6 +752,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         ...this.resumeDataLink.queryParams,
         batchId: this.getBatchId(),
         viewMode: 'RESUME',
+        ...ashaParams,
       }
       if (this.contextId && this.contextPath) {
         qParams = {
@@ -752,6 +772,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     return {
       batchId: this.getBatchId(),
       viewMode: type,
+      ...ashaParams,
     }
   }
 }

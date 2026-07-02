@@ -86,13 +86,17 @@ export class SelfAssessmentGuard {
             if (this.batchData) {
               return of(this.batchData)
             } else {
-              return this.getFilteredCourseSearchResults(event.contentId).pipe(
+              // Fresh (never enrolled) course: pull the batch from the authoritative
+              // batch-list endpoint. The search index (ratingsSearch) may not have
+              // indexed a batch yet for a freshly created course, which would leave
+              // batchId undefined and make the enrol call fail with 400.
+              return this.getCourseBatch().pipe(
                 mergeMap((res: any) => {
-                  const batchData = _.get(
-                    _.find(res.result.content, 'batches'),
-                    'batches'
-                  )
-                  return this.enrollUser(batchData, event.contentId)
+                  const batchData = _.get(res, 'content')
+                  if (_.get(batchData, '[0].batchId')) {
+                    return this.enrollUser(batchData, event.contentId)
+                  }
+                  return of(null)
                 })
               )
             }

@@ -39,6 +39,13 @@ export class QuizComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dataSubscription = this.activatedRoute.data.subscribe(
       async data => {
+        // Tear down the quiz plugin for each new resource: without this,
+        // isFetchingDataComplete stays true across navigation, the plugin is reused, and
+        // its overview can open on a stale snapshot (e.g. the previous resource's
+        // subtitle/name) before the new inputs finish binding. Resetting forces a fresh
+        // recreate once BOTH quizData (name) and quizJson are ready in the finally block.
+        this.isFetchingDataComplete = false
+        this.cdr.detectChanges()
         try {
           this.quizData = data.content.data
           if (this.alreadyRaised && this.oldData) {

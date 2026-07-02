@@ -113,27 +113,38 @@ export class AshaLearningComponent implements OnInit {
         highestLevelEntries.find((e: any) => e.passFailStatus === 'Pass' && e.contentType === 'course') ||
         highestLevelEntries[0]
 
-      const { contentType, passFailStatus, levelId, completionpercentage } = highestLevelEntry || {}
+      const { contentType, passFailStatus } = highestLevelEntry || {}
 
-      if (contentType === 'selfAssessment' && passFailStatus === 'Pass') {
+      // Any completed course means the learner is progressing via courses, so the next step
+      // is a course (not a self-assessment) even if the current focus entry is a passed
+      // self-assessment — e.g. level 1 self-assessment cleared + level 3/4 course done.
+      const hasCourseProgress = earnedProgress.some(
+        (e: any) => e.contentType === 'course' && e.passFailStatus === 'Pass'
+      )
+
+      if (contentType === 'selfAssessment' && passFailStatus === 'Pass' && !hasCourseProgress) {
         this.router.navigate(['/app/user/self-assessment'], { queryParams: data })
         return
       } else {
-        // Prepare to navigate to the course (for Cases 2, 3, and 4)
-        let nextLevelId = levelId || nextIncompleteLevel
-
-        // Move to the next level if the current level is completed (100% completion)
-        if (completionpercentage === 100) {
-          nextLevelId += 1
+        // Levels are sequential, so always start the FIRST incomplete level's course. This
+        // handles a stray completed higher level (e.g. level 5 course done while 1-4 aren't
+        // → start level 1) and course-progress cases (→ resume at the next pending level),
+        // and avoids an invalid level id (e.g. 6) that would 400 the getCourses search.
+        const nextLevelId = nextIncompleteLevel
+        if (!nextLevelId) {
+          // Every level is cleared — nothing to start (the button is hidden at 100%).
+          return
         }
 
-        let identifier: any = this.getCourseId(data.competencyID, nextLevelId, data)
-
+        const identifier: any = this.getCourseId(data.competencyID, String(nextLevelId), data)
+        if (!identifier) {
+          // No course mapped for this level/language — skip the search to avoid a 400.
+          return
+        }
 
         this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe((res) => {
-          console.log(res.result.content[0])
           const navigationdata = res.result.content[0]
-          const batchId = navigationdata.batches[0].batchId
+          const batchId = navigationdata.batches?.[0]?.batchId
 
           let ashaData = {
             isAsha: true,
