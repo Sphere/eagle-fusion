@@ -557,6 +557,7 @@ describe('WebPublicComponent', () => {
   describe('viewAllCourse', () => {
     describe('continueLearning courseType', () => {
       it('should reset displayData to limit when already viewing all', () => {
+        isMobileSignal.set(true)
         component.userEnrollCourse = [{ id: 1 }, { id: 2 }, { id: 3 }]
         const content = {
           button: { courseType: 'continueLearning' },
@@ -599,6 +600,7 @@ describe('WebPublicComponent', () => {
 
     describe('topCourse courseType', () => {
       it('should reset displayData to limit when already viewing all', () => {
+        isMobileSignal.set(true)
         const topCourses = [{ id: 1 }, { id: 2 }, { id: 3 }]
         component.topCertifiedCourse.set(topCourses)
         const content = {
@@ -631,6 +633,7 @@ describe('WebPublicComponent', () => {
 
     describe('cneCourses courseType', () => {
       it('should reset displayData to limit when already viewing all', () => {
+        isMobileSignal.set(true)
         const cneCourses = [{ id: 1 }, { id: 2 }]
         component.cneCourse.set(cneCourses)
         const content = {
