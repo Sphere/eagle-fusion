@@ -2,8 +2,7 @@ import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overl
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
 import { CommonModule } from '@angular/common'
 import {
-  HTTP_INTERCEPTORS, HttpClient, HttpClientModule,
-  // provideHttpClient, withInterceptorsFromDi, withJsonpSupport
+  HTTP_INTERCEPTORS, HttpClient, HttpClientModule
 } from '@angular/common/http'
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'

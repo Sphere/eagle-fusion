@@ -225,6 +225,8 @@ function buildMocks(overrides: any = {}) {
     selectedTabConfig: jest.fn().mockReturnValue([]),
     config: jest.fn().mockReturnValue([]),
     footerConfig: jest.fn().mockReturnValue({}),
+    programs: jest.fn().mockReturnValue({}),
+    showDetails: { set: jest.fn() },
   }
   const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
   const mockDowntimeService = overrides.downtimeService || {
@@ -1209,6 +1211,27 @@ describe('RootComponent', () => {
       await m.comp.setUpFormData()
       expect(m.comp.showNavbar).toBe(true)
       expect(m.comp.orgDetails).toBeDefined()
+    })
+
+    it('sets hasProgramConfig and resets showDetails when program config exists', async () => {
+      const m = buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$ })
+      m.mockPlaylistSvc.programs = jest.fn().mockReturnValue({ program1: {} })
+      m.comp['playlistSvc'] = m.mockPlaylistSvc
+      m.comp['themeSvc'] = m.mockThemeSvc as any
+      m.comp['downtimeService'] = { themeConfig: jest.fn().mockReturnValue({}) } as any
+      await m.comp.setUpFormData()
+      expect(m.comp.hasProgramConfig).toBe(true)
+      expect(m.mockPlaylistSvc.showDetails.set).toHaveBeenCalledWith(false)
+    })
+
+    it('leaves hasProgramConfig false and does not reset showDetails when program config is empty', async () => {
+      const m = buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$ })
+      m.comp['playlistSvc'] = m.mockPlaylistSvc
+      m.comp['themeSvc'] = m.mockThemeSvc as any
+      m.comp['downtimeService'] = { themeConfig: jest.fn().mockReturnValue({}) } as any
+      await m.comp.setUpFormData()
+      expect(m.comp.hasProgramConfig).toBe(false)
+      expect(m.mockPlaylistSvc.showDetails.set).not.toHaveBeenCalled()
     })
 
     it('calls themeSvc.setTheme when no stored preference and isDark is false', async () => {

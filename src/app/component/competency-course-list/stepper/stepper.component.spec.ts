@@ -1,24 +1,31 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
-import { IonicModule } from '@ionic/angular'
-
 import { StepperComponent } from './stepper.component'
 
 describe('StepperComponent', () => {
-  let component: StepperComponent
-  let fixture: ComponentFixture<StepperComponent>
+  let comp: StepperComponent
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StepperComponent ],
-      imports: [IonicModule.forRoot()],
-    }).compileComponents()
+  beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => undefined)
+    comp = new StepperComponent()
+  })
 
-    fixture = TestBed.createComponent(StepperComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  }))
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
+  it('should create with empty defaults', () => {
+    expect(comp).toBeTruthy()
+    expect(comp.levels).toEqual([])
+    expect(comp.completedLevels).toEqual([])
+    expect(comp.failedLevels).toEqual([])
+  })
+
+  it('ngOnInit logs the received stepper inputs', () => {
+    comp.levels = [1, 2, 3]
+    comp.completedLevels = [1]
+    comp.failedLevels = [2]
+    comp.currentLevel = 2
+    comp.ngOnInit()
+    // eslint-disable-next-line no-console
+    expect(console.log).toHaveBeenCalledWith('stepper data', [1, 2, 3], [1], [2], 2)
   })
 })

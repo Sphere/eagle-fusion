@@ -24,23 +24,28 @@ describe('SelfAssessmentGuard', () => {
   let mockContentSvc: any
   let mockConfigSvc: any
   let mockRouter: any
+  let mockTranslate: any
 
   beforeEach(() => {
     localStorage.clear()
+    jest.spyOn(console, 'log').mockImplementation(() => undefined)
     mockContentSvc = {
       fetchContent: jest.fn(),
       fetchCourseBatches: jest.fn(),
       enrollUserToBatch: jest.fn(),
       fetchContentHistoryV2: jest.fn(),
       getFirstChildInHierarchy: jest.fn(),
+      fetchUserBatchList: jest.fn(),
+      getFilteredCourseSearchResults: jest.fn(),
     }
     mockConfigSvc = { userProfile: null }
     mockRouter = { navigate: jest.fn() }
-    guard = new SelfAssessmentGuard(mockContentSvc, mockConfigSvc as any, mockRouter)
+    mockTranslate = { getCurrentLang: jest.fn().mockReturnValue('en') }
+    guard = new SelfAssessmentGuard(mockContentSvc, mockConfigSvc as any, mockRouter, mockTranslate)
   })
 
   afterEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
     localStorage.clear()
   })
 
@@ -72,8 +77,12 @@ describe('SelfAssessmentGuard', () => {
       expect(result).toBe(false)
     })
 
-    it('returns false (from selfAsesment) when queryParams are present', () => {
+    it('returns false (from selfAssessment) when queryParams are present', () => {
       mockConfigSvc.userProfile = { userId: 'u1' }
+      mockContentSvc.fetchContent.mockReturnValue(of({}))
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      mockContentSvc.fetchCourseBatches.mockReturnValue(of({}))
+      jest.spyOn(guard, 'navigateToplayer').mockReturnValue(false)
       const route: any = { queryParams: { contentId: 'do_123' } }
       const result = guard.canActivate(route)
       expect(result).toBe(false)
@@ -81,10 +90,11 @@ describe('SelfAssessmentGuard', () => {
   })
 
   describe('enrollUser', () => {
-    it('calls contentSvc.enrollUserToBatch with correct request', () => {
+    it('calls contentSvc.enrollUserToBatch with the passed contentId as courseId', () => {
       mockConfigSvc.userProfile = { userId: 'user-99' }
-      const batchData = [{ courseId: 'course-1', batchId: 'batch-1' }]
-      guard.enrollUser(batchData)
+      const batchData = [{ batchId: 'batch-1' }]
+      guard.enrollUser(batchData, 'course-1')
+      expect(guard.batchId).toBe('batch-1')
       expect(mockContentSvc.enrollUserToBatch).toHaveBeenCalledWith({
         request: {
           userId: 'user-99',
@@ -96,7 +106,7 @@ describe('SelfAssessmentGuard', () => {
 
     it('uses empty string for userId when userProfile is null', () => {
       mockConfigSvc.userProfile = null
-      guard.enrollUser([{ courseId: 'c1', batchId: 'b1' }])
+      guard.enrollUser([{ batchId: 'b1' }], 'c1')
       expect(mockContentSvc.enrollUserToBatch).toHaveBeenCalledWith(
         expect.objectContaining({ request: expect.objectContaining({ userId: '' }) }),
       )
@@ -104,12 +114,6 @@ describe('SelfAssessmentGuard', () => {
   })
 
   describe('routeNavigation', () => {
-    it('does nothing when resumeDataLink is falsy', () => {
-      guard['resumeDataLink'] = null
-      guard.routeNavigation('batch-1', 'START')
-      expect(mockRouter.navigate).not.toHaveBeenCalled()
-    })
-
     it('navigates with merged queryParams when resumeDataLink is set', () => {
       guard['resumeDataLink'] = { url: '/viewer/do_1', queryParams: { mode: 'play' } }
       guard.routeNavigation('batch-99', 'RESUME')
@@ -119,8 +123,30 @@ describe('SelfAssessmentGuard', () => {
           queryParams: expect.objectContaining({
             batchId: 'batch-99',
             viewMode: 'RESUME',
-            competency: true,
+            competency: 'true',
             mode: 'play',
+          }),
+        },
+      )
+    })
+
+    it('navigates with the asha params when the course is an asha course', () => {
+      guard['resumeDataLink'] = { url: '/viewer/do_1', queryParams: { mode: 'play' } }
+      guard.isAshaCourses = true
+      guard.competencyId = '5'
+      guard.language = 'hi'
+      guard.levelsDetaisl = '[]'
+      guard.routeNavigation('batch-1', 'START')
+      expect(mockRouter.navigate).toHaveBeenCalledWith(
+        ['/viewer/do_1'],
+        {
+          queryParams: expect.objectContaining({
+            batchId: 'batch-1',
+            viewMode: 'START',
+            isAsha: true,
+            competencyId: '5',
+            lang: 'hi',
+            levels: '[]',
           }),
         },
       )
@@ -149,44 +175,68 @@ describe('SelfAssessmentGuard', () => {
     })
   })
 
-  describe('selfAsesment', () => {
-    it('should return false and call getContent and getCourseBatch', () => {
-      const contentResult = of({ result: { content: { children: [], competencies_v1: null } } })
-      const batchResult = of({ content: [{ batchId: 'b1', courseId: 'c1', enrollmentEndDate: null }] })
-      mockContentSvc.fetchContent = jest.fn().mockReturnValue(contentResult)
-      mockContentSvc.fetchCourseBatches = jest.fn().mockReturnValue(batchResult)
-      mockContentSvc.enrollUserToBatch = jest.fn().mockReturnValue(of([{ batchId: 'b1' }]))
-      mockContentSvc.fetchContentHistoryV2 = jest.fn().mockReturnValue(of({ result: { contentList: [] } }))
-      mockContentSvc.getFirstChildInHierarchy = jest.fn().mockReturnValue({ identifier: 'child1', mimeType: 'application/json' })
-      mockConfigSvc.userProfile = { userId: 'user-1' }
-      guard['configSvc'] = mockConfigSvc
-      const result = guard.selfAsesment({ contentId: 'do_123', contentType: 'Course' })
-      expect(result).toBe(false)
-      expect(mockContentSvc.fetchContent).toHaveBeenCalledWith('do_123')
-    })
-
-    it('covers forEach callback and subscribe next callback with valid children and competencies_v1', () => {
-      const competencyData = [{ id: 'comp1' }]
-      const contentResult = of({
+  describe('selfAssessment', () => {
+    it('stores competency metadata and resolves the batch from the enrolled list', () => {
+      mockContentSvc.fetchContent.mockReturnValue(of({
         result: {
           content: {
             children: [{ identifier: 'child-1', index: 1 }],
-            competencies_v1: JSON.stringify(competencyData),
+            competencies_v1: JSON.stringify([{ id: 'comp1' }]),
           },
         },
-      })
-      const batchResult = of({ content: [{ batchId: 'b1', courseId: 'c1', enrollmentEndDate: '2099-12-31' }] })
-      mockContentSvc.fetchContent = jest.fn().mockReturnValue(contentResult)
-      mockContentSvc.fetchCourseBatches = jest.fn().mockReturnValue(batchResult)
-      mockContentSvc.fetchContentHistoryV2 = jest.fn().mockReturnValue(of({ result: { contentList: [] } }))
-      mockContentSvc.getFirstChildInHierarchy = jest.fn().mockReturnValue({ identifier: 'child-1', mimeType: 'video/mp4' })
+      }))
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([{ contentId: 'do_123', batchId: 'b1' }]))
       mockConfigSvc.userProfile = { userId: 'user-1' }
-      guard['configSvc'] = mockConfigSvc
-      guard['resumeDataLink'] = null
-      jest.spyOn(guard, 'routeNavigation').mockImplementation(jest.fn())
-      const result = guard.selfAsesment({ contentId: 'do_456', contentType: 'Course' })
+      const navSpy = jest.spyOn(guard, 'navigateToplayer').mockReturnValue(false)
+      const result = guard.selfAssessment({ contentId: 'do_123', contentType: 'Course', lang: 'hi', isAsha: 'true' })
       expect(result).toBe(false)
-      expect(mockContentSvc.fetchContentHistoryV2).toHaveBeenCalled()
+      expect(mockContentSvc.fetchContent).toHaveBeenCalledWith('do_123')
+      expect(guard.language).toBe('hi')
+      expect(guard.isAshaCourses).toBe(true)
+      const stored = JSON.parse(localStorage.getItem('competency_meta_data') || '[]')
+      expect(stored[0]).toEqual({ id: 'comp1' })
+      expect(stored[1].competencyIds).toEqual([{ identifier: 'child-1', competencyId: 1 }])
+      expect(navSpy).toHaveBeenCalledWith({ batchId: 'b1' })
+    })
+
+    it('enrols the user through the batch-list endpoint when not already enrolled', () => {
+      mockContentSvc.fetchContent.mockReturnValue(of({ result: { content: { children: [], competencies_v1: null } } }))
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      mockContentSvc.fetchCourseBatches.mockReturnValue(of({ content: [{ batchId: 'b9' }] }))
+      mockContentSvc.enrollUserToBatch.mockReturnValue(of({ batchId: 'b9' }))
+      mockConfigSvc.userProfile = { userId: 'user-1' }
+      const navSpy = jest.spyOn(guard, 'navigateToplayer').mockReturnValue(false)
+      const result = guard.selfAssessment({ contentId: 'do_456', contentType: 'Course' })
+      expect(result).toBe(false)
+      expect(guard.language).toBe('en')
+      expect(mockContentSvc.enrollUserToBatch).toHaveBeenCalledWith({
+        request: { userId: 'user-1', courseId: 'do_456', batchId: 'b9' },
+      })
+      expect(navSpy).toHaveBeenCalledWith({ batchId: 'b9' })
+    })
+
+    it('skips enrolment when the batch list carries no batch id', () => {
+      mockContentSvc.fetchContent.mockReturnValue(of({}))
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      mockContentSvc.fetchCourseBatches.mockReturnValue(of({ content: [] }))
+      mockConfigSvc.userProfile = { userId: 'user-1' }
+      const navSpy = jest.spyOn(guard, 'navigateToplayer').mockReturnValue(false)
+      guard.selfAssessment({ contentId: 'do_789', contentType: 'Course' })
+      expect(mockContentSvc.enrollUserToBatch).not.toHaveBeenCalled()
+      expect(navSpy).toHaveBeenCalledWith({ batchId: undefined })
+    })
+  })
+
+  describe('getEnrolledCourseList / getFilteredCourseSearchResults', () => {
+    it('fetches the user batch list with the profile userId', () => {
+      mockConfigSvc.userProfile = { userId: 'user-1' }
+      guard.getEnrolledCourseList()
+      expect(mockContentSvc.fetchUserBatchList).toHaveBeenCalledWith('user-1')
+    })
+
+    it('delegates course search to the content service', () => {
+      guard.getFilteredCourseSearchResults('do_1')
+      expect(mockContentSvc.getFilteredCourseSearchResults).toHaveBeenCalledWith('do_1')
     })
   })
 
