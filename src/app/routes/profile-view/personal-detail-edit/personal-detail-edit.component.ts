@@ -22,16 +22,16 @@ import { LanguageService } from '../../../services/language.service'
 import { LoggerService } from '@ws-widget/utils'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-    standalone: false,
-    selector: 'ws-personal-detail-edit',
-    templateUrl: './personal-detail-edit.component.html',
-    styleUrls: ['./personal-detail-edit.component.scss'],
-    providers: [
-        { provide: DateAdapter, useClass: AppDateAdapter },
-        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    
+  standalone: false,
+  selector: 'ws-personal-detail-edit',
+  templateUrl: './personal-detail-edit.component.html',
+  styleUrls: ['./personal-detail-edit.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   private destroy$ = new Subject<void>()
@@ -258,7 +258,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         async (data: any) => {
           if (data) {
-            this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
+            this.isEditableForSphere = this.data?.isEditable ?? false
             if (this.isEditableForSphere) {
               this.personalDetailForm.enable()
               // Keep mobile and email disabled even when form is enabled

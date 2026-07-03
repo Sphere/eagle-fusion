@@ -78,8 +78,8 @@ export class InitService {
     if (authenticated) {
       if (loginData) {
         const parsedData = JSON.parse(loginData)
-        const token = parsedData.token?.access_token ? true : false
-        if (!token)
+        // Gate on the persisted login status, not a stored token (tokens are no longer persisted).
+        if (parsedData.status !== 'success')
           this.authSvc.logout()
       } else {
         this.authSvc.logout()
@@ -95,10 +95,10 @@ export class InitService {
       if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
         await this.loadUserDataIfAvailable()
         await this.fetchStartUpDetails() // detail: depends only on userID
-        this.domain = window.location.hostname
-        if (this.domain.includes('ekshamata')) {
-          await this.fetchHostedConfig()
-        }
+        // this.domain = window.location.hostname
+        // if (this.domain.includes('ekshamata')) {
+        //   await this.fetchHostedConfig()
+        // }
       }
 
     } catch (e) {
@@ -277,29 +277,29 @@ export class InitService {
       this.logger.log('[InitService] orgHomeRedirectMap loaded:', this.configSvc.orgHomeRedirectMap)
     }
   }
-  private async fetchHostedConfig(): Promise<any> {
-    // use the rootOrg and org to fetch the instance
-    const hostConfig = await this.http
-      .get<any>(S3_END_POINTS.EKSHAMATA_ORG_CONFIG)
-      .toPromise()
-    if (hostConfig) {
-      if (this.configSvc.userProfile) {
-        const rootOrgId = this.configSvc.userProfile.rootOrgId
-        this.logger.log("rootOrgId: ", rootOrgId, hostConfig)
-        const orgDetails = hostConfig.orgNames
-        // Find the matching object
-        const result = orgDetails.find(item => item.channelId === rootOrgId)
+  // private async fetchHostedConfig(): Promise<any> {
+  //   // use the rootOrg and org to fetch the instance
+  //   const hostConfig = await this.http
+  //     .get<any>(S3_END_POINTS.EKSHAMATA_ORG_CONFIG)
+  //     .toPromise()
+  //   if (hostConfig) {
+  //     if (this.configSvc.userProfile) {
+  //       const rootOrgId = this.configSvc.userProfile.rootOrgId
+  //       this.logger.log("rootOrgId: ", rootOrgId, hostConfig)
+  //       const orgDetails = hostConfig.orgNames
+  //       // Find the matching object
+  //       const result = orgDetails.find(item => item.channelId === rootOrgId)
 
-        if (result) {
-          this.configSvc.hostedInfo = result
-          this.logger.log('Channel found:', result)
-        } else {
-          this.logger.log('Channel not found')
-        }
-      }
-    }
-    this.logger.log("hostConfig", hostConfig)
-  }
+  //       if (result) {
+  //         this.configSvc.hostedInfo = result
+  //         this.logger.log('Channel found:', result)
+  //       } else {
+  //         this.logger.log('Channel not found')
+  //       }
+  //     }
+  //   }
+  //   this.logger.log("hostConfig", hostConfig)
+  // }
 
   private reloadAccordingToLocale() {
     if (window.location.origin.indexOf('http://localhost:') > -1) {
@@ -653,7 +653,7 @@ export class InitService {
           const manifestElem = document.getElementById('id-app-description')
           if (manifestElem) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-             (manifestElem as HTMLMetaElement).setAttribute(
+            (manifestElem as HTMLMetaElement).setAttribute(
               'content',
               this.configSvc.instanceConfig.indexHtmlMeta.description,
             )
@@ -663,7 +663,7 @@ export class InitService {
           const shareIcon = document.getElementById('id-app-share-icon')
           if (shareIcon) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-             (shareIcon as HTMLMetaElement).setAttribute(
+            (shareIcon as HTMLMetaElement).setAttribute(
               'content',
               this.configSvc.instanceConfig.logos.appBottomNav,
             )
@@ -673,14 +673,14 @@ export class InitService {
           const pngIconElem = document.getElementById('id-app-fav-icon')
           if (pngIconElem) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-             (pngIconElem as HTMLLinkElement).href = this.configSvc.instanceConfig.indexHtmlMeta.pngIcon
+            (pngIconElem as HTMLLinkElement).href = this.configSvc.instanceConfig.indexHtmlMeta.pngIcon
           }
         }
         if (this.configSvc.instanceConfig.indexHtmlMeta.xIcon) {
           const xIconElem = document.getElementById('id-app-x-icon')
           if (xIconElem) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-             (xIconElem as HTMLLinkElement).href = this.configSvc.instanceConfig.indexHtmlMeta.xIcon
+            (xIconElem as HTMLLinkElement).href = this.configSvc.instanceConfig.indexHtmlMeta.xIcon
           }
         }
       } catch (error) {

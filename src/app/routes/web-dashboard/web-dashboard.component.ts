@@ -26,7 +26,6 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   bannerFirstImage: any
   bannerSecondImage: any
   currentSlideIndex = 0
-  currentIndex = 0
   public intervalId: any
   imgsLoaded: boolean[] = []
   lang: any = 'en'

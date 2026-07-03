@@ -1,14 +1,15 @@
 <video #videoTag *ngIf="widgetData?.isVideojs" playsinline class="video-js vjs-default-skin vjs-big-play-centered"
   controls muted (play)="onEventTrigger('start')" (pause)="onEventTrigger('pause')" (ended)="onEventTrigger('end')">
   <!-- Source set programmatically via player.src() in initializePlayer to ensure resume handler is attached first -->
-  <track kind="subtitles" [src]="widgetData.subtitleUrl" srclang="en" label="English" default />
-  <track kind="descriptions" [src]="widgetData.descriptionUrl" srclang="en" label="English Descriptions" />
+  <!-- Only render tracks when a URL exists — an empty src makes video.js log "Text Track parsing errors for undefined" -->
+  <track *ngIf="widgetData?.subtitleUrl" kind="subtitles" [src]="widgetData.subtitleUrl" srclang="en" label="English" default />
+  <track *ngIf="widgetData?.descriptionUrl" kind="descriptions" [src]="widgetData.descriptionUrl" srclang="en" label="English Descriptions" />
 </video>
 
 <video [poster]="widgetData?.posterImage" playsinline #realvideoTag class="video-js" *ngIf="!widgetData?.isVideojs"
   controls (play)="onEventTrigger('start')" (pause)="onEventTrigger('pause')" (ended)="onEventTrigger('end')">
   <source [src]="widgetData.url" type="video/mp4" />
   <source [src]="widgetData.url" type="application/x-mpegURL" />
-  <track kind="subtitles" [src]="widgetData.subtitleUrl" srclang="en" label="English" default />
-  <track kind="descriptions" [src]="widgetData.descriptionUrl" srclang="en" label="English Descriptions" />
+  <track *ngIf="widgetData?.subtitleUrl" kind="subtitles" [src]="widgetData.subtitleUrl" srclang="en" label="English" default />
+  <track *ngIf="widgetData?.descriptionUrl" kind="descriptions" [src]="widgetData.descriptionUrl" srclang="en" label="English Descriptions" />
 </video>

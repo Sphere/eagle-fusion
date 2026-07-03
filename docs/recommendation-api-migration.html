@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recommendation API → Sunbird Search Migration — Eagle-Fusion Frontend</title>
+  <style>
+    body {
+      font-family: 'Open Sans', Calibri, Arial, sans-serif;
+      font-size: 11pt;
+      color: #0D1218;
+      margin: 72pt 72pt 72pt 72pt;
+      line-height: 1.5;
+    }
+    h1 { font-size: 18pt; font-weight: 700; color: #17283C; border-bottom: 2pt solid #17283C; padding-bottom: 4pt; margin-top: 24pt; }
+    h2 { font-size: 14pt; font-weight: 600; color: #17283C; margin-top: 20pt; margin-bottom: 6pt; }
+    h3 { font-size: 12pt; font-weight: 600; color: #18293D; margin-top: 14pt; margin-bottom: 4pt; }
+    p  { margin: 6pt 0; }
+    a  { color: #186E6E; text-decoration: underline; }
+    code {
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      font-size: 9pt;
+      background-color: #F6F7F9;
+      padding: 1pt 3pt;
+      border-radius: 2pt;
+    }
+    pre {
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      font-size: 8.5pt;
+      background-color: #F6F7F9;
+      border: 1pt solid #D8DEE5;
+      border-left: 3pt solid #1E8F8E;
+      padding: 10pt 12pt;
+      margin: 8pt 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 10pt 0;
+      font-size: 10pt;
+    }
+    th {
+      background-color: #17283C;
+      color: #ffffff;
+      padding: 6pt 8pt;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      border: 0.5pt solid #D8DEE5;
+      padding: 5pt 8pt;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background-color: #F6F7F9; }
+    ul, ol { margin: 6pt 0 6pt 20pt; padding: 0; }
+    li { margin: 3pt 0; }
+    .meta { color: #7C8696; font-size: 10pt; margin-bottom: 4pt; }
+    .info {
+      background-color: #E3F7F6;
+      border-left: 4pt solid #1E8F8E;
+      padding: 8pt 12pt;
+      margin: 10pt 0;
+      font-size: 10pt;
+    }
+    .note {
+      background-color: #FEF6E0;
+      border-left: 4pt solid #F0A500;
+      padding: 8pt 12pt;
+      margin: 10pt 0;
+      font-size: 10pt;
+    }
+    .section-divider { border: none; border-top: 1pt solid #D8DEE5; margin: 20pt 0; }
+    .tag-old  { color: #B4231F; font-weight: bold; }
+    .tag-new  { color: #15803D; font-weight: bold; }
+    .tag-del  { color: #7C8696; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>Recommendation API → Sunbird Search Migration</h1>
+  <p class="meta">Scope: Aastrika Sphere web frontend (eagle-fusion). Documents the removal of the recommendation-service dependency and the repoint of all course-search traffic to Sunbird.</p>
+  <p class="meta">Date: 2026-06-29 &nbsp;|&nbsp; Branch: <code>feature/remove-recommendation-service</code> &nbsp;|&nbsp; Commits: <code>21749d3af</code>, <code>0c2e91509</code> (+ rating-count fix pending)</p>
+
+  <div class="info">
+    <strong>Summary:</strong> The backend <strong>recommendation service</strong> (<code>RECOMMENDATION_API_BASE_V2</code>) is being decommissioned. Every frontend call that depended on it has been removed or repointed to the surviving pure-Sunbird route <code>publicSearch/getCourses</code> (→ <code>content/v1/search</code>). After this change the frontend has <strong>zero runtime or code references to the recommendation service</strong>. Search facets are preserved, and course ratings continue to work because the Sunbird index now returns them natively.
+  </div>
+
+  <hr class="section-divider">
+
+  <h2>1. Background &amp; motivation</h2>
+  <p>The frontend used the recommendation service through several course-search routes (see the companion <a href="recommendation-service-api-usage.html">Recommendation Service API Usage</a> document for the original mapping). With the service being retired, those routes would either disappear or silently fail, so all usage had to be moved off it.</p>
+  <p>A UI-proxy investigation established the backend routing that drove the migration plan:</p>
+  <ul>
+    <li><code>publicSearch/getCourses</code> → Sunbird <code>content/v1/search</code> — <span class="tag-new">survives</span> (pure Sunbird, not the recommendation service).</li>
+    <li><code>ratingsSearch/getCourses</code> → <strong>hybrid</strong>: search is Sunbird, but ratings are injected from <code>RECOMMENDATION_API_BASE_V2/bulkRatingLookup</code>.</li>
+    <li><code>ratingsSearch/recommendation/publicSearch/getcourse</code> → recommendation service (its primary search is the rec service itself).</li>
+  </ul>
+  <div class="note">
+    <strong>Critical failure mode found:</strong> when the recommendation service is down, the proxy's <code>ratingsSearch/getCourses</code> <em>browse</em> branch returns HTTP 200 with valid <code>facets</code> and a real <code>count</code> but an <strong>empty <code>content: []</code></strong> — silent total data loss, not graceful degradation. Nearly all frontend call sites are browse-style (<code>{ filters, query: '', sort }</code>), so without this migration those pages would silently go blank once the service is removed. This made the repoint an <strong>availability fix</strong>, not just a cleanup.
+  </div>
+
+  <hr class="section-divider">
+
+  <h2>2. API mapping — before → after</h2>
+  <table>
+    <tr>
+      <th>Constant</th>
+      <th>Old route (recommendation service)</th>
+      <th>New route</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td><code>SEARCH_V8PUBLIC</code></td>
+      <td><code>ratingsSearch/recommendation/publicSearch/getcourse</code></td>
+      <td><code>publicSearch/getCourses</code> (<code>SEARCH_V7PUBLIC</code>)</td>
+      <td><span class="tag-new">REPOINTED</span> + constant deleted</td>
+    </tr>
+    <tr>
+      <td><code>SEARCH_V6PUBLIC</code></td>
+      <td><code>ratingsSearch/getCourses</code></td>
+      <td><code>publicSearch/getCourses</code> (<code>SEARCH_V7PUBLIC</code>)</td>
+      <td><span class="tag-new">REPOINTED</span> + constant deleted</td>
+    </tr>
+    <tr>
+      <td><code>PUBLIC_CONTENT_SEARCH</code></td>
+      <td><code>ratingsSearch/getCourses</code></td>
+      <td><code>publicSearch/getCourses</code> (<code>SEARCH_V7PUBLIC</code>)</td>
+      <td><span class="tag-new">REPOINTED</span> + constant deleted</td>
+    </tr>
+    <tr>
+      <td><code>COURSE_RECOMENDATION</code></td>
+      <td><code>mobileApp/courseRemommendationv2</code></td>
+      <td>—</td>
+      <td><span class="tag-del">REMOVED</span> (dead wrapper)</td>
+    </tr>
+    <tr>
+      <td><code>COURSE_RECOMMENDATION_V2</code></td>
+      <td><code>mobileApp/publicSearch/courseRecommendationCbp</code></td>
+      <td>—</td>
+      <td><span class="tag-del">REMOVED</span> (dead wrapper)</td>
+    </tr>
+    <tr>
+      <td><code>ENROLLED_USER</code></td>
+      <td><code>protected/v8/userEnrolledInSource</code></td>
+      <td>—</td>
+      <td><span class="tag-del">REMOVED</span> (test-only, no prod caller)</td>
+    </tr>
+  </table>
+  <p class="meta">All traffic now lands on <code>SEARCH_V7PUBLIC</code> → <code>/apis/public/v8/publicSearch/getCourses</code> → Sunbird <code>content/v1/search</code>.</p>
+
+  <hr class="section-divider">
+
+  <h2>3. Changes by area</h2>
+
+  <h3>3.1 &nbsp; Repoint search calls (Tier 1 + Tier 2)</h3>
+  <p>All course-search calls were moved from the recommendation routes to <code>SEARCH_V7PUBLIC</code>. The request/response shape is compatible — both target Sunbird <code>content/v1/search</code> and return <code>res.result.content</code> + <code>res.result.facets</code>.</p>
+  <ul>
+    <li><a href="../project/ws/app/src/lib/routes/search/apis/search-api.service.ts">search-api.service.ts</a> — <code>getSearchV7Results()</code> (V8→V7), <code>getSearchV6Results()</code> and <code>getSearchCompetencyCourses()</code> (V6→V7).</li>
+    <li><a href="../project/ws/app/src/lib/routes/org/org-service.service.ts">org-service.service.ts</a> — 4 section-search methods (V6→V7).</li>
+    <li><a href="../src/organisations/org-home-service.service.ts">org-home-service.service.ts</a> — org-home landing search (V6→V7).</li>
+    <li><a href="../library/ws-widget/collection/src/lib/_services/widget-content.service.ts">widget-content.service.ts</a> — content-strip search <code>searchV6()</code> / <code>publicContentSearch()</code> (PUBLIC_CONTENT_SEARCH→V7).</li>
+  </ul>
+
+  <h3>3.2 &nbsp; Remove dead recommendation code</h3>
+  <ul>
+    <li>Deleted wrappers <code>fetchCourseRemommendations()</code> and <code>COURSE_RECOMMENDATION_V2()</code> from <code>widget-content.service.ts</code> (no callers).</li>
+    <li>Deleted <code>getEnroledUserForCourses()</code> from <code>org-service.service.ts</code> and its references in <code>org.component.spec.ts</code> (only the spec used it).</li>
+    <li>Deleted 6 now-orphaned constants from <a href="../src/app/constants/apiConstants.ts">apiConstants.ts</a>: <code>SEARCH_V8PUBLIC</code>, <code>SEARCH_V6PUBLIC</code>, <code>PUBLIC_CONTENT_SEARCH</code>, <code>COURSE_RECOMENDATION</code>, <code>COURSE_RECOMMENDATION_V2</code>, <code>ENROLLED_USER</code>.</li>
+  </ul>
+
+  <h3>3.3 &nbsp; Fix the global-search payload (the bug)</h3>
+  <p>The global search results page (<code>/app/search/learning</code>) broke after the repoint: it stuck on a perpetual loading shimmer. Root cause: the search wrapper sent a bare body, which Sunbird's route rejects.</p>
+  <table>
+    <tr><th>Request body</th><th>Endpoint response</th></tr>
+    <tr><td><code>{ "query": "" }</code> (old wrapper)</td><td><code>{ "message": "Error while public search" }</code> → 5xx → retry-interceptor backoff loop → endless shimmer</td></tr>
+    <tr><td><code>{ request: { filters, query }, query, sort }</code> (fixed)</td><td><code>{ responseCode: "OK", result: { content[…], count, facets } }</code></td></tr>
+  </table>
+  <p>The recommendation endpoint tolerated a bare <code>{ query }</code> because it applied its own course filtering. Sunbird's <code>content/v1/search</code> requires a <code>request.filters</code> object. Fixed in <a href="../project/ws/app/src/lib/routes/search/services/search-serv.service.ts">search-serv.service.ts</a> <code>searchV7Wrapper()</code>:</p>
+  <pre>const v7Request: any = {
+  request: {
+    query: request.query || '',
+    filters: { primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'] },
+  },
+  query: request.query || '',
+  sort: [{ lastUpdatedOn: 'desc' }],
+}
+if (request.language) { v7Request.request.filters.lang = request.language }</pre>
+
+  <h3>3.4 &nbsp; Fix the rating-count field</h3>
+  <p>Sunbird <code>content/v1/search</code> returns the rating count as <code>totalNumberOfRatings</code>, but two SEO/public components read <code>totalRatingsCount</code> (used by the recommendation enrichment). The star value (<code>averageRating</code>) was unaffected; only the secondary "(N ratings)" count would have been blank. Normalized at the data-assignment point (templates + JSON-LD untouched):</p>
+  <pre>this.course.totalRatingsCount  ??= this.course.totalNumberOfRatings   // public-course-blog
+this.tocData.totalRatingsCount ??= this.tocData.totalNumberOfRatings  // public-toc</pre>
+  <p class="meta"><code>public-toc</code> already used <code>SEARCH_V7PUBLIC</code> before this work, so this also fixes a latent pre-existing blank count there.</p>
+
+  <hr class="section-divider">
+
+  <h2>4. Files changed</h2>
+  <table>
+    <tr><th>File</th><th>Change</th></tr>
+    <tr><td><code>src/app/constants/apiConstants.ts</code></td><td>Removed 6 recommendation-service constants</td></tr>
+    <tr><td><code>project/ws/app/.../search/apis/search-api.service.ts</code></td><td>3 search methods repointed to V7</td></tr>
+    <tr><td><code>project/ws/app/.../search/services/search-serv.service.ts</code></td><td><code>searchV7Wrapper()</code> sends full Sunbird payload</td></tr>
+    <tr><td><code>project/ws/app/.../org/org-service.service.ts</code></td><td>4 search methods repointed; removed <code>getEnroledUserForCourses()</code></td></tr>
+    <tr><td><code>project/ws/app/.../org/components/org/org.component.spec.ts</code></td><td>Removed ENROLLED_USER test + mock + orphaned var</td></tr>
+    <tr><td><code>src/organisations/org-home-service.service.ts</code></td><td>2 search methods repointed to V7</td></tr>
+    <tr><td><code>library/ws-widget/collection/.../widget-content.service.ts</code></td><td>2 search methods repointed; removed 2 dead wrappers</td></tr>
+    <tr><td><code>src/app/routes/public/public-course-blog/public-course-blog.component.ts</code></td><td>Rating-count field normalization</td></tr>
+    <tr><td><code>src/app/routes/public/public-toc/public-toc.component.ts</code></td><td>Rating-count field normalization</td></tr>
+  </table>
+  <p class="meta">9 files · ~33 insertions / ~75 deletions (net reduction).</p>
+
+  <hr class="section-divider">
+
+  <h2>5. Functional impact</h2>
+  <table>
+    <tr><th>Area</th><th>Result</th></tr>
+    <tr><td>Course search (org pages, search grid, content strips, home)</td><td>✅ Works — now served by Sunbird directly; no longer fails when the rec service is down</td></tr>
+    <tr><td>Search filter sidebar (facets)</td><td>✅ Preserved — <code>publicSearch/getCourses</code> returns <code>result.facets[]</code></td></tr>
+    <tr><td>Star ratings on cards (<code>averageRating</code>)</td><td>✅ Preserved — Sunbird index now returns ratings natively</td></tr>
+    <tr><td>"(N ratings)" count on public pages</td><td>✅ Fixed — mapped <code>totalNumberOfRatings</code> → <code>totalRatingsCount</code></td></tr>
+    <tr><td>Recommendation ranking / CBP "recommended for you"</td><td>➖ Removed (was the point of the decommission; the dead wrappers were never wired)</td></tr>
+  </table>
+
+  <hr class="section-divider">
+
+  <h2>6. Verification</h2>
+  <ul>
+    <li>Production build (<code>yarn run build:local</code>) green after each change set.</li>
+    <li>Live proxy checks of <code>publicSearch/getCourses</code>: empty query → <code>count 160</code>, 160 items, facets present, <code>averageRating</code> + <code>totalNumberOfRatings</code> present per item; text query <code>"breast"</code> → <code>count 13</code>.</li>
+    <li>Grep confirms zero remaining references to any removed constant/route (<code>SEARCH_V8PUBLIC</code>, <code>SEARCH_V6PUBLIC</code>, <code>PUBLIC_CONTENT_SEARCH</code>, <code>COURSE_RECOM*</code>, <code>ENROLLED_USER</code>, <code>userEnrolledInSource</code>).</li>
+  </ul>
+
+  <h3>6.1 &nbsp; Proxy-level verification (UI-proxy)</h3>
+  <p>Both proxy handlers were reviewed and the real frontend payloads were run against the live proxy. <code>publicSearch/getCourses</code> forwards <code>request.filters</code> to Sunbird <code>content/v1/search</code> and honors the knobs the frontend uses:</p>
+  <table>
+    <tr><th>Request knob</th><th>Honored?</th><th>Live result</th></tr>
+    <tr><td><code>primaryCategory</code>, <code>status</code></td><td>✅</td><td>only Course / Live returned</td></tr>
+    <tr><td><code>sourceName</code></td><td>✅</td><td>28 items for MoHFW</td></tr>
+    <tr><td><code>identifier</code> (by-id)</td><td>✅</td><td>exact course returned</td></tr>
+    <tr><td><code>lang</code></td><td>✅</td><td>Hindi subset (175 items)</td></tr>
+    <tr><td><code>request.facets</code></td><td>✅</td><td>response facets = requested set (<code>primaryCategory,mimeType,sourceName</code>)</td></tr>
+    <tr><td>ratings (<code>averageRating</code> / <code>totalNumberOfRatings</code>)</td><td>✅</td><td>present on 100% of items in every scenario</td></tr>
+  </table>
+  <div class="info">
+    <strong>Known proxy behaviors (verified not to be regressions for this data):</strong>
+    <ul>
+      <li><code>contentType</code> is force-set to <code>["Course","CourseUnit"]</code> (client value overridden). In practice no <code>CourseUnit</code> items surfaced — every scenario returned 100% <code>primaryCategory=Course</code> — so course searches stay course-only.</li>
+      <li><code>result.count</code> is the returned-array length (browse cap <strong>200</strong>, up from the old route's 20), not total ES hits. The V7 search path never paginated, so no behaviour change.</li>
+      <li><code>request.fields</code> projection and top-level <code>sort</code> are ignored (proxy returns full docs and hardcodes <code>lastUpdatedOn desc</code> for browse) — same effective result.</li>
+      <li>No <code>bulkRatingLookup</code> enrichment — but ratings come from the ES index natively (confirmed above), so nothing is lost.</li>
+    </ul>
+  </div>
+
+  <hr class="section-divider">
+
+  <h2>7. Follow-ups (out of scope for this repo)</h2>
+  <ul>
+    <li><strong>UI-proxy repo:</strong> fix the <code>[]</code>-on-failure bug in <code>ratingsSearch.ts</code> <code>getCombinedRatingsResult()</code> — return <code>sourceCourses</code> in the <code>catch</code> so the route degrades gracefully instead of dropping all content.</li>
+    <li><strong>Code smell:</strong> in <code>org-service.service.ts</code>, the V6/V7 method pairs now hit the same endpoint and are literal duplicates (SonarLint S4144). A later cleanup could collapse each pair and update callers.</li>
+    <li><strong>Search scope:</strong> the global-search V7 path now hardcodes the <code>Course</code> filter (matching prior behaviour). If <code>/app/search/learning</code> should search other content types, that is a separate enhancement.</li>
+  </ul>
+
+</body>
+</html>

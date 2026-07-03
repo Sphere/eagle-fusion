@@ -1,3 +1,9 @@
+jest.mock('src/app/routes/signup/signup.service', () => ({
+  SignupService: class {
+    keyClockLogin = jest.fn()
+  },
+}))
+
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { RouterTestingModule } from '@angular/router/testing'
@@ -7,12 +13,14 @@ import { HttpClient } from '@angular/common/http'
 import { Router } from '@angular/router'
 import { of } from 'rxjs'
 import { Pipe, PipeTransform } from '@angular/core'
-@Pipe({ name: 'pipeDurationTransform' })
+
+@Pipe({ name: 'pipeDurationTransform', standalone: false })
 class MockPipeDurationTransform implements PipeTransform {
   transform(value: any): any {
     return value
   }
 }
+
 describe('PublicTocBannerComponent', () => {
   let component: PublicTocBannerComponent
   let fixture: ComponentFixture<PublicTocBannerComponent>
@@ -20,12 +28,14 @@ describe('PublicTocBannerComponent', () => {
   let signUpService: SignupService
   let router: Router
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [PublicTocBannerComponent, MockPipeDurationTransform],
       imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [SignupService],
-    }).compileComponents()
+    })
+    TestBed.overrideComponent(PublicTocBannerComponent, { set: { template: '' } })
+    await TestBed.compileComponents()
   })
 
   beforeEach(() => {
@@ -34,7 +44,7 @@ describe('PublicTocBannerComponent', () => {
     httpClient = TestBed.inject(HttpClient)
     signUpService = TestBed.inject(SignupService)
     router = TestBed.inject(Router)
-    spyOn(httpClient, 'get').and.returnValue(of({}))
+    jest.spyOn(httpClient, 'get').mockReturnValue(of({}) as any)
     fixture.detectChanges()
   })
 
@@ -49,7 +59,6 @@ describe('PublicTocBannerComponent', () => {
     expect(component.tocConfig).toEqual({})
   }))
 
-
   it('should show popup', () => {
     component.showPopup()
     expect(component.displayStyle).toBe('block')
@@ -61,13 +70,13 @@ describe('PublicTocBannerComponent', () => {
   })
 
   it('should call signUpSvc keyClockLogin method on login', () => {
-    const signUpSvcSpy = spyOn(signUpService, 'keyClockLogin')
+    const signUpSvcSpy = jest.spyOn(signUpService, 'keyClockLogin')
     component.login()
     expect(signUpSvcSpy).toHaveBeenCalled()
   })
 
   it('should navigate to create account page', () => {
-    const routerSpy = spyOn(router, 'navigateByUrl')
+    const routerSpy = jest.spyOn(router, 'navigateByUrl').mockReturnValue(Promise.resolve(true))
     component.createAcct()
     expect(routerSpy).toHaveBeenCalledWith('app/create-account')
   })

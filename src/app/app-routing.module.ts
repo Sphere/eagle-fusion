@@ -2,7 +2,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
-import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { ETopBar } from './constants/topBar.constants'
 import { ExternalUrlResolverService } from './guards/external-url-resolver.service'
@@ -11,15 +10,15 @@ import { LoginGuard } from './guards/login.guard'
 import { EmptyRouteGuard } from './guards/empty-route.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
-import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
+// import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
-import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
+// import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
 import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
 import { PublicCourseBlogComponent } from './routes/public/public-course-blog/public-course-blog.component'
-import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
+// import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
@@ -40,7 +39,7 @@ import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
-import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
+// import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
 import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
 import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
@@ -51,14 +50,13 @@ import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.co
 import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
 import { MNCCallbackComponent } from './mnc-callback/mnc-callback.component'
-import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
+import { OrgHomeComponent } from './routes/organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
-import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
-import { PublicLoginComponent } from './public-login/public-login.component'
+import { PublicLoginComponent } from './routes/public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
 import { NotificationsComponent } from './routes/notification/notification.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -94,10 +92,10 @@ const routes: Routes = [
       pageData: PageResolve,
     },
   },
-  {
-    path: 'aboutpoppage',
-    component: MobileAboutPopupComponent,
-  },
+  // {
+  //   path: 'aboutpoppage',
+  //   component: MobileAboutPopupComponent,
+  // },
   {
     path: 'app',
     loadChildren: () =>
@@ -183,17 +181,6 @@ const routes: Routes = [
     path: 'app/features',
     component: FeaturesComponent,
     canActivate: [GeneralGuard, EmptyRouteGuard],
-  },
-  {
-    path: 'app/invalid-user',
-    component: InvalidUserComponent,
-    data: {
-      pageType: 'feature',
-      pageKey: 'invalid-user',
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
   },
   {
     path: 'app/login',
@@ -302,7 +289,8 @@ const routes: Routes = [
   },
   {
     path: 'app/user/competency',
-    component: CompetencyDashboardComponent,
+    loadChildren: () =>
+      import('./routes/competency/competency.module').then(u => u.CompetencyModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
@@ -447,7 +435,7 @@ const routes: Routes = [
   },
   {
     path: 'organisations',
-    loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
+    loadChildren: () => import('./routes/organisations/organisations.module').then(u => u.OrganisationsModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
@@ -508,7 +496,8 @@ const routes: Routes = [
   },
   {
     path: 'public/about',
-    component: PublicAboutComponent,
+    // component: PublicAboutComponent,
+    loadChildren: () => import('./routes/public/public-about/public-about.module').then(u => u.PublicAboutModule),
     data: {
       title: 'About Us - Aastrika Sphere',
       seoDescription: 'Learn about Aastrika Sphere — a digital platform enabling health system strengthening and capacity building for healthcare professionals across India.',
@@ -540,7 +529,8 @@ const routes: Routes = [
   },
   {
     path: 'public/contact',
-    component: PublicContactComponent,
+    // component: PublicContactComponent,
+    loadChildren: () => import('./routes/public/public-contact/public-contact.module').then(u => u.PublicContactModule),
     data: {
       title: 'Contact Us - Aastrika Sphere',
       seoDescription: 'Get in touch with the Aastrika Sphere team for queries about our healthcare training courses, partnerships, or platform support.',
@@ -607,7 +597,8 @@ const routes: Routes = [
   },
   {
     path: 'public/faq/:tab',
-    component: PublicFaqComponent,
+    // component: PublicFaqComponent,
+    loadChildren: () => import('./routes/public/public-faq/public-faq.module').then(u => u.PublicFaqModule),
   },
   {
     path: 'public/scrom-player',

@@ -7,7 +7,7 @@ import {
 } from 'rxjs'
 import dayjs from 'dayjs'
 import { NsContent } from '../../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { API_END_POINTS } from '../../../../../src/app/constants/apiConstants'
 
 @Injectable({

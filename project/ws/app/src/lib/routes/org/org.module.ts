@@ -1,8 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { SharedModule } from '../../../../../../../src/app/shared/shared.module'
-// import { OrgRoutingModule } from './org-routing.module'
-// import { OrgComponent } from './components/org/org.component'
 import { HorizontalScrollerModule } from '@ws-widget/utils'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { CardContentModule, PipeContentRoutePipe } from '@ws-widget/collection'
@@ -19,15 +16,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatTabsModule } from '@angular/material/tabs'
 import { AllCoursesComponent } from './components/all-courses/all-courses.component'
+import { TranslateModule } from '@ngx-translate/core'
 
 @NgModule({
   declarations: [AllCoursesComponent],
   imports: [
     CommonModule,
-    SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    // OrgRoutingModule,
     MatCardModule,
     MatChipsModule,
     MatIconModule,
@@ -41,6 +37,7 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
     WidgetResolverModule,
     CardContentModule,
     InfiniteScrollModule,
+    TranslateModule,
   ],
   exports: [],
   providers: [PipeContentRoutePipe],

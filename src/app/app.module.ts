@@ -66,14 +66,10 @@ import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/
 import { RootComponent } from './component/root/root.component'
 import { LoginComponent } from './component/login/login.component'
 import { AppNavBarComponent } from './component/app-nav-bar/app-nav-bar.component'
-import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
-import { PublicAboutModule } from './routes/public/public-about/public-about.module'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
-import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
 import { PublicBlogModule } from './routes/public/public-blog/public-blog.module'
-import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
 
@@ -82,7 +78,6 @@ import { AppRetryInterceptorService } from './services/app-retry-interceptor.ser
 import { AssetCacheInterceptorService } from './services/asset-cache-interceptor.service'
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
-// import { LanguageService } from './services/language.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
@@ -103,19 +98,24 @@ import { ConfigService } from './routes/discussion-forum/wrapper/service/config.
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
-import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
-import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
-import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
-import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
+// @aastrika/comptency modules (EntryModule, SelfAssessmentModule, CompetencyModule)
+// are now lazy-loaded via src/app/routes/competency/competency.module.ts on the
+// /app/user/competency route, keeping the heavy package out of the main bundle.
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
-import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
 import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
 import { UserAgentResolverService } from './services/user-agent.service'
 import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
 import { AshaLearningCardComponent } from './routes/asha-learning/asha-learning-card.component'
-import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
+import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.component'
+import { AppPublicNavBarComponent } from './component/app-public-nav-bar/app-public-nav-bar.component'
+import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trusted-by-page.component'
+import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
+import { AppFooterComponent } from './component/app-footer/app-footer.component'
+import { VideoPopupComponent } from './routes/how-does-it-works-popup/how-does-it-works-popup.component'
+import { WebCourseCardComponent } from './routes/web-course-card/web-course-card.component'
+import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import {
   PipeCountTransformModule,
   PipeDurationTransformModule,
@@ -126,7 +126,7 @@ import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
-import { PublicLoginComponent } from './public-login/public-login.component'
+import { PublicLoginComponent } from './routes/public-login/public-login.component'
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
@@ -274,7 +274,6 @@ export function initTranslate(translate: TranslateService) {
   declarations: [
     RootComponent,
     TncComponent,
-    InvalidUserComponent,
     LoginRootComponent,
     LoginRootDirective,
     OrgComponent,
@@ -303,13 +302,19 @@ export function initTranslate(translate: TranslateService) {
     ScrollDetectorDirective,
     AppNavBarComponent,
     BnrcmodalComponent,
-    WebFeaturedCourseComponent,
     WebNavLinkPageComponent,
     WebPublicComponent,
     AshaLearningCardComponent,
-    WebCourseViewComponent,
     ProgramHome,
     // SearchRootComponent
+    WebDashboardComponent,
+    AppPublicNavBarComponent,
+    WebTrustedByPageComponent,
+    WebHowDoesWorkComponent,
+    AppFooterComponent,
+    VideoPopupComponent,
+    WebCourseCardComponent,
+    MyCoursesComponent,
   ],
   exports: [
     TncComponent,
@@ -355,11 +360,8 @@ export function initTranslate(translate: TranslateService) {
     SearchModule,
     BtnFeatureModule,
     CompetencyCourseListModule,
-    PublicAboutModule,
     PublicHomeModule,
-    PublicContactModule,
     PublicBlogModule,
-    PublicFaqModule,
     PipeSafeSanitizerModule,
     LogoutModule,
     SlidersModule,
@@ -372,10 +374,6 @@ export function initTranslate(translate: TranslateService) {
     NgxExtendedPdfViewerModule,
     ImageCropModule,
     SharedModule,
-    OrganisationsModule,
-    EntryModule,
-    SelfAssessmentModule,
-    CompetencyModule,
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,

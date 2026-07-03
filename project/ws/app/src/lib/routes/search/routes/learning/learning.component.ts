@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs'
 import { FilterDisplayComponent } from '../../components/filter-display/filter-display.component'
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab, ISearchRequestV3 } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
-import { isEmpty, orderBy } from 'lodash'
+import { isEmpty, orderBy } from 'lodash-es'
 import { filter } from 'rxjs/operators'
 import { SearchApiService } from '../../apis/search-api.service'
 

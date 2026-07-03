@@ -13,8 +13,9 @@ import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-o
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
 import { includes, get, map, filter, set, first, each, toInteger } from 'lodash-es'
 import moment from 'moment'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
 import { TranslateService } from '@ngx-translate/core'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
+import { computeCourseCompletion } from './app-toc-completion.util'
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -641,20 +642,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         this.loggerSvc.error('Error inserting data:', error)
       }
     )
-    const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
-    this.loggerSvc.log('Aggregate value:', aggregateValue)
-    this.loggerSvc.log(this.content, 'content')
     const uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
     this.loggerSvc.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
-    const percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    this.loggerSvc.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
-    const progress = Math.min(Math.max(percentage, 0), 100)
+    const progress = computeCourseCompletion(arr1, uniqueIdsOfType as string[])
+    this.loggerSvc.log(progress, 'percentage')
     return progress
-  }
-  calculateAggregate(arr: any, field: string): number {
-    const val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
-    this.loggerSvc.log(val)
-    return val
   }
 
   uniqueIdsByContentType(obj: any, contentType: any, uniqueIds = new Set()) {

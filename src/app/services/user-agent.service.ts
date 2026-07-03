@@ -1,14 +1,12 @@
-import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
-import { S3_END_POINTS } from '../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserAgentResolverService {
 
-  constructor(private http: HttpClient,
+  constructor(
     private logger: LoggerService
   ) { }
 
@@ -295,21 +293,6 @@ export class UserAgentResolverService {
       }
     } catch {
       return empty
-    }
-  }
-
-  async isEditableForSphere(data: any): Promise<boolean> {
-    try {
-      const orgData = await this.http
-        .get<{ id: string }[]>(S3_END_POINTS.SPHERE_PROFILE_UPDATE_ORG)
-        .toPromise()
-      const allowedOrgIds = orgData.map(item => item.id)
-      const hasAccess = allowedOrgIds.includes(data?.rootOrgId)
-      this.logger.log('Editable Access Check:', { rootOrgId: data?.rootOrgId, hasAccess })
-      return hasAccess
-    } catch (error) {
-      this.logger.error('Error fetching org config:', error)
-      return false
     }
   }
 

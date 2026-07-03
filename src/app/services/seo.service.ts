@@ -20,9 +20,10 @@ export interface ISeoConfig {
 const DEFAULT_TITLE = 'Aastrika Sphere - Free CNE Courses | INC Certified | Healthcare Training'
 const DEFAULT_DESCRIPTION =
   'Earn CNE points and INC certification with free online healthcare courses on Aastrika Sphere. Training for nurses, midwives, and healthcare workers across India.'
-const DEFAULT_OG_IMAGE =
-  'https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1137952004583669761234/artifact/do_1137952004583669761234_1683984431271_favicon1683984430342.png'
 const BASE_URL = 'https://sphere.aastrika.org'
+// Dedicated 1200x630 social share card. A favicon (the previous value) makes a poor
+// OG image. Asset lives at src/fusion-assets/images/og-image.png.
+const DEFAULT_OG_IMAGE = `${BASE_URL}/fusion-assets/images/og-image.png`
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {

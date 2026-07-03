@@ -110,7 +110,7 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         async (data: any) => {
           if (data) {
-            this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
+            this.isEditableForSphere = this.data?.isEditable ?? false
             if (this.isEditableForSphere) {
               this.personalDetailForm.enable()
             } else {

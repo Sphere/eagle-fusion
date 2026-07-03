@@ -21,6 +21,7 @@
   width: 112%;
   height: 1px; /* Adjust thickness as needed */
   background-color: #000; /* Adjust color as needed */
+  pointer-events: none; /* decorative divider must not intercept clicks (e.g. View All) */
 }
 
 .bg-green::after{
@@ -66,6 +67,7 @@ letter-spacing: 0.02em;
 }
 
 .view-all-course {
+  position: relative; /* makes z-index effective so the button sits above the divider */
   z-index: 9;
   cursor: pointer;
     display: inline-flex;

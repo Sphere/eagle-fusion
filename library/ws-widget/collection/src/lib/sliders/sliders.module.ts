@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { SlidersComponent } from './sliders.component'
 import { RouterModule } from '@angular/router'
-import { NavigationModule, ImageResponsiveModule } from '@ws-widget/utils'
+import { ImageResponsiveModule } from '@ws-widget/utils'
 
 // eslint-disable-next-line max-classes-per-file
 @NgModule({
@@ -10,7 +10,7 @@ import { NavigationModule, ImageResponsiveModule } from '@ws-widget/utils'
     imports: [
         CommonModule,
         RouterModule,
-        NavigationModule,
+        // NavigationModule,
         ImageResponsiveModule,
     ],
     providers: [],

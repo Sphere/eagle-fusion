@@ -49,7 +49,7 @@
         </div>
         <div class="flex justify-center" *ngIf="ls.id === 'help&Support'">
           <a *ngIf="isEkshamata" class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2"
-            [href]="'tel:' + configSvc.hostedInfo?.phone?.replace('tel:', '')">{{ ls?.text | translate }}
+            [href]="'tel:' + ls?.phone?.replace('tel:', '')">{{ ls?.text | translate }}
             <img [width]="20" height="18" [src]="ls.img" alt="" />
           </a>
           <button *ngIf="!isEkshamata" class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2"
@@ -187,7 +187,7 @@
           <ws-education-list [isEkshamata]="isEkshamata" [data]="selectedIndexData"></ws-education-list>
         </div>
         <div *ngIf="showView">
-          <ws-education-edit></ws-education-edit>
+          <ws-education-edit [data]="selectedIndexData"></ws-education-edit>
         </div>
       </div>
     </ng-container>

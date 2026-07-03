@@ -305,7 +305,7 @@ export class WidgetContentService {
         lastUpdatedOn: 'desc',
       },
     ]
-    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH, req)
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
 
   publicContentSearch(req: any) {
@@ -314,7 +314,7 @@ export class WidgetContentService {
       req.request.filters.lang = 'hi'
     }
     req.query = req.query || ''
-    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.SEARCH_V7PUBLIC,
       req,
     )
   }
@@ -382,41 +382,6 @@ export class WidgetContentService {
         )
       )
   }
-  fetchCourseRemommendations(profession: any): Observable<NsContent.ICourse[]> {
-    const path = API_END_POINTS.COURSE_RECOMENDATION(profession)
-    return this.http
-      .get(path)
-      .pipe(
-        catchError(this.handleError),
-        map(
-          (data: any) => data
-        )
-      )
-
-  }
-  COURSE_RECOMMENDATION_V2(req: any): Observable<NsContent.ICourse[]> {
-    const payload = {
-      offset: 1,
-      limit: 300,
-      "search_text": req.designation,
-      "search_fieldnames": [
-        "rolesMapped",
-      ],
-      "course_status": "Live",
-      "primaryCategory": "Course",
-      orgId: req.orgId,
-      language: req.language,
-    }
-    return this.http
-      .post<NsContent.ICourse[]>(API_END_POINTS.COURSE_RECOMMENDATION_V2, payload)
-      .pipe(
-        catchError(this.handleError),
-        map(
-          (data: any) => data
-        )
-      )
-  }
-
   getLatestCourse() {
     return this.http.get<any>(`${API_END_POINTS.LATEST_HOMEPAGE_COURSE}`)
   }
@@ -464,7 +429,7 @@ export class WidgetContentService {
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
 
-    return this.http.post(API_END_POINTS.SEARCH_V6PUBLIC, req)
+    return this.http.post(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
 
 

@@ -5,7 +5,7 @@ import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService,
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
+// import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
 import { from } from 'rxjs'
 import { DomSanitizer } from '@angular/platform-browser'
@@ -405,22 +405,22 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       return []
     }
   }
-  openAboutDialog() {
-    if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
-      const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
-        width: '312px',
-        height: '369px',
-        data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
-      })
+  // openAboutDialog() {
+  //   if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
+  //     const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
+  //       width: '312px',
+  //       height: '369px',
+  //       data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
+  //     })
 
-      dialogRef.afterClosed().subscribe(result => {
-        // tslint:disable-next-line: no-console
-        this.logger.log('The dialog was closed', result)
-      })
-    } else {
-      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
-    }
-  }
+  //     dialogRef.afterClosed().subscribe(result => {
+  //       // tslint:disable-next-line: no-console
+  //       this.logger.log('The dialog was closed', result)
+  //     })
+  //   } else {
+  //     this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
+  //   }
+  // }
   assignProfession(data: any) {
     this.currentProfession = data
   }

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { get, filter, toLower } from 'lodash'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
@@ -67,7 +67,7 @@ export class QuizService {
   competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
     let url = ''
     if (window.location.origin.indexOf('http://localhost:') === -1) {
-      url = `${window['env']['azureHost']}/${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
+      url = `${window['env']['azureHost']}${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     } else {
       url = `${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     }
