@@ -56,7 +56,6 @@ export const ROOT_WIDGET_CONFIG = {
   },
   player: {
     _type: 'player',
-    amp: 'playerAmp',
     audio: 'playerAudio',
     pdf: 'playerPDF',
     slides: 'playerSlides',
@@ -66,13 +65,7 @@ export const ROOT_WIDGET_CONFIG = {
   },
   slider: {
     _type: 'slider',
-    mob: 'sliderMobBanners',
     carousel: 'sliderBanners',
-  },
-  tree: {
-    _type: 'tree',
-    tree: 'tree',
-    catalog: 'treeCatalog',
   },
   page: {
     _type: 'page',
@@ -99,10 +92,6 @@ export const ROOT_WIDGET_CONFIG = {
   imageMap: {
     _type: 'imageMap',
     imageMapResponsive: 'imageMapResponsive',
-  },
-  releaseNotes: {
-    _type: 'releaseNotes',
-    user: 'userReleaseNotes',
   },
   wrapper: {
     _type: 'wrapper',

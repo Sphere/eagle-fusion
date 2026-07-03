@@ -6,11 +6,11 @@ import { EventService } from '../../../../utils/src/public-api'
 import { Router } from '@angular/router'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-sliders',
-    templateUrl: './sliders.component.html',
-    styleUrls: ['./sliders.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-sliders',
+  templateUrl: './sliders.component.html',
+  styleUrls: ['./sliders.component.scss'],
+
 })
 export class SlidersComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<ICarousel[]> {

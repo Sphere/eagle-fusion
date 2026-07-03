@@ -45,8 +45,6 @@ import { LayoutTabModule } from './layout-tab/layout-tab.module'
 import { PageComponent } from './page/page.component'
 import { PageModule } from './page/page.module'
 import { PickerContentModule } from './picker-content/picker-content.module'
-import { PlayerAmpComponent } from './player-amp/player-amp.component'
-import { PlayerAmpModule } from './player-amp/player-amp.module'
 import { PlayerAudioComponent } from './player-audio/player-audio.component'
 import { PlayerAudioModule } from './player-audio/player-audio.module'
 import { PlayerPdfComponent } from './player-pdf/player-pdf.component'
@@ -55,18 +53,10 @@ import { PlayerVideoComponent } from './player-video/player-video.component'
 import { PlayerVideoModule } from './player-video/player-video.module'
 import { PlayerYoutubeComponent } from './player-youtube/player-youtube.component'
 import { PlayerYoutubeModule } from './player-youtube/player-youtube.module'
-import { ReleaseNotesComponent } from './release-notes/release-notes.component'
-import { ReleaseNotesModule } from './release-notes/release-notes.module'
 import { SelectorResponsiveComponent } from './selector-responsive/selector-responsive.component'
 import { SelectorResponsiveModule } from './selector-responsive/selector-responsive.module'
-import { SlidersMobComponent } from './sliders-mob/sliders-mob.component'
-import { SlidersMobModule } from './sliders-mob/sliders-mob.module'
 import { SlidersComponent } from './sliders/sliders.component'
 import { SlidersModule } from './sliders/sliders.module'
-import { TreeCatalogComponent } from './tree-catalog/tree-catalog.component'
-import { TreeCatalogModule } from './tree-catalog/tree-catalog.module'
-import { TreeComponent } from './tree/tree.component'
-import { TreeModule } from './tree/tree.module'
 import { VideoWrapperComponent } from './video-wrapper/video-wrapper.component'
 import { VideoWrapperModule } from './video-wrapper/video-wrapper.module'
 
@@ -84,16 +74,12 @@ export const WIDGET_REGISTERED_MODULES = [
   LayoutLinearModule,
   LayoutTabModule,
   PickerContentModule,
-  PlayerAmpModule,
   PlayerAudioModule,
   PlayerPdfModule,
   PlayerVideoModule,
   PlayerYoutubeModule,
-  ReleaseNotesModule,
   SlidersModule,
   ElementHtmlModule,
-  TreeModule,
-  TreeCatalogModule,
   PageModule,
   EmbeddedPageModule,
   SelectorResponsiveModule,
@@ -105,7 +91,6 @@ export const WIDGET_REGISTERED_MODULES = [
   ImageMapResponsiveModule,
   IntranetSelectorModule,
   VideoWrapperModule,
-  SlidersMobModule,
 ]
 
 export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] = [
@@ -166,11 +151,6 @@ export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] 
   },
   {
     widgetType: ROOT_WIDGET_CONFIG.player._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.player.amp,
-    component: PlayerAmpComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.player._type,
     widgetSubType: ROOT_WIDGET_CONFIG.player.audio,
     component: PlayerAudioComponent,
   },
@@ -190,29 +170,9 @@ export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] 
     component: PlayerYoutubeComponent,
   },
   {
-    widgetType: ROOT_WIDGET_CONFIG.releaseNotes._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.releaseNotes.user,
-    component: ReleaseNotesComponent,
-  },
-  {
     widgetType: ROOT_WIDGET_CONFIG.slider._type,
     widgetSubType: ROOT_WIDGET_CONFIG.slider.carousel,
     component: SlidersComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.slider._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.slider.mob,
-    component: SlidersMobComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.tree._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.tree.tree,
-    component: TreeComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.tree._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.tree.catalog,
-    component: TreeCatalogComponent,
   },
   {
     widgetType: ROOT_WIDGET_CONFIG.page._type,
