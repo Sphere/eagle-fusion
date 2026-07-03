@@ -65,13 +65,10 @@ import {
   PipeContentRouteModule,
   PipeContentRoutePipe,
   CardContentModule,
-  UserAutocompleteModule,
-
 } from '@ws-widget/collection'
 import { AppTocOverviewDirective } from './routes/app-toc-overview/app-toc-overview.directive'
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
 import { AppTocHomeDirective } from './routes/app-toc-home/app-toc-home.directive'
-import { ProfileImageModule } from '../../../../../../../library/ws-widget/collection/src/lib/_common/profile-image/profile-image.module'
 import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
 import { ApiService, AccessControlService } from '../../../../../author/src/public-api'
 import { LicenseComponent } from './components/license/license.component'
@@ -154,8 +151,6 @@ import { TranslateModule } from '@ngx-translate/core'
     MatProgressSpinnerModule,
     CardContentModule,
     BtnContentShareModule,
-    UserAutocompleteModule,
-    ProfileImageModule,
     NgCircleProgressModule.forRoot({}),
     DiscussionUiModule,
     TranslateModule,

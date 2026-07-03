@@ -21,7 +21,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SettingsModule } from '../profile/routes/settings/settings.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
-  LocaleTranslatorModule,
   LanguageSelectorModule,
   BtnPageBackModule,
 } from '@ws-widget/collection'
@@ -68,7 +67,6 @@ import { RouterModule } from '@angular/router'
     RouterModule,
     SettingsModule,
     WidgetResolverModule,
-    LocaleTranslatorModule,
     InterestModules,
     LanguageSelectorModule,
     TranslateModule,
