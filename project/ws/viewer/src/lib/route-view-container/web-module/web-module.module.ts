@@ -6,20 +6,10 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatIconModule } from '@angular/material/icon'
-
-
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
-  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -49,20 +39,12 @@ import { WebModuleComponent } from './web-module.component'
     WebModuleRoutingModule,
     PluginWebModuleModule,
     WidgetResolverModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
-    // PlayerBriefModule,
   ],
   exports: [
     WebModuleComponent,

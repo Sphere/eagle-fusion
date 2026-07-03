@@ -12,16 +12,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
 } from '@ws-widget/collection'
 
 import {
@@ -39,20 +32,13 @@ import {
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     MatCardModule,
     MatDividerModule,
     MatButtonModule,
     MatSnackBarModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
   ],
 })
 export class IapModule { }

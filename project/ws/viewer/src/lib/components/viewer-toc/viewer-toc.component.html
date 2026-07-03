@@ -1,6 +1,5 @@
 <ng-container *ngIf="!isFetching; else Loading">
 
-  <!-- <mat-divider *ngIf="collection" class="margin-bottom-xs"></mat-divider> -->
   <div *ngIf="collection" class="flex flex-middle">
   </div>
   <section *ngIf="!collection">
@@ -21,15 +20,6 @@
       <ng-container *ngTemplateOutlet="TocContentCard; context: { $implicit: content }"></ng-container>
     </mat-list-item>
   </mat-list>
-  <!-- Tree -->
-  <!-- <div class="flex mt-10">
-    <span role="button" matRipple class="margin-left-xs mt-2 width-9-10">
-      <h2 class="text-truncate margin-remove" id="course content-title">Course Content</h2>
-    </span>
-    <button class="width-9-10" mat-icon-button (click)="minimizenav()">
-      <mat-icon class="" name="video full screen-arrow">arrow_back_ios</mat-icon>
-    </button>
-  </div> -->
   <div [ngClass]="{'outer-ul': queue.length > 7}" #outer>
     <ul [hidden]="tocMode !== 'TREE'" class="toc-tree" #ulTree>
       <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl">
@@ -37,18 +27,12 @@
           <li class="mat-tree-node leaf-node ml-3" #highlightItem
             [ngClass]="{ 'li-active': pathSet.has(node.identifier) }">
             <ng-container *ngTemplateOutlet="TocContentList; context: { $implicit: node }"></ng-container>
-            <!-- <ng-container
-            *ngTemplateOutlet="TocContentCard; context: { $implicit: node }"
-          ></ng-container> -->
           </li>
         </mat-tree-node>
 
         <mat-nested-tree-node *matTreeNodeDef="let node; when: hasNestedChild">
           <li [ngClass]="{ 'li-active': pathSet.has(node.identifier) }">
             <div class="mat-tree-node tree-node" [ngClass]="{ 'mat-toolbar': pathSet.has(node.identifier) }">
-
-              <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="node?.type">
-            </ws-widget-display-content-type-icon> -->
               <span role="button" [ngClass]="{ 'content-active': pathSet.has(node.identifier) }" matRipple
                 matTreeNodeToggle class="margin-left-xs mt-2 width-9-10">
                 <h3 class="margin-remove node-title">{{ node.title }}</h3>
@@ -125,20 +109,6 @@
           <span>{{ content.type | pipeLimitTo: 300 }}</span> </span><span class="mat-body-1 margin-left-xxs"
           *ngIf="content?.complexity"><span>| {{ content?.complexity | pipeLimitTo: 300 }}</span>
         </span>
-        <!-- <div class="width-1-1">
-              <btn-content-download></btn-content-download>
-              <btn-content-like></btn-content-like>
-              <btn-content-share></btn-content-share>
-              <btn-goals></btn-goals>
-              <btn-playlists></btn-playlists>
-              <button mat-icon-button matTooltip="Watch List" i18n-matTooltip>
-                <mat-icon>watch_later</mat-icon>
-              </button>
-              <btn-content-feedback></btn-content-feedback>
-              <ws-widget-btn-content-feedback-v2
-                [widgetData]="content | pipePartialContent: ['identifier', 'name']"
-              ></ws-widget-btn-content-feedback-v2>
-            </div> -->
       </span>
       <span>
         <div class="mat-body-1 content-duration mat-caption width-max-content">
@@ -150,30 +120,15 @@
 </ng-template>
 
 <ng-template let-content #TocContentList>
-  <!-- <div class="resource-container margin-left-xl"> -->
   <div class="resource-container">
-    <!-- <ws-widget-display-content-type-icon class="flex margin-left-xs" [displayContentType]="content?.type">
-    </ws-widget-display-content-type-icon> -->
     <div class="resource-meta width-expand">
       <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.disabledNode }"
         [routerLink]="content.viewerUrl" queryParamsHandling="preserve" (click)="sendStatus(content)"
         [attr.tabindex]="'-1'">
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
           {{ content?.title }}
-          <!-- <mat-icon *ngIf="content.disabledNode">lock
-          </mat-icon> <span *ngIf="content?.completionPercentage && content?.completionPercentage >=0"> &nbsp;|
-            {{content.completionPercentage}}% |
-          </span> -->
-          <!--           <span *ngIf="content?.completionPercentage === null || content?.completionPercentage === undefined"> &nbsp;|ll
-            0% |
-          </span> -->
-          <!-- <mat-icon title="Completion Percentage : {{content?.completionPercentage}}%"
-            *ngIf="content?.completionPercentage === 100" i18n-matTooltip matTooltip="Completed"
-            class="completed-icon margin-left-xs align-self-center">check_circle_outline</mat-icon> -->
         </h3>
         <div *ngIf="content?.type !== 'Assessment' " class="d-flex">
-          <!-- <span class="mat-body-1"> -->
-          <!-- <span>{{ content.type | pipeLimitTo: 300 }}</span> -->
           <ng-container *ngIf="content.type">
             <div [ngSwitch]="content.type | lowercase">
               <div *ngSwitchCase="'pdf'">
@@ -207,13 +162,11 @@
               <div *ngSwitchDefault>{{content.type}}</div>
             </div>
           </ng-container>
-          <!-- </span> -->
           <div [ngClass]="content.showDownloadBtn === 'Yes' ? 'margin-top-xs' : 'margin-left-xxs'">{{ content?.duration
             | pipeDurationTransform: 'hms' }}</div>
           <div class="align-rt progrss-box">
             <span class="content-check"
               *ngIf="content?.completionPercentage === 100 && content?.completionStatus; else elseResourcePercentage">
-              <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
               <mat-icon>check</mat-icon>
 
             </span>
@@ -229,8 +182,6 @@
                   [outerStrokeLinecap]="'round'">
                 </circle-progress>
               </ng-container>
-
-              <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
             </ng-template>
             <ng-template #elseResourseLock>
               <ng-container *ngIf="content.disabledNode">
@@ -245,15 +196,11 @@
           <div class="align-rt progrss-box">
             <span class="content-check"
               *ngIf="content?.completionPercentage === 100 && content?.completionStatus; else elseResourcePercentage">
-              <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
               <mat-icon>check</mat-icon>
 
             </span>
           </div>
         </div>
-        <!-- <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
-            {{ content?.complexity | pipeLimitTo: 300 }}</span>
-        </span> -->
         <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex d-none">
           {{ content?.title | pipeLimitTo: 30 }}
           <mat-icon title="{{content?.completionPercentage}}%" *ngIf="

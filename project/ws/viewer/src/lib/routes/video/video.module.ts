@@ -8,16 +8,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
 } from '@ws-widget/collection'
 
 import {
@@ -46,16 +39,9 @@ import { VideoModule as VideoViewContainerModule } from '../../route-view-contai
     PipeLimitToModule,
     PipePartialContentModule,
     PipeDurationTransformModule,
-    // BtnContentDownloadModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     UserImageModule,
-    // BtnContentFeedbackModule,
     DisplayContentTypeModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
     VideoViewContainerModule,
   ],
 })

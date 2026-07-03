@@ -15,17 +15,9 @@ import { ResourceCollectionComponent } from './resource-collection.component'
 import { WebModuleModule as PluginWebModuleModule } from '../../plugins/web-module/web-module.module'
 import { ResourceCollectionModule as PluginResourceCollectionModule } from '../../plugins/resource-collection/resource-collection.module'
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
-  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -51,17 +43,9 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
     MatInputModule,
     PluginResourceCollectionModule,
     PluginWebModuleModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
-    // PlayerBriefModule,
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,

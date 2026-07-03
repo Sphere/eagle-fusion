@@ -7,20 +7,10 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatButtonModule } from '@angular/material/button'
 import { MatChipsModule } from '@angular/material/chips'
-
-
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
-  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -45,21 +35,13 @@ import { SharedModule } from '../../../../../author/src/lib/modules/shared/share
     MatChipsModule,
     MatButtonModule,
     MatSnackBarModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,
     WidgetResolverModule,
-    //UserContentRatingModule,
-    //BtnContentFeedbackV2Module,
-    //PlayerBriefModule,
     SharedModule,
   ],
   exports: [

@@ -168,17 +168,6 @@
                 </button>
               </ng-template>
             </div>
-            <!-- <button type="button" mat-raised-button class="follow-button ws-mat-primary-background margin-top-xs"
-                      (click)="follow()">
-                      <div class="flex flex-center" *ngIf="isFollow; else unFollow">
-                        <p class="text-white margin-remove-bottom font-family" >Follow</p>
-                      </div>
-                      <ng-template #unFollow>
-                        <div class="flex flex-center">
-                          <p class="text-white margin-remove-bottom font-family" >Unfollow</p>
-                        </div>
-                      </ng-template>
-                    </button> -->
           </div>
         </mat-card>
         <mat-divider class="interest_divider"></mat-divider>
@@ -201,13 +190,10 @@
                   </mat-chip-list>
                 </div>
               </div>
-              <!-- <p class="margin-remove-bottom email mat-h3 font-family">paul.shaju@infosys.com</p> -->
             </div>
           </mat-card-content>
         </mat-card>
-        <ng-container *ngIf="
-            targetId?.length && followingFetchStatus === 'done' && followersFetchStatus === 'done'
-          ">
+        <ng-container *ngIf="targetId?.length && followingFetchStatus === 'done' && followersFetchStatus === 'done'">
           <ws-app-user-details [wid]="targetId" [name]="userName" [enabledFeatures]="enabledFeatures"
             [followingCount]="followingCount" [followersCount]="followersCount" [followers]="followers"
             [following]="following">
