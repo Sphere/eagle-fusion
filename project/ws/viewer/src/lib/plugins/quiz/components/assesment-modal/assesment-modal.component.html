@@ -155,10 +155,12 @@
 
       <ng-container *ngIf="tabIndex === 1 && !isCompetency">
         <div class="text-center pt-5 flex justify-content-center">
-          <button class="btn width-auto" mat-raised-button (click)="retakeQuiz()">{{(getCorrectAnswerPopUp() ?
-            'View Answers' : 'Retake Assessment') | translate}}</button>
-          <button class="btn btn-active width-auto" [disabled]="disableContinue" (click)="closeDone()"
-            mat-raised-button>{{'Continue' | translate}}</button>
+          <button
+            *ngIf="(result === 100 || result < passPercentage) || (result>= passPercentage && canShowViewAnswers())"
+            class="btn width-auto" mat-raised-button (click)="retakeQuiz()">
+            {{((result === 100 || result < passPercentage) ? 'Retake Assessment' : 'View Answers' )|translate}}</button>
+              <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()" mat-raised-button>
+                {{"Continue" | translate}}</button>
         </div>
 
 
