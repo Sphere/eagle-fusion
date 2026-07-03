@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { Router } from '@angular/router'
 import { TranslateService } from '@ngx-translate/core'
 import * as _ from 'lodash-es'
@@ -10,7 +10,7 @@ import { WidgetContentService } from '../../../../../library/ws-widget/collectio
   templateUrl: './asha-learning.component.html',
   styleUrls: ['./asha-learning.component.scss'],
 })
-export class AshaLearningComponent implements OnInit {
+export class AshaLearningComponent implements OnInit, OnChanges {
   @Input() ashaData
   @Input() expand
   @Input() inProgressCoursesCount?: number
@@ -28,10 +28,18 @@ export class AshaLearningComponent implements OnInit {
     private contentSvc: WidgetContentService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.isExpanded = this.expand
-    await this.getLevelStyle()
-    this.nextLevelInfo = await this.getNextLevelEntriesAndLabel(this.ashaData)
+  }
+
+  // getLevelStyle/getNextLevelEntriesAndLabel are synchronous — computing them here
+  // (inside the CD pass) instead of after an `await` keeps the initial render in sync,
+  // and re-runs when the parent refreshes the ashaData input.
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.ashaData) {
+      this.getLevelStyle()
+      this.nextLevelInfo = this.getNextLevelEntriesAndLabel(this.ashaData)
+    }
   }
 
   toggleExpand() {
@@ -274,7 +282,7 @@ export class AshaLearningComponent implements OnInit {
     return totalPercentage
   }
 
-  async getLevelStyle() {
+  getLevelStyle() {
     if (this.isAdminGrantedProgress()) {
       this.completedLevels = []
       this.failedLevels = []
