@@ -1,6 +1,6 @@
 import { APP_BASE_HREF } from '@angular/common'
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core'
-import { FormGroup } from '@angular/forms'
+import { UntypedFormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -28,10 +28,12 @@ import { ChannelResolverService } from './../../services/resolver.service'
 import { ChannelStoreService } from './../../services/store.service'
 
 @Component({
-  selector: 'ws-auth-channel',
-  templateUrl: './channel.component.html',
-  styleUrls: ['./channel.component.scss'],
-  providers: [ChannelStoreService],
+    standalone: false,
+    selector: 'ws-auth-channel',
+    templateUrl: './channel.component.html',
+    styleUrls: ['./channel.component.scss'],
+    providers: [ChannelStoreService],
+    
 })
 export class ChannelComponent implements OnInit, OnDestroy {
   contents: NSContent.IContentMeta[] = []
@@ -323,13 +325,13 @@ export class ChannelComponent implements OnInit, OnDestroy {
         data: this.contentService.getOriginalMeta(this.currentContent),
       })
 
-      dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+      dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
         this.finalCall(commentsForm)
       })
     }
   }
 
-  finalCall(commentsForm: FormGroup) {
+  finalCall(commentsForm: UntypedFormGroup) {
     if (commentsForm) {
       const body: NSApiRequest.IForwardBackwardActionGeneral = {
         comment: commentsForm.controls.comments.value,
@@ -446,10 +448,10 @@ export class ChannelComponent implements OnInit, OnDestroy {
         if (v.artifactURL) {
           meta.artifactUrl = v.artifactURL
           meta.lastUpdatedOn = `${new Date()
-              .toISOString()
-              .replace(/-/g, '')
-              .replace(/:/g, '')
-              .split('.')[0]
+            .toISOString()
+            .replace(/-/g, '')
+            .replace(/:/g, '')
+            .split('.')[0]
             }+0000`
         }
         return this.triggerSave(meta, id)

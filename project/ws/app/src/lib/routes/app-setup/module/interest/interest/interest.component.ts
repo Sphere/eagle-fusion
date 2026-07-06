@@ -5,22 +5,24 @@ import {
   // BtnPlaylistService, NsPlaylist
 } from '@ws-widget/collection'
 import { TFetchStatus, NsPage, ConfigurationsService } from '../../../../../../../../../../library/ws-widget/utils/src/public-api'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 // import { MatSnackBar } from '@angular/material/snack-bar'
 import { Subscription } from 'rxjs'
 // import { InterestService } from '../../../../profile/routes/interest/services/interest.service'
 
 @Component({
-  selector: 'ws-app-interests',
-  templateUrl: './interest.component.html',
-  styleUrls: ['./interest.component.scss'],
+    standalone: false,
+    selector: 'ws-app-interests',
+    templateUrl: './interest.component.html',
+    styleUrls: ['./interest.component.scss'],
+    
 })
 export class InterestComponent implements OnInit {
   interestsData: any
   selectedContent = 0
   selectedInterest = ''
   playListName = 'Learn Later'
-  contentLangForm: FormControl = new FormControl()
+  contentLangForm: UntypedFormControl = new UntypedFormControl()
   interestRES: any
   fetchStatus: TFetchStatus = 'none'
   // playlistForInterest: NsPlaylist.IPlaylist | null = null
@@ -65,7 +67,7 @@ export class InterestComponent implements OnInit {
     this.selectInterest()
   }
 
-  selectInterest(index: number = 0) {
+  selectInterest(index = 0) {
     if (this.fetchStatus === 'fetching') {
       return
     }

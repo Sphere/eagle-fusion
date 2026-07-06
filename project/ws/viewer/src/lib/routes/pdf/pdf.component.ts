@@ -1,22 +1,25 @@
 import { AccessControlService } from '@ws/author'
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { NsContent, NsDiscussionForum, WidgetContentService } from '@ws-widget/collection'
 import { WsEvents, EventService, ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Component({
-  selector: 'viewer-pdf',
-  templateUrl: './pdf.component.html',
-  styleUrls: ['./pdf.component.scss'],
+    standalone: false,
+    selector: 'viewer-pdf',
+    templateUrl: './pdf.component.html',
+    styleUrls: ['./pdf.component.scss'],
+    
 })
 export class PdfComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
   private viewerDataSubscription: Subscription | null = null
   private telemetryIntervalSubscription: Subscription | null = null
-  isFetchingDataComplete = true
+  isFetchingDataComplete = false
   pdfData: NsContent.IContent | null = null
   oldData: NsContent.IContent | null = null
   alreadyRaised = false
@@ -43,10 +46,11 @@ export class PdfComponent implements OnInit, OnDestroy {
     private eventSvc: EventService,
     private accessControlSvc: AccessControlService,
     private configSvc: ConfigurationsService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
-    // TODO console.log('pdf wala')
+    // TODO this.logger.log('pdf wala')
     if (
       this.activatedRoute.snapshot.queryParamMap.get('preview') &&
       !this.accessControlSvc.authoringConfig.newDesign
@@ -63,7 +67,7 @@ export class PdfComponent implements OnInit, OnDestroy {
             }
           }
           this.widgetResolverPdfData.widgetData.pdfUrl = this.pdfData
-            ? `/apis/authContent/${encodeURIComponent(this.pdfData.artifactUrl)}`
+            ? API_END_POINTS.AUTH_CONTENT(encodeURIComponent(this.pdfData.artifactUrl))
             : ''
           this.widgetResolverPdfData.widgetData.disableTelemetry = true
           this.isFetchingDataComplete = true
@@ -71,6 +75,7 @@ export class PdfComponent implements OnInit, OnDestroy {
     } else {
       this.dataSubscription = this.activatedRoute.data.subscribe(
         async data => {
+          this.isFetchingDataComplete = false
           this.pdfData = data.content.data
           // if (this.alreadyRaised && this.oldData) {
           //   this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
@@ -107,11 +112,12 @@ export class PdfComponent implements OnInit, OnDestroy {
           //   this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.pdfData)
           // }
           this.isFetchingDataComplete = true
+          this.cdr.detectChanges()
         },
         () => { },
       )
     }
-    // TODO  console.log('PDF Content',this.pdfData)
+    // TODO  this.logger.log('PDF Content',this.pdfData)
   }
 
   formDiscussionForumWidget(content: NsContent.IContent) {
@@ -194,7 +200,7 @@ export class PdfComponent implements OnInit, OnDestroy {
           userId,
           batchId: this.batchId,
           courseId: collectionId || '',
-          contentIds: [],
+          contentIds: [pdfId],
           fields: ['progressdetails'],
         },
       }
@@ -219,7 +225,7 @@ export class PdfComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // TODO   console.log('Cookie error for s3')
+        // TODO   this.logger.log('Cookie error for s3')
       })
     return
   }

@@ -1,7 +1,7 @@
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormArray, AbstractControl } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
@@ -12,22 +12,24 @@ import { CONTENT_BASE_WEBHOST_ASSETS, AUTHORING_CONTENT_BASE } from '@ws/author/
 import { ICarousel } from '@ws-widget/collection/src/public-api'
 
 @Component({
-  selector: 'ws-auth-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-slider',
+    templateUrl: './slider.component.html',
+    styleUrls: ['./slider.component.scss'],
+    
 })
 export class SliderComponent implements OnInit {
 
   @Input() identifier!: string
   @Input() content!: ICarousel[]
   @Input() isSubmitPressed = false
-  @Output() data = new EventEmitter<{ content: ICarousel, isValid: Boolean }>()
-  form!: FormGroup
+  @Output() data = new EventEmitter<{ content: ICarousel, isValid: boolean }>()
+  form!: UntypedFormGroup
 
   constructor(
     private uploadService: UploadService,
     private snackBar: MatSnackBar,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public loader: LoaderService,
   ) { }
 
@@ -54,7 +56,7 @@ export class SliderComponent implements OnInit {
   }
 
   get paths(): any {
-    return this.form.get('iCarousel') as FormArray
+    return this.form.get('iCarousel') as UntypedFormArray
   }
 
   addImageDetailsToForm(data?: ICarousel) {
@@ -77,7 +79,7 @@ export class SliderComponent implements OnInit {
   }
 
   upload(file: File, index: number, type: string) {
-    const formControl = (this.paths.at(index).get('banners') as FormGroup).get(type) as AbstractControl
+    const formControl = (this.paths.at(index).get('banners') as UntypedFormGroup).get(type) as AbstractControl
     const formdata = new FormData()
     const fileName = file.name.replace(/[^A-Za-z0-9.]/g, '')
     if (!(file.type.indexOf('image/') > -1)) {

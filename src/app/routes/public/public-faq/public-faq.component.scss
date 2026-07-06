@@ -1,8 +1,9 @@
-@import 'ws-common';
-@import 'ws-vars';
+@use 'ws-common';
+@use 'ws-vars';
 
 .sidenav-container {
   @extend %height-mat-toolbar-sibling;
+  background: white !important;
 }
 
 .text-center {
@@ -10,11 +11,11 @@
 }
 
 .faq-container {
-  margin: $size-l;
+  margin: ws-common.$size-l;
 }
 
 .page-heading {
-  margin-bottom: $size-xl;
+  margin-bottom: ws-common.$size-xl;
 }
 
 .sidenav {
@@ -33,7 +34,7 @@
 .nav-container {
   padding: 36px;
   margin: 16px;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     padding: 16px;
   }
 }

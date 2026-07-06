@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-app-profile-settings',
-  templateUrl: './profile-settings.component.html',
-  styleUrls: ['./profile-settings.component.scss'],
+    standalone: false,
+    selector: 'ws-app-profile-settings',
+    templateUrl: './profile-settings.component.html',
+    styleUrls: ['./profile-settings.component.scss'],
+    
 })
 export class ProfileSettingsComponent implements OnInit {
   hiddenFeatures: string[] = []

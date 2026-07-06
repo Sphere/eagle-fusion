@@ -1,28 +1,28 @@
 <section #fullScreenContainer class="pdf-container">
   <!-- <mat-toolbar class="pdf-nav-bar" color="primary" *ngIf="widgetData?.hideControls"> -->
   <mat-toolbar class="pdf-nav-bar flex justify-center" color="red" *ngIf="widgetData?.hideControls">
-    <button mat-icon-button [disabled]="currentPage.value < 2" (click)="loadPageNum(currentPage.value - 1)"
-      aria-label="previous" i18n-aria-label>
+    <button mat-button [disabled]="currentPage.value < 2" (click)="loadPageNum(+currentPage.value - 1)"
+      matTooltip="previous">
       <mat-icon>chevron_left</mat-icon>
     </button>
-    <mat-form-field class="auto-mat-form-field-input-infix mb-2" #input>
-      <span matPrefix i18n *ngIf="!isSmallViewPort">Page</span>
-      <input label="PageNumber" style="text-align: center;" aria-label="Page Number" i18n-aria-label
-        class="pdf-page-num" type="number" min="1" [max]="totalPages" [formControl]="currentPage" matInput />
+    <mat-form-field class="auto-mat-form-field-input-infix" #input>
+      <span matPrefix *ngIf="!isSmallViewPort">{{"Page" | translate}}</span>
+      <input label="PageNumber" style="text-align: center;" aria-label="Page Number" class="pdf-page-num" type="number"
+        min="1" [max]="totalPages" [formControl]="currentPage" matInput />
       <span matSuffix class="pl-2">of {{ totalPages }}</span>
     </mat-form-field>
-    <button mat-icon-button [disabled]="currentPage.value >= totalPages" (click)="loadPageNum(currentPage.value + 1)"
-      aria-label="next" i18n-aria-label>
+    <button mat-button [disabled]="currentPage.value >= totalPages" (click)="loadPageNum(+currentPage.value + 1)"
+      matTooltip="next">
       <mat-icon>chevron_right</mat-icon>
     </button>
 
     <div class="flex">
       <!-- <button mat-icon-button [disabled]="zoom.value <= MIN_SCALE" (click)="changeScale('zoomout')" aria-label="zoom out"
-        i18n-aria-label>
+      >
         <mat-icon>zoom_out</mat-icon>
       </button>
       <button mat-icon-button [disabled]="zoom.value >= MAX_SCALE" (click)="changeScale('zoomin')" aria-label="zoom in"
-        i18n-aria-label>
+      >
         <mat-icon>zoom_in</mat-icon>
       </button> -->
 
@@ -37,7 +37,7 @@
       </mat-menu>
       <mat-slider *ngIf="!isSmallViewPort" thumbLabel min="0.2" max="3" step="0.05" [formControl]="zoom"></mat-slider> -->
 
-      <!-- <button mat-icon-button (click)="refresh()" aria-label="refresh" i18n-aria-label>
+      <!-- <button mat-icon-button (click)="refresh()" aria-label="refresh">
         <mat-icon>refresh</mat-icon>
       </button> -->
       <div class="pdf-fullscreen">
@@ -47,10 +47,11 @@
       </div>
     </div>
   </mat-toolbar>
-  <ng-container *ngIf="widgetData?.pdfUrl">
-    <ngx-extended-pdf-viewer [src]="widgetData.pdfUrl" useBrowserLocale="true" [height]="getPDFHeight"
-      [zoom]="getPDFZoom" [page]="currentPage.value" [showToolbar]="false" enablePinchOnMobile="true"
-      (pageChange)="loadPageNum($event)" (pagesLoaded)="documentLoded($event)"
-      [(sidebarVisible)]="sidebarOpen"></ngx-extended-pdf-viewer>
+  <ng-container *ngIf="widgetData?.pdfUrl && pdfViewerReady">
+    <ngx-extended-pdf-viewer [src]="widgetData.pdfUrl" [height]="getPDFHeight"
+      [zoom]="getPDFZoom" [page]="+currentPage.value" [showToolbar]="false" enablePinchOnMobile="true"
+      (pageChange)="loadPageNum($event)" (pagesLoaded)="documentLoded($event)" [(sidebarVisible)]="sidebarOpen"
+      [showHandToolButton]="false" [showSecondaryToolbarButton]="false"
+      [showRotateButton]="false"></ngx-extended-pdf-viewer>
   </ng-container>
 </section>

@@ -1,10 +1,10 @@
-@import 'ws-common';
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .next-b {
-  width: $size-s;
-  height: $size-m;
+  width: ws-common.$size-s;
+  height: ws-common.$size-m;
   transform: matrix(0, 1, -1, 0, 0, 0);
   background: #00a9f4 0% 0% no-repeat padding-box;
 }

@@ -14,7 +14,7 @@ import {
 import { Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 // import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import { WidgetUserService } from '../_services/widget-user.service'
 // import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
@@ -39,9 +39,11 @@ interface IStripUnitContentData {
   } | null
 }
 @Component({
-  selector: 'ws-widget-content-strip-multiple',
-  templateUrl: './content-strip-multiple.component.html',
-  styleUrls: ['./content-strip-multiple.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-content-strip-multiple',
+    templateUrl: './content-strip-multiple.component.html',
+    styleUrls: ['./content-strip-multiple.component.scss'],
+    
 })
 export class ContentStripMultipleComponent extends WidgetBaseComponent
   implements

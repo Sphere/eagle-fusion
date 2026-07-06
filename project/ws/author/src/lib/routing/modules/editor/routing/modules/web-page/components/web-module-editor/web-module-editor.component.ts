@@ -9,7 +9,7 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 import { map, mergeMap, tap, catchError } from 'rxjs/operators'
 import { of, Observable, Subscription, forkJoin } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { FormGroup } from '@angular/forms'
+import { UntypedFormGroup } from '@angular/forms'
 
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { CommentsDialogComponent } from '@ws/author/src/lib/modules/shared/components/comments-dialog/comments-dialog.component'
@@ -41,9 +41,11 @@ import { PlainCKEditorComponent } from '../../../../../shared/components/plain-c
 import { NotificationService } from '@ws/author/src/lib/services/notification.service'
 
 @Component({
-  selector: 'ws-auth-web-module-editor',
-  templateUrl: './web-module-editor.component.html',
-  styleUrls: ['./web-module-editor.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-web-module-editor',
+    templateUrl: './web-module-editor.component.html',
+    styleUrls: ['./web-module-editor.component.scss'],
+    
 })
 
 export class WebModuleEditorComponent implements OnInit, OnDestroy {
@@ -173,7 +175,7 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
 
       // this.activateRoute.parent.parent.data.subscribe(v => {
       //   if (v.contents && v.contents.length) {
-      //     console.log(v)
+      //     this.logger.log(v)
       //     this.allContents.push(v.contents[0].content)
       //     if (v.contents[0].data) {
       //       const url = v.contents[0].content.artifactUrl.substring(0, v.contents[0].content.artifactUrl.lastIndexOf('/'))
@@ -242,7 +244,7 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkValidity(lexId: string): Boolean {
+  checkValidity(lexId: string): boolean {
     let returnVal = true
     for (let i = 0; i < this.userData[lexId].pages.length; i = i + 1) {
       if (!this.userData[lexId].pages[i].body) {
@@ -540,7 +542,7 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
     )
   }
 
-  finalCall(commentsForm: FormGroup) {
+  finalCall(commentsForm: UntypedFormGroup) {
     if (commentsForm) {
       const body: NSApiRequest.IForwardBackwardActionGeneral = {
         comment: commentsForm.controls.comments.value,
@@ -693,7 +695,7 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
           height: '450px',
           data: this.metaContentService.getOriginalMeta(this.currentId),
         })
-        dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+        dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
           this.finalCall(commentsForm)
         })
       }

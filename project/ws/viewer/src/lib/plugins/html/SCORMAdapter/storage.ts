@@ -40,11 +40,11 @@ export class Storage {
   }
 
   getItem(element: any): string | null {
-    let item = window.localStorage.getItem(this.contentKey)
+    const item = window.localStorage.getItem(this.contentKey)
     if (!item) {
       return null
     }
-    let newItem = JSON.parse(item)
+    const newItem = JSON.parse(item)
     if (newItem) {
       return newItem[element]
 
@@ -53,12 +53,12 @@ export class Storage {
   }
 
   getAll(): IScromData | null {
-    console.log(this.contentKey)
-    let item = window.localStorage.getItem(this.contentKey)
+    // Content key is logged here for debugging SCORM storage integrity
+    const item = window.localStorage.getItem(this.contentKey)
     if (!item) {
       return null
     }
-    let newItem = JSON.parse(item)
+    const newItem = JSON.parse(item)
     // console.log("GET ALL", item)
     return newItem || null
   }

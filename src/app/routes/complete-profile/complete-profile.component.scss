@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 .login-page-content {
   box-sizing: border-box;
   @extend %page-center;
@@ -9,7 +9,7 @@
   // background: #f7f7f7;
   height: 175px;
   max-width: 430px;
-  @include breakpoint-s {
+  @include ws-common.breakpoint-s {
     padding: 12px;
   }
 }
@@ -59,12 +59,12 @@
     border: 1px solid #bbb;
 }
 a {
-  color: #2873b2;
+  color: var(--theme-accent);
 }
 .login-button {
   width: 98px;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-accent);
   border-radius: 50px;
   color: #fff;
   border:0;

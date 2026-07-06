@@ -1,273 +1,206 @@
-import { Component, OnInit } from '@angular/core'
-import { MatDialog, MatDialogRef } from '@angular/material/dialog'
-import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
-import { Router } from '@angular/router'
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectorRef,
+} from '@angular/core'
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
+import { ConfigurationsService, LoggerService, LogoutComponent } from '@ws-widget/utils'
+import { Router, NavigationEnd } from '@angular/router'
 import { SignupService } from '../signup/signup.service'
 import { Location } from '@angular/common'
 import { appNavBarService } from '../../component/app-nav-bar/app-nav-bar.service'
 import { NotificationsComponent } from '../notification/notification.component'
 import { LocalStorageService } from '../../services/local-storage.service'
 import { Events } from '../notification/events'
+import { PlaylistService } from '../../services/playlist.service'
+import { ThemeService } from '../../services/theme.service'
 
 @Component({
+  standalone: false,
   selector: 'ws-web-nav-link-page',
   templateUrl: './web-nav-link-page.component.html',
   styleUrls: ['./web-nav-link-page.component.scss'],
-})
-export class WebNavLinkPageComponent implements OnInit {
-  linksData: any
-  data: any
-  showHome = true
-  showCompetency = false
-  showProfile = false
-  mycourses = false
-  showNotification = false
-  numberOfNotification: any
-  notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null;
 
+})
+export class WebNavLinkPageComponent implements OnInit, OnChanges {
+  data: any
+  numberOfNotification = ''
+  currentTab = ''
+  notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null
+  @Input() orgData: any
+  @Input() menuItems: any[]
+  @Input() mode = ''
+  userData: any
+  isDark = false
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
     private router: Router,
     private signupService: SignupService,
-    location: Location,
+    public location: Location,
     public navOption: appNavBarService,
     public storage: LocalStorageService,
     private readonly event: Events,
-
-
+    private playlistSvc: PlaylistService,
+    private cd: ChangeDetectorRef,
+    private logger: LoggerService,
+    private themeService: ThemeService
   ) {
+    this.subscribeNavbarChanges()
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.syncMenuWithUrl()
+        this.cd.detectChanges()
+      }
+    })
+  }
 
-    this.navOption.currentOption.subscribe((option: any) => {
-      console.log(option, 'open')
+  async ngOnInit() {
+    this.isDark = this.themeService.isDarkMode()
+    this.isDark = this.themeService.isDark()
+    this.logger.log(" menuItems ", this.menuItems, this.orgData)
+    this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
+    this.updateNotificationCount(this.storage.getNumberOfNotifications())
+
+    this.event.subscribe('notificationCountUpdated', count => {
+      this.updateNotificationCount(count)
+    })
+    this.userData = await this.signupService.getUserData()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['menuItems'] && this.menuItems?.length) {
+      this.currentTab = this.playlistSvc.getSelectedTab()
+      this.syncMenuWithUrl()
+      this.cd?.detectChanges()
+    }
+  }
+
+  private updateNotificationCount(count: number): void {
+    this.numberOfNotification = count > 1 ? '1+' : count > 0 ? '1' : ''
+  }
+
+  private subscribeNavbarChanges(): void {
+    this.navOption.currentOption.subscribe(option => {
       if (option === 'search') {
-        console.log("option: ", option)
-        console.log(location.path(), 'location.path()')
-        // this.currentText = ''
-        if (location.path().includes('/app/search/learning')) {
-          this.showProfile = false
-          this.showHome = false
-          this.showCompetency = false
-          this.showNotification = false
-        }
-        if (location.path().includes('/app/profile-view')) {
-          this.showProfile = true
-          this.showHome = false
-          this.showCompetency = false
-          this.showNotification = false
-          this.mycourses = false
-        }
-        if (location.path().includes('/overview')) {
-          this.showProfile = false
-          this.showHome = true
-          this.showCompetency = false
-          this.showNotification = false
-          this.mycourses = false
-        }
-        if (location.path().includes('/page/home') || location.path().includes('/app/toc')) {
-          this.showProfile = false
-          this.showHome = true
-          this.showCompetency = false
-          this.mycourses = false
-          this.showNotification = false
-        }
-        if (location.path().includes('/app/user/my_courses')) {
-          this.showProfile = false
-          this.showHome = false
-          this.showCompetency = false
-          this.mycourses = true
-          this.showNotification = false
-        }
-        if (location.path().includes('/notification')) {
-          this.showProfile = false
-          this.showHome = false
-          this.showCompetency = false
-          this.mycourses = false
-          this.showNotification = true
-        } else if (location.path().includes('competency')) {
-          this.showProfile = false
-          this.showCompetency = true
-          this.showHome = false
-          this.mycourses = false
-          this.showNotification = false
-        }
-
+        this.syncMenuWithUrl()
       }
     })
-    console.log('urlchanges', location.path(), 'path')
-    if (location.path().includes('/app/profile-view') || location.path().includes('/app/about-you')) {
-      console.log("yes here 1")
-      this.showProfile = true
-      this.showHome = false
-      this.showNotification = false
-    } else if (location.path().includes('/page/home')) {
-      this.showProfile = false
-      this.showHome = true
-      this.showCompetency = false
-      this.showNotification = false
-    } else if (location.path().includes('competency')) {
-      this.showProfile = false
-      this.showCompetency = true
-      this.showHome = false
-      this.showNotification = false
-    } else if (location.path().includes('user/my_courses')) {
-      this.showProfile = false
-      this.mycourses = true
-      this.showCompetency = false
-      this.showHome = false
-      this.showNotification = false
-    } else if (location.path().includes('notification')) {
-      this.showProfile = false
-      this.mycourses = false
-      this.showCompetency = false
-      this.showHome = false
-      this.showNotification = true
-    }
-    else {
-      console.log("yes here 2")
-      this.showProfile = false
-      this.mycourses = false
-      this.showCompetency = false
-      this.showHome = true
-      this.showNotification = false
-    }
   }
 
-  ngOnInit() {
-    console.log(this.router.url)
-    this.data = this.configSvc.unMappedUser!
-    this.linksData = [
-      {
-        linkName: 'Home',
-        title: 'Home',
-        url: 'page/home',
-      },
-      {
-        linkName: 'Competency',
-        tootTip: 'Competency',
-        url: '/app/user/competency',
-      },
-      {
-        linkName: 'Account',
-        title: 'Account',
-        url: '/app/profile-view',
-      },
-    ]
-    const count = this.storage.getNumberOfNotifications()
-    let notificationText = count > 0 ? '1' : ''
+  private syncMenuWithUrl(): void {
+    const path = this.location.path()
 
-    this.numberOfNotification = (count > 1) ? '1+' : notificationText
-    this.event.subscribe('notificationCountUpdated', (data) => {
-      let notificationText = data > 0 ? '1' : ''
-      this.numberOfNotification = (data > 1) ? '1+' : notificationText
-    })
-  }
-
-  async redirect(text: string) {
-    let userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
-    let local: string
-
-    if (userProfile && userProfile.language !== undefined) {
-      local = userProfile.language
+    if (path.includes('/app/profile-view') || path.includes('/app/about-you')) {
+      this.updatedMenuItems('Account')
+    } else if (
+      path.includes('/page/home') ||
+      path.includes('/overview') ||
+      path.includes('/app/toc')
+    ) {
+      this.updatedMenuItems('Home')
+    } else if (path.includes('/app/user/my_courses')) {
+      this.updatedMenuItems('My Courses')
+    } else if (path.includes('competency')) {
+      this.updatedMenuItems('Competency')
+    } else if (path.includes('notification')) {
+      this.updatedMenuItems('Notification')
+    } else if (path.includes('search')) {
+      this.updatedMenuItems("Search")
     } else {
-      local = location.href.includes('/hi/') ? 'hi' : 'en'
+      this.updatedMenuItems('Home')
     }
+  }
 
-    let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1, text)
+  updatedMenuItems(label: string): void {
+    this.menuItems?.forEach(item => {
+      item.show = false
+      item.active = false
+    })
 
-    if (text === 'home') {
-      this.showProfile = false
-      this.showHome = true
-      this.showCompetency = false
-      this.showNotification = false
+    const selected =
+      this.menuItems?.find(i => label && i.title === label) ||
+      this.menuItems?.find(i => i.id === this.currentTab) ||
+      this.menuItems?.[0]
 
-      let url = url1 === 'hi' ? '/page/home' : 'page/home'
-      this.router.navigate([url]) // Secure navigation
+    if (selected) {
+      this.playlistSvc.setSelectedTab(selected.id)
+      selected.show = true
+      selected.active = true
+      this.currentTab = selected.id
     }
-    else if (text === 'mycourses') {
-      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
-      let result = await this.signupService.getUserData()
+  }
 
-      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        this.router.navigate([url])
-      } else {
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
-      }
-    }
-    else if (text === 'competency') {
-      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-      let result = await this.signupService.getUserData()
+  async redirect(item: any): Promise<void> {
+    this.menuItems?.forEach(menu => {
+      menu.show = false
+      menu.active = menu.id === item.id
+    })
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId
+    const orgConfig = this.configSvc.orgSelectiveCourseConfig
+    const route = item.redirect
+    const titleKey = item.title.toLowerCase().replace(/\s+/g, '')
+    // this.navOption.changeNavBarActive(titleKey)
 
-      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
-        this.router.navigate([url])
-      } else {
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
-      }
-    }
-    else if (text === 'notification') {
-      this.showProfile = false
-      this.showHome = false
-      this.showCompetency = false
-      this.showNotification = true
-
-      const dialogRef = this.dialog.open(NotificationsComponent, {
-        width: '400px',
-        maxHeight: '80vh',
-        panelClass: 'custom-notification-modal',
-        position: { top: '60px', right: '10px' }
-      })
-
-      dialogRef.afterClosed().subscribe(() => {
-        console.log('Notification modal closed')
-      })
-    }
-    else {
-      let result = await this.signupService.getUserData()
-      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        this.showProfile = true
-        let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-        this.router.navigate([url])
-      } else {
-        this.showProfile = false
-        if (localStorage.getItem('url_before_login')) {
-          const courseUrl = localStorage.getItem('url_before_login')
-          this.showProfile = true
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-        } else {
-          this.showProfile = true
-          this.showHome = false
-          this.showCompetency = false
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
+    switch (titleKey) {
+      case 'home':
+        if (orgConfig?.orgId === rootOrgId) {
+          const redirectUrl = orgConfig.redirectUrl || item.redirect
+          window.location.href = redirectUrl.startsWith('/')
+            ? redirectUrl.substring(1)
+            : redirectUrl
+          return
         }
-      }
+        this.router.navigate([route])
+        break
+      case 'mycourses':
+      case 'competency':
+      case 'account':
+        if (this.userData?.profileDetails?.profileReq?.personalDetails?.dob) {
+          localStorage.setItem('isOnlyPassbook', 'false')
+          this.router.navigate([route])
+        } else {
+          const fallback = localStorage.getItem('url_before_login') || this.menuItems[0].redirect
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: fallback } })
+        }
+        break
+      case 'notification':
+        this.openNotificationDialog()
+        break
+      case 'search':
+        this.router.navigate(['/app/search/home'])
+        break
     }
   }
 
-  openNotificationDialog() {
-    if (!this.notificationDialogRef) {
-      this.notificationDialogRef = this.dialog.open(NotificationsComponent, {
-        width: '400px', // Adjust as needed
-        maxHeight: '80vh', // Prevent overflow
-        panelClass: 'custom-notification-modal',
-        position: { top: '60px', right: '10px' }, // Adjust as per your navbar height
-      })
-    }
-  }
-  closeNotificationDialog() {
-    if (this.notificationDialogRef) {
-      this.notificationDialogRef.close()
+  openNotificationDialog(): void {
+    if (this.notificationDialogRef) return
+
+    this.notificationDialogRef = this.dialog.open(NotificationsComponent, {
+      width: '400px', // Adjust as needed
+      maxHeight: '80vh', // Prevent overflow
+      panelClass: 'custom-notification-modal',
+      position: { top: '60px', right: '10px' }, // Adjust as per your navbar height
+    })
+    this.notificationDialogRef.afterClosed().subscribe(() => {
       this.notificationDialogRef = null
-    }
+    })
   }
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter' || event.key === ' ') {
-      this.redirect('notification')
-      event.preventDefault() // Prevents scrolling on space key press
+      this.redirect({ title: 'Notification' })
+      event.preventDefault()
     }
   }
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container',
+    })
+  }
+  toggleTheme() {
+    this.themeService.setTheme(!this.themeService.isDark())
   }
 }

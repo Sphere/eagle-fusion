@@ -25,9 +25,11 @@ interface IWorkFlowStepper {
 }
 
 @Component({
-  selector: 'ws-auth-status-track',
-  templateUrl: './status-track.component.html',
-  styleUrls: ['./status-track.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-status-track',
+    templateUrl: './status-track.component.html',
+    styleUrls: ['./status-track.component.scss'],
+    
 })
 export class StatusTrackComponent implements OnInit {
   @Input() content!: NSContent.IContentMeta | ISearchContent

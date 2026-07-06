@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service.service'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { LoggerService } from '@ws-widget/utils'
 @Component({
-  selector: 'ws-tnai-callback',
-  templateUrl: './tnai-callback.component.html',
-  styleUrls: ['./tnai-callback.component.scss']
+    standalone: false,
+    selector: 'ws-tnai-callback',
+    templateUrl: './tnai-callback.component.html',
+    styleUrls: ['./tnai-callback.component.scss'],
+    
 })
 export class TnaiCallbackComponent implements OnInit {
   isLoading = false
   constructor(
     private orgService: OrgServiceService,
     private authSvc: AuthKeycloakService,
+    private logger: LoggerService,
   ) { }
 
   ngOnInit() {
@@ -22,7 +26,7 @@ export class TnaiCallbackComponent implements OnInit {
     }
   }
   checkTnaiCallback(token: any) {
-    let data = {
+    const data = {
       "token": token,
     }
     try {
@@ -31,10 +35,10 @@ export class TnaiCallbackComponent implements OnInit {
           this.isLoading = false
           window.location = await res.resRedirectUrl
           // tslint:disable-next-line:no-console
-          console.log('tnai component.ts', res.resRedirectUrl)
+          this.logger.log('tnai component.ts', res.resRedirectUrl)
         }, (err: any) => {
           // tslint:disable-next-line:no-console
-          console.log(err)
+          this.logger.log(err)
           if (err.status === 400 || err.status === 419 || err.status === 404) {
             this.isLoading = false
             // sessionStorage.clear()
@@ -45,7 +49,7 @@ export class TnaiCallbackComponent implements OnInit {
       }, 500)
     } catch (err) {
       // tslint:disable-next-line:no-console
-      console.log(err)
+      this.logger.log(err)
       this.authSvc.logout()
       // location.href = "/public/home"
     }

@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 mat-card-content {
   width: -webkit-fill-available;
@@ -38,7 +38,7 @@ mat-card-content {
 }
 
 .fetching {
-  color: #9baebd !important;
+  color: var(--theme-text-soft, #9baebd) !important;
 }
 
 .font-family {
@@ -80,7 +80,7 @@ $description-line-height: 1.3em;
   border-radius: 4px;
   //overflow: hidden;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     $card-width: 200px;
     width: $card-width;
     height: 180px;
@@ -92,7 +92,7 @@ $description-line-height: 1.3em;
     display: block;
     object-fit: contain;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       height: 104px;
       width: 184px;
     }

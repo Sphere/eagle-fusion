@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 h1 {
   font-size: 1.75rem;
@@ -33,12 +33,12 @@ h2 {
   height: auto;
   width: 23%;
   margin: 4rem auto;
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     flex-wrap: wrap !important;
     width: 45% !important;
     margin: 3rem auto !important;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     flex-wrap: wrap !important;
     width: 90% !important;
     min-height: 410px;
@@ -144,10 +144,10 @@ span {
 .userDetail {
   width: 17%;
   margin: auto auto 30px auto;
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 22% !important;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 45% !important;
   }
 }

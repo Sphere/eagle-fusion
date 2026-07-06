@@ -10,12 +10,13 @@ import { delay, mergeMap } from 'rxjs/operators'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 //import { v4 as uuid } from 'uuid'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
-import forEach from 'lodash/forEach'
-import get from 'lodash/get'
+import { forEach, get } from 'lodash'
 @Component({
-  selector: 'ws-app-learning-card',
-  templateUrl: './learning-card.component.html',
-  styleUrls: ['./learning-card.component.scss'],
+    standalone: false,
+    selector: 'ws-app-learning-card',
+    templateUrl: './learning-card.component.html',
+    styleUrls: ['./learning-card.component.scss'],
+    
 })
 export class LearningCardComponent extends WidgetBaseComponent
   implements OnInit, OnChanges, NsWidgetResolver.IWidgetData<NsCardContent.ICard> {
@@ -25,6 +26,7 @@ export class LearningCardComponent extends WidgetBaseComponent
   content: NsContent.IContent = {} as NsContent.IContent
   @Input() widgetData!: NsCardContent.ICard
   contentProgress = 0
+  imgLoaded = false
   isExpanded = false
   defaultThumbnail = ''
   description: SafeHtml = ''
@@ -84,9 +86,6 @@ export class LearningCardComponent extends WidgetBaseComponent
     }
     if (localStorage.getItem('telemetrySessionId') === null) {
       localStorage.setItem(`url_before_login`, url)
-      // this.router.navigateByUrl('app/login')
-      // const state = uuid()
-      // const nonce = uuid()
       sessionStorage.setItem('login-btn', 'clicked')
       // tslint:disable-next-line:max-line-length
       // const keycloakurl = `${wholeUrl}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`

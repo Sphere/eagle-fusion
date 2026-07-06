@@ -4,9 +4,11 @@ import { ChannelStoreService } from './../../../services/store.service'
 import { MatDrawer } from '@angular/material/sidenav'
 
 @Component({
-  selector: 'ws-auth-page-editor-v2',
-  templateUrl: './page-editor-v2.component.html',
-  styleUrls: ['./page-editor-v2.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-page-editor-v2',
+    templateUrl: './page-editor-v2.component.html',
+    styleUrls: ['./page-editor-v2.component.scss'],
+    
 })
 export class PageEditorV2Component implements OnInit {
   @Input() isSubmitPressed = false

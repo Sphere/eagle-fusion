@@ -3,15 +3,16 @@ import { NSQuiz } from '../../quiz.model'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
-import isUndefined from 'lodash/isUndefined'
-import toLower from 'lodash/toLower'
+import { isUndefined, toLower } from 'lodash'
 
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 @Component({
-  selector: 'viewer-view-assesment-questions',
-  templateUrl: './view-assesment-questions.component.html',
-  styleUrls: ['./view-assesment-questions.component.scss'],
+    standalone: false,
+    selector: 'viewer-view-assesment-questions',
+    templateUrl: './view-assesment-questions.component.html',
+    styleUrls: ['./view-assesment-questions.component.scss'],
+    
 })
 export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() artifactUrl = ''
@@ -29,7 +30,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
       },
     ],
   }
-  @Output() itemSelected = new EventEmitter<string | Object>()
+  @Output() itemSelected = new EventEmitter<string | object>()
   @Input() itemSelectedList: string[] = []
   @Input() markedQuestions: Set<string> = new Set()
   title = 'match'
@@ -277,7 +278,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
   }
 
   @HostListener('window:resize')
-  onResize(_event: any) {
+  onResize() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.repaintEverything()
     }

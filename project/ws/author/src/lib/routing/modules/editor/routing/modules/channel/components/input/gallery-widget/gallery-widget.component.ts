@@ -1,12 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { NsGalleryView } from '@ws-widget/collection/src/public-api'
 
 @Component({
-  selector: 'ws-auth-gallery-widget',
-  templateUrl: './gallery-widget.component.html',
-  styleUrls: ['./gallery-widget.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-gallery-widget',
+    templateUrl: './gallery-widget.component.html',
+    styleUrls: ['./gallery-widget.component.scss'],
+    
 })
 export class GalleryWidgetComponent implements OnInit {
 
@@ -14,8 +16,8 @@ export class GalleryWidgetComponent implements OnInit {
   @Input() isSubmitPressed = false
   @Input() content!: NsGalleryView.IWidgetGalleryView
   @Output() data = new EventEmitter<{ content: NsGalleryView.IWidgetGalleryView, isValid: boolean }>()
-  form!: FormGroup
-  constructor(private formBuilder: FormBuilder) { }
+  form!: UntypedFormGroup
+  constructor(private formBuilder: UntypedFormBuilder) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({

@@ -8,9 +8,11 @@ import { ConfigurationsService } from '@ws-widget/utils'
 
 import { IWidgetErrorInternalServer } from './error-internal-server.model'
 @Component({
-  selector: 'ws-widget-error-internal-server',
-  templateUrl: './error-internal-server.component.html',
-  styleUrls: ['./error-internal-server.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-error-internal-server',
+    templateUrl: './error-internal-server.component.html',
+    styleUrls: ['./error-internal-server.component.scss'],
+    
 })
 export class ErrorInternalServerComponent implements OnInit, OnDestroy {
   @Input() errorData: IWidgetErrorInternalServer | null = null

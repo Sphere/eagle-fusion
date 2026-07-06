@@ -1,7 +1,7 @@
 import { Injectable, LOCALE_ID, Inject } from '@angular/core'
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http'
-import { Observable, throwError } from 'rxjs'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpResponse } from '@angular/common/http'
+import { Observable, throwError, of } from 'rxjs'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { catchError } from 'rxjs/operators'
 
 @Injectable({
@@ -10,12 +10,50 @@ import { catchError } from 'rxjs/operators'
 export class AppInterceptorService implements HttpInterceptor {
   constructor(
     private configSvc: ConfigurationsService, // private http: HttpClient,
+    private logger: LoggerService,
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // Skip interceptor for external CORS URLs (CloudFront, S3, etc)
+    // These URLs should not have custom headers to avoid CORS preflight failures
+    const isExternalUrl = req.url.startsWith('https://static.') ||
+      req.url.startsWith('https://sunbirdcontent.s3') ||
+      req.url.startsWith('https://') && !req.url.includes(window.location.hostname)
+
+    if (isExternalUrl) {
+      return next.handle(req)
+    }
+
+    // Skip auth headers for public/unauthenticated routes
+    const isPublicPath = location.pathname.includes('/public') || location.pathname.includes('/app/create-account')
+    if (isPublicPath || !this.configSvc.userProfile) {
+      return next.handle(req).pipe(
+        catchError((error: HttpErrorResponse) => {
+          // For public pages, return empty response instead of throwing on auth errors
+          if (isPublicPath && error.status === 419) {
+            this.logger.warn('Public page received 419, returning empty response to allow page to load')
+            return of(new HttpResponse({ status: 200, body: {} }))
+          }
+          return throwError(error)
+        })
+      )
+    }
+
     if (req.url.endsWith('/api/course/v1/content/state/read') || req.url.endsWith("/apis/public/v8/mobileApp/v2/updateProgress")) {
       return next.handle(req)
     }
+
+    // Add browser-like headers for JSON configuration requests to bypass Cloudflare/WAF blocks
+    // Note: Sec-Fetch-* headers are forbidden and will be set by the browser automatically
+    if (req.url.endsWith('.json')) {
+      req = req.clone({
+        setHeaders: {
+          'Accept': 'application/json, text/plain, */*',
+          'Accept-Language': 'en-US,en;q=0.9',
+        },
+      })
+    }
+
     const lang = [this.locale.replace('en-US', 'en')]
     if (this.configSvc.userPreference) {
       (this.configSvc.userPreference.selectedLangGroup || '')
@@ -43,33 +81,15 @@ export class AppInterceptorService implements HttpInterceptor {
 
       // return next.handle(modifiedReq)
       return next.handle(modifiedReq).pipe(
-        catchError((error: { status: any; error: { redirectUrl: string } }) => {
+        catchError((error: HttpErrorResponse) => {
           if (error instanceof HttpErrorResponse) {
-            console.log(error.status, '/')
-            switch (error.status) {
-              case 419: // login
-                // const localUrl = location.origin
-                // tslint:disable-next-line: prefer-template
-                // Now we commenting this one, Later now we will remove it
-                // localStorage.setItem('login_url', error.error.redirectUrl)
-                if (location.pathname.indexOf('/public') >= 0) {
-                  // this.http.get('/apis/reset')
-                  break
-                }
-              //location.href = '/public/home'
-              // const localUrl = location.origin
-              // const pageName = '/public/home'
-              // if (localUrl.includes('localhost')) {
-              //   // tslint:disable-next-line: prefer-template
-              //   window.location.href = error.error.redirectUrl + `?q=${localUrl}${pageName}`
-              // } else {
-              //   // tslint:disable-next-line: prefer-template
-              //   window.location.href = error.error.redirectUrl + `?q=${pageName}`
-              // }
-              // break
+            this.logger.log(error.status, '/')
+            if (error.status === 419) {
+              // Session expired - don't redirect, let app handle gracefully
+              this.logger.warn('Session expired (419), allowing error to propagate')
+              return throwError(error)
             }
           }
-          // return throwError('error')
           return throwError(error)
         })
       )

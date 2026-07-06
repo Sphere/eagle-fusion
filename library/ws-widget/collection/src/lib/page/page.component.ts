@@ -1,23 +1,23 @@
 import { ExploreResolverService } from './../../../../resolver/src/lib/explore-resolver.service'
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { DomSanitizer, Meta, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
   ConfigurationsService, EventService, LoggerService, NsPage,
-  // ValueService,
   WsEvents, LogoutComponent, ValueService,
 } from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 import { SubapplicationRespondService } from '../../../../utils/src/lib/services/subapplication-respond.service'
-// import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 
 @Component({
+  standalone: false,
   selector: 'ws-widget-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
+
 })
 export class PageComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {
@@ -33,21 +33,25 @@ export class PageComponent extends WidgetBaseComponent
   isHlpMenuXs = false
   navBackground: Partial<NsPage.INavBackground> | null = null
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
-  authenticated: boolean | undefined = false
+  authenticated = true  // Default to true for logged-in users
+
+  // Error type tracking
+  isNetworkError = false
+  isServerError = false
+  isForbiddenError = false
+  isClientError = false
   constructor(
     private activateRoute: ActivatedRoute,
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private eventSvc: EventService,
-    // private tour: CustomTourService,
     private domSanitizer: DomSanitizer,
     private respondSvc: SubapplicationRespondService,
     private dialog: MatDialog,
-    // private authSvc: AuthKeycloakService,
-    // private loginResolverSvc: LoginResolverService,
     private exploreResolverSvc: ExploreResolverService,
-    public router: Router
+    public router: Router,
+    private meta: Meta
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -59,7 +63,11 @@ export class PageComponent extends WidgetBaseComponent
     })
   }
   ngOnInit() {
-    // this.authenticated = this.authSvc.isAuthenticated
+    this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' })
+
+    // Set authenticated based on user profile existence
+    this.authenticated = !!(this.configSvc.userProfile)
+
     if (!this.authenticated && !this.exploreResolverSvc.isInitialized) {
       this.logger.info('Not Authenticated')
       // this.loginResolverSvc.initialize()
@@ -111,6 +119,27 @@ export class PageComponent extends WidgetBaseComponent
       } else {
         this.pageData = null
         this.error = routeData.pageData.error
+
+        // Determine error type for better user messaging
+        if (routeData.pageData.error && typeof routeData.pageData.error === 'object') {
+          const err = routeData.pageData.error
+          this.isNetworkError = err.type === 'NetworkError' || err.status === 0
+          this.isServerError = err.type === 'ServerError' || (err.status >= 500 && err.status < 600)
+          this.isForbiddenError = err.type === 'Forbidden' || err.status === 403
+          this.isClientError = err.type === 'ClientError' || (err.status >= 400 && err.status < 500)
+
+          // Log error details for debugging
+          this.logger.error('Page resolver error:', {
+            type: err.type,
+            status: err.status,
+            message: err.message,
+            url: window.location.href,
+          })
+        } else {
+          // Legacy error handling (string or simple error)
+          this.isNetworkError = routeData.pageData.error !== 'NoContent'
+        }
+
         this.logger.warn('No page data available')
       }
       if (this.pageData) {
@@ -199,7 +228,21 @@ export class PageComponent extends WidgetBaseComponent
   }
 
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container',
+    })
+  }
+
+  reloadPage() {
+    // Clear error state first
+    this.error = null
+    this.isNetworkError = false
+    this.isServerError = false
+    this.isForbiddenError = false
+    this.isClientError = false
+
+    // Reload the current page
+    window.location.reload()
   }
 
   ngOnDestroy() {
@@ -207,6 +250,9 @@ export class PageComponent extends WidgetBaseComponent
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded)
     }
     this.configSvc.tourGuideNotifier.next(false)
+    if (this.responseSubscription) {
+      this.responseSubscription.unsubscribe()
+    }
   }
   startTour() {
     // this.tour.startTour()

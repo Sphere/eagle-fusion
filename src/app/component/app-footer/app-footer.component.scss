@@ -1,12 +1,12 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 .mat-body{
   display: flex;
   justify-content: center;
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
         justify-content: center;
     }
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       justify-content: center;
     }
 }
@@ -20,7 +20,7 @@ line-height: 24px !important;
 
 letter-spacing: -0.02em;
 
-color: #7B6961 !important;
+color: var(--theme-text) !important;
 }
 .social-logo-block{
   margin: 0px 5px;
@@ -29,17 +29,17 @@ color: #7B6961 !important;
     margin-top: 10px;
 }
 .footer-container {
-  background-color: #f7f7f7;
+  // background-color: #f7f7f7;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1.5rem 10rem;
 
-  @include breakpoint-lt-l {
+  @include ws-mixins.breakpoint-lt-l {
     padding: 1.5rem 1rem;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     padding: 1.5rem 1rem;
     .ml-12{
       margin-left: 5px !important;
@@ -47,29 +47,29 @@ color: #7B6961 !important;
     .social-logo-container{
     margin-top: 15px;
     }
-    .foundation-container .mat-list-item-content{
+    .foundation-container .mdc-list-item__content{
       display: flex;
       flex-direction: column;
     }
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     .ml-12{
       margin-left: 5px !important;
     }
   }
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     padding: 1.5rem 1rem;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     flex-direction: column;
   }
 
-  color: #7b6961;
+  color: var(--theme-text);
 }
 
 .footer-flex {
-  @include breakpoint-lt-xl {
+  @include ws-mixins.breakpoint-lt-xl {
     justify-content: center;
   }
 }
@@ -86,11 +86,11 @@ color: #7B6961 !important;
 .footer-first-col {
   justify-content: flex-start;
   // align-items: center;
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
       justify-content:space-between;
     }
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       justify-content:space-between;
     }
   // width: 35%;
@@ -98,30 +98,34 @@ color: #7B6961 !important;
     padding-right: 85px !important;
     padding-top: 0px !important;
 
-    @include breakpoint-l {
+    @media(max-width: 767px) {
+      padding-left: 5%;
+    }
+
+    @include ws-mixins.breakpoint-l {
       padding-right: 30px !important;
       line-height: 23px;
     }
 
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
       padding-right: 28px !important;
     }
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       padding-right: 0px !important;
       padding-bottom: 20px;
     }
 
-    mat-list-item {
+    mat-mdc-list-item {
 
       font-weight: 400;
       font-size: 16px;
-      color: #7B6961;
+      color: var(--theme-text);
     }
 
   }
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
 }
@@ -152,7 +156,7 @@ color: #7B6961 !important;
   height: auto;
   max-width: 58%;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 32%;
     max-height: 50px;
   }
@@ -162,7 +166,7 @@ color: #7B6961 !important;
   margin-top: 10px;
 }
 
-.mat-list-base .mat-list-item {
+.mat-mdc-list-base .mat-mdc-list-item {
   height: 37px !important;
   color: #353535 !important;
   font-size: 16px !important;
@@ -170,7 +174,7 @@ color: #7B6961 !important;
 }
 
 
-.theme-igot.day-mode .mat-list-base .mat-list-item a {
+.light-theme .mat-mdc-list-base .mat-mdc-list-item a {
   font-size: 14px !important;
 }
 
@@ -180,27 +184,27 @@ color: #7B6961 !important;
 //   }
 // }
 
-::ng-deep .social-logo-container > .mat-list-item-content {
-  @include breakpoint-s {
+::ng-deep .social-logo-container > .mdc-list-item__content {
+  @include ws-mixins.breakpoint-s {
     margin-top: 10px !important;
     margin-left:0px !important;
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     margin-top: 10px !important;
     margin-left:0px !important;  }
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     margin-top: 10px !important;
     margin-left:0px !important; }
 
 }
- .mat-list-item{
-  @include breakpoint-s {
+ .mat-mdc-list-item{
+  @include ws-mixins.breakpoint-s {
     margin-top: 0px !important
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     margin-top: 0px !important
   }
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     margin-top: 0px !important
   }
 }
@@ -251,12 +255,12 @@ color: #7B6961 !important;
 }
 
 .docs-footer {
-  background: #f7f7f7;
+  // background: #f7f7f7;
   //color: #fff;
   padding: 1.25rem;
 
   // padding: 1.25rem 9rem;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-top: -20px;
     margin-bottom: 5rem;
     padding-bottom: 2rem;
@@ -271,7 +275,8 @@ color: #7B6961 !important;
 }
 .footer-aastar-logo{
   width: 190px;
-  margin-top: 30px;
+  filter: var(--theme-icon-filter);
+  // margin-top: 30px;
 }
 img.docs-footer-aastar-logo {
   width: 104px;
@@ -281,7 +286,7 @@ height: auto;
     max-width: 100%;
     width: 150px;
     max-height: 60px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 45%;
     text-align: center;
   }
@@ -298,44 +303,45 @@ height: auto;
 .docs-footer-version {
   min-width: 175px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     text-align: center;
   }
 }
 .footer-aastar-logo{
 
-@include breakpoint-m {
+@include ws-mixins.breakpoint-m {
       margin-top: 0px !important;
   }
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 150px;
       margin-top: 0px !important;
+      max-width: 200px !important;
   }
 }
 
-::ng-deep .footer-container .mat-list-base .mat-list-item .mat-list-item-content {
+::ng-deep .footer-container .mat-mdc-list-base .mat-mdc-list-item .mdc-list-item__content {
   padding: 0;
 
-color: #7B6961;
-
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: block !important;
     text-align: center;
     font-size: 14px;
   }
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     .list-item-link{
       font-size: 14px;
     }
     display: block !important;
     font-size: 14px;
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     display: block !important;
     font-size: 14px;
   }
 }
-
+::ng-deep .footer-container .mat-mdc-list-base .mat-mdc-list-item {
+  padding: 5px !important;
+}
 @media screen and (min-width:1200px) {
   .left-content {
     margin-left: 10%;
@@ -358,7 +364,7 @@ color: #7B6961;
 .partner span {
   background: #f7f7f7;
   padding: 0 10px;
-  color: #7B6961;
+  color: var(--theme-text);
   font-size: 16px;
   font-weight: 400;
 }
@@ -373,16 +379,16 @@ line-height: 24px;
 cursor: pointer;
 letter-spacing: -0.02em;
 
-color: #7B6961;
- @include breakpoint-xs {
+color: var(--theme-text);
+ @include ws-mixins.breakpoint-xs {
     font-size: 14px;
     line-height: 22px;
   }
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     font-size: 14px;
     line-height: 22px;
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     font-size: 14px;
     line-height: 22px;
   }
@@ -397,14 +403,14 @@ line-height: 24px;
 
 letter-spacing: -0.02em;
 
-color: #7B6961 !important;
+color: var(--theme-text) !important;
 text-decoration: underline !important;
 }
 
 .mail {
   font-weight: 400;
   font-size: 24px;
-  color: #7B6961;
+  color: var(--theme-text);
 }
 
 .input-fiels {
@@ -432,7 +438,7 @@ text-decoration: underline !important;
   position: relative;
   left: -36px;
 
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     left: 0;
   }
 }
@@ -446,7 +452,7 @@ text-decoration: underline !important;
 }
 
 .flex-col {
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     padding-left: 25px !important;
   }
 }
@@ -465,7 +471,7 @@ line-height: 24px;
 
 letter-spacing: -0.02em;
 
-color: #7B6961;
+color: var(--theme-text);
 }
 
 .link-text{
@@ -479,22 +485,23 @@ color: #7B6961;
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.02em;
-  color: #7B6961;
+  color: var(--theme-text);
 }
 hr.new1{
  border-top: 1px solid #9F8D85;
 }
 .whatsapp-logo-container{
-  margin-top: 10px;
-  width: 225px;
-  border: 1px solid #7B6961 !important;
+  margin-block: 5px;
+  width: 230px;
+  border: 1px solid var(--theme-text) !important;
   border-radius: 100px;
   display: flex;
-  justify-content: left;
-  padding-left: 5px;
   align-items: center;
-  color: #7B6961 !important;
-   @include breakpoint-s {
+  color: var(--theme-text) !important;
+  height: 32px;
+  font-weight: 400 !important;
+  font-size: 15px !important;
+   @include ws-mixins.breakpoint-s {
     font-size: 12px;
     width: 160px;
     padding-left: 0px;
@@ -502,7 +509,7 @@ hr.new1{
   }
 }
 .whatsapp-logo{
-  @include breakpoint-s{
+  @include ws-mixins.breakpoint-s{
     width: 30px;
     height: 30px;
   }
@@ -517,7 +524,7 @@ hr.new1{
   line-height: 17px;
   /* or 120% */
   letter-spacing: -0.02em;
-  color: #7B6961 !important;
+  color: var(--theme-text) !important;
 }
 
 .footer-text{
@@ -536,7 +543,7 @@ line-height: 12px;
 text-align: center;
 letter-spacing: -0.02em;
 
-color: #7B6961;
+color: var(--theme-text);
 
 }
 .footer-text-container{
@@ -556,7 +563,7 @@ color: #7B6961;
   width: 25px;
   height: 25px;
   // filter: grayscale(1);
-  color: lightgray -128.533px 0px / 523.478% 100% no-repeat;
+  color: var(--icon-color);
 }
 
 
@@ -574,11 +581,11 @@ line-height: 24px;
 text-align: center;
 letter-spacing: -0.02em;
 
-color: #7B6961;
- @include breakpoint-s {
+color: var(--theme-text);
+ @include ws-mixins.breakpoint-s {
     font-size: 14px;
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     font-size: 14px;
   }
 }
@@ -597,6 +604,89 @@ color: #7B6961;
 .flex-column{
   flex-direction: column;
 }
+
+.mobileFooter {
+  .transform-footer-container{
+    height: 260px !important;
+    .transform-header {
+      margin-top: 20px;
+      width: 311px;
+    }
+    .start-today-button {
+      margin-bottom: 0px !important;
+      color: var(--theme-text) !important;
+    }
+  }
+}
+::ng-deep .mobileFooterContainer {
+  padding: 0rem !important;
+  .footer-aastar-logo {
+    width: 134px !important;
+  }
+  .mdc-list {
+    padding: 0 !important;
+  }
+  .mat-mdc-list-base .mat-mdc-list-item, .mdc-list-item.mdc-list-item--with-one-line {
+    --mdc-list-list-item-one-line-container-height: 25px !important;
+    margin-top: -10px !important;
+  }
+  .mat-mdc-list-base .mat-mdc-list-item .mdc-list-item__content {
+    text-align: start;
+    .link-header {
+      font-size: 14px !important;
+      line-height: 17px !important;
+      font-weight: 500 !important;
+      margin-left: 2rem !important;
+    }
+    .list-item, .link-text {
+      font-size: 14px !important;
+      line-height: 17px !important;
+      font-weight: 400 !important;
+      margin-left: 2rem !important;
+    }
+
+    .whatsapp-logo-container {
+      margin-left: 2rem;
+      margin-top: 0.6rem
+    }
+
+  }
+
+  .mt-20 {
+     margin-top: 20px !important;
+  }
+  .foundation-container {
+    span {
+      font-size: 14px !important;
+      line-height: 17px !important;
+      font-weight: 400 !important;
+      // margin-left: 0.6rem;
+    }
+    .list-item-link {
+      font-size: 14px !important;
+      line-height: 17px !important;
+      font-weight: 400 !important;
+    }
+  }
+  // .social-logo-container {
+  //   margin-left: 1.2rem
+  // }
+}
+.docs-footer-mob {
+  padding-bottom: 0.8rem !important;
+  .footer-alignment {
+    font-size: 10px !important;
+  }
+}
+
+.mobileFlex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+  justify-content: space-around;
+  height: 100%;
+}
 .transform-footer-container{
   // margin-top: 10px;
   display: flex;
@@ -608,7 +698,7 @@ color: #7B6961;
   height: 175px;
   background-repeat:no-repeat;
   background-position-y:bottom ;
-
+  background-position-x: center;
 }
 
 .transform-header {
@@ -620,6 +710,12 @@ color: #7B6961;
   text-align: center;
   letter-spacing: -0.02em;
   color: #14446C;
+}
+
+.foundation {
+  color: var(--theme-text);
+  font-weight: 400 !important;
+  font-size: 15px !important;
 }
 
 .start-today-button{
@@ -636,7 +732,7 @@ color: #7B6961;
   height: 35px;
   left: 107px;
   top: 2858px;
-  background: #2E6491;
+  background: var(--theme-accent, #2E6491);
   border-radius: 50px;
   font-family: 'Roboto';
   font-style: normal;
@@ -665,7 +761,7 @@ color: #7B6961;
   font-size: 16px;
   line-height: 136%;
   /* or 22px */
-  color: #000000;
+  // color: #000000;
   transform: rotate(0.11deg);
   text-align: center;
 }
@@ -682,6 +778,7 @@ color: #7B6961;
 .part-a-img{
   width: 47px;
   height: 54px;
+  filter: var(--theme-icon-filter) !important;
 }
 .part-b-img{
   width: 130px;
@@ -700,3 +797,63 @@ color: #7B6961;
     justify-content: center;
 }
 
+.list-items {
+  flex-direction: column;
+  display: flex;
+}
+
+:host-context(.dark-theme) {
+  .footer-container {
+    background: var(--theme-app-background, #0e161b);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .docs-footer {
+    background: var(--theme-app-background, #1c2d38);
+  }
+
+  .mat-mdc-list-base .mat-mdc-list-item,
+  .list-item,
+  .list-item-link,
+  .link-text,
+  .foundation,
+  .footer-alignment,
+  .transform-header,
+  .text-partners {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .partner {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .partner span {
+    background: var(--theme-surface, #0e161b);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .transform-footer-container {
+    background-position: center;
+    background-size: cover;
+    background-image:url('/fusion-assets/images/Group-people-dark.png') !important
+  }
+
+  .start-today-button {
+    background: #000;
+    color: var(--theme-text, #ffffff) !important;
+  }
+
+  .part-a-partner {
+    background: #1F2528 !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .part-b-partner {
+    background: #10181E !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .social-logo {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+  }
+}

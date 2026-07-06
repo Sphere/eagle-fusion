@@ -1,31 +1,34 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { ValueService } from '@ws-widget/utils'
+import { LoggerService, ValueService } from '@ws-widget/utils'
 
 @Component({
-  selector: 'player-video-popup-component',
-  templateUrl: './player-video-popup-component.html',
-  styleUrls: ['./player-video-popup-component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+    standalone: false,
+    selector: 'player-video-popup-component',
+    templateUrl: './player-video-popup-component.html',
+    styleUrls: ['./player-video-popup-component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    
 })
 export class PlayerVideoPopupComponent implements OnInit {
 
   isMobile = false
-  currentIndex = 0; // Track the current question index
-  selectedAnswers: any = []; // Store answers for the current question
-  answers: any[] = []; // Track all answers
+  currentIndex = 0 // Track the current question index
+  selectedAnswers: any = [] // Store answers for the current question
+  answers: any[] = [] // Track all answers
   questions: Array<{ text: string; options: any[] }>
-  resultMessage: string | null = null;
-  selectedOption = null; // To store the selected option
-  showAnswerInfo: boolean = false
-  layoutDirection = 'column'; // or 'row'
-  showReset: boolean = false
+  resultMessage: string | null = null
+  selectedOption = null // To store the selected option
+  showAnswerInfo = false
+  layoutDirection = 'column' // or 'row'
+  showReset = false
   constructor(
     private readonly valueSvc: ValueService,
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<PlayerVideoPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { questions: Array<{ text: string; options: any[] }> },
+    private logger: LoggerService
   ) {
     this.questions = data.questions
     this.answers = new Array(this.questions.length).fill(null) // Initialize answers array
@@ -59,7 +62,7 @@ export class PlayerVideoPopupComponent implements OnInit {
     return this.questions[this.currentIndex]
   }
   onOptionSelected(option: any): void {
-    console.log("option", option)
+    this.logger.log("option", option)
     this.selectedOption = option
     if (option.isCorrect) {
       this.resultMessage = 'Correct'
@@ -91,7 +94,7 @@ export class PlayerVideoPopupComponent implements OnInit {
         this.showReset = true
       }
     }
-    console.log('Submitted answers:', this.resultMessage, this.answers)
+    this.logger.log('Submitted answers:', this.resultMessage, this.answers)
   }
   reset() {
     this.showReset = false
@@ -103,7 +106,7 @@ export class PlayerVideoPopupComponent implements OnInit {
   sendAction(value: string): void {
     this.showAnswerInfo = false
     this.dialogRef.close({ event: value })
-    console.log('value', value)
+    this.logger.log('value', value)
   }
   closePopup() {
     this.dialogRef.close('skip')

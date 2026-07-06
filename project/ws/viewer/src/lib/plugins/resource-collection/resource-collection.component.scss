@@ -1,5 +1,5 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 
 
@@ -14,7 +14,7 @@
 
 .table{
   width: 100% !important;
-   @include breakpoint-lt-m {
+   @include ws-mixins.breakpoint-lt-m {
       width: 100%;
       margin:  1em 12em 2em -1em;
     }
@@ -29,7 +29,7 @@ th.mat-header-cell{
 
 .submissionbutton{
   font-size: 16px !important;
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
       font-size: 12px !important;
 
     }

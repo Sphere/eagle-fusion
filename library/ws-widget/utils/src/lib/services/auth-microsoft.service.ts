@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core'
 import { LoggerService } from './logger.service'
-import { NsInstanceConfig } from './configurations.model'
+import { NsInstanceConfig } from '../resolvers/configurations.model'
 import { HttpClient } from '@angular/common/http'
 import { IWsMsTokenModelResponse } from './ms-office.model'
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 // TODO: Use a url-search-polyfill if the site didnot work in IE 11
 
 const msTokenExpiryDuration = 600
 const storageKey = 'msLoginRequested'
 const storage = localStorage
 
-const API_ENDPOINTS = {
-  sharePointToken: '/apis/protected/v8/user/token',
-}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -159,14 +158,14 @@ export class AuthMicrosoftService {
 
   async exchangeTokenForCode(code: string, redirectUrl: string): Promise<any> {
     const response = await this.http
-      .get<IWsMsTokenModelResponse>(`${API_ENDPOINTS}?code=${code}&redirectUrl=${redirectUrl}`)
+      .get<IWsMsTokenModelResponse>(`${API_END_POINTS}?code=${code}&redirectUrl=${redirectUrl}`)
       .toPromise()
     return this.getInstanceFromResponse(response)
   }
 
   async getTokenForEmail(email: string): Promise<any> {
     const response = await this.http
-      .get<IWsMsTokenModelResponse>(`${API_ENDPOINTS.sharePointToken}?email=${email}`)
+      .get<IWsMsTokenModelResponse>(`${API_END_POINTS.sharePointToken}?email=${email}`)
       .toPromise()
     return this.getInstanceFromResponse(response)
   }

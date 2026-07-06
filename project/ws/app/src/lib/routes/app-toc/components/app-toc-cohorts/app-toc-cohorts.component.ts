@@ -6,9 +6,11 @@ import { AppTocService } from '../../services/app-toc.service'
 import { Router, ActivatedRoute } from '@angular/router'
 
 @Component({
-  selector: 'ws-app-toc-cohorts',
-  templateUrl: './app-toc-cohorts.component.html',
-  styleUrls: ['./app-toc-cohorts.component.scss'],
+    standalone: false,
+    selector: 'ws-app-toc-cohorts',
+    templateUrl: './app-toc-cohorts.component.html',
+    styleUrls: ['./app-toc-cohorts.component.scss'],
+    
 })
 export class AppTocCohortsComponent implements OnInit {
   @Input() content!: NsContent.IContent

@@ -4,9 +4,11 @@ import { IIntranetSelector } from './intranet-selector.model'
 import { IntranetSelectorService } from './intranet-selector.service'
 
 @Component({
-  selector: 'ws-widget-intranet-selector',
-  templateUrl: './intranet-selector.component.html',
-  styleUrls: ['./intranet-selector.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-intranet-selector',
+    templateUrl: './intranet-selector.component.html',
+    styleUrls: ['./intranet-selector.component.scss'],
+    
 })
 export class IntranetSelectorComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<IIntranetSelector | null> {

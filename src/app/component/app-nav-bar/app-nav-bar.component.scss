@@ -1,5 +1,10 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
+@use 'ws-vars';
 
+.logo-container {
+  width: 100%;
+  justify-content: space-between;
+}
 .tourGuideBtn {
   padding: 10px 16px;
   display: flex;
@@ -9,20 +14,32 @@
 .burger-menu{
   width: 25px;
   height: 25px;
+  filter: var(--theme-icon-filter);
 }
 .fix-ww {
   // margin-left: auto;
   // margin-right: auto;
   display: flex;
   flex: 1;
-  justify-content: end;
+  justify-content: flex-end;
 
   // align-items: center;
   @media (min-width:320px) and (max-width:600px) {
-    justify-content: center;
+    justify-content: right;
+    align-items: center;
   }
 }
 
+.mat-tool-navbar {
+  display: flex;
+  justify-content: left;
+  background: #fff;
+}
+
+.top-right-profile {
+  display: flex;
+  margin-inline: 2rem;
+}
 
 @media (min-width:320px) and (max-width: 374px) {
   .navbar-gap {
@@ -44,7 +61,7 @@
 .custom {
   height: 80px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 54px;
   }
 }
@@ -76,12 +93,15 @@
   max-width: 100%;
   width: 150px;
   max-height: 60px;
-
-  @include breakpoint-xs {
+  filter: var(--theme-icon-filter);
+  @include ws-mixins.breakpoint-xs {
     max-width: 100px;
   }
 }
 
+.foundation-logo {
+  filter: none !important;
+}
 .site-description {
   font-size: 14px;
   // display: inline-block;
@@ -142,28 +162,28 @@
   right: 50px;
   padding: 10px 0px 0px 0px;
 
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     top: 20px;
     left: 980px;
   }
 
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     top: 20px;
     left: 980px;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     top: 0px;
     right: 50px;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     top: 20px;
     left: 450px;
   }
 }
 
-@import 'ws-vars';
+
 
 .menu-section {
   padding: 8px;
@@ -199,11 +219,11 @@
 }
 
 .margin-bottom-xs {
-  margin-bottom: $size-xs;
+  margin-bottom: ws-mixins.$size-xs;
 }
 
 .pipe-icon {
-  width: $size-l;
+  width: ws-mixins.$size-l;
   transform: scaleY(2);
 }
 
@@ -266,13 +286,13 @@
 }
 
 .hide-md {
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     display: none;
   }
 }
 
 .hide-xs {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }
@@ -282,4 +302,138 @@
   height: 24px;
   align-self: center;
   margin-right: 10px;
+}
+::ng-deep .dark-theme .mat-mdc-tab-group.mat-primary .mdc-tab-indicator__content--underline {
+  background-color: rgb(3, 22, 21) !important;
+  --mat-tab-active-indicator-color: var(--theme-accent) !important;
+  border-color: var(--theme-accent) !important;
+}
+
+::ng-deep .dark-theme .mat-mdc-tab-group.mat-primary .mdc-tab-indicator__content--underline {
+  background-color: rgb(3, 22, 21) !important;
+  border-color: #ffff !important;
+}
+::ng-deep .mat-tab-list .mat-tab-labels {
+  --mat-tab-inactive-ripple-color: var(--theme-inactive, #808080) !important;
+}
+
+
+::ng-deep .dark-theme lib-competency-dashboard lib-no-result .no-data-container {
+  background-color: var(--theme-bg, #f8f8f8) !important;
+  .no-data-text {
+    color: var(--theme-text-soft, #848886b3) !important
+  }
+}
+
+::ng-deep lib-competency-dashboard  {
+  .mat-mdc-tab-header,
+  .mat-tab-header {
+    border-bottom: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+    --mat-tab-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-inactive-label-text-color: var(--theme-inactive, #808080) !important;
+    --mat-tab-active-ripple-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-inactive-ripple-color: var(--theme-inactive, #808080) !important;
+    --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-active-focus-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-active-hover-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-active-focus-indicator-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-active-hover-indicator-color: var(--theme-tab-active-text, #000000) !important;
+  }
+
+  .mat-mdc-tab .mdc-tab__text-label,
+  .mat-tab-label,
+  .mat-tab-label .mat-tab-label-content {
+    justify-content: center !important;
+    color: var(--theme-inactive, #808080) !important;
+  }
+
+  .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label,
+  .mat-mdc-tab.mdc-tab--active,
+  .mat-tab-label.mat-tab-label-active,
+  .mat-tab-label.mat-tab-label-active .mat-tab-label-content {
+    color: var(--theme-tab-active-text, #000000) !important;
+    border-color: var(--theme-color, #000000) !important;
+  }
+
+  h1, .tab-badge {
+    font-weight: 400 !important;
+    color: var(--theme-text, #101828);
+  }
+
+  .mat-tab-header .mat-tab-label-content,
+  .mat-mdc-tab .mdc-tab__text-label {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .mat-mdc-tab-body-wrapper .mat-mdc-tab-body-content {
+    background-color: transparent !important;
+    color: var(--theme-text, #101828) !important;
+    .tab-badge {
+      color: var(--theme-text, #101828) !important;
+    }
+  }
+
+  lib-self-assessment-card .card_box {
+    background-color: var(--theme-surface, transparent) !important;
+    color: var(--theme-text, #101828) !important;
+    border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+  }
+
+  lib-gained-comptency-card .card-container {
+    background-color: transparent !important;
+    color: var(--theme-text, #101828) !important;
+    border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+    .levelsTitle {
+      color: var(--theme-text, #101828) !important;
+    }
+    mat-expansion-panel {
+      .level {
+        box-shadow: 0 0 1px #000000;
+        color: #000000 !important;
+      }
+      background-color: transparent !important;
+      color: var(--theme-text, #101828) !important;
+      .log, .log-header {
+        font-weight: 400 !important;
+        color: var(--theme-text, #101828) !important;
+      }
+    }
+  }
+
+  lib-active-summary mat-expansion-panel,mat-expansion-panel-header {
+    background-color: var(--theme-surface, transparent) !important;
+    color: var(--theme-text, #101828) !important;
+    .activity-title {
+      font-weight: 400 !important;
+      color: var(--theme-text, #101828) !important;
+    }
+    mat-panel-description {
+      .mat-mdc-progress-spinner {
+        --mdc-circular-progress-active-indicator-color: #ffd54f !important;
+        --mdc-linear-progress-active-indicator-height: 6px !important;
+      }
+      .competency-title, .progress-status  {
+        color: var(--theme-text) !important;
+      }
+      .role-title {
+        font-weight: 400 !important;
+        color: var(--theme-text-soft, #808080) !important;
+      }
+      .green-bar  .mdc-linear-progress__primary-bar .mdc-linear-progress__bar-inner {
+        border-color: var(--theme-progress, #469788)!important
+      }
+    }
+  }
+}
+
+.createAcc {
+  background-color: var(--theme-accent, #2E6491);
+  width: 100%;
+  border: 1px solid var(--theme-accent, #2E6491);
+  border-radius: 20px;
+  color: white;
+  font-size: 16px;
+  font-weight: 400
 }

@@ -1,6 +1,6 @@
 import { FlatTreeControl } from '@angular/cdk/tree'
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { FormGroup } from '@angular/forms'
+import { UntypedFormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree'
@@ -25,11 +25,14 @@ import { Subscription } from 'rxjs'
 import { MyContentService } from '../../services/my-content.service'
 import { map } from 'rxjs/operators'
 import { REVIEW_ROLE, PUBLISH_ROLE, CREATE_ROLE } from '@ws/author/src/lib/constants/content-role'
+import { LoggerService } from '../../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-auth-my-content',
-  templateUrl: './my-content.component.html',
-  styleUrls: ['./my-content.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-my-content',
+    templateUrl: './my-content.component.html',
+    styleUrls: ['./my-content.component.scss'],
+    
 })
 export class MyContentComponent implements OnInit, OnDestroy {
   public sideNavBarOpened = false
@@ -95,6 +98,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private authInitService: AuthInitService,
+    private logger: LoggerService
   ) {
     this.filterMenuTreeControl = new FlatTreeControl<IMenuFlatNode>(
       (node: { levels: any }) => node.levels,
@@ -543,14 +547,14 @@ export class MyContentComponent implements OnInit, OnDestroy {
       data: { ...content.data, status: 'Draft' },
     })
 
-    dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+    dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
       if (commentsForm) {
         this.finalCall(commentsForm, content)
       }
     })
   }
 
-  finalCall(commentsForm: FormGroup, content: any) {
+  finalCall(commentsForm: UntypedFormGroup, content: any) {
     if (commentsForm) {
       let operationValue: any
       switch (content.type) {
@@ -630,7 +634,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
   }
 
   actionOnExpiry(content: NSContent.IContentMeta) {
-    console.log('content: ' + content)
+    this.logger.log('content: ' + content)
   }
 
   setCurrentLanguage(lang: string) {

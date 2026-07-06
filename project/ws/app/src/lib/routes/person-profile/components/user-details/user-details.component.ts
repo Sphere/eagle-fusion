@@ -3,9 +3,11 @@ import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 import { IFollowerId } from '../../person-profile.model'
 
 @Component({
-  selector: 'ws-app-user-details',
-  templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss'],
+    standalone: false,
+    selector: 'ws-app-user-details',
+    templateUrl: './user-details.component.html',
+    styleUrls: ['./user-details.component.scss'],
+    
 })
 export class UserDetailsComponent implements OnInit, OnChanges {
   @Input() wid = ''
@@ -89,13 +91,13 @@ export class UserDetailsComponent implements OnInit, OnChanges {
     }
   }
 
-  fetchingKbDone(event: Boolean) {
+  fetchingKbDone(event: boolean) {
     if (event) {
       this.kbFetchingDone = true
     }
   }
 
-  fetchingPlaylistDone(event: Boolean) {
+  fetchingPlaylistDone(event: boolean) {
     if (event) {
       this.playlistsFetchingDone = true
     }

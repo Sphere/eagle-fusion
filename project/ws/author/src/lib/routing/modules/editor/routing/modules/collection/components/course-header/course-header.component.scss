@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .app-logo {
   max-width: 100px;
@@ -7,7 +7,7 @@
     padding-left: 8px;
     margin-left: 10px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 80px;
     max-height: 30px;
   }

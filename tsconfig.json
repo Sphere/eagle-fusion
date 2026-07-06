@@ -2,38 +2,42 @@
   "compileOnSave": false,
   "compilerOptions": {
     "resolveJsonModule": true,
-    "types": ["node", "reflect-metadata", "jest"],
-    "target": "es2015",
+    "types": ["node", "jest"],
+    "target": "ES2022",
+    "useDefineForClassFields": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "alwaysStrict": true,
     "baseUrl": "./",
-    "declaration": false,
-    "strict": true,
+    "strict": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "lib": ["es2018", "dom"],
-    "module": "esnext",
-    "moduleResolution": "node",
+    "lib": ["ES2022", "dom"],
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "./dist/out-tsc",
     "paths": {
+      "@angular/*": ["./node_modules/@angular/*"],
       "@ws-widget/resolver": ["library/ws-widget/resolver"],
       "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
       "@ws-widget/collection": ["library/ws-widget/collection"],
       "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
-      // "@ws-widget/utils": ["library/ws-widget/utils"],
-      "@ws-widget/utils": ["library/ws-widget/utils/src/public-api.ts"],
+      "@ws-widget/utils": ["library/ws-widget/utils"],
       "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
-      "@ws/app": ["project/ws/app"],
+      "@aastrika_npmjs/comptency/competency/services/configuration-context": [
+        "node_modules/@aastrika_npmjs/comptency/competency/services/configuration-context"
+      ],
+      "@aastrika_npmjs/comptency/entry-module/services/configuration-context": [
+        "node_modules/@aastrika_npmjs/comptency/entry-module/services/configuration-context"
+      ],
+      "@ws/app": ["project/ws/app/src/public-api"],
       "@ws/app/*": ["project/ws/app/*"],
       "@ws/author": ["project/ws/author"],
       "@ws/author/*": ["project/ws/author/*"],
@@ -45,8 +49,9 @@
       "@ws/viewer/*": ["project/ws/viewer/*"],
       "@ws/learning-hub": ["project/ws/learning-hub"],
       "@ws/learning-hub/*": ["project/ws/learning-hub/*"],
-      "@aastrika_npmjs/competency-web": ["node_modules/@aastrika_npmjs/competency-web"],
-      "@aastrika_npmjs/competency-web/*": ["node_modules/@aastrika_npmjs/competency-web/*"]
+      "@aastrika_npmjs/comptency": ["node_modules/@aastrika_npmjs/comptency"],
+      "@aastrika_npmjs/comptency/*": ["node_modules/@aastrika_npmjs/comptency/*"],
+      "@ngx-translate/core": ["node_modules/@ngx-translate/core"]
     },
     "removeComments": true,
     "sourceMap": true,
@@ -54,13 +59,14 @@
     "plugins": [
       {
         "name": "@angular/language-service"
-      },
-      {
-        "name": "typescript-tslint-plugin",
-        "alwaysShowRuleFailuresAsWarnings": false,
-        "ignoreDefinitionFiles": true,
-        "configFile": "./tslint.json"
       }
     ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictTemplates": false,
+    "strictAttributeTypes": false,
+    "strictInputAccessModifiers": false,
+    "strictDomLocalRefTypes": false
   }
 }

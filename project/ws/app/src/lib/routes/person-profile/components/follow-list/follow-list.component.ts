@@ -4,9 +4,11 @@ import { PersonProfileService } from '../../services/person-profile.service'
 import { TFetchStatus, ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-app-follow-list',
-  templateUrl: './follow-list.component.html',
-  styleUrls: ['./follow-list.component.scss'],
+    standalone: false,
+    selector: 'ws-app-follow-list',
+    templateUrl: './follow-list.component.html',
+    styleUrls: ['./follow-list.component.scss'],
+    
 })
 export class FollowListComponent implements OnInit, OnChanges {
   @Input() wid = ''
@@ -39,7 +41,7 @@ export class FollowListComponent implements OnInit, OnChanges {
     private personprofileSvc: PersonProfileService,
     public configSvc: ConfigurationsService
   ) {
-    this.personprofileSvc.isfollowevent.subscribe((result: Boolean) => {
+    this.personprofileSvc.isfollowevent.subscribe((result: boolean) => {
       if (result) {
         this.fetchFollowerApi()
         this.nextFollowersDisable = false

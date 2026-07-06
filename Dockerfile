@@ -1,4 +1,8 @@
-FROM node:16.16.0
+# Use Node 20.19+ required for Angular 21
+FROM node:20.19.0
+
+# Build argument for cache busting
+ARG BUILDKIT_INLINE_CACHE=1
 
 # Set the working directory in the container
 WORKDIR /app
@@ -6,38 +10,40 @@ WORKDIR /app
 # Copy all files into the working directory
 COPY . .
 
-# Install Angular CLI globally with a specific version
-RUN npm install -g @angular/cli@11.2.19
+# Install Angular CLI and http-server globally with a specific version
+RUN npm install -g @angular/cli@21 http-server
 
-# Install project dependencies (using yarn instead of npm to keep the build consistent)
+# Ensure @angular/localize is installed for i18n support
+RUN yarn add @angular/localize@21
+
+# Install project dependencies (using yarn)
 RUN yarn install
 
 # Install specific packages (moment and vis-util)
 RUN yarn add moment vis-util
 
-# Build the project for production
-RUN ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true
+# Production build with prerendering for /public/home, /public/about, /public/contact
+RUN yarn prerender
 
-# Build for Hindi locale
-RUN ng build --prod --i18n-locale=hi --i18n-format=xlf --i18n-file=locale/messages.hi.xlf --output-path=dist/www/hi --base-href=/hi/
+# Compress output
+RUN yarn run compress:brotli
 
-# Run the compression script (make sure it exists in your package.json)
-RUN npm run compress:brotli
-# Uncomment if you need gzip compression
-# RUN npm run compress:gzip
+# Change working directory to the app root
+WORKDIR /app
 
-# Change working directory to the dist folder where the build output resides
-WORKDIR /app/dist
+# Copy the server script
+COPY server.js ./
 
-# Copy client assets into the build output directories
-COPY assets/iGOT/client-assets/dist www/en/assets
-COPY assets/iGOT/client-assets/dist www/hi/assets
+# Note: express and compression should already be in node_modules from yarn install above
+# If they're not in package.json, uncomment the line below:
+# RUN npm install express compression
 
-# Install production dependencies in the dist folder (for server-side execution)
-RUN npm install --production
+# Build output is at dist/www
+# Note: assets/iGOT/client-assets/dist will only be copied if it exists
+# COPY assets/iGOT/client-assets/dist dist/www/assets || true
 
 # Expose port for the app
-EXPOSE 3004
+EXPOSE 3002
 
-# Run the application (make sure 'serve:prod' exists in your package.json)
-CMD ["npm", "run", "serve:prod"]
+# Run the Node.js server that properly handles SPA routing
+CMD ["node", "server.js"]

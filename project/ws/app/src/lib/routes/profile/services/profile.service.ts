@@ -4,17 +4,7 @@ import { Observable } from 'rxjs'
 import { NSProfileData } from '../models/profile.model'
 // import { ITimeSpent } from '../routes/learning/models/learning.models'
 import { ConfigurationsService } from '@ws-widget/utils'
-
-const PROTECTED_SLAG_V8 = `/apis/protected/v8`
-
-// const LA_API = `/LA1/api`
-const LA_API = `/api`
-const LA_API_END_POINTS = {
-  USER_ORG_GRAPH: `${PROTECTED_SLAG_V8}/user/dashboard/userOrgTime`,
-  TIME_SPENT: `${LA_API}/timespent`,
-  NSO_PROGRESS: `${LA_API}/nsoArtifactsAndCollaborators`,
-  SKILL_DATA: `${LA_API}/managerRecommendedSkills`,
-}
+import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +12,7 @@ const LA_API_END_POINTS = {
 export class ProfileService {
   httpOptions = {
     headers: new HttpHeaders({
-      validator_URL: `https://${this.configSvc.hostPath}/apis/protected/v8/user/validate`,
+      validator_URL: `https://${this.configSvc.hostPath}${API_END_POINTS.VALIDATE_USER}`,
     }),
   }
   baseUrl = this.configSvc.sitePath
@@ -39,7 +29,7 @@ export class ProfileService {
     isCompleted: number,
   ): Observable<NSProfileData.ITimeSpentResponse> {
     return this.http.get<NSProfileData.ITimeSpentResponse>(
-      `${LA_API_END_POINTS.TIME_SPENT}?startDate=${startDate}&endDate=${endDate}&isCompleted=${isCompleted}&contentType=${contentType}`,
+      `${API_END_POINTS.TIME_SPENT}?startDate=${startDate}&endDate=${endDate}&isCompleted=${isCompleted}&contentType=${contentType}`,
       this.httpOptions,
     )
   }
@@ -51,7 +41,7 @@ export class ProfileService {
     isCompleted: number,
   ): Observable<NSProfileData.INsoResponse> {
     return this.http.get<NSProfileData.INsoResponse>(
-      `${LA_API_END_POINTS.NSO_PROGRESS}?startDate=${startDate}&endDate=${endDate}&isCompleted=${isCompleted}&contentType=${contentType}`,
+      `${API_END_POINTS.NSO_PROGRESS}?startDate=${startDate}&endDate=${endDate}&isCompleted=${isCompleted}&contentType=${contentType}`,
       this.httpOptions,
     )
   }

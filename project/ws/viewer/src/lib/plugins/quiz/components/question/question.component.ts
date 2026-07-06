@@ -4,9 +4,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 
 @Component({
-  selector: 'viewer-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss'],
+    standalone: false,
+    selector: 'viewer-question',
+    templateUrl: './question.component.html',
+    styleUrls: ['./question.component.scss'],
+    
 })
 export class QuestionComponent implements OnInit, AfterViewInit {
 
@@ -28,7 +30,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   }
   @Input() itemSelectedList: string[] = []
   @Input() markedQuestions: Set<string> = new Set()
-  @Output() itemSelected = new EventEmitter<string | Object>()
+  @Output() itemSelected = new EventEmitter<string | object>()
   @Input()
 
   quizAnswerHash: { [questionId: string]: string[] } = {}
@@ -214,7 +216,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   }
 
   @HostListener('window:resize')
-  onResize(_event: any) {
+  onResize() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.repaintEverything()
     }

@@ -1,22 +1,25 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { ISearchAutoComplete, ISearchQuery, ISuggestedFilters } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
+import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
+  standalone: false,
   selector: 'ws-app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   // tslint:disable-next-line
   encapsulation: ViewEncapsulation.None,
+
 })
 export class HomeComponent implements OnInit {
 
-  query: FormControl = new FormControl('')
+  query: UntypedFormControl = new UntypedFormControl('')
   lang = ''
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   autoCompleteResults: ISearchAutoComplete[] = []
@@ -32,7 +35,9 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private searchSvc: SearchServService,
-    private searchApi: SearchApiService
+    private searchApi: SearchApiService,
+    private languageSvc: LanguageService,
+    private logger: LoggerService
   ) {
     const isAutoCompleteAllowed = this.route.snapshot.data.pageData.data.search.isAutoCompleteAllowed
     if (typeof isAutoCompleteAllowed === 'undefined' ||
@@ -42,7 +47,7 @@ export class HomeComponent implements OnInit {
         distinctUntilChanged(),
       ).subscribe(q => {
         this.searchQuery.q = q
-        console.log(q)
+        this.logger.log(q)
         // this.getAutoCompleteResults()
       })
     }
@@ -55,21 +60,20 @@ export class HomeComponent implements OnInit {
   }
 
   search(query?: string, lang?: string) {
-    console.log(lang, query)
-    console.log(this.searchQuery.l)
-    let url = window.location.href
+    this.logger.log(lang, query)
+    this.logger.log(this.searchQuery.l)
+    const url = window.location.href
 
     // Extract the query parameters part of the URL
-    let paramsString = url.split('?')[1] || ''
-    let params = new URLSearchParams(paramsString)
+    const paramsString = url.split('?')[1] || ''
+    const params = new URLSearchParams(paramsString)
 
-    let lang1 = '' // Default value
-    // Check if 'lang' parameter exists
+    let lang1 = lang || this.searchQuery.l
     if (params.has('lang')) {
-      lang1 = params.get('lang') || ''
+      lang1 = params.get('lang') || lang1
     }
     this.router.navigate(['/app/search/home'], {
-      queryParams: { lang1, q: query || this.searchQuery.q },
+      queryParams: { lang: lang1, q: query || this.searchQuery.q },
     }).then(() => {
       this.router.navigate(['/app/search/learning'], {
         queryParams: {
@@ -112,9 +116,10 @@ export class HomeComponent implements OnInit {
   }
 
   getActivateLocale(): string {
-    console.log(this.configSvc)
-    const locale = (this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : undefined
-    console.log(locale, 'homecompo')
+    this.logger.log(this.configSvc)
+    // Use LanguageService instead of checking location.href
+    const locale = (this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage()
+    this.logger.log(locale, 'homecompo')
     // (this.configSvc.unMappedUser.profileDetails?.preferences?.language) || 'en'
     // return this.searchSvc.getLanguageSearchIndex(locale)
     return locale
@@ -137,7 +142,7 @@ export class HomeComponent implements OnInit {
   }
 
   getAutoCompleteResults(): void {
-    console.log('888')
+    this.logger.log('888')
     this.searchSvc.searchAutoComplete(this.searchQuery).then((results: ISearchAutoComplete[]) => {
       this.autoCompleteResults = results
     }).catch(() => {

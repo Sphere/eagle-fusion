@@ -3,12 +3,12 @@
   justify-content: flex-start;
 }
 
-::ng-deep mat-form-field .mat-form-field-infix .mat-form-field-label,
-::ng-deep mat-form-field .mat-form-field-infix .mat-select-value {
+::ng-deep mat-form-field .mat-form-field-infix .mdc-floating-label,
+::ng-deep mat-form-field .mat-form-field-infix .mat-mdc-select-value {
   line-height: normal !important;
 }
 
-::ng-deep .theme-igot.day-mode .mat-form-field.mat-focused .mat-form-field-label {
+::ng-deep .light-theme .mat-form-field.mat-focused .mdc-floating-label {
   color: #333232 !important;
 }
 
@@ -206,12 +206,12 @@ input[type='number'] {
     color: #e44;
   }
 
-  ::ng-deep .mat-form-field-outline {
+  ::ng-deep .mdc-notched-outline {
     min-height: 40px;
     background: #fff;
     border-radius: 8px;
 
-    .mat-form-field-outline-start {
+    .mdc-notched-outline__leading {
       border: 1px solid #70707069;
       border-radius: 8px 0 0 8px;
       border-right-style: none;
@@ -220,44 +220,42 @@ input[type='number'] {
       border-right-style: none;
     }
 
-    .mat-form-field-outline-gap {
+    .mdc-notched-outline__notch {
       border: 1px solid currentColor;
       border-radius: 82px;
       border-left-style: none;
       border-right-style: none;
     }
 
-    .mat-form-field-outline-end {
+    .mdc-notched-outline__trailing {
       border: 1px solid #70707069;
       border-left-style: none;
       border-radius: 0 8px 8px 0;
     }
   }
 
-  ::ng-deep .mat-form-field-outline.mat-form-field-outline-thick {
+ ::ng-deep .mat-mdc-form-field .mdc-notched-outline {
     min-height: 40px;
     background: #fff;
     border-radius: 8px;
 
-    .mat-form-field-outline-start {
+    .mdc-notched-outline__leading {
       border-radius: 8px 0 0 8px;
       min-width: 8px;
       border: 1px solid currentColor;
       border-right-style: none;
     }
 
-    .mat-form-field-outline-gap {
-      border-width: 1px;
+    .mdc-notched-outline__notch {
       border: 1px solid currentColor;
       border-radius: 8px;
       border-left-style: none;
       border-right-style: none;
     }
 
-    .mat-form-field-outline-end {
-      border-width: 1px;
-      border-radius: 0 8px 8px 0;
+    .mdc-notched-outline__trailing {
       border: 1px solid currentColor;
+      border-radius: 0 8px 8px 0;
       border-left-style: none;
     }
   }
@@ -286,11 +284,11 @@ input[type='number'] {
   margin-bottom: 0.5rem;
 }
 
-input.mat-input-element {
+input.mdc-text-field__input {
   color: #5f5f5f;
 }
 
-::ng-deep.mat-radio-group {
+::ng-deep.mat-mdc-radio-group {
   padding-bottom: 1.34375em;
 }
 
@@ -315,31 +313,31 @@ input.mat-input-element {
   }
 }
 
-::ng-deeptextarea.mat-input-element {
+::ng-deeptextarea.mdc-text-field__input {
   padding: 8px 0;
 }
 
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+::ng-deep .mat-mdc-checkbox-checked.mat-accent .mdc-checkbox__background {
   background: #f5d58d 0% 0% no-repeat padding-box !important;
   border-radius: 4px;
 }
 
-::ng-deep .mat-checkbox .mat-checkbox-frame {
+::ng-deep .mat-mdc-checkbox .mdc-checkbox-frame {
   border-radius: 4px !important;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+::ng-deep .mat-form-field-appearance-outline .mat-mdc-select-arrow-wrapper {
   transform: none !important;
 }
 
-::ng-deep .mat-tab-label-container .mat-tab-list {
-  .mat-tab-labels .mat-tab-label {
+::ng-deep .mat-mdc-tab-label-container .mat-mdc-tab-list {
+  .mat-mdc-tab-labels .mdc-tab__text-label {
     font-size: 18px;
     color: #222222;
   }
 
-  .mat-tab-labels .mat-tab-label-active {
-    .mat-tab-label-content {
+  .mat-mdc-tab-labels .mdc-tab--active {
+    .mdc-tab__content .mdc-tab__text-label{
       color: #f5d58d;
     }
   }
@@ -427,7 +425,11 @@ input.mat-input-element {
   position: relative;
 }
 
-::ng-deep .mat-checkbox-inner-container {
+::ng-deep .mdc-checkbox {
+  align-self: flex-start;
+}
+
+::ng-deep .mdc-checkbox__background {
   height: 23px !important;
   width: 23px !important;
 }
@@ -514,7 +516,7 @@ img.lang-img {
 }
 
 .display-language {
-  color: #1C5D95;
+  color: var(--theme-accent);
   font-weight: 400;
   text-transform: capitalize;
 }

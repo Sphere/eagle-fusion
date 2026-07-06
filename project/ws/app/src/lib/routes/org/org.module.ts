@@ -1,13 +1,10 @@
-
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
-// import { OrgRoutingModule } from './org-routing.module'
-// import { OrgComponent } from './components/org/org.component'
 import { HorizontalScrollerModule } from '@ws-widget/utils'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { CardContentModule, PipeContentRoutePipe } from '@ws-widget/collection'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
-import { MdePopoverModule } from '@material-extended/mde'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { MatCardModule } from '@angular/material/card'
 import { MatChipsModule } from '@angular/material/chips'
@@ -19,12 +16,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatTabsModule } from '@angular/material/tabs'
 import { AllCoursesComponent } from './components/all-courses/all-courses.component'
+import { TranslateModule } from '@ngx-translate/core'
 
 @NgModule({
   declarations: [AllCoursesComponent],
   imports: [
     CommonModule,
-    // OrgRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatChipsModule,
     MatIconModule,
@@ -38,8 +37,10 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
     WidgetResolverModule,
     CardContentModule,
     InfiniteScrollModule,
-    MdePopoverModule,
+    TranslateModule,
   ],
+  exports: [],
   providers: [PipeContentRoutePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OrgModule { }

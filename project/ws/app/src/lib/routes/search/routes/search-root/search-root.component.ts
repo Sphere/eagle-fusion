@@ -4,9 +4,11 @@ import { IFeatureSearchConfig } from '../../models/search.model'
 import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-app-search-root',
-  templateUrl: './search-root.component.html',
-  styleUrls: ['./search-root.component.scss'],
+    standalone: false,
+    selector: 'ws-app-search-root',
+    templateUrl: './search-root.component.html',
+    styleUrls: ['./search-root.component.scss'],
+    
 })
 export class SearchRootComponent implements OnInit {
   searchTabs: IFeatureSearchConfig = {
@@ -17,10 +19,10 @@ export class SearchRootComponent implements OnInit {
   }
   route = 'learning'
   searchRequest: {
-    query: string;
-    filters: { [type: string]: string[] };
-    social?: string;
-    sort?: string;
+    query: string
+    filters: { [type: string]: string[] }
+    social?: string
+    sort?: string
   } = {
       query: '',
       filters: {},
@@ -36,7 +38,7 @@ export class SearchRootComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.activated.snapshot.data.searchPageData.data.search) {
+    if (this.activated?.snapshot?.data?.searchPageData?.data?.search) {
       this.searchTabs = this.activated.snapshot.data.searchPageData.data.search
     }
     this.activated.queryParamMap.subscribe(queryParam => {
@@ -58,7 +60,7 @@ export class SearchRootComponent implements OnInit {
     //   relativeTo: this.activated.parent,
     // })
   }
-  hasKeys(object: Object): boolean {
+  hasKeys(object: object): boolean {
     if (object && Object.keys(object) && Object.keys(object).length) {
       return true
     }

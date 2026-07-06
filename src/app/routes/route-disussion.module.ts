@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { DiscussConfigResolve } from './discussion-forum/wrapper/resolvers/discuss-config-resolve'
 import { ConfigurationsService } from '@ws-widget/utils'
+import { CommonModule } from '@angular/common'
 const routes: Routes = [
   {
     path: 'discussion-forum',
@@ -18,7 +19,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [CommonModule, RouterModule.forChild(routes)],
   exports: [RouterModule],
   providers: [
     ConfigurationsService,

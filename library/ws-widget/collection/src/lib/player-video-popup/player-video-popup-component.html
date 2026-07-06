@@ -1,7 +1,7 @@
 <div class="quiz-container">
     <!-- Question Text -->
     <div class="flex justify-between items-center">
-        <span i18n class="questions-header">Question</span>
+        <span class="questions-header">{{"Question" | translate}}</span>
         <mat-icon class="cursor-pointer" (click)="closePopup()" (keydown)="handleKeyDown($event)">close</mat-icon>
     </div>
     <h3 class="quiz-question">{{ currentQuestion.text }}</h3>
@@ -63,21 +63,20 @@
     <div class="button-container flex justify-end mt-4">
         <!-- Skip or Next Button -->
         <div class="flex mr-2">
-            <button i18n *ngIf="!showAnswerInfo" class="skip-button mr-2" (click)="sendAction('skip')"
-                class="skip-button">
-                Skip
+            <button *ngIf="!showAnswerInfo" class="skip-button mr-2" (click)="sendAction('skip')" class="skip-button">
+                {{"Skip" | translate}}
             </button>
-            <button i18n class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
-                Next
+            <button class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
+                {{"Next" | translate}}
             </button>
         </div>
         <!-- Submit Button -->
-        <button i18n class="submit-button" *ngIf="currentIndex === questions.length - 1&&!showAnswerInfo"
+        <button class="submit-button" *ngIf="currentIndex === questions.length - 1&&!showAnswerInfo"
             (click)="submitQuiz()" class="submit-button">
-            Submit
+            {{"Submit" | translate}}
         </button>
-        <button i18n class="submit-button" *ngIf="showAnswerInfo" (click)="continue()" class="submit-button">
-            Continue
+        <button class="submit-button" *ngIf="showAnswerInfo" (click)="continue()" class="submit-button">
+            {{"Continue" | translate}}
         </button>
     </div>
 </div>

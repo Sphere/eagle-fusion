@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { IapAssessmentService } from '../../services/iap-assessment.service'
@@ -7,9 +7,11 @@ import { IQuestionDetailsContent } from '../iap-assessment/iap-assessment.compon
 // IQuestionDetailsContent
 
 @Component({
-  selector: 'ws-auth-section-dialog',
-  templateUrl: './section-dialog.component.html',
-  styleUrls: ['./section-dialog.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-section-dialog',
+    templateUrl: './section-dialog.component.html',
+    styleUrls: ['./section-dialog.component.scss'],
+    
 })
 export class SectionDialogComponent implements OnInit {
   constructor(
@@ -29,9 +31,9 @@ export class SectionDialogComponent implements OnInit {
   }
   objectiveQuestionsData: IQuestionDetailsContent[] = []
   groupQuestionsData = []
-  addSectionForm = new FormGroup({
-    sectionName: new FormControl(this.data.sectionName),
-    sectionDescription: new FormControl(this.data.sectionDescription),
+  addSectionForm = new UntypedFormGroup({
+    sectionName: new UntypedFormControl(this.data.sectionName),
+    sectionDescription: new UntypedFormControl(this.data.sectionDescription),
   })
 
   ngOnInit() {

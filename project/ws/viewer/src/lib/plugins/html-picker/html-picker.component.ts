@@ -17,9 +17,11 @@ import { EventService } from '@ws-widget/utils'
 import { IHtmlPicker } from './html-picker.model'
 
 @Component({
-  selector: 'viewer-plugin-html-picker',
-  templateUrl: './html-picker.component.html',
-  styleUrls: ['./html-picker.component.scss'],
+    standalone: false,
+    selector: 'viewer-plugin-html-picker',
+    templateUrl: './html-picker.component.html',
+    styleUrls: ['./html-picker.component.scss'],
+    
 })
 export class HtmlPickerComponent implements OnInit, OnDestroy {
   @Input() identifier: string | null = null
@@ -52,7 +54,7 @@ export class HtmlPickerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // //console.log(this.newData)
+    // //this.logger.log(this.newData)
   }
   ngOnDestroy() {
     if (this.inputInterval) {
@@ -176,9 +178,12 @@ export class HtmlPickerComponent implements OnInit, OnDestroy {
   }
   raiseInteractTelemetry(action: string, event: string) {
     if (this.identifier) {
-      this.eventSvc.raiseInteractTelemetry(action, event, {
-        contentId: this.identifier,
-      })
+      this.eventSvc.raiseInteractTelemetry(action, event, 'html-picker', {
+        id: this.identifier,
+        type: 'scroll-picker',
+        verison: '',
+        rollup: {},
+      }, { values: [{ contentId: this.identifier }] })
     }
     if (event === 'codeinput') {
       this.isInput = false
@@ -192,14 +197,14 @@ export class HtmlPickerComponent implements OnInit, OnDestroy {
       if (this.isInput) {
         this.raiseInteractTelemetry('editor', 'codeinput')
       }
-    },                               2 * 60000)
+    }, 2 * 60000)
   }
   startClickTimer() {
     this.clickInterval = setInterval(() => {
       if (this.isClick) {
         this.raiseInteractTelemetry('editor', 'buttonclick')
       }
-    },                               2 * 60000)
+    }, 2 * 60000)
   }
 
 }

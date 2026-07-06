@@ -8,9 +8,11 @@ import { filter } from 'rxjs/operators'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-  selector: 'viewer-iap',
-  templateUrl: './iap.component.html',
-  styleUrls: ['./iap.component.scss'],
+    standalone: false,
+    selector: 'viewer-iap',
+    templateUrl: './iap.component.html',
+    styleUrls: ['./iap.component.scss'],
+    
 })
 export class IapComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
@@ -102,16 +104,16 @@ export class IapComponent implements OnInit, OnDestroy {
   }
 
   async ngOnDestroy() {
-    if (this.activatedRoute.snapshot.queryParams.collectionId &&
-      this.activatedRoute.snapshot.queryParams.collectionType
-      && this.iapData) {
-      await this.contentSvc.continueLearning(this.iapData.identifier,
-                                             this.activatedRoute.snapshot.queryParams.collectionId,
-                                             this.activatedRoute.snapshot.queryParams.collectionType,
-      )
-    } else if (this.iapData) {
-      await this.contentSvc.continueLearning(this.iapData.identifier)
-    }
+    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
+    //   this.activatedRoute.snapshot.queryParams.collectionType
+    //   && this.iapData) {
+    //   await this.contentSvc.continueLearning(this.iapData.identifier,
+    //                                          this.activatedRoute.snapshot.queryParams.collectionId,
+    //                                          this.activatedRoute.snapshot.queryParams.collectionType,
+    //   )
+    // } else if (this.iapData) {
+    //   await this.contentSvc.continueLearning(this.iapData.identifier)
+    // }
     if (this.iapData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.iapData)
     }

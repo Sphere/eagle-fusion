@@ -1,35 +1,37 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
+
+:host {
+  scroll-margin-top: 80px;
+}
 
 .scrollHowSphereWorks{
-  padding: 0px 85px;
-  margin-top: 10px;
+  padding: 40px 85px;
+  margin-top: 0;
 }
 .how-work-content {
-    background: #FFFF !important;
   cursor: pointer;
   box-shadow: 0px 0px 8px 0px #00000073;
-
-  border-radius: 5px;
+  background: var(--theme-bg, #fff) !important;
+  border-radius: 20px;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
-  border-radius: 20px;
+  height: 100%;
+  box-sizing: border-box;
 }
 video {
   border-radius: 10px;
 }
 .videoTitle {
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
-  color: #000;
+  color: var(--theme-text, #101828);
   margin-bottom: 2px !important;
   margin-top: 16px !important;
-
 }
 
 .videoDes {
-  color: #808080;
+  color: var(--theme-text-soft, #667085);
   font-size: 14px;
   font-weight: 400;
 }
@@ -39,32 +41,53 @@ video {
 }
 
 video::-webkit-media-controls-play-button {
-  background-color: rgba(0, 0, 0, 0.52);
+  // background-color: rgba(0, 0, 0, 0.52);
   border-radius: 50%;
   margin-left: 20px;
   margin-bottom: 7px;
   height: 34px;
 }
 
-.how-work-iframe{
-  display: flex;
-  // width: 297px;
-  // height: 184px;
+.how-work-thumbnail {
+  position: relative;
   border-radius: 25px;
-  pointer-events: none;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  .how-work-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+
+    .play-icon {
+      font-size: 56px;
+      width: 56px;
+      height: 56px;
+      color: white;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+    }
+  }
 }
 .scrollHowSphereWorks-block{
-  display: flex;
-  flex-wrap: wrap;
-    padding: 0px 85px;
-    gap: 85px !important ;
-
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 .m-10{
   margin: 10px;
 }
 .header2{
-  color: #000;
+  color: var(--theme-text);
 /* Header 1 */
 font-family: 'Roboto';
 font-size: 32px;
@@ -74,7 +97,7 @@ line-height: 38.4px;
 letter-spacing: -0.64px;
 }
 .label1{
-  color: #000;
+  color: var(--theme-text);
 font-family: 'Roboto';
 font-size: 16px;
 font-style: normal;
@@ -83,32 +106,62 @@ line-height: 24px;
 letter-spacing: -0.32px;
 }
 .block-container{
-  width: 376px;
-height: 297px;
+  border-radius: 20px;
+  min-width: 0;
+}
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  .scrollHowSphereWorks {
+    padding: 0px 50px;
+  }
+  .scrollHowSphereWorks-block {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
 
-border-radius: 20px 0px 0px 0px;
-// opacity: 0px;
+@media (max-width: 767px) {
+  .scrollHowSphereWorks {
+    padding: 0px 24px 80px 24px;
+  }
 
-}
-@media only screen and (min-width: 600px) and (max-width: 959px){
-.scrollHowSphereWorks{
-  padding: 0px 50px;
-}
-.scrollHowSphereWorks-block{
-  padding: 0px 40px;
-}
-.block-container{
-  width: 208px;
-}
-.how-work-content{
-  box-shadow: 0px 0px 8px 0px #00000073;
+  .scrollHowSphereWorks-block {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 
-  height: 275px;
-  background: #FFFF !important;
+  .header2 {
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: 400;
+    color: var(--theme-text) !important
+  }
+
+  .label1 {
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--theme-text-soft) !important
+  }
+
+  .block-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .how-work-content {
+    border-radius: 5px;
+    flex-direction: row;
+  }
+
+  .how-work-thumbnail {
+    border-radius: 10px;
+    width: 125px;
+    height: 100px;
+    flex-shrink: 0;
+    aspect-ratio: unset;
+  }
 }
-}
-@media only screen and (min-width: 1360px) and (max-width:1500px){
-.block-container{
-  width: 320px !important;
-}
+.howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 30px !important;
+  background: var(--theme-bg, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
 }

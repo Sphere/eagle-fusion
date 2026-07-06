@@ -6,9 +6,11 @@ import { PlayerStateService } from '../../player-state.service'
 import { ValueService } from '@ws-widget/utils'
 
 @Component({
-  selector: 'viewer-quiz-container',
-  templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.scss'],
+    standalone: false,
+    selector: 'viewer-quiz-container',
+    templateUrl: './quiz.component.html',
+    styleUrls: ['./quiz.component.scss'],
+    
 })
 export class QuizComponent implements OnInit {
   @Input() isFetchingDataComplete = false

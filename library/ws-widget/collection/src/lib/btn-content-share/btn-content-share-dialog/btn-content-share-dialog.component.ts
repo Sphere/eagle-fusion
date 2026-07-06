@@ -1,5 +1,5 @@
 import { COMMA, ENTER, SEMICOLON } from '@angular/cdk/keycodes'
-import { Component, Inject, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
@@ -8,12 +8,14 @@ import { WidgetContentShareService } from '../../_services/widget-content-share.
 import { NsContent } from '../../_services/widget-content.model'
 import { NsShare } from '../../_services/widget-share.model'
 import { ICommon } from '../../_models/common.model'
-import domToImage from 'dom-to-image'
+import * as htmlToImage from 'html-to-image'
 
 @Component({
-  selector: 'ws-widget-btn-content-share-dialog',
-  templateUrl: './btn-content-share-dialog.component.html',
-  styleUrls: ['./btn-content-share-dialog.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-btn-content-share-dialog',
+    templateUrl: './btn-content-share-dialog.component.html',
+    styleUrls: ['./btn-content-share-dialog.component.scss'],
+    
 })
 export class BtnContentShareDialogComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA, SEMICOLON]
@@ -31,16 +33,14 @@ export class BtnContentShareDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { content: NsContent.IContent },
     public shareSvc: WidgetContentShareService,
     public configSvc: ConfigurationsService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
-    let cUrl = window.location.href
-    let id = cUrl.split('/')[5]
-    let newUrl = `${document.baseURI}`
-    if (newUrl.includes('hi')) {
-      newUrl = newUrl.replace(/hi\//g, '')
-    }
-    let url = `public/toc/overview?courseId=${id}`
+    const cUrl = window.location.href
+    const id = cUrl.split('/')[5]
+    const newUrl = `${document.baseURI}`
+    const url = `public/toc/overview?courseId=${id}`
 
     this.qrdata = `${newUrl}${url}`
 
@@ -50,6 +50,7 @@ export class BtnContentShareDialogComponent implements OnInit {
       } else {
         this.message = 'I want to share this artifact I found.'
       }
+      this.cdr.detectChanges()
     })
 
     if (this.configSvc.restrictedFeatures) {
@@ -62,7 +63,7 @@ export class BtnContentShareDialogComponent implements OnInit {
   }
 
   saveAsImage(code: any) {
-    domToImage.toPng(code.qrcElement.nativeElement)
+    htmlToImage.toPng(code.qrcElement.nativeElement)
       .then((dataUrl: string) => {
         const link = document.createElement('a')
         link.download = 'qrcode.png'
@@ -164,9 +165,20 @@ export class BtnContentShareDialogComponent implements OnInit {
   }
 
   raiseTelemetry() {
-    this.events.raiseInteractTelemetry('share', 'content', {
-      contentId: this.data.content.identifier,
-      contentType: this.data.content.contentType,
-    })
+    const extras = {
+      values: [
+        {
+          contentId: this.data.content.identifier,
+          contentType: this.data.content.contentType,
+        },
+      ],
+    }
+    this.events.raiseInteractTelemetry('btn-clicked', 'share', 'content', {
+      id: this.data.content.identifier,
+      type: this.data.content.contentType,
+      version: "",
+      rollup: {},
+    }, extras
+    )
   }
 }

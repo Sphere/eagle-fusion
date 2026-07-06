@@ -8,9 +8,11 @@ import { ConfigurationsService } from '@ws-widget/utils'
 
 import { IWidgetErrorAccessForbidden } from '../error-access-forbidden/error-access-forbidden.model'
 @Component({
-  selector: 'ws-widget-error-content-unavailable',
-  templateUrl: './error-content-unavailable.component.html',
-  styleUrls: ['./error-content-unavailable.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-error-content-unavailable',
+    templateUrl: './error-content-unavailable.component.html',
+    styleUrls: ['./error-content-unavailable.component.scss'],
+    
 })
 export class ErrorContentUnavailableComponent implements OnInit, OnDestroy {
   @Input() errorData: null | IWidgetErrorAccessForbidden = null

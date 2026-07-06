@@ -1,10 +1,9 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
-  NgModule,
-  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, ChangeDetectorRef,
+  ChangeDetectionStrategy, NgZone,
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
-import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -18,13 +17,14 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import {
   // LoggerService,
   ConfigurationsService,
+  LoggerService,
   UtilityService,
 } from '@ws-widget/utils'
 import { of, Subscription } from 'rxjs'
-import { delay } from 'rxjs/operators'
+import { catchError, delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
-import { PlayerStateService } from '../../player-state.service'
+import { PlayerStateService, buildPlayerStateForResource } from '../../player-state.service'
 import { isNull, isEmpty } from 'lodash'
 import { saveAs } from 'file-saver'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
@@ -43,8 +43,9 @@ interface IViewerTocCard {
   showDownloadBtn: string
 }
 import { HttpClient } from '@angular/common/http'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
-
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
+import { QuizService } from '../../plugins/quiz/quiz.service'
+import { CongratulationsPopupComponent } from '../../plugins/quiz/components/congratulations-popup/congratulations-popup.component'
 export type TCollectionCardType = 'content' | 'playlist' | 'goals'
 
 interface ICollectionCard {
@@ -57,16 +58,12 @@ interface ICollectionCard {
   duration: number
   redirectUrl: string | null
 }
-@NgModule({
-  imports: [
-    MatTooltipModule,
-
-  ],
-})
 @Component({
+  standalone: false,
   selector: 'viewer-viewer-toc',
   templateUrl: './viewer-toc.component.html',
   styleUrls: ['./viewer-toc.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()
@@ -99,7 +96,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     private playerStateService: PlayerStateService,
     public router: Router,
     public dialog: MatDialog,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
+    public quizService: QuizService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
+    private logger: LoggerService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -132,6 +133,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   message!: string
   subscription: Subscription | null = null
   isLoading = true
+  private cachedRating: any = null  // Cache rating to avoid repeated API calls
   // tslint:disable-next-line
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
@@ -174,6 +176,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.collection) {
           this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
         }
+        setTimeout(() => {
+          this.isFetching = false
+          this.cdr.markForCheck()
+        }, 0)
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
@@ -184,8 +190,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             if (!(isNull(nextResource) || isEmpty(nextResource))) {
               this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
               this.playerStateService.trigger$.complete()
-
-            } else {
+            } else if (this.isCurrentResourceLastLeaf()) {
+              // Only return to the overview when the completed video is genuinely
+              // the final leaf. Previously an unresolved next-resource (empty
+              // string, e.g. before playerState is populated) also fell here and
+              // bounced a completed mid-course video back to the TOC.
               this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                 queryParams: {
                   primaryCategory: 'Course',
@@ -193,7 +202,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 },
               })
             }
-
           }
         }
       }
@@ -201,22 +209,29 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     })
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
-      console.log(_data, '180')
+      this.logger.log(_data, '180')
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
-        this.processCurrentResourceChange()
-        this.checkIndexOfResource()
+        // Restore course gating — individual resources don't carry the gatingEnabled flag
+        if (this.heirarchy) {
+          this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
+        }
+        this.seedPlayerStateForCurrentResource()
+        setTimeout(() => {
+          this.processCurrentResourceChange()
+          this.checkIndexOfResource()
+        }, 0)
       }
     })
     this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
-      console.log(data, '188')
+      this.logger.log(data, '188')
       if (data) {
         //
-        // console.log(this.playerStateService.trigger$.getValue())
+        // this.logger.log(this.playerStateService.trigger$.getValue())
         if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === 'not-triggered') {
           this.scromUpdateCheck(data)
 
-          // console.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
+          // this.logger.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
 
@@ -244,7 +259,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   downloadResource(content: any) {
     const fileUrl = content.artifactUrl
-    console.log('fileUrl: ', content)
+    this.logger.log('fileUrl: ', content)
     // Make the HTTP GET request
     this.http.get(fileUrl, {
       responseType: 'blob', // Set the response type as blob
@@ -287,18 +302,64 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.scrollToUserView(index)
     }
   }
+
+  /**
+   * True only when the current resource is the last leaf node in the collection
+   * queue. Used to decide whether a completed video should return to the course
+   * overview — we must not bounce back to the TOC for mid-course resources just
+   * because the next resource couldn't be resolved yet.
+   */
+  private isCurrentResourceLastLeaf(): boolean {
+    if (!this.queue || !this.queue.length || !this.resourceId) {
+      return false
+    }
+    const index = this.queue.findIndex(x => x.identifier === this.resourceId)
+    return index >= 0 && index === this.queue.length - 1
+  }
   ngOnChanges() {
-    this.change = this.contentSvc.currentMessage.subscribe(async (data: any) => {
+    this.change = this.contentSvc.currentMessage.subscribe((data: any) => {
       if (data) {
-        this.isLoading = true
-        this.currentContentType = await data.type
-        if (data && data.type === "scorm") {
+        this.currentContentType = data.type
+        if (data.type === 'scorm') {
           localStorage.setItem('contentId', window.location.href)
         } else {
           localStorage.removeItem('contentId')
         }
         this.processCollectionForTree(data)
-        // this.ngOnInit()
+
+        if (data.contentList && this.collection && this.collection.children) {
+          this.updateTreeNodesWithProgress(this.collection.children, data.contentList)
+          this.nestedDataSource.data = [...this.collection.children]
+          this.ngZone.run(() => {
+            this.updateResourceChange()
+            this.cdr.detectChanges()
+          })
+        }
+      }
+    })
+  }
+
+  /**
+   * Update tree node completionPercentage values from progress message data
+   * **CRITICAL**: Without this, the UI doesn't show the green tick even though storage is updated
+   */
+  private updateTreeNodesWithProgress(nodes: IViewerTocCard[], contentListData: any[]): void {
+    if (!nodes || !contentListData) return
+
+    nodes.forEach((node: IViewerTocCard) => {
+      // Find matching content in the new progress data
+      const matchingContent = contentListData.find((item: any) => item.contentId === node.identifier)
+      if (matchingContent && matchingContent.completionPercentage !== undefined) {
+        // **CRITICAL**: Update the tree node's completionPercentage immediately
+        // This triggers Angular change detection and shows the progress circle/tick in the UI
+        node.completionPercentage = matchingContent.completionPercentage
+        node.completionStatus = matchingContent.status ?? node.completionStatus ?? 0
+        this.logger.log(`Updated tree node: ${node.identifier} completionPercentage: ${node.completionPercentage}, status: ${node.completionStatus}`)
+      }
+
+      // Recursively update child nodes
+      if (node.children && node.children.length > 0) {
+        this.updateTreeNodesWithProgress(node.children, contentListData)
       }
     })
   }
@@ -306,7 +367,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     setTimeout(() => {
       if (index > 3) {
-        if (this.highlightItem.nativeElement.classList.contains('li-active')) {
+        if (this.highlightItem?.nativeElement?.classList.contains('li-active')) {
 
           const highlightItemOffset = this.highlightItem.nativeElement.offsetTop
           const outerClientHeight = this.outer.nativeElement.clientHeight
@@ -344,6 +405,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ngAfterViewInit() {
 
     setTimeout(() => {
+      this.isFetching = false
       this.checkIndexOfResource()
     }, 300)
   }
@@ -411,13 +473,13 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       ).toPromise()
       content = content.result.content
       this.heirarchy = content
-      if (content && content.gatingEnabled) {
+      // Always set gating flag, even if false (previous course gating flag must be reset)
+      if (content) {
         this.viewerDataSvc.setNode(content.gatingEnabled)
       }
       this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
-      this.isFetching = false
       return viewerTocCardContent
     } catch (err: any) {
       switch (err.status) {
@@ -442,7 +504,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           break
         }
       }
-      this.isFetching = false
       return null
     }
   }
@@ -460,9 +521,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
-      this.isFetching = false
       return viewerTocCardContent
-    } catch (err) {
+    } catch (err: any) {
       switch (err.status) {
         case 403: {
           this.errorWidgetData.widgetData.errorType = 'accessForbidden'
@@ -485,7 +545,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           break
         }
       }
-      this.isFetching = false
       return null
     }
   }
@@ -539,7 +598,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   private getCollectionTypeRedirectUrl(
     identifier: string,
-    contentType: string = '',
+    contentType = '',
     displayContentType?: NsContent.EDisplayContentTypes,
   ): string | null {
     let url: string | null
@@ -564,7 +623,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     return url
   }
   async processData(data?: any) {
-    console.log(data, 'data')
+    this.logger.log(data, 'data')
     this.isLoading = true
     if (this.collection) {
       this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
@@ -572,7 +631,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     if (this.collection && this.collection.children) {
       const mergeData = (collection: any) => {
-        console.log(data, 'ssssssssssss')
+        this.logger.log(data, 'ssssssssssss')
         collection.map((child1: any, index: any, element: any) => {
           const foundContent = data.find((el1: any) => el1.contentId === child1.identifier)
 
@@ -657,13 +716,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 }
               } else {
 
-                if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage !== 100) {
-                  if (this.viewerDataSvc.getNode()) {
+                if (element[index].children[cindex - 1]) {
+                  if (element[index].children[cindex - 1].completionPercentage === 100) {
+                    element[index].children[cindex].disabledNode = false
+                  } else if (this.viewerDataSvc.getNode()) {
                     element[index].children[cindex].disabledNode = true
                   } else {
                     element[index].children[cindex].disabledNode = false
                   }
-
                 }
               }
             })
@@ -679,16 +739,18 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
-    let courseId = urlParams[3]
-    let userID = this.configSvc.userProfile!.userId
+    const courseId = urlParams[3]
+    const userID = this.configSvc.userProfile!.userId
     //let cId = this.activatedRoute.snapshot.queryParams.contentId
 
     arr2.forEach((obj2: any) => {
       const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
 
       if (obj1) {
-        // Update the existing object in arr1 if the keyToUpdate value is different
-        if (obj1[keyToUpdate] !== obj2[keyToUpdate]) {
+        // Update the existing object in arr1 if the keyToUpdate value is different AND obj2 has the value
+        // **CRITICAL**: Only update if obj2[keyToUpdate] is defined - this prevents undefined from wiping out existing values
+        if (obj2[keyToUpdate] !== undefined && obj1[keyToUpdate] !== obj2[keyToUpdate]) {
+          this.logger.log(`Updating ${obj2.contentId} ${keyToUpdate}: ${obj1[keyToUpdate]} → ${obj2[keyToUpdate]}`)
           obj1[keyToUpdate] = obj2[keyToUpdate]
         }
       } else {
@@ -696,29 +758,38 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         arr1.push(obj2)
       }
     })
-    console.log(arr1, 'arr1')
-    console.log(userID, courseId)
+    this.logger.log(arr1, 'arr1')
+    this.logger.log(userID, courseId)
     this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', arr1).subscribe(
       () => {
-        console.log('Data inserted successfully2')
+        this.logger.log('Data inserted successfully2')
       },
-      (error) => {
-        console.error('Error inserting data:', error)
+      error => {
+        this.logger.error('Error inserting data:', error)
       }
     )
-    const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
-    console.log('Aggregate value:', aggregateValue)
-    console.log(this.heirarchy, 'content')
-    let uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
-    console.log(uniqueIdsOfType.length, this.heirarchy!.childNodes.length) // Output: [1, 3]
-    let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
-    let progress = Math.min(Math.max(percentage, 0), 100)
+    const uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
+    this.logger.log(uniqueIdsOfType.length, this.heirarchy!.childNodes.length) // Output: [1, 3]
+    // Only aggregate progress for resources that still exist in the current course
+    // hierarchy. Editing a live course leaves orphaned progress records for removed
+    // resources; their 100% would otherwise inflate the numerator (e.g. 5×100 over a
+    // 5-resource course reads as 100%), making the viewer think the whole course is
+    // complete and bounce the learner to the overview the moment a still-incomplete
+    // resource (e.g. भाग 2-1) loads.
+    const currentResourceIds = new Set(uniqueIdsOfType)
+    const relevantProgress = arr1.filter((o: any) => currentResourceIds.has(o.contentId))
+    const aggregateValue = this.calculateAggregate(relevantProgress, 'completionPercentage')
+    this.logger.log('Aggregate value:', aggregateValue)
+    this.logger.log(this.heirarchy, 'content')
+    const denominator = uniqueIdsOfType.length * 100
+    const percentage = denominator ? Math.round((aggregateValue) / denominator * 100) : 0
+    this.logger.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
+    const progress = Math.min(Math.max(percentage, 0), 100)
     return progress
   }
   calculateAggregate(arr: any, field: string): number {
-    let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
-    console.log(val)
+    const val = arr.reduce((total: number, obj: any) => total + (Number(obj[field]) || 0), 0)
+    this.logger.log(val)
     return val
   }
 
@@ -740,9 +811,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   }
   private async processCollectionForTree(content?: any) {
-    console.log(content, 'processCollectionForTree')
+    this.logger.log(content, 'processCollectionForTree')
+    // Restore course gating flag — resolver resets it on every resource navigation,
+    // and individual resources don't carry gatingEnabled (only the course collection does)
+    if (this.heirarchy) {
+      this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
+    }
     if (content && content.contentList) {
-      console.log(content)
+      this.logger.log(content)
       await this.processData(content.contentList)
 
       let req
@@ -756,59 +832,65 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         },
       }
 
-      let rating = await this.contentSvc.readCourseRating(req).then((res: any) => {
-        if (res && res.params.status === 'success') {
-          return res.result
-        }
-      })
-      this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(async (record) => {
-        console.log('Record:', record)
+      // Use cached rating to avoid repeated API calls during progress updates
+      let rating = this.cachedRating
+      if (!this.cachedRating) {
+        rating = await this.contentSvc.readCourseRating(req).then((res: any) => {
+          if (res && res.params.status === 'success') {
+            // Cache the rating result
+            this.cachedRating = res.result
+            return res.result
+          }
+        })
+      }
+      this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(async record => {
+        this.logger.log('Record:', record)
         rowData = await record
-        let dat = JSON.parse(rowData.data)
-        console.log(dat, 'dat')
+        const dat = JSON.parse(rowData.data)
+        this.logger.log(dat, 'dat')
         if (dat && dat.length) {
           optmisticPercentage = await this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
         }
 
-        console.log(rating, optmisticPercentage)
+        this.logger.log(rating, optmisticPercentage)
 
         if (content.type) {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
-            console.log(nextResource)
+            this.logger.log(nextResource)
             const regex = /do_\d+/ // Regular expression to match "do_" followed by one or more digits
             const match = nextResource.match(regex)
             let foundObject: any
             if (match) {
-              console.log(match[0]) // Output: "do_11357407388494233611489"
-              console.log(this.collection!.children)
+              this.logger.log(match[0]) // Output: "do_11357407388494233611489"
+              this.logger.log(this.collection!.children)
               foundObject = this.collection!.children!.find(obj => obj.identifier === match[0])
               if (foundObject) {
-                console.log(foundObject) // Output the object if a match is found
+                this.logger.log(foundObject) // Output the object if a match is found
               } else {
-                console.log('No matching object found')
+                this.logger.log('No matching object found')
               }
             } else {
-              console.log('No match found')
+              this.logger.log('No match found')
             }
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
               if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
-                console.log(foundObject, 'foundObject')
+                this.logger.log(foundObject, 'foundObject')
                 if (!foundObject || (foundObject.type !== "Scrom" && foundObject.completionPercentage === 100)) {
                   this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
                     if (success) {
                       this.playerStateService.trigger$.complete()
                     }
                   }).catch(error => {
-                    console.error('Navigation error:', error)
+                    this.logger.error('Navigation error:', error)
                   })
                 } else {
                   // External navigation or fallback
                   this.isLoading = true
                   const modifiedString = nextResource.replace('/', '')
                   const url = `${document.baseURI}${modifiedString}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
-                  console.log('Redirecting to URL:', url)
+                  this.logger.log('Redirecting to URL:', url)
 
                   setTimeout(() => {
                     window.location.href = url
@@ -820,69 +902,123 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 }
               }
             } else if (this.contentSvc.showConformation) {
+              let finalCompetencies = []
+              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+
+                finalCompetencies = competencies_v1.map((competency: any) => {
+                  return {
+                    competencyName: competency.competencyName,
+                    competencyLevel: competency.level,
+                    competencyId: competency.competencyId,
+                  }
+                })
+                this.logger.log("finalCompetencies", finalCompetencies)
+              }
               const data = {
                 courseId: this.collectionId,
               }
-              console.log("data", this.collectionId, data)
+              this.logger.log("data", this.collectionId, data)
               const isDialogOpen = this.dialog.openDialogs.length > 0
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
               // If the dialog is not already open, open it
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0 && data) {
-                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                  width: '300px',
-                  height: '405px',
-                  panelClass: 'overview-modal',
-                  disableClose: true,
-                  data: { request: data, message: 'Congratulations!, you have completed the course' },
-                })
-              }
+                if (finalCompetencies.length > 0) {
+                  finalCompetencies.forEach((competency: any) => {
+                    this.updatePassbookEntryPassbook(data, competency)
+                  })
+                }
 
-              if (confirmdialog) {
-                confirmdialog.afterClosed().subscribe((res: any) => {
-                  if (res && res.event === 'CONFIRMED') {
-                    this.dialog.closeAll()
-                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                      queryParams: {
-                        primaryCategory: 'Course',
-                        batchId: this.batchId,
-                      },
-                    })
-                  }
-                })
+                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                setTimeout(() => {
+                  this.openCongratulationPopup().then(isCompleted => {
+                    if (isCompleted) {
+                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                        width: '300px',
+                        height: '420px',
+                        panelClass: 'overview-modal',
+                        backdropClass: 'overview-backdrop',
+                        disableClose: true,
+                        data: { request: data, message: 'Congratulations!, you have completed the course' },
+                      })
+
+                      if (confirmdialog) {
+                        confirmdialog.afterClosed().subscribe((res: any) => {
+                          if (res && res.event === 'CONFIRMED') {
+                            this.dialog.closeAll()
+                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                              queryParams: {
+                                primaryCategory: 'Course',
+                                batchId: this.batchId,
+                              },
+                            })
+                          }
+                        })
+                      }
+                    }
+                  })
+                }, delay)
               }
             } else {
-              console.log(rating, optmisticPercentage)
+              let finalCompetencies = []
+              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+
+                finalCompetencies = competencies_v1.map((competency: any) => {
+                  return {
+                    competencyName: competency.competencyName,
+                    competencyLevel: competency.level,
+                    competencyId: competency.competencyId,
+                  }
+                })
+                this.logger.log("finalCompetencies", finalCompetencies)
+              }
+              this.logger.log(rating, optmisticPercentage)
               const data = {
                 courseId: this.collectionId,
               }
-              console.log("data", this.collectionId, data)
+              this.logger.log("data", this.collectionId, data)
               const isDialogOpen = this.dialog.openDialogs.length > 0
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
               // If the dialog is not already open, open it
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
-                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                  width: '300px',
-                  height: '405px',
-                  panelClass: 'overview-modal',
-                  disableClose: true,
-                  data: { request: data, message: 'Congratulations!, you have completed the course' },
-                })
-              }
+                if (finalCompetencies.length > 0) {
+                  finalCompetencies.forEach((competency: any) => {
+                    this.updatePassbookEntryPassbook(data, competency)
+                  })
+                }
 
-              if (confirmdialog) {
-                confirmdialog.afterClosed().subscribe((res: any) => {
-                  if (res && res.event === 'CONFIRMED') {
-                    this.dialog.closeAll()
-                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                      queryParams: {
-                        primaryCategory: 'Course',
-                        batchId: this.batchId,
-                      },
-                    })
-                  }
-                })
+                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                setTimeout(() => {
+                  this.openCongratulationPopup().then(isCompleted => {
+                    if (isCompleted) {
+                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                        width: '300px',
+                        height: '420px',
+                        panelClass: 'overview-modal',
+                        backdropClass: 'overview-backdrop',
+                        disableClose: true,
+                        data: { request: data, message: 'Congratulations!, you have completed the course' },
+                      })
+
+                      if (confirmdialog) {
+                        confirmdialog.afterClosed().subscribe((res: any) => {
+                          if (res && res.event === 'CONFIRMED') {
+                            this.dialog.closeAll()
+                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                              queryParams: {
+                                primaryCategory: 'Course',
+                                batchId: this.batchId,
+                              },
+                            })
+                          }
+                        })
+                      }
+                    }
+                  })
+                }, delay)
               }
               if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
                 this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -895,7 +1031,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
             }
           } else {
-            console.log(rating, optmisticPercentage)
+            this.logger.log(rating, optmisticPercentage)
             if (optmisticPercentage === 100) {
               this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                 queryParams: {
@@ -909,22 +1045,63 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           if (this.playerStateService.isResourceCompleted()) {
             if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
               && this.contentSvc.showConformation) {
+              let finalCompetencies = []
+              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+
+                finalCompetencies = competencies_v1.map((competency: any) => {
+                  return {
+                    competencyName: competency.competencyName,
+                    competencyLevel: competency.level,
+                    competencyId: competency.competencyId,
+                  }
+                })
+                this.logger.log("finalCompetencies", finalCompetencies)
+              }
               const data = {
                 courseId: this.collectionId,
               }
-              console.log("data", this.collectionId, data)
+              this.logger.log("data", this.collectionId, data)
               // Check if the dialog is already open
               const isDialogOpen = this.dialog.openDialogs.length > 0
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-              console.log(optmisticPercentage, Object.keys(rating).length)
+              this.logger.log(optmisticPercentage, Object.keys(rating).length)
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
-                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                  width: '300px',
-                  height: '405px',
-                  panelClass: 'overview-modal',
-                  disableClose: true,
-                  data: { request: data, message: 'Congratulations!, you have completed the course' },
-                })
+                if (finalCompetencies.length > 0) {
+                  finalCompetencies.forEach((competency: any) => {
+                    this.updatePassbookEntryPassbook(data, competency)
+                  })
+                }
+
+                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                setTimeout(() => {
+                  this.openCongratulationPopup().then(isCompleted => {
+                    if (isCompleted) {
+                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                        width: '300px',
+                        height: '420px',
+                        panelClass: 'overview-modal',
+                        backdropClass: 'overview-backdrop',
+                        disableClose: true,
+                        data: { request: data, message: 'Congratulations!, you have completed the course' },
+                      })
+
+                      if (confirmdialog) {
+                        confirmdialog.afterClosed().subscribe((res: any) => {
+                          if (res && res.event === 'CONFIRMED') {
+                            this.dialog.closeAll()
+                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                              queryParams: {
+                                primaryCategory: 'Course',
+                                batchId: this.batchId,
+                              },
+                            })
+                          }
+                        })
+                      }
+                    }
+                  })
+                }, delay)
               } else {
                 if (optmisticPercentage === 100) {
                   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -935,34 +1112,20 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   })
                 }
               }
-
-              if (confirmdialog) {
-                confirmdialog.afterClosed().subscribe((res: any) => {
-                  if (res && res.event === 'CONFIRMED') {
-                    this.dialog.closeAll()
-                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                      queryParams: {
-                        primaryCategory: 'Course',
-                        batchId: this.batchId,
-                      },
-                    })
-                  }
-                })
-              }
             } else {
-              console.log('lll', dat)
+              this.logger.log('lll', dat)
               const nextResource = this.playerStateService.getNextResource()
-              const regex: RegExp = /do_\d+/
+              const regex = /do_\d+/
               const match: any = nextResource.match(regex)
-              console.log(match[0])
-              let courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
-              let courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
-              console.log(courseData2)
+              this.logger.log(match[0])
+              const courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+              const courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
+              this.logger.log(courseData2)
               const foundContent1 = dat.find((el1: any) => el1.contentId === this.resourceId)
 
               const foundContent2 = dat.find((el2: any) => el2.contentId === match[0])
-              console.log(foundContent1, foundContent2)
-              console.log(nextResource, this.resourceId)
+              this.logger.log(foundContent1, foundContent2)
+              this.logger.log(nextResource, this.resourceId)
               if (
                 foundContent1.completionPercentage === 100 &&
                 (courseData1.mimeType === 'application/json')
@@ -974,20 +1137,20 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             }
           }
         }
-      }, (error) => {
-        console.error('Error:', error)
-        let userID = this.configSvc.userProfile!.userId
+      }, error => {
+        this.logger.error('Error:', error)
+        const userID = this.configSvc.userProfile!.userId
         this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', content.contentList).subscribe(
           (dat: any) => {
-            console.log('Data inserted successfully1', dat)
-            this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async (record) => {
-              console.log('Record:', record)
+            this.logger.log('Data inserted successfully1', dat)
+            this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async record => {
+              this.logger.log('Record:', record)
               rowData = await record
-              let dat = JSON.parse(rowData.data)
-              console.log(dat)
+              const dat = JSON.parse(rowData.data)
+              this.logger.log(dat)
               if (dat && dat.length) {
                 optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
-                console.log(optmisticPercentage, 'foundContent', '942')
+                this.logger.log(optmisticPercentage, 'foundContent', '942')
                 if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
                   if (this.playerStateService.isResourceCompleted()) {
                     const nextResource = this.playerStateService.getNextResource()
@@ -997,28 +1160,28 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                           this.playerStateService.trigger$.complete()
                         }
                       }).catch(error => {
-                        console.error('Navigation error:', error)
+                        this.logger.error('Navigation error:', error)
                       })
                     }
                   }
                 }
 
               }
-            }, (error) => {
-              console.error('Error:', error)
+            }, error => {
+              this.logger.error('Error:', error)
             })
           },
-          (error) => {
-            console.error('Error inserting data:', error)
+          error => {
+            this.logger.error('Error inserting data:', error)
           }
         )
       })
     } else {
       if (this.collection && this.collection.children) {
         this.isLoading = true
-        let resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
-        console.log(resourceData, 'resourceData')
-        console.log(resourceData.result.content.mimeType)
+        const resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+        this.logger.log(resourceData, 'resourceData')
+        this.logger.log(resourceData.result.content.mimeType)
         if (resourceData.result.content.mimeType !== 'application/vnd.ekstep.html-archive') {
           localStorage.removeItem('contentId')
         }
@@ -1031,13 +1194,18 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             userId,
             batchId: this.batchId,
             courseId: this.collection.identifier || '',
-            contentIds: [],
+            contentIds: this.queue && this.queue.length > 0 ? this.queue.map((item: any) => item.identifier) : [],
             fields: ['progressdetails'],
           },
         }
         this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(async data => {
           // tslint:disable-next-line: no-console
-          console.log(data['result']['contentList'])
+          this.logger.log(data['result']['contentList'])
+          // Ensure gating state is restored from the course hierarchy before mergeData runs
+          // (resolver resets gatingEnabled per resource, individual resources don't carry the flag)
+          if (this.heirarchy) {
+            this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
+          }
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
 
@@ -1085,7 +1253,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                       // tslint:disable-next-line:max-line-length
                     } else if (this.viewerDataSvc.getNode() && this.viewerDataSvc.resourceId === child2.identifier) {
-                      console.log('entered')
+                      this.logger.log('entered')
                       child2.disabledNode = false
 
                     } else if (
@@ -1129,13 +1297,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       }
                     } else {
 
-                      if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage !== 100) {
-                        if (this.viewerDataSvc.getNode()) {
+                      if (element[index].children[cindex - 1]) {
+                        if (element[index].children[cindex - 1].completionPercentage === 100) {
+                          element[index].children[cindex].disabledNode = false
+                        } else if (this.viewerDataSvc.getNode()) {
                           element[index].children[cindex].disabledNode = true
                         } else {
                           element[index].children[cindex].disabledNode = false
                         }
-
                       }
                     }
                   })
@@ -1148,13 +1317,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         },
           (error: any) => {
             // tslint:disable-next-line:no-console
-            console.log('CONTENT HISTORY FETCH ERROR >', error)
+            this.logger.log('CONTENT HISTORY FETCH ERROR >', error)
           },
         )
         // tslint:disable-next-line: no-console
-        console.log(this.collection.children)
+        this.logger.log(this.collection.children)
         this.nestedDataSource.data = this.collection.children
         this.pathSet = new Set()
+        this.cdr.markForCheck()
         // if (this.resourceId && this.tocMode === 'TREE') {
         if (this.resourceId) {
           of(true)
@@ -1167,24 +1337,97 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     }
   }
-  async updateResourceChange() {
-    const currentIndex = await this.queue.findIndex(c => c.identifier === this.resourceId)
+  async openCongratulationPopup(): Promise<boolean> {
+    const dialogRef = this.dialog.open(CongratulationsPopupComponent, {
+      panelClass: 'congratulations-dialog',
+      width: '360px',
+      maxWidth: '90vw',
+      data: {
+        collectionId: this.collectionId,
+      },
+    })
+
+    const result = await dialogRef.afterClosed().toPromise()
+    return !!result?.completed
+  }
+  /**
+   * Seed playerState with the CURRENT resource's own known completion the moment we
+   * navigate to it, instead of blanking it to null.
+   *
+   * Blanking to null left the Next button disabled when revisiting an already-completed
+   * resource: processCurrentResourceChange() doesn't re-fetch progress (so
+   * updateResourceChange never runs), and a player already at 100% sends no fresh
+   * progress message — so null was never restored. The queue node is the same object
+   * that drives the completion tick, so reading its completionPercentage keeps the Next
+   * gate in sync with the tick for every content type. Indexing by the new resourceId
+   * means we never inherit the previous resource's percentage.
+   */
+  seedPlayerStateForCurrentResource() {
+    this.playerStateService.setState(
+      buildPlayerStateForResource(this.queue, this.resourceId, Boolean(this.collection)),
+    )
+  }
+  updateResourceChange() {
+    const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
     const firstResource = (this.queue && this.queue[0]) ? this.queue[0].viewerUrl : ''
     const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
     const nextContentId = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].identifier : null
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
-    const currentPercentage = currentIndex < this.queue.length && this.queue[currentIndex] ? this.queue[currentIndex]!.completionPercentage! : null
-    console.log(this.queue[currentIndex]!.completionPercentage)
-    const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
-    // tslint:disable-next-line:object-shorthand-properties-first
+    const currentPercentage = currentIndex >= 0 && this.queue[currentIndex] ? this.queue[currentIndex].completionPercentage ?? null : null
+    const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage ?? null : null
     this.playerStateService.setState({
       isValid: Boolean(this.collection),
-      // tslint:disable-next-line:object-shorthand-properties-first
-      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource,
     })
     this.isLoading = false
+    this.cdr.markForCheck()
+  }
+
+  updatePassbookEntryPassbook(data: any, competency: any) {
+    this.logger.log("data", data, competency, this.heirarchy)
+    const formatedData = {
+      request: {
+        userId: this.configSvc.userProfile!.userId,
+        typeName: 'competency',
+        competencyDetails: [
+          {
+            // Send competencyId as a string. competencies_v1 parses it as a
+            // number, but the passbook API expects a string (the working
+            // selfAssessment call sends "106", not 106) — a number triggers a
+            // backend BAD_REQUEST: "Failed to update passbook details".
+            competencyId: competency.competencyId?.toString(),
+            additionalParams: {
+              competencyName: competency.competencyName,
+            },
+            acquiredDetails: {
+              acquiredChannel: 'course',
+              competencyLevelId: competency.competencyLevel,
+              // effectiveDate: "2023-02-09 9:46:12",
+              additionalParams: {
+                courseName: this.heirarchy.name,
+                competencyName: competency.competencyName,
+                courseId: data.courseId,
+                ResourseId: '',
+              },
+            },
+          },
+        ],
+      },
+    }
+    this.quizService
+      .updatePassbook(formatedData)
+      .pipe(
+        catchError(error => {
+          this.logger.error('Update passbook failed:', error)
+          return of(null)
+        })
+      )
+      .subscribe(res => {
+        this.logger.log('Passbook updated successfully', res)
+      })
+
   }
 
   resourceContentTypeFunct(type: any): void {
@@ -1212,14 +1455,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       path.forEach((node: IViewerTocCard) => {
         this.nestedTreeControl.expand(node)
       })
-      // this.isLoading = false
+      Promise.resolve().then(() => this.cdr?.markForCheck())
     }
   }
-
-  // minimizenav() {
-  //   this.hidenav.emit(false)
-  //   this.hideSideNav = !this.hideSideNav
-  // }
 
   public progressColor(): string {
     return '#1D8923'

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { NSSearch } from '@ws-widget/collection'
-import { ConfigurationsService, EventService, WsEvents } from '@ws-widget/utils'
+import { ConfigurationsService, EventService, LoggerService, WsEvents } from '@ws-widget/utils'
 import { Observable, of } from 'rxjs'
 // import { KnowledgeHubApiService } from '../../infy/routes/knowledge-hub/apis/knowledge-hub-api.service'
 // import { IKhubAutoMation, IKhubFilterObj, IKhubItemTile, IKhubKshop, IKhubProject, IKhubViewResultDocs, IKhubViewResultProject, ISearchObjForSearch } from '../../infy/routes/knowledge-hub/models/knowledgeHub.model'
@@ -12,11 +12,8 @@ import {
   IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequestV2, ISearchRequestV3,
   ISearchSocialSearchPartialRequest, ISocialSearchRequest,
 } from '../models/search.model'
+import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
-const API_END_POINTS = {
-  translateFiltersBase: '/apis/protected/v8/translate/filterdata',
-  translateFilters: (lang: string) => `${API_END_POINTS.translateFiltersBase}/${lang}`,
-}
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +30,7 @@ export class SearchServService {
     private searchApi: SearchApiService,
     private configSrv: ConfigurationsService,
     private http: HttpClient,
+    private logger: LoggerService
   ) { }
 
   get defaultFiltersTranslated() {
@@ -42,8 +40,11 @@ export class SearchServService {
   async getSearchConfig(): Promise<any> {
     if (!this.searchConfig) {
       this.searchConfig = {}
-      const baseUrl = this.configSrv.sitePath
-      this.searchConfig = await this.http.get<any>(`${baseUrl}/feature/search.json`).toPromise()
+      try {
+        this.searchConfig = await this.http.get<any>(`fusion-assets/files/search.json`).toPromise()
+      } catch (err) {
+        this.logger.log(err)
+      }
 
     }
     return of(this.searchConfig).toPromise()
@@ -59,7 +60,7 @@ export class SearchServService {
   }
 
   searchAutoComplete(params: ISearchQuery): Promise<ISearchAutoComplete[]> {
-    console.log(params)
+    this.logger.log(params)
     params.q = params.q.toLowerCase()
     if (params.l.split(',').length === 1 && params.l.toLowerCase() !== 'all') {
       return this.searchApi.getSearchAutoCompleteResults(params).toPromise()
@@ -74,11 +75,24 @@ export class SearchServService {
     return this.searchV7Wrapper(request)
   }
   searchV7Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV3> {
-    const v6Request: any = {
-      query: request.query,
-      language: request.language,
+    // publicSearch/getCourses (Sunbird content/v1/search) requires a request.filters object —
+    // unlike the old recommendation endpoint, a bare { query } is rejected ("Error while public search").
+    const v7Request: any = {
+      request: {
+        query: request.query || '',
+        filters: {
+          primaryCategory: ['Course'],
+          contentType: ['Course'],
+          status: ['Live'],
+        },
+      },
+      query: request.query || '',
+      sort: [{ lastUpdatedOn: 'desc' }],
     }
-    return this.searchApi.getSearchV7Results(v6Request)
+    if (request.language) {
+      v7Request.request.filters.lang = request.language
+    }
+    return this.searchApi.getSearchV7Results(v7Request)
   }
   searchV6Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     // this.searchConfig.search['visibleFiltersV2'] = {
@@ -89,7 +103,7 @@ export class SearchServService {
     //     displayName: 'Mime Type',
     //   },
     // }
-    console.log(request.request)
+    this.logger.log(request.request)
     request.request.filters['status'] = ['Live']
     const v6Request: any = {
       request: {
@@ -208,7 +222,7 @@ export class SearchServService {
   //   //   }
   //   // }
   //   // }
-  //   // console.log('v6Request', v6Request)
+  //   // this.logger.log('v6Request', v6Request)
   //   return this.searchApi.getSearchV6Results(v6Request)
   // }
 
@@ -507,6 +521,7 @@ export class SearchServService {
       eventLogLevel: WsEvents.WsEventLogLevel.Warn,
       data: {
         eventSubType: WsEvents.EnumTelemetrySubType.Interact,
+        pageid: '',
         object: {
           query,
           filters,

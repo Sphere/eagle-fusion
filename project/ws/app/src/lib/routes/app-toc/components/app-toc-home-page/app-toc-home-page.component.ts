@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core'
-import { ActivatedRoute, Data, Router } from '@angular/router'
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core'
+import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
@@ -11,17 +11,10 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
-import includes from 'lodash/includes'
-import get from 'lodash/get'
-import map from 'lodash/map'
-import filter from 'lodash/filter'
-import set from 'lodash/set'
-import first from 'lodash/first'
-import each from 'lodash/each'
-import toInteger from 'lodash/toInteger'
-
+import { includes, get, map, filter, set, first, each, toInteger } from 'lodash'
 import moment from 'moment'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
+import { computeCourseCompletion } from './app-toc-completion.util'
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -32,16 +25,17 @@ const flattenItems = (items: any[], key: string | number) => {
   return items.reduce((flattenedItems, item) => {
     flattenedItems.push(item)
     if (Array.isArray(item[key])) {
-      // tslint:disable-next-line
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
   }, [])
 }
 @Component({
+  standalone: false,
   selector: 'ws-app-app-toc-home-page',
   templateUrl: './app-toc-home-page.component.html',
   styleUrls: ['./app-toc-home-page.component.scss'],
+
 })
 export class AppTocHomePageComponent implements OnInit, OnDestroy {
   [x: string]: any
@@ -65,11 +59,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   isCohortsRestricted = false
   isInIframe = false
   forPreview = window.location.href.includes('/author/')
-  analytics = this.route.snapshot.data.pageData.data.analytics
+  analytics: any = null
   currentFragment = 'overview'
   batchId!: string
   sticky = false
-  databaseAndTablesExist: boolean = false;
+  databaseAndTablesExist = false
   rowData: any
   license = 'CC BY'
   errorWidgetData: NsWidgetResolver.IRenderConfigWithTypedData<any> = {
@@ -101,10 +95,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   matspinner = true
   resumeDataLink: any
   rowDetails: any | undefined
-  optmisticPercentage: number = 0
+  optmisticPercentage = 0
   finishedPercentage: any | undefined
-
-  @HostListener('window:scroll', ['$event'])
+  selectedIndex = 0
+  visibleTabs: string[] = ['overview']
+  @HostListener('window:scroll', [])
   handleScroll() {
     const windowScroll = window.pageYOffset
     if (windowScroll >= this.elementPosition - 100) {
@@ -125,13 +120,13 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
     private discussiConfig: DiscussConfigResolve,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
+    private cdr: ChangeDetectorRef
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
       this.show()
       this.discussionConfig = {
-        // menuOptions: [{ route: 'categories', enable: true }],
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
@@ -146,11 +141,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
     if (this.route) {
       this.routeSubscription = this.route.data.subscribe((data: Data) => {
-
-        // adding mock data
-        // data.content.error = null
-        // data.content.data = this.courseMockData.result.content
-
         // Checking for JSON DATA
         if (data.content.data) {
           if (this.checkJson(data.content.data.creatorDetails)) {
@@ -169,24 +159,28 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           }
         }
 
-        this.banners = data.pageData.data.banners
-        this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
-        this.tocSvc.showDescription = data.pageData.data.showDescription || false
-        this.tocConfig = data.pageData.data
+        // Safely initialize analytics from pageData
+        if (data.pageData && data.pageData.data) {
+          this.analytics = data.pageData.data.analytics || null
+          this.banners = data.pageData.data.banners
+          this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
+          this.tocSvc.showDescription = data.pageData.data.showDescription || false
+          this.tocConfig = data.pageData.data
+        }
 
         try {
 
           (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName ? "CNE" : "Non CNE", value: data.content.data.cneName })
         }
         catch (e) {
-          console.log("fb pixel error")
+          this.loggerSvc.log("fb pixel error")
         }
         this.initData(data)
       })
     }
 
     this.currentFragment = 'overview'
-    this.route.fragment.subscribe((fragment: string) => {
+    this.route.fragment.subscribe((fragment: string | null) => {
       this.currentFragment = fragment || 'overview'
     })
     this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(
@@ -195,37 +189,89 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       },
       () => {
         // tslint:disable-next-line: no-console
-        console.log('error on batchSubscription')
+        this.loggerSvc.log('error on batchSubscription')
       },
     )
+    this.updateVisibleTabs()
+    this.setTabIndex()
   }
+
+  updateVisibleTabs() {
+    this.visibleTabs = ['overview']
+    if (this.content?.resourceType === 'Certification') {
+      this.visibleTabs.push('certification')
+    }
+    if (this.content?.children?.length) {
+      this.visibleTabs.push('chapters')
+    }
+    if (this.content?.references) {
+      this.visibleTabs.push('references')
+    }
+    this.visibleTabs.push('discuss')
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const route = this.route.firstChild?.snapshot?.url[0]?.path
+        this.selectedIndex = this.visibleTabs.indexOf(route || 'overview')
+      }
+    })
+  }
+
+  setTabIndex() {
+    this.selectedIndex = this.visibleTabs.indexOf(this.routelinK)
+    if (this.selectedIndex === -1) {
+      this.selectedIndex = 0 // default to overview
+    }
+  }
+
+  onTabChange(index: number) {
+    const selectedRoute = this.visibleTabs[index]
+    if (selectedRoute === 'discuss') {
+      this.redirectTo()
+    } else {
+      this.toggleComponent(selectedRoute)
+      // Prepare query params conditionally
+      let queryParams: any = {}
+      if (selectedRoute === 'chapters' || selectedRoute === 'references') {
+        queryParams = {
+          batchId: this.batchId,
+          contentId: this.content.identifier,
+        }
+      }
+      // Navigate with query params
+      this.router.navigate([`./${selectedRoute}`], {
+        relativeTo: this.route,
+        queryParams,
+      })
+    }
+  }
+
   async show() {
     try {
       this.databaseAndTablesExist = await this.onlineIndexedDbService.checkDatabaseTablesExists()
-      console.log(this.databaseAndTablesExist)
+      this.loggerSvc.log(this.databaseAndTablesExist)
       if (!this.databaseAndTablesExist) {
-        console.log('Database or tables do not exist in IndexedDB, creating...')
+        this.loggerSvc.log('Database or tables do not exist in IndexedDB, creating...')
         await this.createDatabaseAndTables()
-        console.log('Database and tables created in IndexedDB')
+        this.loggerSvc.log('Database and tables created in IndexedDB')
       } else {
-        console.log('Database and tables already exist in IndexedDB')
+        this.loggerSvc.log('Database and tables already exist in IndexedDB')
         await this.checkData()
       }
     } catch (error) {
-      console.error('Error checking/creating database and tables in IndexedDB:', error)
+      this.loggerSvc.error('Error checking/creating database and tables in IndexedDB:', error)
     }
   }
   async refreshTable() {
     try {
       const tableName = 'onlineCourseProgress' // Specify the table name
-      let tableData = await this.onlineIndexedDbService.getData(tableName)
-      console.log(tableData)
+      const tableData = await this.onlineIndexedDbService.getData(tableName)
+      this.loggerSvc.log(tableData)
     } catch (error) {
-      console.error('Error fetching data from IndexedDB:', error)
+      this.loggerSvc.error('Error fetching data from IndexedDB:', error)
     }
   }
   checkData() {
-    console.log('ppp')
+    this.loggerSvc.log('ppp')
   }
 
   showContents() {
@@ -301,7 +347,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   private getUserEnrollmentList() {
     if (this.content && this.content.identifier && this.content.primaryCategory !== 'Course') {
-      // const collectionId = this.isResource ? '' : this.content.identifier
       return this.getContinueLearningData(this.content.identifier)
     }
     this.userEnrollmentList = null
@@ -309,10 +354,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    // this.route.data.subscribe(data => {
-    //   userId = data.profileData.data.userId
-    //   }
-    // )
     this.userSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
         if (this.content && this.content.identifier && !this.forPreview) {
@@ -330,7 +371,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             // const collectionId = this.isResource ? '' : this.content.identifier
             this.content.completionPercentage = this.enrolledCourse.completionPercentage || 0
             this.content.completionStatus = this.enrolledCourse.status || 0
-            this.getContinueLearningData(this.content.identifier, this.enrolledCourse.batchId)
+            this.getContinueLearningData(this.content.identifier, this.enrolledCourse?.batchId)
             this.batchData = {
               content: [this.enrolledCourse.batch],
               enrolled: true,
@@ -369,8 +410,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   }
   redirectTo() {
     this.routelinK = 'discuss'
-    this.loadDiscussionWidget = true
     this.tocSvc._showComponent.next({ showComponent: false })
+    setTimeout(() => { this.loadDiscussionWidget = true }, 0)
   }
   toggleComponent(cname: string) {
     this.routelinK = ''
@@ -449,7 +490,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
-    let courseId = urlParams[3]
+    const courseId = urlParams[3]
     // this.route.data.subscribe(data => {
     //   userId = data.profileData.data.userId
     // })
@@ -466,36 +507,38 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       data => {
 
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
-          console.log('datatta', data)
-          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
-            console.log('Record:', record)
+          this.loggerSvc.log('datatta', data)
+          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async record => {
+            this.loggerSvc.log('Record:', record)
             this.rowData = await record
-            let dat = JSON.parse(this.rowData.data)
+            const dat = JSON.parse(this.rowData.data)
             if (dat && dat.length) {
               this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
               this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              console.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
+              this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
+              this.cdr.detectChanges()
             }
-          }, (error) => {
-            console.error('Error:', error, data.result.contentList)
+          }, error => {
+            this.loggerSvc.error('Error:', error, data.result.contentList)
             this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
               (dat: any) => {
-                console.log('Data inserted successfully1', dat)
-                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
-                  console.log('Record:', record)
+                this.loggerSvc.log('Data inserted successfully1', dat)
+                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async record => {
+                  this.loggerSvc.log('Record:', record)
                   this.rowData = await record
-                  let dat = JSON.parse(this.rowData.data)
+                  const dat = JSON.parse(this.rowData.data)
                   if (dat && dat.length) {
                     this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
                     this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    console.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
+                    this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
+                    this.cdr.detectChanges()
                   }
-                }, (error) => {
-                  console.error('Error:', error)
+                }, error => {
+                  this.loggerSvc.error('Error:', error)
                 })
               },
-              (error) => {
-                console.error('Error inserting data:', error)
+              error => {
+                this.loggerSvc.error('Error inserting data:', error)
               }
             )
           })
@@ -518,9 +561,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           this.resumeResource = this.resumeData.filter((item: any) => {
             return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
           })
-          console.log(this.enrolledCourse, 'enrolledCourse')
-          console.log(this.resumeResource[0], 'me')
-          console.log(this.resumeData)
+          this.loggerSvc.log(this.enrolledCourse, 'enrolledCourse')
+          this.loggerSvc.log(this.resumeResource[0], 'me')
+          this.loggerSvc.log(this.resumeData)
           const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
           if (progress.length < totalCount) {
             const diff = totalCount - progress.length
@@ -537,9 +580,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           //   set(this.content, 'completionPercentage', percentage)
           // }
           this.tocSvc.updateResumaData(this.resumeData)
+          this.cdr.detectChanges()
         } else {
-          console.log('no data')
+          this.loggerSvc.log('no data')
           this.resumeData = null
+          this.cdr.detectChanges()
         }
       },
       (error: any) => {
@@ -551,8 +596,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
-    let courseId = urlParams[3]
-    let userID = this.configSvc.userProfile!.userId
+    const courseId = urlParams[3]
+    const userID = this.configSvc.userProfile!.userId
     //let cId = this.activatedRoute.snapshot.queryParams.contentId
 
     arr2.forEach((obj2: any) => {
@@ -568,29 +613,20 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         arr1.push(obj2)
       }
     })
-    console.log(arr1, 'arr1')
+    this.loggerSvc.log(arr1, 'arr1')
     this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).subscribe(
       () => {
-        console.log('Data inserted successfully2')
+        this.loggerSvc.log('Data inserted successfully2')
       },
-      (error) => {
-        console.error('Error inserting data:', error)
+      error => {
+        this.loggerSvc.error('Error inserting data:', error)
       }
     )
-    const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
-    console.log('Aggregate value:', aggregateValue)
-    console.log(this.content, 'content')
-    let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
-    console.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
-    let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
-    let progress = Math.min(Math.max(percentage, 0), 100)
+    const uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
+    this.loggerSvc.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
+    const progress = computeCourseCompletion(arr1, uniqueIdsOfType as string[])
+    this.loggerSvc.log(progress, 'percentage')
     return progress
-  }
-  calculateAggregate(arr: any, field: string): number {
-    let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
-    console.log(val)
-    return val
   }
 
   uniqueIdsByContentType(obj: any, contentType: any, uniqueIds = new Set()) {
@@ -608,7 +644,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
     // Return uniqueIds as an array (if needed)
     return [...uniqueIds]
-  };
+  }
 
   enrollUser(batchData: any) {
     let userId = ''
@@ -619,8 +655,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       const req = {
         request: {
           userId,
-          courseId: batchData.content[0].courseId,
-          batchId: batchData.content[0].batchId,
+          courseId: batchData.content[0]?.courseId,
+          batchId: batchData.content[0]?.batchId,
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
@@ -647,8 +683,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         }
       })
         .catch((err: any) => {
-          console.log(err)
-          this.openSnackbar(err.error.params.errmsg)
+          this.loggerSvc.log(err)
+          this.openSnackbar(this.translate.instant(err.error.params.errmsg))
         })
     }
 

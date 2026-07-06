@@ -7,9 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection/src/public-api'
 
 @Component({
-  selector: 'ws-auth-card-viewer',
-  templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-card-viewer',
+    templateUrl: './viewer.component.html',
+    styleUrls: ['./viewer.component.scss'],
+    
 })
 export class ViewerComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 

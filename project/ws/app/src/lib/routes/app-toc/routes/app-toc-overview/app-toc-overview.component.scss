@@ -1,27 +1,29 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
-.theme-igot.day-mode .mat-typography .unit-meta-item h2{
+.light-theme .mat-typography .unit-meta-item h2{
    margin-bottom: 0px;
 }
 .meta-section {
   flex: 1;
   min-width: 1px;
+  color: var(--theme-text, #101828);
 
   .unit-meta-item {
     border-radius: 2px;
     box-sizing: border-box;
-    margin-bottom: $size-xl;
-    margin-top: $size-m;
+    margin-bottom: ws-vars.$size-xl;
+    margin-top: ws-vars.$size-m;
     clear: both;
-    border-bottom: solid 1px #dfdfdf;
+    border-bottom: solid 1px var(--theme-border, #dfdfdf);
     h2 {
       font-size: 22px;
       margin-bottom: 0px;
+      color: var(--theme-text, #101828);
     }
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -31,21 +33,40 @@
   width: 32%;
   margin: 4px 0;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
 .author {
-  padding: $size-s 0;
+  padding: ws-vars.$size-s 0;
   display: flex;
 
   .author-image {
-    margin-right: $size-s;
+    margin-right: ws-vars.$size-s;
     $size: 44px;
     height: $size;
     width: $size;
   }
   .author-name{
     justify-content: space-between;
+  }
+}
+
+.break-words {
+  margin-bottom: 2rem !important;
+  color: var(--theme-text, #101828);
+}
+
+.mat-mdc-card-content {
+  padding: 0 !important;
+}
+
+:host-context(.dark-theme) {
+  .meta-section .unit-meta-item {
+    background: transparent;
+  }
+
+  ::ng-deep .mat-divider {
+    border-top-color: var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 }

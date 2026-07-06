@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { NgCircleProgressModule } from 'ng-circle-progress'
@@ -51,6 +51,9 @@ import { FilterResourcePipe } from './pipes/filter-resource.pipe'
 // import { BtnMailUserModule } from './../../../../../library/ws-widget/collection/src/lib/btn-mail-user/btn-mail-user.module'
 import { UserImageModule } from './../../../../../library/ws-widget/collection/src/lib/_common/user-image/user-image.module'
 import { AppTocModule } from '@ws/app'
+import { QuizModule } from './plugins/quiz/quiz.module'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
   declarations: [ViewerComponent, ViewerTocComponent, FilterResourcePipe],
   imports: [
@@ -61,7 +64,9 @@ import { AppTocModule } from '@ws/app'
     MatIconModule,
     MatButtonModule,
     MatDividerModule,
+    MatTooltipModule,
     MatSlideToggleModule,
+    MatTooltipModule,
     MatListModule,
     MatTreeModule,
     MatInputModule,
@@ -94,7 +99,10 @@ import { AppTocModule } from '@ws/app'
     // BtnMailUserModule,
     UserImageModule,
     AppTocModule,
+    QuizModule,
     NgCircleProgressModule.forRoot({}),
+    TranslateModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ViewerModule { }

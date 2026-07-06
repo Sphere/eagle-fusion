@@ -1,6 +1,6 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 .small-height-toolbar{
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 32px;
   }
 }
@@ -11,20 +11,20 @@
   position: relative;
   left: 50%;
   transform: translate(-50%,0);
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     transform: translate(0,0);
     left: inherit;
   }
 }
 .width-full-wrapped{
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
   width: 100%;
   }
 }
 
 .buttons-class{
   margin: 0 24px;
-@include breakpoint-xs {
+@include ws-mixins.breakpoint-xs {
     margin: 0;
   }
 

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
@@ -33,6 +33,7 @@ import { UserProfileService } from './services/user-profile.service'
 import { LoaderService } from '@ws/author/src/public-api'
 import { BtnPageBackModule } from '@ws-widget/collection'
 import { ChatbotComponent } from './chatbot/chatbot/chatbot.component'
+import { TextFieldModule } from '@angular/cdk/text-field'
 
 @NgModule({
   declarations: [
@@ -60,7 +61,6 @@ import { ChatbotComponent } from './chatbot/chatbot/chatbot.component'
     MatFormFieldModule,
     MatDialogModule,
     MatListModule,
-    MatInputModule,
     MatSnackBarModule,
     MatSelectModule,
     MatDatepickerModule,
@@ -71,7 +71,9 @@ import { ChatbotComponent } from './chatbot/chatbot/chatbot.component'
     MatButtonToggleModule,
     MatTabsModule,
     MatAutocompleteModule,
+    TextFieldModule,
   ],
   providers: [UserProfileService, LoaderService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UserProfileModule { }

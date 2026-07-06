@@ -3,11 +3,14 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 //import { ConfigurationsService } from '@ws-widget/utils'
 @Component({
-  selector: 'ws-keycloak-callback',
-  templateUrl: './keycloak-callback.component.html',
-  styleUrls: ['./keycloak-callback.component.scss'],
+    standalone: false,
+    selector: 'ws-keycloak-callback',
+    templateUrl: './keycloak-callback.component.html',
+    styleUrls: ['./keycloak-callback.component.scss'],
+    
 })
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
@@ -15,6 +18,7 @@ export class KeycloakCallbackComponent implements OnInit {
     private snackBarSvc: MatSnackBar,
     private signupService: SignupService,
     private authSvc: AuthKeycloakService,
+    private logger: LoggerService
     //private configSvc: ConfigurationsService,
   ) { }
 
@@ -26,7 +30,7 @@ export class KeycloakCallbackComponent implements OnInit {
       this.checkKeycloakCallback()
     } else {
       this.signupService.fetchStartUpDetails().then(result => {
-        console.log(result)
+        this.logger.log(result)
       })
     }
   }
@@ -37,56 +41,42 @@ export class KeycloakCallbackComponent implements OnInit {
       try {
         this.orgService.setConnectSid(code).subscribe(async (res: any) => {
           if (res) {
-            // console.log(res)
+            // this.logger.log(res)
             // sessionStorage.clear()
             sessionStorage.removeItem('code')
             setTimeout(() => {
               this.signupService.fetchStartUpDetails().then(async result => {
                 // tslint:disable-next-line:no-console
-                console.log(result)
-                let res = await result
+                this.logger.log(result)
+                const res = await result
                 if (res && res.status === 200
                   //&& res.roles.length > 0
                 ) {
+                  // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
                   if (res.language) {
-                    let lang = res.language
-                    let obj = {
+                    const lang = res.language
+                    const obj = {
                       lang: lang,
                       res: res.language,
-                      line: 56
+                      line: 56,
                     }
                     sessionStorage.setItem('lang1', JSON.stringify(obj))
-                    console.log(`${lang}`)
-                    lang = lang !== 'en' ? lang : ''
-                    let url = localStorage.getItem('url_before_login') || ''
-                    if (localStorage.getItem('url_before_login')) {
-                      location.href = `${lang}/${url}`
-                    } else {
-                      url = '/page/home'
-                      window.location.href = `${lang}${url}`
-                    }
+                    const url = localStorage.getItem('url_before_login') || '/page/home'
+                    location.href = url
                   } else {
                     if (localStorage.getItem('preferedLanguage')) {
-
                       let data: any
                       let lang: any
                       data = localStorage.getItem('preferedLanguage')
                       lang = JSON.parse(data)
-                      lang = lang.id !== 'en' ? lang.id : ''
-                      let obj = {
-                        lang: lang,
-                        line: 79
+                      const obj = {
+                        lang: lang.id,
+                        line: 79,
                       }
                       sessionStorage.setItem('lang2', JSON.stringify(obj))
 
-                      sessionStorage.setItem(lang, lang)
-                      let url = localStorage.getItem('url_before_login') || ''
-                      if (localStorage.getItem('url_before_login')) {
-                        location.href = `${lang}/${url}`
-                      } else {
-                        url = '/page/home'
-                        window.location.href = `${lang}${url}`
-                      }
+                      const url = localStorage.getItem('url_before_login') || '/page/home'
+                      location.href = url
                     } else {
                       if (localStorage.getItem('url_before_login')) {
                         // window.location.href = localStorage.getItem('url_before_login') || ''
@@ -104,8 +94,8 @@ export class KeycloakCallbackComponent implements OnInit {
                   //   const url = localStorage.getItem('url_before_login') || ''
                   //   // localStorage.removeItem('url_before_login')
                   //   let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
-                  //   console.log(this.configSvc.unMappedUser)
-                  //   console.log(`${lang}/${url}`)
+                  //   this.logger.log(this.configSvc.unMappedUser)
+                  //   this.logger.log(`${lang}/${url}`)
                   //   sessionStorage.setItem('r-url', `${lang}/${url}`)
                   //   // if (this.configSvc.unMappedUser.profileDetails.preferences!.language) {
                   //   //   let lang = this.configSvc.unMappedUser.profileDetails.preferences.language
@@ -135,9 +125,9 @@ export class KeycloakCallbackComponent implements OnInit {
             }, 1000)
           }
         }, (err: any) => {
-          // console.log(err)
+          // this.logger.log(err)
           // tslint:disable-next-line:no-console
-          console.log(err)
+          this.logger.log(err)
           if (err.status === 400) {
             // sessionStorage.clear()
             this.authSvc.logout()
@@ -147,23 +137,23 @@ export class KeycloakCallbackComponent implements OnInit {
         })
       } catch (err) {
         // tslint:disable-next-line:no-console
-        console.log(err)
+        this.logger.log(err)
         this.authSvc.logout()
         // alert('Error Occured while logging in')
         // location.href = "/public/home"
       }
     }
     // else {
-    //   console.log(this.configSvc.unMappedUser.profileDetails)
-    //   //console.log(this.configSvc.unMappedUser.profileDetails.preferences)
+    //   this.logger.log(this.configSvc.unMappedUser.profileDetails)
+    //   //this.logger.log(this.configSvc.unMappedUser.profileDetails.preferences)
     //   if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences) {
     //     let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
-    //     //console.log(this.configSvc.unMappedUser)
-    //     console.log(`${lang}`)
+    //     //this.logger.log(this.configSvc.unMappedUser)
+    //     this.logger.log(`${lang}`)
     //   }
     //   this.signupService.fetchStartUpDetails().then(result => {
     //     // tslint:disable-next-line:no-console
-    //     console.log(result)
+    //     this.logger.log(result)
     //   })
     // }
   }

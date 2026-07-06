@@ -3,9 +3,11 @@ import { SafeResourceUrl } from '@angular/platform-browser'
 import { ConfigurationsService } from '../../../../../utils/src/public-api'
 
 @Component({
-  selector: 'ws-widget-btn-whatsapp-share',
-  templateUrl: './btn-whatsapp-share.component.html',
-  styleUrls: ['./btn-whatsapp-share.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-btn-whatsapp-share',
+    templateUrl: './btn-whatsapp-share.component.html',
+    styleUrls: ['./btn-whatsapp-share.component.scss'],
+    
 })
 export class BtnWhatsappShareComponent implements OnInit {
   @Input() url: SafeResourceUrl | null = null

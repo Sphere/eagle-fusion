@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core'
-import { Resolve } from '@angular/router'
+
 import { Observable, of } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
 import { IResolveResponse, ConfigurationsService } from '@ws-widget/utils'
 import { NsTnc } from '../models/tnc.model'
+import { API_END_POINTS } from '../constants/apiConstants'
 
 @Injectable()
-export class TncAppResolverService implements Resolve<Observable<IResolveResponse<NsTnc.ITnc>> | IResolveResponse<NsTnc.ITnc>>  {
+export class TncAppResolverService {
 
   constructor(
     private http: HttpClient,
@@ -26,7 +27,7 @@ export class TncAppResolverService implements Resolve<Observable<IResolveRespons
   }
 
   getTnc(locale?: string) {
-    let url = '/apis/protected/v8/user/tnc'
+    let url = API_END_POINTS.USER_TNC
     if (locale) {
       url += `?locale=${locale}`
     }

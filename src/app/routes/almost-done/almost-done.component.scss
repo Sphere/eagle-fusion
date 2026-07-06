@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 
 .login-page-content {
   box-sizing: border-box;
@@ -9,7 +9,7 @@
   padding: 0;
   height: 175px;
   max-width: 430px;
-  @include breakpoint-s {
+  @include ws-common.breakpoint-s {
     padding: 12px;
   }
 }
@@ -20,7 +20,7 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
-  background: #fff;
+  background: transparent;
 }
 .input-box {
   padding: 3px 0 3px 6px;
@@ -47,11 +47,11 @@
   box-shadow: none;
 }
 .form-control:disabled {
-  background-color: #fff;
-  color: #808080;
+  background-color: transparent !important;
+  color:  var(--theme-inactive, #808080);
 }
 .form-control[readonly] ::placeholder{
-  background-color: #ffff !important;
+  background-color: transparent !important;
   color: #e3e3e3;
   border-color: #e3e3e3;
 }
@@ -63,7 +63,7 @@ input {
 .login-button {
   width: 98px;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-accent);
   border-radius: 50px;
   color: #fff;
   border:0;
@@ -73,7 +73,7 @@ input {
 }
 .login-button:disabled {
   background: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 .next-btn-div {
@@ -91,29 +91,104 @@ input {
 .select-box:focus{
   outline: none!important;
 }
-@media screen and (max-width:600px) {
+@media screen and (max-width:767px) {
   .input-content {
     width: 100%;
   }
   .login-card {
     margin-top: 100px;
   }
+
+  .login-page-content {
+    min-height: 100vh;
+    min-width: 100vw;
+  }
 }
 
 select {
-   color: #808080;
+   color:  var(--theme-inactive, #808080);
 }
 select.ng-dirty {
   color: #000;
 }
 select option:first-child {
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 ::placeholder {
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 .form-control[readonly] {
-  background-color: #fff;
+  background-color: transparent;
   color: #E3E3E3;
   opacity: 0.6;
+}
+h1 {
+  font-weight: 400 !important;
+}
+
+select, input {
+  background: transparent !important;
+}
+
+:host-context(.dark-theme) {
+  .login-page-content {
+    background: var(--theme-app-background, #151515);
+  }
+
+  .login-card {
+    background: var(--theme-bg, #192831);
+    color: var(--theme-text, #ecf3f8);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  h1,
+  p,
+  span,
+  .text-danger {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .input-box,
+  .rnField {
+    background: var(--theme-bg, #10181e);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .rnBox,
+  .select-box,
+  .form-control,
+  input,
+  select {
+    color: var(--theme-text, #ecf3f8) !important;
+    caret-color: #ffffff;
+  }
+
+  select {
+    background: transparent !important;
+  }
+
+  select.ng-dirty,
+  select option,
+  select option:first-child {
+    color: var(--theme-text, #ecf3f8) !important;
+    background: var(--theme-bg, #192831);
+  }
+
+  .form-control:disabled,
+  .form-control[readonly] {
+    background-color: var(--theme-bg-disabled, #223541) !important;
+    color: var(--theme-disabled, #ecf3f8) !important;
+    opacity: 1;
+  }
+
+  .form-control[readonly]::placeholder,
+  ::placeholder {
+    color: var(--theme-inactive, #8fa4b8) !important;
+  }
+
+  .text-danger {
+    color: var(--theme-error, #ff6b6b) !important;
+  }
 }

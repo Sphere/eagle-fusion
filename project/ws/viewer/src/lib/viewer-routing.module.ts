@@ -54,14 +54,14 @@ const routes: Routes = [
   //   loadChildren: () =>
   //     import('./routes/class-diagram/class-diagram.module').then(u => u.ClassDiagramModule),
   // },
-  {
-    path: 'dnd-quiz',
-    data: {
-      resourceType: 'dnd-quiz',
-    },
-    loadChildren: () =>
-      import('./routes/dnd-quiz/dnd-quiz.module').then(u => u.DndQuizModule),
-  },
+  // {
+  //   path: 'dnd-quiz',
+  //   data: {
+  //     resourceType: 'dnd-quiz',
+  //   },
+  //   loadChildren: () =>
+  //     import('./routes/dnd-quiz/dnd-quiz.module').then(u => u.DndQuizModule),
+  // },
   // {
   //   path: 'hands-on',
   //   data: {
@@ -106,14 +106,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/iap/iap.module').then(u => u.IapModule),
   },
-  {
-    path: 'interactive-exercise',
-    data: {
-      resourceType: 'interactive-exercise',
-    },
-    loadChildren: () =>
-      import('./routes/interactive-exercise/interactive-exercise.module').then(u => u.InteractiveExerciseModule),
-  },
+  // {
+  //   path: 'interactive-exercise',
+  //   data: {
+  //     resourceType: 'interactive-exercise',
+  //   },
+  //   loadChildren: () =>
+  //     import('./routes/interactive-exercise/interactive-exercise.module').then(u => u.InteractiveExerciseModule),
+  // },
   {
     path: 'pdf/:resourceId',
     component: PdfComponent,
@@ -188,6 +188,7 @@ const routes: Routes = [
   },
   {
     path: '**',
+    component: ViewerComponent,
     data: {
       resourceType: 'error',
     },

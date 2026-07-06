@@ -16,11 +16,14 @@ import {
 import { TncAppResolverService } from '../../../../../../../../../src/app/services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../../../../../../../../src/app/services/tnc-public-resolver.service'
 import { Globals } from '../../globals'
+import { API_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Component({
-  selector: 'ws-app-tnc',
-  templateUrl: './tnc.component.html',
-  styleUrls: ['./tnc.component.scss'],
+    standalone: false,
+    selector: 'ws-app-tnc',
+    templateUrl: './tnc.component.html',
+    styleUrls: ['./tnc.component.scss'],
+    
 })
 export class TncComponent implements OnInit, OnDestroy {
   tncData: NsTnc.ITnc | null = null
@@ -49,7 +52,7 @@ export class TncComponent implements OnInit, OnDestroy {
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
     private globals: Globals,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
@@ -80,7 +83,7 @@ export class TncComponent implements OnInit, OnDestroy {
   getTnc(locale: string) {
     if (this.tncData) {
       if (this.isPublic) {
-        this.tncPublicSvc.getPublicTnc(locale).subscribe(data => {
+        this.tncPublicSvc.getPublicTnc().subscribe(data => {
           this.assignTncData(data)
         })
       } else {
@@ -108,7 +111,7 @@ export class TncComponent implements OnInit, OnDestroy {
         return
       }
       if (this.isPublic) {
-        this.tncPublicSvc.getPublicTnc(locale).subscribe(data => {
+        this.tncPublicSvc.getPublicTnc().subscribe(data => {
           this.assignDp(tncData, data)
         })
       } else {
@@ -151,7 +154,7 @@ export class TncComponent implements OnInit, OnDestroy {
         })
       }
       this.isAcceptInProgress = true
-      this.http.post('/apis/protected/v8/user/tnc/accept', { termsAccepted }).subscribe(
+      this.http.post(API_END_POINTS.TNC_ACCEPT, { termsAccepted }).subscribe(
         () => {
           // TO DO: Telemetry event for success
           if (this.tncData) {
@@ -181,6 +184,6 @@ export class TncComponent implements OnInit, OnDestroy {
     }
   }
   postProcess() {
-    this.http.patch('/apis/protected/v8/user/tnc/postprocessing', {}).subscribe()
+    this.http.patch(API_END_POINTS.TNC_POST_PROCESSING, {}).subscribe()
   }
 }

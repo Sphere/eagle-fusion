@@ -1,79 +1,56 @@
-.dialog-content {
-  padding: 20px; /* Adjust the padding value as needed */
-}
-.cdk-global-overlay-wrapper .mat-dialog-container {
-    border-radius: 30px;
-}
-@media (min-width:320px)  {
-.mat-dialog-container {
- padding: 0px 15px 5px !important;
+.video-dialog-wrapper {
+  position: relative;
+  padding: 0;
+  line-height: 0;
 }
 
-.youtubeLink-iframe{
-width: 210px !important;
-    height: 176px !important;
-}
-}
-@media (min-width:375px)  {
-.mat-dialog-container {
- padding: 0px 15px 5px !important;
+.close-btn {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  z-index: 10;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  color: #333;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  ::ng-deep .mat-mdc-button-touch-target,
+  ::ng-deep .mat-mdc-focus-indicator {
+    display: none !important;
+  }
+
+  .mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+  }
 }
 
-.youtubeLink-iframe{
-  width: 256px !important;
-  height: 230px !important;
-}
-}
-@media (min-width:390px)  {
-.mat-dialog-container {
- padding: 0px 15px 10px !important;
-}
-
-.youtubeLink-iframe{
-  width:275px  !important;
-  height: 250px !important;
-}
-}
-@media (min-width:414px)  {
-.mat-dialog-container {
- padding: 0px 15px 10px !important;
-}
-
-.youtubeLink-iframe{
-  width:295px !important;
-  height: 250px !important;
-}
-}
-@media (min-width:425px)  {
-.mat-dialog-container {
- padding: 0px 35px 20px !important;
-}
-
-.youtubeLink-iframe{
-  width:305px !important;
-  height: 250px !important;
-}
-}
-.mat-dialog-container {
- padding: 0px 35px 20px;
-}
-@media (min-width:980px)  {
-.youtubeLink-iframe{
-  width:750px !important;
-  height: 350px !important;
-}
-}
-
-.closeBtn {
+.youtubeLink-iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
   display: block;
-  color: #000000;
-  cursor: pointer;
-  justify-content: end;
-  margin-top: -15px;
 }
 
-.mat-dialog-content {
-  overflow: hidden !important;
-  max-height: none !important;
-  text-align: center !important;
+::ng-deep .howDoesItWorksDialog {
+  .mat-mdc-dialog-surface.mdc-dialog__surface {
+    border-radius: 20px !important;
+    overflow: visible !important;
+    padding: 16px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .mat-mdc-dialog-container {
+    overflow: visible !important;
+  }
 }

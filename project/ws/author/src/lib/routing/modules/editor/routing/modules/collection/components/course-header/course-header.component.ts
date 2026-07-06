@@ -7,10 +7,12 @@ import { IActionButtonConfig, IActionButton } from '@ws/author/src/lib/interface
 import { CollectionStoreService } from '../../services/store.service'
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ws-author-course-header',
-  templateUrl: './course-header.component.html',
-  styleUrls: ['./course-header.component.scss'],
+    standalone: false,
+    // tslint:disable-next-line:component-selector
+    selector: 'ws-author-course-header',
+    templateUrl: './course-header.component.html',
+    styleUrls: ['./course-header.component.scss'],
+    
 })
 export class CourseHeaderComponent implements OnInit {
   appIcon: SafeUrl | null = null

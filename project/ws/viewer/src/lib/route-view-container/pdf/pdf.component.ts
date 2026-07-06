@@ -6,9 +6,11 @@ import { ActivatedRoute } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 
 @Component({
-  selector: 'viewer-pdf-container',
-  templateUrl: './pdf.component.html',
-  styleUrls: ['./pdf.component.scss'],
+    standalone: false,
+    selector: 'viewer-pdf-container',
+    templateUrl: './pdf.component.html',
+    styleUrls: ['./pdf.component.scss'],
+    
 })
 export class PdfComponent implements OnInit {
   @Input() isFetchingDataComplete = false

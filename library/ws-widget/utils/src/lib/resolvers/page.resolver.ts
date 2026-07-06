@@ -1,19 +1,21 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable, LOCALE_ID } from '@angular/core'
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router'
+import { ActivatedRouteSnapshot } from '@angular/router'
 import { forkJoin, Observable, of } from 'rxjs'
 import { catchError, map, mergeMap } from 'rxjs/operators'
 import { ConfigurationsService } from '../services/configurations.service'
 import { JSON_MAP } from './page.constant'
-import { NsPage } from './page.model'
+import { NsPage } from './configurations.model'
 import { IResolveResponse } from './resolver.model'
 import { NsContent } from '../../../../collection/src/lib/_services/widget-content.model'
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
 })
-export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
+export class PageResolve {
   private baseUrl = this.configSvc.sitePath
+  private localBaseUrl = this.configSvc.localSitePath
   constructor(
     private configSvc: ConfigurationsService,
     private http: HttpClient,
@@ -25,15 +27,24 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
     if (route.data.pageUrl) {
       return this.getData(route.data.pageUrl)
     }
-    if (route.data.pageType === 'feature' && route.data.pageKey) {
-      return this.getData(`${this.baseUrl}/feature/${route.data.pageKey}`)
+    if (route.data.pageType === 'feature') {
+      if (route.data.pageKey == 'search' || route.data.pageKey == 'toc') {
+        return this.getData(`${this.localBaseUrl}/${route.data.pageKey}`)
+      } else if (route.data.pageKey) {
+        return this.getData(`${this.baseUrl}/${route.data.pageKey}`)
+      }
     }
     if (
       route.data.pageType === 'page' &&
       route.data.pageKey &&
       route.paramMap.has(route.data.pageKey)
     ) {
-      return this.getData(`${this.baseUrl}/page/${route.paramMap.get(route.data.pageKey)}`)
+      const pageKey = route.paramMap.get(route.data.pageKey)
+      // Use local fusion-assets for home page
+      if (pageKey === 'home') {
+        return this.getData(`fusion-assets/files/home`)
+      }
+      return this.getData(`${this.baseUrl}/page/${pageKey}`)
     }
     if (
       route.data.pageType === 'public' &&
@@ -45,7 +56,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       route.data.pageKey &&
       route.data.pageKey === 'toc'
     ) {
-      return this.getData(`${this.baseUrl}/page/${route.data.pageKey}`)
+      return this.getData('fusion-assets/files/toc')
     }
     return {
       data: null,
@@ -54,17 +65,14 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
   }
 
   private setS3Cookie(contentId: string): Observable<any> {
-    return this.http.post(`/apis/protected/v8/content/setCookie`, { contentId }).pipe(
+    return this.http.post(API_END_POINTS.SET_COOKIE, { contentId }).pipe(
       catchError(_err => of(true)),
     )
   }
 
   private getContent(id: string) {
     return this.http
-      .post<NsContent.IContent>(
-        `/apis/protected/v8/content/${id}?hierarchyType=minimal`,
-        ['status', 'artifactUrl'],
-      )
+      .post<NsContent.IContent>(API_END_POINTS.GET_CONTENT(id), ['status', 'artifactUrl'],)
   }
 
   private getData(url: string) {
@@ -95,13 +103,13 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       this.locale = 'en'
     }
 
-    if (location.href.indexOf('hi/public/home') > -1) {
-      this.locale = 'hi'
-    }
+    // if (location.href.indexOf('hi/public/home') > -1) {
+    //   this.locale = 'hi'
+    // }
 
-    if (location.href.indexOf('hi/page/home') > -1) {
-      this.locale = 'hi'
-    }
+    // if (location.href.indexOf('hi/page/home') > -1) {
+    //   this.locale = 'hi'
+    // }
 
     // tslint:disable-next-line: no-non-null-assertion
     // if (this.configSvc.userProfile && url.indexOf('public-home') <= -1) {
@@ -123,7 +131,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
     //   }
     // }
     // tslint:disable-next-line:no-console
-    // console.log(this.locale, url)
+    // this.logger.log(this.locale, url)
     const pageRequest = [
       (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
         mergeMap(() =>

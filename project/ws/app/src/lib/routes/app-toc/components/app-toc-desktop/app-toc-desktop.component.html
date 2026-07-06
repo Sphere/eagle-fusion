@@ -1,24 +1,23 @@
-<div class="toc-body box ">
+<div class="toc-body box toc-desktop-shell">
   <div>
-    <div class="flex justify-content-between align-items-center">
+    <div class="toc-header-row flex justify-content-between align-items-center mb-2">
       <button (click)="redirect()" mat-icon-button [disableRipple]="true" class="back-icon">
         <mat-icon>chevron_left</mat-icon>
       </button>
-    </div>
-    <div class="cne-duration-block margin-bottpm">
-      <div><span class="cne-block" *ngIf="content?.cneName && content?.cneName != ' '" style="word-wrap: break-word;">
-          CNE hours: {{ content.cneName }} </span></div>
-
       <div class="duration-block">
         <img loading="lazy" src=".\fusion-assets\icons\clock.svg" alt="clock"> {{ content?.duration |
         pipeDurationTransform: 'hms' }}
       </div>
     </div>
+    <div *ngIf="content?.cneName && content?.cneName !== ' '" class="mb-2">
+      <span class="cne-block" style="word-wrap: break-word;">CNE hours: {{ content.cneName }}</span>
+    </div>
 
     <div class="title"><span style="word-wrap: break-word;" [title]="content?.name">
         {{ content?.name }} </span></div>
-    <div class="details mb-3" *ngIf="content?.creator"><span i18n>By</span>: <span class="blue-link cursor-pointer"
-        (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</span></div>
+    <div class="details mb-3" *ngIf="content?.creator"><span>{{ 'By' | translate }}</span>: <span
+        class="blue-link cursor-pointer" (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</span>
+    </div>
 
     <!-- <div class="subtitle">{{ content?.subTitle }}</div>
     <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
@@ -54,32 +53,29 @@
     </div>
     <div *ngIf="optmisticPercentage !== null && content !== undefined">
       <!-- Content goes here -->
-      <div *ngIf="(optmisticPercentage < 100 && finishedPercentage !== undefined); else elseBlock" class="mt-2">
-        <mat-progress-bar [mode]="'determinate'" [value]="
-                    optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+      <div *ngIf="(optmisticPercentage < 100 && finishedPercentage !== undefined); else elseBlock" class="progress-section">
+        <mat-progress-bar [mode]="'determinate'" [value]="optmisticPercentage" class="new-w desktop"
+          [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === null || optmisticPercentage === 0, 'thick': optmisticPercentage}"
-          i18n-aria-label>
-          {{optmisticPercentage}} %
+          [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
       </div>
     </div>
     <ng-template #elseBlock>
-      <div *ngIf="optmisticPercentage === 100 && content?.completionPercentage !== 100" class="mt-2">
-        <mat-progress-bar [mode]="'determinate'" [value]="
-        optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+      <div *ngIf="optmisticPercentage === 100 && content?.completionPercentage !== 100" class="progress-section">
+        <mat-progress-bar [mode]="'determinate'" [value]="optmisticPercentage" class="new-w desktop"
+          [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === undefined, 'thick': optmisticPercentage}"
-          i18n-aria-label>
-          {{optmisticPercentage}} %
+          [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
       </div>
-      <div *ngIf="content?.completionPercentage === 100 && optmisticPercentage === 100" class="mt-2">
-        <mat-progress-bar [mode]="'determinate'" [value]="
-                    optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+      <div *ngIf="content?.completionPercentage === 100 && optmisticPercentage === 100" class="progress-section">
+        <mat-progress-bar [mode]="'determinate'" [value]="optmisticPercentage" class="new-w desktop"
+          [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === undefined, 'thick': optmisticPercentage}"
-          i18n-aria-label>
-          {{optmisticPercentage}} %
+          [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
       </div>
@@ -87,56 +83,62 @@
     <!-- <ws-widget-content-progress [isDesktop]='true' *ngIf="content?.identifier" [forPreview]="forPreview"
       [contentId]="content?.identifier" [className]="'thick'" [progress]="content?.completionPercentage">
     </ws-widget-content-progress> -->
-    <div class=" flex flex-col gap-5">
-      <div class=" flex flex-row gap-2">
-        <div class="flex flex-col gap-1 justify-content-center align-items-center">
+    <div class="toc-actions flex flex-col gap-4">
+      <div class="flex flex-row gap-3">
+        <div class="toc-icon-action">
           <button mat-icon-button class="button-border" (click)="openDetails(content, tocConfig)">
-            <img loading="lazy" src=".\fusion-assets\icons\details.svg" alt="detail-icon">
+            <img loading="lazy"
+              [src]="!isDark ? './fusion-assets/icons/details.svg' : './fusion-assets/icons/detail-dark.svg'"
+              alt="detail-icon">
           </button>
-          <span class="btn-tittle" i18n>Details</span>
+          <span class="btn-tittle">{{ 'Details' | translate }}</span>
         </div>
 
-        <div *ngIf="content?.competencies_v1" class="flex flex-col gap-1 justify-content-center align-items-center">
+        <div *ngIf="content?.competencies_v1" class="toc-icon-action">
           <button mat-icon-button class="button-border" (click)="openCompetency(content)">
-            <img loading="lazy" src=".\fusion-assets\icons\competency.svg" alt="competency-icon">
+            <img loading="lazy" src="./fusion-assets/icons/competency.svg" alt="competency-icon">
           </button>
-          <span class="btn-tittle" i18n>Competency</span>
+          <span class="btn-tittle">{{ 'Competency' | translate }}</span>
         </div>
 
         <!-- #if cetification ininrollment api -->
-        <div class="flex flex-col gap-1 justify-content-center align-items-center">
+        <div *ngIf="content?.issueCertification === true" class="toc-icon-action">
           <ng-container *ngIf="issueCertificate === true; else download ">
             <!-- sendApi() -->
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" data-toggle="modal" class="button-border"
-              i18n-matTooltip matTooltip="Preview Certificate">
-              <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
-                style="background-color: cornflowerblue;width: 25px;height: auto;">
+              [matTooltip]="'Preview Certificate' | translate">
+              <img loading="lazy"
+                [src]="!isDark ? './fusion-assets/icons/certificate-icon.svg' : './fusion-assets/icons/certificate-dark.svg'"
+                alt="download" [ngStyle]="{'background-color': isDark ? 'transparent' : 'cornflowerblue'}"
+                style="width: 25px; height: auto;">
             </button>
-            <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
+            <span class="btn-tittle" *ngIf="content?.issueCertification === true">{{ 'Certificate' | translate }}</span>
           </ng-container>
           <!-- (click)="downloadCertificate(content, tocConfig)" -->
           <ng-template #download>
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" class="button-border" data-toggle="modal"
-              i18n-matTooltip matTooltip="Preview Certificate">
-              <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
-                style="background-color: cornflowerblue;width: 25px;height: auto;">
+              [matTooltip]="'Preview Certificate' | translate">
+              <img loading="lazy"
+                [src]="!isDark ? './fusion-assets/icons/certificate-icon.svg' : './fusion-assets/icons/certificate-dark.svg'"
+                alt="download" [ngStyle]="{'background-color': isDark ? 'transparent' : 'cornflowerblue'}"
+                style="width: 25px;height: auto;">
             </button>
-            <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
+            <span class="btn-tittle" *ngIf="content?.issueCertification === true">{{ 'Certificate' | translate }}</span>
           </ng-template>
-
         </div>
-        <div class="flex flex-col gap-1 justify-content-center align-items-center">
+
+        <div class="toc-icon-action">
           <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
           </ws-widget-btn-content-share>
-          <span class="btn-tittle" i18n>Share</span>
+          <span class="btn-tittle">{{ 'Share' | translate }}</span>
         </div>
       </div>
-      <div class="flex gap-1">
+      <div class="flex">
         <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
-          (click)="enrollUser(batchData.content)" i18n>
-          Start
+          (click)="enrollUser(batchData.content)">
+          {{ 'Start' | translate }}
         </button>
         <!--(click)="resumeBtn()" -->
         <ng-container *ngIf="!updatedContentStatus; else elseBlock1">
@@ -145,8 +147,8 @@
             [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
             [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
             class="banner-btn resumeButton">
-            <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
-              {{resumeData?"Resume":"Resume"}}
+            <ng-container *ngIf="!forPreview || isInIFrame; else authView">
+              {{ 'Resume' | translate }}
             </ng-container>
           </a>
         </ng-container>
@@ -156,20 +158,20 @@
           ((optmisticPercentage < 100 && finishedPercentage !== undefined) ||
           (optmisticPercentage < 100 && finishedPercentage === undefined))" (click)="redirectPage(updatedContentFound)"
             class="banner-btn resumeButton cursor-pointer">
-            <ng-container i18n>
-              Resume
+            <ng-container>
+              {{ 'Resume' | translate }}
             </ng-container>
           </a>
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage === 100 && content?.completionPercentage !== 100"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
-            <ng-container i18n>
-              Start Again
+            <ng-container>
+              {{ 'Start Again' | translate }}
             </ng-container>
           </a>
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && content?.completionPercentage === 100 && optmisticPercentage === 100"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
-            <ng-container i18n>
-              Start Again
+            <ng-container>
+              {{ 'Start Again' | translate }}
             </ng-container>
           </a>
         </ng-template>
@@ -227,36 +229,11 @@
     <!-- <button class="btn " mat-raised-button (click)="nextQuestion()">Resume</button>
       <button class=" btn-active" mat-raised-button (click)="previousQuestion()">Certificate</button>
       <div class="share-img img1">
-        <img src=".\fusion-assets\icons\share-icon.png">
+        <img src="./fusion-assets/icons/share-icon.png">
       </div> -->
 
     <!-- </div> -->
     <canvas id="certCanvas"></canvas>
-  </div>
-</div>
-
-<div class="modal fade" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <!--<h4 class="modal-title">Modal Heading</h4> -->
-        <button type="button" class="close" data-dismiss="modal" (click)="closePopup()">&times;</button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        <h3>{{certificateMsg}}</h3>
-
-      </div>
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()"
-          i18n>Close</button>
-      </div>
-
-    </div>
   </div>
 </div>
 <!-- <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"

@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 .topStyle {
   position: absolute;
   top: -31px;
@@ -72,8 +72,8 @@ a {
 }
 
 .card-space-saving-container {
-  $card-padding: $size-m;
-  $action-btn-size: 2.5 * $size-m;
+  $card-padding: ws-vars.$size-m;
+  $action-btn-size: 2.5 * ws-vars.$size-m;
   $card-width: 265px;
   position: relative;
   width: $card-width;
@@ -103,7 +103,7 @@ a {
 
   .title-text {
     display: block;
-    margin: $size-s 0;
+    margin: ws-vars.$size-s 0;
   }
 
   $flip-desc-line-count: 4;
@@ -133,9 +133,9 @@ a {
 }
 
 .card-ford-container {
-  $card-padding: $size-m;
+  $card-padding: ws-vars.$size-m;
   padding: 16px 16px 0 16px;
-  $action-btn-size: 2.5 * $size-m;
+  $action-btn-size: 2.5 * ws-vars.$size-m;
   position: relative;
   $card-width: 220px;
   width: $card-width;
@@ -143,7 +143,7 @@ a {
   overflow: hidden;
   box-sizing: border-box;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     $card-width: 200px;
     width: $card-width;
     height: 240px;
@@ -166,7 +166,7 @@ a {
     display: block;
     object-fit: contain;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       height: 115px;
     }
   }
@@ -201,7 +201,7 @@ a {
   $title-line-height: 1.3em;
 
   .title-text {
-    margin: $size-s 0;
+    margin: ws-vars.$size-s 0;
     position: relative;
     overflow: hidden;
     height: $title-line-count * $title-line-height;
@@ -241,16 +241,16 @@ a {
     -webkit-box-orient: vertical;
     text-align: justify;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       -webkit-line-clamp: 8;
     }
   }
 }
 
 .card-standard-container {
-  $card-padding: $size-m;
+  $card-padding: ws-vars.$size-m;
   padding-bottom: 0px !important;
-  $action-btn-size: 2.5 * $size-m;
+  $action-btn-size: 2.5 * ws-vars.$size-m;
   $card-width: 276px;
   position: relative;
   width: $card-width;
@@ -386,7 +386,7 @@ a {
 }
 
 .card-basic-infomartion-container {
-  $card-padding: $size-m;
+  $card-padding: ws-vars.$size-m;
   $card-width: 265px;
   position: relative;
   width: $card-width;
@@ -412,7 +412,7 @@ a {
   $title-line-height: 1.3em;
 
   .title-text {
-    margin: $size-s 0 0 0;
+    margin: ws-vars.$size-s 0 0 0;
     position: relative;
     overflow: hidden;
     height: $title-line-count * $title-line-height;
@@ -428,7 +428,7 @@ a {
 }
 
 .card-with-user-details-container {
-  $card-padding: $size-m;
+  $card-padding: ws-vars.$size-m;
   $card-width: 265px;
   position: relative;
   width: $card-width;
@@ -461,7 +461,7 @@ a {
   }
 
   .author-image {
-    margin-right: $size-s;
+    margin-right: ws-vars.$size-s;
     $size: 44px;
     height: $size;
     width: $size;
@@ -480,8 +480,8 @@ a {
 
 .detail-button {
   position: absolute;
-  top: $size-s;
-  right: $size-s;
+  top: ws-vars.$size-s;
+  right: ws-vars.$size-s;
   z-index: 1;
 }
 
@@ -510,10 +510,10 @@ $title-line-count: 2;
 .mat-icon {
   font-size: 21px;
 }
-.theme-igot.day-mode .mat-card {
+.light-theme .mat-card {
   box-shadow: none !important;
 }
-.theme-igot.day-mode .mat-card-content {
+.light-theme .mat-card-content {
   font-size: 13px;
 }
 .duration {
@@ -533,11 +533,11 @@ $title-line-count: 2;
 }
 .mat-h1,
 .fw-500,
-.mat-raised-button {
+.mat-mdc-raised-button {
   font-weight: 500 !important;
 }
 
-.mat-raised-button {
+.mat-mdc-raised-button {
   font-size: 16px;
 }
 .mat-typography {
@@ -550,7 +550,7 @@ $title-line-count: 2;
 }
 
 .xs-hidden {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }
@@ -572,14 +572,14 @@ a.rounded-t:hover span.img-overlay {
   // transition: all ease 0.5s;
 }
 
-::ng-deep .theme-igot.day-mode .mat-progress-bar-buffer {
+::ng-deep .light-theme .mdc-linear-progress__buffer {
   background-color: bisque;
 }
 
 
 @media only screen and (max-width: 600px) {
   .title-text{
-    color:#1C5D95 !important ;
+    color:var(--theme-primary) !important ;
     font-weight: 400 !important;
     font-size:16px !important;
     margin-bottom: 0 !important;

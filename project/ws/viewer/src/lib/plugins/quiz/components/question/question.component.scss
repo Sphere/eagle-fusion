@@ -1,8 +1,8 @@
-@import 'ws-vars';
+@use 'ws-vars';
 
 .app-class .mat-list-option {
-  padding-top: $size-m;
-  padding-bottom: $size-m;
+  padding-top: ws-vars.$size-m;
+  padding-bottom: ws-vars.$size-m;
   height: auto;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .margin-bottom-m {
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .correct-option {
@@ -64,4 +64,27 @@
 
 .background-well {
   background: #eee;
+}
+
+:host-context(.dark-theme) {
+  .quiz-question,
+  .quiz-radio-button,
+  .quiz-selected-value,
+  .question,
+  .answer,
+  .wrap-mat-radio-label,
+  p,
+  label,
+  span {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .question,
+  .answer {
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .background-well {
+    background: var(--theme-bg, #10181e);
+  }
 }

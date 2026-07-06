@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -30,7 +30,6 @@ import { UserQnaComponent } from './components/user-qna/user-qna.component'
 import { UserdetailallComponent } from './components/userdetailall/userdetailall.component'
 import { UserGoalsComponent } from './components/user-goals/user-goals.component'
 import { BtnPageBackModule } from '@ws-widget/collection/src/lib/btn-page-back/btn-page-back.module'
-// import { BtnFollowModule } from '@ws-widget/collection/src/public-api'
 import { LastLearntComponent } from './components/last-learnt/last-learnt.component'
 import { ViewFollowpersonComponent } from './components/view-followperson/view-followperson.component'
 import { FollowListComponent } from './components/follow-list/follow-list.component'
@@ -42,51 +41,49 @@ import { ApiService, AccessControlService } from '../../../../../author/src/publ
 import { FollowingListComponent } from './components/following-list/following-list.component'
 
 @NgModule({
-  declarations: [
-    PersonProfileComponent,
-    UserKbComponent,
-    UserPlaylistComponent,
-    UserDetailsComponent,
-    ProfileBlogComponent,
-    ContentReviewedComponent,
-    UserQnaComponent,
-    UserdetailallComponent,
-    UserGoalsComponent,
-    LastLearntComponent,
-    ViewFollowpersonComponent,
-    FollowListComponent,
-    ProfileSettingsComponent,
-    ContentAuthoredComponent,
-    FollowingListComponent,
-  ],
-  imports: [
-    CommonModule,
-    PersonProfileRoutingModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatListModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    BtnPageBackModule,
-    MatCardModule,
-    MatChipsModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatTabsModule,
-    MatPaginatorModule,
-    MatSlideToggleModule,
-    MatExpansionModule,
-    MatSnackBarModule,
-    HorizontalScrollerModule,
-    DefaultThumbnailModule,
-    PipeLimitToModule,
-    MatProgressSpinnerModule,
-    // BtnFollowModule,
-  ],
-  exports: [UserdetailallComponent, ProfileSettingsComponent],
-  entryComponents: [UserdetailallComponent],
-  providers: [MyContentService, AuthInitService, ApiService, AccessControlService],
-
+    declarations: [
+        PersonProfileComponent,
+        UserKbComponent,
+        UserPlaylistComponent,
+        UserDetailsComponent,
+        ProfileBlogComponent,
+        ContentReviewedComponent,
+        UserQnaComponent,
+        UserdetailallComponent,
+        UserGoalsComponent,
+        LastLearntComponent,
+        ViewFollowpersonComponent,
+        FollowListComponent,
+        ProfileSettingsComponent,
+        ContentAuthoredComponent,
+        FollowingListComponent,
+    ],
+    imports: [
+        CommonModule,
+        PersonProfileRoutingModule,
+        MatButtonModule,
+        MatTooltipModule,
+        MatIconModule,
+        MatListModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        BtnPageBackModule,
+        MatCardModule,
+        MatChipsModule,
+        MatDialogModule,
+        MatDividerModule,
+        MatTabsModule,
+        MatPaginatorModule,
+        MatSlideToggleModule,
+        MatExpansionModule,
+        MatSnackBarModule,
+        HorizontalScrollerModule,
+        DefaultThumbnailModule,
+        PipeLimitToModule,
+        MatProgressSpinnerModule,
+    ],
+    exports: [UserdetailallComponent, ProfileSettingsComponent],
+    providers: [MyContentService, AuthInitService, ApiService, AccessControlService],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PersonProfileModule { }

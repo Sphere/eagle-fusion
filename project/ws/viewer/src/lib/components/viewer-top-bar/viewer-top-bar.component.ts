@@ -10,9 +10,11 @@ import { WidgetContentService } from '@ws-widget/collection/src/lib/_services/wi
 import { ViewerUtilService } from '../../viewer-util.service'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
 @Component({
-  selector: 'viewer-viewer-top-bar',
-  templateUrl: './viewer-top-bar.component.html',
-  styleUrls: ['./viewer-top-bar.component.scss'],
+    standalone: false,
+    selector: 'viewer-viewer-top-bar',
+    templateUrl: './viewer-top-bar.component.html',
+    styleUrls: ['./viewer-top-bar.component.scss'],
+    
 })
 export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   @Input() frameReference: any
@@ -122,7 +124,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
             this.viewerSvc.castResource.subscribe(user => this.screenContent = user)
           })
       } catch (e) {
-        // TODO  console.log(e)
+        // TODO  this.logger.log(e)
       }
     }
 
@@ -158,7 +160,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   //   print(collection1:any){
-  //  //TODO   console.log(collection1)
+  //  //TODO   this.logger.log(collection1)
   //   }
   toggleSideBar() {
     this.toggle.emit()

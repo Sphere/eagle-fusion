@@ -2,7 +2,7 @@
   <div class="flex flex-middle">
     <h3 class="mat-h3 margin-remove-bottom">
       <ng-container i18n>Q</ng-container>{{ questionNumber }}
-      <ng-container i18n>of</ng-container>
+      <ng-container>{{"of" | translate }}</ng-container>
       {{ total }}
     </h3>
     <span class="spacer"></span>
@@ -30,8 +30,8 @@
           'incorrect-option': viewState === 'review' && !correctOption[i]
         }">
         <p class="margin-remove mat-body-2">
-          <ng-container i18n>
-            Explanation for blank
+          <ng-container>
+            {{"Explanation for blank" | translate}}
           </ng-container>
           <ng-container> {{ i + 1 }} : </ng-container>
         </p>
@@ -62,8 +62,8 @@
       <div class="background-well padding-left-m padding-xs"
         *ngIf="viewState === 'review' && isSelected(option) && option?.hint">
         <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
-          <p class="margin-remove mat-body-2" i18n>
-            Explanation
+          <p class="margin-remove mat-body-2">
+            {{"Explanation" | translate }}
           </p>
           <p class="margin-remove" [innerHTML]="option?.hint"></p>
         </mat-error>
@@ -72,8 +72,8 @@
               (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
               (viewState === 'answer' && option?.isCorrect)
           }" [hidden]="viewState === 'review' && !option?.isCorrect && isSelected(option)">
-          <p class="margin-remove mat-body-2" i18n>
-            Explanation
+          <p class="margin-remove mat-body-2">
+            {{"Explanation" | translate }}
           </p>
           <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
         </div>
@@ -105,8 +105,8 @@
       <div class="background-well padding-left-m padding-xs"
         *ngIf="viewState === 'review' && isSelected(option) && option?.hint">
         <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
-          <p class="margin-remove mat-body-2" i18n>
-            Explanation:
+          <p class="margin-remove mat-body-2">
+            {{"Explanation:" | translate}}
           </p>
           <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
         </mat-error>
@@ -116,7 +116,7 @@
               (viewState === 'answer' && option?.isCorrect)
           }" [hidden]="viewState === 'review' && !option?.isCorrect && isSelected(option)">
           <p class="margin-remove mat-body-2" i18n>
-            Explanation :
+            {{"Explanation:" | translate}}
           </p>
           <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
         </div>
@@ -151,17 +151,17 @@
       numConnections &&
       matchHintDisplay.length !== 0
     " style="display: flex;flex-direction: column;">
-    <p i18n>Explanation</p>
+    <p>{{"Explanation" | translate}}</p>
     <table mat-table [dataSource]="matchHintDisplay" class="mat-elevation-z8">
       <ng-container matColumnDef="text">
-        <th mat-header-cell *matHeaderCellDef i18n>
-          Option
+        <th mat-header-cell *matHeaderCellDef>
+          {{"Option" | translate}}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.text }}</td>
       </ng-container>
       <ng-container matColumnDef="hint">
-        <th mat-header-cell *matHeaderCellDef i18n>
-          Hint
+        <th mat-header-cell *matHeaderCellDef>
+          {{"Hint" | translate}}
         </th>
         <td mat-cell *matCellDef="let element" [innerHTML]="element.hint"></td>
       </ng-container>

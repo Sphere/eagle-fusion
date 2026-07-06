@@ -7,9 +7,11 @@ import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pi
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
-  selector: 'viewer-html-container',
-  templateUrl: './html.component.html',
-  styleUrls: ['./html.component.scss'],
+    standalone: false,
+    selector: 'viewer-html-container',
+    templateUrl: './html.component.html',
+    styleUrls: ['./html.component.scss'],
+    
 })
 export class HtmlComponent implements OnInit, OnChanges {
 
@@ -72,7 +74,7 @@ export class HtmlComponent implements OnInit, OnChanges {
       this.isLtMedium = isLtMd
     })
     // }).catch((ex) => {
-    //   console.warn("Please refresh Page", ex)
+    //   this.logger.warn("Please refresh Page", ex)
     // })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId

@@ -14,6 +14,10 @@ ws-app-home .filter-button {
   text-align: center;
 }
 
+.search {
+  background: var(--theme-surface) !important;
+}
+
 ws-app-home .search .mat-form-field-wrapper {
   padding-bottom: 0px !important;
   .mat-form-field-infix {
@@ -24,12 +28,14 @@ ws-app-home .search .mat-form-field-wrapper {
 }
 .lang-select {
     font-size: small !important;
+    filter: var(--theme-icon-filter);
 }
 .lang-icon {
     background-image: url('/fusion-assets/icons/lang-icon.png');
     background-repeat: no-repeat;
     background-size: contain;
     width:73px !important;
+    filter: var(--theme-icon-filter);
 }
 .filter-lang {
     float: right;
@@ -52,5 +58,10 @@ ws-app-home .border-right {
   .mat-title {
     margin-top: 2rem !important;
     font-size: 1.3rem !important;
+    color: var(--theme-text);
   }
+}
+
+.form-control {
+  height: 2.4rem;
 }

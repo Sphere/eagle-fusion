@@ -1,5 +1,5 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 $app-background-lite-color: #f5f6f7;
 
@@ -11,9 +11,9 @@ $app-background-lite-color: #f5f6f7;
   max-width: 1200px;
 
   margin: auto;
-  margin-bottom: $size-l;
+  margin-bottom: ws-mixins.$size-l;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -25,32 +25,32 @@ $app-background-lite-color: #f5f6f7;
 
 .profile {
   display: block;
-  margin-right: $size-l;
+  margin-right: ws-mixins.$size-l;
   img {
     $image-size: 162px;
     width: $image-size;
     height: $image-size;
     border-radius: 50%;
-    margin-top: $size-s;
+    margin-top: ws-mixins.$size-s;
   }
   .designation {
-    margin-bottom: $size-xs;
+    margin-bottom: ws-mixins.$size-xs;
     display: inline-flex;
     align-items: center;
   }
   .nav-links {
-    margin-top: $size-xl;
+    margin-top: ws-mixins.$size-xl;
     a {
       display: block;
-      padding: $size-xs / 2 0;
-      padding-left: $size-xs;
-      margin-bottom: $size-xs / 2;
+      padding: calc(ws-mixins.$size-xs / 2) 0;
+      padding-left: ws-mixins.$size-xs;
+      margin-bottom: calc(ws-mixins.$size-xs / 2);
     }
     a.active {
       font-weight: 600;
     }
   }
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     display: none;
   }
 }
@@ -63,7 +63,7 @@ $app-background-lite-color: #f5f6f7;
   }
   .display-on-small {
     display: none;
-    @include breakpoint-lt-m {
+    @include ws-mixins.breakpoint-lt-m {
       display: block;
     }
   }
@@ -71,16 +71,16 @@ $app-background-lite-color: #f5f6f7;
 
 .display-side-items {
   display: none;
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     display: block;
   }
 }
 
 .icons {
-  height: $size-xl;
+  height: ws-mixins.$size-xl;
 }
 
 .follow-btn {
-  width: $size-l;
+  width: ws-mixins.$size-l;
   background: none;
 }

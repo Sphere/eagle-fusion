@@ -1,19 +1,19 @@
-@import 'ws-common';
-@import 'ws-vars';
+@use 'ws-common';
+@use 'ws-vars';
 
 .user-settings-container {
   @extend %page-center;
-  padding: $size-m;
-  margin-bottom: $size-xl;
+  padding: ws-common.$size-m;
+  margin-bottom: ws-common.$size-xl;
   box-sizing: border-box;
 
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     padding: 16px;
   }
 
   .width-content-lang {
     width: 240px;
-    @include breakpoint-xs {
+    @include ws-common.breakpoint-xs {
       width: 100%;
     }
   }
@@ -21,14 +21,14 @@
 
 .theme-mode {
   width: 45%;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     width: 100%;
   }
 }
 
 .mode-toggle {
   width: 45%;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     width: 100%;
   }
 }
@@ -37,10 +37,10 @@
   width: 48%;
   box-sizing: border-box;
   text-align: center;
-  margin-bottom: $size-l;
+  margin-bottom: ws-common.$size-l;
   list-style: none;
   cursor: pointer;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     width: 100%;
   }
 }
@@ -55,17 +55,17 @@
 }
 
 .theme-pad {
-  padding: $size-s;
+  padding: ws-common.$size-s;
   border: 1px solid;
 }
 
 %common-typography {
-  padding: $size-xs;
+  padding: ws-common.$size-xs;
   padding-left: 0;
-  margin-right: $size-m;
+  margin-right: ws-common.$size-m;
   display: inline-block;
 
-  @include breakpoint-lt-s {
+  @include ws-common.breakpoint-lt-s {
     margin: 0;
   }
 }

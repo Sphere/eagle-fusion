@@ -10,20 +10,7 @@ import { NSApiResponse } from '@ws/author/src/lib/interface/apiResponse'
 import { FIXED_FILE_NAME } from '@ws/author/src/lib/constants/upload'
 import { CONTENT_BASE_ZIP, CONTENT_BASE } from '@ws/author/src/lib/constants/apiEndpoints'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
-
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-
-const API_END_POINTS = {
-  // SOCIAL_TIMELINE: `${PROTECTED_SLAG_V8}/social/post/timelineV2`, // this has to be changed(Temporary)
-  SOCIAL_TIMELINE: `${PROTECTED_SLAG_V8}/social/post/timeline`,
-  SOCIAL_VIEW_CONVERSATION: `${PROTECTED_SLAG_V8}/social/post/viewConversation`,
-  SOCIAL_VIEW_CONVERSATION_V2: `${PROTECTED_SLAG_V8}/social/post/viewConversationV2`,
-  SOCIAL_POST_PUBLISH: `${PROTECTED_SLAG_V8}/social/post/publish`,
-  SOCIAL_POST_DELETE: `${PROTECTED_SLAG_V8}/social/post/delete`,
-  SOCIAL_POST_ACTIVITY_UPDATE: `${PROTECTED_SLAG_V8}/social/post/activity/create`,
-  SOCIAL_POST_ACTIVITY_USERS: `${PROTECTED_SLAG_V8}/social/post/activity/users`,
-  SOCIAL_POST_UPDATE: `${PROTECTED_SLAG_V8}/social/edit/meta`,
-}
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',

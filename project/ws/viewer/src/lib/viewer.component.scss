@@ -1,7 +1,7 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 
-::ng-deep .theme-igot.day-mode .mat-drawer-container {
+::ng-deep .light-theme .mat-drawer-container {
   background-color: transparent;
 }
 
@@ -34,8 +34,11 @@
 }
 
 .minhightab {
-  @include breakpoint-gt-xs {
+  @include ws-common.breakpoint-gt-xs {
     min-height: 450px;
+  }
+  @include ws-common.breakpoint-xs {
+    min-height: 300px;
   }
 }
 
@@ -43,7 +46,7 @@
   // height: calc(100vh - 56px);
   margin: 0 50px;
 
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     margin: 0 !important;
   }
 
@@ -54,7 +57,7 @@
   border: none !important;
   padding-top: 24px;
 
-  @include breakpoint-gt-xs {
+  @include ws-common.breakpoint-gt-xs {
     width: 25%;
     min-width: 400px;
     max-width: 600px;
@@ -66,7 +69,7 @@
   border: none !important;
   padding-top: 24px;
 
-  @include breakpoint-gt-xs {
+  @include ws-common.breakpoint-gt-xs {
     width: 25%;
     min-width: 300px;
     max-width: 400px;
@@ -109,7 +112,7 @@ viewer-quiz {
 .info-item {
   display: flex;
   align-items: center;
-  padding: $size-xs 0;
+  padding: ws-common.$size-xs 0;
   box-sizing: border-box;
 
   h3 {
@@ -127,7 +130,7 @@ viewer-quiz {
     width: $icon-size;
     height: $icon-size;
     font-size: $icon-size;
-    margin-left: $size-xs;
+    margin-left: ws-common.$size-xs;
   }
 }
 
@@ -161,17 +164,25 @@ viewer-quiz {
   // }
 }
 
-::ng-deep .mat-tab-link,
-::ng-deep .mat-tab-label {
+::ng-deep .mat-mdc-tab-link,
+::ng-deep .mat-mdc-tab {
   opacity: 1;
   font-size: 20px !important;
 }
 
-::ng-deep .mat-tab-label-active {
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: var(--theme-inactive) !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: var(--theme-tab-active-text) !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active {
   border-bottom: solid 3px #969696;
 }
 
-.theme-igot.day-mode .mat-card:not([class*=mat-elevation-z]) {
+.light-theme .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
 }
 
@@ -182,4 +193,65 @@ viewer-quiz {
 
 ::ng-deep .mat-tab-body-content {
   padding: 5px;
+}
+
+mat-sidenav {
+ background: transparent !important;
+}
+
+::ng-deep .mat-drawer-container,
+  ::ng-deep .mat-drawer-content,
+  ::ng-deep .mat-drawer-inner-container {
+    background: var(--theme-app-background, #151515) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+::ng-deep .dark-theme {
+  .viewer-sidenav-container,
+  .sidenavContent,
+  .discussion-container {
+    background: var(--theme-app-background, #151515);
+    color: var(--theme-text, #ecf3f8);
+  }
+}
+
+::ng-deep .mat-drawer {
+  background: var(--theme-surface, #0e161b) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border-left: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}
+
+::ng-deep .mat-card,
+::ng-deep mat-card {
+  background: var(--theme-surface, #0e161b) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32)) !important;
+}
+
+.floating-btn {
+  background-color: var(--theme-bg, #1c2d38) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: var(--theme-inactive, #8fa4b8) !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: var(--theme-tab-active-text, #ffffff) !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active {
+  border-bottom-color: var(--theme-tab-active-text, #ffffff);
+}
+
+::ng-deep .mat-mdc-tab-header {
+  --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+  --mat-tab-header-inactive-label-text-color: var(--theme-inactive, #8fa4b8) !important;
+  --mat-tab-header-active-ripple-color: var(--theme-tab-active-text, #ffffff) !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-inactive, #8fa4b8) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
+  border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

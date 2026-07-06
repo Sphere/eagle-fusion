@@ -6,9 +6,11 @@ import { LeadershipService } from '../../services/leadership.service'
 let tweetScriptId = 'tweetScript'
 
 @Component({
-  selector: 'ws-tweets',
-  templateUrl: './tweets.component.html',
-  styleUrls: ['./tweets.component.scss'],
+    standalone: false,
+    selector: 'ws-tweets',
+    templateUrl: './tweets.component.html',
+    styleUrls: ['./tweets.component.scss'],
+    
 })
 export class TweetsComponent implements OnInit {
   @Input() twitterUrl = ''

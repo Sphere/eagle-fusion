@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -9,9 +9,11 @@ import { ViewSubmissionComponent } from './components/view-submission/view-submi
 import { ResourceCollectionService } from './resource-collection.service'
 
 @Component({
-  selector: 'viewer-plugin-resource-collection',
-  templateUrl: './resource-collection.component.html',
-  styleUrls: ['./resource-collection.component.scss'],
+    standalone: false,
+    selector: 'viewer-plugin-resource-collection',
+    templateUrl: './resource-collection.component.html',
+    styleUrls: ['./resource-collection.component.scss'],
+    
 })
 export class ResourceCollectionComponent implements OnInit {
   @ViewChild('paginator', { static: true }) paginator: MatPaginator | null = null
@@ -25,7 +27,7 @@ export class ResourceCollectionComponent implements OnInit {
   type = 'all'
   contentId = ''
   fetchingStatus: 'fetching' | 'fetched' = 'fetched'
-  answerControl: FormControl
+  answerControl: UntypedFormControl
   selectedFile: File | null = null
   message: string | null = null
   submitData = {
@@ -44,9 +46,9 @@ export class ResourceCollectionComponent implements OnInit {
     private resourceSvc: ResourceCollectionService,
     private dialog: MatDialog,
   ) {
-    this.answerControl = new FormControl('')
+    this.answerControl = new UntypedFormControl('')
   }
-  private openSnackBar(primaryMsg: string, duration: number = 3000) {
+  private openSnackBar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

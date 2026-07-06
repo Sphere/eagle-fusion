@@ -1,34 +1,30 @@
-// video-popup.component.ts
-import { Component, Input, Inject } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { DomSanitizer } from '@angular/platform-browser'
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 
 @Component({
-  selector: 'app-video-popup',
-  templateUrl: './how-does-it-works-popup.component.html',
-  styleUrls: ['./how-does-it-works-popup.component.scss']
+    standalone: false,
+    selector: 'app-video-popup',
+    templateUrl: './how-does-it-works-popup.component.html',
+    styleUrls: ['./how-does-it-works-popup.component.scss'],
 })
-export class VideoPopupComponent {
+export class VideoPopupComponent implements OnInit {
+  autoplayUrl: SafeResourceUrl | null = null
+  public isOpen = false
 
   constructor(
     public dialogRef: MatDialogRef<VideoPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private sanitizer: DomSanitizer
-  ) {
-    // dialogRef.disableClose = true
-  }
-  @Input() videoUrl!: any
-  videoLink!: any
-  public isOpen = false;
-  videoUrls = ['https://www.youtube.com/embed/1fqlys8mkHg', 'https://www.youtube.com/embed/Kl28R7m2k50', 'https://www.youtube.com/embed/JTGzCkEXlmU'
-  ]
+    private sanitizer: DomSanitizer,
+  ) { }
+
   ngOnInit() {
-    console.log("videoUrl", this.data.number)
-    if (this.videoUrls.length) {
-      this.videoLink = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoUrls[this.data.number])
-      console.log("videoLink", this.videoLink, this.videoUrl, this.videoUrls)
-    }
+    const raw = typeof this.data?.url === 'string'
+      ? this.data.url
+      : this.data?.url?.changingThisBreaksApplicationSecurity || ''
+    this.autoplayUrl = this.sanitizer.bypassSecurityTrustResourceUrl(raw + '?autoplay=1')
   }
+
   close() {
     this.dialogRef.close()
   }

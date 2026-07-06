@@ -8,9 +8,11 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { IWidgetErrorAccessForbidden } from './error-access-forbidden.model'
 
 @Component({
-  selector: 'ws-widget-error-access-forbidden',
-  templateUrl: './error-access-forbidden.component.html',
-  styleUrls: ['./error-access-forbidden.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-error-access-forbidden',
+    templateUrl: './error-access-forbidden.component.html',
+    styleUrls: ['./error-access-forbidden.component.scss'],
+    
 })
 export class ErrorAccessForbiddenComponent implements OnInit, OnDestroy {
   @Input() errorData: null | IWidgetErrorAccessForbidden = null

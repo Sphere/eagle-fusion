@@ -1,13 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormGroup, AbstractControl } from '@angular/forms'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 
 import { NsContentStripMultiple, IPickerContentData, NsContent } from '@ws-widget/collection/src/public-api'
 
 @Component({
-  selector: 'ws-auth-content-strip-multiple',
-  templateUrl: './content-strip-multiple.component.html',
-  styleUrls: ['./content-strip-multiple.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-content-strip-multiple',
+    templateUrl: './content-strip-multiple.component.html',
+    styleUrls: ['./content-strip-multiple.component.scss'],
+    
 })
 export class ContentStripMultipleComponent implements OnInit {
 
@@ -15,7 +17,7 @@ export class ContentStripMultipleComponent implements OnInit {
   @Input() identifier = ''
   @Input() content!: NsContentStripMultiple.IContentStripUnit
   @Output() data = new EventEmitter<{ content: NsContentStripMultiple.IContentStripUnit, isValid: boolean }>()
-  form!: FormGroup
+  form!: UntypedFormGroup
   requestType!: 'search' | 'api' | 'ids' | 'searchRegionRecommendation' | 'searchV6'
   isAddingContent = false
   selectedContentIds: Set<string> = new Set()
@@ -24,7 +26,7 @@ export class ContentStripMultipleComponent implements OnInit {
   dataType = 'authoring'
   id = 0
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: UntypedFormBuilder) { }
 
   ngOnInit() {
     this.pickerContentData = {
@@ -73,7 +75,7 @@ export class ContentStripMultipleComponent implements OnInit {
     this.subscription = (this.form.controls.request.get('ids') as AbstractControl).valueChanges.subscribe({
       next: () => {
         const set = new Set<string>()
-        const lexIDs = (this.form.controls.request as FormGroup).controls.ids.value || []
+        const lexIDs = (this.form.controls.request as UntypedFormGroup).controls.ids.value || []
         lexIDs.map((v: string) => set.add(v))
         this.pickerContentData = {
           ...this.pickerContentData,
@@ -106,7 +108,7 @@ export class ContentStripMultipleComponent implements OnInit {
   }
 
   onContentSelectionChanged(event: { content: Partial<NsContent.IContent>, checked: boolean }) {
-    const lexIDs = (this.form.controls.request as FormGroup).controls.ids.value || []
+    const lexIDs = (this.form.controls.request as UntypedFormGroup).controls.ids.value || []
     if (event.checked) {
       lexIDs.push(event.content.identifier)
       if (this.pickerContentData.preselected) {
@@ -118,6 +120,6 @@ export class ContentStripMultipleComponent implements OnInit {
         this.pickerContentData.preselected.delete(event.content.identifier as string)
       }
     }
-    (this.form.controls.request as FormGroup).controls.ids.setValue(lexIDs)
+    (this.form.controls.request as UntypedFormGroup).controls.ids.setValue(lexIDs)
   }
 }

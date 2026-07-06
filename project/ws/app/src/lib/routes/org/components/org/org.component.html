@@ -1,247 +1,245 @@
-<div *ngIf="currentOrgData">
-  <button (click)="redirect()" mat-icon-button class="back-icon"
-    style="position: absolute;left: 0px;top: 80px;z-index: 1;">
-    <mat-icon>chevron_left</mat-icon>
-  </button>
-  <div *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'" id="navy-blue-bg"
-    [ngClass]="{'mb-5': currentOrgData?.sourceName === 'Indian Nursing Council'}">
-    <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5  flex flex-middle main"
-      *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
-      <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
-        (click)="goToLink('https://indiannursingcouncil.org/')" alt="inc-logo" /> <span
-        class="ml-5 mylearning">{{currentOrgData.title
-        ||
-        "e-Learning for Maternal and Newborn Health Care" }}</span>
-    </div>
-  </div>
-  <div class="banner-container" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
-    <div class="default-banner" *ngIf="!currentOrgData.bgImage">
-      <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" />
-    </div>
-    <img [src]="currentOrgData.bgImage" class="banner" *ngIf="currentOrgData.bgImage" />
-    <!-- <img [src]="currentOrgData?.logo" class="logo" /> -->
-    <div class="flex-auto mr-4">
-      <div class="image-outer">
-        <img [src]="currentOrgData?.logo " alt=" Logo" class="org-logo" *ngIf="currentOrgData.logo !== ''" />
-      </div>
+<!-- ── Shimmer skeleton ───────────────────────────────────────────────────────
+     Shown while ORG_CONFIG is being resolved. Mirrors the real page layout:
+     banner → floating logo → org name + about lines → filter pills → course cards.
+     isLoading is set true in resetOrgState() and false once currentOrgData resolves. -->
+<div *ngIf="isLoading" class="org-shimmer-wrapper">
+
+  <!-- Banner placeholder -->
+  <div class="shimmer org-shimmer-banner"></div>
+
+  <!-- Floating logo placeholder (overlaps banner bottom-left like the real logo) -->
+  <div class="shimmer org-shimmer-logo"></div>
+
+  <!-- Org name + about text lines -->
+  <div class="org-shimmer-text-block">
+    <div class="shimmer org-shimmer-line org-shimmer-name"></div>
+    <div class="shimmer org-shimmer-line org-shimmer-about-1"></div>
+    <div class="shimmer org-shimmer-line org-shimmer-about-2"></div>
+
+    <!-- Language filter pills -->
+    <div class="org-shimmer-pills">
+      <div class="shimmer org-shimmer-pill"></div>
+      <div class="shimmer org-shimmer-pill"></div>
+      <div class="shimmer org-shimmer-pill"></div>
     </div>
   </div>
 
+  <!-- Course card row shimmers (3 rows to match typical CNE sections) -->
+  <div class="org-shimmer-section" *ngFor="let row of [1, 2, 3]">
+    <!-- Section header line -->
+    <div class="shimmer org-shimmer-line org-shimmer-section-header"></div>
+    <!-- Card row -->
+    <div class="org-shimmer-card-row">
+      <div class="shimmer org-shimmer-card" *ngFor="let card of [1, 2, 3]"></div>
+    </div>
+  </div>
 
-  <div class="course-container py-1 px-4"
-    [ngClass]="{'mt-5': currentOrgData?.sourceName === 'Indian Nursing Council','org-body': true}">
-    <p class="org-name mb-0">
-      {{currentOrgData.sourceName}}
-    </p>
-    <p class="org-desc mb-1" [innerHTML]="formattedAbout"></p>
+  <!-- Bottom spacer on mobile so content clears the fixed nav bar -->
+  <div *ngIf="isMobile" style="height: 80px;"></div>
+</div>
 
-    <!-- <div class="org-details-block">
-      <img src="/fusion-assets/icons/ion_people-sharp.svg" />
-      <div class="org-details">Nationwide Quality Of Care Network</div>
-    </div> -->
-    <div class="org-details-block" *ngIf="courseCount&&courseCount.length">
-      <div class="org-details" *ngIf="orgUserCourseEnrolled>0">
-        <img alt="icon" src="/fusion-assets/icons/ion_people-sharp.svg">
-        {{orgUserCourseEnrolled === 1 ? '1 Learner enrolled': orgUserCourseEnrolled + ' Learners enrolled'}}
-      </div>
-      <div class="org-details" *ngIf="courseCount.length>0">
-        <img alt="icon" src="/fusion-assets/icons/material-symbols_book-outline.svg">
-        {{courseCount.length === 1 ? '1 Course offered': courseCount.length + ' Courses offered'}}
-      </div>
-      <div class="org-details" *ngIf="competency_offered>0">
-        <img alt="icon" src="/fusion-assets/icons/ph_medal.svg">
-        {{competency_offered === 1 ? '1 Competency offered': competency_offered + ' Competencies offered'}}
+<!-- Root guard: only render the org page once currentOrgData is resolved from ORG_CONFIG -->
+<div *ngIf="currentOrgData && !isLoading">
+  <div>
+
+    <!-- ── Back navigation button (absolute-positioned, always visible) ── -->
+    <button (click)="redirect()" mat-icon-button class="back-icon"
+      style="position: absolute;left: 0px;top: 80px;z-index: 1;">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <!-- ── HEADER ─────────────────────────────────────────────────────────
+       headerStyle === 'inc': custom navy-blue header bar (Indian Nursing Council).
+       All other orgs use the standard banner + floating logo. -->
+    <div *ngIf="currentOrgData?.headerStyle === 'inc'" id="navy-blue-bg"
+      [ngClass]="{'mb-5': currentOrgData?.headerStyle === 'inc'}">
+      <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5 flex flex-middle main">
+        <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
+          (click)="goToLink('https://indiannursingcouncil.org/')" alt="inc-logo" />
+        <span class="ml-5 mylearning">{{ currentOrgData.title || 'e-Learning for Maternal and Newborn Health Care'
+          }}</span>
       </div>
     </div>
-    <!-- <div class="org-details-block">
-      <img src="/fusion-assets/icons/ph_medal.svg">
-      <div class="org-details">
-        12 Competencies offered
-      </div>
-    </div> -->
-  </div>
-  <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
-    class="course-container py-1 px-4 ">
-    <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse?.length > 0">
-      <div class="mb-4 line-label bg-green flex scroller-container">
-        <div class="w-100">
-          <div class="flex flex-middle border-top">
-            <span class="course-header" i18n>Continue Learning</span>
+
+    <div class="banner-container" *ngIf="currentOrgData?.headerStyle !== 'inc'">
+      <div class="banner-image-section">
+        <div class="default-banner" *ngIf="!currentOrgData.bgImage">
+          <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" />
+        </div>
+        <!-- Custom banner: shimmer overlay sits on top until the image fires (load) -->
+        <ng-container *ngIf="currentOrgData.bgImage">
+          <div class="shimmer org-shimmer-banner-img" *ngIf="!bannerLoaded"></div>
+          <img [src]="currentOrgData.bgImage" class="banner" [class.org-img-hidden]="!bannerLoaded"
+            (load)="bannerLoaded = true" />
+        </ng-container>
+        <!-- Floating circular org logo: shimmer until logo image fires (load) -->
+        <div class="banner-logo-wrap" *ngIf="currentOrgData.logo">
+          <div class="image-outer">
+            <div class="shimmer org-shimmer-logo-img" *ngIf="!logoLoaded"></div>
+            <img [src]="currentOrgData.logo" alt="Org Logo" class="org-logo" [class.org-img-hidden]="!logoLoaded"
+              (load)="logoLoaded = true" />
           </div>
         </div>
       </div>
-      <ng-container *ngIf="userEnrollCourse?.length > 0 && isMobile === false">
-        <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-          <div *ngFor="let course of userEnrollCourse">
-            <ng-container>
-              <ws-web-course-card [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
+    </div>
+
+    <!-- ── ORG INFO BLOCK: name, about, stats, language filter ───────────── -->
+    <div class="course-container py-1 px-4"
+      [ngClass]="{'mt-5': currentOrgData?.headerStyle === 'inc', 'org-body': true}">
+      <p class="org-name mb-0">{{ currentOrgData.sourceName }}</p>
+      <p class="org-desc mb-1" [innerHTML]="formattedAbout"></p>
+
+      <div class="org-details-block" *ngIf="totalCourseCount > 0">
+        <div class="org-details" *ngIf="orgUserCourseEnrolled > 0">
+          <img alt="icon" src="/fusion-assets/icons/ion_people-sharp.svg">
+          {{ orgUserCourseEnrolled === 1 ? '1 Learner enrolled' : orgUserCourseEnrolled + ' Learners enrolled' }}
+        </div>
+        <div class="org-details" *ngIf="totalCourseCount > 0">
+          <img alt="icon" src="/fusion-assets/icons/material-symbols_book-outline.svg">
+          {{ totalCourseCount === 1 ? '1 Course offered' : totalCourseCount + ' Courses offered' }}
+        </div>
+        <div class="org-details" *ngIf="competency_offered > 0">
+          <img alt="icon" src="/fusion-assets/icons/ph_medal.svg">
+          {{ competency_offered === 1 ? '1 Competency offered' : competency_offered + ' Competencies offered' }}
+        </div>
+      </div>
+
+      <!-- Language filter: visible only when currentOrgData.showLanguageFilter is true -->
+      <div class="language-filter-container" *ngIf="currentOrgData?.showLanguageFilter">
+        <div>
+          <span class="filter-label">{{'Filter by Language' | translate}}</span>
+        </div>
+        <div class="filter-buttons">
+          <ng-container *ngFor="let f of currentOrgData.languageFilters">
+            <button *ngIf="f.show !== false" [class.active]="selectedLanguage === f.value"
+              (click)="filterByLanguage(f.value)" class="filter-btn">{{ f.label }}</button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTIONS LOOP ══════════════════════════════════════════════════════
+       All sections (continueLearning, courseGroup, courseList, completed, tagSearch)
+       are driven by ORG_CONFIG.sources[i].sections[]. No hardcoded strategy branches.
+       Each section's title, card config, limit, and button labels come from the Form API. -->
+    <div class="course-container py-1 px-4" *ngFor="let section of orgSections; let i = index">
+      <section class="mt-4 view-all-course-container" *ngIf="section.courses?.length > 0">
+
+        <!-- Section header -->
+        <div class="mb-4 line-label heading-line-yellow flex scroller-container">
+          <div class="w-100">
+            <div class="flex flex-middle heading-line">
+              <span [class]="section.config.headerClass || 'header1'">
+                {{ section.config.title | translate }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty state when language filter returns no results -->
+        <div *ngIf="getFilteredSectionCourses(section.courses)?.length === 0" class="lang-empty-state">
+          {{ 'No courses available in the selected language' | translate }}
+        </div>
+
+        <!-- courseList / tagSearch: custom card design -->
+        <ng-container *ngIf="section.config.sectionType === 'courseList' || section.config.sectionType === 'tagSearch'">
+          <div class="mt-4 course-body">
+            <ng-container *ngFor="let course of getDisplayedItems(
+                getFilteredSectionCourses(section.courses),
+                section.showAll,
+                section.config.limit || 5)">
+              <div class="card-standard-container mb-6 cursor-pointer">
+                <a (click)="gotoOverview(course.identifier)" class="rounded-t py-2" role="link" aria-label="Content">
+                  <div class="flex">
+                    <img
+                      [src]="course.posterImage || course.thumbnail || course.appIcon || '/fusion-assets/images/frame-156.svg'"
+                      class="card-img no-prog ws-mat-primary-lite-background" [alt]="course.name" />
+                    <div class="course-name" [title]="course.name">
+                      {{ course.name?.length > 40 ? course.name.slice(0, 40) + '...' : course.name }}
+                    </div>
+                  </div>
+                  <div>
+                    <p class="by-org-name mb-1">by {{course.sourceName}}</p>
+                  </div>
+                  <ng-container *ngIf="course.averageRating && course.averageRating > 0">
+                    <div class="rating-block mb-2">
+                      <span class="average-rating">{{course.averageRating | number: '1.0-1'}}</span>
+                      <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i, course.averageRating)"
+                        alt="Star">
+                    </div>
+                  </ng-container>
+                  <div *ngIf="course.cneName" class="flex cne-container">
+                    <div class="flex cne-block mr-1">
+                      <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
+                      <p class="cne-content mb-0">{{course.cneName}} CNE</p>
+                    </div>
+                    <p *ngIf="course.issueCertification" class="certified-text">{{'Certified' | translate}}</p>
+                  </div>
+                  <div class="border-block" *ngIf="course.competencies_v1?.length > 0">
+                    <hr class="border-content">
+                  </div>
+                  <div class="competency-block" *ngIf="course.competencies_v1?.length > 0">
+                    <img src="/fusion-assets/icons/ph_medal.svg">
+                    <div>
+                      <ng-container *ngFor="let competency of competencyData; let last = last;">
+                        <span *ngIf="competency.identifier === course.identifier">{{competency.name}}, </span>
+                        <span *ngIf="competency.identifier === course.identifier">{{competency.levels}}</span>
+                      </ng-container>
+                    </div>
+                  </div>
+                </a>
+              </div>
             </ng-container>
           </div>
-        </ws-utils-horizontal-scroller>
-      </ng-container>
-      <ng-container *ngIf="userEnrollCourse?.length > 0 && isMobile === true">
-        <div *ngFor="let course of getDisplayedItems(userEnrollCourse, showAllUserEnrollCourses)">
-          <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
-        </div>
-        <button i18n *ngIf="userEnrollCourse?.length > 5" (click)="viewAllItems('userEnrollCourses')"
-          class="view-all-course">
-          {{ showAllUserEnrollCourses ? 'Hide' : 'View all' }}
-          <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
-        </button>
-      </ng-container>
-    </section>
-  </div>
-  <div class="course-container py-1 px-4 ">
-    <div class="w-100">
-      <div class="flex flex-middle border-top">
-        <span class="course-header" i18n>Courses</span>
-      </div>
+          <button
+            *ngIf="section.config.button?.show !== false && getFilteredSectionCourses(section.courses)?.length > (section.config.limit || 5)"
+            (click)="section.showAll = !section.showAll" class="view-all-course">
+            {{ section.showAll ? ((section.config.button?.label2 || 'Hide') | translate)
+            : ((section.config.button?.label1 || 'View all') | translate) }}
+            <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+          </button>
+        </ng-container>
+
+        <!-- All other section types (courseGroup, continueLearning, completed): ws-web-course-card -->
+        <ng-container *ngIf="section.config.sectionType !== 'courseList' && section.config.sectionType !== 'tagSearch'">
+          <ng-container *ngIf="isMobile === false">
+            <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
+              <div *ngFor="let course of getFilteredSectionCourses(section.courses)"
+                style="align-self: flex-start; flex-shrink: 0;">
+                <ws-web-course-card [displayConfig]="section.config.displayConfigWeb" [courseData]="course">
+                </ws-web-course-card>
+              </div>
+            </ws-utils-horizontal-scroller>
+          </ng-container>
+          <ng-container *ngIf="isMobile === true">
+            <div *ngFor="let course of getDisplayedItems(
+                getFilteredSectionCourses(section.courses),
+                section.showAll,
+                section.config.limit || 5)">
+              <ws-mobile-course-view [displayConfig]="section.config.displayConfig" [courseData]="course">
+              </ws-mobile-course-view>
+            </div>
+            <button
+              *ngIf="section.config.button?.show !== false && getFilteredSectionCourses(section.courses)?.length > (section.config.limit || 5)"
+              (click)="section.showAll = !section.showAll" class="view-all-course">
+              {{ section.showAll ? ((section.config.button?.label2 || 'Hide') | translate)
+              : ((section.config.button?.label1 || 'View all') | translate) }}
+              <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+            </button>
+          </ng-container>
+        </ng-container>
+
+      </section>
     </div>
 
-    <div class="mt-4 course-body" *ngIf="courseData">
-      <!-- <div> -->
-      <ng-container *ngFor="let widget of courseData.slice(0,cardLimit)">
-        <div class="card-standard-container mb-6 1 cursor-pointer">
-          <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
-            #target="mdePopoverTrigger" i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1"
-            mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
-            [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-340"
-            (mouseover)="showTarget($event)">
-            <div class="flex">
-              <img
-                src="{{widget.thumbnail? widget.thumbnail : widget.appIcon || '/fusion-assets/images/frame-156.svg'}}"
-                [id]="'card_' + widget.identifier" class="card-img no-prog ws-mat-primary-lite-background"
-                [alt]="widget.name" />
-              <span class="img-overlay"></span>
-              <ng-container class="source-div mt-4">
-              </ng-container>
-              <div class="course-name">
-                {{ widget.name }}
-              </div>
-            </div>
-            <div>
-              <p class="by-org-name mb-1"> by {{widget.sourceName}}</p>
-            </div>
-            <ng-container *ngIf="widget.averageRating && widget.averageRating > 0">
-              <div class="rating-block mb-2">
-                <span class="average-rating">{{widget.averageRating | number: '1.0-1'}}</span>
-                <!-- <ng-container *ngIf="widget.averageRating>0"> -->
-                <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i,widget.averageRating)" alt="Star">
-                <!-- </ng-container> -->
-              </div>
-            </ng-container>
-
-            <div *ngIf="widget.cneName" class="flex cne-container">
-              <div class="flex cne-block mr-1">
-                <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
-                <p class="cne-content mb-0">{{widget.cneName}} CNE Points</p>
-              </div>
-              <p *ngIf="widget.issueCertification" class="certified-text" i18n>Certified</p>
-            </div>
-            <div class="border-block" *ngIf="cometencyData && cometencyData[0]">
-              <hr class="border-content">
-            </div>
-            <div class="competency-block" *ngIf="cometencyData && cometencyData[0]">
-              <img src="/fusion-assets/icons/ph_medal.svg">
-              <div>
-                <span>{{cometencyData[0]?.name}}, </span>
-                <ng-container *ngFor="let competency of cometencyData; let last = last;">
-                  <span *ngIf="competency.identifier==widget.identifier">{{competency.levels}}</span>
-                  <span *ngIf="!last && competency.identifier==widget.identifier"> </span>
-                </ng-container>
-              </div>
-            </div>
-
-          </a>
-        </div>
-
-        <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
-          <mat-card class="popover-card xs-hidden">
-            <mat-card-content>
-              <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
-                {{ widget.name }}
-              </div>
-              <div class="description-text ws-mat-text-block-fade-gradient mb-2" title="Sub title">
-                {{ widget.subTitle }}
-              </div>
-
-              <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span i18n>Published on</span>:
-                {{widget?.lastPublishedOn | date }}</div>
-              <div *ngIf="widget.duration" class="duration mb-2" title="Duration">
-                <span class="mr-1 orange-text" i18n>Duration</span>:
-                <mat-icon>access_time</mat-icon>
-                <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
-                <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
-
-                </span>
-              </div>
-              <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.childNodes?.length}}</p>
-              <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
-                widget?.creatorContacts[0]?.name}}</p>
-
-              <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
-                {{widget?.uniqueUsersCount}}</p>
-              <p *ngIf="widget?.sourceName"><span class="fw-500" i18n>Source</span>: {{widget.sourceName}}
-              </p>
-              <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
-                <div class="fw-500 mb-1" i18n>Course Description</div>
-                {{ widget.description }}
-              </div>
-
-              <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
-                <button mat-raised-button class="ws-mat-primary-background mat-button-base"
-                  (click)="loginRedirect(widget.identifier)"> {{btnText}}
-                </button>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </mde-popover>
-      </ng-container>
-
-      <!-- </div> -->
-      <div class="w-100 load-more-block" *ngIf="courseData&&courseData.length > 5">
-        <!-- <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a> -->
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5" i18n>Load More</button>
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5" i18n>Load Less</button>
-      </div>
-
-    </div>
-
-  </div>
-  <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
-    class="course-container py-4 px-4 mb-4">
-    <section class="view-all-course-container" *ngIf="completedCourse?.length > 0">
-      <div class="mb-4 line-label bg-green flex scroller-container">
-        <div class="w-100">
-          <div class="flex flex-middle border-top">
-            <span class="course-header" i18n>Completed Learning</span>
-          </div>
-        </div>
-      </div>
-      <ng-container *ngIf="completedCourse?.length > 0 && isMobile === false">
-        <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-          <div *ngFor="let course of completedCourse">
-            <ng-container>
-              <ws-web-course-card [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
-            </ng-container>
-          </div>
-        </ws-utils-horizontal-scroller>
-      </ng-container>
-      <ng-container *ngIf="completedCourse?.length > 0 && isMobile === true">
-        <div *ngFor="let course of getDisplayedItems(completedCourse, showAllUserEnrollCourses)">
-          <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
-        </div>
-        <button i18n *ngIf="completedCourse?.length > 5" (click)="viewAllItems('completedCourses')"
-          class="view-all-course">
-          {{ showAllUserEnrollCourses ? 'Hide' : 'View all' }}
-          <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
-        </button>
-      </ng-container>
-    </section>
+    <!-- Spacer so the fixed bottom nav bar doesn't obscure the last card on mobile -->
+    <div *ngIf="isMobile" style="height: 80px;"></div>
   </div>
 </div>
-<div class="container" *ngIf="!currentOrgData">
+
+<!-- Fallback: shown when the org name from the URL does not match any entry in ORG_CONFIG -->
+<div class="container" *ngIf="!currentOrgData && !isLoading">
   <div class="centered-div">
-    <h3 class="mt-15" i18n>No org details found</h3>
+    <h3 class="mt-15">{{'No org details found' | translate}}</h3>
   </div>
 </div>

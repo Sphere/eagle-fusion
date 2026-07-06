@@ -2,13 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs'
 import { map } from 'rxjs/operators'
-
-// TODO: move this in some common place
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-const API_END_POINTS = {
-  PROGRESS_HASH: `${PROTECTED_SLAG_V8}/user/progress`,
-}
-
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 @Injectable({
   providedIn: 'root',
 })

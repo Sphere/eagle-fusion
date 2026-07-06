@@ -12,16 +12,15 @@
         </h1>
       </div>
       <ng-template #welcome>
-        <h1 class="non-register" i18n>
-          Welcome!
-        </h1>
+        <h1 class="non-register">
+          {{'Welcome!' | translate }}</h1>
       </ng-template>
 
       <div class="input-content">
         <div class="input-content-wrapper">
           <form [formGroup]="loginForm">
 
-            <!--<div class="text-info" i18n>Due to security reasons all users have to reset their password after 5th of Feb
+            <!--<div class="text-info">Due to security reasons all users have to reset their password after 5th of Feb
               2022. Old password will
               no longer work.</div> -->
             <div style="margin-bottom: 10px; margin-top: 10px;">
@@ -39,18 +38,18 @@
             </div> -->
 
             <div class="form-group" style="margin-bottom: 0;">
-              <input type="text" class="form-control" i18n-placeholder placeholder="Phone Number/Email ID"
-                id="userid-field" formControlName="username">
+              <input type="text" class="form-control" placeholder="Phone Number/Email ID" id="userid-field"
+                formControlName="username">
             </div>
             <div style="margin-top: 4px;">
-              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['username'].hasError('required') &&
+              <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
                   (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
-                This field is required</mat-error>
-              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['username'].hasError('pattern')">
-                Invalid email or number</mat-error>
+                {{'This field is required' | translate}}</mat-error>
+              <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('pattern')">
+                {{'Invalid email or number' | translate}}</mat-error>
             </div>
             <div class="form-group input-group pwd" style="margin-top: 1rem;">
-              <input [type]="hide ? 'password' : 'text'" i18n-placeholder placeholder="Password" id="password-field"
+              <input [type]="hide ? 'password' : 'text'" placeholder="Password" id="password-field"
                 formControlName="password" class="form-control">
               <div class="input-group-addon iconPosition">
                 <a href="javascript:void(0)" (click)="toggle()" class="f-black">
@@ -59,27 +58,28 @@
               </div>
             </div>
             <div style="margin-top: 4px;">
-              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['password'].hasError('required') &&
+              <mat-error class="text-danger" *ngIf="loginForm.controls['password'].hasError('required') &&
                   (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
-                This field is required</mat-error>
+                {{'This field is required' | translate}}</mat-error>
             </div>
             <div class="form-group">
-              <p><span i18n>Forgot password?</span><a href="public/forgot-password" i18n> Click Here </a><span i18n>to
-                  reset</span>
+              <p><span>{{'Forgot password?' | translate}}</span><a href="public/forgot-password"> {{'Click Here' |
+                  translate}} </a><span>{{'to reset' | translate}}</span>
               </p>
             </div>
             <div class="form-group">
               <button class="btn btn-block border-radius login-btn" type="submit" id="login-btn" (click)="loginUser()"
-                i18n [disabled]="!loginForm?.valid">Log in</button>
+                [disabled]="!loginForm?.valid">{{'Log in' | translate}}</button>
             </div>
           </form>
         </div>
       </div>
 
       <div class="form-group">
-        <p><span i18n>Do not have an account? </span><a href="app/create-account" i18n>Create an account</a>
+        <p><span>{{'Do not have an account?' | translate}} </span><a href="app/create-account">{{'Create an account' |
+            translate}}</a>
         </p>
-        <label i18n>Choose your Language</label>
+        <label>{{'Choose your Language' | translate}}</label>
         <div class="d-inline" style="margin-top: -5px; font-size: small;">
           <a (click)="redirect('')" class="languages">English</a>
           <a (click)="redirect('hi')" class="languages">हिन्दी</a>

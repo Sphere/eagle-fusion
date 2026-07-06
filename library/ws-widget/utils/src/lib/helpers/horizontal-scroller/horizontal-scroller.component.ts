@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, OnDestroy, Input, Output, ViewChild, EventEmitter, ElementRef } from '@angular/core'
+import { Component, OnInit, OnChanges, OnDestroy, AfterViewInit, Input, Output, ViewChild, EventEmitter, ElementRef, NgZone, ChangeDetectorRef } from '@angular/core'
 import {
   fromEvent,
   Subscription,
@@ -8,11 +8,13 @@ import { debounceTime, throttleTime } from 'rxjs/operators'
 import { TFetchStatus } from '../../constants/misc.constants'
 
 @Component({
-  selector: 'ws-utils-horizontal-scroller',
-  templateUrl: './horizontal-scroller.component.html',
-  styleUrls: ['./horizontal-scroller.component.scss'],
+    standalone: false,
+    selector: 'ws-utils-horizontal-scroller',
+    templateUrl: './horizontal-scroller.component.html',
+    styleUrls: ['./horizontal-scroller.component.scss'],
+
 })
-export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy {
+export class HorizontalScrollerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
   @Input()
   loadStatus: TFetchStatus = 'none'
@@ -26,8 +28,9 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
   enablePrev = false
   enableNext = false
   private scrollObserver: Subscription | null = null
+  private mutationObserver: MutationObserver | null = null
 
-  constructor() { }
+  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     if (this.horizontalScrollElem) {
@@ -43,6 +46,30 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
         })
     }
   }
+
+  ngAfterViewInit() {
+    if (this.horizontalScrollElem) {
+      const elem = this.horizontalScrollElem.nativeElement as HTMLElement
+
+      // Initial check — cards may already be in DOM when this runs
+      setTimeout(() => {
+        this.updateNavigationBtnStatus(elem)
+        this.cdr.detectChanges()
+      }, 0)
+
+      // Watch for cards added asynchronously (data loads after view init)
+      this.mutationObserver = new MutationObserver(() => {
+        this.ngZone.run(() => {
+          this.updateNavigationBtnStatus(elem)
+          this.cdr.detectChanges()
+        })
+      })
+      this.ngZone.runOutsideAngular(() => {
+        this.mutationObserver!.observe(elem, { childList: true, subtree: true })
+      })
+    }
+  }
+
   ngOnChanges() {
     timer(100).subscribe(() => {
       if (this.horizontalScrollElem) {
@@ -54,6 +81,9 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
   ngOnDestroy() {
     if (this.scrollObserver) {
       this.scrollObserver.unsubscribe()
+    }
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect()
     }
   }
   showPrev() {

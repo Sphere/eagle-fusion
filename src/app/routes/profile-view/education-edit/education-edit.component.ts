@@ -1,23 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { Component, effect, ElementRef, Input, OnInit, ViewChild } from '@angular/core'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
-// import * as _ from 'lodash'
-import {
-  ActivatedRoute,
-  //Router
-} from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
+import { LanguageService } from '../../../services/language.service'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
+  standalone: false,
   selector: 'ws-education-edit',
   templateUrl: './education-edit.component.html',
   styleUrls: ['./education-edit.component.scss'],
+
 })
 export class EducationEditComponent implements OnInit {
-  educationForm: FormGroup
+  educationForm: UntypedFormGroup
   academics: any = []
   userID = ''
   userProfileData!: any
@@ -28,21 +28,25 @@ export class EducationEditComponent implements OnInit {
   change: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
+  isEditableForSphere = false
+  @Input() data: any
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private snackBar: MatSnackBar,
-    //private router: Router,
     private route: ActivatedRoute,
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
+    private langSvc: LanguageService,
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
-    this.educationForm = new FormGroup({
-      courseDegree: new FormControl('', [Validators.required]),
-      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
-      institutionName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
-      yearPassing: new FormControl('', [Validators.required, Validators.pattern(this.yearPattern)]),
+    this.educationForm = new UntypedFormGroup({
+      courseDegree: new UntypedFormControl('', [Validators.required]),
+      courseName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
+      institutionName: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
+      yearPassing: new UntypedFormControl('', [Validators.required, Validators.pattern(this.yearPattern)]),
     })
     this.academics = [
       {
@@ -64,16 +68,25 @@ export class EducationEditComponent implements OnInit {
     }
     )
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data, 'here')
+      this.logger.log(data, 'here')
       this.workLog = await data
       if (this.workLog) {
         this.getUserDetails()
       }
     })
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showbackButton = true
+        this.showLogOutIcon = false
+      } else {
+        this.showbackButton = false
+        this.showLogOutIcon = false
+      }
+    })
   }
 
   ngOnInit() {
-    let eduLog: any = sessionStorage.getItem('academic') || null
+    const eduLog: any = sessionStorage.getItem('academic') || null
     this.workLog = JSON.parse(eduLog)
 
     if (this.workLog === 'true' || this.workLog.edit === true) {
@@ -85,14 +98,6 @@ export class EducationEditComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params.nameOfInstitute) {
         this.updateForm(params)
-      }
-    })
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.showbackButton = true
-      this.showLogOutIcon = false
-      if (isXSmall) {
-        this.showbackButton = true
-        this.showLogOutIcon = false
       }
     })
   }
@@ -112,8 +117,14 @@ export class EducationEditComponent implements OnInit {
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
+        async (data: any) => {
           if (data) {
+            this.isEditableForSphere = this.data?.isEditable ?? false
+            if (this.isEditableForSphere) {
+              this.educationForm.enable()
+            } else {
+              this.educationForm.disable()
+            }
             this.userProfileData = data.profileDetails.profileReq
           }
         })
@@ -128,14 +139,16 @@ export class EducationEditComponent implements OnInit {
     const userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    console.log(local)
+    const local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
+    this.logger.log(local)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/education-edit'
 
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
+      userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
+      // personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
@@ -150,24 +163,18 @@ export class EducationEditComponent implements OnInit {
       (res: any) => {
         if (res) {
           form.reset()
-          if (local === 'en') {
-            this.openSnackbar(this.toastSuccess.nativeElement.value)
-          } else {
-            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-          }
-          //this.openSnackbar(this.toastSuccess.nativeElement.value)
+          this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           this.userProfileSvc._updateuser.next('true')
-          let ob = {
+          const ob = {
             "type": "academic",
             "edit": 'save',
 
           }
           this.contentSvc.changeWork(ob)
-          //this.router.navigate(['/app/education-list'])
         }
       })
   }
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

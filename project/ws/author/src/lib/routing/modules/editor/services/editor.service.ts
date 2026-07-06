@@ -24,6 +24,7 @@ import { Observable, of } from 'rxjs'
 import { map, mergeMap, catchError } from 'rxjs/operators'
 import { CONTENT_READ_MULTIPLE_HIERARCHY } from './../../../../constants/apiEndpoints'
 import { ISearchContent, ISearchResult } from '../../../../interface/search'
+import { API_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Injectable()
 export class EditorService {
@@ -172,7 +173,7 @@ export class EditorService {
   }
 
   fetchConfig() {
-    return this.apiService.get<any>(`${this.configSvc.sitePath}/license.meta.json`)
+    return this.apiService.get<any>('/fusion-assets/files/license.meta.json')
   }
 
   fetchOrgMeta() {
@@ -208,7 +209,7 @@ export class EditorService {
   }
 
   checkRole(id: string): Observable<string[]> {
-    return this.apiService.get<string[]>(`/apis/protected/V8/user/roles/${id}`).pipe(
+    return this.apiService.get<string[]>(API_END_POINTS.USER_ROLE + `/${id}`).pipe(
       map((v: { default_roles: string[]; user_roles: string[] }) => {
         if (v) {
           let roles: string[] = []
@@ -228,7 +229,7 @@ export class EditorService {
   getAccessPath(): Observable<string[]> {
     return this.accessPath.length
       ? of()
-      : this.apiService.get<string[]>(`/apis/protected/V8/user/accessControl`).pipe(
+      : this.apiService.get<string[]>(API_END_POINTS.ACCESS_CONTROL).pipe(
         map((v: { special: { accessPaths: string[] }[] }) => {
           if (v) {
             v.special.forEach(acc => {

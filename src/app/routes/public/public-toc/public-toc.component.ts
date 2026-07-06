@@ -1,14 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import includes from 'lodash/includes'
-import find from 'lodash/find'
+import { find, includes } from 'lodash'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
+import { combineLatest, firstValueFrom } from 'rxjs'
+import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { SeoService } from '../../../services/seo.service'
+import { UserAgentResolverService } from '../../../services/user-agent.service'
 
 @Component({
-  selector: 'ws-public-toc',
-  templateUrl: './public-toc.component.html',
-  styleUrls: ['./public-toc.component.scss'],
+    standalone: false,
+    selector: 'ws-public-toc',
+    templateUrl: './public-toc.component.html',
+    styleUrls: ['./public-toc.component.scss'],
+    
 })
 export class PublicTocComponent implements OnInit, OnDestroy {
   tocData: any
@@ -20,67 +25,73 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private orgService: OrgServiceService,
     private activeRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
-  ) {
+    private seoSvc: SeoService,
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef,
+    private userAgentSvc: UserAgentResolverService,
+  ) {}
+  async ngOnInit() {
+    this.userAgentSvc.requestGeolocation()
+    // Wait for child route if any
+    const childRoute = this.activeRoute.firstChild || this.activeRoute
 
-  }
-  ngOnInit() {
-    this.activeRoute.queryParams.subscribe(params => {
+    // Subscribe to both params and queryParams
+    combineLatest([
+      childRoute.params,
+      childRoute.queryParams,
+    ]).subscribe(async ([params, queryParams]) => {
+      const courseId = params['courseId'] || queryParams['courseId']
+      const slug = params['slug'] || params['courseId'] || ''
+
+      this.courseid = courseId
+      this.logger.log('this.courseId', this.courseid)
+
       try {
+        (window as any).fbq('track', 'ViewContent', {
+          contentId: this.courseid,
+          content_category: 'Public TOC',
+        })
+      } catch (e) {
+        this.logger.log("fb pixel error")
+      }
 
-        (window as any).fbq('track', 'ViewContent', { "contentId": params['courseid'], "content_category": "Public TOC" })
-      }
-      catch (e) {
-        console.log("fb pixel error")
-      }
-      // console.log(params)
-      this.courseid = params['courseid'] !== undefined ? params['courseid'] : params['courseId']
+      // User UUID flow
       if (localStorage.getItem('userUUID')) {
         this.isLoading = true
-        let id = localStorage.getItem('userUUID') || ''
-        this.userProfileSvc.getUserdetailsFromRegistry(id).subscribe((data: any) => {
-          console.log(data)
-          if (data) {
-            let lang = (data.unMappedUser && data.unMappedUser!.profileDetails && data.unMappedUser!.profileDetails!.preferences && data.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? data.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-            let url1 = lang === 'hi' ? 'hi' : ""
-            let url3 = `${document.baseURI}`
-            if (url3.includes('hi')) {
-              url3 = url3.replace(/hi\//g, '')
+        const id = localStorage.getItem('userUUID') || ''
+
+        this.userProfileSvc.getUserdetailsFromRegistry(id).subscribe(
+          async (_data: any) => {
+            const redirectPath = `/public/toc/overview/${this.courseid}/${slug}`
+
+            // Only redirect if needed (compare against current router URL path)
+            if (this.router.url !== redirectPath) {
+              this.router.navigateByUrl(redirectPath)
             }
-            let url = `/app/toc/${this.courseid}/overview`
-            location.href = `${url3}${url1}${url}`
-            this.isLoading = false
+            Promise.resolve().then(() => { this.isLoading = false; this.cdr.markForCheck() })
+          },
+          err => {
+            this.logger.error(err)
+            Promise.resolve().then(() => { this.isLoading = false; this.cdr.markForCheck() })
           }
-        }, (err: any) => {
-          console.log(err)
-          this.isLoading = false
-          if (err.status === '404' || err.status === '419') {
-            console.log(err.status, '50')
-          }
-        })
+        )
       }
 
+      // Load TOC
+      if (localStorage.getItem('tocData')) {
+        localStorage.removeItem('tocData')
+      }
+
+      if (!this.tocData) {
+        await this.seachAPI(this.courseid)
+      }
+
+      this.checkRoute()
     })
-    // const navigation = this.router.getCurrentNavigation()
-    // if (navigation) {
-    //   const extraData = navigation.extras.state as {
-    //     tocData: any
-    //   }
-    //   console.log(extraData.tocData)
-    //   if (extraData) {
-    //     this.tocData = extraData.tocData
-    //   }
-    // }
-    if (localStorage.getItem('tocData')) {
-      localStorage.removeItem('tocData')
-      // const data: any = localStorage.getItem('tocData')
-      // this.tocData = JSON.parse(data)
-    }
-    // console.log(this.tocData, this.courseid)
-    if (this.tocData === undefined) {
-      this.seachAPI(this.courseid)
-    }
-    this.checkRoute()
   }
+
+
+
   checkRoute() {
     if (includes(this.router.url, 'overview')) {
       this.toggleComponent('overview')
@@ -100,21 +111,82 @@ export class PublicTocComponent implements OnInit, OnDestroy {
       this.routelinK = 'license'
     }
   }
-  seachAPI(id: any) {
-    this.orgService.getSearchResultsById(id).subscribe((res: any) => {
+  async seachAPI(id: any): Promise<any> {
+    try {
+      const res = await firstValueFrom(this.orgService.getSearchResultsV7ById(id))
       if (res) {
-        find(res.result.content
-          , findRes => {
-            if (findRes.identifier === id) {
-              this.tocData = findRes
-              localStorage.setItem('tocData', JSON.stringify(this.tocData))
-              localStorage.setItem(`url_before_login`, `app/toc/` + `${id}` + `/overview`)
-            }
+        const found = find(res.result.content, (c: any) => c.identifier === id)
+        if (found) {
+          this.tocData = found
+          // Sunbird content/v1/search returns the rating count as totalNumberOfRatings;
+          // map it onto totalRatingsCount, which the SEO JSON-LD consumes.
+          this.tocData.totalRatingsCount ??= this.tocData.totalNumberOfRatings
+          this.cdr.detectChanges()
+          this.logger.log('findRes', found)
 
+          const courseUrl = `https://sphere.aastrika.org${this.router.url.split('?')[0]}`
+          const description = (this.tocData?.description || this.tocData?.name || '')
+            .replace(/<[^>]*>/g, '')
+            .slice(0, 160)
+            .trim()
+
+          const subjectArr: string[] = Array.isArray(this.tocData?.subject)
+            ? this.tocData.subject
+            : (this.tocData?.subject ? [this.tocData.subject] : [])
+          const keywordArr: string[] = Array.isArray(this.tocData?.keywords)
+            ? this.tocData.keywords
+            : (this.tocData?.keywords ? String(this.tocData.keywords).split(',').map((k: string) => k.trim()) : [])
+          const keywords = [
+            this.tocData?.name,
+            ...subjectArr,
+            ...keywordArr,
+            this.tocData?.sourceName,
+            'INC certificate',
+            'CNE credits',
+            'Aastrika Sphere',
+          ].filter(Boolean).join(', ')
+
+          const providerName = this.tocData?.sourceName || 'Aastrika Sphere'
+
+          this.seoSvc.update({
+            title: `${this.tocData?.name} | Free INC Course — ${providerName} | Aastrika Sphere`,
+            description: description
+              ? `${description} — Free INC-certified course by ${providerName}. Earn CNE points. No fees, no deadline.`.slice(0, 260)
+              : `${this.tocData?.name} — Free INC-certified online course by ${providerName} on Aastrika Sphere. Earn CNE points. No fees, no deadline.`,
+            keywords,
+            ogType: 'article',
+            ogUrl: courseUrl,
+            ogImage: this.tocData?.appIcon || this.tocData?.posterImage,
+            canonicalUrl: courseUrl,
+            jsonLd: {
+              '@context': 'https://schema.org',
+              '@type': 'Course',
+              'name': this.tocData?.name,
+              'description': description,
+              'url': courseUrl,
+              'provider': {
+                '@type': 'Organization',
+                'name': providerName,
+                'sameAs': 'https://sphere.aastrika.org',
+              },
+              ...(this.tocData?.averageRating ? {
+                'aggregateRating': {
+                  '@type': 'AggregateRating',
+                  'ratingValue': this.tocData.averageRating,
+                  'bestRating': 5,
+                  'ratingCount': this.tocData.totalRatingsCount || 1,
+                },
+              } : {}),
+            },
           })
-        return this.tocData
+
+          localStorage.setItem('tocData', JSON.stringify(this.tocData))
+          localStorage.setItem(`url_before_login`, `app/toc/${id}/overview`)
+        }
       }
-    })
+    } catch (e) {
+      this.logger.error(e)
+    }
     return this.tocData
   }
   ngOnDestroy() {

@@ -11,14 +11,16 @@ import {
 import { Subscription, fromEvent } from 'rxjs'
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
-import { WidgetContentService, NsContent } from '@ws-widget/collection'
+import { NsContent } from '@ws-widget/collection'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-import { ActivatedRoute } from '@angular/router'
+// import { ActivatedRoute } from '@angular/router'
 @Component({
-  selector: 'viewer-plugin-web-module',
-  templateUrl: './web-module.component.html',
-  styleUrls: ['./web-module.component.scss'],
+    standalone: false,
+    selector: 'viewer-plugin-web-module',
+    templateUrl: './web-module.component.html',
+    styleUrls: ['./web-module.component.scss'],
+    
 })
 export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
   @Input() collectionId = ''
@@ -61,10 +63,10 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     private events: EventService,
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
-    private contentSvc: WidgetContentService,
+    // private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private configurationSvc: ConfigurationsService,
-    private activatedRoute: ActivatedRoute,
+    // private activatedRoute: ActivatedRoute,
   ) {
     this.iframeElem = {} as ElementRef
   }
@@ -88,7 +90,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
       if (prop === 'widgetData') {
         if (this.widgetData.identifier !== this.oldIdentifier) {
           if (this.current.length > 0) {
-            this.saveContinueLearning(this.oldIdentifier)
+            // this.saveContinueLearning(this.oldIdentifier)
             this.fireRealTimeProgress(this.oldIdentifier)
           }
         }
@@ -106,40 +108,46 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     if (this.screenSizeSubscription) {
       this.screenSizeSubscription.unsubscribe()
     }
-    this.saveContinueLearning(this.widgetData.identifier)
-    this.fireRealTimeProgress(this.widgetData.identifier)
-  }
-
-  saveContinueLearning(id: string) {
-    if (this.widgetData.mimeType === (NsContent.EMimeTypes.WEB_MODULE || NsContent.EMimeTypes.WEB_MODULE_EXERCISE)) {
-      if (this.activatedRoute.snapshot.queryParams.collectionType &&
-        this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-        const reqBody = {
-          contextPathId: this.collectionId ? this.collectionId : id,
-          resourceId: id,
-          dateAccessed: Date.now(),
-          contextType: 'playlist',
-          data: JSON.stringify({
-            progress: this.currentSlideNumber,
-            timestamp: Date.now(),
-            contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, id],
-          }),
-        }
-        this.contentSvc.saveContinueLearning(reqBody).toPromise().catch()
-      } else {
-        const reqBody = {
-          contextPathId: this.collectionId ? this.collectionId : id,
-          resourceId: id,
-          dateAccessed: Date.now(),
-          data: JSON.stringify({
-            progress: this.currentSlideNumber,
-            timestamp: Date.now(),
-          }),
-        }
-        this.contentSvc.saveContinueLearning(reqBody).toPromise().catch()
-      }
+    if (this.scrollTimeInterval) {
+      clearInterval(this.scrollTimeInterval)
+      this.scrollTimeInterval = null
+    }
+    // this.saveContinueLearning(this.widgetData.identifier)
+    if (this.widgetData && this.widgetData.identifier) {
+      this.fireRealTimeProgress(this.widgetData.identifier)
     }
   }
+
+  // saveContinueLearning(id: string) {
+  //   if (this.widgetData.mimeType === (NsContent.EMimeTypes.WEB_MODULE || NsContent.EMimeTypes.WEB_MODULE_EXERCISE)) {
+  //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
+  //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
+  //       const reqBody = {
+  //         contextPathId: this.collectionId ? this.collectionId : id,
+  //         resourceId: id,
+  //         dateAccessed: Date.now(),
+  //         contextType: 'playlist',
+  //         data: JSON.stringify({
+  //           progress: this.currentSlideNumber,
+  //           timestamp: Date.now(),
+  //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, id],
+  //         }),
+  //       }
+  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch()
+  //     } else {
+  //       const reqBody = {
+  //         contextPathId: this.collectionId ? this.collectionId : id,
+  //         resourceId: id,
+  //         dateAccessed: Date.now(),
+  //         data: JSON.stringify({
+  //           progress: this.currentSlideNumber,
+  //           timestamp: Date.now(),
+  //         }),
+  //       }
+  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch()
+  //     }
+  //   }
+  // }
   fireRealTimeProgress(id: string) {
     if (this.widgetData.mimeType === (NsContent.EMimeTypes.WEB_MODULE || NsContent.EMimeTypes.WEB_MODULE_EXERCISE)) {
       if (this.current.length > 0 && this.slides.length > 0) {
@@ -150,7 +158,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
           current: this.current,
           max_size: this.slides.length,
         }
-        this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest)
+        this.viewerSvc.realTimeProgressUpdateV3(id, realTimeProgressRequest)
       }
     }
   }
@@ -167,12 +175,6 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
         safeUrl: this.domSanitizer.bypassSecurityTrustResourceUrl(this.urlPrefix + u.URL),
       }))
     }
-    // this.slides = this.webModuleManifest.map(u => ({
-    //   ...u,
-    //   safeUrl: this.domSanitizer.bypassSecurityTrustResourceUrl(
-    //     `/apis/protected/v8/content/getWebModuleFiles?url=${encodeURIComponent(this.urlPrefix + u.URL)}`
-    //   )
-    // }));
     this.setPage(this.widgetData.resumePage ?? 1)
   }
 
@@ -220,18 +222,22 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   pageChange(increment: number) {
-    this.raiseTelemetry('pageChange', 'click')
     if (increment === 1 && this.currentSlideNumber < this.slides.length) {
+      this.raiseTelemetry('next-page', 'collection-details')
       this.setPage(this.currentSlideNumber + 1)
     } else if (increment === -1 && this.currentSlideNumber > 1) {
+      this.raiseTelemetry('previous-page', 'collection-details')
       this.setPage(this.currentSlideNumber - 1)
     }
   }
   raiseTelemetry(action: string, event: string) {
     if (this.widgetData.identifier) {
-      this.events.raiseInteractTelemetry(action, event, {
-        contentId: this.widgetData.identifier,
-      })
+      this.events.raiseInteractTelemetry('btn-clicked', action, event, {
+        id: this.widgetData.identifier,
+        type: "",
+        version: "",
+        rollup: {},
+      }, { values: [{ contentId: this.widgetData.identifier }] })
     }
     if (event === 'scroll') {
       this.isScrolled = false
@@ -242,7 +248,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     this.scrollTimeInterval = setInterval(
       () => {
         if (this.isScrolled) {
-          this.raiseTelemetry('pageScroll', 'scroll')
+          this.raiseTelemetry('pageScroll', 'collection-details')
         }
       },
       2 * 60000,

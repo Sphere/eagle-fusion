@@ -2,13 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { NsDiscussionForum } from './ws-discussion-forum.model'
-
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-const API_END_POINTS = {
-  USER_FOLLOW_DATA: `${PROTECTED_SLAG_V8}/user/follow/fetchAll`, // #GET
-  USER_FOLLOW: `${PROTECTED_SLAG_V8}/user/follow`, // #POST
-  USER_UNFOLLOW: `${PROTECTED_SLAG_V8}/user/follow/unfollow`, // #POST
-}
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',

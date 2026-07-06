@@ -5,23 +5,25 @@ import {
   NsInstanceConfig,
   UserPreferenceService,
 } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
-import { FormControl, Validators } from '@angular/forms'
+import { UntypedFormControl, Validators } from '@angular/forms'
 
 @Component({
-  selector: 'ws-app-lang-select',
-  templateUrl: './lang-select.component.html',
-  styleUrls: ['./lang-select.component.scss'],
+    standalone: false,
+    selector: 'ws-app-lang-select',
+    templateUrl: './lang-select.component.html',
+    styleUrls: ['./lang-select.component.scss'],
+    
 })
 export class LangSelectComponent implements OnInit {
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
     private userPrefSvc: UserPreferenceService,
-  ) {}
+  ) { }
   userName = ''
   selectedLang = ''
   lang = ''
-  animalControl = new FormControl('', Validators.required)
+  animalControl = new UntypedFormControl('', Validators.required)
   allowedLangCode: { [langCode: string]: NsInstanceConfig.ILocalsConfig } = {}
 
   ngOnInit() {
@@ -56,8 +58,8 @@ export class LangSelectComponent implements OnInit {
   //     }
   //     if (langCode.split('-')[0] === this.lang.split('-')[0]) {
   //       if (this.configSvc.userPreference && this.configSvc.userPreference.selectedLocale !== this.lang) {
-  //         console.log('seleced: ', this.configSvc.userPreference.selectedLocale)
-  //         console.log('Geo: ', this.lang)
+  //         this.logger.log('seleced: ', this.configSvc.userPreference.selectedLocale)
+  //         this.logger.log('Geo: ', this.lang)
   //         await this.userPrefSvc.saveUserPreference({
   //           selectedLocale: this.lang,
   //         })

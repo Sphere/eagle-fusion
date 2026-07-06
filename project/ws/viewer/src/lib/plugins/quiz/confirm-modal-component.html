@@ -1,21 +1,18 @@
 <div class="overview-container">
     <div class="flex justify-end">
-        <button mat-button class="close-icon" (click)="redirect()" mat-dialog-close>
+        <button mat-button class="close-icon" (click)="redirect()">
             <mat-icon>close</mat-icon>
         </button>
     </div>
     <div *ngIf="data.message" class="flex text-center">
-        <p i18n class="message-text">{{data.message}}</p>
+        <p class="message-text">{{data.message | translate}}</p>
     </div>
 
 
-    <div mat-dialog-title class="relative m-0">
-
-        <h2 class="m-0 center-align title" mat-dialog-title i18n>Submit your feedback</h2>
-    </div>
+    <h2 class="m-0 center-align title" mat-dialog-title>{{"Submit your feedback" | translate}}</h2>
     <mat-dialog-content>
         <form [formGroup]="ratingsForm">
-            <div class="margin-top-s center-align">
+            <div class="center-align">
                 <div class="star-rating">
                     <img *ngFor="let star of stars; let i = index"
                         [src]="star <= selectedRating ? '/fusion-assets/icons/star-filled.png' : '/fusion-assets/icons/star.png'"
@@ -23,17 +20,17 @@
                 </div>
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
-                <textarea (input)="setRating(selectedRating)" i18n i18n-placeholder style="height: 96px;padding: 10px;"
-                    rows="4" matInput placeholder=" Tell us more about what you felt" name="name"
+                <textarea (input)="setRating(selectedRating)" style="height: 96px;padding: 10px;" rows="4"
+                    matInput [placeholder]="'Tell us more about what you felt' | translate" name=" name"
                     formControlName="review" required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
-                    Comments is mandatory
+                    {{"Comments is mandatory" | translate}}
                 </mat-error>
             </div>
             <div class="margin-top-s margin-bottom-s center-align">
                 <button class="margin-left-s submit-btn" (click)="submitData()" [disabled]="isMandatory"
                     [ngStyle]="{'opacity': isMandatory ? 0.7 : 1}" color="primary">
-                    <ng-container i18n>Submit</ng-container>
+                    <ng-container>{{"Submit" | translate}}</ng-container>
                 </button>
             </div>
         </form>

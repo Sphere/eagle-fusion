@@ -6,9 +6,11 @@ export interface IFilteredContent {
   contents: NsContent.IContent[]
 }
 @Component({
-  selector: 'ws-app-last-learnt',
-  templateUrl: './last-learnt.component.html',
-  styleUrls: ['./last-learnt.component.scss'],
+    standalone: false,
+    selector: 'ws-app-last-learnt',
+    templateUrl: './last-learnt.component.html',
+    styleUrls: ['./last-learnt.component.scss'],
+    
 })
 
 export class LastLearntComponent implements OnInit {

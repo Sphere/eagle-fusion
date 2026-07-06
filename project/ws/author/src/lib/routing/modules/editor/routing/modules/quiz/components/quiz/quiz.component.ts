@@ -38,14 +38,16 @@ import { NSApiRequest } from '@ws/author/src/lib/interface/apiRequest'
 
 import { CONTENT_BASE_WEBHOST } from '@ws/author/src/lib/constants/apiEndpoints'
 import { VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection/src/public-api'
-import { FormGroup } from '@angular/forms'
+import { UntypedFormGroup } from '@angular/forms'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 
 @Component({
-  selector: 'ws-auth-quiz',
-  templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.scss'],
-  providers: [QuizResolverService],
+    standalone: false,
+    selector: 'ws-auth-quiz',
+    templateUrl: './quiz.component.html',
+    styleUrls: ['./quiz.component.scss'],
+    providers: [QuizResolverService],
+    
 })
 export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -430,7 +432,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       })
     })
     this.resourceType = this.metaContentService.getUpdatedMeta(this.currentId).categoryType
-    // console.log(dataWithAns, dataWithOutAns)
+    // this.logger.log(dataWithAns, dataWithOutAns)
     const uploadData = this.resourceType === ASSESSMENT ? dataWithOutAns : dataWithAns
     return forkJoin([
       this.uploadJson(
@@ -618,7 +620,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             height: '450px',
             data: this.metaContentService.getOriginalMeta(this.currentId),
           })
-          dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+          dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
             this.finalCall(commentsForm)
           })
         }
@@ -642,7 +644,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     )
   }
 
-  finalCall(commentsForm: FormGroup) {
+  finalCall(commentsForm: UntypedFormGroup) {
     if (commentsForm) {
       const body: NSApiRequest.IForwardBackwardActionGeneral = {
         comment: commentsForm.controls.comments.value,

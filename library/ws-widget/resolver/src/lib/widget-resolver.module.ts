@@ -32,13 +32,6 @@ import { ExploreResolverDirective } from './explore-resolver.directive'
   ],
   imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule],
   exports: [WidgetResolverDirective, WidgetBaseComponent, LoginResolverDirective, ExploreResolverDirective],
-  entryComponents: [
-    RestrictedComponent,
-    InvalidRegistrationComponent,
-    InvalidPermissionComponent,
-    UnresolvedComponent,
-    WidgetBaseComponent,
-  ],
 })
 export class WidgetResolverModule {
   static forRoot(config: NsWidgetResolver.IRegistrationConfig[]): ModuleWithProviders<WidgetResolverModule> {

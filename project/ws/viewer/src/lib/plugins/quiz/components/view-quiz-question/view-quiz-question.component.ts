@@ -5,13 +5,14 @@ import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import isUndefined from 'lodash/isUndefined'
-import toLower from 'lodash/toLower'
+import { isUndefined, toLower } from 'lodash'
 
 @Component({
-  selector: 'viewer-view-quiz-question',
-  templateUrl: './view-quiz-question.component.html',
-  styleUrls: ['./view-quiz-question.component.scss'],
+    standalone: false,
+    selector: 'viewer-view-quiz-question',
+    templateUrl: './view-quiz-question.component.html',
+    styleUrls: ['./view-quiz-question.component.scss'],
+    
 })
 export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -30,7 +31,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
       },
     ],
   }
-  @Output() itemSelected = new EventEmitter<string | Object>()
+  @Output() itemSelected = new EventEmitter<string | object>()
   @Input() itemSelectedList: string[] = []
   @Input() markedQuestions: Set<string> = new Set()
   title = 'match'
@@ -274,7 +275,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   @HostListener('window:resize')
-  onResize(_event: any) {
+  onResize() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.repaintEverything()
     }

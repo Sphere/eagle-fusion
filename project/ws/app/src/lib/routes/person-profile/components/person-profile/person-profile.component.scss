@@ -1,3 +1,6 @@
+@use 'ws-mixins';
+@use 'ws-vars';
+
 // .sidenav {
 //   background-color: transparent !important;
 //   margin-right: 8px !important;
@@ -10,8 +13,8 @@
   height: inherit !important;
 }
 
-@import 'ws-mixins';
-@import 'ws-vars';
+
+
 
 $app-background-lite-color: #f5f6f7;
 
@@ -20,7 +23,7 @@ $app-background-lite-color: #f5f6f7;
 // }
 
 .email {
-  color: #9baebd !important;
+  color: var(--theme-text-soft, #9baebd) !important;
 }
 
 // .sidenav-content {
@@ -69,7 +72,7 @@ $app-background-lite-color: #f5f6f7;
   overflow: auto;
   height: 200px !important;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     max-width: 100% !important;
     min-width: 100% !important;
   }
@@ -108,7 +111,7 @@ $app-background-lite-color: #f5f6f7;
   border-radius: 6px !important;
   width: 100% !important;
 
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     width: 100%;
   }
 }
@@ -118,7 +121,7 @@ $app-background-lite-color: #f5f6f7;
   width: 100% !important;
   background-color: whitesmoke !important;
 
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     width: 100%;
   }
 }
@@ -128,9 +131,9 @@ $app-background-lite-color: #f5f6f7;
   width: $image-size;
   height: $image-size;
   border-radius: 16px;
-  margin-top: $size-s;
+  margin-top: ws-mixins.$size-s;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 50px;
     height: 50px;
     border-radius: 8px;
@@ -140,7 +143,7 @@ $app-background-lite-color: #f5f6f7;
   h1 {
     font-size: 70px !important;
 
-    @include breakpoint-lt-m {
+    @include ws-mixins.breakpoint-lt-m {
       font-size: 25px !important;
     }
   }
@@ -156,9 +159,9 @@ $app-background-lite-color: #f5f6f7;
     width: $image-size;
     height: $image-size;
     border-radius: 16px;
-    margin-top: $size-s;
+    margin-top: ws-mixins.$size-s;
 
-    @include breakpoint-lt-m {
+    @include ws-mixins.breakpoint-lt-m {
       width: 50px;
       height: 50px;
       border-radius: 50%;

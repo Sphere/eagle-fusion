@@ -2,9 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 @Component({
-  selector: 'viewer-close-quiz-modal',
-  templateUrl: './close-quiz-modal.component.html',
-  styleUrls: ['./close-quiz-modal.component.scss'],
+    standalone: false,
+    selector: 'viewer-close-quiz-modal',
+    templateUrl: './close-quiz-modal.component.html',
+    styleUrls: ['./close-quiz-modal.component.scss'],
+    
 })
 export class CloseQuizModalComponent implements OnInit {
 

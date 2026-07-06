@@ -1,22 +1,27 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 .application-logo {
   max-width: 150px;
   display: block;
   width: 100%;
   //padding-top: 8px;
-  @include breakpoint-xs {
-    max-width: 60px;
+  @include ws-mixins.breakpoint-xs {
+    max-width: 1100px;
   }
 }
+
+img {
+  filter: var(--theme-icon-filter);
+}
+
 .navbar-container{
-  background-color: #FFFFFF !important;
+  background: var(--theme-bg) !important;
 }
 
 .app-logo {
   max-height: 73px;
   min-width: 120px;
-
-  @include breakpoint-xs {
+  filter: var(--theme-icon-filter);
+  @include ws-mixins.breakpoint-xs {
     max-width: 80px;
     margin-top: 9px;
   }
@@ -26,37 +31,19 @@
   width: 60px;
 }
 .title-app {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     visibility: hidden;
   }
 }
 
-.my-search {
-  display: flex;
-  margin-left: 8px;
-  margin-right: 8px;
-  text-align: center;
-  flex: 1;
-  height: 50px;
-  max-width: 470px;
-  @include breakpoint-xs {
-    margin-right: 7px;
-  }
-}
-.fix-ww {
-  // margin-left: auto;
-  // margin-right: auto;
-  display: flex;
-  // flex: 1;
-}
 .small-font-size {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     font-size: smaller !important;
   }
 }
 
 .padding-remove-small {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 0 !important;
   }
 }
@@ -66,9 +53,9 @@
     justify-content: center;
     align-items: center;
     gap: 8px;
-    background-color: #2E6491 !important;
+    background-color: var(--theme-accent) !important;
     border-radius: 50px;
-    color: #FFFFFF !important;
+    color: var(--theme-bg) !important;
     font-family: Roboto, sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -85,20 +72,50 @@
     justify-content: center;
     align-items: center;
     gap: 8px;
-    background-color: #FFFFFF !important;
+    background-color: var(--theme-bg) !important;
     border-radius: 50px;
-    color: #2E6491 !important;
+    color: var(--theme-accent) !important;
     font-family: Roboto, sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
     cursor: pointer;
-    border: 1px solid #2E6491;
+    border: 1px solid var(--theme-accent);
 }
 
 .login-btn-xs {
   display: flex;
   align-items: center;
-  // margin-right: 12px;
+  background-color: var(--theme-accent, #2E6491);
+  width: 75px;
+  height: 30px;
+  border: 1px solid #3f51b5;
+  border-radius: 20px;
+  color: var(--theme-bg) !important;
+  font-size: small;
+  justify-content: center;
+}
+
+.flex {
+  width: 100%;
+}
+
+:host-context(.dark-theme) {
+  .navbar-container {
+    background: var(--theme-surface, #0e161b) !important;
+    color: var(--theme-text, #ecf3f8);
+    border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .login-btn,
+  .login-btn-xs {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .new-user-btn {
+    background-color: var(--theme-surface, #0e161b) !important;
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    color: var(--theme-text, #ecf3f8) !important;
+  }
 }

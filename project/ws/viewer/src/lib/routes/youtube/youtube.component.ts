@@ -13,9 +13,11 @@ import { Platform } from '@angular/cdk/platform'
 import { ViewerDataService } from './../../viewer-data.service'
 
 @Component({
-  selector: 'viewer-youtube',
-  templateUrl: './youtube.component.html',
-  styleUrls: ['./youtube.component.scss'],
+    standalone: false,
+    selector: 'viewer-youtube',
+    templateUrl: './youtube.component.html',
+    styleUrls: ['./youtube.component.scss'],
+    
 })
 export class YoutubeComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
@@ -103,7 +105,7 @@ export class YoutubeComponent implements OnInit, OnDestroy {
           userId,
           batchId: this.batchId,
           courseId: collectionId || '',
-          contentIds: [],
+          contentIds: [videoId],
           fields: ['progressdetails'],
         },
       }

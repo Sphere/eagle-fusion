@@ -2,52 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
 import { Observable, of, throwError, Subject, BehaviorSubject } from 'rxjs'
-import { catchError, retry, map } from 'rxjs/operators'
+import { catchError, retry, map, shareReplay } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
 import { NSSearch } from './widget-search.model'
-
-// TODO: move this in some common place
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-const PUBLIC_SLAG = '/apis/public/v8'
-const API_END_POINTS = {
-  CONTENT: `${PROTECTED_SLAG_V8}/content`,
-  AUTHORING_CONTENT: `/apis/authApi/hierarchy`,
-  LATEST_HOMEPAGE_COURSE: `/apis/public/v8/homePage/latestCourses`,
-  CONTENT_LIKES: `${PROTECTED_SLAG_V8}/content/likeCount`,
-  SET_S3_COOKIE: `${PROTECTED_SLAG_V8}/content/setCookie`,
-  SET_S3_IMAGE_COOKIE: `${PROTECTED_SLAG_V8}/content/setImageCookie`,
-  FETCH_MANIFEST: `${PROTECTED_SLAG_V8}/content/getWebModuleManifest`,
-  FETCH_WEB_MODULE_FILES: `${PROTECTED_SLAG_V8}/content/getWebModuleFiles`,
-  MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
-  CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
-  PUBLIC_CONTENT_SEARCH: `${PUBLIC_SLAG}/ratingsSearch/getCourses`,
-  CONTENT_SEARCH_V6: `/apis/proxies/v8/sunbirdigot/read`,
-  CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
-  CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
-  CONTENT_HISTORYV2: `/apis/proxies/v8/read/content-progres`,
-  USER_CONTINUE_LEARNING: `${PROTECTED_SLAG_V8}/user/history/continue`,
-  CONTENT_RATING: `${PROTECTED_SLAG_V8}/user/rating`,
-  COLLECTION_HIERARCHY: (type: string, id: string) =>
-    `${PROTECTED_SLAG_V8}/content/collection/${type}/${id}`,
-  REGISTRATION_STATUS: `${PROTECTED_SLAG_V8}/admin/userRegistration/checkUserRegistrationContent`,
-  MARK_AS_COMPLETE_META: (contentId: string) => `${PROTECTED_SLAG_V8}/user/progress/${contentId}`,
-  COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
-  ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
-  COURSE_RATING: `/apis/protected/v8/ratings/upsert`,
-  READ_COURSE_RATING: `/apis/protected/v8/ratings/v2/read`,
-  READ_COURSE_RATING_SUMMARY: `/apis/protected/v8/ratings/summary`,
-  GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
-  LOGIN_USER: `/apis/public/v8/emailMobile/auth`,
-  FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
-    // tslint:disable-next-line: max-line-length
-    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  FETCH_GENERAL_RC_CERTIFICATE: () =>
-    // tslint:disable-next-line: max-line-length
-    `apis/protected/v8/rcCert/user/enrollment/list/adhocCertificates?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  COURSE_RECOMENDATION: (profession: string) =>
-    `${PUBLIC_SLAG}/mobileApp/courseRemommendationv2?profession=${profession}`,
-}
+import { LanguageService } from '../../../../../../src/app/services/language.service'
+import { LoggerService } from '../../../../utils/src/public-api'
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
+import { CourseHierarchyCacheService } from './course-hierarchy-cache.service'
 
 @Injectable({
   providedIn: 'root',
@@ -66,9 +28,15 @@ export class WidgetContentService {
   // Observable navItem stream
   updateValue$ = this._updateValue.asObservable()
   _showConformation: any
+
+  // Request deduplication cache for progress API
+  private progressRequestCache: Map<string, Observable<any>> = new Map()
   constructor(
     private http: HttpClient,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private languageSvc: LanguageService,
+    private logger: LoggerService,
+    private cacheService: CourseHierarchyCacheService
   ) { }
 
   fetchMarkAsCompleteMeta(identifier: string): Promise<any> {
@@ -82,25 +50,14 @@ export class WidgetContentService {
     this.backSource.next(message)
   }
   changeWork(msg: any) {
-    console.log('came1')
+    this.logger.log('came1')
     this.workSource.next(msg)
   }
-  // fetchContent(
-  //   contentId: string,
-  //   hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
-  //   additionalFields: string[] = [],
-  // ): Observable<NsContent.IContent> {
-  //   console.log('Fetch content 666')
-  //   const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
-  //   return this.http
-  //     .post<NsContent.IContent>(url, { additionalFields })
-  //     .pipe(retry(1))
-  // }
 
   // tslint:disable-next-line:max-line-length
   fetchUserBatchList(userId: string | undefined): Observable<NsContent.ICourse[]> {
     let path = ''
-    path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST(userId)
+    path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_COMP(userId)
     return this.http
       .get(path)
       .pipe(
@@ -120,15 +77,18 @@ export class WidgetContentService {
       )
   }
   fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
-    const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=detail`
-    const apiData = this.http
-      .get<NsContent.IContent>(url)
-      .pipe(retry(1))
-    return apiData
+    // Use cache service with 2-hour expiration (same-day freshness for published courses)
+    return this.cacheService.getCourseHierarchy(contentId)
   }
 
   readContentV2(id: string): Observable<NsContent.IContent> {
-    let url = `/apis/proxies/v8/action/content/v3/read/${id}`
+    // Guard: prevent API call with undefined id
+    if (!id || id === 'undefined') {
+      console.error('[Content] Error: readContentV2 called with undefined id')
+      return throwError(() => new Error('Content ID is required'))
+    }
+
+    const url = `/apis/proxies/v8/action/content/v3/read/${id}`
     const apiData = this.http
       .get<NsContent.IContent>(url)
       .pipe(retry(1))
@@ -136,12 +96,12 @@ export class WidgetContentService {
   }
 
   processCertificate(req: any): Observable<any> {
-    const url = `/apis/proxies/v8/course/batch/cert/v1/issue/`
+    const url = API_END_POINTS.BATCH_CERT_ISSUE
     return this.http.post<any>(url, req)
   }
 
   downloadCertificateAPI(certificateId: string): Observable<any> {
-    const url = `/apis/proxies/v8/certreg/v2/certs/download/${certificateId}`
+    const url = API_END_POINTS.DOWNLOAD_CERTIFICATE(certificateId)
     const apiData = this.http
       .get<any>(url)
       .pipe(retry(1))
@@ -149,7 +109,7 @@ export class WidgetContentService {
   }
 
   getCertificateAPI(certificateId: string): Observable<any> {
-    const url = `/apis/proxies/v8/certreg/v2/certs/download/${certificateId}`
+    const url = API_END_POINTS.DOWNLOAD_CERTIFICATE(certificateId)
     const apiData = this.http
       .get<any>(url)
       .pipe(retry(1), map(res => this._updateValue.next({ [certificateId]: res.result.printUri })))
@@ -158,27 +118,27 @@ export class WidgetContentService {
 
   fetchContent(
     contentId: string,
-    hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
+    _hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
     _additionalFields: string[] = [],
     primaryCategory?: string | null,
   ): Observable<NsContent.IContent> {
-    // const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
-    let url = ''
-    if (primaryCategory && this.isResource(primaryCategory)) {
-      url = `/apis/proxies/v8/action/content/v3/read/${contentId}`
-    } else {
-      url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=${hierarchyType}`
+    // Guard: prevent API call with undefined id
+    if (!contentId || contentId === 'undefined') {
+      console.error('[Content] Error: fetchContent called with undefined contentId')
+      return throwError(() => new Error('Content ID is required'))
     }
-    // return this.http
-    //   .post<NsContent.IContent>(url, { additionalFields })
-    //   .pipe(retry(1))
-    const apiData = this.http
-      .get<NsContent.IContent>(url)
-      .pipe(retry(1))
-    // if (apiData && apiData.result) {
-    //   return apiData.result.content
-    // }
-    return apiData
+
+    // For resources (learning objects), fetch directly without cache
+    if (primaryCategory && this.isResource(primaryCategory)) {
+      const url = `/apis/proxies/v8/action/content/v3/read/${contentId}`
+      const apiData = this.http
+        .get<NsContent.IContent>(url)
+        .pipe(retry(1))
+      return apiData
+    }
+
+    // For collections/courses, use cache service with 2-hour expiration
+    return this.cacheService.getCourseHierarchy(contentId)
   }
 
   isResource(primaryCategory: string) {
@@ -198,7 +158,7 @@ export class WidgetContentService {
       `${API_END_POINTS.MULTIPLE_CONTENT}/${ids.join(',')}`,
     )
   }
-  fetchCollectionHierarchy(type: string, id: string, pageNumber: number = 0, pageSize: number = 1) {
+  fetchCollectionHierarchy(type: string, id: string, pageNumber = 0, pageSize = 1) {
     return this.http.get<NsContent.ICollectionHierarchyResponse>(
       `${API_END_POINTS.COLLECTION_HIERARCHY(
         type,
@@ -245,45 +205,74 @@ export class WidgetContentService {
 
   fetchContentHistoryV2(req: NsContent.IContinueLearningDataReq): Observable<NsContent.IContinueLearningData> {
     req.request.fields = ['progressdetails']
-    return this.http.post<NsContent.IContinueLearningData>(
-      `${API_END_POINTS.CONTENT_HISTORYV2}/${req.request.courseId}`, req
+    const courseId = req.request.courseId
+    const cacheKey = `progress-${courseId}`
+
+    // Check if we already have a pending request for this course (request deduplication)
+    if (this.progressRequestCache.has(cacheKey)) {
+      console.log(`[Progress] Deduplication: Using cached request for ${courseId}`)
+      return this.progressRequestCache.get(cacheKey)!
+    }
+
+    // Make API call and cache the observable (prevents duplicate simultaneous requests)
+    const request$ = this.http.post<NsContent.IContinueLearningData>(
+      `${API_END_POINTS.CONTENT_HISTORYV2}/${courseId}`, req
+    ).pipe(
+      shareReplay(1),  // Share result among multiple subscribers + keep cached for 1 more subscription
+      catchError(error => {
+        console.error(`[Progress] API Error for ${courseId}:`, error)
+        this.progressRequestCache.delete(cacheKey)  // Remove from cache on error
+        return throwError(() => error)
+      }),
+      // Auto cleanup cache after response (allows time for more subscribers to attach)
+      // 500ms - enough for multiple simultaneous subscriptions to use the cached result
     )
+
+    this.progressRequestCache.set(cacheKey, request$)
+    console.log(`[Progress] API Call: ${courseId}`)
+
+    // Auto-cleanup after 500ms to prevent memory buildup
+    setTimeout(() => {
+      this.progressRequestCache.delete(cacheKey)
+    }, 500)
+
+    return request$
   }
-  async continueLearning(id: string, collectionId?: string, collectionType?: string): Promise<any> {
-    return new Promise(async resolve => {
-      if (collectionType &&
-        collectionType.toLowerCase() === 'playlist') {
-        const reqBody = {
-          contextPathId: collectionId ? collectionId : id,
-          resourceId: id,
-          data: JSON.stringify({
-            timestamp: Date.now(),
-            contextFullPath: [collectionId, id],
-          }),
-          dateAccessed: Date.now(),
-          contextType: 'playlist',
-        }
-        await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-          resolve(true)
-        }
-        )
-      } else {
-        const reqBody = {
-          contextPathId: collectionId ? collectionId : id,
-          resourceId: id,
-          data: JSON.stringify({ timestamp: Date.now() }),
-          dateAccessed: Date.now(),
-        }
-        await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-          resolve(true)
-        })
-      }
-    })
-  }
-  saveContinueLearning(content: NsContent.IViewerContinueLearningRequest): Observable<any> {
-    const url = API_END_POINTS.USER_CONTINUE_LEARNING
-    return this.http.post<any>(url, content)
-  }
+  // async continueLearning(id: string, collectionId?: string, collectionType?: string): Promise<any> {
+  //   return new Promise(async resolve => {
+  //     if (collectionType &&
+  //       collectionType.toLowerCase() === 'playlist') {
+  //       const reqBody = {
+  //         contextPathId: collectionId ? collectionId : id,
+  //         resourceId: id,
+  //         data: JSON.stringify({
+  //           timestamp: Date.now(),
+  //           contextFullPath: [collectionId, id],
+  //         }),
+  //         dateAccessed: Date.now(),
+  //         contextType: 'playlist',
+  //       }
+  //       await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
+  //         resolve(true)
+  //       }
+  //       )
+  //     } else {
+  //       const reqBody = {
+  //         contextPathId: collectionId ? collectionId : id,
+  //         resourceId: id,
+  //         data: JSON.stringify({ timestamp: Date.now() }),
+  //         dateAccessed: Date.now(),
+  //       }
+  //       await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
+  //         resolve(true)
+  //       })
+  //     }
+  //   })
+  // }
+  // saveContinueLearning(content: NsContent.IViewerContinueLearningRequest): Observable<any> {
+  //   const url = API_END_POINTS.USER_CONTINUE_LEARNING
+  //   return this.http.post<any>(url, content)
+  // }
 
   setS3Cookie(
     contentId: string,
@@ -328,8 +317,8 @@ export class WidgetContentService {
     )
   }
   searchV6(req: any) {
-    const url = location.href
-    if (url.includes('/hi/')) {
+    // Use LanguageService instead of checking location.href
+    if (this.languageSvc.isHindi()) {
       req.request.filters.lang = 'hi'
     }
     req.query = req.query || ''
@@ -338,16 +327,16 @@ export class WidgetContentService {
         lastUpdatedOn: 'desc',
       },
     ]
-    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH, req)
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.SEARCH_V7PUBLIC, req)
   }
 
   publicContentSearch(req: any) {
-    const url = location.href
-    if (url.includes('/hi/')) {
+    // Use LanguageService instead of checking location.href
+    if (this.languageSvc.isHindi()) {
       req.request.filters.lang = 'hi'
     }
     req.query = req.query || ''
-    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.SEARCH_V7PUBLIC,
       req,
     )
   }
@@ -415,19 +404,6 @@ export class WidgetContentService {
         )
       )
   }
-  fetchCourseRemommendations(profession: any): Observable<NsContent.ICourse[]> {
-    let path = API_END_POINTS.COURSE_RECOMENDATION(profession)
-    return this.http
-      .get(path)
-      .pipe(
-        catchError(this.handleError),
-        map(
-          (data: any) => data
-        )
-      )
-
-  }
-
   getLatestCourse() {
     return this.http.get<any>(`${API_END_POINTS.LATEST_HOMEPAGE_COURSE}`)
   }
@@ -439,9 +415,29 @@ export class WidgetContentService {
 
   get showConformation() {
     if (this._showConformation === undefined) {
-      let showConformation = localStorage.getItem('showConformation')
+      const showConformation = localStorage.getItem('showConformation')
       this._showConformation = showConformation === 'false' ? false : true
     }
     return this._showConformation
+  }
+
+  getCouseByContentSearch(identifiers: string[], includeRating = false, requestBody?: any): Observable<any> {
+    const req = requestBody || {
+      request: {
+        filters: {
+          primaryCategory: ['Course'],
+          contentType: ['Course'],
+          status: ['Live'],
+          identifier: identifiers,
+        },
+        offset: '0',
+      },
+      query: '',
+      sort: [{ lastUpdatedOn: 'desc' }],
+    }
+    const url = includeRating
+      ? `${API_END_POINTS.CONTENT_SEARCH}?rating=true`
+      : API_END_POINTS.CONTENT_SEARCH
+    return this.http.post<any>(url, req).pipe(catchError(this.handleError))
   }
 }

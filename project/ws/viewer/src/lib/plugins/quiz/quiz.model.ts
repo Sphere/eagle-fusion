@@ -34,7 +34,7 @@ export namespace NSQuiz {
   export type TUserSelectionType = 'start' | 'skip'
   export type TQuizSubmissionState = 'unanswered' | 'marked' | 'answered'
   export type TQuizViewMode = 'initial' | 'attempt' | 'review' | 'answer'
-
+  export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
   export interface IQuizSubmitRequest {
     identifier: string
     isAssessment: boolean

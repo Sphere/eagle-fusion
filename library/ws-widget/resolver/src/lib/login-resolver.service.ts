@@ -2,16 +2,13 @@ import { WIDGET_RESOLVER_GLOBAL_CONFIG, WIDGET_RESOLVER_SCOPED_CONFIG } from './
 import {
   Injectable,
   Inject,
-  ComponentFactoryResolver,
   ViewContainerRef,
   ComponentRef,
   Type,
 } from '@angular/core'
-import { NsWidgetResolver } from '../public-api'
+import { NsWidgetResolver } from '../lib/widget-resolver.model'
 import { DomSanitizer } from '@angular/platform-browser'
 import { InvalidRegistrationComponent } from './invalid-registration/invalid-registration.component'
-import { InvalidPermissionComponent } from './invalid-permission/invalid-permission.component'
-import { UnresolvedComponent } from './unresolved/unresolved.component'
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +18,6 @@ export class LoginResolverService {
 
   constructor(
     private domSanitizer: DomSanitizer,
-    private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(WIDGET_RESOLVER_GLOBAL_CONFIG)
     private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
     @Inject(WIDGET_RESOLVER_SCOPED_CONFIG)
@@ -80,12 +76,8 @@ export class LoginResolverService {
       }
       // Not properly registered
       return this.widgetResolved(containerRef, receivedConfig, InvalidRegistrationComponent)
-      // }
-      // No Permission
-      return this.widgetResolved(containerRef, receivedConfig, InvalidPermissionComponent)
     }
-    // Not Resolved
-    return this.widgetResolved(containerRef, receivedConfig, UnresolvedComponent)
+    return null
   }
 
   private widgetResolved(
@@ -93,10 +85,9 @@ export class LoginResolverService {
     compData: NsWidgetResolver.IRenderConfigWithAnyData,
     component: Type<NsWidgetResolver.IWidgetData<any>>,
   ): ComponentRef<NsWidgetResolver.IWidgetData<any>> {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(component)
     containerRef.clear()
     const compRef: ComponentRef<NsWidgetResolver.IWidgetData<any>> = containerRef.createComponent(
-      factory,
+      component,
     )
     compRef.instance.widgetData = compData.widgetData
     if (compRef.instance.updateBaseComponent) {

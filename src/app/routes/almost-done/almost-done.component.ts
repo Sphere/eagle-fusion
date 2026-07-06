@@ -1,28 +1,29 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import {
-  //Router,
-  ActivatedRoute
-} from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { HttpClient } from '@angular/common/http'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
-  selector: 'ws-almost-done',
-  templateUrl: './almost-done.component.html',
-  styleUrls: ['./almost-done.component.scss'],
+    standalone: false,
+    selector: 'ws-almost-done',
+    templateUrl: './almost-done.component.html',
+    styleUrls: ['./almost-done.component.scss'],
+    
 })
 export class AlmostDoneComponent implements OnInit {
 
   @Input() yourBackground: any
   @Input() backgroundSelect: any
   @Output() redirectToParent = new EventEmitter()
-  createUserForm!: FormGroup
-  almostDoneForm!: FormGroup
+  createUserForm!: UntypedFormGroup
+  almostDoneForm!: UntypedFormGroup
   professionOthersField = false
   orgOthersField = false
   rnFieldDisabled = true
@@ -33,7 +34,7 @@ export class AlmostDoneComponent implements OnInit {
   email = ''
   govtOrgMeta!: IGovtOrgMeta
   masterNationalities: any = []
-  public degrees!: FormArray
+  public degrees!: UntypedFormArray
   profession = ''
   studentInstitute = ''
   studentCourse = ''
@@ -56,13 +57,14 @@ export class AlmostDoneComponent implements OnInit {
   constructor(
     public configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    //private router: Router,
     public snackBar: MatSnackBar,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private activateRoute: ActivatedRoute,
     private http: HttpClient,
     public UserAgentResolverService: UserAgentResolverService,
     private signupService: SignupService,
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
   }
 
@@ -70,7 +72,7 @@ export class AlmostDoneComponent implements OnInit {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
     this.result = await this.signupService.fetchStartUpDetails()
-    console.log(this.result)
+    this.logger.log(this.result)
     if (this.yourBackground.value.country !== 'India') {
       this.hideAsha = true
     } else {
@@ -79,13 +81,13 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'ASHA') {
       this.almostDoneForm.controls.professSelected.setValue('ASHA')
       this.enableSubmit = true
-      this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
         statesdata.states.map((item: any) => {
           if (item.state === this.yourBackground.value.state) {
             this.disticts = item.districts
           }
         })
+        this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       })
     }
   }
@@ -100,97 +102,97 @@ export class AlmostDoneComponent implements OnInit {
     if (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer') {
       this.enableSubmit = true
       if (this.yourBackground && this.yourBackground.value) {
-        this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
         this.http.get(this.districtUrl).subscribe((statesdata: any) => {
           statesdata.states.map((item: any) => {
             if (item.state === this.yourBackground.value.state) {
               this.disticts = item.districts
             }
           })
+          this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
         })
       }
     }
   }
 
   almostDoneFormFields() {
-    return new FormGroup({
-      selectBackground: new FormControl(),
-      professSelected: new FormControl(),
-      block: new FormControl(),
-      subcentre: new FormControl(),
-      locationselect: new FormControl(),
-      profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      rnNumber: new FormControl('', [Validators.pattern(/[^\s]/)]),
-      orgType: new FormControl(),
-      orgName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      professionOtherSpecify: new FormControl(),
-      designationName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      orgOtherSpecify: new FormControl(),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      othersProfession: new FormControl(),
+    return new UntypedFormGroup({
+      selectBackground: new UntypedFormControl(),
+      professSelected: new UntypedFormControl(),
+      block: new UntypedFormControl(),
+      subcentre: new UntypedFormControl(),
+      locationselect: new UntypedFormControl(),
+      profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      rnNumber: new UntypedFormControl('', [Validators.pattern(/[^\s]/)]),
+      orgType: new UntypedFormControl(),
+      orgName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      professionOtherSpecify: new UntypedFormControl(),
+      designationName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      orgOtherSpecify: new UntypedFormControl(),
+      instituteName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      othersProfession: new UntypedFormControl(),
     })
   }
 
   createUserFormFields() {
-    return new FormGroup({
-      firstname: new FormControl('', []),
-      middlename: new FormControl('', []),
-      surname: new FormControl('', []),
-      about: new FormControl(''),
-      countryCode: new FormControl('', []),
-      mobile: new FormControl('', []),
-      telephone: new FormControl('', []),
-      primaryEmail: new FormControl('', []),
-      primaryEmailType: new FormControl('', []),
-      secondaryEmail: new FormControl('', []),
-      nationality: new FormControl('', []),
-      dob: new FormControl('', []),
-      domicileMedium: new FormControl('', []),
-      regNurseRegMidwifeNumber: new FormControl('', []),
-      knownLanguages: new FormControl([], []),
-      residenceAddress: new FormControl('', []),
-      schoolName10: new FormControl('', []),
-      yop10: new FormControl('', []),
-      schoolName12: new FormControl('', []),
-      yop12: new FormControl('', []),
+    return new UntypedFormGroup({
+      firstname: new UntypedFormControl('', []),
+      middlename: new UntypedFormControl('', []),
+      surname: new UntypedFormControl('', []),
+      about: new UntypedFormControl(''),
+      countryCode: new UntypedFormControl('', []),
+      mobile: new UntypedFormControl('', []),
+      telephone: new UntypedFormControl('', []),
+      primaryEmail: new UntypedFormControl('', []),
+      primaryEmailType: new UntypedFormControl('', []),
+      secondaryEmail: new UntypedFormControl('', []),
+      nationality: new UntypedFormControl('', []),
+      dob: new UntypedFormControl('', []),
+      domicileMedium: new UntypedFormControl('', []),
+      regNurseRegMidwifeNumber: new UntypedFormControl('', []),
+      knownLanguages: new UntypedFormControl([], []),
+      residenceAddress: new UntypedFormControl('', []),
+      schoolName10: new UntypedFormControl('', []),
+      yop10: new UntypedFormControl('', []),
+      schoolName12: new UntypedFormControl('', []),
+      yop12: new UntypedFormControl('', []),
       degrees: this.fb.array([this.createDegree()]),
       postDegrees: this.fb.array([this.createDegree()]),
-      certificationDesc: new FormControl('', []),
-      interests: new FormControl([], []),
-      hobbies: new FormControl([], []),
-      skillAquiredDesc: new FormControl('', []),
-      isGovtOrg: new FormControl(false, []),
-      orgName: new FormControl('', []),
-      orgNameOther: new FormControl('', []),
-      industry: new FormControl('', []),
-      industryOther: new FormControl('', []),
-      designation: new FormControl('', []),
-      profession: new FormControl('', []),
-      location: new FormControl('', []),
-      locationOther: new FormControl('', []),
-      doj: new FormControl('', []),
-      orgDesc: new FormControl('', []),
-      payType: new FormControl('', []),
-      service: new FormControl('', []),
-      cadre: new FormControl('', []),
-      allotmentYear: new FormControl('', []),
-      otherDetailsDoj: new FormControl('', []),
-      civilListNo: new FormControl('', []),
-      employeeCode: new FormControl('', []),
-      otherDetailsOfficeAddress: new FormControl('', []),
-      otherDetailsOfficePinCode: new FormControl('', []),
-      residenceState: new FormControl('', []),
-      residenceDistrict: new FormControl('', []),
-      orgType: new FormControl('', []),
+      certificationDesc: new UntypedFormControl('', []),
+      interests: new UntypedFormControl([], []),
+      hobbies: new UntypedFormControl([], []),
+      skillAquiredDesc: new UntypedFormControl('', []),
+      isGovtOrg: new UntypedFormControl(false, []),
+      orgName: new UntypedFormControl('', []),
+      orgNameOther: new UntypedFormControl('', []),
+      industry: new UntypedFormControl('', []),
+      industryOther: new UntypedFormControl('', []),
+      designation: new UntypedFormControl('', []),
+      profession: new UntypedFormControl('', []),
+      location: new UntypedFormControl('', []),
+      locationOther: new UntypedFormControl('', []),
+      doj: new UntypedFormControl('', []),
+      orgDesc: new UntypedFormControl('', []),
+      payType: new UntypedFormControl('', []),
+      service: new UntypedFormControl('', []),
+      cadre: new UntypedFormControl('', []),
+      allotmentYear: new UntypedFormControl('', []),
+      otherDetailsDoj: new UntypedFormControl('', []),
+      civilListNo: new UntypedFormControl('', []),
+      employeeCode: new UntypedFormControl('', []),
+      otherDetailsOfficeAddress: new UntypedFormControl('', []),
+      otherDetailsOfficePinCode: new UntypedFormControl('', []),
+      residenceState: new UntypedFormControl('', []),
+      residenceDistrict: new UntypedFormControl('', []),
+      orgType: new UntypedFormControl('', []),
     })
   }
 
-  createDegree(): FormGroup {
+  createDegree(): UntypedFormGroup {
     return this.fb.group({
-      degree: new FormControl('', []),
-      instituteName: new FormControl('', []),
-      yop: new FormControl('', []),
+      degree: new UntypedFormControl('', []),
+      instituteName: new UntypedFormControl('', []),
+      yop: new UntypedFormControl('', []),
     })
   }
 
@@ -312,18 +314,9 @@ export class AlmostDoneComponent implements OnInit {
       // }
     }
     if (this.backgroundSelect === 'ASHA') {
-      // tslint:disable-next-line
-      this.almostDoneForm.valueChanges.subscribe(value => {
-        console.log(value)
-        if (value.block && value.subcentre) {
-          this.enableSubmit = false
-        } else {
-          this.enableSubmit = true
-        }
-      })
-      // if (this.almostDoneForm.value.block && this.almostDoneForm.value.subcentre) {
-      //   this.enableSubmit = false
-      // }
+      const block = this.almostDoneForm.controls['block'].value
+      const locationselect = this.almostDoneForm.controls['locationselect'].value
+      this.enableSubmit = !(block && locationselect)
     }
     if (this.backgroundSelect === 'Student') {
       // tslint:disable-next-line
@@ -350,24 +343,24 @@ export class AlmostDoneComponent implements OnInit {
     //   // }
     // }
     if (this.profession === 'student' && this.studentInstitute) {
-      this.degrees = this.createUserForm.get('degrees') as FormArray
+      this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
       this.degrees.removeAt(0)
       this.degrees.push(this.fb.group({
-        degree: new FormControl(this.studentCourse, []),
-        instituteName: new FormControl(this.studentInstitute, []),
-        yop: new FormControl('', []),
+        degree: new UntypedFormControl(this.studentCourse, []),
+        instituteName: new UntypedFormControl(this.studentInstitute, []),
+        yop: new UntypedFormControl('', []),
       }))
     }
 
-    if (Object.keys(event).length && this.almostDoneForm.dirty) {
+    if (Object.keys(event).length && this.almostDoneForm.dirty && this.backgroundSelect !== 'ASHA') {
       this.enableSubmit = false
     }
-    console.log(this.backgroundSelect, this.selectedBg)
+    this.logger.log(this.backgroundSelect, this.selectedBg)
   }
 
   public getOrganisationsHistory() {
     const organisations: any = []
-    console.log(this.almostDoneForm.value.orgOtherSpecify)
+    this.logger.log(this.almostDoneForm.value.orgOtherSpecify)
     const org: any = {
       orgType: this.almostDoneForm.value.orgType,
       name: this.almostDoneForm.value.orgName!.trim(),
@@ -481,7 +474,8 @@ export class AlmostDoneComponent implements OnInit {
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId
     }
-    console.log(this.userId, this.result.userId)
+
+    this.logger.log(this.userId, this.result.userId)
     //const reqObj = localStorage.getItem(`preferedLanguage`) || ''
     //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
@@ -494,6 +488,8 @@ export class AlmostDoneComponent implements OnInit {
           ? this.configSvc.unMappedUser.profileDetails.preferences.language
           : 'en',
       },
+      userSource: this.configSvc?.unMappedUser?.profileDetails?.userSource,
+      // personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
 
@@ -501,56 +497,38 @@ export class AlmostDoneComponent implements OnInit {
       request: {
         userId: this.result.userId,
         profileDetails: {
-          ...profileRequest, profileLocation: 'sphere-web/almost-done'
+          ...profileRequest, profileLocation: 'sphere-web/almost-done',
         },
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (data) => {
-      console.log(data, 'data')
-      let status = await data.params.status
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
+      this.logger.log(data, 'data')
+      const status = await data.params.status
       if (data && status === 'SUCCESS') {
-        if (this.configSvc.unMappedUser.profileDetails.preferences.language === 'en') {
-          this.openSnackbar('User profile details updated successfully!')
-        } else {
-          this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-        }
+        this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
-          let lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' : ''
-          console.log(params.redirect, 'redirect')
-          let url1 = params.redirect
-          if (url1.includes('hi')) {
-            url1 = url1.replace('hi', '')
-          }
-          const url2 = `${lang}${url1}`
+          this.logger.log(params.redirect, 'redirect')
+          const url1 = params.redirect
           let url3 = `${document.baseURI}`
-          if (url3.includes('hi')) {
-            url3 = url3.replace('hi/', '')
-          }
           if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
             localStorage.removeItem('url_before_login')
-            url3 = `${url3}${url2}`
-            console.log(url3)
+            url3 = `${url3}${url1}`
+            this.logger.log(url3)
             location.href = url3
-            //this.router.navigate([url2])
           } else {
             let url = `${document.baseURI}`
-            if (url.includes('hi')) {
-              url = url.replace('hi/', '')
-            }
-            let urlnew = lang === 'hi' ? '/page/home' : 'page/home'
-            url = `${url}${lang}${urlnew}`
-            console.log(url)
+            url = `${url}/page/home`
+            this.logger.log(url)
             location.href = url
-            // this.router.navigate(['page', 'home'])
           }
         })
       }
     })
   }
 
-  public openSnackbar(primaryMsg: string, duration: number = 2000) {
+  public openSnackbar(primaryMsg: string, duration = 2000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

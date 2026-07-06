@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ContentPickerV2Component } from './content-picker-v2.component'
+// import { ContentPickerV2Component } from './content-picker-v2.component'
 import { RouterModule } from '@angular/router'
 import { DefaultThumbnailModule, PipeDurationTransformModule } from '@ws-widget/utils'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -17,9 +17,12 @@ import { MatRadioModule } from '@angular/material/radio'
 
 import { SearchInputComponent } from './components/search-input/search-input.component'
 import { FiltersComponent } from './components/filters/filters.component'
+import { TranslateModule } from '@ngx-translate/core'
 
 @NgModule({
-  declarations: [ContentPickerV2Component, SearchInputComponent, FiltersComponent],
+  declarations: [
+    // ContentPickerV2Component,
+    SearchInputComponent, FiltersComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -38,9 +41,10 @@ import { FiltersComponent } from './components/filters/filters.component'
     MatCheckboxModule,
     MatListModule,
     MatRadioModule,
+    TranslateModule,
   ],
   exports: [
-    ContentPickerV2Component,
+    // ContentPickerV2Component,
   ],
 })
 export class ContentPickerV2Module { }

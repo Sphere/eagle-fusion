@@ -1,7 +1,7 @@
 import { NotificationService } from '@ws/author/src/lib/services/notification.service'
 import { ErrorParserComponent } from './../error-parser/error-parser.component'
 import { Component, OnInit, Inject } from '@angular/core'
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms'
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ISearchContent } from '@ws/author/src/lib/interface/search'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
@@ -17,12 +17,14 @@ import { mergeMap, catchError } from 'rxjs/operators'
 import { of } from 'rxjs'
 
 @Component({
-  selector: 'ws-auth-unpublish-dialog',
-  templateUrl: './unpublish-dialog.component.html',
-  styleUrls: ['./unpublish-dialog.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-unpublish-dialog',
+    templateUrl: './unpublish-dialog.component.html',
+    styleUrls: ['./unpublish-dialog.component.scss'],
+    
 })
 export class UnpublishDialogComponent implements OnInit {
-  commentsForm!: FormGroup
+  commentsForm!: UntypedFormGroup
   contentMeta!: ISearchContent
   isSubmitPressed = false
   onAction = false
@@ -30,7 +32,7 @@ export class UnpublishDialogComponent implements OnInit {
   isNew = 'No'
   isMobile = false
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<UnpublishDialogComponent>,

@@ -1,9 +1,9 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .card-container {
   height: 200px;
-  margin-right: $size-m;
+  margin-right: ws-vars.$size-m;
   min-width: 270px;
   width: 270px;
   min-height: 225px;
@@ -22,7 +22,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  padding: $size-s;
+  padding: ws-vars.$size-s;
 }
 
 .container {
@@ -89,41 +89,41 @@
   box-sizing: border-box;
   .banner-title {
     color: #f2f2f2;
-    margin-bottom: $size-xs;
+    margin-bottom: ws-vars.$size-xs;
     font-size: 1.1rem;
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       display: none;
     }
   }
   .dots-container {
-    padding: $size-xs;
+    padding: ws-vars.$size-xs;
     display: flex;
     align-items: center;
     justify-content: center;
     .dot {
       cursor: pointer;
-      height: $size-m;
-      width: $size-m;
+      height: ws-vars.$size-m;
+      width: ws-vars.$size-m;
       margin: 0 6px;
       background-color: rgba(120, 120, 120, 0.75);
       box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
       border-radius: 50%;
       display: inline-block;
       transition: background-color 0.5s ease !important;
-      @include breakpoint-xs {
-        height: $size-xs;
-        width: $size-xs;
+      @include ws-mixins.breakpoint-xs {
+        height: ws-vars.$size-xs;
+        width: ws-vars.$size-xs;
         margin: 0 4px;
       }
     }
 
     .dot.active {
       background-color: #d3d3d3;
-      height: $size-m + ($size-xs / 4);
-      width: $size-m + ($size-xs / 4);
-      @include breakpoint-xs {
-        height: $size-xs + ($size-xs / 4);
-        width: $size-xs + ($size-xs / 4);
+      height: ws-vars.$size-m + calc(ws-vars.$size-xs / 4);
+      width: ws-vars.$size-m + calc(ws-vars.$size-xs / 4);
+      @include ws-mixins.breakpoint-xs {
+        height: ws-vars.$size-xs + calc(ws-vars.$size-xs / 4);
+        width: ws-vars.$size-xs + calc(ws-vars.$size-xs / 4);
       }
     }
   }
@@ -151,10 +151,10 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  padding: $size-m;
+  padding: ws-vars.$size-m;
   color: white;
   font-weight: bold;
-  font-size: $size-l;
+  font-size: ws-vars.$size-l;
   z-index: 2;
   border-radius: 0 3px 3px 0;
 }

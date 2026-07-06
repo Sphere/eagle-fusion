@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-common';
+@use 'ws-vars';
+@use 'ws-common';
 
 $nav-height: 40px;
 
@@ -24,7 +24,7 @@ $nav-height: 40px;
   overflow: hidden;
   font: inherit;
   flex-wrap: wrap;
-  padding: 0 $size-s;
+  padding: 0 ws-vars.$size-s;
 
   .spacer {
     flex: 1 1 auto;
@@ -34,6 +34,7 @@ $nav-height: 40px;
 .sidenav-container {
   flex: 1 1 auto;
   height: calc(100% - #{$nav-height});
+  background: white !important;
 }
 
 .circle {
@@ -72,11 +73,11 @@ $nav-height: 40px;
 
 .card-section {
   width: 40%;
-  margin: $size-s;
+  margin: ws-vars.$size-s;
 
 
-  @include breakpoint-gt-xs {
+  @include ws-common.breakpoint-gt-xs {
     width: 20%;
-    margin: $size-s;
+    margin: ws-vars.$size-s;
   }
 }

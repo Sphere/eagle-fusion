@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 
 .login-page-content {
   box-sizing: border-box;
@@ -8,7 +8,7 @@
   box-sizing: border-box;
   padding: 0;
   max-width: 430px;
-  @include breakpoint-s {
+  @include ws-common.breakpoint-s {
     padding: 12px;
   }
 }
@@ -60,7 +60,7 @@
 .login-button {
   width: 98px;
   height: 38px;
-  background: #1C5D95;
+  background: var(--theme-accent);
   border-radius: 50px;
   color: #fff;
   border:0;
@@ -71,7 +71,7 @@
 }
 .login-button:disabled {
   background: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 .next-btn-div {
@@ -89,5 +89,44 @@
 @media screen and (max-width:600px) {
   .login-card {
     margin-top: 100px;
+  }
+}
+
+h1 {
+  font-weight: 400 !important;
+}
+
+img {
+  height: 85% !important;
+}
+
+:host-context(.dark-theme) {
+
+  h1,
+  h4,
+  span,
+  p {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  :host ::ng-deep .column {
+    background: var(--theme-bg, #10181e);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.18));
+  }
+
+  :host ::ng-deep .column:hover,
+  :host ::ng-deep .column:focus {
+    border-color: var(--theme-accent, #78b7ff) !important;
+  }
+
+  .login-button {
+    background: #000;
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .login-button:disabled {
+    background: var(--theme-bg-disabled, #223541);
+    color: var(--theme-disabled, #ecf3f8);
   }
 }

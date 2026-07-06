@@ -1,18 +1,22 @@
 import { Component, EventEmitter, OnInit, Output, Input, ChangeDetectorRef } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-dropdown-dob',
-  templateUrl: './dropdown-dob.component.html',
-  styleUrls: ['./dropdown-dob.component.scss'],
+    standalone: false,
+    selector: 'ws-dropdown-dob',
+    templateUrl: './dropdown-dob.component.html',
+    styleUrls: ['./dropdown-dob.component.scss'],
+    
 })
 export class DropdownDobComponent implements OnInit {
-  @Output() dobValue = new EventEmitter<string>();
+  @Output() dobValue = new EventEmitter<string>()
   @Input() dob?: string
-  @Input() isEkshamata: boolean = false
+  @Input() isEkshamata = false
+  @Input() dateType: 'dob' | 'joining' = 'dob' // 'dob' for date of birth, 'joining' for date of joining
 
   dobForm: FormGroup
-  dateValue: number[] = [];
+  dateValue: number[] = []
   monthValue = [
     { id: 1, name: 'January' }, { id: 2, name: 'February' },
     { id: 3, name: 'March' }, { id: 4, name: 'April' },
@@ -20,19 +24,18 @@ export class DropdownDobComponent implements OnInit {
     { id: 7, name: 'July' }, { id: 8, name: 'August' },
     { id: 9, name: 'September' }, { id: 10, name: 'October' },
     { id: 11, name: 'November' }, { id: 12, name: 'December' },
-  ];
-  yearsValue: number[] = [];
+  ]
+  yearsValue: number[] = []
 
-  constructor(public cdr: ChangeDetectorRef) {
-    this.initYear()
+  constructor(public cdr: ChangeDetectorRef, private logger: LoggerService) {
     this.dobForm = new FormGroup({
       dateField: new FormControl('', Validators.required),
       monthField: new FormControl('', Validators.required),
       yearField: new FormControl('', Validators.required),
     })
 
-    this.dobForm.get('monthField')!.valueChanges.subscribe(month => this.updateDays(month))
-    this.dobForm.get('yearField')!.valueChanges.subscribe(() => {
+    this.dobForm.get('monthField')?.valueChanges.subscribe(month => this.updateDays(month))
+    this.dobForm.get('yearField')?.valueChanges.subscribe(() => {
       const month = this.dobForm.get('monthField')!.value
       if (month) this.updateDays(month)
     })
@@ -40,6 +43,7 @@ export class DropdownDobComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initYear()
     setTimeout(() => {
       this.updateForm()
     }, 500)
@@ -80,8 +84,17 @@ export class DropdownDobComponent implements OnInit {
 
   initYear() {
     const currentYear = new Date().getFullYear()
-    for (let i = currentYear - 18; i > currentYear - 100; i--) {
-      this.yearsValue.push(i)
+    this.logger.log("this.dataType", this.dateType)
+    if (this.dateType === 'joining') {
+      // For date of joining: allow from 1950 to today
+      for (let i = currentYear; i >= 1950; i--) {
+        this.yearsValue.push(i)
+      }
+    } else {
+      // For date of birth (dob): 18 years ago to 100 years ago
+      for (let i = currentYear - 18; i > currentYear - 100; i--) {
+        this.yearsValue.push(i)
+      }
     }
   }
 }

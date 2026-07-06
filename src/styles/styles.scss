@@ -1,10 +1,9 @@
-@import 'ws-vars';
-@import 'ws-mixins';
-@import './utility.scss';
+@use 'ws-vars';
+@use 'ws-mixins';
+@use './utility.scss';
+@use './themes.scss';
 
-//@import '../../node_modules/quill/dist/quill.snow.css';
-
-@include print {
+@include ws-mixins.print {
   * {
     display: none !important;
     width: 0px !important;
@@ -15,7 +14,7 @@
 html,
 body {
   margin: 0px;
-  font-family: $font-family-open-poppins;
+  font-family: ws-vars.$font-family-open-poppins;
 }
 
 ::selection {
@@ -27,21 +26,21 @@ body {
 }
 
 .w-lg-1-8 {
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     width: 12.5% !important;
   }
 }
 
 .font-sans {
-  font-family: $font-family-open-poppins;
+  font-family: ws-vars.$font-family-open-poppins;
 }
 
 .font-serif {
-  font-family: $font-family-open-poppins;
+  font-family: ws-vars.$font-family-open-poppins;
 }
 
 .font-mono {
-  font-family: $font-family-mono;
+  font-family: ws-vars.$font-family-mono;
 }
 
 button:focus,
@@ -53,17 +52,17 @@ button:focus,
   -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
-    width: $size-xs;
-    height: $size-xs;
+    width: ws-vars.$size-xs;
+    height: ws-vars.$size-xs;
 
-    @include breakpoint-s {
-      width: $size-s;
-      height: $size-s;
+    @include ws-mixins.breakpoint-s {
+      width: ws-vars.$size-s;
+      height: ws-vars.$size-s;
     }
 
-    @include breakpoint-gt-s {
-      width: $size-m;
-      height: $size-m;
+    @include ws-mixins.breakpoint-gt-s {
+      width: ws-vars.$size-m;
+      height: ws-vars.$size-m;
     }
 
     @media (hover: none) {
@@ -100,8 +99,8 @@ button:focus,
   -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
-    width: $size-xs;
-    height: $size-xs;
+    width: ws-vars.$size-xs;
+    height: ws-vars.$size-xs;
 
     @media (hover: none) {
       $scroll-size: 0px !important;
@@ -224,17 +223,17 @@ mat-toolbar {
 // TNC content
 .tnc-container {
   dd {
-    margin-inline-start: $size-xs;
+    margin-inline-start: ws-vars.$size-xs;
   }
 
   ul,
   ol {
-    padding-inline-start: $size-m;
+    padding-inline-start: ws-vars.$size-m;
   }
 
   li {
-    padding-inline-start: $size-xs;
-    margin-bottom: $size-xs;
+    padding-inline-start: ws-vars.$size-xs;
+    margin-bottom: ws-vars.$size-xs;
   }
 }
 
@@ -249,11 +248,11 @@ mat-toolbar {
 
 // Override checkbox
 .fit-checkbox-to-width {
-  .mat-checkbox-layout {
+  .mat-mdc-checkbox {
     width: 100%;
   }
 
-  .mat-checkbox-label {
+  .mdc-label {
     flex: 1;
     min-width: 1px;
   }
@@ -262,8 +261,8 @@ mat-toolbar {
 // Apply custom scroll
 .mat-drawer-inner-container,
 .mat-drawer-content,
-.mat-dialog-content,
-.mat-select-panel,
+.mat-mdc-dialog-content,
+.mat-mdc-select-panel,
 textarea {
   @extend .custom-scroll;
 }
@@ -277,11 +276,11 @@ textarea {
 
 // Content Strip
 .content-strip {
-  margin-bottom: $size-s;
-  padding: $size-m;
+  margin-bottom: ws-vars.$size-s;
+  padding: ws-vars.$size-m;
 
-  @include breakpoint-gt-xs {
-    padding: $size-m $size-xl;
+  @include ws-mixins.breakpoint-gt-xs {
+    padding: ws-vars.$size-m ws-vars.$size-xl;
   }
 }
 
@@ -321,7 +320,7 @@ textarea {
 .width-1-2 {
   width: 50%;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
 }
@@ -329,7 +328,7 @@ textarea {
 .width-1-4 {
   width: 20%;
 
-  @include breakpoint-lt-s {
+  @include ws-mixins.breakpoint-lt-s {
     width: 100%;
   }
 }
@@ -337,7 +336,7 @@ textarea {
 .width-3-4 {
   width: 80%;
 
-  @include breakpoint-lt-s {
+  @include ws-mixins.breakpoint-lt-s {
     width: 100%;
   }
 }
@@ -345,7 +344,7 @@ textarea {
 .width-2-3 {
   width: 66.66%;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
 }
@@ -353,7 +352,7 @@ textarea {
 .width-1-3 {
   width: 33.34%;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
 }
@@ -379,7 +378,7 @@ area {
   p:first-of-type {
     display: flex;
 
-    @include breakpoint-lt-m {
+    @include ws-mixins.breakpoint-lt-m {
       display: initial;
     }
   }
@@ -391,7 +390,7 @@ area {
     width: auto;
   }
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     img {
       display: block;
       float: none;
@@ -414,7 +413,7 @@ area {
 }
 
 .ws-widget-user-autocomplete {
-  .mat-option {
+  .mat-mdc-option {
     line-height: 1.3;
     height: auto;
     padding: 8px 16px;
@@ -435,7 +434,7 @@ area {
 }
 
 ws-app-kb-detail {
-  .mat-checkbox-label {
+  .mdc-label {
     white-space: normal;
   }
 }
@@ -532,11 +531,11 @@ h3.shepherd-title {
 }
 
 .author {
-  padding: $size-s 0;
+  padding: ws-vars.$size-s 0;
   display: flex;
 
   .author-image {
-    margin-right: $size-s;
+    margin-right: ws-vars.$size-s;
     $size: 44px;
     height: $size;
     width: $size;
@@ -576,19 +575,15 @@ h3.shepherd-title {
   font-weight: 500 !important;
 }
 
-.mat-raised-button {
+.mat-mdc-raised-button {
   line-height: 40px !important;
   box-shadow: none !important;
   background-color: #f5d58d;
 }
 
-.theme-igot.day-mode .mat-raised-button.mat-primary {
+.light-theme .mat-mdc-raised-button.mat-primary {
   background-color: #f5d58d !important;
   line-height: 40px !important;
-}
-
-.theme-igot.day-mode .mat-raised-button[disabled][disabled] {
-  // background-color: white !important;
 }
 
 .action-button {
@@ -605,7 +600,7 @@ h3.shepherd-title {
     opacity: 1;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 4px;
   }
 }
@@ -623,7 +618,7 @@ h3.shepherd-title {
   // opacity: 0; // uncomment this
   width: 100%;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     opacity: 1;
   }
 }
@@ -672,7 +667,7 @@ a.width-auto {
   color: #fff;
   font-size: 27px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     right: 17px;
   }
 }
@@ -692,15 +687,15 @@ a.width-auto {
   display: block;
 }
 
-.theme-igot.day-mode a.width-auto.mat-button[disabled][disabled]:hover {
+.theme-igot.day-mode a.width-auto.mat-mdc-button[disabled]:hover {
   opacity: 0.4;
 }
 
-.mat-button-focus-overlay {
+.mat-mdc-focus-indicator {
   background-color: transparent !important;
 }
 
-.theme-igot.day-mode .mat-menu-item-highlighted:not([disabled]) {
+.light-theme .mat-menu-item-highlighted:not([disabled]) {
   background: rgb(255 255 255) !important;
 }
 
@@ -711,7 +706,7 @@ a.width-auto {
   overflow: hidden !important;
 }
 
-a.width-auto.mat-button {
+a.width-auto.mat-mdc-button {
   width: 30px;
   min-width: 35px;
   background-color: rgba(0, 0, 0, 0.8) !important;
@@ -730,13 +725,13 @@ a.width-auto.mat-button {
 .padding-dynamic .mat-card {
   box-shadow: none !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 15px;
   }
 }
 
 .padding-dynamic {
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     min-height: 600px;
     height: 100%;
     display: flex;
@@ -745,7 +740,7 @@ a.width-auto.mat-button {
     overflow-x: hidden;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     min-height: 280px;
     height: 100%;
     display: flex;
@@ -754,7 +749,7 @@ a.width-auto.mat-button {
     overflow-x: hidden;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     // min-height: 500px;
     height: 100%;
     display: flex;
@@ -789,7 +784,7 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   outline: 1px solid rgb(162, 206, 250);
 }
 
-.theme-igot.day-mode .mat-expansion-panel:not([class*='mat-elevation-z']) {
+.light-theme .mat-expansion-panel:not([class*='mat-elevation-z']) {
   box-shadow: none !important;
 }
 
@@ -829,7 +824,7 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   margin-right: -8px;
   text-align: right;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-right: -17px;
   }
 }
@@ -852,14 +847,14 @@ body.custom-scroll::-webkit-scrollbar-thumb {
 
 button.action-button,
 a.action-button {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 28px;
   }
 }
 
 .padding-dynamic .unit-meta-item {
   .action-button {
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 35px;
     }
   }
@@ -868,7 +863,7 @@ a.action-button {
 }
 
 .unit-meta-item .flex {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     justify-content: center;
   }
 }
@@ -876,7 +871,7 @@ a.action-button {
 table {
   width: 100%;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     td {
       max-width: 0;
     }
@@ -898,31 +893,31 @@ table {
 ws-widget-btn-catalog {
   margin-top: 7px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-top: -9px;
   }
 }
 
 .signup-container {
   box-sizing: border-box;
-  padding: $size-m;
+  padding: ws-vars.$size-m;
   margin-left: 10%;
   margin-top: 5vh;
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 0px;
     padding: 0 15px;
   }
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     max-width: 45%;
   }
 }
 
 .split {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 100%;
     position: fixed;
     z-index: 1;
@@ -933,7 +928,7 @@ ws-widget-btn-catalog {
     border-top: solid 8px #f5d58d;
   }
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     height: 100%;
     position: fixed;
     z-index: 1;
@@ -945,7 +940,7 @@ ws-widget-btn-catalog {
 }
 
 .centered {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -955,31 +950,31 @@ ws-widget-btn-catalog {
 }
 
 .left {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     left: 0;
     background-color: #eaeaea;
   }
 }
 
 .right {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     right: 0;
   }
 }
 
 .width-40 {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     width: 40%;
     text-align: center;
   }
 }
 
 .width-60 {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     width: 60%;
   }
 }
@@ -1023,7 +1018,7 @@ button.submit-btn[disabled] {
   min-width: 87px !important;
 
   // max-width: 87px !important;
-  @include breakpoint-lt-s {
+  @include ws-mixins.breakpoint-lt-s {
     // // bottom: 70px !important;
     // // left: 5px !important;
     // bottom: 95px !important;
@@ -1048,16 +1043,34 @@ button.submit-btn[disabled] {
   display: none;
 }
 
+.overview-backdrop {
+  background: rgba(0, 0, 0, 0.65) !important;
+}
+
 .assesment-modal {
-  width: 70vw;
+  width: min(85vw, 800px);
   height: auto;
-  max-width: 100vw !important;
-  max-height: 100vh;
+  max-width: 95vw !important;
+  max-height: 85vh;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+
+  .mat-mdc-dialog-surface.mdc-dialog__surface,
+  .mdc-dialog__surface {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+  }
 
   //overrides default height of dialog
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100vw;
     height: 100vh;
+    border-radius: 0 !important;
+
+    .mat-mdc-dialog-surface.mdc-dialog__surface,
+    .mdc-dialog__surface {
+      border-radius: 0 !important;
+    }
   }
 }
 
@@ -1068,16 +1081,17 @@ button.submit-btn[disabled] {
   max-height: 100vh;
 
   //overrides default height of dialog
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100vw;
     height: 100vh;
   }
 }
 
-.language-modal {
+.language-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 30px !important;
   padding: 22px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 0;
   }
 }
@@ -1090,7 +1104,7 @@ button.submit-btn[disabled] {
   width: 440px;
   height: 350px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 220px !important;
   }
 }
@@ -1099,11 +1113,249 @@ button.submit-btn[disabled] {
   width: 440px;
   height: auto;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: auto !important;
   }
 }
 
-.cdk-overlay-container .mat-dialog-container {
-    border-radius: 30px;
+.cdk-overlay-container .mat-mdc-dialog-container {
+    border-radius: 30px !important;
+}
+
+.howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 30px !important;
+  background: var(--theme-bg, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
+  .mat-mdc-dialog-content.mdc-dialog__content {
+    padding: 10px 12px 12px 12px !important;
+  }
+}
+
+::ng-deep .logout-dialog-container {
+  .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+    border-radius: 20px !important;
+    padding: 20px !important;
+    width: min(100vw - 32px, 336px) !important;
+    max-width: 336px !important;
+    overflow: hidden !important;
+    box-shadow: 0 18px 40px rgba(16, 24, 40, 0.14) !important;
+    background: var(--theme-bg, #ffffff) !important;
+    color: var(--theme-text, #101828) !important;
+  }
+
+  .mat-mdc-dialog-container {
+    overflow: hidden !important;
+  }
+
+  .mat-mdc-dialog-container .mat-mdc-dialog-content.mdc-dialog__content {
+    max-height: none !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  .mat-mdc-dialog-container .mat-mdc-dialog-actions.mdc-dialog__actions {
+    padding: 0 !important;
+  }
+
+  @media (max-width: 599px) {
+    .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+      padding: 18px !important;
+      width: min(100vw - 24px, 312px) !important;
+      border-radius: 18px !important;
+    }
+  }
+}
+ws-app-home {
+  .mat-mdc-form-field {
+    --mdc-filled-text-field-container-color: var(--theme-surface) !important;
+    --mdc-filled-text-field-active-indicator-color: var(--theme-surface) !important;
+    --mdc-filled-text-field-hover-active-indicator-color: var(--theme-surface) !important;
+    --mdc-filled-text-field-focus-active-indicator-color: var(--theme-surface) !important;
+
+    --mat-mdc-form-field-container-vertical-padding: 0px;
+    --mdc-filled-text-field-hover-state-layer-color: var(--theme-surface) !important;
+    --mdc-filled-text-field-focus-state-layer-color: var(--theme-surface) !important;
+  }
+  .mat-mdc-form-field .mdc-text-field::before,
+  .mat-mdc-form-field .mdc-text-field::after {
+    opacity: 0 !important;
+    // background-color: white !important;
+  }
+
+  /* Prevent any background on focus */
+  // .mat-mdc-form-field .mdc-text-field--focused {
+  //   background-color: white !important;
+  // }
+  /* Remove extra height from infix */
+  .mat-mdc-form-field .mat-mdc-form-field-infix {
+    min-height: auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  // .mat-mdc-form-field:hover {
+  //   background-color: white !important;
+  // }
+
+    /* Kill ALL MDC filled input backgrounds (hover + focus + typing) */
+  // .mat-mdc-form-field .mdc-text-field--filled {
+  //   background-color: white !important;
+  // }
+
+  /* THIS is the real culprit */
+  .mat-mdc-form-field .mdc-text-field__ripple {
+    display: none !important;
+  }
+
+  /* Extra safety */
+  .mat-mdc-form-field .mdc-text-field--filled::before,
+  .mat-mdc-form-field .mdc-text-field--filled::after {
+    display: none !important;
+  }
+
+  /* Prevent focus class styling */
+  // .mat-mdc-form-field .mdc-text-field--focused {
+  //   background-color: white !important;
+  // }
+  .mat-mdc-form-field-focus-overlay {
+    background-color: transparent !important;
+    opacity: 0 !important;
+  }
+  .mat-mdc-form-field:hover .mat-mdc-form-field-focus-overlay {
+    background-color: transparent !important;
+  }
+
+}
+
+ws-public-toc {
+  .mat-mdc-tab-group .mat-mdc-tab-labels {
+    justify-content: flex-start !important;
+  }
+
+  .mat-mdc-tab {
+    flex-grow: 0 !important;
+  }
+
+  .mat-mdc-tab-header {
+    border-bottom: 1px solid #dfdfdf !important;
+  }
+}
+
+.light-theme .mat-mdc-checkbox-checked.mat-primary .mdc-checkbox__background {
+  background-color: #f5d58d !important;
+}
+
+::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border: none !important;
+}
+
+::ng-deep .light-theme .mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: var(--theme-progress, #469788) !important;
+  --mdc-linear-progress-track-color: #EDEDED !important;
+}
+
+::ng-deep .mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: var(--theme-progress, #469788) !important;
+  --mdc-linear-progress-track-color: #EDEDED !important;
+  min-height: 6px;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple){
+  background-color: #f5d58d !important;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+// ─── Modern page scrollbar ───────────────────────────────────────────────────
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(28, 93, 149, 0.35) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: rgba(28, 93, 149, 0.28);
+  border-radius: 100px;
+  transition: background 0.2s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: rgba(28, 93, 149, 0.65);
+}
+
+html::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.dark-theme {
+    .location-select-panel .mat-mdc-option.mat-mdc-option-active .mdc-list-item__primary-text {
+      color: var(--theme-bg) !important;
+  }
+  lib-discuss-start .discussion-start-modal .discussion-start-modal-content {
+    background: var(--theme-bg, #0e161b) !important;
+  }
+}
+
+// Location select panel (your-location page)
+.location-select-panel {
+  .mat-mdc-option {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: var(--theme-text, #101828) !important;
+    background-color: var(--theme-bg) !important;
+    min-height: 40px !important;
+
+    .mdc-list-item__primary-text {
+      font-family: 'Roboto', sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      color: var(--theme-text) !important;
+    }
+
+    &:hover:not(.mdc-list-item--disabled),
+    &:focus:not(.mdc-list-item--disabled) {
+      background: #f0f4f8 !important;
+    }
+
+    &.mat-mdc-option-active,
+    &.mdc-list-item--selected {
+      background-color: var(--theme-primary) !important;
+
+      .mdc-list-item__primary-text {
+        font-family: 'Roboto', sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        color: #ffffff !important;
+      }
+    }
+  }
+}
+
+::ng-deep .dark-theme {
+  lib-discuss-start .discussion-start-modal .discussion-start-modal-content {
+    background: var(--theme-bg, #0e161b) !important;
+  }
+}
+
+// Moved from the former 4 MB src/styles.scss (which was 99.99% commented-out dead
+// Tailwind v2 dump). Used as a snackbar panelClass in public-home.component.ts.
+.mnc-error-snackbar {
+  background-color: #c62828 !important;
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 500;
+  .mat-simple-snackbar-action {
+    color: #ffffff !important;
+  }
 }

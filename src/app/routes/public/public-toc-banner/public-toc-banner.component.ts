@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
 @Component({
-  selector: 'ws-public-toc-banner',
-  templateUrl: './public-toc-banner.component.html',
-  styleUrls: ['./public-toc-banner.component.scss'],
+    standalone: false,
+    selector: 'ws-public-toc-banner',
+    templateUrl: './public-toc-banner.component.html',
+    styleUrls: ['./public-toc-banner.component.scss'],
+
 })
 export class PublicTocBannerComponent implements OnInit {
   @Input() content: any
@@ -39,7 +41,7 @@ export class PublicTocBannerComponent implements OnInit {
     this.router.navigateByUrl('app/create-account')
   }
   fetchTocConfig() {
-    this.http.get('assets/configurations/feature/toc.json').pipe().subscribe((res: any) => {
+    this.http.get('fusion-assets/files/toc.json').pipe().subscribe((res: any) => {
       this.tocConfig = res
     })
   }

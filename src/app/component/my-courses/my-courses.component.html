@@ -1,64 +1,57 @@
 <div class="paddingView">
-  <h1 id="heading" i18n>My Courses</h1>
-  <mat-tab-group [selectedIndex]="selectedIndex">
-    <mat-tab label="Started ({{this.startedCourse.length}})" i18n-label>
-      <!--Started -->
-      <div class="resource-container" *ngFor="let data of startedCourse; let last = last"
-        [ngClass]="{'last-child1': last}">
-        <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="myCourseDisplayConfig"
-          [courseData]="data"></ws-mobile-course-view>
-        <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="myCourseWebDisplayConfig"
-          [courseData]="data"></ws-web-course-card>
 
-      </div>
-      <div class="flex justify-center flex-col no-content" *ngIf="this.startedCourse.length === 0">
-        <h3 class="mt15" i18n>You have not started any courses.</h3>
-        <div class="text-center">
-          <button class="outline-btn cursor-pointer" i18n (click)="tabClick()">Check out courses for
-            you
-          </button>
-        </div>
-      </div>
-    </mat-tab>
-    <mat-tab label="For You ({{this.coursesForYou.length}})" id="trig" i18n-label>
-      <!-- For You -->
-      <div class="flex justify-center flex-col no-content" *ngIf="this.coursesForYou.length === 0">
-        <h3 class="mt15" i18n>You have no courses.</h3>
-      </div>
-      <ng-container *ngIf="this.coursesForYou && this.coursesForYou.length>0">
-        <div *ngFor="let courseData of coursesForYou; let last = last" class="responsiveDiv"
-          [ngClass]="{'last-child2': last}">
-          <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="coursesForYouDisplayConfig"
-            [courseData]="courseData"></ws-mobile-course-view>
-          <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="coursesForYouDisplayConfig"
-            [courseData]="courseData"></ws-web-course-card>
-        </div>
-      </ng-container>
-
-    </mat-tab>
-    <mat-tab label="Completed ({{this.completedCourse.length}})" i18n-label>
-      <!-- Completed -->
-      <div class="flex justify-center flex-col no-content" *ngIf="this.completedCourse.length === 0">
-        <h3 class="mt15" i18n>You have not completed any courses.</h3>
-      </div>
-
-      <div class="resource-container" *ngFor="let data of completedCourse; let last = last"
-        [ngClass]="{'last-child1': last}">
-        <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="completedCourseDisplayConfig"
-          [courseData]="data"></ws-mobile-course-view>
-        <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="completedWebCourseDisplayConfig"
-          [courseData]="data"></ws-web-course-card>
-
-      </div>
-
-    </mat-tab>
-  </mat-tab-group>
-</div>
-<div class="overlay" *ngIf="isLoading">
-  <div class="loader-container">
-    <div class="loader-ripple">
-      <div></div>
-      <div></div>
+  <!-- Full skeleton while all APIs load -->
+  <ng-container *ngIf="isLoading">
+    <div class="sk-title"></div>
+    <div class="sk-tabs">
+      <div class="sk-tab"></div>
+      <div class="sk-tab"></div>
+      <div class="sk-tab"></div>
     </div>
-  </div>
+    <div class="sk-card" *ngFor="let i of [1,2,3,4]">
+      <div class="sk-image"></div>
+      <div class="sk-body">
+        <div class="sk-line sk-line--title"></div>
+        <div class="sk-line sk-line--subtitle"></div>
+        <div class="sk-progress-wrap">
+          <div class="sk-progress-bar"></div>
+          <div class="sk-line sk-line--pct"></div>
+        </div>
+      </div>
+      <div class="sk-btn"></div>
+    </div>
+  </ng-container>
+
+  <!-- Actual content once all APIs respond -->
+  <ng-container *ngIf="!isLoading">
+    <h1 id="heading">{{ config?.title | translate }}</h1>
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onTabChange($event)">
+      <mat-tab *ngFor="let tab of config?.tabMenu; let i = index"
+        [label]="(tab?.label | translate) + ' (' + tab?.data.length + ')'">
+        <ng-template matTabContent>
+          <div class="flex justify-center flex-col no-content" *ngIf="tab?.data?.length === 0">
+            <h3 class="mt15">{{ tab?.fallbackState?.label | translate }}</h3>
+            <div class="text-center" *ngIf="tab?.fallbackState?.button?.show">
+              <button class="outline-btn cursor-pointer" (click)="tabClick()">
+                {{ tab?.fallbackState?.button.label | translate }}</button>
+            </div>
+          </div>
+          <div [class]="tab.className"
+            *ngFor="let data of tab?.data | slice:0:(displayLimit[i] || 10); let last = last; trackBy: courseTrackBy"
+            [ngClass]="{'last-child1': last && i % 2 === 0,'last-child2': last && i % 2 !== 0}">
+            <ws-mobile-course-view *ngIf="isXSmall" [displayConfig]="tab?.displayConfig"
+              [courseData]="data"></ws-mobile-course-view>
+            <ws-web-course-card *ngIf="!isXSmall" [displayConfig]="tab?.displayConfigWeb"
+              [courseData]="data"></ws-web-course-card>
+          </div>
+          <div class="text-center show-more-container" *ngIf="tab?.data?.length > (displayLimit[i] || 10)">
+            <button class="outline-btn cursor-pointer" (click)="showMore(i, tab.data.length)">
+              Show More ({{ (displayLimit[i] || 10) }} of {{ tab.data.length }})
+            </button>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
+
 </div>

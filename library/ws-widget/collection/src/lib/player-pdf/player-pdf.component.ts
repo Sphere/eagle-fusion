@@ -7,12 +7,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { EventService, WsEvents, TelemetryService, ConfigurationsService, UtilityService } from '@ws-widget/utils'
+import { EventService, WsEvents, TelemetryService, ConfigurationsService, UtilityService, LoggerService } from '@ws-widget/utils'
 import {
-  interval, merge, Subject, Subscription
+  interval, merge, Subject, Subscription,
 } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
@@ -24,14 +24,16 @@ import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 
 @Component({
+  standalone: false,
   selector: 'ws-widget-player-pdf',
   templateUrl: './player-pdf.component.html',
   styleUrls: ['./player-pdf.component.scss'],
+
 })
 export class PlayerPdfComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
   @Input() widgetData!: IWidgetsPlayerPdfData
-  @ViewChild('fullScreenContainer', { static: true })
+  @ViewChild('fullScreenContainer', { static: true }) fullScreenContainer: any
   @ViewChild('input', { static: true }) input: any
   containerSection!: ElementRef<HTMLElement>
 
@@ -40,7 +42,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   MIN_SCALE = 0.2
   CSS_UNITS = 96 / 72
   totalPages = 0
-  currentPage = new FormControl(1)
+  currentPage = new UntypedFormControl(1)
   // zoom = new FormControl(this.DEFAULT_SCALE)
   isSmallViewPort = false
   realTimeProgressRequest = {
@@ -56,6 +58,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   private activityStartedAt: Date | null = null
   private renderSubject = new Subject()
   private lastRenderTask: any | null = null
+  private lastSentPage = -1  // Track last page we sent progress for
+  private maxPageReached = 0  // Highest page ever viewed — progress never goes below this
+  private contentDataFetched = false  // Track if we've already fetched contentData
+  private contentHistoryResponse: any = null  // Store full progress response for messaging
   // Subscriptions
   private contextMenuSubs: Subscription | null = null
   private renderSubscriptions: Subscription | null = null
@@ -67,6 +73,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   pdfMobileHeight = '300px'
   pdfZoom = '28%'
   sidebarOpen = false
+  pdfViewerReady = false  // Start hidden; enabled after delay to let old PDFViewerApplication clean up
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -77,8 +84,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private readonly utilitySvc: UtilityService,
     public viewerDataSvc: ViewerDataService,
-    private readonly telemetrySvc: TelemetryService
-
+    private readonly telemetrySvc: TelemetryService,
+    private logger: LoggerService,
   ) {
     super()
     pdfDefaultOptions.assetsFolder = 'bleeding-edge'
@@ -115,6 +122,11 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   }
 
   ngOnInit() {
+    // Delay showing the PDF viewer to allow any previous PDFViewerApplication
+    // singleton to fully clean up its eventBus before we create a new instance.
+    // setTimeout with 0 defers to the next macrotask, which is enough for cleanup.
+    this.pdfViewerReady = true
+
     // this.zoom.disable()
     this.currentPage.disable()
     // this.valueSvc.isLtMedium$.subscribe(ltMedium => {
@@ -195,9 +207,21 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   }
 
   ngOnDestroy() {
+    this.pdfViewerReady = false
+
+    // Remove any stale locale link tags left by ngx-extended-pdf-viewer.
+    // If these remain, the next viewer instance detects them as "user-provided"
+    // translations and skips adding its own, breaking locale initialization.
+    document.querySelectorAll('link[type="application/l10n"]').forEach(el => el.remove())
+
     if (this.identifier) {
       this.fireRealTimeProgress(this.identifier)
     }
+    // Reset tracking variables
+    this.lastSentPage = -1
+    this.maxPageReached = 0
+    this.contentDataFetched = false
+
     if (this.contextMenuSubs) {
       this.contextMenuSubs.unsubscribe()
     }
@@ -217,14 +241,25 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
   loadPageNum(pageNum: number) {
     // this.raiseTelemetry('pageChange')
-    if (pageNum < 1 || pageNum > this.totalPages) {
+    // Coerce to a real number: page values arrive as strings from the number
+    // input, the (pageChange) event and query params. A string here breaks
+    // next/prev arithmetic ("19" + 1 -> "191"), the pdf viewer's
+    // scrollPageIntoView (rejects string pages), and the progress high-water
+    // mark comparison (maxPageReached). That in turn blocks reaching the last
+    // page and stops progress from ever completing.
+    const page = Number(pageNum)
+    if (!page || page < 1 || page > this.totalPages) {
       return
     }
-    this.currentPage.setValue(pageNum)
+    this.currentPage.setValue(page)
     // if (!this.widgetData.disableTelemetry) {
     //   this.eventDispatcher(WsEvents.EnumTelemetrySubType.StateChange)
     // }
-
+    this.telemetrySvc.interact('application/pdf', 'page-change', 'player', {
+      id: this.widgetData.identifier,
+      type: 'application/pdf',
+      version: '',
+    })
   }
   // raiseTelemetry(action: string) {
   //   if (this.identifier) {
@@ -235,61 +270,27 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   // }
 
   fireRealTimeProgress(id: string) {
-    if (this.totalPages > 0 && this.current.length > 0) {
-      const realTimeProgressRequest = {
-        ...this.realTimeProgressRequest,
-        max_size: this.totalPages,
-        current: this.current,
-      }
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-      this.telemetrySvc.start('pdf', 'pdf-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier)
-
-      const temp = [...realTimeProgressRequest.current]
-      // const latest = parseFloat(temp.slice(-1) || '0')
-      const latest = parseFloat(temp[temp.length - 1] || '0')
-      const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
-      const percent = parseFloat(percentMilis.toFixed(2))
-      if (this.contentData && percent >= this.contentData.completionPercentage) {
-        const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-          contentId: this.widgetData.identifier,
-          name: this.viewerDataSvc.resource!.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-        }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
-
-        this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-          const result = data.result
-          result['type'] = 'PDF'
-          this.contentSvc.changeMessage(result)
-        })
-      }
-      if (this.contentData === undefined && percent > 0) {
-        const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-          contentId: this.widgetData.identifier,
-          name: this.viewerDataSvc.resource!.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-        }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
-
-        this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-          const result = data.result
-          result['type'] = 'PDF'
-          this.contentSvc.changeMessage(result)
-        })
-      }
-      if (this.contentData && percent > 95) {
-        const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-          contentId: this.widgetData.identifier,
-          name: this.viewerDataSvc.resource!.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-        }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
-      }
+    // Finalize telemetry only - API calls already made on start and last page
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+    const data1: any = {
+      "id": this.widgetData.identifier,
+      "type": "application/pdf",
+      "version": "",
+      "rollup": {
+        "l1": collectionId,
+        "l2": id,
+      },
     }
+    const extras: any = {
+      values: [{
+        courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+        contentId: this.widgetData.identifier,
+        name: this.viewerDataSvc.resource?.name || '',  // Add null check
+        moduleId: this.viewerDataSvc.resource?.parent ? this.viewerDataSvc.resource.parent : undefined,
+      }],
+    }
+    // End telemetry session
+    this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
     return
   }
 
@@ -319,58 +320,182 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       // this.lastRenderTask.setPdfPage(page)
       this.lastRenderTask.draw()
     }
-    let userId
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
+
+    // Only fetch contentData once, not on every render
+    if (!this.contentDataFetched) {
+      this.contentDataFetched = true
+      let userId
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req: NsContent.IContinueLearningDataReq = {
+        request: {
+          userId,
+          batchId: this.activatedRoute.snapshot.queryParams.batchId,
+          courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+          contentIds: [this.identifier || ''],  // Include current resource ID
+          fields: ['progressdetails'],
+        },
+      }
+      this.contentSvc.fetchContentHistoryV2(req).subscribe(
+        data => {
+          // Store full response for later messaging to TOC
+          this.contentHistoryResponse = data['result']
+          // Cache single item contentData
+          this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
+
+          // Initialize maxPageReached from server-stored progress so we never go below it
+          if (this.contentData?.progressdetails?.current) {
+            const serverPage = Array.isArray(this.contentData.progressdetails.current)
+              ? parseInt(this.contentData.progressdetails.current[0] || '0', 10)
+              : parseInt(this.contentData.progressdetails.current || '0', 10)
+            if (serverPage > this.maxPageReached) {
+              this.maxPageReached = serverPage
+            }
+          }
+
+          // Now trigger the progress check logic
+          this.checkAndUpdateProgress()
+        })
+    } else {
+      // Use cached contentData - check progress without fetching API
+      this.checkAndUpdateProgress()
     }
-    const req: NsContent.IContinueLearningDataReq = {
-      request: {
-        userId,
-        batchId: this.activatedRoute.snapshot.queryParams.batchId,
-        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-        contentIds: [],
-        fields: ['progressdetails'],
-      },
-    }
-    this.contentSvc.fetchContentHistoryV2(req).subscribe(
-      data => {
-        this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
 
-        if (this.identifier) {
-          const realTimeProgressRequest = {
-            ...this.realTimeProgressRequest,
-            max_size: this.totalPages,
-            current: [(this.currentPage.value).toString()],
-          }
-
-          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
-          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-
-          const temp = [...realTimeProgressRequest.current]
-          // const latest = parseFloat(temp.slice(-1) || '0')
-          const latest = parseFloat(temp[temp.length - 1] || '0')
-          const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
-          const percent = parseFloat(percentMilis.toFixed(2))
-          if (this.contentData && percent >= this.contentData.completionPercentage) {
-            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-
-              const result = data.result
-              result['type'] = 'PDF'
-              this.contentSvc.changeMessage(result)
-            })
-          }
-          if (this.contentData === undefined && percent > 0) {
-            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-
-              const result = data.result
-              result['type'] = 'PDF'
-              this.contentSvc.changeMessage(result)
-            })
-          }
-
-        }
-      })
     return true
+  }
+
+  private checkAndUpdateProgress() {
+    if (this.identifier) {
+      // Update the high-water mark — progress is always based on the furthest page reached
+      if (this.currentPage.value > this.maxPageReached) {
+        this.maxPageReached = this.currentPage.value
+      }
+
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
+
+      // Calculate percentage from the highest page ever reached, not the current page
+      let percentMilis = (this.maxPageReached / this.totalPages) * 100
+
+      // If highest page is the last page, set to 100% completion
+      if (this.maxPageReached >= this.totalPages) {
+        percentMilis = 100
+      }
+
+      const percent = parseFloat(percentMilis.toFixed(2))
+
+      // Only update if new percentage is strictly greater than stored percentage
+      const storedPercentage = this.contentData?.completionPercentage || 0
+      if (percent <= storedPercentage) {
+        // Don't degrade or re-send same progress — skip API call
+        return
+      }
+
+      const realTimeProgressRequest = {
+        ...this.realTimeProgressRequest,
+        max_size: this.totalPages,
+        current: [this.maxPageReached.toString()],  // Always send highest page reached
+      }
+
+      // Only send if we've reached a new high page
+      if (this.maxPageReached !== this.lastSentPage) {
+        this.lastSentPage = this.maxPageReached
+        this.makeProgressUpdate(realTimeProgressRequest, percent, collectionId, batchId)
+      }
+    }
+  }
+
+  private makeProgressUpdate(realTimeProgressRequest: any, percent: number, collectionId: string, batchId: string) {
+    // realTimeProgressRequest.current already contains [maxPageReached] — use it directly
+    const updateRequest = { ...realTimeProgressRequest }
+
+    const highestPage = this.maxPageReached
+    const status = this.viewerSvc.getStatus(highestPage, updateRequest.max_size, updateRequest.mime_type)
+
+    this.viewerSvc.realTimeProgressUpdateV3(this.identifier || '', updateRequest, collectionId, batchId).subscribe(
+      () => {
+        // Keep local cache in sync so the guard in checkAndUpdateProgress stays effective
+        if (this.contentData) {
+          this.contentData.completionPercentage = percent
+        } else {
+          this.contentData = { completionPercentage: percent }
+        }
+
+        // Ensure we have contentHistoryResponse before sending message to TOC
+        if (!this.contentHistoryResponse || !this.contentHistoryResponse.contentList || this.contentHistoryResponse.contentList.length === 0) {
+          // Fetch full progress data if not already cached or empty
+          let userId
+          if (this.configSvc.userProfile) {
+            userId = this.configSvc.userProfile.userId || ''
+          }
+          const req: NsContent.IContinueLearningDataReq = {
+            request: {
+              userId,
+              batchId,
+              courseId: collectionId,
+              contentIds: [this.identifier || ''],  // Include current resource ID to get its progress
+              fields: ['progressdetails'],
+            },
+          }
+          this.contentSvc.fetchContentHistoryV2(req).subscribe(
+            data => {
+              // Now we have the full response
+              this.contentHistoryResponse = data['result']
+              this.sendProgressMessageToTOC(percent, status)
+            }
+          )
+        } else {
+          // We already have contentHistoryResponse, send message immediately
+          this.sendProgressMessageToTOC(percent, status)
+        }
+      },
+      error => {
+        this.logger.error('Error updating progress:', error)
+      }
+    )
+  }
+
+  private sendProgressMessageToTOC(percent: number, status: number) {
+    // Always create message for TOC - even if contentList is empty or missing,
+    // TOC needs to know about the completion to update the tree
+    if (this.contentHistoryResponse) {
+      let contentList = this.contentHistoryResponse.contentList || []
+
+      // If contentList is empty, create an entry for at least this resource
+      if (contentList.length === 0) {
+        this.logger.warn('contentHistoryResponse has empty contentList, creating minimal entry for TOC', {
+          identifier: this.identifier,
+          percent,
+          status,
+        })
+        contentList = [{
+          contentId: this.identifier,
+          completionPercentage: percent,
+          status: status,
+        }]
+      } else {
+        // Update existing content list with new completion percentage
+        contentList = contentList.map((item: any) =>
+          item.contentId === this.identifier
+            ? { ...item, completionPercentage: percent, status }
+            : item
+        )
+      }
+
+      // Send message to TOC with the content list
+      const messageData = { ...this.contentHistoryResponse, contentList: contentList, type: 'PDF' }
+      this.logger.log('Sending progress message to TOC:', {
+        contentListLen: contentList.length,
+        identifier: this.identifier,
+        completionPercentage: percent,
+        status,
+      })
+      this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: this.identifier, completionPercentage: percent, status, mimeType: 'application/pdf' })
+      this.contentSvc.changeMessage(messageData)
+    } else {
+      this.logger.error('contentHistoryResponse is null/undefined', { identifier: this.identifier, percent, status })
+    }
   }
 
   // refresh() {
@@ -382,6 +507,18 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // this.pdfInstance = pdf
     // this.totalPages = this.pdfInstance.numPages
     // this.zoom.enable()
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+
+    const object = {
+      "id": this.widgetData.identifier,
+      "type": "application/pdf",
+      "version": "",
+      "rollup": {
+        "l1": collectionId,
+        "l2": this.widgetData.identifier,
+      },
+    }
+    this.telemetrySvc.start('application/pdf', 'pdf-start', 'player', object)
     this.currentPage.enable()
     this.currentPage.setValue(
       typeof this.widgetData.resumePage === 'number' &&
@@ -390,7 +527,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         ? this.widgetData.resumePage
         : 1,
     )
-    this.renderSubject.next()
+    this.renderSubject.next(undefined)
     this.activityStartedAt = new Date()
     if (!this.widgetData.disableTelemetry) {
       this.eventDispatcher(WsEvents.EnumTelemetrySubType.Loaded)

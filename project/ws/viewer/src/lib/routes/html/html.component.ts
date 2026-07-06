@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { AccessControlService } from '@ws/author'
 import { NsContent, NsDiscussionForum, WidgetContentService } from '@ws-widget/collection'
@@ -14,9 +14,12 @@ import { filter } from 'rxjs/operators'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
+  standalone: false,
   selector: 'viewer-html',
   templateUrl: './html.component.html',
   styleUrls: ['./html.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class HtmlComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
@@ -97,9 +100,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
     } else {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
         async data => {
-          // data.content.data.artifactUrl =
-          //   data.content.data.artifactUrl.startsWith('/scorm-player') ?
-          //     `/apis/proxies/v8${data.content.data.artifactUrl}` : data.content.data.artifactUrl
           data.content.data.artifactUrl =
             data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
               ? `${data.content.data.artifactUrl.replace(/%20/g, '')}&Param1=${this.uuid}`
@@ -152,12 +152,12 @@ export class HtmlComponent implements OnInit, OnDestroy {
                         this.subApp = true
                       }
                       break
-                    case 'CONTINUE_LEARNING':
-                      await this.respondSvc.continueLearningRespond(
-                        this.htmlData.identifier,
-                        event.data.data.continueLearning,
-                      )
-                      break
+                    // case 'CONTINUE_LEARNING':
+                    //   await this.respondSvc.continueLearningRespond(
+                    //     this.htmlData.identifier,
+                    //     event.data.data.continueLearning,
+                    //   )
+                    //   break
                     case 'TELEMETRY':
                       await this.respondSvc.telemetryEvents(event.data)
                       break

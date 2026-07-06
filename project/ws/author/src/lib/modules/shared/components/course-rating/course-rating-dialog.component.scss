@@ -2,7 +2,7 @@
   text-align: center !important;
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   overflow: hidden !important;
   max-height: none !important;
 }
@@ -17,7 +17,7 @@
   padding: 0px !important;
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   padding-bottom: 0px;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .submit-btn {
-  background: #2E6491 !important;
+  background: var(--theme-accent, #2E6491) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
@@ -8,9 +8,11 @@ import { WsEvents, EventService } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-  selector: 'viewer-quiz',
-  templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.scss'],
+    standalone: false,
+    selector: 'viewer-quiz',
+    templateUrl: './quiz.component.html',
+    styleUrls: ['./quiz.component.scss'],
+    
 })
 export class QuizComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
@@ -31,6 +33,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     private contentSvc: WidgetContentService,
     private eventSvc: EventService,
     private viewSvc: ViewerUtilService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -52,22 +55,23 @@ export class QuizComponent implements OnInit, OnDestroy {
           this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.quizData)
         }
         this.isFetchingDataComplete = true
+        this.cdr.detectChanges()
       },
       () => { },
     )
   }
 
   async ngOnDestroy() {
-    if (this.activatedRoute.snapshot.queryParams.collectionId &&
-      this.activatedRoute.snapshot.queryParams.collectionType
-      && this.quizData) {
-      await this.contentSvc.continueLearning(this.quizData.identifier,
-        this.activatedRoute.snapshot.queryParams.collectionId,
-        this.activatedRoute.snapshot.queryParams.collectionType,
-      )
-    } else if (this.quizData) {
-      await this.contentSvc.continueLearning(this.quizData.identifier)
-    }
+    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
+    //   this.activatedRoute.snapshot.queryParams.collectionType
+    //   && this.quizData) {
+    //   await this.contentSvc.continueLearning(this.quizData.identifier,
+    //     this.activatedRoute.snapshot.queryParams.collectionId,
+    //     this.activatedRoute.snapshot.queryParams.collectionType,
+    //   )
+    // } else if (this.quizData) {
+    //   await this.contentSvc.continueLearning(this.quizData.identifier)
+    // }
     if (this.quizData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.quizData)
     }
@@ -108,7 +112,7 @@ export class QuizComponent implements OnInit, OnDestroy {
       if (window.location.origin.indexOf('http://localhost:') === -1) {
         artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
       }
-      // console.log(artifactUrl)
+      // this.logger.log(artifactUrl)
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()

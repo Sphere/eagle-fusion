@@ -3,9 +3,11 @@ import { CONTENT_BASE_WEBHOST_ASSETS } from '@ws/author/src/lib/constants/apiEnd
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 
 @Component({
-  selector: 'ws-auth-html-v2',
-  templateUrl: './html-v2.component.html',
-  styleUrls: ['./html-v2.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-html-v2',
+    templateUrl: './html-v2.component.html',
+    styleUrls: ['./html-v2.component.scss'],
+    
 })
 export class HtmlV2Component implements OnInit {
   showInfo = ''

@@ -5,9 +5,11 @@ import { IWidgetWrapperMedia } from './video-wrapper.model'
 import { Platform } from '@angular/cdk/platform'
 
 @Component({
-  selector: 'ws-widget-video-wrapper',
-  templateUrl: './video-wrapper.component.html',
-  styleUrls: ['./video-wrapper.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-video-wrapper',
+    templateUrl: './video-wrapper.component.html',
+    styleUrls: ['./video-wrapper.component.scss'],
+    
 })
 export class VideoWrapperComponent extends WidgetBaseComponent implements
   OnInit, NsWidgetResolver.IWidgetData<IWidgetWrapperMedia> {

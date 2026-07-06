@@ -7,20 +7,21 @@ import { Component, HostBinding, Input, OnInit, OnChanges, OnDestroy } from '@an
 // import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
 @Component({
-  selector: 'ws-widget-content-progress',
-  templateUrl: './content-progress.component.html',
-  styleUrls: ['./content-progress.component.scss'],
-  /* tslint:disable */
-  host: {
-    // Sets the role for this component to "progressbar"
-    role: 'progressbar',
-    // Sets the minimum and maximum values for the progressbar role.
-    'aria-valuemin': '0',
-    'aria-valuemax': '100',
-    // Binding that updates the current value of the progressbar.
-    '[attr.aria-valuenow]': 'progress'
-  },
-  /* tslint:enable */
+    standalone: false,
+    selector: 'ws-widget-content-progress',
+    templateUrl: './content-progress.component.html',
+    styleUrls: ['./content-progress.component.scss'],
+    /* tslint:disable */
+    host: {
+        // Sets the role for this component to "progressbar"
+        role: 'progressbar',
+        // Sets the minimum and maximum values for the progressbar role.
+        'aria-valuemin': '0',
+        'aria-valuemax': '100',
+        // Binding that updates the current value of the progressbar.
+        '[attr.aria-valuenow]': 'progress',
+    },
+    
 })
 export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
@@ -63,7 +64,7 @@ export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
     // if (this.content !== null) {
     //   //this.progress = this.content
     //   debugger
-    //   console.log(this.progress)
+    //   this.logger.log(this.progress)
     // } else {
     //   if (this.tocSvc.getcontentForWidget() !== undefined) {
     //     this.homePageData = this.tocSvc.getcontentForWidget()

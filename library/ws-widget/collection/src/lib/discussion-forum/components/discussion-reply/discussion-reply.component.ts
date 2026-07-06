@@ -9,9 +9,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { map } from 'rxjs/operators'
 
 @Component({
-  selector: 'ws-widget-discussion-reply',
-  templateUrl: './discussion-reply.component.html',
-  styleUrls: ['./discussion-reply.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-discussion-reply',
+    templateUrl: './discussion-reply.component.html',
+    styleUrls: ['./discussion-reply.component.scss'],
+    
 })
 export class DiscussionReplyComponent implements OnInit {
 

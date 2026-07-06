@@ -5,22 +5,39 @@
       [filtersResetAble]="filtersResetAble" [sideNavBarOpened]="false" [filtersResponse]="filtersResponse"
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
+  <ng-container *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length">
+    <div style="display: flex; justify-content: space-between; padding: 10px;">
+      <div class="sk-title"></div>
+      <div class="sk-title"></div>
+    </div>
+    <div class="shimmer-card" *ngFor="let j of [1, 2, 3, 4]">
+      <div class="shimmer shimmer-image"></div>
+      <div class="shimmer-body">
+        <div class="shimmer-title"></div>
+        <div class="shimmer-subtitle"></div>
+        <div class="shimmer-subtitle"></div>
+        <div class="shimmer-subtitle"></div>
+      </div>
+    </div>
+  </ng-container>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
     <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
       [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
-      <span class="mt-1" *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
-      <span class="mt-1" *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.content.length }} </span>
-      <p class="text-xl" *ngIf="(isXSmall$ | async) === true" i18n>All Courses</p>
-      <span class="mt-1" *ngIf="searchResults.result.content.length > 1 && (isXSmall$ | async) !== true " i18n>results
+      <span class="mt-1" *ngIf="!isXSmall">{{'Showing' | translate}} </span>
+      <span class="mt-1" *ngIf="!isXSmall"> {{ searchResults.result.content.length }} </span>
+      <p class="text-xl" *ngIf="isXSmall">{{'All Courses' | translate}}</p>
+      <span class="mt-1" *ngIf="searchResults.result.content.length > 1 && !isXSmall ">{{'results' |
+        translate}}
       </span>
-      <span class="mt-1" *ngIf="searchResults.result.content.length <= 1" i18n>result </span>
-      <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span i18n>across your preferred language</span>
+      <span class="mt-1" *ngIf="searchResults.result.content.length <= 1">{{'result' | translate}} </span>
+      <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span>{{'across your preferred language' |
+          translate}}</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
           *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)">{{lang | uppercase}}
         </span>
       </span>
-      <div class="filter-lang" *ngIf="(isXSmall$ | async) !== true">
-        <label i18n class="pos-rel mt-1">Filter based on Language : </label>
+      <div class="filter-lang" *ngIf="!isXSmall">
+        <label class="pos-rel mt-1">{{'Filter based on Language :' | translate}}</label>
         <select class="form-control lang-select"
           [ngClass]="{'lang-icon': lang === '', 'lang-selected' : lang === 'step2' }" [(ngModel)]="contact"
           (change)="selectLang(contact)">
@@ -30,25 +47,22 @@
       </div>
       <ng-container *ngIf=" searchResults?.doYouMean || searchResults?.queryUsed">
         <span>.</span><span>&nbsp;</span>
-        <span *ngIf="searchResults?.doYouMean"><span i18n>Did you mean</span><span>&nbsp;“</span><span
+        <span *ngIf="searchResults?.doYouMean"><span>{{'Did you mean' | translate}} </span><span>&nbsp;“</span><span
             [innerHTML]="searchResults?.doYouMean" (click)="didYouMeanSearch(searchResults?.doYouMean)"
             class="cursor-pointer ws-mat-primary-text cursor-pointer"></span>”
           ?</span>
-        <span *ngIf="searchResults?.queryUsed"><span i18n>Showing results
-            for</span><span>&nbsp;“</span>{{searchResults?.queryUsed}}”. <span i18n>Search instead for</span>
+        <span *ngIf="searchResults?.queryUsed"><span>{{'Showing results' | translate}}
+            for</span><span>&nbsp;“</span>{{searchResults?.queryUsed}}”. <span>{{'Search instead for' |
+            translate}}</span>
           <span>&nbsp;“</span><span class="cursor-pointer ws-mat-primary-text cursor-pointer"
             (click)="searchInsteadFor()">{{searchRequestObject.query}}</span>”.</span>
       </ng-container>
       <ng-container *ngIf="exactResult.show && applyPhraseSearch">
-        <span i18n>for the exact match on</span>
+        <span>{{'for the exact match on' | translate}}</span>
         <span>{{ searchRequestObject?.query }}, </span>
-        <a (click)="getResults(true)" class="ws-mat-primary-text cursor-pointer" i18n>Click here </a>
-        <span i18n>to explore more. </span>
+        <a (click)="getResults(true)" class="ws-mat-primary-text cursor-pointer">{{'Click here' | translate}}</a>
+        <span>{{'to explore more.' | translate}}</span>
       </ng-container>
-      <!--<button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
-        (click)="sideNavBarOpened = !sideNavBarOpened">
-        <mat-icon>filter_list</mat-icon>
-      </button> -->
     </div>
     <div class="margin-bottom-m">
       <mat-chip-list aria-label="Filter selection" role="none" *ngIf="filtersResponse">
@@ -59,7 +73,7 @@
                 {{translatedFilters[filter?.displayName]?.value[content?.displayName] || content?.displayName}}
                 <mat-icon matChipRemove
                   (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :content?.type})"
-                  *ngIf="removable">cancel</mat-icon>
+                  *ngIf="removable">{{"cancel" | translate}}</mat-icon>
               </mat-chip>
             </span>
             <span *ngIf="content?.children?.length>0">
@@ -68,7 +82,7 @@
                   <mat-chip [removable]="removable">{{children?.displayName}}
                     <mat-icon matChipRemove
                       (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :children?.type})"
-                      *ngIf="removable" i18n>cancel</mat-icon>
+                      *ngIf="removable">{{'cancel' | translate}}</mat-icon>
                   </mat-chip>
                 </span>
               </span>
@@ -78,52 +92,38 @@
       </mat-chip-list>
     </div>
     <div *ngIf="searchResults?.result?.content?.length">
-      <ng-container *ngIf="(isXSmall$ | async) !== true">
+      <ng-container *ngIf="!isXSmall">
         <ws-app-learning-card class="search-card"
           *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy"
           [displayType]="resultsDisplayType" [content]="result"></ws-app-learning-card>
       </ng-container>
-      <ng-container *ngIf="(isXSmall$ | async) === true">
+      <ng-container *ngIf="isXSmall">
         <ws-mobile-course-view *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy"
           [courseData]="result">
         </ws-mobile-course-view>
       </ng-container>
 
-      <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
-        <mat-spinner></mat-spinner>
-        <!-- <h2 class="h2-title">
-          Loading...
-        </h2> -->
-      </div>
-      <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus != 'done'"
+      <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus !== 'done'"
         [hidden]="searchRequestStatus === 'fetching'" accesskey="+">
         <mat-icon>add</mat-icon>
-        <ng-container i18n>View More</ng-container>
+        <ng-container>{{'View More' | translate}}</ng-container>
       </button>
     </div>
   </mat-sidenav-content>
-  <div *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length"
-    class="overflow-y-hidden margin-top-m flex flex-center">
-    <mat-spinner></mat-spinner>
-  </div>
   <div *ngIf="noContent && searchRequestStatus === 'done'" class="margin-xl text-center">
-    <h2 class="mat-h2" i18n>No result</h2>
-    <h3 class="mat-h3" i18n>You may try</h3>
+    <h2 class="mat-h2">{{'No result' | translate}}</h2>
+    <h3 class="mat-h3">{{'You may try' | translate}}</h3>
     <div class="padding-left-s">
-      <!-- <h4>
-            <span >Browsing</span>&nbsp;
-            <a [routerLink]="'/catalog'"  class="catalog-link">Catalog</a>
-          </h4> -->
-      <h4 i18n>Different keywords</h4>
-      <h4 *ngIf="(isXSmall$ | async) === false">
-        <ng-container i18n>Clear search results</ng-container>
+      <h4>{{'Different keywords' | translate}}</h4>
+      <h4 *ngIf="!isXSmall$">
+        <ng-container>{{'Clear search results' | translate}}</ng-container>
         <button (click)="removeSearch()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>
         </button>
       </h4>
 
-      <h4 *ngIf="(isXSmall$ | async) === true">
-        <ng-container i18n> Removing Language </ng-container>
+      <h4 *ngIf="isXSmall">
+        <ng-container>{{'Removing Language' | translate}}</ng-container>
         <button (click)="removeLanguage()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>
         </button>
@@ -132,15 +132,9 @@
   </div>
 
   <div *ngIf="searchRequestStatus === 'error'" class="text-center margin-top-m">
-    <!-- <h2 class="h2-title" ="search result fetch error">
-      Some error occurred! Please retry
-    </h2> -->
     <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
   </div>
 </mat-sidenav-container>
 <div *ngIf="error.load">
-  <!-- <h2 class="h2-title flex flex-center" ="search result fetch error">
-    Some error occurred! Please retry
-  </h2> -->
   <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
 </div>

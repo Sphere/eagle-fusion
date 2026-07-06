@@ -3,9 +3,11 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { Router } from '@angular/router'
 
 @Component({
-  selector: 'ws-app-course-pending-card',
-  templateUrl: './course-pending-card.component.html',
-  styleUrls: ['./course-pending-card.component.scss'],
+    standalone: false,
+    selector: 'ws-app-course-pending-card',
+    templateUrl: './course-pending-card.component.html',
+    styleUrls: ['./course-pending-card.component.scss'],
+    
 })
 export class CoursePendingCardComponent implements OnInit {
   defaultThumbnail = ''

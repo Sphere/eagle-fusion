@@ -1,12 +1,12 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .reply-container {
   // display: flex;
-  margin-top: $size-xs / 2;
+  margin-top: calc(ws-vars.$size-xs / 2);
   margin-bottom: -40px;
   padding: 15px 0 0 15px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-bottom: -20px;
   }
 }
@@ -24,7 +24,7 @@
 .act-icons {
   width: 12%;
   text-align: right;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
     text-align: left;
     margin-left: 14%;
@@ -44,7 +44,7 @@
   &:hover {
     opacity: 1;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     top: -10px;
   }
 }
@@ -66,7 +66,7 @@
   &:hover {
     opacity: 1;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     top: -2px;
   }
 }

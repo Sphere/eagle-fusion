@@ -10,9 +10,11 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { takeUntil } from 'rxjs/operators'
 import { get, last } from 'lodash'
 @Component({
-  selector: 'ws-app-app-toc-contents',
-  templateUrl: './app-toc-contents.component.html',
-  styleUrls: ['./app-toc-contents.component.scss'],
+    standalone: false,
+    selector: 'ws-app-app-toc-contents',
+    templateUrl: './app-toc-contents.component.html',
+    styleUrls: ['./app-toc-contents.component.scss'],
+    
 })
 export class AppTocContentsComponent implements OnInit, OnDestroy {
   content: NsContent.IContent | null = null
@@ -95,12 +97,15 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data, true)
     this.content = initData.content
-    if (this.content && this.content.gatingEnabled) {
+    // Always set gating flag, even if false (previous course gating flag must be reset)
+    if (this.content) {
       this.tocSvc.setNode(this.content.gatingEnabled)
-      if (this.content.children[0].children && this.content.children[0].children.length > 0) {
-        this.content.children[0].children[0]['hideLocIcon'] = true
-      } else {
-        this.content.children[0]['hideLocIcon'] = true
+      if (this.content.gatingEnabled) {
+        if (this.content.children[0].children && this.content.children[0].children.length > 0) {
+          this.content.children[0].children[0]['hideLocIcon'] = true
+        } else {
+          this.content.children[0]['hideLocIcon'] = true
+        }
       }
     }
     this.errorCode = initData.errorCode
@@ -109,7 +114,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         this.contextId = this.content.identifier
         this.contextPath = this.content.contentType
       }
-      this.fetchContentParents(this.content.identifier)
+      // this.fetchContentParents(this.content.identifier)
       this.populateContentPlayWidget(this.content)
     }
     if (this.content && this.content.gatingEnabled && this.content.children) {
@@ -161,11 +166,11 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     this.contentSvc.showConformation = percentage
   }
 
-  private fetchContentParents(contentId: string) {
-    this.tocSvc.fetchContentParents(contentId).subscribe(contents => {
-      this.contentParents = contents || []
-    })
-  }
+  // private fetchContentParents(contentId: string) {
+  //   this.tocSvc.fetchContentParents(contentId).subscribe(contents => {
+  //     this.contentParents = contents || []
+  //   })
+  // }
   private populateContentPlayWidget(content: NsContent.IContent) {
     if (
       content.contentType === NsContent.EContentTypes.RESOURCE ||
@@ -238,7 +243,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
 
   // ExpandViewChild(data: any) {
   //   this.viewChildren = !this.viewChildren
-  //   console.log(data, this.viewChildren)
+  //   this.logger.log(data, this.viewChildren)
   // }
 
 }

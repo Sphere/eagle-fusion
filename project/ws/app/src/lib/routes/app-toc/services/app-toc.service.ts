@@ -5,29 +5,8 @@ import { HttpClient } from '@angular/common/http'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
 import { NsContentConstants } from '@ws-widget/collection/src/lib/_constants/widget-content.constants'
 import { NsAppToc, NsCohorts } from '../models/app-toc.model'
-import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
-
-// TODO: move this in some common place
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-const PROXY_SLAG_V8 = '/apis/proxies/v8'
-
-const API_END_POINTS = {
-  BATCH_CREATE: `${PROXY_SLAG_V8}/learner/course/v1/batch/create`,
-  CONTENT_PARENTS: `${PROTECTED_SLAG_V8}/content/parents`,
-  CONTENT_NEXT: `${PROTECTED_SLAG_V8}/content/next`,
-  CONTENT_PARENT: (contentId: string) => `${PROTECTED_SLAG_V8}/content/${contentId}/parent`,
-  CONTENT_AUTH_PARENT: (contentId: string, rootOrg: string, org: string) =>
-    `/apis/authApi/action/content/parent/hierarchy/${contentId}?rootOrg=${rootOrg}&org=${org}`,
-  COHORTS: (cohortType: NsCohorts.ECohortTypes, contentId: string) =>
-    `${PROTECTED_SLAG_V8}/cohorts/${cohortType}/${contentId}`,
-  EXTERNAL_CONTENT: (contentId: string) =>
-    `${PROTECTED_SLAG_V8}/content/external-access/${contentId}`,
-  COHORTS_GROUP_USER: (groupId: number) => `${PROTECTED_SLAG_V8}/cohorts/${groupId}`,
-  RELATED_RESOURCE: (contentId: string, contentType: string) =>
-    `${PROTECTED_SLAG_V8}/khub/fetchRelatedResources/${contentId}/${contentType}`,
-  POST_ASSESSMENT: (contentId: string) =>
-    `${PROTECTED_SLAG_V8}/user/evaluate/post-assessment/${contentId}`,
-}
+import { TFetchStatus, ConfigurationsService, LoggerService } from '@ws-widget/utils'
+import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
 @Injectable()
 export class AppTocService {
@@ -42,7 +21,7 @@ export class AppTocService {
   resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
   resumeDataSubscription: Subscription | null = null
   gatingEnabled = false
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private http: HttpClient, private configSvc: ConfigurationsService, private logger: LoggerService) { }
   private data: any
 
   getcontentForWidget() {
@@ -95,7 +74,7 @@ export class AppTocService {
     return status
   }
 
-  initData(data: Data, needResumeData: boolean = false): NsAppToc.IWsTocResponse {
+  initData(data: Data, needResumeData = false): NsAppToc.IWsTocResponse {
     let content: NsContent.IContent | null = null
     let errorCode: NsAppToc.EWsTocErrorCode | null = null
 
@@ -110,7 +89,7 @@ export class AppTocService {
           },
           () => {
             // tslint:disable-next-line: no-console
-            console.log('error on resumeDataSubscription')
+            this.logger.log('error on resumeDataSubscription')
           },
         )
       }
@@ -252,7 +231,7 @@ export class AppTocService {
   }
   private getContentAnalyticsClient(contentId: string) {
     this.analyticsFetchStatus = 'fetching'
-    const url = `${PROXY_SLAG_V8}/LA/api/la/contentanalytics?content_id=${contentId}&type=course`
+    const url = API_END_POINTS.CONTENT_ANALYTICS(contentId)
     this.http.get(url).subscribe(
       result => {
         this.analyticsFetchStatus = 'done'
@@ -272,8 +251,7 @@ export class AppTocService {
   }
   private getContentAnalytics(contentId: string) {
     this.analyticsFetchStatus = 'fetching'
-    // tslint:disable-next-line: max-line-length
-    const url = `${PROXY_SLAG_V8}/LA/LA/api/Users?refinementfilter=${encodeURIComponent(
+    const url = `${API_END_POINTS.LA_LA_USER}?refinementfilter=${encodeURIComponent(
       '"source":["Wingspan","Learning Hub"]',
     )}$${encodeURIComponent(`"courseCode": ["${contentId}"]`)}`
     this.http.get(url).subscribe(
@@ -371,7 +349,7 @@ export class AppTocService {
     )
   }
   updateBatchData() {
-    this.batchReplaySubject.next()
+    this.batchReplaySubject.next(undefined)
   }
 
   getNode(): boolean {

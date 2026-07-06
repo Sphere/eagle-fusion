@@ -2,9 +2,11 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core'
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker'
 
 @Component({
-  selector: 'ws-app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+    standalone: false,
+    selector: 'ws-app-calendar',
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss'],
+    
 })
 export class CalendarComponent implements OnInit {
   selectedDate: any

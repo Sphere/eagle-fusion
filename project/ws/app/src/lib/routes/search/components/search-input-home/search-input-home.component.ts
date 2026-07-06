@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, ViewChild, ViewEncapsulation } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 import { Observable } from 'rxjs'
@@ -8,17 +8,19 @@ import { ISearchAutoComplete } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 
 @Component({
-  selector: 'ws-app-search-input-home',
-  templateUrl: './search-input-home.component.html',
-  styleUrls: ['./search-input-home.component.scss'],
-  // tslint:disable-next-line
-  encapsulation: ViewEncapsulation.None,
+    standalone: false,
+    selector: 'ws-app-search-input-home',
+    templateUrl: './search-input-home.component.html',
+    styleUrls: ['./search-input-home.component.scss'],
+    // tslint:disable-next-line
+    encapsulation: ViewEncapsulation.None,
+    
 })
 export class SearchInputHomeComponent implements OnInit, OnChanges {
   @Input() placeHolder = ''
   @Input() ref = ''
   @Output() closed: EventEmitter<boolean> = new EventEmitter()
-  queryControl = new FormControl(this.activated.snapshot.queryParams.q || '')
+  queryControl = new UntypedFormControl(this.activated.snapshot.queryParams.q || '')
   languageSearch: string[] = []
   filteredOptions$: Observable<string[]> = this.queryControl.valueChanges.pipe(
     startWith(this.queryControl.value),
@@ -36,19 +38,8 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
     private router: Router,
     private searchServSvc: SearchServService,
     private configSvc: ConfigurationsService,
-    private route: ActivatedRoute,
-
+    private route: ActivatedRoute
   ) {
-    // if (!this.activated.snapshot.data.searchPageData) {
-    //   // debugger;
-    //   this.searchServSvc.getSearchConfig().then(data => {
-    //     this.activated.snapshot.data.searchPageData = {
-    //       data
-    //     }
-    //   }).then(this.autoFilter.bind(this));
-    // } else {
-    // this.autoFilter();
-    // }
   }
   autoFilter() {
     if (this.route.snapshot.data.searchPageData) {
@@ -89,13 +80,15 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
       //   this.getSearchAutoCompleteResults(this.queryControl.value)
       // }
     })
-    this.languageSearch = this.route.snapshot.data.searchPageData && this.route.snapshot.data.searchPageData.data.search.languageSearch.map(
+    this.languageSearch = this.route?.snapshot?.data?.searchPageData?.data?.search?.languageSearch?.map(
       (u: string) => u.toLowerCase(),
     )
-    this.languageSearch = this.languageSearch.sort()
-    this.swapRemove(this.languageSearch, this.languageSearch.indexOf('all'), 0)
-    if (this.preferredLanguages && this.preferredLanguages.split(',').length > 1) {
-      this.languageSearch.splice(1, 0, this.preferredLanguages)
+    if (this.languageSearch?.length > 0) {
+      this.languageSearch = this.languageSearch?.sort()
+      this.swapRemove(this.languageSearch, this.languageSearch?.indexOf('all'), 0)
+      if (this.preferredLanguages && this.preferredLanguages.split(',').length > 1) {
+        this.languageSearch?.splice(1, 0, this.preferredLanguages)
+      }
     }
   }
 

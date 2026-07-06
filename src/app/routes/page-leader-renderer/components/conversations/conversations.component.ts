@@ -3,9 +3,11 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { NSSearch } from '@ws-widget/collection'
 
 @Component({
-  selector: 'ws-conversations',
-  templateUrl: './conversations.component.html',
-  styleUrls: ['./conversations.component.scss'],
+    standalone: false,
+    selector: 'ws-conversations',
+    templateUrl: './conversations.component.html',
+    styleUrls: ['./conversations.component.scss'],
+    
 })
 export class ConversationsComponent implements OnInit {
   @Input() widgetSearchRequest: NsWidgetResolver.IRenderConfigWithTypedData<

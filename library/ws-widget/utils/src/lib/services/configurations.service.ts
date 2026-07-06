@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, ReplaySubject } from 'rxjs'
 import { environment } from '../../../../../../src/environments/environment'
-import { NsPage } from '../resolvers/page.model'
-import { NsAppsConfig, NsInstanceConfig, NsUser } from './configurations.model'
+import { NsAppsConfig, NsInstanceConfig, NsPage, NsUser } from '../resolvers/configurations.model'
 import { IUserPreference } from './user-preference.model'
 
 let instanceConfigPath: string | null = window.location.host
@@ -23,6 +22,7 @@ export class ConfigurationsService {
   userUrl = ''
   baseUrl = 'assets/configurations'
   sitePath = 'assets/configurations'
+  localSitePath = 'fusion-assets/files'
   // baseUrl = `assets/configurations/${(locationHost || window.location.host).replace(':', '_')}`
   // sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
   //   ':',
@@ -51,6 +51,12 @@ export class ConfigurationsService {
   isAuthenticated = false
   isNewUser = false
   isActive = true
+  orgSelectiveCourseConfig: any = {}   // holds the org-selective-course.json data
+
+  // Maps rootOrgId → org-details redirectUrl for orgs that should bypass /page/home entirely.
+  // Populated at startup from the homeRedirectOrgs section of orgMeta.json.
+  // To add a new org: add an entry in orgMeta.json — no code change needed here.
+  orgHomeRedirectMap: Map<string, string> = new Map()
 
   // pinnedApps
   pinnedApps = new BehaviorSubject<Set<string>>(new Set())

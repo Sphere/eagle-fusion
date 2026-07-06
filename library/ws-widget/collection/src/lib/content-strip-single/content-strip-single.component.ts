@@ -7,9 +7,11 @@ import { NsContentStripSingle } from './content-strip-single.model'
 import { ContentStripSingleService } from './content-strip-single.service'
 
 @Component({
-  selector: 'ws-widget-content-strip-single',
-  templateUrl: './content-strip-single.component.html',
-  styleUrls: ['./content-strip-single.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-content-strip-single',
+    templateUrl: './content-strip-single.component.html',
+    styleUrls: ['./content-strip-single.component.scss'],
+    
 })
 export class ContentStripSingleComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsContentStripSingle.IContentStripSingle> {

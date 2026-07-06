@@ -15,7 +15,10 @@
             "outputPath": "dist/www/fusion",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js",
+              "@angular/localize/init"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -23,6 +26,10 @@
               "src/fusion-assets",
               "src/fusion-assets/icons/",
               "src/fusion-assets/images/",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/.htaccess",
+              "src/assets",
               {
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
@@ -30,15 +37,23 @@
               },
               {
                 "glob": "**/*.*",
-                "input": "./node_modules/@aastrika_npmjs/competency-web/assets",
+                "input": "./node_modules/@aastrika_npmjs/comptency/assets",
                 "output": "./assets/comptency"
               },
-              "src/favicon.ico",
-              "src/assets",
+              {
+                "glob": "**/*.js",
+                "input": "src/assets",
+                "output": "/assets"
+              },
               {
                 "glob": "**/*",
                 "input": "node_modules/ngx-extended-pdf-viewer/bleeding-edge/",
                 "output": "/bleeding-edge/"
+              },
+              {
+                "glob": "theme-light.scss",
+                "input": "src/themes/",
+                "output": "/assets/"
               }
             ],
             "stylePreprocessorOptions": {
@@ -47,27 +62,55 @@
               ]
             },
             "styles": [
-              "src/styles/libraries.scss",
-              "node_modules/material-icons/iconfont/material-icons.scss",
-              "src/styles/mat-typography.scss",
+              "src/styles/tailwind-output.css",
+              "node_modules/video.js/dist/video-js.min.css",
+              "node_modules/vis-network/dist/vis-network.min.css",
+              "node_modules/videojs-markers/dist/videojs.markers.min.css",
+              "node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles/styles.scss",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/shepherd.js/dist/css/shepherd.css",
               "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
-              "node_modules/@aastrika_npmjs/competency-web/assets/styles/global.scss",
-              "src/themes/theme-igot.scss",
+              "node_modules/@aastrika_npmjs/comptency/assets/styles/global.scss",
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
-              "src/fusion-assets/fonts/poppins/stylesheet.css"
+              "node_modules/typeface-roboto/index.css",
+              "src/styles/mat-typography.scss",
+              "src/styles/styles.scss",
+              "src/fusion-assets/fonts/poppins/stylesheet.css",
+              "src/styles/themes.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/fusion-assets/telemetry.min.js",
               "node_modules/shepherd.js/dist/js/shepherd.min.js",
               "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
-            ]
+            ],
+            "aot": true,
+            "vendorChunk": false,
+            "extractLicenses": true,
+            "buildOptimizer": false,
+            "sourceMap": {
+              "scripts": true,
+              "styles": true,
+              "vendor": true
+            },
+            "optimization": true,
+            "namedChunks": false
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": false,
+              "buildOptimizer": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "allowedCommonJsDependencies": [
+                "@angular/compiler",
+                "moment"
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -75,79 +118,134 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": false,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "preserveSymlinks": true,
+              "allowedCommonJsDependencies": [
+                "@angular/compiler",
+                "videojs-markers",
+                "events",
+                "qrcode",
+                "dayjs",
+                "file-saver",
+                "moment",
+                "lodash",
+                "@project-sunbird/client-services",
+                "@aastrika_npmjs/discussions-ui-v8",
+                "rxjs"
+              ],
               "budgets": [
                 {
+                  "type": "initial",
+                  "maximumWarning": "18mb",
+                  "maximumError": "18mb"
+                },
+                {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "name": "org-home.component",
+                  "maximumWarning": "250kb"
                 }
               ],
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
-            },
-            "hi": {
-              "aot": true,
-              "i18nFile": "locale/messages.hi.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "hi",
-              "i18nMissingTranslation": "warning"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 3000,
-            "browserTarget": "fusion:build"
+            "buildTarget": "fusion:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "fusion:build:production"
+              "buildTarget": "fusion:build:production"
             },
-            "hi": {
-              "browserTarget": "fusion:build:hi"
+            "development": {
+              "buildTarget": "fusion:build:development"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "fusion:build"
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "app/project/ws/app/src/lib/routes/app-toc/components/app-toc-content-card/app-toc-content-card.component",
-              "project/ws/viewer/src/lib/plugins/quiz/quiz.component"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "fusion:serve"
+            "outputPath": "dist/fusion-server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false,
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {
-              "devServerTarget": "fusion:serve:production"
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "browserTarget": "fusion:build:production",
+            "serverTarget": "fusion:server:production",
+            "discoverRoutes": false,
+            "routesFile": "prerender-routes.txt"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "fusion:build:production",
+              "serverTarget": "fusion:server:production"
+            },
+            "development": {
+              "browserTarget": "fusion:build:development",
+              "serverTarget": "fusion:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     },
@@ -158,21 +256,18 @@
       "prefix": "ws-resolver",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "library/ws-widget/resolver/tsconfig.lib.json",
             "project": "library/ws-widget/resolver/ng-package.json"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "library/ws-widget/resolver/tsconfig.lib.json",
-              "library/ws-widget/resolver/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "library/ws-widget/resolver/src/**/*.ts",
+              "library/ws-widget/resolver/src/**/*.html"
             ]
           }
         }
@@ -185,21 +280,18 @@
       "prefix": "ws-widget",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "library/ws-widget/collection/tsconfig.lib.json",
             "project": "library/ws-widget/collection/ng-package.json"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "library/ws-widget/collection/tsconfig.lib.json",
-              "library/ws-widget/collection/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "library/ws-widget/collection/src/**/*.ts",
+              "library/ws-widget/collection/src/**/*.html"
             ]
           }
         }
@@ -212,21 +304,18 @@
       "prefix": "ws-utils",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "library/ws-widget/utils/tsconfig.lib.json",
             "project": "library/ws-widget/utils/ng-package.json"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "library/ws-widget/utils/tsconfig.lib.json",
-              "library/ws-widget/utils/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "library/ws-widget/utils/src/**/*.ts",
+              "library/ws-widget/utils/src/**/*.html"
             ]
           }
         }
@@ -239,21 +328,18 @@
       "prefix": "ws-app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/app/tsconfig.lib.json",
             "project": "project/ws/app/ng-package.json"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "project/ws/app/tsconfig.lib.json",
-              "project/ws/app/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "project/ws/app/src/**/*.ts",
+              "project/ws/app/src/**/*.html"
             ]
           }
         }
@@ -266,40 +352,19 @@
       "prefix": "ws-author",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/author/tsconfig.lib.json",
             "project": "project/ws/author/ng-package.json"
           }
-        }
-      }
-    },
-    "@ws/admin": {
-      "projectType": "library",
-      "root": "project/ws/admin",
-      "sourceRoot": "project/ws/admin/src",
-      "prefix": "ws-admin",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": "project/ws/admin/tsconfig.lib.json",
-            "project": "project/ws/admin/ng-package.json"
-          }
-        }
-      }
-    },
-    "@ws/analytics": {
-      "projectType": "library",
-      "root": "project/ws/analytics",
-      "sourceRoot": "project/ws/analytics/src",
-      "prefix": "ws-analytics",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "project/ws/analytics/tsconfig.lib.json",
-            "project": "project/ws/analytics/ng-package.json"
+            "lintFilePatterns": [
+              "project/ws/author/src/**/*.ts",
+              "project/ws/author/src/**/*.html"
+            ]
           }
         }
       }
@@ -311,31 +376,27 @@
       "prefix": "viewer",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/viewer/tsconfig.lib.json",
             "project": "project/ws/viewer/ng-package.json"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "project/ws/viewer/tsconfig.lib.json",
-              "project/ws/viewer/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "project/ws/viewer/src/**/*.ts",
+              "project/ws/viewer/src/**/*.html"
             ]
           }
         }
       }
     }
   },
-  "defaultProject": "fusion",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   }
 }

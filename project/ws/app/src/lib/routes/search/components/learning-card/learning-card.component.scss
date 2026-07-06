@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-vars';
+@use 'ws-common';
+@use 'ws-vars';
 
 .app-icon-holder {
   width: 150px;
@@ -9,49 +9,80 @@
     height: 100%;
   }
 }
-::ng-deep .theme-igot.day-mode .search-card .mat-card:not([class*=mat-elevation-z]) {
+::ng-deep .light-theme .search-card .mat-mdc-card:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
 }
 
 .search-card {
-  border-bottom: solid 1px grey;
+  // border-bottom: solid 1px grey;
+  color: var(--theme-text, #101828);
 }
 
 .card-content {
-  padding: 0 $size-xs;
+  padding: 0 16px;
+  color: var(--theme-text, #101828);
 }
 
 .premium-content {
   font-size: 1.1rem;
 }
 
+.img-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 80px, #ececec 160px);
+  background-size: 200% 100%;
+  animation: shimmerSlide 1.2s infinite linear;
+  z-index: 1;
+}
+
+.dark-theme .img-shimmer {
+  background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 80px, var(--theme-bg) 160px);
+}
+
+@keyframes shimmerSlide {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
 .image-section {
-  $width-s: 100px;
-  $width-gts: 130px;
   position: relative;
-  width: 110px;
-  height: 9 * $width-s / 16;
+  width: 160px;
+  height: 90px;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 
   @media screen and (min-width: 500px) {
-    width: 130px;
-    height: 9 * $width-gts / 16;
+    width: 160px;
+    height: 90px;
   }
 
   img {
     max-width: 100%;
     height: auto;
     max-height: 100%;
-    width: auto;
+    width: 100%;
+    border-radius: 6px;
   }
+}
+
+.mat-title{
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 22px !important;
+  color: var(--theme-text, #101828);
 }
 
 .completed-icon {
   color: green;
-  margin-right: $size-xs;
+  margin-right: ws-common.$size-xs;
 }
 
 .status-danger {
@@ -70,4 +101,47 @@
   opacity: 0.4;
   cursor: default !important;
   pointer-events: none;
+}
+
+h1 {
+  font-weight: 400 !important;
+}
+
+:host {
+  color: var(--theme-text, #101828);
+}
+
+::ng-deep .search-card .mat-mdc-card {
+  background: var(--theme-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
+  border: 1px solid var(--theme-border) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  width: 100%;
+  transition: box-shadow 0.2s ease, transform 0.15s ease !important;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09) !important;
+    transform: translateY(-1px);
+  }
+}
+
+:host-context(.dark-theme) {
+  .image-section img {
+    border-radius: 8px;
+  }
+
+  a,
+  span,
+  h1,
+  .mat-title,
+  .mat-card-subtitle,
+  .mat-body-2 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+}
+
+.width-expand{
+  flex: 1;
+  min-width: 1px;
 }

@@ -1,19 +1,21 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, AfterViewInit, HostListener } from '@angular/core'
+import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, AfterViewInit, HostListener } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService, EventService, TelemetryService } from '@ws-widget/utils'
+import { ConfigurationsService, EventService, LoggerService, TelemetryService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
-// import { Interval, Observable, Subscription } from 'rxjs'
+import { take } from 'rxjs/operators'
 import { ViewerUtilService } from '../../../../../../../project/ws/viewer/src/lib/viewer-util.service'
-import dayjs from 'dayjs'
+import { Subscription } from 'rxjs'
 @Component({
-  selector: 'viewer-plugin-html',
-  templateUrl: './html.component.html',
-  styleUrls: ['./html.component.scss'],
+    standalone: false,
+    selector: 'viewer-plugin-html',
+    templateUrl: './html.component.html',
+    styleUrls: ['./html.component.scss'],
+    
 })
 export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 
@@ -36,7 +38,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   mimeType = ''
   contentData: any
   ent = false
-  @HostListener('window:blur', ['$event'])
+  scormInitializedIds = new Set<string>()
+  currentProcessingContentId: string | null = null
+  contentHistorySubscription: Subscription | null = null
+  // Stored bound reference so removeEventListener can match the one added in the constructor
+  private readonly boundReceiveMessage = this.receiveMessage.bind(this)
+  private progressInterval: any = null
+  @HostListener('window:blur', [])
   onBlur(): void {
     if (this.urlContains.includes('youtube') && this.htmlContent !== null) {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -44,35 +52,55 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
         this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
 
-      this.telemetrySvc.start('youtube', 'youtube-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
+      this.telemetrySvc.start('youtube', 'youtube-start', 'player')
 
       setTimeout(() => {
+        const completionPercentage = 100
         const data2 = {
           current: 10,
           max_size: 10,
           mime_type: this.mimeType,
+          completionPercentage: completionPercentage,
+          status: 2,
         }
         // @ts-ignore: Object is possibly 'null'.
-        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId).subscribe((data: any) => {
-          console.log(data.result.contentList)
-          const result = data.result
-          result['type'] = 'youtube'
-          this.contentSvc.changeMessage(result)
-        })
-
+        this.viewerSvc.realTimeProgressUpdateV3(this.htmlContent.identifier, data2, collectionId, batchId).subscribe(
+          () => { /* success - fire and forget */ },
+          error => { this.logger.warn('Progress update failed:', error) }
+        )
+        // Pre-calculate telemetry and send message without waiting for API response
+        const telemetryData = {
+          contentId: this.htmlContent?.identifier,
+          completionPercentage: completionPercentage,
+          status: 2,
+          mimeType: 'youtube',
+          batchId: batchId,
+        }
+        this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
+        const result = { contentId: this.htmlContent?.identifier, ...data2, type: 'youtube' }
+        this.contentSvc.changeMessage(result)
       }, 50)
       const courseID = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       if (this.htmlContent) {
         const data1: any = {
-          courseID: courseID,
-          contentId: this.htmlContent.identifier,
-          name: this.htmlContent.name,
-          moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          "id": this.htmlContent.identifier,
+          "type": "youtube",
+          "version": "",
+          "rollup": {
+            "l1": collectionId || courseID,
+            "l2": this.htmlContent.identifier,
+          },
         }
-        this.telemetrySvc.end('youtube', 'youtube-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data1)
+        const extras: any = {
+          values: [{
+            courseID: courseID,
+            contentId: this.htmlContent.identifier,
+            name: this.htmlContent.name,
+            moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          }],
+        }
+        this.telemetrySvc.end('youtube', 'youtube-close', 'player', data1, extras)
       }
       // this.contentSvc.changeMessage('youtube')
     }
@@ -91,17 +119,18 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     private viewerSvc: ViewerUtilService,
     private activatedRoute: ActivatedRoute,
     private telemetrySvc: TelemetryService,
-
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
     (window as any).API = this.scormAdapterService
     // if (window.addEventListener) {
-    window.addEventListener('message', this.receiveMessage.bind(this))
+    window.addEventListener('message', this.boundReceiveMessage)
   }
 
   ngOnInit() {
     // this.mobAppSvc.simulateMobile()
     // if (this.htmlContent && this.htmlContent.identifier) {
-    //   console.log(this.htmlContent.identifier)
+    //   this.logger.log(this.htmlContent.identifier)
     //   this.scormAdapterService.contentId = this.htmlContent.identifier
     //   // this.scormAdapterService.loadData()
     //   this.scormAdapterService.loadDataV2()
@@ -116,8 +145,17 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
 
   ngOnDestroy() {
-    window.removeEventListener('message', this.receiveMessage)
-    // window.removeEventListener('onmessage', this.receiveMessage)
+    window.removeEventListener('message', this.boundReceiveMessage)
+    if (this.progressInterval) {
+      clearInterval(this.progressInterval)
+      this.progressInterval = null
+    }
+    // Cleanup tracking and subscriptions
+    if (this.contentHistorySubscription) {
+      this.contentHistorySubscription.unsubscribe()
+    }
+    this.scormInitializedIds.clear()
+    this.currentProcessingContentId = null
   }
 
   executeForms() {
@@ -127,31 +165,53 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
         this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
       setTimeout(() => {
+        const completionPercentage = 100
         const data2 = {
           current: 10,
           max_size: 10,
           mime_type: this.mimeType,
+          completionPercentage: completionPercentage,
+          status: 2,
         }
         // @ts-ignore: Object is possibly 'null'.
-        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId).subscribe((data: any) => {
-          console.log(data.result.contentList)
-          const result = data.result
-          result['type'] = 'docs.google'
-          this.contentSvc.changeMessage(result)
-        })
+        this.viewerSvc.realTimeProgressUpdateV3(this.htmlContent.identifier, data2, collectionId, batchId).subscribe(
+          () => { /* success - fire and forget */ },
+          error => { this.logger.warn('Progress update failed:', error) }
+        )
+        // Pre-calculate telemetry and send message without waiting for API response
+        const telemetryData = {
+          contentId: this.htmlContent?.identifier,
+          completionPercentage: completionPercentage,
+          status: 2,
+          mimeType: 'docs.google',
+          batchId: batchId,
+        }
+        this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
+        const result = { contentId: this.htmlContent?.identifier, ...data2, type: 'docs.google' }
+        this.contentSvc.changeMessage(result)
       }, 50)
 
       const courseID = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       if (this.htmlContent) {
         const data1: any = {
-          courseID: courseID,
-          contentId: this.htmlContent.identifier,
-          name: this.htmlContent.name,
-          moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          "id": this.htmlContent.identifier,
+          "type": "docs.google",
+          "version": "",
+          "rollup": {
+            "l1": collectionId || courseID,
+            "l2": this.htmlContent.identifier,
+          },
         }
-        this.telemetrySvc.end('docs.google', 'docs.google-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data1)
+        const extras: any = {
+          values: [{
+            courseID: courseID,
+            contentId: this.htmlContent.identifier,
+            name: this.htmlContent.name,
+            moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          }],
+        }
+        this.telemetrySvc.end('docs.google', 'docs.google-close', 'player', data1, extras)
       }
 
       // this.contentSvc.changeMessage('docs.google')
@@ -161,7 +221,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   mergeProgressDetails(obj1: any, obj2: any) {
     // Create a new object to store the merged results
-    let mergedObj = { ...obj1 }
+    const mergedObj = { ...obj1 }
 
     // Loop through the keys in obj2
     for (const key in obj2) {
@@ -179,7 +239,21 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     return mergedObj
   }
   async ngOnChanges() {
+    // CRITICAL: Guard must be at the VERY START - prevents ANY processing if already processing this content
     if (this.htmlContent && this.htmlContent.identifier) {
+      if (this.currentProcessingContentId === this.htmlContent.identifier) {
+        // Already processing this exact content - block all further processing
+        return
+      }
+
+      // Mark this content as being processed - PREVENT re-entry
+      this.currentProcessingContentId = this.htmlContent.identifier
+
+      // Unsubscribe from any previous subscription to prevent duplicate API calls
+      if (this.contentHistorySubscription) {
+        this.contentHistorySubscription.unsubscribe()
+        this.contentHistorySubscription = null
+      }
 
       this.scormAdapterService.contentId = this.htmlContent!.identifier
       this.scormAdapterService.htmlName = this.htmlContent!.name
@@ -188,242 +262,131 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
       }
-      const req: NsContent.IContinueLearningDataReq = {
-        request: {
-          userId,
-          batchId: this.activatedRoute.snapshot.queryParams.batchId,
-          courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-          contentIds: [],
-          fields: ['progressdetails'],
-        },
-      }
-      console.log(req, 'req')
-      this.contentSvc.fetchContentHistoryV2(req).subscribe(
-        async data => {
-          if (this.htmlContent && data) {
-            this.contentData = []
-            console.log(this.htmlContent.identifier)
-            this.contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-            //console.log(this.contentData, this.contentData.completionPercentage, 'wee')
-            //this.ent = true
-            if ((this.contentData && this.contentData.completionPercentage === 100 && this.htmlContent.mimeType !== 'application/vnd.ekstep.html-archive')) {
-              const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-                this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
-              const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-                this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
 
-              const data1 = {
-                current: 1,
-                max_size: 1,
-                mime_type: this.mimeType,
+      // Skip fetchContentHistoryV2 for SCORM - let SCORM adapter handle it
+      if (this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
+        // SCORM content will be handled in the SCORM-specific section below
+      } else {
+        const req: NsContent.IContinueLearningDataReq = {
+          request: {
+            userId,
+            batchId: this.activatedRoute.snapshot.queryParams.batchId,
+            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+            contentIds: this.htmlContent ? [this.htmlContent.identifier] : [],
+            fields: ['progressdetails'],
+          },
+        }
+        this.logger.log(req, 'req')
+        // Store subscription to allow cleanup if needed
+        this.contentHistorySubscription = this.contentSvc.fetchContentHistoryV2(req).pipe(
+          take(1)
+        ).subscribe(
+          async data => {
+            // Only process if we're still handling this content
+            if (this.currentProcessingContentId === this.htmlContent!.identifier && this.htmlContent && data) {
+              this.logger.log(this.htmlContent.identifier)
+              this.contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
+              //this.logger.log(this.contentData, this.contentData.completionPercentage, 'wee')
+              //this.ent = true
+              if ((this.contentData && this.contentData.completionPercentage === 100 && this.htmlContent.mimeType !== 'application/vnd.ekstep.html-archive' && this.htmlContent.mimeType !== 'text/x-url')) {
+                const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+                  this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+                const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+                  this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+
+                const completionPercentage = 100
+                const data1 = {
+                  current: 1,
+                  max_size: 1,
+                  mime_type: this.mimeType,
+                  completionPercentage: completionPercentage,
+                  status: 2,
+                }
+                this.logger.log('here')
+                this.viewerSvc
+                  .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
+                    () => { /* success - fire and forget */ },
+                    error => { this.logger.warn('Progress update failed:', error) }
+                  )
+                // Pre-calculate telemetry and send message without waiting for API response
+                const telemetryData = {
+                  contentId: this.htmlContent?.identifier,
+                  completionPercentage: completionPercentage,
+                  status: 2,
+                  mimeType: 'html',
+                  batchId: batchId,
+                }
+                this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
+                const result = { contentId: this.htmlContent?.identifier, ...data1, type: 'html' }
+                this.contentSvc.changeMessage(result)
               }
-              console.log('here')
-              this.viewerSvc
-                .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-                  console.log(data.result.contentList)
-                  const result = data.result
-                  result['type'] = 'html'
-                  this.contentSvc.changeMessage(result)
-                })
-              this.contentSvc.changeMessage('html')
             }
-          }
-        })
+          })
+      }
 
       this.urlContains = this.htmlContent.artifactUrl
       const courseId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       const obj = {
-        resourceID: this.htmlContent.identifier,
-        courseID: courseId,
-        moduleID: this.getModuleId(courseId, this.htmlContent.parent),
+        "id": this.htmlContent.identifier,
+        "type": "docs.google",
+        "version": "",
+        "rollup": {
+          "l1": courseId,
+          "l2": this.htmlContent.identifier,
+        },
       }
-      this.telemetrySvc.end('player', 'view', '', obj)
+      const extras: any = {
+        values: [{
+          resourceID: this.htmlContent.identifier,
+          courseID: courseId,
+          moduleID: this.getModuleId(courseId, this.htmlContent.parent),
+        }],
+      }
+      this.telemetrySvc.end('player', 'view', 'player', obj, extras)
     }
 
     if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
-      this.telemetrySvc.start('docs.google', 'docs.google-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
+      this.telemetrySvc.start('docs.google', 'docs.google-start', 'player')
       this.executeForms()
     }
 
     if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
-      localStorage.setItem('contentId', window.location.href)
-      let userId
-      if (this.configSvc.userProfile) {
-        userId = this.configSvc.userProfile.userId || ''
-      }
-      const req: NsContent.IContinueLearningDataReq = {
-        request: {
-          userId,
-          batchId: this.activatedRoute.snapshot.queryParams.batchId,
-          courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-          contentIds: [],
-          fields: ['progressdetails'],
-        },
-      }
-      // console.log(req)
-      this.contentSvc.fetchContentHistoryV2(req).subscribe(
-        async data => {
-          let scorminit = this.scormAdapterService.LMSInitialize()
-          console.log(scorminit, 'scorminit')
-          if (this.htmlContent && data) {
-            let progressData: any
-            progressData = localStorage.getItem(this.htmlContent!.identifier)
-            let dat = JSON.parse(progressData)
-            console.log(dat)
-            let contentData: any
-            contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
+      // Only initialize SCORM if NOT ALREADY PROCESSED FOR THIS CONTENT ID
+      // The guard at the start of ngOnChanges should prevent this from running multiple times
+      if (!this.scormInitializedIds.has(this.htmlContent.identifier)) {
+        // Mark as initializing to prevent duplicate calls
+        this.scormInitializedIds.add(this.htmlContent.identifier)
 
-            // if (Object.keys(dat).length === 1) {
-            //   // dat["cmi.core.exit"] = "suspend"
-            //   // dat["cmi.core.lesson_status"] = "incomplete"
-            //   // delete dat['errors']
-            //   setTimeout(() => {
-            //     progressData = localStorage.getItem(this.htmlContent!.identifier)
-            //     let dat = JSON.parse(progressData)
-            //     console.log(dat)
-            //   }, 500)
+        localStorage.setItem('contentId', window.location.href)
 
-            // }
+        // Initialize SCORM directly without fetching history - adapter handles its own communication
+        const scorminit = this.scormAdapterService.LMSInitialize()
+        this.logger.log(scorminit, 'scorminit')
+        this.telemetrySvc.start('scorm', 'scorm-start', 'player')
 
-            let pdetails: any
-            console.log(contentData, '285')
-            if (contentData && typeof contentData.progressdetails === 'string') {
-              pdetails = JSON.parse(contentData.progressdetails)
-            } else if (contentData) {
-              pdetails = contentData.progressdetails
-            } else {
-              pdetails = {} // or set a default value, depending on your use case
-            }
-
-            let mergedProgressDetails: any = await this.mergeProgressDetails(pdetails, dat)
-            delete mergedProgressDetails['errors']
-            console.log(mergedProgressDetails, 'mergedProgressDetails')
-
-            if (contentData && contentData.completionPercentage === 0) {
-              let req: any
-              if (this.configSvc.userProfile) {
-                req = {
-                  request: {
-                    userId: this.configSvc.userProfile.userId || '',
-                    contents: [
-                      {
-                        contentId: this.htmlContent!.identifier,
-                        batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
-                        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                        status: this.contentData && this.contentData.status === 2
-                          ? 2
-                          : (this.activatedRoute.snapshot.queryParams.collectionId === "do_11390679694610432011" ? 2 : 1),
-                        lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                        progressdetails: {},
-                        completionPercentage: this.contentData && this.contentData.status === 2
-                          ? 100
-                          : (this.activatedRoute.snapshot.queryParams.collectionId === "do_11390679694610432011" ? 100 : 0)
-                      }
-                    ],
-                  },
-                }
-                console.log(req)
-                console.log(`}`, '289')
-                this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                  let res = await data
-                  console.log(res)
-                })
-              }
-            } else {
-              this.scormAdapterService.contentId = this.htmlContent.identifier
-              this.scormAdapterService.htmlName = this.htmlContent.name
-              this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent.parent : undefined
-
-              if (contentData && contentData.completionPercentage === 100) {
-                console.log('scorm here', contentData.progressdetails)
-                let req: any
-                if (this.configSvc.userProfile) {
-                  req = {
-                    request: {
-                      userId: this.configSvc.userProfile.userId || '',
-                      contents: [
-                        {
-                          contentId: this.htmlContent!.identifier,
-                          batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
-                          courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                          status: 2,
-                          lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                          progressdetails: {},
-                          completionPercentage: 100
-                        }
-                      ],
-                    },
-                  }
-                  console.log(req)
-                  console.log(`{}`, '296')
-                  this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                    let res = await data
-                    console.log(res)
-                  })
-                }
-              } else {
-                if (contentData === undefined) {
-                  let req: any
-                  if (this.configSvc.userProfile) {
-                    req = {
-                      request: {
-                        userId: this.configSvc.userProfile.userId || '',
-                        contents: [
-                          {
-                            contentId: this.htmlContent!.identifier,
-                            batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
-                            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                            status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
-                            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                            progressdetails: {},
-                            completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
-                          }
-                        ],
-                      },
-                    }
-                    console.log(req)
-                    console.log(`{}`, '333')
-                    this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                      let res = await data
-                      console.log(res)
-                      if (res) {
-                        // let result = {}
-                        // result = data.result
-                        // result["type"] = 'scorm'
-                        // this.contentSvc.changeMessage(result)
-                      }
-                    })
-                  }
-                } else {
-                  console.log('342')
-                  this.scormAdapterService.loadDataV2()
-                }
-              }
-            }
+        const courseID = this.activatedRoute.snapshot.queryParams.collectionId ?
+          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+        if (this.htmlContent) {
+          const data: any = {
+            "id": this.htmlContent.identifier,
+            "type": "scrom",
+            "version": "",
+            "rollup": {
+              "l1": courseID,
+              "l2": this.htmlContent.identifier,
+            },
           }
-        })
-      this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
-
-      // this.contentSvc.changeMessage('scorm')
-      // this.scormAdapterService.contentId = this.htmlContent.identifier
-      // this.scormAdapterService.htmlName = this.htmlContent.name
-      // this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent.parent : undefined
-      // // this.scormAdapterService.loadData()
-      // this.scormAdapterService.loadDataV2()
-      const courseID = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
-      if (this.htmlContent) {
-        const data: any = {
-          courseID: courseID,
-          contentId: this.htmlContent.identifier,
-          name: this.htmlContent.name,
-          moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          const extras: any = {
+            values: [{
+              courseID: courseID,
+              contentId: this.htmlContent.identifier,
+              name: this.htmlContent.name,
+              moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+            }],
+          }
+          this.telemetrySvc.end('scorm', 'scorm-close', 'player', data, extras)
         }
-        this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data)
       }
     }
 
@@ -451,9 +414,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             },
             3000,
           )
-          setInterval(
+          this.progressInterval = setInterval(
             () => {
               this.progress -= 1
+              if (this.progress <= 0) {
+                clearInterval(this.progressInterval)
+                this.progressInterval = null
+              }
             },
             30,
           )
@@ -461,31 +428,41 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           this.showIframeSupportWarning = true
         } else {
           this.showIframeSupportWarning = false
-          if (this.htmlContent.mimeType === 'text/x-url') {
+          if (this.htmlContent.mimeType === 'text/x-url' && (!this.contentData || this.contentData.completionPercentage === 0)) {
             const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
             const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
               this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
 
-            this.telemetrySvc.start('html/x-url', 'html/x-url-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
+            this.telemetrySvc.start('html/x-url', 'html/x-url-start', 'player')
 
+            const completionPercentage = 100
             const data1 = {
               current: 1,
               max_size: 1,
               mime_type: this.htmlContent.mimeType,
+              completionPercentage: completionPercentage,
+              status: 2,
             }
 
             setTimeout(() => {
               if (this.htmlContent) {
                 this.viewerSvc
-                  .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-                    console.log(data.result.contentList)
-                    const result = data.result
-                    result['type'] = 'html'
-                    this.contentSvc.changeMessage(result)
-                  })
-                // this.contentSvc.changeMessage('html')
+                  .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
+                    () => { /* success - fire and forget */ },
+                    error => { this.logger.warn('Progress update failed:', error) }
+                  )
+                // Pre-calculate telemetry and send message without waiting for API response
+                const telemetryData = {
+                  contentId: this.htmlContent?.identifier,
+                  completionPercentage: completionPercentage,
+                  status: 2,
+                  mimeType: 'html',
+                  batchId: batchId,
+                }
+                this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
+                const result = { contentId: this.htmlContent?.identifier, ...data1, type: 'html' }
+                this.contentSvc.changeMessage(result)
               }
             }, 50)
 
@@ -493,13 +470,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
             if (this.htmlContent) {
               const data2: any = {
-                courseID: courseID,
-                contentId: this.htmlContent.identifier,
-                name: this.htmlContent.name,
-                moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+                "id": this.htmlContent.identifier,
+                "type": "html/x-url",
+                "version": "",
+                "rollup": {
+                  "l1": collectionId || courseID,
+                  "l2": this.htmlContent.identifier,
+                },
               }
-              this.telemetrySvc.end('html/x-url', 'html/x-url-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-                this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data2)
+              const extras: any = {
+                values: [{
+                  courseID: courseID,
+                  contentId: this.htmlContent.identifier,
+                  name: this.htmlContent.name,
+                  moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+                }],
+              }
+              this.telemetrySvc.end('html/x-url', 'html/x-url-close', 'player', data2, extras)
             }
           }
         }
@@ -545,32 +532,48 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               })
               .catch((err: any) => {
                 /* tslint:disable-next-line */
-                console.log(err)
+                this.logger.log(err)
               })
           }
         } else {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
-            // const streamingUrl = this.htmlContent.streamingUrl.substring(51)
             let streamingUrl = this.htmlContent.streamingUrl
-            streamingUrl = streamingUrl.includes(
-              'https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com'
-            )
-              ? streamingUrl.substring(56)
-              : streamingUrl.substring(50)
+
+            // Log the original URL for debugging
+            this.logger.log('[SCORM] Original streamingUrl:', streamingUrl)
+
+            // Extract the path part after the domain for all URLs and use proxy
+            if (streamingUrl.includes('https://static.sphere.aastrika.org')) {
+              // CDN domain: extract path after 'https://static.sphere.aastrika.org' (35 chars)
+              streamingUrl = streamingUrl.substring(35)
+            } else if (streamingUrl.includes('https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com')) {
+              // S3 stage domain: extract path after domain (56 chars)
+              streamingUrl = streamingUrl.substring(56)
+            } else {
+              // Fallback for other S3 or cloud domains
+              streamingUrl = streamingUrl.substring(50)
+            }
+
+            // Ensure path starts with /
+            if (!streamingUrl.startsWith('/')) {
+              streamingUrl = '/' + streamingUrl
+            }
+
             const entryPoint = this.htmlContent.entryPoint || ''
             const newUrl = `/apis/proxies/v8/getContents${streamingUrl}${entryPoint}`
-            this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${newUrl}`)
+            this.logger.log('[SCORM] Using proxy URL:', newUrl, { streamingUrl, entryPoint })
+            this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(newUrl)
             // let artifactUrl = this.htmlContent.streamingUrl.substring(51)
             // this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
             //   .then((res: string) => {
             //     /* tslint:disable-next-line */
-            //     console.log(res)
-            //     console.log(res['result']['content']['streamingUrl'].substring(51))
+            //     this.logger.log(res)
+            //     this.logger.log(res['result']['content']['streamingUrl'].substring(51))
             //     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${this.htmlContent.artifactUrl}`)
             //   })
             //   .catch((err: any) => {
             //     /* tslint:disable-next-line */
-            //     console.log(err)
+            //     this.logger.log(err)
             //   })
             // this.contentSvc
             //   .fetchHierarchyContent(this.htmlContent.identifier)
@@ -580,7 +583,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             //   })
             //   .catch((err: any) => {
             //     /* tslint:disable-next-line */
-            //     console.log(err)
+            //     this.logger.log(err)
             //   })
           }
         }
@@ -591,20 +594,19 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           // const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
           //   this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
 
-          this.telemetrySvc.start('html/lms', 'html/lms-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
+          this.telemetrySvc.start('html/lms', 'html/lms-start', 'player')
 
           const data1 = {
             current: 1,
             max_size: 1,
             mime_type: this.mimeType,
           }
-          console.log('timeout', this.contentData, data1)
+          this.logger.log('timeout', this.contentData, data1)
           setTimeout(() => {
             if (this.htmlContent) {
               // this.viewerSvc
               //   .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-              //     console.log(data.result.contentList)
+              //     this.logger.log(data.result.contentList)
               //     const result = data.result
               //     result['type'] = 'html'
               //     this.contentSvc.changeMessage(result)
@@ -617,13 +619,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
           if (this.htmlContent) {
             const data2: any = {
-              courseID: courseID,
-              contentId: this.htmlContent.identifier,
-              name: this.htmlContent.name,
-              moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+              "id": this.htmlContent.identifier,
+              "type": "html/lms",
+              "version": "",
+              "rollup": {
+                "l1": courseID,
+                "l2": this.htmlContent.identifier,
+              },
             }
-            this.telemetrySvc.end('html/lms', 'html/lms-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data2)
+            const extras: any = {
+              values: [{
+                courseID: courseID,
+                contentId: this.htmlContent.identifier,
+                name: this.htmlContent.name,
+                moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+              }],
+            }
+            this.telemetrySvc.end('html/lms', 'html/lms-close', 'player', data2, extras)
           }
 
         }
@@ -641,6 +653,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       this.iframeUrl = null
       this.pageFetchStatus = 'error'
     }
+    this.cdr.detectChanges()
   }
 
   // backToDetailsPage() {
@@ -658,16 +671,18 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   raiseTelemetry(data: any) {
     if (this.htmlContent) {
       /* tslint:disable-next-line */
-      console.log(this.htmlContent.identifier)
-      this.events.raiseInteractTelemetry(data.event, 'scrom', {
-        contentId: this.htmlContent.identifier,
+      this.logger.log(this.htmlContent.identifier)
+      this.events.raiseInteractTelemetry(data.event, 'scrom', 'scrom-content', {
+        id: this.htmlContent.identifier,
+        verison: "",
+        rollup: {},
         ...data,
-      })
+      }, { values: [{ contentId: this.htmlContent.identifier }] })
     }
   }
   receiveMessage(msg: any) {
     // /* tslint:disable-next-line */
-    // console.log("msg=>", msg)
+    // this.logger.log("msg=>", msg)
     if (msg.data) {
       this.raiseTelemetry(msg.data)
     } else {
@@ -685,25 +700,38 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
         this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
 
-      this.telemetrySvc.start('html/open-in-newtab', 'html/open-in-newtab-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
+      this.telemetrySvc.start('html/open-in-newtab', 'html/open-in-newtab-start', 'player')
 
+      const completionPercentage = 100
       const data1 = {
         current: 1,
         max_size: 1,
         mime_type: this.mimeType,
+        completionPercentage: completionPercentage,
+        status: 2,
       }
 
       setTimeout(() => {
         if (this.htmlContent) {
           this.viewerSvc
-            .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-              console.log(data.result.contentList)
-              const result = data.result
-              result['type'] = 'html'
-              this.contentSvc.changeMessage(result)
-            })
-          // this.contentSvc.changeMessage('html')
+            .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
+              () => { /* success - fire and forget */ },
+              error => { this.logger.warn('Progress update failed:', error) }
+            )
+          // Pre-calculate telemetry and send message without waiting for API response
+          const telemetryData = {
+            contentId: this.htmlContent?.identifier,
+            completionPercentage: completionPercentage,
+            status: 2,
+            mimeType: 'html',
+            batchId: batchId,
+          }
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
+          const result = {
+            contentList: [{ contentId: this.htmlContent?.identifier, completionPercentage: completionPercentage, status: 2 }],
+            type: 'html',
+          }
+          this.contentSvc.changeMessage(result)
         }
       }, 50)
 
@@ -711,14 +739,24 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       if (this.htmlContent) {
         const data2: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
-          contentId: this.htmlContent.identifier,
-          name: this.htmlContent.name,
-          moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          "id": this.htmlContent.identifier,
+          "type": "html/open-in-newtab",
+          "version": "",
+          "rollup": {
+            "l1": collectionId || courseID,
+            "l2": this.htmlContent.identifier,
+          },
         }
-        this.telemetrySvc.end('html/open-in-newtab', 'html/open-in-newtab-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data2)
+        const extras: any = {
+          values: [{
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
+            contentId: this.htmlContent.identifier,
+            name: this.htmlContent.name,
+            moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          }],
+        }
+        this.telemetrySvc.end('html/open-in-newtab', 'html/open-in-newtab-close', 'player', data2, extras)
       }
       if (this.mobAppSvc && this.mobAppSvc.isMobile) {
         // window.open(this.htmlContent.artifactUrl)
@@ -775,7 +813,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
 
   getModuleId(courseID: any, parent: any): string | null {
-    let moduleID: string | null = parent && parent !== courseID ? parent : null
+    const moduleID: string | null = parent && parent !== courseID ? parent : null
     return moduleID
   }
 }

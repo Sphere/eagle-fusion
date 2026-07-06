@@ -1,23 +1,22 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
-//import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
-//import { WidgetContentService } from '@ws-widget/collection'
-declare var $: any
-import { ValueService } from '@ws-widget/utils'
+declare let $: any
+import { LoggerService, ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
-  selector: 'viewer-quiz-modal',
-  templateUrl: './quiz-modal.component.html',
-  styleUrls: ['./quiz-modal.component.scss'],
-  // tslint:disable-next-line:use-component-view-encapsulation
-  encapsulation: ViewEncapsulation.None,
+    standalone: false,
+    selector: 'viewer-quiz-modal',
+    templateUrl: './quiz-modal.component.html',
+    styleUrls: ['./quiz-modal.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    
 })
 export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
@@ -34,7 +33,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   result = 0
   progressbarValue = 0
   isCompleted = false
-  fetchingResultsStatus: FetchStatus = 'none'
+  fetchingResultsStatus: NSQuiz.FetchStatus = 'none'
   questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
   dialog: any
@@ -58,13 +57,15 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     public route: ActivatedRoute,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
-    //private viewerSvc: ViewerUtilService,
-    //private contentSvc: WidgetContentService,
+    private logger: LoggerService,
+    private translate: TranslateService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
   ) {
 
   }
   ngAfterViewInit() {
-    console.log(this.assesmentdata, 'qui')
+    this.logger.log(this.assesmentdata, 'qui')
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
@@ -93,25 +94,31 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   timer(data: any) {
     if (data > -1) {
-      this.timerSubscription = interval(100)
-        .pipe(
-          map(
-            () =>
-              this.startTime + this.assesmentdata.questions.timeLimit - Date.now(),
-          ),
-        )
-        .subscribe(_timeRemaining => {
-          this.timeLeft -= 0.1
-          if (this.timeLeft < 0) {
-            this.isIdeal = true
-            this.timeLeft = 0
-            if (this.timerSubscription) {
-              this.timerSubscription.unsubscribe()
+      this.ngZone.runOutsideAngular(() => {
+        this.timerSubscription = interval(100)
+          .pipe(
+            map(
+              () =>
+                this.startTime + this.assesmentdata.questions.timeLimit - Date.now(),
+            ),
+          )
+          .subscribe(_timeRemaining => {
+            this.timeLeft -= 0.1
+            if (this.timeLeft < 0) {
+              this.ngZone.run(() => {
+                this.isIdeal = true
+                this.timeLeft = 0
+                if (this.timerSubscription) {
+                  this.timerSubscription.unsubscribe()
+                }
+                this.tabIndex = 1
+                this.tabActive = true
+              })
+            } else {
+              this.cdr.markForCheck()
             }
-            this.tabIndex = 1
-            this.tabActive = true
-          }
-        })
+          })
+      })
     }
   }
 
@@ -140,7 +147,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.submitQuiz()
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
@@ -181,24 +188,15 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
-        console.log(this.result, this.passPercentage)
-        // if (this.result >= this.passPercentage) {
-        //   this.isCompleted = true
-        // }
-        // console.log(this.assesmentdata)
-        //if (this.result >= 0) {
-        //if (this.result >= 0) {
-        console.log(this.result)
-        //this.disableContinue = false
+        this.cdr.detectChanges()
+        this.logger.log(this.result, this.passPercentage)
+        this.logger.log(this.result)
         if (this.result >= 0) {
           this.disableContinue = false
         }
-        // else {
-        //   this.disableContinue = false
-        // }
       },
       (_error: any) => {
-        this.openSnackbar('Something went wrong! Unable to submit.')
+        this.openSnackbar(this.translate.instant("SUBMIT_ERR"))
         this.fetchingResultsStatus = 'error'
       },
     )

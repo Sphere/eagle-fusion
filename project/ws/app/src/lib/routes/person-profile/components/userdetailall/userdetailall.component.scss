@@ -1,3 +1,5 @@
+@use 'ws-mixins';
+
 .smallimage {
   width: 50px;
   height: 50px;
@@ -30,7 +32,7 @@
   overflow-x: auto;
 }
 
-@import 'ws-mixins';
+
 
 mat-card-content {
   width: -webkit-fill-available;
@@ -55,7 +57,7 @@ mat-card-content {
   display: block;
   border-radius: 8px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 95px;
     width: 100px;
     border-radius: 4px;
@@ -92,7 +94,7 @@ $description-line-height: 3em;
   height: 1.4rem;
 }
 
-@import 'ws-mixins';
+
 
 .playlist-card {
   width: 210px;
@@ -143,5 +145,5 @@ $description-line-height: 3em;
 }
 
 .margin-top-xxs {
-  margin-top: $size-xs / 2;
+  margin-top: calc(ws-mixins.$size-xs / 2);
 }

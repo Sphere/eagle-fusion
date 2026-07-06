@@ -1,13 +1,20 @@
-<h1 mat-dialog-title i18n>Logout Now</h1>
-<div class="ws-mat-primary-text text-base pb-2 title-text" *ngIf="isDownloadable" i18n>
-  Note: On logging out all the downloaded content will be deleted.
-</div>
-<div mat-dialog-content class="text-base hide-overflow" i18n>
-  Are you sure?
-</div>
-<div mat-dialog-actions class="flex-row-reverse">
-  <button mat-flat-button color="warn" [disabled]="disabled" (click)="confirmed()" i18n>
-    Yes
-  </button>
-  <button mat-button class="margin-right-xs" [mat-dialog-close] cdkFocusInitial i18n>No</button>
+<div class="dialog-shell">
+  <h1 mat-dialog-title class="heading">{{ 'Logout Now' | translate }}</h1>
+
+  <div mat-dialog-content class="content">
+    {{ 'Are you sure?' | translate }}
+  </div>
+
+  <div class="download-note" *ngIf="isDownloadable">
+    {{ 'Note: On logging out all the downloaded content will be deleted.' | translate }}
+  </div>
+
+  <div mat-dialog-actions class="actions">
+    <button mat-button class="secondary-action" [mat-dialog-close]>
+      {{ 'No' | translate }}
+    </button>
+    <button mat-flat-button color="warn" class="primary-action" [disabled]="disabled" (click)="confirmed()">
+      {{ 'Yes' | translate }}
+    </button>
+  </div>
 </div>

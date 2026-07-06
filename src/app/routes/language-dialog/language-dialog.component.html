@@ -4,14 +4,14 @@
   </button>
   <div class="language">
     <strong>
-      <h1 class="mb-1" i18n>Select Preferred Language for learning</h1>
+      <h1 class="mb-1">{{ 'Select Preferred Language for learning' | translate }}</h1>
     </strong>
-    <p i18n>You can change this setting under "Profile"</p>
+    <p>{{ 'You can change this setting under "Profile"' | translate }}</p>
   </div>
 
   <div class="search-box pb-2 d-none">
     <img src="/fusion-assets/icons/search.png" class="icon-rtl" alt="">
-    <input class="form-control" i18n-placeholder placeholder="Search Language">
+    <input class="form-control" [placeholder]="'Search Language' | translate">
   </div>
 
 
@@ -23,8 +23,8 @@
   </mat-selection-list>
 
   <div mat-dialog-actions align="end" class="lang-done">
-    <button class="btn-done cursor-pointer" id="language-select-btn-1" (click)="multiLanguage(preferredLanguage)"
-      i18n>Done</button>
+    <button class="btn-done cursor-pointer" id="language-select-btn-1" (click)="multiLanguage(preferredLanguage)">{{
+      'Done' | translate }}</button>
   </div>
 </div>
 
@@ -41,14 +41,14 @@
 
   <div class="language">
     <strong>
-      <h1 class="mb-1" i18n>Select Preferred Language for learning</h1>
+      <h1 class="mb-1">{{ 'Select Preferred Language for learning' | translate }}</h1>
     </strong>
-    <p i18n>You can change this setting under "Profile"</p>
+    <p>{{ 'You can change this setting under "Profile"' | translate }}</p>
   </div>
 
   <div class="search-box pb-2 d-none">
     <img src="/fusion-assets/icons/search.png" class="icon-rtl" alt="">
-    <input class="form-control" i18n-placeholder placeholder="Search Language">
+    <input class="form-control" [placeholder]="'Search Language' | translate">
   </div>
 
 
@@ -63,8 +63,8 @@
   </mat-selection-list>
 
   <div mat-dialog-actions align="end" class="lang-done">
-    <button class="btn-done cursor-pointer" id="language-select-btn-2" (click)="chooseLanguage(preferredLanguage)"
-      i18n>Apply</button>
+    <button class="btn-done cursor-pointer" id="language-select-btn-2" (click)="chooseLanguage(preferredLanguage)">{{
+      'Apply' | translate }}</button>
   </div>
 
 

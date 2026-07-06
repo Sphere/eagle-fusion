@@ -8,22 +8,25 @@ import {
   // hasFullScreenSupport,
 } from './fullscreen.util'
 import { Router } from '@angular/router'
+import { LoggerService } from '../../../../utils/src/public-api'
 
 @Component({
-  selector: 'ws-widget-btn-fullscreen',
-  templateUrl: './btn-fullscreen.component.html',
-  styleUrls: ['./btn-fullscreen.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-btn-fullscreen',
+    templateUrl: './btn-fullscreen.component.html',
+    styleUrls: ['./btn-fullscreen.component.scss'],
+    
 })
 export class BtnFullscreenComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<{ fsContainer: HTMLElement | null }> {
   @Input() widgetData!: { fsContainer: HTMLElement | null }
   @Output() fsState: EventEmitter<boolean> = new EventEmitter()
-  containsQuizAssessment = false;
-  constructor(private router: Router) {
+  containsQuizAssessment = false
+  constructor(private router: Router, private logger: LoggerService) {
     super()
-    console.log(this.router.url.includes('quiz'))
+    this.logger.log(this.router.url.includes('quiz'))
     this.containsQuizAssessment = this.router.url.includes('quiz')
-    console.log(this.containsQuizAssessment)
+    this.logger.log(this.containsQuizAssessment)
   }
   // isFullScreenSupported = true
   isInFs = false

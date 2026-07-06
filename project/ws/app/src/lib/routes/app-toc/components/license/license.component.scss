@@ -7,6 +7,11 @@
     }
 }
 
-::ng-deep .theme-igot.day-mode .mat-card:not([class*=mat-elevation-z]) {
+::ng-deep .light-theme .mat-card:not([class*=mat-elevation-z]) {
     box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-card{
+    box-shadow: none !important;
+    background-color: transparent !important;
 }

@@ -1,14 +1,7 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { PageResolve } from '@ws-widget/utils'
-// import { GeneralGuard } from '../../../../../../../src/app/guards/general.guard'
-// import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
-
-// import { KnowledgeArtifactDetailsComponent } from './components/knowledge-artifact-details/knowledge-artifact-details.component'
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
-// import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
-// import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
-// import { ContentCertificationResolver } from './routes/app-toc-certification/resolvers/content-certification.resolver'
 import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-contents.component'
 import { AppTocReferencesComponent } from './routes/app-toc-references/app-toc-references.component'
 import { AppTocHomeComponent } from './routes/app-toc-home/app-toc-home.component'
@@ -54,22 +47,6 @@ const routes: Routes = [
         path: 'details',
         component: AppTocCohortsComponent,
       },
-      // {
-      //   path: 'certification',
-      //   loadChildren: () =>
-      //     import('./routes/app-toc-certification/app-toc-certification.module').then(
-      //       u => u.AppTocCertificationModule,
-      //     ),
-      //   canActivate: [GeneralGuard],
-      //   resolve: {
-      //     certificationMetaResolve: CertificationMetaResolver,
-      //     contentMetaResolve: ContentCertificationResolver,
-      //   },
-      //   runGuardsAndResolvers: 'always',
-      //   data: {
-      //     requiredFeatures: ['certificationLHub'],
-      //   },
-      // },
       {
         path: 'license',
         component: LicenseComponent,
@@ -81,13 +58,6 @@ const routes: Routes = [
       },
     ],
   },
-  // {
-  //   path: 'knowledge-artifact/:id',
-  //   component: KnowledgeArtifactDetailsComponent,
-  //   resolve: {
-  //     content: AppTocResolverService,
-  //   },
-  // },
 ]
 
 @NgModule({

@@ -3,9 +3,11 @@ import { NsTnc } from '../../../../../../../../../src/app/models/tnc.model'
 import { MatSelectChange } from '@angular/material/select'
 
 @Component({
-  selector: 'ws-app-tnc-renderer',
-  templateUrl: './tnc-renderer.component.html',
-  styleUrls: ['./tnc-renderer.component.scss'],
+    standalone: false,
+    selector: 'ws-app-tnc-renderer',
+    templateUrl: './tnc-renderer.component.html',
+    styleUrls: ['./tnc-renderer.component.scss'],
+    
 })
 export class TncRendererComponent implements OnInit, OnChanges {
 

@@ -1,7 +1,3 @@
 <div class="row justify-content-between cursor-pointer">
-  <mat-icon *ngIf="showbackButton" class="" (click)="backScreen()">chevron_left</mat-icon>
-
-  <!-- <div class="logout" *ngIf="showLogOutIcon">
-    <button type="submit" (click)="logout()" class="save-btn" i18n>Logout</button>
-  </div> -->
+  <mat-icon *ngIf="showbackButton && (isXSmall$ | async)" class="" (click)="backScreen()">chevron_left</mat-icon>
 </div>

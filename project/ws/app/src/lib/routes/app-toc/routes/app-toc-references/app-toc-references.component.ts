@@ -4,9 +4,11 @@ import { Subscription } from 'rxjs'
 import { AppTocService } from '../../services/app-toc.service'
 
 @Component({
-  selector: 'ws-app-app-toc-references',
-  templateUrl: './app-toc-references.component.html',
-  styleUrls: ['./app-toc-references.component.scss'],
+    standalone: false,
+    selector: 'ws-app-app-toc-references',
+    templateUrl: './app-toc-references.component.html',
+    styleUrls: ['./app-toc-references.component.scss'],
+    
 })
 export class AppTocReferencesComponent implements OnInit, OnDestroy {
   content: any = null

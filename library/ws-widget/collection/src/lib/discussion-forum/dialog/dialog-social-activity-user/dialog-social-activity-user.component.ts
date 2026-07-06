@@ -15,9 +15,11 @@ const TAB_INDEX_ACTIVITY_TYPE_MAPPING: { [key: number]: string } = {
 }
 
 @Component({
-  selector: 'ws-widget-dialog-social-activity-user',
-  templateUrl: './dialog-social-activity-user.component.html',
-  styleUrls: ['./dialog-social-activity-user.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-dialog-social-activity-user',
+    templateUrl: './dialog-social-activity-user.component.html',
+    styleUrls: ['./dialog-social-activity-user.component.scss'],
+    
 })
 export class DialogSocialActivityUserComponent implements OnInit {
   commonRequestForActivityUsers = {

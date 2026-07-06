@@ -1,45 +1,55 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
+import { Component, effect, Input, OnInit } from '@angular/core'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
+import { SafeUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router'
+import { PlaylistService } from '../../services/playlist.service'
+import { ThemeService } from '../../services/theme.service'
 
 @Component({
+  standalone: false,
   selector: 'ws-app-footer',
   templateUrl: './app-footer.component.html',
   styleUrls: ['./app-footer.component.scss'],
+
 })
 export class AppFooterComponent implements OnInit {
   @Input() isEkshamata = false
+  @Input() config: any
   isXSmall = false
   termsOfUser = true
   appIcon: SafeUrl | null = null
   isMedium = false
   currentYear = new Date().getFullYear()
   isLoggedIn = false
-
+  configData: any
+  orgData: any = {}
+  isDark: boolean
   constructor(
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
-    private domSanitizer: DomSanitizer,
-    private readonly router: Router
+    private readonly router: Router,
+    private playlistSvc: PlaylistService,
+    private logger: LoggerService,
+    private themeSvc: ThemeService
   ) {
     this.isLoggedIn = !!this.configSvc.userProfile
     this.termsOfUser = !this.configSvc.restrictedFeatures?.has('termsOfUser')
-    if (this.configSvc.instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.app
-      )
+    if (this.config) {
+      this.appIcon = this.config?.appLogo
+      this.configData = this.config
+    } else {
+      this.orgData = this.playlistSvc.orgDetails()
+      const res = this.playlistSvc.footerConfig()
+      this.logger.log('********* playlist data in nav bar ', res)
+      this.configData = res
+      this.appIcon = this.orgData?.appLogo
     }
-
+    effect(() => {
+      this.isDark = this.themeSvc.isDark()
+    })
   }
 
   ngOnInit() {
-    if (this.isEkshamata) {
-      this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
-    } else {
-      this.appIcon = '/fusion-assets/images/sphere-new-logo.svg'
-    }
-
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })

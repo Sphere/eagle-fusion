@@ -1,12 +1,12 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 .setup-container {
   max-width: 1100px;
   margin-left: auto !important;
   margin-right: auto !important;
   padding: 36px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin: 0 16px;
     padding: 0;
   }

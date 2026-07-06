@@ -17,12 +17,14 @@ const customBreakPoints = {
 }
 
 @Directive({
-  selector: '[wsUtilsImageResponsive]',
+    standalone: false,
+    selector: '[wsUtilsImageResponsive]',
+    
 })
 export class ImageResponsiveDirective implements OnChanges, OnDestroy {
 
   @Input() src: IImageResponsiveUnit | null = null
-  @HostBinding('src') srcBindUrl = ''
+  @HostBinding('attr.src') srcBindUrl = ''
 
   currentSize = ''
   breakpointSubscription: Subscription | null = null
@@ -40,7 +42,7 @@ export class ImageResponsiveDirective implements OnChanges, OnDestroy {
       ])
       .pipe(distinctUntilChanged())
       .subscribe(data => {
-        // //console.log('data >',  data)
+        // //this.logger.log('data >',  data)
         if (data.breakpoints[customBreakPoints.xxl]) {
           this.currentSize = 'xxl'
         } else if (data.breakpoints[customBreakPoints.xl]) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Subscription, of } from 'rxjs'
-import { catchError } from 'rxjs/operators'
+import { catchError, tap } from 'rxjs/operators'
 import dayjs from 'dayjs'
 
 import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/storage'
@@ -11,11 +11,8 @@ import * as _ from 'lodash'
 import { TelemetryService } from '../../../library/ws-widget/utils/src/lib/services/telemetry.service'
 import { ActivatedRoute } from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-
-const API_END_POINTS = {
-  CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
-  PROGRESS_UPDATE: '/apis/public/v8/mobileApp/v2/updateProgress',
-}
+import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
+import { API_END_POINTS } from '../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -36,14 +33,14 @@ export class MobileScromAdapterService {
       courseId: '',
       authorization: '',
       userToken: '',
-    };
+    }
   constructor(
     private http: HttpClient,
     private store: Storage,
     private telemetrySvc: TelemetryService,
     public route: ActivatedRoute,
-    private UserAgentResolverService: UserAgentResolverService
-
+    private UserAgentResolverService: UserAgentResolverService,
+    private logger: LoggerService
   ) { }
   set contentId(id: string) {
     this.store.key = id
@@ -75,7 +72,7 @@ export class MobileScromAdapterService {
       this._setError(301)
       return false
     }
-    let _return = this.LMSCommit()
+    const _return = this.LMSCommit()
     this.store.setItem('Initialized', false)
     this.store.clearAll()
     return _return
@@ -85,7 +82,7 @@ export class MobileScromAdapterService {
       this._setError(301)
       return false
     }
-    let value = _.get(this.store.getAll(), element)
+    const value = _.get(this.store.getAll(), element)
     if (!value) {
       this._setError(201)
       return ''
@@ -104,19 +101,19 @@ export class MobileScromAdapterService {
     const message = { action: 'close', percentage: data }
 
     if (!window.webkit || !window.webkit.messageHandlers || !window.webkit.messageHandlers.cordova_iab) {
-      console.warn('Cordova IAB postMessage API not found!')
+      this.logger.warn('Cordova IAB postMessage API not found!')
       throw new Error('Cordova IAB postMessage API not found!')
     } else {
-      console.log('Message sent!', message);
+      this.logger.log('Message sent!', message);
       (window.webkit.messageHandlers.cordova_iab as any).postMessage(JSON.stringify(message))
     }
   }
 
 
   LMSCommit() {
-    console.log("lms commit")
+    this.logger.log("lms commit")
     const data = this.store.getAll()
-    console.log(data)
+    this.logger.log(data)
     if (!data) {
       return false
     }
@@ -124,72 +121,74 @@ export class MobileScromAdapterService {
     if (data["cmi.core.lesson_status"] === 'incomplete') {
       const paramMap = this.route.snapshot.queryParamMap
       const params: any = {}
-      paramMap.keys.forEach((key: any) => {
-        const paramValue = paramMap.get(key)
-        params[key] = paramValue
+      paramMap.keys.forEach((key: string) => {
+        const lowerKey = key.toLowerCase()
+        if (lowerKey !== 'authorization' && lowerKey !== 'usertoken') {
+          params[key] = paramMap.get(key)
+        }
       })
       const paramsJSON = JSON.stringify(params)
       const userAgent = this.UserAgentResolverService.getUserAgent()
+      const rollup = { l1: this.getProperty('courseId') || "", l2: this.getProperty('contentId') || '' }
       const startEparams = {
         type: 'scorm',
         mode: 'scorm-start',
-        pageid: this.route.snapshot.queryParams.courseId ?
-          this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+        pageid: 'player',
         duration: 0,
       }
       const user = {
-        userToken: this.getProperty('userToken')
+        id: this.getProperty('userId'),
       }
       this.telemetrySvc.
-        paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user)
+        paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user, rollup)
 
       if (data) {
         const endEparams = {
           type: 'scorm',
           mode: 'scorm-close',
-          pageid: this.route.snapshot.queryParams.courseId ?
-            this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
-          duration: data["cmi.core.session_time"],
+          pageid: 'player',
+          duration: this.convertDurationToEpoch(data["cmi.core.session_time"]),
         }
         this.telemetrySvc.
-          paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user)
+          paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user, rollup)
       }
     }
     if (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed') {
       this.scromSubscription = this.updateScromProgress(data).subscribe(
         async (response: any) => {
-          console.log(response)
+          this.logger.log(response)
           const paramMap = this.route.snapshot.queryParamMap
           const params: any = {}
-          paramMap.keys.forEach((key: any) => {
-            const paramValue = paramMap.get(key)
-            params[key] = paramValue
+          paramMap.keys.forEach((key: string) => {
+            const lowerKey = key.toLowerCase()
+            if (lowerKey !== 'authorization' && lowerKey !== 'usertoken') {
+              params[key] = paramMap.get(key)
+            }
           })
           const paramsJSON = JSON.stringify(params)
           const userAgent = this.UserAgentResolverService.getUserAgent()
+          const rollup = { l1: this.getProperty('courseId') || '', l2: this.getProperty('contentId') || '' }
           const startEparams = {
             type: 'scorm',
             mode: 'scorm-start',
-            pageid: this.route.snapshot.queryParams.courseId ?
-              this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+            pageid: 'player',
             duration: 0,
           }
           const user = {
-            userToken: this.getProperty('userToken')
+            id: this.getProperty('userId'),
           }
           this.telemetrySvc.
-            paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user)
+            paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user, rollup)
 
           if (data) {
             const endEparams = {
               type: 'scorm',
               mode: 'scorm-close',
-              pageid: this.route.snapshot.queryParams.courseId ?
-                this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
-              duration: data["cmi.core.session_time"],
+              pageid: 'player',
+              duration: this.convertDurationToEpoch(data["cmi.core.session_time"]),
             }
             this.telemetrySvc.
-              paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user)
+              paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user, rollup)
           }
           const result = await response.result
           result["type"] = 'scorm'
@@ -203,17 +202,17 @@ export class MobileScromAdapterService {
           }
           return !!response
         },
-        (error) => {
+        error => {
           if (error) {
             this._setError(101)
-            // console.log(error)
+            // this.logger.log(error)
           }
         }
       )
       return false
     } else {
-      this.updateScromProgress(data).subscribe((res) => {
-        console.log(res)
+      this.updateScromProgress(data).subscribe(res => {
+        this.logger.log(res)
       })
     }
     return false
@@ -227,17 +226,17 @@ export class MobileScromAdapterService {
     return ""
   }
   LMSGetErrorString(errorCode: number) {
-    let error = errorCodes[errorCode]
+    const error = errorCodes[errorCode]
     if (!error) return ""
     return error[errorCode]["errorString"]
   }
   LMSGetDiagnostic(errorCode: number) {
-    let error = errorCodes[errorCode]
+    const error = errorCodes[errorCode]
     if (!error) return ""
     return error[errorCode]["diagnostic"]
   }
   _isInitialized() {
-    let initialized = this.store.getItem('Initialized')
+    const initialized = this.store.getItem('Initialized')
     return initialized
   }
   _setError(errorCode: number) {
@@ -250,10 +249,10 @@ export class MobileScromAdapterService {
     this.store.setItem('errors', errors)
   }
   downladFile() {
-    console.log('downladFile')
+    this.logger.log('downladFile')
   }
   loadDataV2(req: any, data: any) {
-    console.log('loadDataV2', req)
+    this.logger.log('loadDataV2', req)
     req.request.fields = ['progressdetails']
 
     const headers = new HttpHeaders({
@@ -266,12 +265,12 @@ export class MobileScromAdapterService {
 
     this.http.post(url, req, { headers }).pipe(
       catchError((error: any) => {
-        console.error('Error occurred:', error)
+        this.logger.error('Error occurred:', error)
         return of(null)
       })
     ).subscribe((responseData: any) => {
       // tslint:disable-next-line: no-console
-      console.log(responseData)
+      this.logger.log(responseData)
       if (responseData && responseData.result && responseData.result.contentList.length) {
         for (const content of responseData.result.contentList) {
           if (content.contentId === this.contentId && content.progressdetails) {
@@ -284,7 +283,7 @@ export class MobileScromAdapterService {
               "Initialized": data["Initialized"],
             }
             // tslint:disable-next-line: no-console
-            console.log('loaded data', loadDatas)
+            this.logger.log('loaded data', loadDatas)
             this.store.setAll(loadDatas)
           } else {
             this.initzeroProgress()
@@ -295,7 +294,7 @@ export class MobileScromAdapterService {
   }
 
   getStatus(postData: any): number {
-    console.log(postData["cmi.core.lesson_status"], 'getStatus', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
+    this.logger.log(postData["cmi.core.lesson_status"], 'getStatus', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 2
@@ -304,12 +303,12 @@ export class MobileScromAdapterService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in getting completion status', e)
+      this.logger.log('Error in getting completion status', e)
       return 1
     }
   }
   getPercentage(postData: any): number {
-    console.log(postData["cmi.core.lesson_status"], 'getpercentage', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
+    this.logger.log(postData["cmi.core.lesson_status"], 'getpercentage', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 100
@@ -318,43 +317,47 @@ export class MobileScromAdapterService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in getting completion status', e)
+      this.logger.log('Error in getting completion status', e)
       return 0
     }
   }
 
   updateScromProgress(postData: any) {
-    let req: any
-    if (postData && (postData["cmi.core.lesson_status"] === 'completed' ||
-      postData["cmi.core.lesson_status"] === 'passed' || postData["cmi.core.lesson_status"] === 'incomplete')) {
-      req = {
-        request: {
-          userId: this.getProperty('userId') || '',
-          contents: [
-            {
-              contentId: this.getProperty('contentId'),
-              batchId: this.getProperty('batchId') || '',
-              courseId: this.getProperty('courseId') || '',
-              status: this.getStatus(postData) || 2,
-              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-              progressdetails: postData,
-              completionPercentage: this.getPercentage(postData) || 0
-            },
-          ],
-        },
-      }
-
+    // Always create a properly formed request
+    const req = {
+      request: {
+        userId: this.getProperty('userId') || '',
+        contents: [
+          {
+            contentId: this.getProperty('contentId'),
+            batchId: this.getProperty('batchId') || '',
+            courseId: this.getProperty('courseId') || '',
+            status: this.getStatus(postData) || 2,
+            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+            progressdetails: postData || {},
+            completionPercentage: this.getPercentage(postData) || 0,
+          },
+        ],
+      },
     }
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getProperty('authorization')}`,
       'X-authenticated-user-token': this.getProperty('userToken'),
       'Content-Type': 'application/json',
     })
-    const options = {
-      url: `${API_END_POINTS.PROGRESS_UPDATE}`,
-      payload: req,
-    }
-    return this.http.post(options.url, options.payload, { headers })
+
+    this.logger.log('Sending SCORM progress update:', req)
+
+    return this.http.post(`${API_END_POINTS.PROGRESS_UPDATE}`, req, { headers }).pipe(
+      tap((response: any) => {
+        this.logger.log('SCORM progress response:', response)
+      }),
+      catchError((error: any) => {
+        this.logger.error('SCORM progress update failed:', error)
+        throw error
+      })
+    )
   }
 
   initzeroProgress() {
@@ -371,7 +374,7 @@ export class MobileScromAdapterService {
             status: 1,
             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
             progressdetails: null,
-            completionPercentage: 0
+            completionPercentage: 0,
           },
         ],
       },
@@ -389,5 +392,14 @@ export class MobileScromAdapterService {
     }
     return this.http.post(options.url, options.payload, { headers })
 
+  }
+
+  convertDurationToEpoch(duration: any): number {
+    // Split HH:MM:SS.ms
+    const [hours, minutes, seconds, ms] = duration.split(/[:.]/).map(Number)
+    // Convert to seconds
+    const durationSeconds = hours * 3600 + minutes * 60 + seconds + ms / 1000
+    const currentEpochFloat = Date.now() / 1000
+    return currentEpochFloat + durationSeconds
   }
 }

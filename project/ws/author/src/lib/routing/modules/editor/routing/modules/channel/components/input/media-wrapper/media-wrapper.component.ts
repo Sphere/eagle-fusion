@@ -4,9 +4,11 @@ import { ConfirmDialogComponent } from '@ws/author/src/lib/modules/shared/compon
 import { MatDialog } from '@angular/material/dialog'
 
 @Component({
-  selector: 'ws-auth-media-wrapper',
-  templateUrl: './media-wrapper.component.html',
-  styleUrls: ['./media-wrapper.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-media-wrapper',
+    templateUrl: './media-wrapper.component.html',
+    styleUrls: ['./media-wrapper.component.scss'],
+    
 })
 export class MediaWrapperComponent implements OnInit, OnChanges {
   @Input() identifier = ''

@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-// import * as _ from 'lodash-es'
 import { ServerResponse } from 'http'
 import { ApiService } from '@ws/author/src/public-api'
-
-const API_END_POINTS = {
-  VALIDATE_CERTIFICATE: '/apis/public/v8/certificate/validate',
-}
+import { API_END_POINTS } from '../../../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',

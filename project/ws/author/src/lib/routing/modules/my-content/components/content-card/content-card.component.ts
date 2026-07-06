@@ -2,9 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 
 @Component({
-  selector: 'ws-auth-root-content-card',
-  templateUrl: './content-card.component.html',
-  styleUrls: ['./content-card.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-root-content-card',
+    templateUrl: './content-card.component.html',
+    styleUrls: ['./content-card.component.scss'],
+    
 })
 export class ContentCardComponent implements OnInit {
   @Input() data: any
@@ -16,7 +18,7 @@ export class ContentCardComponent implements OnInit {
   translationArray: any = []
   userId!: string
   @Output() action = new EventEmitter<any>()
-  isBaseContent: Boolean = true
+  isBaseContent = true
   constructor(private accessService: AccessControlService) { }
 
   ngOnInit() {

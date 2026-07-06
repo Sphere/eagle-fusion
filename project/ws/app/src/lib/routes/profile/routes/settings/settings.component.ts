@@ -16,7 +16,7 @@ import {
 } from '@ws-widget/utils'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { BtnSettingsService } from '@ws-widget/collection'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -24,11 +24,14 @@ import { MatSelectChange } from '@angular/material/select'
 import { MatTabChangeEvent } from '@angular/material/tabs'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
-  selector: 'ws-app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+    standalone: false,
+    selector: 'ws-app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   @ViewChild('successToast', { static: true }) successToast!: ElementRef<any>
@@ -41,10 +44,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   themes: NsInstanceConfig.ITheme[] = []
   fonts: NsInstanceConfig.IFontSize[] = []
   allowedLangCode: { [langCode: string]: NsInstanceConfig.ILocalsConfig } = {}
-  contentLangForm: FormControl = new FormControl()
+  contentLangForm: UntypedFormControl = new UntypedFormControl()
   showContentLang = false
-  intranetContentForm = new FormControl(false)
-  darkModeForm = new FormControl(false)
+  intranetContentForm = new UntypedFormControl(false)
+  // darkModeForm = new UntypedFormControl(false)
   activeThemeKey = ''
   activeFontClass = ''
   activeLocaleClass = ''
@@ -72,6 +75,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private utilitySvc: UtilityService,
     private userProfileSvc: UserProfileService,
     private UserAgentResolverService: UserAgentResolverService,
+    private languageSvc: LanguageService,
   ) { }
 
   ngOnInit() {
@@ -126,15 +130,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
         {},
       )
       // Set the initial value for Themes
-      this.darkModeForm.setValue(this.configSvc.isDarkMode)
+      // this.darkModeForm.setValue(this.configSvc.isDarkMode)
       this.intranetContentForm.setValue(this.isIntranetAllowed)
       this.updateActiveStatus()
       // Events Subscription
-      this.modeChangeSubs = this.darkModeForm.valueChanges
-        .pipe(distinctUntilChanged(), debounceTime(150))
-        .subscribe((isDark: boolean) => {
-          this.btnSettingsSvc.applyThemeMode(isDark)
-        })
+      // this.modeChangeSubs = this.darkModeForm.valueChanges
+      //   .pipe(distinctUntilChanged(), debounceTime(150))
+      //   .subscribe((isDark: boolean) => {
+      //     // this.btnSettingsSvc.applyThemeMode(isDark)
+      //   })
       this.modeChangeSubs = this.intranetContentForm.valueChanges
         .pipe(distinctUntilChanged(), debounceTime(150))
         .subscribe((isIntranet: boolean) => {
@@ -203,7 +207,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   private updateActiveStatus() {
-    this.darkModeForm.setValue(this.configSvc.isDarkMode)
+    // this.darkModeForm.setValue(this.configSvc.isDarkMode)
     this.intranetContentForm.setValue(this.configSvc.isIntranetAllowed)
     if (this.configSvc.activeThemeObject) {
       this.activeThemeKey = this.configSvc.activeThemeObject.themeClass
@@ -266,36 +270,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
         selectedLangGroup: this.contentLanguage.join(','),
       })
       .then(() => {
+        // Use LanguageService for language switching instead of URL-based routing
         if (this.appLanguage !== this.chosenLanguage) {
-          if (this.chosenLanguage === 'en') {
-            this.chosenLanguage = ''
-          }
-          if (this.mode === 'settings') {
-            window.location.assign(`${location.origin}/${this.chosenLanguage}${this.router.url}`)
-          } else {
-            window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
-          }
+          this.languageSvc.setLanguage(this.chosenLanguage)
+          // Navigate to the same route, translations will be applied via ngx-translate
+          this.router.navigate([this.router.url])
         } else if (this.mode !== 'settings') {
           if (this.configSvc.userUrl) {
             this.router.navigateByUrl(this.configSvc.userUrl)
-          } else {
-            // this.router.navigate(['page', 'home'])
           }
-        } else {
-          if (this.chosenLanguage === 'en') {
-            this.chosenLanguage = ''
-            window.location.assign(`${location.origin}/page/home`)
-          } else {
-            window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
-          }
-        }
-        if (this.chosenLanguage === 'en') {
-          this.chosenLanguage = ''
-          window.location.assign(`${location.origin}/page/home`)
-          // window.location.reload(true)
-        } else {
-          // window.location.reload(true)
-          window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
         }
         this.snackBar.open(this.successToast.nativeElement.value)
       })

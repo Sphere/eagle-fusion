@@ -1,11 +1,11 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 %container-padding {
-  padding: $size-xl 12rem;
+  padding: ws-mixins.$size-xl 12rem;
 
-  @include breakpoint-xs {
-    padding: $size-m $size-l;
+  @include ws-mixins.breakpoint-xs {
+    padding: ws-mixins.$size-m ws-mixins.$size-l;
   }
 }
 
@@ -13,7 +13,7 @@
   @extend %container-padding;
   padding-top: 0px !important;
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     padding-right: 1rem;
     padding-left: 1rem;
   }
@@ -39,7 +39,7 @@
 .hidden-xs-inline {
   display: inline;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }
@@ -47,7 +47,7 @@
 .visible-xs-inline {
   display: none;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: inline;
   }
 }
@@ -66,14 +66,14 @@
     width: 28%;
     margin-left: 48px;
 
-    @include breakpoint-s {
-      margin-left: $size-l;
+    @include ws-mixins.breakpoint-s {
+      margin-left: ws-mixins.$size-l;
       min-width: 250px;
     }
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       margin-left: 0;
-      margin-bottom: $size-l;
+      margin-bottom: ws-mixins.$size-l;
       width: 100%;
     }
   }
@@ -99,7 +99,7 @@
 }
 
 ::ng-deep .mat-expansion-panel-header,
-::ng-deep .theme-igot.day-mode .mat-expansion-panel-header {
+::ng-deep .light-theme .mat-expansion-panel-header {
   margin-top: -5px;
   border-bottom: solid 1px #d9d9d9;
   padding-top: 0px;
@@ -189,5 +189,55 @@
     width: 78px;
     height: 78px;
     opacity: 0;
+  }
+}
+
+mat-tab-group {
+  --mat-tab-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #000000) !important;
+}
+
+:host-context(.dark-theme) {
+  .toc-body {
+    background: var(--theme-app-background, #151515);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .toc-links {
+    background: var(--theme-app-background, #151515);
+  }
+
+  .toc-links .mat-tab-link,
+  .hidden-xs-inline,
+  .visible-xs-inline,
+  .detailBar,
+  .editDetails {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .toc-links .link-active {
+    color: var(--theme-tab-active-text, #ffffff) !important;
+    border-bottom-color: var(--theme-tab-active-text, #ffffff);
+  }
+
+  ::ng-deep .mat-expansion-panel-header {
+    background: var(--theme-surface, #0e161b) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep .mat-mdc-tab-header {
+    border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-header-inactive-label-text-color: var(--theme-inactive, #8fa4b8) !important;
+    --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
+  }
+
+  .overlay {
+    background-color: rgba(21, 21, 21, 0.96);
+  }
+
+  .loader-ripple div {
+    border-color: var(--theme-text, #ecf3f8);
   }
 }

@@ -1,12 +1,11 @@
 import { ZipJSResolverService } from './zip-js-resolve.service'
 import { Injectable } from '@angular/core'
-import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router'
+import { ActivatedRouteSnapshot, Router } from '@angular/router'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { ICreateEntity } from '@ws/author/src/lib/interface/create-entity'
 import { forkJoin, Observable, of } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 import { ICollectionEditorConfig } from '../interface/collection-editor'
-import { NSContent } from '../interface/content'
 import { IFormMeta } from '../interface/form'
 import { ApiService } from '../modules/shared/services/api.service'
 import { ORDINALS } from './../constants/apiEndpoints'
@@ -16,7 +15,7 @@ import { CKEditorResolverService } from './ckeditor-resolve.service'
 import { AuthInitService } from './init.service'
 
 @Injectable()
-export class InitResolver implements Resolve<NSContent.IContentMeta> {
+export class InitResolver {
   constructor(
     private apiService: ApiService,
     private router: Router,
@@ -25,7 +24,7 @@ export class InitResolver implements Resolve<NSContent.IContentMeta> {
     private accessService: AccessControlService,
     private authInitService: AuthInitService,
     private zipJSInject: ZipJSResolverService,
-  ) {}
+  ) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const forkProcess: Observable<any>[] = [of(undefined)]

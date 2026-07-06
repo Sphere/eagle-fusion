@@ -1,4 +1,8 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
+
+.overview-container {
+  padding: 0 8px 8px;
+}
 
 .flex {
   display: flex;
@@ -6,7 +10,7 @@
 }
 
 .justify-end {
-  text-align: center;
+  justify-content: flex-end;
 }
 
 .text-center {
@@ -22,17 +26,17 @@
   border-radius: 50px;
   width: 100px !important;
   height: 38px !important;
-  color: #1c5d95 !important;
-  // border-color: #1C5D95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-accent) !important;
+  // border-color: var(--theme-accent) !important;
+  border: 1px solid var(--theme-accent) !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 12px;
   }
 }
 
 .btn-active {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-accent) !important;
   color: #ffffff !important;
 }
 
@@ -46,9 +50,10 @@
   justify-content: center;
   font-size: 19px;
   font-weight: 400;
+  color: var(--theme-text);
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   overflow: hidden !important;
   max-height: none !important;
 }
@@ -58,14 +63,14 @@
 }
 
 .close-icon {
-  padding: 0px !important;
-  display: flex;
-  justify-content: flex-end;
-  float: right;
+  background-color: transparent !important;
+  color: var(--icon-color) !important;
+  margin-top: 5px !important;
 }
 
-.mat-dialog-container {
+::ng-deep .mat-mdc-dialog-container {
   padding-bottom: 0px;
+  overflow: hidden !important;
 }
 
 .no-padding {
@@ -78,6 +83,12 @@
   height: 42px;
   color: #D9D9D9 !important;
   justify-content: center !important;
+}
+
+.star-rating img {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
 }
 
 .star {
@@ -99,7 +110,7 @@
 .submit-btn {
 
   cursor: pointer;
-  background: #2E6491 !important;
+  background: var(--theme-accent, #2E6491) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
@@ -111,15 +122,18 @@
   text-align: center !important;
   border: none !important;
   height: 40px !important;
+  margin-top: 1rem !important
 }
 
 .submit-btn[disabled] {
   background-color: #d3d3d3 !important;
+  color: var(--theme-surface) !important;
+  margin-top: 1rem !important;
 }
 
 .relative {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
 }
 
 .m-0 {
@@ -134,4 +148,25 @@
   letter-spacing: -0.02em !important;
   text-align: center !important;
 
+}
+
+textarea.mat-mdc-input-element {
+  caret-color: var(--theme-primary); /* keep cursor visible */
+  background: var(--theme-surface);
+  margin-top: 1rem;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  color: var(--theme-text);
+}
+
+/* Remove blue outline only on textarea */
+textarea.mat-mdc-input-element:focus {
+  outline: none !important;
+}
+
+::ng-deep .close-icon .mdc-button__ripple::before,
+ .close-icon .mdc-button__ripple::after {
+  background-color: transparent !important;
 }

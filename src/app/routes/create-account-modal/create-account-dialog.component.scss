@@ -1,11 +1,14 @@
 
 @media screen and (min-width:600px) {
-  ::ng-deep .language-modal{
- width: auto !important;
+  ::ng-deep .language-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
+    border-radius: 30px !important;
+    width: auto !important;
     height: auto !important;
+    background: var(--theme-bg, #ffffff) !important;
+    color: var(--theme-text, #101828) !important;
   }
 }
-button.primary-color.mat-raised-button.mat-button-base.mat-primary {
+button.primary-color.mat-mdc-raised-button.mat-mdc-button-base.mat-primary {
   background-color: rgb(63, 81, 181) !important;
   font-size: 14px;
   border-radius: 20px;
@@ -29,29 +32,29 @@ html.fc-widget-small body {
 }
 
 .btn-edit{
-background: #ffffff;
-    border-radius: 50px;
-    color: #1C5D95;
-    width: 101px;
-    height: 35px;
-    border: 1px solid #1C5D95;
+  background: #ffffff;
+  border-radius: 50px;
+  color: var(--theme-accent);
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--theme-accent);
 }
 .btn-confirm{
-  background: #1C5D95;
-    border-radius: 50px;
-    color: #ffffff;
-    width: 120px;
-    height: 35px;
-    border: none
+  background: var(--theme-accent);
+  border-radius: 50px;
+  color: #ffffff;
+  width: 100%;
+  height: 44px;
+  border: none;
 }
 .firstName{
-  font-family: Roboto, sans-serif;
-font-size: 18px;
-font-weight: 500;
-line-height: 21.09px;
-letter-spacing: -0.02em;
-text-align: center;
-color: #000000;
+//   font-family: Roboto, sans-serif;
+// font-size: 18px;
+// font-weight: 500;
+// line-height: 21.09px;
+// letter-spacing: -0.02em;
+// text-align: center;
+color: var(--theme-primary);
 }.info{
   font-family: Roboto, sans-serif;
 font-size: 16px;
@@ -64,12 +67,26 @@ text-align: center;
 
 
 .lang-box {
-      display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 24px 24px 28px 24px;
+  box-sizing: border-box;
 }
 
-::ng-deep .mat-list-base {
+.help-box {
+  position: relative;
+  padding: 48px 24px 24px 24px;
+}
+
+.help-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+::ng-deep .mat-mdc-list-base {
   display: flex !important;
   flex-direction: column !important;
   gap: 10px;
@@ -77,30 +94,32 @@ text-align: center;
 .help-done{
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
 }
 .wa-block{
-  border:1px solid #17A728;
+  border: 1px solid #17A728;
   border-radius: 100px;
-  height: 35px;
-    width: 305px;
-    padding: 25px 20px;
-            justify-content: center;
-gap: 10px;
+  width: 100%;
+  padding: 12px 20px;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
 }
 .whatsapp-icon{
   width: 18px;
-height: 17.94px;
-gap: 0px;
-
+  height: 18px;
 }
 .ca-block{
-   border-radius: 100px;
-    border:1px solid #1C5D95;
-height: 35px;
-    width: 305px;
-    padding: 25px 20px;
-        justify-content: center;
-    gap: 10px;
+  border-radius: 100px;
+  border: 1px solid var(--theme-primary);
+  width: 100%;
+  padding: 12px 20px;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+  background: transparent;
 }
 .ca-text{
   font-family: Roboto, sans-serif;
@@ -108,7 +127,7 @@ font-size: 16px;
 font-weight: 400;
 line-height: 18.75px;
 text-align: left;
-color: #1C5D95;
+color: var(--theme-primary);
 }
 .whtsapp-text{
   font-family: Roboto, sans-serif;
@@ -138,20 +157,65 @@ text-align: center;
   border-bottom: 1px solid #DDDDDD;
   text-transform: capitalize;
 }
-.mat-dialog-actions{
 
+.lang-done {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.mat-dialog-actions{
   display: flex !important;
-    justify-content: space-between;
-    gap: 20px;
+  justify-content: space-between;
+  gap: 20px;
 }
 .info-icon{
   width: 40px;
 height: 40px;
+filter: var(--theme-icon-filter) !important;
 }
 @media only screen and (max-width: 599px) {
-    ::ng-deep .language-modal {
-       max-width: 100% !important;
-  height: auto !important;
-  width: auto !important;
-    }
+  ::ng-deep .language-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
+    border-radius: 30px !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    width: auto !important;
+    padding: 0 !important;
+  }
+  ::ng-deep .language-modal .mdc-dialog__container {
+    max-height: none !important;
+  }
+}
+
+:host-context(.dark-theme) {
+  .firstName,
+  .info,
+  .exist,
+  .ca-text,
+  .whtsapp-text,
+  .mat-icon,
+  p,
+  h1 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .wa-block,
+  .ca-block {
+    background: var(--theme-surface, #0e161b);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .line-bottom {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+}
+
+::ng-deep .dark-theme .language-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background: var(--theme-bg, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

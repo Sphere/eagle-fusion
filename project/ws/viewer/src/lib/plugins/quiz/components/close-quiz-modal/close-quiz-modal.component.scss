@@ -1,116 +1,140 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .overview-container {
-  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 28px 28px;
+  gap: 12px;
 
-  @include breakpoint-xs {
-    padding: 5px;
+  @include ws-mixins.breakpoint-xs {
+    padding: 24px 20px 20px;
   }
+}
+
+.modal-icon-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #e8f1fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.modal-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  color: var(--theme-accent);
+}
+
+.modal-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--theme-text, #101828);;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.sub-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #667085;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  max-width: 280px;
 }
 
 .btn-box {
   display: flex;
-  justify-content: space-evenly;
-
-  @include breakpoint-xs {
-    flex-direction: column;
-    align-items: center;
-  }
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 260px;
 }
 
 .btn {
-  margin-left: 20px;
-  border-radius: 50px;
-  width: 100px !important;
-  height: 38px !important;
-  color: #1c5d95 !important;
-  // border-color: #1C5D95 !important;
-  border: 1px solid #1c5d95 !important;
-
-  @include breakpoint-xs {
-    margin-left: 0px;
-    //width: 75px !important;
-    margin-bottom: 10px;
-  }
+  border-radius: 50px !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  padding: 10px 24px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  white-space: nowrap;
+  color: var(--theme-accent) !important;
+  border: 1.5px solid var(--theme-accent) !important;
+  letter-spacing: 0.01em;
 }
 
-// .btn:first-child {
-//   @include breakpoint-xs {
-//     width: 88px !important;
-//   }
-// }
-
 .btn-active {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-accent) !important;
   color: #ffffff !important;
 }
 
-h2 {
-  text-align: center;
+.continue-quiz {
+  background: transparent !important;
 }
 
-h3 {
-  font-weight: 400px;
-  font-size: 16px;
-  line-height: 24px;
-  text-align: center;
-}
+::ng-deep .close-modal .mat-mdc-dialog-container,
+::ng-deep .close-modal .mat-mdc-dialog-surface {
+  border-radius: 24px !important;
+  overflow: hidden;
 
-::ng-deep.close-modal .mat-dialog-container {
-  border-radius: 34px !important;
-
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     border-radius: 18px !important;
   }
 }
 
-::ng-deep.assesment-close-modal .mat-dialog-container {
-  border-radius: 34px !important;
+::ng-deep .assesment-close-modal .mat-mdc-dialog-container,
+::ng-deep .assesment-close-modal .mat-mdc-dialog-surface {
+  border-radius: 24px !important;
+  overflow: hidden;
 
-  @include breakpoint-xs {
-    border-radius: 25px !important;
+  @include ws-mixins.breakpoint-xs {
+    border-radius: 18px !important;
   }
 }
 
-.title-break-1::after {
-  content: '\a';
-  white-space: pre;
+:host-context(.dark-theme) {
+  .modal-title {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
 
-  @include breakpoint-xs {
-    // content: "";
-    white-space: nowrap;
+  .sub-title {
+    color: var(--theme-text-soft, #92b2ce) !important;
+  }
+
+  .modal-icon-wrap {
+    background: var(--theme-surface, #0e161b);
+  }
+
+  .modal-icon {
+    color: var(--theme-accent, #5b9bd5);
+  }
+
+  .btn {
+    color: var(--theme-text, #ecf3f8) !important;
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
+    background: var(--theme-surface, #0e161b) !important;
+  }
+
+  .btn-active {
+    background: var(--theme-accent) !important;
+    border-color: var(--theme-accent) !important;
+    color: #ffffff !important;
   }
 }
 
-.title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 400;
-  margin-bottom: 15px;
-  line-height: 25px;
-
-  @include breakpoint-xs {
-    font-size: 13px;
-    font-weight: 500;
-  }
-}
-
-.sub-title {
-  font-size: 20px;
-  font-weight: 400 !important;
-  margin-bottom: 25px;
-  text-align: center;
-
-  // @include breakpoint-xs {
-  //   font-size: 12px;
-  // }
-}
-
-.continue-quiz {
-  width: fit-content !important;
-  display: inline-block;
-}
-
-.restart-btn {
-  width: 125px !important;
+::ng-deep .dark-theme .close-modal .mat-mdc-dialog-surface,
+::ng-deep .dark-theme .assesment-close-modal .mat-mdc-dialog-surface {
+  background: var(--theme-bg, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

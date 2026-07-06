@@ -1,10 +1,16 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
+
+::ng-deep .overview-modal .mdc-dialog__surface {
+  border-radius: 24px !important;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18) !important;
+}
 
 .overview-container {
   display: flex;
   flex-direction: column;
   gap: 17px;
-
+  padding: 28px 24px 24px;
 }
 
 .flex {
@@ -15,6 +21,7 @@
 .header-block {
   display: flex;
   gap: 14px !important;
+  align-items: center;
 }
 
 .btn-block {
@@ -44,17 +51,17 @@
   margin-left: 20px;
   border-radius: 50px;
   height: 38px !important;
-  color: #1c5d95 !important;
-  // border-color: #1C5D95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-accent) !important;
+  // border-color: var(--theme-accent) !important;
+  border: 1px solid var(--theme-accent) !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 12px;
   }
 }
 
 .btn-active {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-accent) !important;
   color: #ffffff !important;
 }
 
@@ -74,7 +81,7 @@
 
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   overflow: hidden !important;
   max-height: none !important;
 }
@@ -90,7 +97,7 @@
   padding: 0px !important;
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   padding-bottom: 0px;
 }
 
@@ -103,10 +110,10 @@
 .download-btn {
 
   cursor: pointer;
-  background: #2E6491 !important;
+  background: var(--theme-accent, #2E6491) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
-  border-radius: 50px;
+  border-radius: 14px;
   font-family: Roboto, sans-serif;
   font-size: 16px !important;
   font-weight: 400;
@@ -122,8 +129,8 @@
   cursor: pointer;
 
   background: #FFFFFF !important;
-  color: #2E6491 !important;
-  border: 1px solid #2E6491 !important;
+  color: var(--theme-accent, #2E6491) !important;
+  border: 1px solid var(--theme-accent, #2E6491) !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
   font-family: Roboto, sans-serif;
@@ -151,10 +158,7 @@
 .header {
   font-family: Roboto, sans-serif;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 28.13px;
   letter-spacing: 0.02em;
-  // text-align: center;
-
-
 }

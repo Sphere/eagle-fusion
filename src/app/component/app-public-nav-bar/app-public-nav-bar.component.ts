@@ -1,118 +1,43 @@
-import { IBtnAppsConfig } from './../../../../library/ws-widget/collection/src/lib/btn-apps/btn-apps.model'
-
-import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges, HostListener } from '@angular/core'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { ConfigurationsService, NsPage, NsInstanceConfig, ValueService } from '@ws-widget/utils'
-import { Observable, Subscription } from 'rxjs'
+import { Component, OnInit, OnDestroy, Input, HostListener, effect } from '@angular/core'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
+import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IWSPublicLoginConfig } from '../login/login.model'
-import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
-// import { HttpClient } from '@angular/common/http'
-//import { SignupService } from '../../routes/signup/signup.service'
+import { ThemeService } from '../../services/theme.service'
 @Component({
+  standalone: false,
   selector: 'ws-app-public-nav-bar',
   templateUrl: './app-public-nav-bar.component.html',
   styleUrls: ['./app-public-nav-bar.component.scss'],
+
 })
-export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() mode: 'top' | 'bottom' = 'top'
-  appIcon: SafeUrl | null = null
-  logo = ''
-  appName = ''
-  navBar: Partial<NsPage.INavBackground> | null = null
-  isClientLogin = false
+export class AppPublicNavBarComponent implements OnInit, OnDestroy {
+  @Input() orgConfig: any
   private subscriptionLogin: Subscription | null = null
-  loginConfig: IWSPublicLoginConfig | null = null
   redirectUrl = ''
-  primaryNavbarConfig: NsInstanceConfig.IPrimaryNavbarConfig | null = null
-  pageNavbar: Partial<NsPage.INavBackground> | null = null
-  featureApps: string[] = []
-  appBottomIcon?: SafeUrl
-  showCreateBtn = false
-  hideCreateButton = true
-
-  basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
-    widgetType: 'actionButton',
-    widgetSubType: 'actionButtonApps',
-    widgetData: { allListingUrl: '/app/features' },
-  }
-  instanceVal = ''
-  btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
-  isXSmall$: Observable<boolean>
-
+  isXSmall$: boolean
+  isDark: boolean = false
   constructor(
-    private domSanitizer: DomSanitizer,
-    private configSvc: ConfigurationsService,
+    public configSvc: ConfigurationsService,
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService,
-    //private signUpSvc: SignupService,
-    // private http: HttpClient,
-    private authSvc: AuthKeycloakService) {
-    this.isXSmall$ = this.valueSvc.isXSmall$
-    this.btnAppsConfig = { ...this.basicBtnAppsConfig }
+    private authSvc: AuthKeycloakService,
+    private logger: LoggerService,
+    private themeSvc: ThemeService) {
+    effect(() => {
+      this.isDark = this.themeSvc.isDark()
+      this.isXSmall$ = this.valueSvc.isMobile() ? true : false
+    })
   }
 
-  public get showPublicNavbar(): boolean {
-    return true
-  }
-
-  @HostListener('window:popstate', ['$event'])
+  @HostListener('window:popstate', [])
   onPopState() {
-    console.log('Back button pressed')
+    this.logger.log('Back button pressed')
     location.href = '/public/home'
   }
+
   async ngOnInit() {
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.hideCreateButton = false
-    }
-    if (this.configSvc.instanceConfig) {
-      // try {
-      //   await this.http.get('/apis/proxies/v8/logout/user').subscribe(
-      //     (res: any) => {
-      //       // tslint:disable-next-line:no-console
-      //       console.log(res)
-      //       localStorage.setItem('loggedout', JSON.stringify(res))
-      //     },
-      //     (err: any) => {
-      //       console.log(this.router.url)
-      //       // tslint:disable-next-line:no-console
-      //       console.log(err)
-      //     }
-      //   )
-      //   localStorage.removeItem('telemetrySessionId')
-      //   localStorage.removeItem('loginbtn')
-      //   localStorage.removeItem('tocData')
-      //   localStorage.removeItem(`userUUID`)
-      //   // const url = `${document.baseURI}public/home`
-      //   // const Keycloakurl = `${document.baseURI}auth/
-      // realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
-      //   // window.location.href = Keycloakurl
-      // } catch (error) { }
-
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.app,
-      )
-      this.appName = this.configSvc.instanceConfig.details.appName
-      this.navBar = this.configSvc.pageNavBar
-      this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
-    }
-
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = false
-      } else {
-        this.showCreateBtn = true
-      }
-    })
-
-    // this.subscriptionLogin = this.activateRoute.data.subscribe(data => {
-    //   // todo
-    //   this.loginConfig = data.pageData.data
-    //   this.isClientLogin = data.pageData.data.isClient
-    // })
-
     const paramsMap = this.activateRoute.snapshot.queryParamMap
     const href = window.location.href
     if (paramsMap.has('ref')) {
@@ -122,61 +47,6 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.redirectUrl = `${document.baseURI}openid/keycloak`
     }
-
-    // added from app nav
-    if (this.configSvc.instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.app,
-      )
-      this.instanceVal = this.configSvc.rootOrg || ''
-      if (this.configSvc.instanceConfig.logos.appBottomNav) {
-        this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.configSvc.instanceConfig.logos.appBottomNav,
-        )
-      }
-      this.pageNavbar = this.configSvc.pageNavBar
-      this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
-    }
-    if (this.configSvc.appsConfig) {
-      this.featureApps = Object.keys(this.configSvc.appsConfig.features)
-    }
-  }
-  createAcct() {
-    if (localStorage.getItem('preferedLanguage')) {
-      localStorage.removeItem('preferedLanguage')
-    }
-    this.router.navigateByUrl('app/create-account')
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    for (const property in changes) {
-      if (property === 'mode') {
-        if (this.mode === 'bottom') {
-          this.btnAppsConfig = {
-            ...this.basicBtnAppsConfig,
-            widgetData: {
-              ...this.basicBtnAppsConfig.widgetData,
-              showTitle: true,
-            },
-          }
-        } else {
-          this.btnAppsConfig = {
-            ...this.basicBtnAppsConfig,
-          }
-        }
-      }
-    }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = false
-      } else {
-        this.showCreateBtn = true
-      }
-    })
   }
 
   login(key: 'E' | 'N' | 'S') {
@@ -187,16 +57,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     if (localStorage.getItem('url_before_login') && this.router.url === '/public/home') {
       localStorage.removeItem('url_before_login')
     }
-    // localStorage.removeItem('url_before_login')
-    // this.router.navigateByUrl('app/login')
     this.router.navigateByUrl('/public/login')
-    //this.signUpSvc.keyClockLogin()
-    // const state = uuid()
-    // const nonce = uuid()
-    // sessionStorage.setItem('login-btn', 'clicked')
-    // tslint:disable-next-line:max-line-length
-    // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-    // window.location.href = Keycloakurl
     this.authSvc.login(key, this.redirectUrl)
   }
 

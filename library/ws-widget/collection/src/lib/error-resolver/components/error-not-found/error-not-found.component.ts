@@ -8,9 +8,11 @@ import { ConfigurationsService } from '@ws-widget/utils'
 
 import { IWidgetErrorNotFound } from './error-not-found.model'
 @Component({
-  selector: 'ws-widget-error-not-found',
-  templateUrl: './error-not-found.component.html',
-  styleUrls: ['./error-not-found.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-error-not-found',
+    templateUrl: './error-not-found.component.html',
+    styleUrls: ['./error-not-found.component.scss'],
+    
 })
 export class ErrorNotFoundComponent implements OnInit, OnDestroy {
   @Input() errorData: IWidgetErrorNotFound | null = null

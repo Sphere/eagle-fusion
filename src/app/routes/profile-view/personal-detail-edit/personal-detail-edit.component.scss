@@ -1,38 +1,71 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .content {
-  padding: 10px 0px 0px 10px;
+  padding: 10px 16px 0 16px;
   font-size: 16px;
-  // margin: auto;
+  color: var(--theme-text, #101828);
 
-  // @include breakpoint-gt-s {
-  //   max-width: 30%;
-  // }
-
-  // @include breakpoint-gt-m {
-  //   max-width: 35%;
-  // }
-
-  // @include breakpoint-gt-l {
-  //   max-width: 30%;
-  // }
-
-  // @include breakpoint-s {
-  //   max-width: 50%;
-  // }
-
-  @include breakpoint-xs {
-    max-width: 90%;
+  @include ws-mixins.breakpoint-xs {
+    max-width: 100%;
+    padding: 10px 12px 0 12px;
   }
 }
- @media (min-width:320px) and (max-width:600px) {
-    .personal-btn{
-      margin-top: 10px;
-      margin-bottom: 80px;
+
+.content label,
+.content p,
+.content input,
+.content select {
+  color: var(--theme-text, #101828);
+}
+
+.form-group {
+  margin-bottom: 0.75rem;
+
+  label {
+    display: block;
+    margin-bottom: 4px !important;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .form-control {
+    margin-top: 0 !important;
+  }
+
+  @include ws-mixins.breakpoint-xs {
+    margin-bottom: 0.65rem;
+
+    label {
+      font-size: 13px;
+      margin-bottom: 4px !important;
+    }
+
+    .form-control {
+      height: 42px;
+      padding: 8px 12px;
+      font-size: 14px;
+      margin-top: 0 !important;
     }
   }
+}
+
+.form-control,
+.select-box {
+  color: var(--theme-text, #101828);
+  border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
+  background-color: var(--theme-surface, #ffffff) !important;
+  border-radius: 8px;
+}
+
+@media (min-width: 320px) and (max-width: 600px) {
+  .personal-btn {
+    margin-top: 10px;
+    margin-bottom: 24px;
+  }
+}
 ::placeholder {
-  color: #bebebe !important;
+  color: var(--theme-inactive, #bebebe) !important;
+  opacity: 1;
 }
 
 .date-picker {
@@ -40,8 +73,12 @@
   right: 0px;
   top: 0px;
 }
-:host ::ng-deep .form-control:disabled, .form-control[readonly] {
-    background-color: #ffffff !important;
+:host ::ng-deep .form-control:disabled,
+:host ::ng-deep .form-control[readonly] {
+  background-color: transparent !important;
+  color: var(--theme-disabled, #101828) !important;
+  border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+  pointer-events: none;
 }
 .field-fullwidth {
   width: 100% !important;
@@ -56,7 +93,7 @@
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: #1C5D95;
+  background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
   color: #fff;
   border: 0;
@@ -68,7 +105,7 @@
 
 .save-btn:disabled {
   background-color: #BFBFBF;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
   cursor: default;
 }
 
@@ -83,7 +120,8 @@
 
 .form-control:disabled,
 .form-control[readonly] {
-  background-color: #ffffff;
+  background-color: transparent !important;
+  color: var(--theme-disabled, #101828) !important;
   opacity: 1;
 }
 
@@ -110,3 +148,97 @@ img.lang-img {
 //   color: #d32f2f;
 //   content: "* ";
 // }
+
+input {
+  background-color: var(--theme-surface, #ffffff) !important;
+}
+
+.select-box {
+  background-color: var(--theme-surface, #ffffff) !important;
+}
+
+select {
+  color: var(--theme-inactive, #8c98a8);
+}
+
+select.ng-dirty,
+select.ng-valid {
+  color: var(--theme-text, #101828);
+}
+
+select option:first-child {
+  color: var(--theme-inactive, #8c98a8);
+}
+
+select option {
+  color: var(--theme-text, #101828);
+  background-color: var(--theme-surface, #ffffff);
+}
+
+.form-read-only {
+  pointer-events: none;
+  user-select: none;
+
+  label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .form-group {
+    padding: 6px 0 10px;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 8px;
+  }
+
+  input.form-control,
+  select.form-control,
+  .select-box {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 4px 0 0;
+    font-size: 15px;
+    color: var(--theme-text) !important;
+    height: auto;
+    opacity: 1 !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-weight: 400;
+  }
+
+  ::ng-deep ws-dropdown-dob select {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 4px 0 0;
+    font-size: 15px;
+    color: #222 !important;
+    height: auto;
+    opacity: 1 !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-weight: 400;
+  }
+
+  ::ng-deep ws-dropdown-dob .form-control {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  ::ng-deep ws-dropdown-dob .form-group {
+    border: none !important;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.dark-theme .form-read-only .form-group {
+  border-bottom: 1px solid var(--theme-bg) !important;
+}

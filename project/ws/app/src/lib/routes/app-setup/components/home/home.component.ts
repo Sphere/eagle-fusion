@@ -4,9 +4,11 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
 import { Event, NavigationEnd, Router } from '@angular/router'
 
 @Component({
-  selector: 'ws-app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+    standalone: false,
+    selector: 'ws-app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    
 })
 export class HomeComponent implements OnInit {
   appIcon: SafeUrl = ''

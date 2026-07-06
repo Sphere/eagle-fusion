@@ -2,9 +2,9 @@
   <div *ngIf="!viewCertificate" class="sb-certificatePage" [class.loading]="loader" [class.error]="error">
     <div class="sb-certificatePage-overlay"></div>
     <div class="sb-certificatePage-header">
-      <img [src]="appIcon" class="sb-certificatePage-logo" alt="KarmYogi Logo" />
+      <img [src]="appIcon" class="sb-certificatePage-logo" alt="Aastrika Sphere Logo" />
     </div>
-    <div class="sb-certificatePage-desc mb-auto m-0">
+    <div class="sb-certificatePage-desc m-0">
       <div class="sb-certificatePage-loader">
         <!-- <p>{{resourceService?.frmelmnts?.lbl?.verifyingCertificate}}</p> -->
         <p> Please wait! We are verifying certificate.. </p>
@@ -12,7 +12,7 @@
       </div>
       <img src="fusion-assets/images/certificate.png" class="sb-certificatePage-desc-img" alt="Certificate Desc" />
     </div>
-    <div class="sb-certificatePage-form mb-auto">
+    <div class="sb-certificatePage-form">
       <div class="sb-form-field-group">
         <label *ngIf="!wrongCertificateCode" class="sb-certificatePage-label" for="certificate">
           <!-- {{resourceService?.frmelmnts?.lbl?.enterCertificateCode}} -->
@@ -39,11 +39,11 @@
   <div *ngIf="viewCertificate">
     <div class="sb-certificatePage sb-certificate-view sb-certificatePage-flexHeight">
       <div class="sb-certificatePage-header">
-        <img [src]="appIcon" class="sb-certificatePage-logo" alt="KarmYogi Logo" />
+        <img [src]="appIcon" class="sb-certificatePage-logo" alt="Aastrika Sphere Logo" />
       </div>
-      <div class="sb-certificatePage-holder-details mb-auto">
+      <div class="sb-certificatePage-holder-details">
 
-        <img src="fusion-assets/images/badge.svg" class="sb-icon-badge mt-24 mb-8" alt="Badge" />
+        <img src="fusion-assets/images/badge.svg" class="sb-icon-badge mb-8" alt="Badge" />
         <p *ngIf="recipient" class="sb-certificatePage-holder-desc sb-certificatePage-holder-desc-primary">
           <!-- {{resourceService?.frmelmnts?.lbl?.certificateIssuedTo}} -->
           {{'Certificate issued to '}}
@@ -51,6 +51,9 @@
         <h4 *ngIf="recipient" class="sb-certificatePage-holder-name">
           {{recipient}}
         </h4>
+        <p *ngIf="contactDisplay" class="sb-certificatePage-holder-contact">
+          ({{contactDisplay}})
+        </p>
         <p *ngIf="courseName && issuedOn" class="sb-certificatePage-holder-desc">
           <!-- {{resourceService?.frmelmnts?.lbl?.completingCourseSuccessfully}} -->
           {{'For successfully completing the course, '}}
@@ -77,18 +80,6 @@
         <div class="h-100 certificate-area-player" *ngIf="!showVideoThumbnail">
           <!-- <app-player class="content-player" [playerConfig]="playerConfig"></app-player> -->
         </div>
-      </div>
-    </div>
-
-    <div class="sb-certificatePage sb-certificate-view min-height-auto">
-      <div class="sb-certificatePage-holder-details">
-        <a (click)="navigateToCoursesPage()"
-          class="mt-32 width-100 d-flex flex-jc-space-between p-8 cursor-pointer sb-btn-arrow"
-          title="Return to Courses">
-          <!-- {{resourceService?.frmelmnts?.lbl?.returnToCourses}}  -->
-          {{'Return to Courses '}}
-          <mat-icon>arrow_forward_ios</mat-icon>
-        </a>
       </div>
     </div>
   </div>

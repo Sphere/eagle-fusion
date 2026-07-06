@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { WidgetContentService } from '../../../../_services/widget-content.service'
 import { ConfigurationsService } from '@ws-widget/utils'
@@ -11,16 +11,18 @@ interface ISearchQuery {
   query: string
 }
 @Component({
-  selector: 'ws-widget-search-input',
-  templateUrl: './search-input.component.html',
-  styleUrls: ['./search-input.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-search-input',
+    templateUrl: './search-input.component.html',
+    styleUrls: ['./search-input.component.scss'],
+    
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
 
   @Output()
   searchRequest = new EventEmitter<ISearchQuery>()
 
-  searchControl = new FormControl('')
+  searchControl = new UntypedFormControl('')
   selectedLang: string
   availableLanguages: string[] = []
   searchControlSubscription: Subscription | null = null
@@ -37,7 +39,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   getSearchConfig() {
-    const url = `${this.configSvc.sitePath}/feature/search.json`
+    const url = `fusion-assets/files/search.json`
     this.widgetContentSvc.fetchConfig(url).subscribe(
       config => {
         this.availableLanguages = config.search.languageSearch.map((locale: string) => locale.toLowerCase())

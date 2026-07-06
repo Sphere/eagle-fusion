@@ -8,23 +8,7 @@ import {
   NsDiscussionForum,
 } from '../../../../../../../../library/ws-widget/collection/src/public-api'
 import { IFollowDetails } from '../person-profile.model'
-
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-const API_END_POINTS = {
-  // SOCIAL_TIMELINE: `${PROTECTED_SLAG_V8}/social/post/timelineV2`,// this has to be changed(Temporary)
-  SOCIAL_TIMELINE: `${PROTECTED_SLAG_V8}/social/post/timeline`,
-  userTopics: `${PROTECTED_SLAG_V8}/user/topics`,
-  lastlearnt: `${PROTECTED_SLAG_V8}/user/history`,
-  getFollowersv3: `${PROTECTED_SLAG_V8}/user/follow/getFollowersv3`,
-  getFollowingv3: `${PROTECTED_SLAG_V8}/user/follow/getFollowingv3`,
-  getFollowing: `${PROTECTED_SLAG_V8}/user/follow/getFollowing`,
-  getAllPlaylists: `${PROTECTED_SLAG_V8}/user/playlist`,
-  getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
-  // getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
-  // getUserGoals:
-  // (type: NsGoal.EGoalTypes, sourceFields: string, wid: string) =>
-  //   `/apis/protected/v8/user/goals/${type}?sourceFields=${sourceFields}&wid=${wid}`
-}
+import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -33,10 +17,10 @@ const API_END_POINTS = {
 export class PersonProfileService {
   httpOptions = {
     headers: new HttpHeaders({
-      validator_URL: `https://${this.configSvc.hostPath}/apis/protected/v8/user/validate`,
+      validator_URL: `https://${this.configSvc.hostPath}${API_END_POINTS.VALIDATE_USER}`,
     }),
   }
-  isfollowevent = new EventEmitter<Boolean>()
+  isfollowevent = new EventEmitter<boolean>()
   wid = new BehaviorSubject<string>('')
 
   constructor(
@@ -49,9 +33,9 @@ export class PersonProfileService {
   }
 
   lastlearnt(): Observable<any> {
-    return this.http.get<any>(`${API_END_POINTS.lastlearnt}?pageSize=20`)
+    return this.http.get<any>(`${API_END_POINTS.CONTENT_HISTORY}?pageSize=20`)
   }
-  getFollowers(wid: string, pageSize: number = 0, pageState?: string): Observable<any> {
+  getFollowers(wid: string, pageSize = 0, pageState?: string): Observable<any> {
     if (pageState) {
       return this.http.post<any>(API_END_POINTS.getFollowersv3, {
         fetchSize: pageSize,
@@ -73,7 +57,7 @@ export class PersonProfileService {
 
       return this.http.post<IFollowDetails>(API_END_POINTS.getDetails, { wid })
 
-    } catch (e) {
+    } catch (e: any) {
       return e
     }
 

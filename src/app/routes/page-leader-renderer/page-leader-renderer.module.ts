@@ -24,41 +24,42 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatInputModule } from '@angular/material/input'
+import { TranslateModule } from '@ngx-translate/core'
 
 import { WidgetResolverModule } from '../../../../library/ws-widget/resolver/src/public-api'
 
 @NgModule({
-  declarations: [
-    AboutComponent,
-    ArticlesComponent,
-    CommunicationsComponent,
-    ConversationsComponent,
-    DiscussComponent,
-    LandingComponent,
-    SendMailDialogComponent,
-    TweetsComponent,
-  ],
-  imports: [
-    CommonModule,
-    PageLeaderRendererRoutingModule,
-    MatIconModule,
-    MatCardModule,
-    MatDividerModule,
-    MatButtonModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    MatDialogModule,
-    MatToolbarModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatInputModule,
-    FormsModule,
-    WidgetResolverModule,
-    BtnPageBackModule,
-    DiscussionForumModule,
-  ],
-  exports: [LandingComponent],
-  entryComponents: [SendMailDialogComponent],
+    declarations: [
+        AboutComponent,
+        ArticlesComponent,
+        CommunicationsComponent,
+        ConversationsComponent,
+        DiscussComponent,
+        LandingComponent,
+        SendMailDialogComponent,
+        TweetsComponent,
+    ],
+    imports: [
+        CommonModule,
+        PageLeaderRendererRoutingModule,
+        MatIconModule,
+        MatCardModule,
+        MatDividerModule,
+        MatButtonModule,
+        MatTabsModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        TranslateModule,
+        MatDialogModule,
+        MatToolbarModule,
+        MatProgressSpinnerModule,
+        MatSnackBarModule,
+        MatInputModule,
+        FormsModule,
+        WidgetResolverModule,
+        BtnPageBackModule,
+        DiscussionForumModule,
+    ],
+    exports: [LandingComponent],
 })
 export class PageLeaderRendererModule { }

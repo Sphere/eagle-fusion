@@ -1,18 +1,17 @@
 <div class="padding-dynamic" *ngIf="pdfData">
   <div class="flex flex-around flex-wrapped">
     <div class="w-full">
-      <div clss="overflow-class">
+      <div class="overflow-class">
         <mat-card>
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player">
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverPdfData"></ng-container>
-              <div #navpdf class="pdf">
-                <app-player-navigation-widget></app-player-navigation-widget>
-              </div>
             </div>
-
           </mat-card-content>
         </mat-card>
+      </div>
+      <div #navpdf class="pdf">
+        <app-player-navigation-widget></app-player-navigation-widget>
       </div>
 
       <div class="vidoe-title margin-top-m d-none" *ngIf="pdfData">

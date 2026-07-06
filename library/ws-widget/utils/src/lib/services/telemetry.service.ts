@@ -1,39 +1,34 @@
 import { Injectable } from '@angular/core'
 import { NsContent } from '@ws-widget/collection'
 import { filter } from 'rxjs/operators'
-// import { AuthKeycloakService } from './auth-keycloak.service'
-import { NsInstanceConfig } from './configurations.model'
+import { NsInstanceConfig } from '../resolvers/configurations.model'
 import { ConfigurationsService } from './configurations.service'
 import { WsEvents } from './event.model'
 import { EventService } from './event.service'
 import { LoggerService } from './logger.service'
-// import { environment } from 'src/environments/environment'
 import { HttpClient } from '@angular/common/http'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { ConfigCacheService } from 'src/app/services/config-cache.service'
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
-declare var $t: any
+declare let $t: any
 
 @Injectable({
   providedIn: 'root',
 })
 export class TelemetryService {
-  private baseUrl = 'assets/configurations'
-
   previousUrl: string | null = null
   telemetryConfig: NsInstanceConfig.ITelemetryConfig | null = null
   pData: any = null
   externalApps: any = {
     RBCP: 'rbcp-web-ui',
   }
-  PUBLIC_TELEMETRY = '/apis/public/v8/publicTelemetry'
 
   constructor(
-    // private orgService: OrgServiceService,
     private http: HttpClient,
     private configSvc: ConfigurationsService,
+    private configCacheSvc: ConfigCacheService,
     private eventsSvc: EventService,
-    // private authSvc: AuthKeycloakService,
-    // private envSvc : environment,
     private logger: LoggerService,
     private UserAgentResolverService: UserAgentResolverService,
 
@@ -46,17 +41,13 @@ export class TelemetryService {
         pdata: {
           ...this.telemetryConfig.pdata,
           pid: navigator.userAgent,
-          // id: `${environment.name}.${this.telemetryConfig.pdata.id}`,
         },
         channel: this.rootOrgId || this.telemetryConfig.channel,
         uid: this.configSvc.userProfile && this.configSvc.userProfile.userId,
         sid: this.getTelemetrySessionId,
-        // authtoken: this.authSvc.token,
       }
       this.pData = this.telemetryConfig.pdata
-      this.addPlayerListener()
       this.addInteractListener()
-      this.addTimeSpentListener()
       this.addSearchListener()
       this.addHearbeatListener()
     }
@@ -73,7 +64,172 @@ export class TelemetryService {
     return ''
   }
 
-  start(type: string, mode: string, id: string, data?: any) {
+  interact(type: string, mode: string, id: string, data?: any, actor?: any, extras?: any) {
+    try {
+      if (this.telemetryConfig) {
+        const page = this.getPageDetails()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const cookie = this.UserAgentResolverService.generateCookie()
+        const edata = {
+          type,
+          mode,
+          pageid: id,
+          extras,
+          uri: page.pageUrl,
+          browserName: userAgent.browserName,
+          OS: userAgent.OS,
+          timestamp: Date.now(),
+          userAgent,
+          cookie,
+        }
+        $t.interact(edata, {
+          actor: {
+            ...actor && actor,
+          },
+          context: {
+            env: this.telemetryConfig.env,
+            channel: this.telemetryConfig.channel,
+            pdata: {
+              ...this.pData,
+              id: 'web-ui',
+              pid: 'sphere.aastrika.org',
+            },
+            sid: this.getTelemetrySessionId,
+          },
+          object: {
+            ...(data) && data,
+          },
+        })
+      } else {
+        this.logger.error('Error Initializing Telemetry. Config missing.')
+      }
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      this.logger.log('Error in telemetry interact', e)
+    }
+  }
+
+  // New method for login telemetry - sends to postPublicTelemetry instead of $t.interact
+  interactForLogin(type: string, mode: string, id: string, actor?: any, extras?: any) {
+    try {
+      if (this.telemetryConfig) {
+        const page = this.getPageDetails()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const cookie = this.UserAgentResolverService.generateCookie()
+        const utmParams = this.UserAgentResolverService.getUtmParams()
+        const edata = {
+          type,
+          mode,
+          subtype: extras?.subtype || '',
+          pageid: id,
+          uri: page.pageUrl,
+          browserName: userAgent.browserName,
+          OS: userAgent.OS,
+          timestamp: Date.now(),
+          userAgent,
+          cookie,
+          ...(utmParams.utm_source ? { utm_source: utmParams.utm_source } : {}),
+          ...(utmParams.utm_medium ? { utm_medium: utmParams.utm_medium } : {}),
+          ...(utmParams.utm_campaign ? { utm_campaign: utmParams.utm_campaign } : {}),
+          ...(utmParams.utm_content ? { utm_content: utmParams.utm_content } : {}),
+          ...(utmParams.utm_term ? { utm_term: utmParams.utm_term } : {}),
+          ...extras,
+        }
+
+        const finalObject = {
+          id: 'ekstep.telemetry',
+          ver: '3.0',
+          ets: Date.now(),
+          events: [
+            {
+              eid: 'INTERACT',
+              ets: Date.now(),
+              ver: '3.0',
+              mid: '',
+              actor: {
+                ...actor && actor,
+              },
+              context: {
+                channel: this.telemetryConfig.channel,
+                pdata: {
+                  id: 'web-ui',
+                  ver: '1.0.0',
+                  pid: 'sphere.aastrika.org',
+                },
+                env: this.telemetryConfig.env,
+                sid: this.getTelemetrySessionId,
+                did: '',
+                cdata: [
+                  {
+                    id: actor?.id || '',
+                    type: actor?.type || '',
+                  },
+                ],
+                rollup: {},
+              },
+              object: {
+                ver: '1.0.0',
+                id: '',
+              },
+              tags: [],
+              edata,
+            },
+          ],
+        }
+
+        this.postPublicTelemetry(finalObject)
+      } else {
+        this.logger.error('Error Initializing Telemetry. Config missing.')
+      }
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      this.logger.log('Error in telemetry interactForLogin', e)
+    }
+  }
+
+  impression(type: string, mode: string, id: string, data?: any) {
+    this.getTelemetryConfig()
+    try {
+      if (this.telemetryConfig) {
+        const page = this.getPageDetails()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const cookie = this.UserAgentResolverService.generateCookie()
+        const edata = {
+          type,
+          subtype: mode,
+          pageid: id,
+          uri: page.pageUrl,
+          browserName: userAgent.browserName,
+          OS: userAgent.OS,
+          timestamp: Date.now(),
+          userAgent,
+          cookie,
+        }
+        $t.impression(edata, {
+          context: {
+            env: this.telemetryConfig.env,
+            channel: this.telemetryConfig.channel,
+            pdata: {
+              ...this.pData,
+              id: 'web-ui',
+              pid: 'sphere.aastrika.org',
+            },
+            sid: this.getTelemetrySessionId,
+          },
+          object: {
+            ...(data) && data,
+          },
+        })
+      } else {
+        this.logger.error('Error Initializing Telemetry. Config missing.')
+      }
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      this.logger.log('Error in telemetry impression', e)
+    }
+  }
+
+  start(type: string, mode: string, id: string, data?: any, extras?: any) {
     try {
       if (this.telemetryConfig) {
         $t.start(
@@ -85,6 +241,7 @@ export class TelemetryService {
             type,
             mode,
             pageid: id,
+            extras,
           },
           {
             context: {
@@ -92,6 +249,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.pData.id,
               },
+              sid: this.getTelemetrySessionId,
             },
             object: {
               ...(data) && data,
@@ -103,17 +261,18 @@ export class TelemetryService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry start', e)
+      this.logger.log('Error in telemetry start', e)
     }
   }
 
-  end(type: string, mode: string, id: string, data?: any) {
+  end(type: string, mode: string, id: string, data?: any, extras?: any) {
     try {
       $t.end(
         {
           type,
           mode,
           pageid: id,
+          extras,
         },
         {
           context: {
@@ -121,6 +280,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId,
           },
           object: {
             ...(data) && data,
@@ -129,7 +289,7 @@ export class TelemetryService {
       )
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry end', e)
+      this.logger.log('Error in telemetry end', e)
     }
   }
 
@@ -150,12 +310,13 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId,
           },
         },
       )
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry audit', e)
+      this.logger.log('Error in telemetry audit', e)
     }
   }
 
@@ -168,13 +329,11 @@ export class TelemetryService {
       })
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry heartbeat', e)
+      this.logger.log('Error in telemetry heartbeat', e)
     }
   }
   async getTelemetryConfig() {
-    const publicConfig: NsInstanceConfig.IConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
-      .toPromise()
+    const publicConfig: NsInstanceConfig.IConfig = await this.configCacheSvc.getHostConfig().toPromise()
     const instanceConfig = publicConfig
     this.telemetryConfig = instanceConfig.telemetryConfig
     this.telemetryConfig = {
@@ -191,44 +350,44 @@ export class TelemetryService {
     }
     this.pData = instanceConfig.telemetryConfig.pdata
   }
-  async impression() {
-    try {
-      const page = this.getPageDetails()
-      await this.getTelemetryConfig()
-      const edata = {
-        pageid: page.pageid, // Required. Unique page id
-        type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
-        uri: page.pageUrl,
-      }
-      if (page.objectId) {
-        const config = {
-          context: {
-            pdata: {
-              ...this.pData,
-              id: this.pData.id,
-            },
-          },
-          object: {
-            id: page.objectId,
-          },
-        }
-        $t.impression(edata, config)
-      } else {
-        $t.impression(edata, {
-          context: {
-            pdata: {
-              ...this.pData,
-              id: this.pData.id,
-            },
-          },
-        })
-      }
-      this.previousUrl = page.pageUrl
-    } catch (e) {
-      // tslint:disable-next-line: no-console
-      console.log('Error in telemetry impression', e)
-    }
-  }
+  // async impression() {
+  //   try {
+  //     const page = this.getPageDetails()
+  //     await this.getTelemetryConfig()
+  //     const edata = {
+  //       pageid: page.pageid, // Required. Unique page id
+  //       type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
+  //       uri: page.pageUrl,
+  //     }
+  //     if (page.objectId) {
+  //       const config = {
+  //         context: {
+  //           pdata: {
+  //             ...this.pData,
+  //             id: this.pData.id,
+  //           },
+  //         },
+  //         object: {
+  //           id: page.objectId,
+  //         },
+  //       }
+  //       $t.impression(edata, config)
+  //     } else {
+  //       $t.impression(edata, {
+  //         context: {
+  //           pdata: {
+  //             ...this.pData,
+  //             id: this.pData.id,
+  //           },
+  //         },
+  //       })
+  //     }
+  //     this.previousUrl = page.pageUrl
+  //   } catch (e) {
+  //     // tslint:disable-next-line: no-console
+  //     this.logger.log('Error in telemetry impression', e)
+  //   }
+  // }
   async publicImpression(param: any, browserName: any, OS: any) {
     try {
       const page = this.getPageDetails()
@@ -270,7 +429,7 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
               rollup: {},
@@ -314,10 +473,10 @@ export class TelemetryService {
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry paramTrigger', e)
+      this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
-  async paramTriggerEnd(param: any, browserName: any, OS: any, eparams: any, user: any) {
+  async paramTriggerEnd(param: any, browserName: any, OS: any, eparams: any, user: any, rollup: any) {
     const page = this.getPageDetails()
     try {
       let edata = {
@@ -327,7 +486,7 @@ export class TelemetryService {
         type: eparams.type,
         mode: eparams.mode,
         pageid: eparams.pageid,
-        duration: eparams.duration
+        duration: eparams.duration,
       }
       param = JSON.parse(param)
       edata = {
@@ -344,7 +503,7 @@ export class TelemetryService {
             ver: '3.0',
             mid: '',
             actor: {
-              id: user.userToken,
+              id: user.userId,
               type: 'User',
             },
             context: {
@@ -355,14 +514,16 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
-              rollup: {},
+              rollup: rollup,
             },
             object: {
               ver: '1.0.0',
               id: '',
+              type: "",
+              rollup: rollup,
             },
             tags: [],
             edata,
@@ -373,10 +534,10 @@ export class TelemetryService {
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry paramTrigger', e)
+      this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
-  async paramTriggerStart(param: any, browserName: any, OS: any, eparams: any, user: any) {
+  async paramTriggerStart(param: any, browserName: any, OS: any, eparams: any, user: any, rollup: any) {
     const page = this.getPageDetails()
     try {
       let edata = {
@@ -386,7 +547,7 @@ export class TelemetryService {
         type: eparams.type,
         mode: eparams.mode,
         pageid: eparams.pageid,
-        duration: eparams.duration
+        duration: eparams.duration,
       }
       param = JSON.parse(param)
       edata = {
@@ -403,7 +564,7 @@ export class TelemetryService {
             ver: '3.0',
             mid: '',
             actor: {
-              id: user.userToken,
+              id: user.userId,
               type: 'User',
             },
             context: {
@@ -414,14 +575,16 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
-              rollup: {},
+              rollup: rollup,
             },
             object: {
               ver: '1.0.0',
               id: '',
+              type: '',
+              rollup: rollup,
             },
             tags: [],
             edata,
@@ -432,15 +595,119 @@ export class TelemetryService {
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry paramTrigger', e)
+      this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
+  /**
+   * Fires an INTERACT telemetry event for the registration/create-account flow.
+   * Matches the mobile app event structure. Guest events use sessionId as actor id;
+   * post-registration events use the real userId with type 'User'.
+   */
+  registrationInteract(
+    actor: { id: string; type: string },
+    env: string,
+    edata: {
+      type: string
+      subtype: string
+      id: string
+      pageid: string
+      extra?: { pos: any[]; values?: Record<string, any>[] }
+    },
+    object?: { id: string; type: string; version: string; rollup: any },
+    userContext?: {
+      referrer?: string
+      screenWidth?: number
+      screenHeight?: number
+      language?: string
+      utmParams?: {
+        utm_source?: string | null
+        utm_medium?: string | null
+        utm_campaign?: string | null
+        utm_content?: string | null
+        utm_term?: string | null
+      }
+    },
+  ) {
+    try {
+      if (this.telemetryConfig) {
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const cookie = this.UserAgentResolverService.generateCookie()
+        const deviceModel = this.UserAgentResolverService.getDeviceModel()
+        const guestId = this.getTelemetrySessionId
+
+        const geo = this.UserAgentResolverService.getStoredGeolocation()
+        const contextValues: Record<string, any>[] = [
+          { browserName: userAgent.browserName },
+          { OS: userAgent.OS },
+          ...(deviceModel ? [{ deviceModel }] : []),
+          ...(userContext?.referrer ? [{ referrer: userContext.referrer }] : []),
+          ...(userContext?.screenWidth ? [{ screenWidth: userContext.screenWidth, screenHeight: userContext.screenHeight }] : []),
+          ...(userContext?.language ? [{ language: userContext.language }] : []),
+          ...(userContext?.utmParams?.utm_source ? [{ utm_source: userContext.utmParams.utm_source }] : []),
+          ...(userContext?.utmParams?.utm_medium ? [{ utm_medium: userContext.utmParams.utm_medium }] : []),
+          ...(userContext?.utmParams?.utm_campaign ? [{ utm_campaign: userContext.utmParams.utm_campaign }] : []),
+          ...(userContext?.utmParams?.utm_content ? [{ utm_content: userContext.utmParams.utm_content }] : []),
+          ...(userContext?.utmParams?.utm_term ? [{ utm_term: userContext.utmParams.utm_term }] : []),
+          ...(geo ? [{ latitude: geo.latitude, longitude: geo.longitude, geoAccuracy: geo.accuracy }] : []),
+        ]
+
+        const enrichedEdata = {
+          ...edata,
+          extra: {
+            pos: [],
+            ...edata.extra,
+            values: [
+              ...(edata.extra?.values || []),
+              ...contextValues,
+            ],
+          },
+        }
+
+        const finalObject = {
+          id: 'ekstep.telemetry',
+          ver: '3.0',
+          ets: Date.now(),
+          events: [
+            {
+              eid: 'INTERACT',
+              ets: Date.now(),
+              ver: '3.0',
+              mid: '',
+              actor,
+              context: {
+                cdata: [{ id: guestId, type: 'Guest user' }],
+                env,
+                channel: this.telemetryConfig.channel,
+                pdata: {
+                  id: 'web-ui',
+                  pid: 'sphere.aastrika.org',
+                  ver: '1.0.0',
+                  platform: userAgent.OS || '',
+                },
+                sid: guestId,
+                did: cookie,
+              },
+              edata: enrichedEdata,
+              object: object || { id: '', type: '', version: '', rollup: {} },
+              tags: [],
+            },
+          ],
+        }
+        this.postPublicTelemetry(finalObject)
+      } else {
+        this.logger.error('Error Initializing Telemetry. Config missing.')
+      }
+    } catch (e) {
+      this.logger.log('Error in telemetry registrationInteract', e)
+    }
+  }
+
   postPublicTelemetry(data: any) {
-    // console.log("public telemetry")
-    const publicConfig = this.http
-      .post<any>(this.PUBLIC_TELEMETRY, data)
+    // this.logger.log("public telemetry")
+    return this.http
+      .post<any>(API_END_POINTS.PUBLIC_TELEMETRY, data)
       .toPromise()
-    return publicConfig
+      .catch(() => { })
   }
   async paramTriggerImpression(param: any, browserName: any, OS: any) {
     try {
@@ -470,6 +737,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId,
           },
           object: {
             id: page.objectId,
@@ -483,13 +751,14 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId,
           },
         })
       }
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry paramTrigger', e)
+      this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
 
@@ -503,6 +772,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.externalApps[impressionData.subApplicationName],
             },
+            sid: this.getTelemetrySessionId,
           },
           object: {
             id: page.objectId,
@@ -513,45 +783,46 @@ export class TelemetryService {
               ...this.pData,
               id: this.externalApps[impressionData.subApplicationName],
             },
+            sid: this.getTelemetrySessionId,
           },
         }
         $t.impression(impressionData.data, externalConfig)
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry externalImpression', e)
+      this.logger.log('Error in telemetry externalImpression', e)
     }
   }
 
-  addTimeSpentListener() {
-    this.eventsSvc.events$
-      .pipe(
-        filter(
-          event =>
-            event &&
-            event.eventType === WsEvents.WsEventType.Telemetry &&
-            event.data.type === WsEvents.WsTimeSpentType.Page &&
-            event.data.mode &&
-            event.data,
-        ),
-      )
-      .subscribe(event => {
-        if (event.data.state === WsEvents.EnumTelemetrySubType.Loaded) {
-          this.start(
-            event.data.type || WsEvents.WsTimeSpentType.Page,
-            event.data.mode || WsEvents.WsTimeSpentMode.View,
-            event.data.pageId,
-          )
-        }
-        if (event.data.state === WsEvents.EnumTelemetrySubType.Unloaded) {
-          this.end(
-            event.data.type || WsEvents.WsTimeSpentType.Page,
-            event.data.mode || WsEvents.WsTimeSpentMode.View,
-            event.data.pageId,
-          )
-        }
-      })
-  }
+  // addTimeSpentListener() {
+  //   this.eventsSvc.events$
+  //     .pipe(
+  //       filter(
+  //         event =>
+  //           event &&
+  //           event.eventType === WsEvents.WsEventType.Telemetry &&
+  //           event.data.type === WsEvents.WsTimeSpentType.Page &&
+  //           event.data.mode &&
+  //           event.data,
+  //       ),
+  //     )
+  //     .subscribe(event => {
+  //       if (event.data.state === WsEvents.EnumTelemetrySubType.Loaded) {
+  //         this.start(
+  //           event.data.type || WsEvents.WsTimeSpentType.Page,
+  //           event.data.mode || WsEvents.WsTimeSpentMode.View,
+  //           event.data.pageId,
+  //         )
+  //       }
+  //       if (event.data.state === WsEvents.EnumTelemetrySubType.Unloaded) {
+  //         this.end(
+  //           event.data.type || WsEvents.WsTimeSpentType.Page,
+  //           event.data.mode || WsEvents.WsTimeSpentMode.View,
+  //           event.data.pageId,
+  //         )
+  //       }
+  //     })
+  // }
   addPlayerListener() {
     this.eventsSvc.events$
       .pipe(
@@ -618,22 +889,24 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.externalApps[event.from],
               },
+              sid: this.getTelemetrySessionId,
             },
           }
           try {
             $t.interact(event.data, externalConfig)
           } catch (e) {
             // tslint:disable-next-line: no-console
-            console.log('Error in telemetry interact', e)
+            this.logger.log('Error in telemetry interact', e)
           }
         } else {
           try {
             $t.interact(
               {
                 type: event.data.type,
-                subtype: event.data.subType,
+                mode: event.data.subType,
                 // object: event.data.object,
-                pageid: page.pageid,
+                pageid: event.data.pageid || page.pageid,
+                extras: event.data.extras,
                 // target: { page },
               },
               {
@@ -642,6 +915,7 @@ export class TelemetryService {
                     ...this.pData,
                     id: this.pData.id,
                   },
+                  sid: this.getTelemetrySessionId,
                 },
                 object: {
                   ...event.data.object,
@@ -649,7 +923,7 @@ export class TelemetryService {
               })
           } catch (e) {
             // tslint:disable-next-line: no-console
-            console.log('Error in telemetry interact', e)
+            this.logger.log('Error in telemetry interact', e)
           }
         }
       })
@@ -673,20 +947,21 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.externalApps[event.from],
               },
+              sid: this.getTelemetrySessionId,
             },
           }
           try {
             $t.heartbeat(event.data, externalConfig)
           } catch (e) {
             // tslint:disable-next-line: no-console
-            console.log('Error in telemetry heartbeat', e)
+            this.logger.log('Error in telemetry heartbeat', e)
           }
         } else {
           try {
             $t.heartbeat(
               {
                 type: event.data.type,
-                // subtype: event.data.eventSubType,
+                // mode: event.data.eventSubType,
                 identifier: event.data.identifier,
                 // mimeType: event.data.mimeType,
                 // mode: event.data.mode,
@@ -697,11 +972,12 @@ export class TelemetryService {
                     ...this.pData,
                     id: this.pData.id,
                   },
+                  sid: this.getTelemetrySessionId,
                 },
               })
           } catch (e) {
             // tslint:disable-next-line: no-console
-            console.log('Error in telemetry heartbeat', e)
+            this.logger.log('Error in telemetry heartbeat', e)
           }
         }
       })
@@ -732,12 +1008,13 @@ export class TelemetryService {
                   ...this.pData,
                   id: this.pData.id,
                 },
+                sid: this.getTelemetrySessionId,
               },
             },
           )
         } catch (e) {
           // tslint:disable-next-line: no-console
-          console.log('Error in telemetry search', e)
+          this.logger.log('Error in telemetry search', e)
         }
       })
   }

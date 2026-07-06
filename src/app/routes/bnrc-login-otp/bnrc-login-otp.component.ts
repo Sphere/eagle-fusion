@@ -1,39 +1,44 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { ChangeDetectorRef, Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
-  selector: 'ws-bnrc-login-otp',
-  templateUrl: './bnrc-login-otp.component.html',
-  styleUrls: ['./bnrc-login-otp.component.scss'],
+    standalone: false,
+    selector: 'ws-bnrc-login-otp',
+    templateUrl: './bnrc-login-otp.component.html',
+    styleUrls: ['./bnrc-login-otp.component.scss'],
+    
 })
 export class BnrcLoginOtpComponent implements OnInit {
   [x: string]: any
   isLoading = false
-  loginOtpForm: FormGroup
+  loginOtpForm: UntypedFormGroup
   @Input() signUpdata: any
   @Input() loginData: any
   @Output() redirectToParent = new EventEmitter()
   emailPhoneType: any = 'phone'
   loginVerification = false
   redirectUrl = ''
+  disableSubmit = false
   constructor(
     public router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private userProfileSvc: UserProfileService,
-
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
     this.loginOtpForm = this.fb.group({
-      code: new FormControl('', [Validators.required]),
+      code: new UntypedFormControl('', [Validators.required]),
     })
   }
 
   ngOnInit() {
-    console.log("this.loginData", this.loginData)
+    this.logger.log("this.loginData", this.loginData)
     if (this.loginData) {
       this.loginVerification = true
     }
@@ -42,53 +47,72 @@ export class BnrcLoginOtpComponent implements OnInit {
 
 
 
-  async loginVerifyOtp() {
+  loginVerifyOtp() {
+    if (!this.loginData) {
+      return
+    }
     let request: any = []
     request = {
       phone: this.loginData.value.phone,
       otp: this.loginOtpForm.value.code,
     }
     const currentUrl = this.router.url
-    console.log("url", currentUrl.includes('upsmf/register'))
+    this.logger.log("url", currentUrl.includes('uttarpradesh/register'))
 
-    const validateOtpMethod = currentUrl.includes('upsmf/register')
+    const validateOtpMethod = currentUrl.includes('uttarpradesh/register')
       ? this.userProfileSvc.upsmfValidateOtp.bind(this.userProfileSvc)
-      : this.userProfileSvc.bnrcValidateOtp.bind(this.userProfileSvc)
+      : currentUrl.includes('madhyapradesh/register')
+        ? this.userProfileSvc.mpValidateOtp.bind(this.userProfileSvc)
+        : this.userProfileSvc.bnrcValidateOtp.bind(this.userProfileSvc)
 
-    validateOtpMethod(request).subscribe(
-      (res: any) => {
-        if (res.status === 'success') {
-          this.openSnackbar(res.message.message)
-          this.redirectToParent.emit(res)
-          return res
+    if (!this.disableSubmit) {
+      this.disableSubmit = true
+      this.isLoading = true
+      validateOtpMethod(request).subscribe(
+        (res: any) => {
+          this.isLoading = false
+          this.disableSubmit = false
+          this.cdr.detectChanges()
+          if (res.status === 'success') {
+            this.openSnackbar(res.message.message)
+            this.redirectToParent.emit(res)
+          } else {
+            this.openSnackbar(res.message || 'OTP verification failed. Please try again.')
+          }
+        },
+        (error: any) => {
+          this.disableSubmit = false
+          this.isLoading = false
+          this.cdr.detectChanges()
+          const errorMessage = error.error && error.error.message ? error.error.message : (error.message || 'An unexpected error occurred')
+          this.openSnackbar(errorMessage)
         }
-      },
-      (error: any) => {
-        const errorMessage = error.error && error.error.message ? error.error.message : (error.message || 'An unexpected error occurred')
-        this.openSnackbar(errorMessage)  // Handle error response
-      }
-    )
+      )
+    }
 
   }
 
   resendOTP() {
     this.isLoading = true
-
+    this.disableSubmit = false
     const request = {
       phone: this.loginData.value.phone,
     }
     const currentUrl = this.router.url
-    console.log("url", currentUrl.includes('upsmf/register'))
+    this.logger.log("url", currentUrl.includes('uttarpradesh/register'))
 
-    const resendOtpMethod = currentUrl.includes('upsmf/register')
+    const resendOtpMethod = currentUrl.includes('uttarpradesh/register')
       ? this.userProfileSvc.upsmfResendOtp.bind(this.userProfileSvc)
-      : this.userProfileSvc.bnrcResendOtp.bind(this.userProfileSvc)
+      : currentUrl.includes('madhyapradesh/register')
+        ? this.userProfileSvc.mpResendOtp.bind(this.userProfileSvc)
+        : this.userProfileSvc.bnrcResendOtp.bind(this.userProfileSvc)
 
     resendOtpMethod(request).subscribe(
-      async (res: any) => {
+      (res: any) => {
         this.loginOtpForm.patchValue({ code: '' })
         this.isLoading = false
-        let res1 = res
+        this.cdr.detectChanges()
+        const res1 = res
         //this.openSnackbar(res.message)
         if (this.preferedLanguage || localStorage.getItem('preferedLanguage')) {
           const reqObj = this.preferedLanguage || localStorage.getItem('preferedLanguage')
@@ -108,6 +132,7 @@ export class BnrcLoginOtpComponent implements OnInit {
       },
       (err: any) => {
         this.isLoading = false
+        this.cdr.detectChanges()
         if (localStorage.getItem(`preferedLanguage`)) {
           const reqObj = localStorage.getItem(`preferedLanguage`) || ''
           const lang = JSON.parse(reqObj) || ''
@@ -128,7 +153,7 @@ export class BnrcLoginOtpComponent implements OnInit {
     )
   }
 
-  openSnackbar(primaryMsg: string, duration: number = 3000) {
+  openSnackbar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

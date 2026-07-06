@@ -1,128 +1,71 @@
-<div class="top-course-container content">
-  <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse && userEnrollCourse.length>0">
-    <div class=" line-label bg-green flex scroller-container">
-      <div>
-        <span class="header1 header0" i18n>CONTINUE LEARNING</span>
-      </div>
-      <button i18n (click)="viewAllCourse('continueLearning')" class="view-all-course">
-        View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
-      </button>
-    </div>
+<div class="paddingView">
+  <ng-container *ngIf="isLoading()">
+    <div class="top-course-container content" *ngFor="let i of [1, 2, 3]">
+      <section class="mt-4 view-all-course-container">
+        <!-- Header -->
+        <div class="line-label flex scroller-container">
+          <span class="shimmer shimmer-line shimmer-header"></span>
+          <button *ngIf="!isXSmall()" class="view-all-course shimmer-button shimmer">
+            <span class="shimmer shimmer-line"></span>
+          </button>
+        </div>
 
-    <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of userEnrollCourse">
-        <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
-          <ws-web-course-card [displayConfig]="userEnrolledDisplayConfig" [courseData]="course"></ws-web-course-card>
-        </ng-container>
-      </div>
-    </ws-utils-horizontal-scroller>
-  </section>
-</div>
-<!-- this section is to show courses for State Institute of Health and Family Welfare, Department of Health & Family Welfare, UP org -->
-<div class="top-course-container content" *ngIf="isUpLogin">
-  <section class="mt-4 view-all-course-container" *ngIf="coursesForUP && coursesForUP.length>0">
-    <div class="line-label orange flex scroller-container">
-      <div>
-        <span class="header1" i18n>TOP COURSES</span>
-      </div>
-      <button i18n (click)="viewAllCourse('topCourse')" class="view-all-course">
-        View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
-      </button>
+        <!-- Cards -->
+        <div class="horizontal-shimmer">
+          <div class="shimmer-card" *ngFor="let j of [1, 2, 3, 4]">
+            <div class="shimmer shimmer-image">
+              <div class="shimmer-body">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </ng-container>
 
-    </div>
-    <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of coursesForUP">
-        <ng-container *ngIf="coursesForUP && coursesForUP.length>0">
-          <ws-web-course-card [displayConfig]="forYouCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
+  <ng-container *ngIf="!isLoading()">
+    <div class="top-course-container content" *ngFor="let content of uiConfig(); let i = index;">
+      <section *ngIf="content?.show && content?.data && content?.data?.length>0"
+        class="mt-4 view-all-course-container {{content?.scrollEmit}}" #scrollToCneCourses
+        [attr.data-scroll]="content?.scrollEmit">
+        <div [ngClass]="i === 0 || (isXSmall() && i === 1) ? 'bg-green' : 'orange'"
+          class="line-label flex scroller-container">
+          <span [ngClass]="{'header0': i == 0 || isXSmall() && i == 1}" [class]="content.headerClass">
+            {{ content.title | translate }}</span>
+          <button *ngIf="!isXSmall()" (click)="viewAllCourse(content)" class="view-all-course">
+            {{ content?.button?.label1 | translate }} <img class="right-arrow" [src]="content?.button?.img" alt="" />
+          </button>
+        </div>
+        <ws-utils-horizontal-scroller *ngIf="!isXSmall()" class="flex " [loadStatus]="'done'">
+          <div *ngFor="let course of content?.data">
+            <ng-container *ngIf="content.data && content.data.length>0">
+              <ws-web-course-card [displayConfig]="content?.displayConfigWeb"
+                [courseData]="course"></ws-web-course-card>
+            </ng-container>
+          </div>
+        </ws-utils-horizontal-scroller>
+        <ng-container *ngIf="isXSmall()">
+          <div *ngFor="let course of content?.displayData">
+            <ws-mobile-course-view [displayConfig]="content?.displayConfig"
+              [courseData]="course"></ws-mobile-course-view>
+          </div>
+          <button *ngIf="content?.data?.length > content.limit" (click)="viewAllCourse(content)"
+            class="view-all-course">
+            {{ content?.data?.length == content?.displayData.length ? (content?.button?.label2 | translate) :
+            (content?.button?.label1 | translate) }}
+            <img class="bottom-arrow" [src]="content?.button?.img" alt="" />
+          </button>
         </ng-container>
-      </div>
-    </ws-utils-horizontal-scroller>
-  </section>
-</div>
-<div class="top-course-container content" *ngIf="!isUpLogin">
-  <section class="mt-4 view-all-course-container" *ngIf="coursesForYou && coursesForYou.length>0">
-    <div class="line-label orange flex scroller-container">
-      <div>
-        <span class="header1" i18n>FOR YOU</span>
-      </div>
-      <button i18n (click)="viewAllCourse('formatForYouCourses')" class="view-all-course">
-        View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
-      </button>
-    </div>
-    <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of coursesForYou">
-        <ng-container *ngIf="coursesForYou && coursesForYou.length>0">
-          <ws-web-course-card [displayConfig]="forYouCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
-        </ng-container>
-      </div>
-    </ws-utils-horizontal-scroller>
-  </section>
-</div>
-<!-- Top Course -->
-<div class="top-course-container content" *ngIf="!isEkshamata">
-  <section class="mt-4 view-all-course-container" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
-    <div class="line-label orange flex scroller-container">
-      <div>
-        <span class="header1" i18n>TOP COURSES</span>
-      </div>
-      <button i18n (click)="viewAllCourse('topCourse')" class="view-all-course">
-        View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
-      </button>
+      </section>
 
-    </div>
-    <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of topCertifiedCourse">
-        <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
-          <ws-web-course-card [displayConfig]="forYouCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
-        </ng-container>
+      <div *ngIf="(content?.data?.length == 0 && content?.fallbackState?.label)" class="mt-4 view-all-course-container">
+        <div [ngClass]="i === 0 || (isXSmall() && i === 1) ? 'bg-green' : 'orange'"
+          class="line-label flex scroller-container">
+          <span [ngClass]="{'header0': i == 0 || isXSmall() && i == 1}" [class]="content.headerClass">
+            {{ content.title | translate }}</span>
+        </div>
+        <h3 class="mt15">{{ content?.fallbackState?.label | translate }}</h3>
       </div>
-    </ws-utils-horizontal-scroller>
-  </section>
-</div>
-<!-- Featured Section-->
-<!-- <section *ngIf="featuredCourse && featuredCourse.length>0" class=" featuredCourse-section">
-  <div class="line-label orange flex scroller-container">
-    <div i18n>
-      <span class="header1" i18n>FEATURED COURSES</span>
     </div>
-    <button i18n (click)="viewAllCourse()" class="view-all-course">
-      View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
-    </button>
-  </div>
-  <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
-    <div *ngFor="let course of featuredCourse">
-      <ws-web-featured-course [courseData]="course" *ngIf="featuredCourse.length==1"
-        class="hide-in-mobile app-footer mt-8"
-        [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"></ws-web-featured-course>
-      <ws-web-course-card *ngIf="featuredCourse.length>1" [displayConfig]="forYouCourseDisplayConfig"
-        [courseData]="course"></ws-web-course-card>
-    </div>
-  </ws-utils-horizontal-scroller>
-</section> -->
-<!-- Top CNE courses -->
-<section #scrollToCneCourses class="scrollToCneCourses mt-4 view-all-course-container"
-  *ngIf="cneCourse && cneCourse.length>0&&!isEkshamata">
-  <div class="line-label orange flex scroller-container">
-    <span class="header1" i18n>CNE COURSES</span>
-
-    <button i18n (click)="viewAllCourse()" class="view-all-course">
-      View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
-    </button>
-  </div>
-  <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-    <div *ngFor="let course of cneCourse">
-      <ng-container *ngIf="cneCourse && cneCourse.length>0">
-        <ws-web-course-card [cnePoints]="'yes'" [displayConfig]="CNECourseDisplayConfig"
-          [courseData]="course"></ws-web-course-card>
-      </ng-container>
-    </div>
-  </ws-utils-horizontal-scroller>
-</section>
-<div class="overlay" *ngIf="isLoading">
-  <div class="loader-container">
-    <div class="loader-ripple">
-      <div></div>
-      <div></div>
-    </div>
-  </div>
+  </ng-container>
 </div>

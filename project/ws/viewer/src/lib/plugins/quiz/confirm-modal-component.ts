@@ -1,58 +1,64 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
 import { ISearchContent } from '@ws/author/src/lib/interface/search'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-  selector: 'viewer-confirm-modal-component',
-  templateUrl: './confirm-modal-component.html',
-  styleUrls: ['./confirm-modal-component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+    standalone: false,
+    selector: 'viewer-confirm-modal-component',
+    templateUrl: './confirm-modal-component.html',
+    styleUrls: ['./confirm-modal-component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    
 })
 export class ConfirmmodalComponent implements OnInit {
-  ratingsForm!: FormGroup
+  ratingsForm!: UntypedFormGroup
   contentMeta!: ISearchContent
   isSubmitPressed = false
   children = 0
   isNew = 'No'
   isMobile = false
-  stars: number[] = [1, 2, 3, 4, 5];
+  stars: number[] = [1, 2, 3, 4, 5]
   selectedRating!: number
-  isMandatory: boolean = true
+  isMandatory = true
 
   constructor(
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<ConfirmmodalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     public contentSvc: WidgetContentService,
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
 
     dialogRef.disableClose = true
   }
 
   ngOnInit() {
-    console.log("data", this.data)
+    this.logger.log("data", this.data)
     this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
     this.ratingsForm = this.formBuilder.group({
       review: ['', Validators.required],
     })
     if (
+      this.data.request &&
       this.data.request.courseRating &&
       this.data.request.courseRating.content &&
       this.data.request.courseRating.content.length > 0
     ) {
-      console.log("Data available:", this.data)
+      this.logger.log("Data available:", this.data)
 
       const firstContent = this.data.request.courseRating.content[0]
       if (firstContent.rating) {
-        console.log("Rating:", firstContent.rating)
-        console.log("Review:", firstContent.review)
+        this.logger.log("Rating:", firstContent.rating)
+        this.logger.log("Review:", firstContent.review)
 
         this.selectedRating = firstContent.rating
         if (firstContent.rating <= 3 && !firstContent.review) {
@@ -60,10 +66,10 @@ export class ConfirmmodalComponent implements OnInit {
         }
         this.ratingsForm.controls.review.setValue(firstContent.review)
       } else {
-        console.error("Missing rating or review in content:", firstContent)
+        this.logger.error("Missing rating or review in content:", firstContent)
       }
     } else {
-      console.error("No course rating content available:", this.data.request.courseRating)
+      this.logger.log("No course rating content available - this is normal for new ratings")
     }
 
   }
@@ -72,9 +78,9 @@ export class ConfirmmodalComponent implements OnInit {
     this.dialogRef.close({ event: 'CONFIRMED' })
   }
   setRating(rating: number) {
-    console.log(rating)
+    this.logger.log(rating)
     this.selectedRating = rating
-    console.log("rating:", rating, this.ratingsForm.controls.review.value)
+    this.logger.log("rating:", rating, this.ratingsForm.controls.review.value)
     if (rating <= 3 && (this.ratingsForm.controls.review.value === '' || this.ratingsForm.controls.review.value === null)) {
       this.isMandatory = true
     } else {
@@ -84,14 +90,12 @@ export class ConfirmmodalComponent implements OnInit {
 
   submitData() {
     if (!this.isMandatory && this.selectedRating) {
-      console.log("yes here")
+      this.logger.log("yes here")
       this.submitRating(this.ratingsForm)
     }
   }
 
   submitRating(ratingsForm: any) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-
     let userId = ''
     if (this.selectedRating) {
       if (this.configSvc.userProfile) {
@@ -112,44 +116,24 @@ export class ConfirmmodalComponent implements OnInit {
       this.contentSvc.submitCourseRating(req)
         .then((data: any) => {
           if (data && data.params && data.params.status === 'Successful') {
-            let message
-            if (local === 'en') {
-              message = `Thank You for your feedback!`
-            } else {
-              message = `आपकी प्रतिक्रिया के लिए आपका धन्यवाद!`
-            }
-            this.openSnackbar(message)
+            this.openSnackbar(this.translate.instant("FEEDBACK_SUCCESS"))
             this.dialogRef.close({ event: 'CONFIRMED' })
           } else {
-            let message
-            if (local === 'en') {
-              message = `Something went wrong, please try again later!`
-            } else {
-              message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
-            }
             this.dialogRef.close({ event: 'CONFIRMED' })
-            this.openSnackbar(message)
+            this.openSnackbar(this.translate.instant("ERROR_MSG"))
           }
         })
         .catch((err: any) => {
-
-          let message
-          if (local === 'en') {
-            message = `An error occurred, please try again later!`
-          } else {
-            message = `एक त्रुटि घटित हुई है, कृपया बाद में पुन: प्रयास करें!`
-          }
           if (err && err.error && err.error.message) {
-            this.openSnackbar(err.error.message)
+            this.openSnackbar(this.translate.instant(err.error.message))
           } else {
-            this.openSnackbar(message)
-
+            this.openSnackbar(this.translate.instant("ERROR_MSG1"))
           }
         })
     }
   }
 
-  openSnackbar(primaryMsg: string, duration: number = 5000) {
+  openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

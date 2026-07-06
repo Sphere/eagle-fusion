@@ -6,9 +6,11 @@ import { ConfirmDialogComponent } from '@ws/author/src/lib/modules/shared/compon
 import { IAudioObj } from '../../../interface/page-interface'
 
 @Component({
-  selector: 'ws-auth-audio-strips',
-  templateUrl: './audio-strips.component.html',
-  styleUrls: ['./audio-strips.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-audio-strips',
+    templateUrl: './audio-strips.component.html',
+    styleUrls: ['./audio-strips.component.scss'],
+    
 })
 export class AudioStripsComponent implements OnInit, OnDestroy {
 
@@ -47,7 +49,17 @@ export class AudioStripsComponent implements OnInit, OnDestroy {
   audioControl(id: string) {
     const audio = <HTMLAudioElement>document.getElementById(id)
     if (!this.isAudioPlaying) {
-      audio.play()
+      const playPromise = audio.play()
+      if (playPromise !== undefined) {
+        playPromise
+          .catch((error: any) => {
+            // Play was interrupted or failed - handle gracefully
+            if (error.name !== 'AbortError') {
+              console.error('Audio play error:', error)
+            }
+            this.isAudioPlaying = false
+          })
+      }
     } else {
       audio.pause()
       audio.currentTime = 0

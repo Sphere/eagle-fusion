@@ -5,14 +5,14 @@ import { ConfigurationsService, EventService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { take } from 'rxjs/operators'
 import { MobileAppsService } from '../../../../../../src/app/services/mobile-apps.service'
-// import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
 import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { appNavBarService } from 'src/app/component/app-nav-bar/app-nav-bar.service'
 import { LocalStorageService } from '../../../../../../src/app/services/local-storage.service'
 import { Events } from '../../../../../../src/app/routes/notification/events'
-// import { LocalStorageService } from "../../services/local-storage.service"
+import { LanguageService } from '../../../../../../src/app/services/language.service'
+import { LoggerService } from '@ws-widget/utils'
 
 export const typeMap = {
   cardFull: 'card-full',
@@ -31,9 +31,11 @@ export const typeMap = {
 }
 
 @Component({
-  selector: 'ws-widget-btn-feature',
-  templateUrl: './btn-feature.component.html',
-  styleUrls: ['./btn-feature.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-btn-feature',
+    templateUrl: './btn-feature.component.html',
+    styleUrls: ['./btn-feature.component.scss'],
+    
 })
 export class BtnFeatureComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.INavLink> {
@@ -70,68 +72,38 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     public navOption: appNavBarService,
     public storage: LocalStorageService,
     private readonly event: Events,
+    private languageSvc: LanguageService,
+    private logger: LoggerService
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
     }
+    const isHindi = this.languageSvc.isHindi()
+
     this.navOption.currentOption.subscribe((option: any) => {
-      console.log('options', option, window.location.href)
+      this.logger.log('options', option, window.location.href)
       if (window.location.href.includes('/app/profile-view')) {
-        if (window.location.href.includes('/hi/app/profile-view')) {
-          this.currentText = 'अकाउंट'
-        } else {
-          this.currentText = 'Account'
-        }
+        this.currentText = isHindi ? 'अकाउंट' : 'Account'
       }
       if (window.location.href.includes('/app/toc')) {
-        //this.currentText = ''
-        if (window.location.href.includes('/hi/app/toc')) {
-          this.currentText = 'होम'
-        } else {
-          this.currentText = 'Home'
-        }
+        this.currentText = isHindi ? 'होम' : 'Home'
       }
     })
 
     if (window.location.href.includes('/app/profile-view')) {
-      if (window.location.href.includes('/hi/app/profile-view')) {
-        this.currentText = 'अकाउंट'
-      } else {
-        this.currentText = 'Account'
-      }
+      this.currentText = isHindi ? 'अकाउंट' : 'Account'
     } else if (window.location.href.includes('user/my_courses')) {
-      if (window.location.href.includes('/hi/app/user/my_courses')) {
-        this.currentText = 'आपके पाठ्यक्रम'
-      } else {
-        this.currentText = 'My Courses'
-      }
+      this.currentText = isHindi ? 'आपके पाठ्यक्रम' : 'My Courses'
     } else if (window.location.href.includes('/page/home')) {
-      if (window.location.href.includes('/hi/page/home')) {
-        this.currentText = 'होम'
-      } else {
-        this.currentText = 'Home'
-      }
+      this.currentText = isHindi ? 'होम' : 'Home'
     } else if (window.location.href.includes('competency')) {
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-      if (window.location.href.includes('/hi/app/user/competency')) {
-        this.currentText = 'योग्यता'
-      } else {
-        this.currentText = 'Competency'
-      }
+      this.currentText = isHindi ? 'योग्यता' : 'Competency'
     } else if (window.location.href.includes('search')) {
-      if (window.location.href.includes('/hi/app/search/home')) {
-        this.currentText = 'खोज'
-      } else {
-        this.currentText = 'Search'
-      }
-    }
-    else if (window.location.href.includes('notification')) {
-      if (window.location.href.includes('/hi/notification')) {
-        this.currentText = 'अधिसूचना'
-      } else {
-        this.currentText = 'Notification'
-      }
+      this.currentText = isHindi ? 'खोज' : 'Search'
+    } else if (window.location.href.includes('notification')) {
+      this.currentText = isHindi ? 'अधिसूचना' : 'Notification'
     } else {
       this.currentText = ''
     }
@@ -154,72 +126,78 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
   }
   async redirect(text: any) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
-    let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
+    // Note: Language is now managed by ngx-translate (TranslateService)
+    // Do NOT use URL-based language prefixes (/hi) with ngx-translate
+    const baseUrl = document.baseURI.endsWith('/') ? document.baseURI.slice(0, -1) : document.baseURI
+
+    // ✅ Selective org config
+    const org = this.configSvc?.userProfile?.rootOrgId || ''
+    const selectiveData = this.configSvc.orgSelectiveCourseConfig
+
+    if (text.name === 'Home' || text.name === 'होम') {
+      this.currentText = text.name
+
+      // ✅ Default home path
+      let url = '/page/home'
+
+      // ✅ If org matches selective config, redirect to selective course page
+      if (selectiveData && selectiveData.orgId === org) {
+        url = '/app/org-selective-course'
+        this.logger.log('Redirecting to selective org homepage for:', org)
+      }
+
+      location.href = `${baseUrl}${url}`
     }
 
-    if (text.name === 'Home' || text.name === "होम") {
+    else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
       this.currentText = text.name
-      let url = url1 === 'hi' ? '/page/home' : 'page/home'
-      location.href = `${url3}${url1}${url}`
-
-    } else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
-      this.currentText = text.name
-      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
-      let result = await this.signupService.getUserData()
+      const url = '/app/user/my_courses'
+      const result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        location.href = `${url3}${url1}${url}`
+        location.href = `${baseUrl}${url}`
       } else {
-        let url = url1 === 'hi' ? '/page/home' : 'page/home'
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+        const redirectUrl = '/page/home'
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
       }
     } else if (text.name === 'अधिसूचना' || text.name === 'Notification') {
       this.currentText = text.name
-      let url = url1 === 'hi' ? '/notification' : 'notification'
-      location.href = `${url3}${url1}${url}`
-    } else if (text.name === 'Competency' || text.name === "योग्यता") {
+      const url = '/notification'
+      location.href = `${baseUrl}${url}`
+    } else if (text.name === 'Competency' || text.name === 'योग्यता') {
       this.currentText = text.name
-      let result = await this.signupService.getUserData()
+      const result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-        let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
-        location.href = `${url3}${url1}${url}`
+        const url = '/app/user/competency'
+        location.href = `${baseUrl}${url}`
       } else {
-        let url = url1 === 'hi' ? '/page/home' : 'page/home'
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+        const redirectUrl = '/page/home'
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
       }
-    } else if (text.name === "खोज" || text.name === "Search") {
+    } else if (text.name === 'खोज' || text.name === 'Search') {
       this.navOption.changeNavBarActive('search')
       this.currentText = text.name
-      let url = url1 === 'hi' ? '/app/search/home' : 'app/search/home'
-      location.href = `${url3}${url1}${url}`
+      const url = '/app/search/home'
+      location.href = `${baseUrl}${url}`
     } else {
-      let result = await this.signupService.getUserData()
+      const result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.currentText = text.name
-        let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-        location.href = `${url3}${url1}${url}`
+        const url = '/app/profile-view'
+        location.href = `${baseUrl}${url}`
       } else {
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-          // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
           this.currentText = 'Home'
-          //const url = '/page/home'
-          let url4 = `${document.baseURI}`
-          let url = url1 === 'hi' ? '/page/home' : 'page/home'
-          if (url4.includes('hi')) {
-            url1 = ''
-          }
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+          const redirectUrl = '/page/home'
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
         }
       }
     }
   }
+
   search() {
     if (this.router.url.includes('/page/home')) {
       this.searchApi.changeMessage('search')
@@ -257,17 +235,16 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       if (sashakt_token && sashakt_moduleId) {
         this.isSashakth = true
         this.local = 'hi'
-        // this.local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
       } else {
         this.isSashakth = false
       }
     }
     const count = this.storage.getNumberOfNotifications()
-    let notificationText = count > 0 ? '1' : ''
+    const notificationText = count > 0 ? '1' : ''
 
     this.numberOfNotification = (count > 1) ? '1+' : notificationText
-    this.event.subscribe('notificationCountUpdated', (data) => {
-      let notificationText = data > 0 ? '1' : ''
+    this.event.subscribe('notificationCountUpdated', data => {
+      const notificationText = data > 0 ? '1' : ''
       this.numberOfNotification = (data > 1) ? '1+' : notificationText
     })
     this.pinnedAppsChangeSubs = this.configurationsSvc.pinnedApps.subscribe(pinnedApps => {
@@ -315,8 +292,15 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   togglePin(featureId: string, event: any) {
     event.preventDefault()
     event.stopPropagation()
-    this.events.raiseInteractTelemetry('pin', 'feature', {
-      featureId,
+    this.events.raiseInteractTelemetry('btn-clicked', 'pin', 'feature', {
+      id: featureId,
+      type: "",
+      version: "",
+      rollup: {},
+    }, {
+      values: [{
+        id: featureId,
+      }],
     })
     this.configurationsSvc.pinnedApps.pipe(take(1)).subscribe(pinnedApps => {
       const newPinnedApps = new Set(pinnedApps)

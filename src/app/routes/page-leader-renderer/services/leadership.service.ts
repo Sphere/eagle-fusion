@@ -8,19 +8,9 @@ import {
   IWsUserFollow,
 } from '../model/leadership-email.model'
 import { Observable } from 'rxjs'
+import { API_END_POINTS } from '../../../constants/apiConstants'
 
 const RANDOM_ID_PER_USER = 0
-
-export const API_SERVER_BASE = '/apis'
-const PROTECTED_SLAG_V8 = `${API_SERVER_BASE}/protected/v8`
-
-const API_END_POINTS = {
-  EMAIL_TEXT: `${PROTECTED_SLAG_V8}/user/email/emailText`, // #POST
-  EMAIL_TO_USERID: `${PROTECTED_SLAG_V8}/user/emailToUserId`,
-  USER_FOLLOW_DATA: `${PROTECTED_SLAG_V8}/user/follow/fetchAll`, // #GET
-  USER_FOLLOW: `${PROTECTED_SLAG_V8}/user/follow`, // #POST
-  USER_UNFOLLOW: `${PROTECTED_SLAG_V8}/user/follow/unfollow`, // #POST
-}
 
 @Injectable({
   providedIn: 'root',

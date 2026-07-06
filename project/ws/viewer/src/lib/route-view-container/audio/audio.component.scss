@@ -91,8 +91,8 @@
 //   width: 100%;
 // }
 
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .video-player-summary-container {
   height: auto;
@@ -103,10 +103,10 @@
 }
 
 .padding-dynamic {
-  padding: $size-s;
-  padding-top: $size-m;
-  @include breakpoint-xs {
-    padding: $size-xs;
+  padding: ws-vars.$size-s;
+  padding-top: ws-vars.$size-m;
+  @include ws-mixins.breakpoint-xs {
+    padding: ws-vars.$size-xs;
   }
 }
 
@@ -118,20 +118,20 @@
 
 .video-player-title {
   width: 65%;
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     width: 70%;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
 
 .video-summary {
   width: 30%;
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     width: 25%;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -141,16 +141,16 @@
   height: 75vh;
   margin: 0 auto;
   position: relative;
-  @include breakpoint-lt-xl {
+  @include ws-mixins.breakpoint-lt-xl {
     height: 70vh;
   }
-  @include breakpoint-lt-l {
+  @include ws-mixins.breakpoint-lt-l {
     height: 65vh;
   }
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     height: 60vh;
   }
-  @include breakpoint-lt-s {
+  @include ws-mixins.breakpoint-lt-s {
     height: 55vh;
   }
   // @include breakpoint-xs {
@@ -179,12 +179,12 @@
 
 .info-section {
   .info-container {
-    padding: $size-s $size-m;
-    margin-bottom: $size-m;
+    padding: ws-vars.$size-s ws-vars.$size-m;
+    margin-bottom: ws-vars.$size-m;
     .info-item {
       display: flex;
       align-items: center;
-      padding: $size-xs 0;
+      padding: ws-vars.$size-xs 0;
       box-sizing: border-box;
       h3 {
         margin: 0;
@@ -199,21 +199,21 @@
         width: $icon-size;
         height: $icon-size;
         font-size: $icon-size;
-        margin-left: $size-xs;
+        margin-left: ws-vars.$size-xs;
       }
     }
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
 
 .author {
-  padding: $size-s 0;
+  padding: ws-vars.$size-s 0;
   display: flex;
   .author-image {
-    margin-right: $size-s;
-    $size: 4 * $size-s;
+    margin-right: ws-vars.$size-s;
+    $size: 4 * ws-vars.$size-s;
     font-size: $size;
     height: $size;
     width: $size;
@@ -223,7 +223,7 @@
 .unit-meta-item {
   border-radius: 2px;
   box-sizing: border-box;
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .audio-player-embed {
@@ -232,14 +232,14 @@
 }
 .next-button .width-auto {
   right: -11px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     right: -26px;
   }
 }
 
 .prev-button .width-auto {
   left: -11px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     left: -26px;
   }
 }

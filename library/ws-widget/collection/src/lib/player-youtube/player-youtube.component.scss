@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 :host.video-full {
   .video-js {
@@ -13,7 +13,7 @@
 .youtube-iframe {
   width: 100%;
   height: 100%;
-  @include breakpoint-gt-xs{
+  @include ws-mixins.breakpoint-gt-xs{
     height:30em;
   }
 

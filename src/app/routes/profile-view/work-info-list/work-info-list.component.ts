@@ -1,24 +1,29 @@
-import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter, Input } from '@angular/core'
-// import { Router } from '@angular/router'
-import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, ElementRef, ViewChild, Output, EventEmitter, Input } from '@angular/core'
+import { Subscription } from 'rxjs'
+import { ConfigurationsService, LoggerService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '@ws-widget/collection'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-// import { constructReq } from '../request-util'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
+import { LanguageService } from '../../../services/language.service'
+import { TranslateService } from '@ngx-translate/core'
+
 @Component({
+  standalone: false,
   selector: 'ws-work-info-list',
   templateUrl: './work-info-list.component.html',
   styleUrls: ['./work-info-list.component.scss'],
-})
 
-export class WorkInfoListComponent implements OnInit {
+})
+export class WorkInfoListComponent implements OnInit, OnDestroy {
+  private mobileSubscription: Subscription | null = null
+
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse', 'Others']
@@ -26,388 +31,408 @@ export class WorkInfoListComponent implements OnInit {
   ashaList = ['ASHA']
   facultyList = ['Nursing Faculty', 'Medical Faculty', 'Other']
   studentList = ['Bsc nursing', 'GNM', 'ANM/MPW', 'Midwife', 'Medical Student', 'Other']
+  OthersList = ['Mother/ Family Members', 'Asha Facilitator', 'Asha Trainer', 'Other']
+
   districtUrl = '../../../fusion-assets/files/district.json'
+
   userProfileData!: IUserProfileDetailsFromRegistry
+  ekshamataData: any
+
   showbackButton = false
-  @Output() passProfession = new EventEmitter<string>();
   showLogOutIcon = false
   trigerrNavigation = true
-  personalDetailForm: FormGroup
-  orgTypeField = false
-  orgOthersField = false
-  HealthcareWorker = false
-  HealthcareVolunteer = false
-  professionOtherField = false
-  Student = false
-  Faculty = false
-  showDesignation = false
-  showAshaField = false
-  professionOthersField = false
+
+  @Output() passProfession = new EventEmitter<string>()
+  @Input() isEkshamata = false
+  @Input() data: any
+
+  isEditableForSphere = false
+
+  personalDetailForm: UntypedFormGroup
+
   userID = ''
   ePrimaryEmailType = NsUserProfileDetails.EPrimaryEmailType
   rnFieldDisabled = true
   disticts: any
   selectedBg: any
   enableSubmit = false
-  hideAsha = false
+
+  errorMsg = '' // used in template
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
-  @Input() isEkshamata: boolean = false
 
   constructor(
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
-    // private router: Router,
     public valueSvc: ValueService,
     public contentSvc: WidgetContentService,
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
+    private languageSvc: LanguageService,
+    private logger: LoggerService,
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {
-    this.personalDetailForm = new FormGroup({
-      profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      designation: new FormControl(),
-      professionOtherSpecify: new FormControl(),
-      regNurseRegMidwifeNumber: new FormControl('', [Validators.pattern(/[^\s]/)]),
-      orgType: new FormControl(),
-      orgOtherSpecify: new FormControl(),
-      organizationName: new FormControl(),
-      block: new FormControl(),
-      subcentre: new FormControl(),
-      professSelected: new FormControl(),
-      orgName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      locationselect: new FormControl(),
-      selectBackground: new FormControl(),
-      nameOther: new FormControl(),
+    this.personalDetailForm = new UntypedFormGroup({
+      profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      designation: new UntypedFormControl(),
+      professionOtherSpecify: new UntypedFormControl(),
+      regNurseRegMidwifeNumber: new UntypedFormControl('', [Validators.pattern(/[^\s]/)]),
+      orgType: new UntypedFormControl(),
+      orgOtherSpecify: new UntypedFormControl(),
+      organizationName: new UntypedFormControl(),
+      block: new UntypedFormControl(),
+      subcentre: new UntypedFormControl(),
+      professSelected: new UntypedFormControl(),
+      orgName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      instituteName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      locationselect: new UntypedFormControl(),
+      selectBackground: new UntypedFormControl(),
+      nameOther: new UntypedFormControl(),
+    })
+    this.mobileSubscription = this.valueSvc.isXSmall$.subscribe(isSmall => {
+      this.showbackButton = isSmall
+      this.showLogOutIcon = false
     })
   }
 
   ngOnInit() {
+    this.logger.log(this.data)
     this.getUserDetails()
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall) {
-        this.showbackButton = true
-        this.showLogOutIcon = false
-
-      } else {
-        this.showbackButton = false
-        this.showLogOutIcon = false
-      }
-    })
     if (this.isEkshamata) {
       this.personalDetailForm.disable()
-    }
-  }
-
-  chooseBackground(data: any) {
-    console.log(data)
-    this.selectedBg = data
-    if (this.selectedBg === 'Mother/Family Members') {
-      this.enableSubmit = false
-    }
-    if (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer') {
-      this.enableSubmit = true
-      this.personalDetailForm.controls.block.setValue(null)
-      this.personalDetailForm.controls.subcentre.setValue(null)
-      let cName = this.userProfileData.personalDetails.postalAddress
-      console.log(cName)
-      let csplit = cName.split(',')
-      let state = csplit[1].trim()
-      let dist = csplit[2].trim()
-      let location = this.userProfileData.professionalDetails[0].locationselect !== undefined ? this.userProfileData.professionalDetails[0].locationselect : dist
-      this.personalDetailForm.controls.locationselect.setValue(location)
-      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-        statesdata.states.map((item: any) => {
-          if (item.state === state) {
-            this.disticts = item.districts
-          }
-        })
-      })
-    }
-    if (this.selectedBg === 'Other') {
-      this.personalDetailForm.controls.designation.setValue(null)
     }
   }
 
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
+        async (data: any) => {
           if (data) {
-
+            this.isEditableForSphere = this.data?.isEditable ?? false
+            if (this.isEditableForSphere) {
+              this.personalDetailForm.enable()
+            } else {
+              this.personalDetailForm.disable()
+            }
             const newData = data.profileDetails.profileReq
-            this.userProfileData = data.profileDetails.profileReq
+            this.ekshamataData = data
+            this.userProfileData = newData
+
             if (newData && newData.professionalDetails) {
-              (newData.professionalDetails[0].orgType === 'Others' && newData.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
-              (newData.professionalDetails[0].profession === 'Others' && newData.professionalDetails[0].professionOtherSpecify) ? this.professionOthersField = true : this.professionOthersField = false;
-              (newData.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
-              newData.professionalDetails[0].profession === 'Healthcare Worker' ? this.HealthcareWorker = true : this.HealthcareWorker = false
-              newData.professionalDetails[0].profession === 'ASHA' ? this.showAshaField = true : this.showAshaField = false
-              newData.professionalDetails[0].profession === 'Healthcare Volunteer' ? this.HealthcareVolunteer = true : this.HealthcareVolunteer = false
-              newData.professionalDetails[0].profession === 'Student' ? this.Student = true : this.Student = false
-
-              newData.professionalDetails[0].profession === 'Faculty' ? this.Faculty = true : this.Faculty = false
-
-
-              newData.professionalDetails[0].designation === 'Others' ? this.professionOthersField = true : this.professionOthersField = false
+              const pd0 = newData.professionalDetails[0]
 
               this.personalDetailForm.patchValue({
-                profession: newData.professionalDetails[0].profession,
-                professionOtherSpecify: newData.professionalDetails[0].professionOtherSpecify,
-                orgType: newData.professionalDetails[0].orgType,
-                orgOtherSpecify: newData.professionalDetails[0].orgOtherSpecify,
-                organizationName: newData.professionalDetails[0].name,
-                block: newData.professionalDetails[0].block,
-                subcentre: newData.professionalDetails[0].subcentre,
-                designation: newData.professionalDetails[0].designation,
-                orgName: newData.professionalDetails[0].name,
-                courseName: newData.professionalDetails[0].qualification,
-                selectBackground: newData.professionalDetails[0].selectBackground,
-                nameOther: newData.professionalDetails[0].nameOther,
-                instituteName: newData.professionalDetails[0].instituteName,
+                profession: pd0.profession,
+                professionOtherSpecify: pd0.professionOtherSpecify,
+                orgType: pd0.orgType,
+                orgOtherSpecify: pd0.orgOtherSpecify,
+                organizationName: pd0.name,
+                block: pd0.block,
+                subcentre: pd0.subcentre,
+                designation: pd0.designation,
+                orgName: pd0.name,
+                courseName: pd0.qualification,
+                selectBackground: pd0.selectBackground,
+                nameOther: pd0.nameOther,
+                instituteName: pd0.instituteName,
                 regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
-
               })
-              if (newData.professionalDetails[0].profession === 'Healthcare Worker') {
+              if (pd0.profession === 'Healthcare Worker') {
                 this.personalDetailForm.patchValue({
                   regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
                 })
-                if (newData.professionalDetails[0].designation === 'ANM') {
-                  this.personalDetailForm.patchValue({
-                    designation: 'ANM/MPW',
-                  })
+                if (pd0.designation === 'ANM') {
+                  this.personalDetailForm.patchValue({ designation: 'ANM/MPW' })
                 }
               }
-              console.log(newData.professionalDetails[0], 'a')
+
               if (newData.personalDetails.postalAddress) {
-                let cName = newData.personalDetails.postalAddress
-                let csplit = cName.split(',')
-                let country = csplit[0].trim()
+                const cName = newData.personalDetails.postalAddress
+                const csplit = cName.split(',')
+                const country = (csplit[0] || '').trim()
                 if (country !== 'India') {
                   this.professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Student', 'Faculty', 'Others']
-                  this.hideAsha = true
-                } else {
-                  this.hideAsha = false
                 }
               }
-              if (newData.professionalDetails[0].profession === "ASHA") {
-                this.selectedBg = newData.professionalDetails[0].selectBackground
-                this.personalDetailForm.controls.locationselect.setValue(newData.professionalDetails[0].locationselect)
-                let cName = newData.personalDetails.postalAddress
-                let csplit = cName.split(',')
-                let state = csplit[1].trim()
-                //let district = csplit[2].trim()
+              this.cdr.markForCheck()
+              if (pd0.profession === 'ASHA' || (pd0.profession === 'Others' && (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer'))) {
+                this.selectedBg = pd0.selectBackground
+                this.personalDetailForm.controls.block.setValidators([Validators.required])
+                this.personalDetailForm.controls.block.updateValueAndValidity()
+
                 this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-                  statesdata.states.map((item: any) => {
-                    if (item.state === state) {
-                      this.disticts = item.districts
-                    }
-                  })
-                })
-              }
-              if (newData.professionalDetails[0].profession === "Others") {
-                this.professionOtherField = true
-                //if (newData.professionalDetails[0].selectBackground === "Other") {
-                this.selectedBg = newData.professionalDetails[0].selectBackground
-                if (this.selectedBg === "Asha Facilitator" || this.selectedBg === 'Asha Trainer') {
-                  this.personalDetailForm.controls.locationselect.setValue(newData.professionalDetails[0].locationselect)
-                  let cName = newData.personalDetails.postalAddress
-                  let csplit = cName.split(',')
-                  let state = csplit[1].trim()
-                  //let district = csplit[2].trim()
-                  this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-                    statesdata.states.map((item: any) => {
-                      if (item.state === state) {
-                        this.disticts = item.districts
+                  if (pd0.locationselect) {
+                    // Find state by matching the saved district value
+                    for (const stateData of statesdata.states) {
+                      if (stateData.districts.includes(pd0.locationselect)) {
+                        this.disticts = stateData.districts
+                        this.personalDetailForm.controls.locationselect.setValue(pd0.locationselect)
+                        break
                       }
-                    })
-                  })
-                }
-                // }
+                    }
+                  } else {
+                    // No saved district — derive from postalAddress
+                    const { state, dist } = this.extractStateDistrictFromPostalAddress(newData.personalDetails.postalAddress)
+                    if (state) {
+                      const match = statesdata.states.find((s: any) => s.state === state)
+                      if (match) {
+                        this.disticts = match.districts
+                        if (dist && match.districts.includes(dist)) {
+                          this.personalDetailForm.controls.locationselect.setValue(dist)
+                        }
+                      }
+                    }
+                  }
+                })
               }
             }
           }
         })
     }
   }
-  professionSelect(option: any) {
-    // if (option !== 'null') {
-    //   this.personalDetailForm.controls.profession.setValue(option)
-    // } else {
-    //   this.personalDetailForm.controls.profession.setValue(null)
-    // }
 
-    if (option === 'Others') {
-      this.professionOthersField = true
-      this.personalDetailForm.controls.professionOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
-    } else {
-      this.professionOthersField = false
-      this.personalDetailForm.controls.professionOtherSpecify.clearValidators()
-      this.personalDetailForm.controls.professionOtherSpecify.setValue(null)
+  professionalChange(value: any) {
+    this.logger.log('degree', value, this.userProfileData, this.personalDetailForm)
+    const form = this.personalDetailForm
+    const controls = form.controls
+    const profile = this.userProfileData
+    const profDetails = profile?.professionalDetails?.[0]
+
+      ;['designation', 'orgType', 'orgOtherSpecify', 'selectBackground', 'block', 'professionOtherSpecify', 'locationselect'].forEach(key => {
+        controls[key]?.clearValidators()
+        controls[key]?.updateValueAndValidity()
+      })
+      /** RESET COMMON VALUES */
+      ;['designation', 'orgType', 'selectBackground'].forEach(key => {
+        controls[key]?.setValue(null)
+      })
+
+    switch (value) {
+      case 'Healthcare Worker':
+      case 'Healthcare Volunteer':
+        controls.orgType.setValidators([Validators.required])
+        controls.designation.setValidators([Validators.required])
+        break
+      case 'ASHA':
+        controls.designation.clearValidators()
+        controls.instituteName.clearValidators()
+        controls.instituteName.updateValueAndValidity()
+        controls.block.setValidators([Validators.required])
+        controls.block.updateValueAndValidity()
+        controls.block.setValue(null)
+        controls.subcentre.setValue(null)
+
+        const cName = profile.personalDetails.postalAddress
+        this.logger.log(cName)
+
+        const { state, dist } = this.extractStateDistrictFromPostalAddress(cName)
+        const location = profDetails.locationselect !== undefined ? profDetails.locationselect : dist
+        controls.locationselect.setValue(location)
+
+        if (state) {
+          this.loadDistrictsByState(state, districts => {
+            if (districts.includes(dist)) {
+              form.get('locationselect')?.setValue(dist)
+            }
+          })
+        }
+        break
+      case 'Student':
+      case 'Faculty':
+        controls.designation.setValidators([Validators.required])
+        break
+      case 'Others':
+        if (!profDetails.selectBackground) {
+          controls.selectBackground.setValue(null)
+        }
+        if (!profile.personalDetails.regNurseRegMidwifeNumber) {
+          controls.regNurseRegMidwifeNumber.setValue(null)
+        }
+        break
+
+      default:
+        controls.regNurseRegMidwifeNumber.setValue(null)
+        controls.orgType.setValue(null)
     }
 
-    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse' || option === 'ANM/MPW') {
-      this.rnFieldDisabled = false
+    if (value === profDetails.profession) {
+      controls.designation.setValue(profDetails.designation)
+    }
+    controls.designation.updateValueAndValidity()
+    controls.orgType.updateValueAndValidity()
+  }
+
+  shouldShowField(field: any): boolean {
+    if (!field.showIf) return true
+    const showIf = field.showIf
+    const form = this.personalDetailForm
+    /** STEP 1: Profession check (mandatory gate) */
+    const professionValue = form.get('profession')?.value
+    if (showIf.profession) {
+      const allowedProfessions = showIf.profession
+
+      const professionMatched = Array.isArray(allowedProfessions)
+        ? allowedProfessions.includes(professionValue)
+        : professionValue === allowedProfessions
+
+      if (!professionMatched) {
+        return false
+      }
+    }
+
+    /** STEP 2: Check remaining showIf keys */
+    return Object.keys(showIf)
+      .filter(key => key !== 'profession')
+      .every(key => {
+        // Only evaluate selectBackground if profession === 'Others'
+        if (professionValue !== 'Others' && key === 'selectBackground') {
+          return true
+        }
+        const controlValue = form.get(key)?.value
+        const expectedValues = showIf[key]
+
+        if (controlValue == null) return false
+        return Array.isArray(expectedValues)
+          ? expectedValues.includes(controlValue)
+          : controlValue === expectedValues
+      })
+  }
+
+  getOptions(field: any): any[] {
+    if (!field.options) {
+      return []
+    }
+    if (field.options == 'professionalOptions') {
+      switch (this.personalDetailForm.get('profession')?.value) {
+        case 'Healthcare Worker':
+          return this.healthWorkerProfessions
+        case 'Healthcare Volunteer':
+          return this.healthVolunteerProfessions
+        case 'Student':
+          return this.studentList
+        case 'Faculty':
+          return this.facultyList
+        case 'Others':
+          if (this.userProfileData.personalDetails!.postalAddress!.includes('India'))
+            return this.OthersList
+          else
+            return ['Mother/ Family Members', 'Other']
+        default:
+          return []
+      }
     } else {
-      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
-      this.rnFieldDisabled = true
+      return (this as any)[field.options] || []
     }
   }
 
-  professionalChange(value: any) {
-    console.log("degree", value, this.userProfileData, this.personalDetailForm)
-    // this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
-    // this.savebtnDisable = false
-    this.personalDetailForm.controls.designation.clearValidators()
-    this.personalDetailForm.controls.orgType.clearValidators()
-    this.personalDetailForm.controls.orgOtherSpecify.clearValidators()
-
-    this.personalDetailForm.controls.orgType.setValue(null)
-    this.personalDetailForm.controls.designation.setValue(null)
-    if (value === 'Healthcare Worker') {
-      this.showDesignation = true
-      this.orgTypeField = false
-      this.professionOtherField = false
-      this.personalDetailForm.controls.designation.setValue(null)
-      this.showAshaField = false
-      this.HealthcareWorker = true
-      this.HealthcareVolunteer = false
-      this.Student = false
-      this.Faculty = false
-      this.personalDetailForm.controls.designation.setValidators([Validators.required])
-      this.personalDetailForm.controls.orgType.setValidators([Validators.required])
-
-
-    } else if (value === 'Healthcare Volunteer') {
-      this.orgTypeField = false
-      this.professionOtherField = false
-      this.showAshaField = false
-      this.personalDetailForm.controls.designation.setValue(null)
-      this.HealthcareWorker = false
-      this.HealthcareVolunteer = true
-      this.Student = false
-      this.Faculty = false
-
-    } else if (value === 'ASHA') {
-      this.personalDetailForm.controls.designation.setValue(null)
-      this.personalDetailForm.controls.designation.clearValidators()
-      this.personalDetailForm.controls.instituteName.clearValidators()
-      this.personalDetailForm.controls.instituteName.updateValueAndValidity()
-      this.showAshaField = true
-      this.HealthcareWorker = false
-      this.personalDetailForm.controls.block.setValue(null)
-      this.personalDetailForm.controls.subcentre.setValue(null)
-      let cName = this.userProfileData.personalDetails.postalAddress
-      console.log(cName)
-      let state: string = ''
-      let dist: string = ''
-      if (cName) {
-        let csplit = cName.split(',')
-        state = csplit[1].trim()
-        dist = csplit[2].trim()
-      }
-
-      let location = this.userProfileData.professionalDetails[0].locationselect !== undefined ? this.userProfileData.professionalDetails[0].locationselect : dist
-      this.personalDetailForm.controls.locationselect.setValue(location)
-      console.log("location", location)
-      if (state) {
-        this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-          statesdata.states.map((item: any) => {
-            if (item.state === state) {
-              this.disticts = item.districts
-              console.log('Districts:', this.disticts) // Log the districts
-
-              // Set the district if dist is available
-              if (this.disticts.includes(dist)) {
-                this.personalDetailForm.get('locationselect')?.setValue(dist)
-                console.log('Setting district:', dist) // Log the district being set
-              } else {
-                console.log('District not found:', dist) // Log if district is not found
-              }
-            }
-          })
-        })
-      }
-      this.HealthcareWorker = false
-      this.HealthcareVolunteer = false
-      this.Student = false
-      this.Faculty = false
-      this.professionOtherField = false
-    } else if (value === 'Faculty') {
-      console.log('lll')
-      this.orgOthersField = false
-      this.orgTypeField = false
-      this.showAshaField = false
-      this.HealthcareWorker = false
-      this.HealthcareVolunteer = false
-      this.Student = false
-      this.Faculty = true
-      this.personalDetailForm.controls.designation.setValue(null)
-      this.professionOtherField = false
-    } else if (value === 'Others') {
-      if (!this.userProfileData.professionalDetails[0].selectBackground) {
-        this.personalDetailForm.controls.selectBackground.setValue(null)
-      }
-      if (!this.userProfileData.personalDetails.regNurseRegMidwifeNumber) {
-        this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
-      }
-
-      this.professionOtherField = true
-      this.orgTypeField = false
-      this.showAshaField = false
-      this.HealthcareWorker = false
-      this.HealthcareVolunteer = false
-      this.Student = false
-      this.Faculty = false
-
-    } else if (value === 'Student') {
-      this.orgOthersField = false
-      this.orgTypeField = false
-      this.showAshaField = false
-      this.HealthcareVolunteer = false
-      this.HealthcareWorker = false
-      this.Student = true
-      this.Faculty = false
-      this.professionOtherField = false
-      this.personalDetailForm.controls.designation.setValue(null)
-    } else {
-      this.orgTypeField = true
-      this.professionOtherField = false
-      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
-      this.personalDetailForm.controls.orgType.setValue(null)
+  handleChange(event: any, field: any) {
+    if (field.key === 'designation') {
+      this.professionSelect(event.value)
+    } else if (field.key === 'orgType') {
+      this.orgTypeSelect(event.value)
+    } else if (field.key === 'selectBackground') {
+      this.chooseBackground(event.value)
+    } else if (field.key === 'locationselect') {
+      this.onLocationSelectChange(event.value)
     }
-    if (value === this.userProfileData.professionalDetails[0].profession) {
-      console.log('profession')
-      this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
+  }
+
+  onLocationSelectChange(district: string) {
+    const postalAddress = this.userProfileData?.personalDetails?.postalAddress
+    if (!postalAddress || !postalAddress.includes('India')) return
+    const csplit = postalAddress.split(',')
+    const country = csplit[0].trim()
+    const state = csplit[1].trim()
+    this.userProfileData.personalDetails.postalAddress = `${country},${state},${district}`
+  }
+
+  professionSelect(option: any) {
+    const controls = this.personalDetailForm?.controls
+    if (option === 'Others') {
+      controls.professionOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
+    } else {
+      controls.professionOtherSpecify.clearValidators()
+      controls.professionOtherSpecify.setValue(null)
     }
   }
 
   orgTypeSelect(option: any) {
-    // this.savebtnDisable = false
-    if (option !== 'null') {
-      this.personalDetailForm.controls.orgType.setValue(option)
-    } else {
-      this.personalDetailForm.controls.orgType.setValue(null)
-    }
-
+    const controls = this.personalDetailForm?.controls
+    controls.orgType.setValue(option !== 'null' ? option : null)
     if (option === 'Others') {
-      this.orgOthersField = true
-      this.personalDetailForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
+      controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
     } else {
-      this.orgOthersField = false
-      this.personalDetailForm.controls.orgOtherSpecify.clearValidators()
-      this.personalDetailForm.controls.orgOtherSpecify.setValue('')
+      controls.orgOtherSpecify.clearValidators()
+      controls.orgOtherSpecify.setValue('')
     }
   }
 
+  chooseBackground(data: any) {
+    const controls = this.personalDetailForm?.controls
+    this.logger.log(data)
+    this.selectedBg = data
+    switch (data) {
+      case 'Mother/Family Members':
+        const control = this.personalDetailForm.get('locationselect')
+        control?.clearValidators()
+        control?.updateValueAndValidity()
+        this.enableSubmit = false
+        break
+      case 'Asha Facilitator':
+      case 'Asha Trainer':
+        this.enableSubmit = true
+        controls.block.setValue(null)
+        controls.subcentre.setValue(null)
+
+        const cName = this.userProfileData.personalDetails.postalAddress
+        this.logger.log(cName)
+        const { state, dist } = this.extractStateDistrictFromPostalAddress(cName)
+        const location = this.userProfileData.professionalDetails[0].locationselect
+          ? this.userProfileData.professionalDetails[0].locationselect
+          : dist
+        controls.locationselect.setValue(location)
+        this.loadDistrictsByState(state)
+        break
+      case 'Other':
+        controls.designation.setValue(null)
+    }
+
+  }
+
+  private extractStateDistrictFromPostalAddress(postalAddress?: string): { state: string; dist: string } {
+    let state = ''
+    let dist = ''
+    if (postalAddress) {
+      const csplit = postalAddress.split(',')
+      state = (csplit[1] || '').trim()
+      dist = (csplit[2] || '').trim()
+    }
+    return { state, dist }
+  }
+
+  private loadDistrictsByState(state: string, onDone?: (districts: any[]) => void) {
+    if (!state) return
+
+    this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+      statesdata.states.map((item: any) => {
+        if (item.state === state) {
+          this.disticts = item.districts
+          if (onDone) onDone(this.disticts)
+        }
+      })
+    })
+  }
+
   onSubmit(form: any) {
-    // console.log("degree", value, this.userProfileData)
+    // this.logger.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
 
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // ✅ Use LanguageService instead of checking location.href
+    const local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
 
     let profileRequest = this.constructReq(form)
     if (form.value.locationselect) {
@@ -416,12 +441,12 @@ export class WorkInfoListComponent implements OnInit {
         cName = this.userProfileData.personalDetails!.postalAddress!.includes('India')
       }
 
-      console.log(cName)
+      this.logger.log(cName)
       if (cName) {
-        let cName1 = this.userProfileData.personalDetails.postalAddress
-        let csplit = cName1.split(',')
-        let country = csplit[0].trim()
-        let state = csplit[1].trim()
+        const cName1 = this.userProfileData.personalDetails.postalAddress
+        const csplit = cName1.split(',')
+        const country = csplit[0].trim()
+        const state = csplit[1].trim()
         profileRequest.profileReq.personalDetails.postalAddress = country + ',' + state + ',' + form.value.locationselect
       }
     }
@@ -431,42 +456,31 @@ export class WorkInfoListComponent implements OnInit {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-
-      personalDetails: profileRequest.profileReq.personalDetails
+      userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-list', },
+        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-list' },
       },
     }
-    console.log('request update', reqUpdate, get(form.value, 'profession'))
+    this.logger.log('request update', reqUpdate, get(form.value, 'profession'))
     this.passProfession.emit(get(form.value, 'profession'))
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
-          // form.reset()
-          console.log(res, 'res')
-          if (local === 'en') {
-            this.openSnackbar(this.toastSuccess.nativeElement.value)
-          } else {
-            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-          }
-
-          // this.userProfileSvc._updateuser.next('true')
+          this.logger.log(res, 'res')
+          this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           const ob = {
             type: 'work',
             edit: 'save',
 
           }
           this.contentSvc.changeWork(ob)
-          // this.router.navigate(['/app/education-list'])
         }
       })
   }
-
-
 
   public constructReq(form: any) {
     const userid = this.userProfileData.userId || this.userProfileData.id || ''
@@ -535,21 +549,11 @@ export class WorkInfoListComponent implements OnInit {
       profileReq.personalDetails.officialEmail = ''
     }
     profileReq.personalDetails.personalEmail = this.userProfileData.personalDetails.secondaryEmail
-
-    // let approvalData
-    // _.forOwn(this.approvalConfig, (v, k) => {
-    //   if (!v.approvalRequired) {
-    //     _.set(profileReq, k, this.getDataforK(k, form))
-    //   } else {
-    //     _.set(profileReq, k, this.getDataforKRemove(k, v.approvalFiels, form))
-    //     approvalData = this.getDataforKAdd(k, v.approvalFiels, form)
-    //   }
-    // })
     return { profileReq }
   }
 
   private getOrganisationsHistory(form: any) {
-    console.log(form.value, form.value.nameOther)
+    this.logger.log(form.value, form.value.nameOther)
     const organisations: any = []
     const org = {
       name: form.value.orgName,
@@ -580,31 +584,15 @@ export class WorkInfoListComponent implements OnInit {
     return organisations
   }
 
-  public openSnackbar(primaryMsg: string, duration: number = 5000) {
+  public openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
   }
-  redirectToWorkInfo(isEdit: any) {
 
-    const ob = {
-      type: 'work',
-      edit: isEdit,
+  ngOnDestroy() {
+    if (this.mobileSubscription) {
+      this.mobileSubscription.unsubscribe()
     }
-    console.log(ob)
-    if (sessionStorage.getItem('work')) {
-      sessionStorage.removeItem('work')
-    }
-    sessionStorage.setItem('work', isEdit)
-    this.contentSvc.changeWork(ob)
-    // this.contentSvc.changeBack('/app/workinfo-list')
-    // if (isEdit) {
-    //   this.router.navigate([`app/workinfo-edit`], {
-    //     queryParams: { isEdit },
-    //   })
-    // } else {
-    //   this.router.navigate([`app/workinfo-edit`])
-    // }
-
   }
 }

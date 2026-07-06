@@ -1,10 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-language-dialog',
-  templateUrl: './language-dialog.component.html',
-  styleUrls: ['./language-dialog.component.scss'],
+    standalone: false,
+    selector: 'ws-language-dialog',
+    templateUrl: './language-dialog.component.html',
+    styleUrls: ['./language-dialog.component.scss'],
+    
 })
 export class LanguageDialogComponent implements OnInit {
 
@@ -14,6 +17,7 @@ export class LanguageDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<LanguageDialogComponent>,
+    private logger: LoggerService,
     @Inject(MAT_DIALOG_DATA) public selectedData: any
   ) {
   }
@@ -25,18 +29,18 @@ export class LanguageDialogComponent implements OnInit {
 
   chooseLanguage(data: any) {
     // tslint:disable-next-line:no-console
-    console.log(data)
+    this.logger.log(data)
     this.dialogRef.close(data)
   }
   multiLanguage(data: any) {
     // tslint:disable-next-line:no-console
-    console.log(data)
+    this.logger.log(data)
     this.dialogRef.close(data)
   }
 
   onNgModelChange(event: any) {
     // tslint:disable-next-line:no-console
-    console.log(event)
+    this.logger.log(event)
     this.preferredLanguage = event
   }
 }

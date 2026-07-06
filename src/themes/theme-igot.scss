@@ -1,11 +1,7 @@
-@import '~@angular/material/theming';
-@import './theme-mixins';
-// Plus imports for other components in your app.
-// @include mat-core();
+@use '@angular/material' as mat;
 
-
-
-$mat-blue: (50: #eff1f3,
+// Define palettes
+$blue-palette: mat.m2-define-palette((50: #eff1f3,
     100: #FFFFFF,
     200: #a5c1dc,
     300: #68a0d6,
@@ -19,106 +15,58 @@ $mat-blue: (50: #eff1f3,
     A200: #587594,
     A400: #3e6792,
     A700: #062c54,
-    contrast: (50: $dark-primary-text,
-        100: $light-primary-text,
-        200: $dark-primary-text,
-        300: $dark-primary-text,
-        400: $dark-primary-text,
-        500: $dark-primary-text,
-        600: $light-primary-text,
-        700: $light-primary-text,
-        800: $light-primary-text,
-        900: $light-primary-text,
-        A100: $dark-primary-text,
-        A200: $dark-primary-text,
-        A400: $dark-primary-text,
-        A700: $dark-primary-text,
-    ),
-);
+    contrast: (50: rgba(black, 0.87), 100: white, 200: rgba(black, 0.87), 300: rgba(black, 0.87), 400: rgba(black, 0.87), 500: rgba(black, 0.87), 600: white, 700: white, 800: white, 900: white, A100: rgba(black, 0.87), A200: rgba(black, 0.87), A400: rgba(black, 0.87), A700: rgba(black, 0.87)),
+));
 
-$mat-orange: (50: #fff3e0,
+$orange-palette: mat.m2-define-palette((50: #fff3e0,
     100: #D9F2FE,
-    // F5F6FA
     200: #ffcc80,
     300: #ffb74d,
     400: #ffa726,
     500: #f5d58d,
     600: #F5A772,
     700: #15A9F4,
-    // F5F6FA
     800: #ef6c00,
     900: #2095cc,
     A100: #ffd180,
     A200: #ffab40,
     A400: #ff9100,
     A700: #ff6d00,
-    contrast: (50: $dark-primary-text,
-        100: $dark-primary-text,
-        200: $dark-primary-text,
-        300: $dark-primary-text,
-        400: $dark-primary-text,
-        500: $dark-primary-text,
-        600: $dark-primary-text,
-        700: $dark-primary-text,
-        800: $light-primary-text,
-        900: $light-primary-text,
-        A100: $dark-primary-text,
-        A200: $dark-primary-text,
-        A400: $dark-primary-text,
-        A700: $dark-primary-text,
-    ),
-);
+    contrast: (50: rgba(black, 0.87), 100: rgba(black, 0.87), 200: rgba(black, 0.87), 300: rgba(black, 0.87), 400: rgba(black, 0.87), 500: rgba(black, 0.87), 600: rgba(black, 0.87), 700: rgba(black, 0.87), 800: white, 900: white, A100: rgba(black, 0.87), A200: rgba(black, 0.87), A400: rgba(black, 0.87), A700: rgba(black, 0.87)),
+));
 
+// Themes
+$theme-primary: $blue-palette;
+$theme-accent: $orange-palette;
+$theme-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-$theme-primary: mat-palette($mat-blue);
-$theme-accent: mat-palette($mat-orange);
-$theme-warn: mat-palette($mat-red);
-$background-color: mat-palette($mat-blue);
-$theme-background: mat-palette($mat-blue);
+// Light and dark theme configs
+$light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $theme-primary,
+    accent: $theme-accent,
+    warn: $theme-warn,
+  ),
+  density: 0
+));
 
-.theme-igot {
-    &.day-mode {
-        $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
-        // -or- Can set colour by hex value too
-        $custom-background-color: #ffffff;
-        color: #424242 !important;
+$dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $theme-primary,
+    accent: $theme-accent,
+    warn: $theme-warn,
+  ),
+  density: 0
+));
 
-        $custom-typography: mat-typography-config(
-            $font-family: 'Roboto'
-        );
-        $background: map-get($theme, background);
-        $background: map_merge($background, (background: $custom-background-color));
-        $theme: map_merge($theme, (background: $background));
-        // Include the theme styles for only specified components.
-        // @include mat-core-theme($candy-app-theme);
-        // @include mat-button-theme($candy-app-theme);
-        // @include mat-checkbox-theme($candy-app-theme);
-        // @include mat-core($custom-typography);
-        @include angular-material-typography($custom-typography);
-        @include angular-material-theme($theme);
-        @include theme-based-configurations($theme);
-        $background: $background-color;
-        .mat-app-background {
-            color: #4a4a4a;
-        }
-    }
+// ✅ Generate full styles only once
+@include mat.all-component-themes($light-theme);
 
-    &.night-mode {
-        $theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
-        $custom-background-color: #444444;
-        $custom-typography: mat-typography-config(
-            $font-family: 'Roboto'
-        );
+// 🎨 Mode-specific color overrides
+.theme-igot.day-mode {
+  @include mat.all-component-colors($light-theme);
+}
 
-        $background: map-get($theme, background);
-        $background: map_merge($background, (background: $custom-background-color));
-        $theme: map_merge($theme, (background: $background));
-        @include angular-material-typography($custom-typography);
-        @include angular-material-theme($theme);
-        @include theme-based-configurations($theme);
-        $background: $background-color;
-    }
+.theme-igot.night-mode {
+  @include mat.all-component-colors($dark-theme);
 }

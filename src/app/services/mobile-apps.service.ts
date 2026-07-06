@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 // import { AuthKeycloakService } from '@ws-widget/utils'
-import { NsContent } from '../../../library/ws-widget/collection/src/public-api'
+import { NsContent } from '../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
 // tslint:disable-next-line: max-line-length
 import {
   CHAT_BOT_VISIBILITY,
@@ -24,7 +24,7 @@ interface IWindowMobileAppModified extends Window {
   isAuthenticated?: any
   dispatchEventFlag?: any
 }
-declare var window: IWindowMobileAppModified
+declare let window: IWindowMobileAppModified
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +33,7 @@ export class MobileAppsService {
   constructor(
     // private authSvc: AuthKeycloakService,
     private navigateSvc: NavigationExternalService,
-  ) {}
+  ) { }
 
   init() {
     this.setupGlobalMethods()
@@ -123,7 +123,7 @@ export class MobileAppsService {
       if (window.dispatchEventFlag) {
         document.dispatchEvent(new CustomEvent(eventName, { detail: data }))
       } else {
-        // //console.log(eventName, data)
+        // //this.logger.log(eventName, data)
       }
     }
   }

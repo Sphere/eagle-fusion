@@ -4,9 +4,11 @@ import { Component, OnInit } from '@angular/core'
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
 
 @Component({
-  selector: 'ws-auth-root-navigation',
-  templateUrl: './auth-navigation.component.html',
-  styleUrls: ['./auth-navigation.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-root-navigation',
+    templateUrl: './auth-navigation.component.html',
+    styleUrls: ['./auth-navigation.component.scss'],
+    
 })
 export class AuthNavigationComponent implements OnInit {
 

@@ -4,7 +4,7 @@ describe('Events Service', () => {
   let service: Events
 
   beforeEach(() => {
-    service = new Events()
+    service = new Events({ log: jest.fn(), warn: jest.fn(), error: jest.fn() } as any)
   })
 
   it('should subscribe to a topic and add handlers', () => {

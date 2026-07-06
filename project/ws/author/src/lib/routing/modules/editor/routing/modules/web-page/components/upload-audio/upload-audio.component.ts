@@ -17,9 +17,11 @@ export interface IUsersData {
   languages: any[]
 }
 @Component({
-  selector: 'ws-auth-upload-audio',
-  templateUrl: './upload-audio.component.html',
-  styleUrls: ['./upload-audio.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-upload-audio',
+    templateUrl: './upload-audio.component.html',
+    styleUrls: ['./upload-audio.component.scss'],
+    
 })
 
 export class UploadAudioComponent implements OnInit {
@@ -73,7 +75,7 @@ export class UploadAudioComponent implements OnInit {
   //   content.onloadedmetadata = () => {
   //     window.URL.revokeObjectURL(content.src)
   //     this.duration = Math.round(content.duration)
-  //     // console.log(this.duration)
+  //     // this.logger.log(this.duration)
   //     //      this.enableUpload = true
   //   }
   //   content.src = URL.createObjectURL(this.file)

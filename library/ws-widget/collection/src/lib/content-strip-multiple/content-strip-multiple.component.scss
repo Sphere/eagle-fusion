@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 @media only screen and (min-width: 600px) and (max-width: 959px) {
   .padding-rl #continueLearning {
     padding: 0px 50px !important;
@@ -12,7 +12,7 @@
 .header1 {
   //     color: #000;
 
-  // /* Header 1 */
+  // __<<ngThemingMigrationEscapedComment0>>__
   // font-family: Roboto, sans-serif; !important;
   // font-size: 32px !important;
   // font-style: normal !important;
@@ -56,16 +56,12 @@
 .view-all {
   display: flex;
   margin: 0 auto;
-  border: 1px solid;
   font-weight: 500;
-  box-shadow: 0px 10px 30px;
-  /*#99999933*/
-
-  border-radius: 8px;
+  background: transparent;
 }
 
 .pad {
-  padding: $size-l 0 $size-l $size-l;
+  padding: ws-mixins.$size-l 0 ws-mixins.$size-l ws-mixins.$size-l;
 }
 
 h1 {

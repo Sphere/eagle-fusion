@@ -1,5 +1,7 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
+@forward 'ws-vars';
+@forward 'ws-mixins';
 
 %background-image-center {
   background-repeat: no-repeat;
@@ -15,10 +17,10 @@
 }
 
 %height-mat-toolbar-sibling {
-  height: calc(100% - #{$mat-toolbar-xs});
+  height: calc(100% - #{ws-vars.$mat-toolbar-xs});
 
   // padding: $size-m;
-  @include breakpoint-gt-xs {
-    height: calc(100% - #{$mat-toolbar-gt-xs});
+  @include ws-mixins.breakpoint-gt-xs {
+    height: calc(100% - #{ws-vars.$mat-toolbar-gt-xs});
   }
 }

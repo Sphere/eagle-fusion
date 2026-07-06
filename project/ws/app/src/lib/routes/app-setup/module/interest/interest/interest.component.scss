@@ -1,8 +1,8 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .small-height-toolbar{
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 32px;
     padding: 8px;
   }
@@ -12,7 +12,7 @@
   position: relative;
   left: 50%;
   transform: translate(-50%,0);
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     transform: translate(0,0);
     left: inherit;
   }
@@ -65,9 +65,9 @@
 }
 
 .card-container{
-  $card-padding: $size-m;
+  $card-padding: ws-vars.$size-m;
   padding: 0 0 0 16px;
-  $action-btn-size: 2.5 * $size-m;
+  $action-btn-size: 2.5 * ws-vars.$size-m;
   position: relative;
   $card-width: 194px;
   width: $card-width;

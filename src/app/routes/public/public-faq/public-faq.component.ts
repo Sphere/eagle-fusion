@@ -5,9 +5,11 @@ import { Subscription } from 'rxjs'
 import { ValueService, ConfigurationsService, EFeatures, NsPage } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-public-faq',
-  templateUrl: './public-faq.component.html',
-  styleUrls: ['./public-faq.component.scss'],
+    standalone: false,
+    selector: 'ws-public-faq',
+    templateUrl: './public-faq.component.html',
+    styleUrls: ['./public-faq.component.scss'],
+    
 })
 export class PublicFaqComponent implements OnInit, OnDestroy {
   errorMessageCode: 'API_FAILURE' | 'NO_DATA' | 'INVALID_DATA' | 'NONE' = 'NONE'

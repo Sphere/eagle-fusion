@@ -7,12 +7,16 @@
 
 <ng-template #cardLarge>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a (click)="redirectPage(courseData)">
+    <a href="javascript:void(0)" (click)="redirectPage(courseData)" role="button" tabindex="0">
       <div class="box">
         <div class="text-over">
           <!-- <img alt="" class="appIcon fitsize" [src]="courseData?.thumbnail ? courseData.thumbnail : courseData.appIcon"> -->
-
-          <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <div class="img-shimmer-wrapper">
+            <div class="img-shimmer" [class.img-shimmer-hide]="imgLoaded"></div>
+            <img alt="" class="appIcon fitsize"
+              src="{{courseData.posterImage? courseData.posterImage : courseData.appIcon}}" (load)="imgLoaded = true"
+              (error)="imgLoaded = true">
+          </div>
           <ng-container>
             <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
               CNE: {{courseData.cneName}}
@@ -42,12 +46,12 @@
           <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
         </div>
         <div *ngIf="enableConfig" class="p-2">
-          <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+          <a class="btn start-btn">{{ 'Start now!' | translate }}</a>
         </div>
         <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
-          <div class="competency-card flex m-3">
+          <div class="competency-card flex">
             <img alt="" class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
-            <div>
+            <div class="level-det">
               <span>{{cometencyData[0]?.name}}, </span>
               <ng-container *ngFor="let competency of cometencyData; let last = last;">
                 <span>{{competency.levels}}</span>
@@ -73,38 +77,38 @@
       <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
         {{ courseData.name }}
       </div>
-      <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+      <div class="description-text ws-mat-text-block-fade-gradient mb-2" title="Sub title">
         {{ courseData.subTitle }}
       </div>
-      <div class="mb-2" *ngIf="courseData?.lastPublishedOn"><span class="fw-500" i18n>Published On</span>:
+            <div class="mb-2" *ngIf="courseData?.lastPublishedOn"><span class="fw-500">{{ 'Published On' | translate }}</span>:
         {{courseData?.lastPublishedOn | date }}</div>
-      <div *ngIf="courseData.duration" class="duration mb-2" i18n-title title="Duration">
-        <span class="mr-1 orange-text" i18n>Duration</span>:
+      <div *ngIf="courseData.duration" class="duration mb-2" title="Duration">
+        <span class="mr-1 orange-text">{{ 'Duration' | translate }}</span>:
         <mat-icon>access_time</mat-icon>
         <span class="time-text fs-13">{{ courseData.duration| pipeDurationTransform: 'hms' }}</span>
 
       </div>
-      <p *ngIf="courseData?.completionPercentage"><span class="fw-500" i18n>Progress</span>: {{
+      <p *ngIf="courseData?.completionPercentage"><span class="fw-500">{{ 'Progress' | translate }}</span>: {{
         courseData?.completionPercentage}} %</p>
-      <p *ngIf="courseData?.creator"><span class="fw-500" i18n>Author</span>: {{
+      <p *ngIf="courseData?.creator"><span class="fw-500">{{ 'Author' | translate }}</span>: {{
         courseData?.creator}}
       </p>
-      <p *ngIf="courseData?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+      <p *ngIf="courseData?.creatorContacts"><span class="fw-500">{{ 'Author' | translate }}</span>: {{
         courseData?.creatorContacts[0]?.name}}</p>
 
-      <p *ngIf="courseData?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
+      <p *ngIf="courseData?.uniqueUsersCount"><span class="fw-500">{{ 'Users enrolled' | translate }}</span>:
         {{courseData?.uniqueUsersCount}}</p>
-      <p *ngIf="courseData?.sourceName"><span class="fw-500" i18n>Source</span>:
+      <p *ngIf="courseData?.sourceName"><span class="fw-500">{{ 'Source' | translate }}</span>:
         {{courseData.sourceName}}
       </p>
 
       <div class="mt-0 flex">
-        <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
+        <button *ngIf="isUserLoggedIn === true" mat-raised-button
           class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
-          View Course</button>
-        <button *ngIf="isUserLoggedIn === false" mat-raised-button i18n
+          {{ 'View Course' | translate }}</button>
+        <button *ngIf="isUserLoggedIn === false" mat-raised-button
           class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
-          View Course </button>
+          {{ 'View Course' | translate }}</button>
         <div class="flex">
           <ws-widget-btn-content-share [widgetData]="courseData"></ws-widget-btn-content-share>
         </div>
@@ -117,8 +121,17 @@
     <a (click)="redirectPage(courseData)" class="card-block">
       <div class="card-long">
         <div class="img-block">
-          <img alt="" class="appIcon fitsizeMini"
-            src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <div class="img-shimmer-wrapper">
+            <div class="img-shimmer" [class.img-shimmer-hide]="imgLoaded"></div>
+            <img alt="" class="appIcon fitsizeMini"
+              src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}"
+              (load)="imgLoaded = true" (error)="imgLoaded = true">
+          </div>
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
+              CNE: {{courseData.cneName}}
+            </div>
+          </ng-container>
           <ng-container>
             <div *ngIf="displayConfig?.badges?.certification === true&&courseData.issueCertification"
               class="certificate-name">
@@ -144,12 +157,19 @@
                 src="/fusion-assets/icons/toc_star.png" alt="star" />
             </div>
           </div>
+          <div class="progress-block-mini">
+            <ng-container *ngIf="displayConfig?.badges?.publicSourceName&&courseData.sourceName">
+              <div [ngClass]="{'top-border': displayConfig?.badges?.publicSourceName}" class="mobile-source-name">
+                {{courseData.sourceName}}
+              </div>
+            </ng-container>
+          </div>
           <div class="progress-block-mini"
             *ngIf="displayConfig?.badges?.completionPercentage === true || displayConfig?.badges?.viewAll === true">
             <div class="progress-block" [ngClass]="{'with-progress': displayConfig?.badges?.viewAll === true}">
               <mat-progress-bar *ngIf="displayConfig?.badges?.completionPercentage === true" [mode]="'determinate'"
                 [value]="courseData?.completionPercentage" class="progress-bar"
-                [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
+                [attr.aria-labelledby]="'m-c-' + courseData?.identifier">
                 {{courseData?.completionPercentage}}%
               </mat-progress-bar>
               <ng-container *ngIf="displayConfig?.badges?.mobilesourceName&&courseData.sourceName">
@@ -158,16 +178,19 @@
                 </div>
               </ng-container>
               <div class="button-container">
-                <button *ngIf="displayConfig?.badges?.viewAll === true" class="resumne-btn" i18n>View course
-                  details</button>
+                <button *ngIf="displayConfig?.badges?.viewAll === true" class="resumne-btn">{{ 'View course details' |
+                  translate }}</button>
 
-                <button *ngIf="displayConfig?.badges?.resume === true" class="resumne-btn" i18n>Resume</button>
+                <button *ngIf="displayConfig?.badges?.resume === true" class="resumne-btn">{{ 'Resume' | translate
+                  }}</button>
               </div>
             </div>
 
-            <div *ngIf="displayConfig?.badges?.completionPercentage === true" class="">
-              <span class="completionPercentage">{{ courseData?.completionPercentage ?
-                courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
+            <div *ngIf="displayConfig?.badges?.completionPercentage">
+              <span class="completionPercentage">
+                {{ courseData?.completionPercentage }}% <span style="margin-left: 3px;">{{ 'Complete' | translate
+                  }}</span>
+              </span>
             </div>
 
           </div>
@@ -178,3 +201,50 @@
     </a>
   </section>
 </ng-template>
+
+<div class="modal fade" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': '50%'}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="    font-size: 17px;
+    border-radius: 24px;
+    padding: 0px 3px;
+    overflow: hidden;">
+
+      <!-- Modal Header -->
+      <div class="">
+        <!--<h4 class="modal-title">Modal Heading</h4> -->
+        <button type="button" class="close" data-dismiss="modal" (click)="closePopup()"
+          style="padding-top: 10px;padding-right: 10px;">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body text-center" style="padding: 0px;">
+        <div>
+          <h3 style="  color: #000 !important;font-weight: 500;">
+            {{ 'Login/create an account to start the course' | translate }}</h3>
+          <button name="start" color="primary" (click)="orgLogin()" style="width: 200px !important;"
+            class="header-btn  mat-button-base">
+            {{ 'Login' | translate }}
+          </button>
+          <p style="margin-top: 10px;font-weight: 400;">{{ 'or' | translate }}</p>
+          <button name="start" stye="padding: 8px 22px;    width: 200px;
+    font-size: 16px !important;" color="primary" (click)="orgCreateAccount()" class="new-user-btn">
+            {{ 'Create a new account' | translate }}
+          </button>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div>
+        <div>
+          <div style="float: left;">
+            <img src="/fusion-assets/icons/Frame-149.svg">
+          </div>
+          <div style="float: right;">
+            <img src="/fusion-assets/icons/Frame-150.svg">
+          </div>
+        </div>
+        <!-- <button [innerHTML]="'Close' | translate"></button> -->
+      </div>
+
+    </div>
+  </div>
+</div>

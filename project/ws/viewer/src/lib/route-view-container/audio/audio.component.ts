@@ -5,9 +5,11 @@ import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 // import { PlayerStateService } from '../../player-state.service'
 @Component({
-  selector: 'viewer-audio-container',
-  templateUrl: './audio.component.html',
-  styleUrls: ['./audio.component.scss'],
+    standalone: false,
+    selector: 'viewer-audio-container',
+    templateUrl: './audio.component.html',
+    styleUrls: ['./audio.component.scss'],
+    
 })
 export class AudioComponent implements OnInit {
   @Input() isScreenSizeSmall = false

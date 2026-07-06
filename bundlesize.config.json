@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "path": "./dist/www/fusion/main.*.js",
+      "maxSize": "2MB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./dist/www/fusion/vendor.*.js",
+      "maxSize": "1MB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./dist/www/fusion/styles.*.css",
+      "maxSize": "200KB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./dist/www/fusion/polyfills.*.js",
+      "maxSize": "100KB",
+      "compression": "gzip"
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { TranslateModule } from '@ngx-translate/core'
 
 import { QuizComponent } from './quiz.component'
-import { OverviewComponent } from './components/overview/overview.component'
+// import { OverviewComponent } from './components/overview/overview.component'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
 
@@ -33,12 +34,14 @@ import { AssesmentQuestionResultComponent } from './components/assesment-questio
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewQuizQuestionComponent } from './components/view-quiz-question/view-quiz-question.component'
 import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
+import { ViewAnswerComponent } from './components/view-answer/view-answer.component'
+import { CongratulationsPopupComponent } from './components/congratulations-popup/congratulations-popup.component'
 // import { ConfirmmodalComponent } from './confirm-modal-component'
 
 @NgModule({
   declarations: [
     QuizComponent,
-    OverviewComponent,
+    // OverviewComponent,
     QuestionComponent,
     SubmitQuizDialogComponent,
     AssesmentOverviewComponent,
@@ -48,17 +51,15 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
     AssesmentCloseModalComponent,
     AssesmentQuestionResultComponent,
     QuizModalComponent,
+    ViewAnswerComponent,
     ViewQuizQuestionComponent,
     CloseQuizModalComponent,
+    CongratulationsPopupComponent,
     // ConfirmmodalComponent,
-  ],
-  // tslint:disable-next-line:max-line-length
-  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,
-    QuizModalComponent, CloseQuizModalComponent,
-    // ConfirmmodalComponent
   ],
   imports: [
     CommonModule,
+    TranslateModule,
     PipeDurationTransformModule,
     PipeLimitToModule,
     MatCardModule,
@@ -76,6 +77,6 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
     MatTabsModule,
     MatProgressBarModule,
   ],
-  exports: [QuizComponent],
+  exports: [QuizComponent, CongratulationsPopupComponent],
 })
 export class QuizModule { }

@@ -1,313 +1,379 @@
-import { HttpClient } from '@angular/common/http'
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core'
+import { Component, OnInit, ElementRef, Input, OnDestroy, QueryList, ViewChildren, OnChanges, SimpleChanges, signal, computed } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import filter from 'lodash/filter'
-import includes from 'lodash/includes'
-// import reduce from 'lodash/reduce'
-import uniqBy from 'lodash/uniqBy'
+import { uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
-import { of } from 'rxjs'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
-import { ConfigurationsService } from '@ws-widget/utils'
-import { WidgetContentService } from '@ws-widget/collection'
-// import { environment } from 'src/environments/environment'
-import { catchError, switchMap } from 'rxjs/operators'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
+import { forkJoin, Observable, of } from 'rxjs'
+import { PlaylistService } from '../../services/playlist.service'
+import { LanguageService } from '../../services/language.service'
+import { Subject } from 'rxjs'
+import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
+import { catchError, map } from 'rxjs/operators'
 
 @Component({
+  standalone: false,
   selector: 'ws-web-public-container',
   templateUrl: './web-public-container.component.html',
   styleUrls: ['./web-public-container.component.scss'],
 })
-export class WebPublicComponent implements OnInit {
+export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   myCourse: any
-  topCertifiedCourse: any = []
-  featuredCourse: any = []
-  cneCourse: any = []
+
+  private destroy$ = new Subject<void>()
+  private courseRecommendationTimeout: any
+
+  topCertifiedCourse = signal<any[]>([])
+  cneCourse = signal<any[]>([])
+  coursesForYou = signal<any[]>([])
+  coursesForEK = signal<any[]>([])
   videoData: any
   homeFeatureData: any
   homeFeature: any
   userId: any
   firstName: any
   topCertifiedCourseIdentifier: any = []
-  featuredCourseIdentifier: any = []
   cneCoursesIdentifier: any = []
+  yourPlansCourseIdentifier: any = []
+  featuredCourseIdentifier: any = []
   @Input() userEnrollCourse: any
-  // languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  @Input() isEkshamata: any
+  @Input() configData: any
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
-  coursesForYou: any[] = []
-  coursesForUP: any[] = []
-  isLoading = false
-  @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
+  isLoading = signal(false)
+  @ViewChildren('scrollToCneCourses') sections!: QueryList<ElementRef<HTMLElement>>
   userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   CNECourseDisplayConfig: any
-  @Input() isEkshamata: any
-  isUpLogin: boolean = false
+  isUpLogin = false
+  uiConfig = signal<any[]>([])
+  lang = ''
+  isXSmall = computed(() => this.valueSvc.isMobile())
+
+  currentOffset = 0
+  pageLimit = 500
+  initialPageLimit = 10
+  plyLsData: any[] = []
+
   constructor(
     private router: Router,
-    private http: HttpClient,
     public dialog: MatDialog,
     private orgService: OrgServiceService,
     public scrollService: ScrollService,
     private configSvc: ConfigurationsService,
+    private playlistSvc: PlaylistService,
+    private langSvc: LanguageService,
+    private valueSvc: ValueService,
+    private logger: LoggerService,
     private contentSvc: WidgetContentService,
-    // private elementRef: ElementRef
   ) {
+    this.lang = this.langSvc.getCurrentLanguage()
   }
 
   async ngOnInit() {
-    // Set up user enrolled display configurations
-    this.setUserEnrolledDisplayConfig()
-    if (this.isEkshamata) {
-      this.showTopCourses()
-    }
-    // Fetch course recommendations if professional details are available
-    this.fetchCourseRecommendations()
-
-    // Handle scroll events
+    this.isLoading.set(true)
     this.handleScrollEvents()
+    const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
+    const designationLower = designation.toLowerCase()
+    const rootOrgId = this.configSvc?.userProfile?.rootOrgId
+    const roleCheck = (roles: string[]) =>
+      roles?.some(r => r.toLowerCase() === designationLower)
+    if (Array.isArray(this.configData)) {
+      this.uiConfig.set(this.configData.slice(1, -1))
+    }
+    if (this.configSvc?.userProfile) {
+      this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+      this.logger.log('plyLsData', this.plyLsData)
 
-    // Fetch configuration data based on the environment
-    this.fetchEnvironmentConfigurations()
-  }
-  showTopCourses() {
-    this.topCertifiedCourse = []
-    console.log("this.configSvc.hostedInfo", this.configSvc.hostedInfo)
-    if (this.configSvc.hostedInfo?.featuredCourseIdentifier) {
-      this.isUpLogin = true
-      this.orgService.getTopLiveSearchResults(this.configSvc.hostedInfo.featuredCourseIdentifier, this.preferedLanguage.id).subscribe((results: any) => {
-        console.log("yes here hostedInfo", results.result.content)
-        if (results.result.content.length > 0) {
-          this.formatForYouUPCourses(results.result.content)
-          console.log("yes here hostedInfo", results.result.content)
+      for (const element of this.plyLsData) {
+        if (element.orgId !== rootOrgId || element.language !== this.lang) continue
+        const { playlistId, dataSource } = element
+
+        if (designation && roleCheck(element.role)) {
+          if (playlistId === 'YOUR_PLANS_PLAYLIST') {
+            this.yourPlansCourseIdentifier = dataSource.payload
+          }
+        }
+        if (playlistId === 'TOP_COURSE_PLAYLIST') {
+          this.topCertifiedCourseIdentifier = dataSource.payload
+        }
+        if (playlistId === 'CNE_COURSE_PLAYLIST') {
+          this.cneCoursesIdentifier = dataSource.payload
+        }
+        if (this.isEkshamata && playlistId === 'FEATURED_COURSE_PLAYLIST') {
+          this.featuredCourseIdentifier = dataSource.payload
+        }
+      }
+    }
+    // Fallback: if playlist API returned empty, read identifiers from form config
+    if (!this.topCertifiedCourseIdentifier.length && !this.cneCoursesIdentifier.length && !this.yourPlansCourseIdentifier.length) {
+      this.uiConfig().forEach(data => {
+        if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
+          this.topCertifiedCourseIdentifier = data.payload || []
+        } else if (data?.playlistConfigId == 'CNE_COURSE_PLAYLIST') {
+          this.cneCoursesIdentifier = data.payload || []
         }
       })
-
     }
-  }
-  // this.configSvc.hostedInfo
-  formatForYouUPCourses(res: any) {
-    const myCourse: any = []
-    let myCourseObject = {}
-
-    res.forEach((key: any) => {
-      myCourseObject = {
-        identifier: key.identifier,
-        appIcon: key.appIcon,
-        thumbnail: key.thumbnail,
-        name: key.name,
-        sourceName: key.sourceName,
-        issueCertification: key.issueCertification
-      }
-
-      myCourse.push(myCourseObject)
-
-    })
-
-    this.coursesForUP = myCourse
-    if (this.coursesForUP.length > 0) {
-      this.forYouCourseDisplayConfig = {
-        displayType: 'card-badges',
-        badges: {
-          certification: true,
-          rating: true,
-          sourceName: true
-        },
-      }
-    }
-  }
-  private setUserEnrolledDisplayConfig() {
-    if (this.userEnrollCourse && this.userEnrollCourse.length > 0) {
-      this.userEnrolledDisplayConfig = {
-        displayType: 'card-mini',
-        badges: {
-          certification: true,
-          rating: true,
-          completionPercentage: true
-        }
-      }
+    // Main flow
+    if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0) {
+      this.fetchEnvironmentConfigurations()
+      return
     } else {
-      this.userEnrolledDisplayConfig = {
-        displayType: 'card-mini',
-        badges: {
-          certification: true,
-          rating: true,
-          completionPercentage: true
-        }
-      }
+      this.handleCompetencyFlow(rootOrgId, roleCheck)
     }
   }
 
-  private fetchCourseRecommendations() {
-    console.log("Fetching course recommendations...")
-    this.isLoading = true
+  ngOnChanges(changes: SimpleChanges) {
+    if ((changes['userEnrollCourse'] || changes['configData']) && !this.isLoading()) {
+      this.updateCourseData()
+    }
+  }
 
-    const timeout = setTimeout(() => {
-      if (this.isLoading) {
-        this.isLoading = false
-        console.error("API call timed out.")
-      }
-    })
+  private handleCompetencyFlow(rootOrgId: string, roleCheck: (roles: string[]) => boolean) {
+    const matchedElements = this.plyLsData?.filter(element =>
+      element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
 
-    if (
-      this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.profileReq &&
-      this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails
-    ) {
-      const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
-      if (professionalDetails) {
-        const designation =
-          professionalDetails.designation === ''
-            ? professionalDetails.profession
-            : professionalDetails.designation
+    const listOfEnrolledCourseId = (this.userEnrollCourse || [])
+      .filter(course => course?.content?.identifier && !course?.content?.competency)
+      .map(course => course.content.identifier)
 
-        this.contentSvc.fetchCourseRemommendations(designation).subscribe(
-          (res) => {
-            clearTimeout(timeout) // Clear timeout on success
-            this.formatForYouCourses(res)
-            this.isLoading = false
-          },
-          (err) => {
-            clearTimeout(timeout) // Clear timeout on error
-            console.error("Error fetching course recommendations:", err)
-            this.coursesForYou = []
-            this.isLoading = false
-          }
+    const competencySearchArray: string[] = []
+    let baseQuery: any = {}
+    let sourceName: string[] = []
+
+    for (const element of matchedElements || []) {
+      const { playlistId, dataSource } = element
+
+      if (playlistId === 'COMPETENCY_PLAYLIST') {
+        competencySearchArray.push(
+          ...this.buildCompetencySearchArray(dataSource?.payload)
         )
       }
-    } else {
-      clearTimeout(timeout)
-      this.isLoading = false
+      if (playlistId === 'SEARCH_PLAYLIST') {
+        baseQuery = dataSource?.payload || {}
+
+        baseQuery.request = baseQuery.request || {}
+        baseQuery.request.filters = baseQuery.request.filters || {}
+
+        baseQuery.request.offset = this.currentOffset
+        baseQuery.request.limit = this.pageLimit
+
+        sourceName = baseQuery.request.filters.sourceName || []
+      }
     }
+    this.currentOffset += this.initialPageLimit
+    this.pageLimit += this.initialPageLimit
+    if (!competencySearchArray.length) {
+      this.isLoading.set(false)
+      return
+    }
+
+    this.searchContentByCompetencies$(baseQuery, competencySearchArray, sourceName, listOfEnrolledCourseId).subscribe((res: any) => {
+      this.coursesForYou.set(res || [])
+      this.yourPlansCourseIdentifier = this.coursesForYou().filter(item => item?.identifier).map(item => item.identifier)
+      this.updateCourseData()
+    })
+  }
+
+  buildCompetencySearchArray = (competencyPayload: any[]): string[] => {
+    if (!Array.isArray(competencyPayload) || competencyPayload?.length === 0) {
+      return []
+    }
+    const competencySearchArray: string[] = []
+    competencyPayload.forEach(competencyObj => {
+      Object.keys(competencyObj).forEach(key => {
+        const competency = competencyObj[key]
+        const competencyId = competency?.id
+        if (!competencyId) return
+
+        const levelDescriptions = competency?.additionalProperties?.competencyLevelDescription || []
+
+        levelDescriptions.forEach((levelDesc: any) => {
+          const level = levelDesc?.level
+          if (level) {
+            competencySearchArray.push(`${competencyId}-${level}`)
+          }
+        })
+      })
+    })
+    return competencySearchArray
+  }
+
+  searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
+    if (!Array.isArray(competencySearchArray) || competencySearchArray.length === 0) {
+      return of([])
+    }
+
+    const requestBody = typeof structuredClone === 'function'
+      ? structuredClone(baseQuery)
+      : JSON.parse(JSON.stringify(baseQuery))
+
+    requestBody.request = requestBody.request || {}
+    requestBody.request.filters = requestBody.request.filters || {}
+    requestBody.request.filters.competencySearch = competencySearchArray
+
+    return this.contentSvc.getCouseByContentSearch(competencySearchArray, true, requestBody).pipe(
+      map((res: any) => {
+        const content = res?.result?.content ?? []
+        return this.processRecommendedCourses(content, requiredSourceName, listOfEnrolledCourseId)
+      }),
+      catchError(err => {
+        console.error('Error fetching recommendation', err)
+        return of([])
+      })
+    )
+  }
+
+  recommendedCourse = (data: any[]) =>
+    (data || [])
+      .filter(item => item && item.identifier)
+      .map(item => ({
+        identifier: item.identifier,
+        appIcon: item.appIcon,
+        thumbnail: item.posterImage || item.thumbnail,
+        name: item.name,
+        sourceName: item.sourceName,
+        issueCertification: item.issueCertification,
+        averageRating: item.averageRating,
+        competency: item.competency,
+      }))
+
+  processRecommendedCourses = (courseList: any[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): any[] => {
+    const seen = new Set()
+    const enrolledSet = new Set(listOfEnrolledCourseId || [])
+    const sourceSet = new Set(requiredSourceName || [])
+
+    return this.recommendedCourse(courseList).filter(item => {
+      const id = item?.identifier
+      if (!id || seen.has(id) || enrolledSet.has(id)) return false
+      if (!sourceSet.has(item.sourceName)) return false
+      seen.add(id)
+      return true
+    })
   }
 
   private handleScrollEvents() {
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
-      if (targetDivId === 'scrollToCneCourses') {
-        this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
+      const section = this.sections.find(
+        s => s.nativeElement.getAttribute('data-scroll') === targetDivId
+      )
+      if (section?.nativeElement) {
+        this.scrollService.scrollToElement(section?.nativeElement)
       }
     })
   }
 
   private fetchEnvironmentConfigurations() {
+    const defaultIds = [
+      ...this.topCertifiedCourseIdentifier,
+      ...this.cneCoursesIdentifier,
+    ]
 
+    const identifiers = [
+      ...this.yourPlansCourseIdentifier,
+      ...this.featuredCourseIdentifier,
+    ]
 
-    // const url = environment.production ? 'mobile-home.json' : 'mobile-home-stage.json'
-    const url = 'mobile-home.json'
+    const requests = !this.configSvc?.unMappedUser ? [this.orgService.getTopLiveSearchResults(defaultIds, 'en')] :
+      [this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers], this.lang)]
 
-    this.http.get(`assets/configurations/${url}`).pipe(
-      switchMap((configData: any) => {
-        const identifiers = [
-          ...configData.topCertifiedCourseIdentifier,
-          ...configData.cneCoursesIdentifier,
-          ...configData.featuredCourseIdentifier
-        ]
-        this.topCertifiedCourseIdentifier = configData.topCertifiedCourseIdentifier
-        this.cneCoursesIdentifier = configData.cneCoursesIdentifier
-        this.featuredCourseIdentifier = configData.featuredCourseIdentifier
-        return this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id)
-      }),
-      catchError((error) => {
-        // Handle error if needed
-        return of(error) // Returning a default observable in case of error
+    return forkJoin(requests).subscribe((responses: any[]) => {
+      const content = responses.flatMap(res => res?.result?.content || [])
+
+      if (!content.length) {
+        setTimeout(() => {
+          this.isLoading.set(false)
+        })
+        return
+      }
+
+      const cneSet = new Set(this.cneCoursesIdentifier)
+      const topCertifiedSet = new Set(this.topCertifiedCourseIdentifier)
+      const yourPlansSet = new Set(this.yourPlansCourseIdentifier)
+      const featureSet = new Set(this.featuredCourseIdentifier)
+
+      this.cneCourse.set(uniqBy(content.filter(item => cneSet.has(item.identifier)), 'identifier'))
+      this.topCertifiedCourse.set(uniqBy(content.filter(item => topCertifiedSet.has(item.identifier)), 'identifier'))
+      this.coursesForYou.set(uniqBy(content.filter(item => yourPlansSet.has(item.identifier)), 'identifier'))
+      this.coursesForEK.set(uniqBy(content.filter(item => featureSet.has(item.identifier)), 'identifier'))
+
+      this.updateCourseData()
+    })
+  }
+
+  updateCourseData() {
+    if (Array.isArray(this.configData)) {
+      const completed = this.userEnrollCourse?.filter((item: any) => item.completionPercentage === 100) || []
+      const incomplete = this.userEnrollCourse?.filter((item: any) => item.completionPercentage !== 100) || []
+      this.configData.forEach((element: any) => {
+        if (element.playlistConfigId === 'CONTINUE_LEARNING') {
+          element.data = incomplete?.filter(item =>
+            this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
+          element.displayData = element?.data?.slice(0, element.limit)
+        } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
+          element.data = this.coursesForYou().filter(item =>
+            !this.userEnrollCourse?.some(bItem => bItem.identifier === item.identifier)
+          )
+          element.displayData = element?.data?.slice(0, element.limit)
+        } else if (element.playlistConfigId === 'CNE_COURSE_PLAYLIST') {
+          element.data = this.cneCourse()
+          element.displayData = element?.data?.slice(0, element.limit)
+        } else if (element.playlistConfigId === 'TOP_COURSE_PLAYLIST') {
+          element.data = !this.isEkshamata ? this.topCertifiedCourse() : this.coursesForEK()
+          element.displayData = element?.data?.slice(0, element.limit)
+        } else if (element.playlistConfigId === 'COMPLETED') {
+          element.data = completed.filter(item =>
+            this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
+          element.displayData = element?.data?.slice(0, element.limit)
+        }
       })
-    ).subscribe((results: any) => {
-      if (results.result.content.length > 0) {
-        this.formatTopCertifiedCourseResponse(results)
-        this.formatcneCourseResponse(results)
-      }
-    })
-  }
-
-  formatForYouCourses(res: any) {
-    const myCourse: any = []
-    let myCourseObject = {}
-
-    res.forEach((key: any) => {
-      myCourseObject = {
-        identifier: key.course_id,
-        appIcon: key.course_appIcon,
-        thumbnail: key.course_thumbnail,
-        name: key.course_name,
-        sourceName: key.course_sourceName,
-        issueCertification: key.course_issueCertification
-      }
-
-      myCourse.push(myCourseObject)
-
-    })
-
-    this.coursesForYou = myCourse
-    if (this.coursesForYou.length > 0) {
-      this.forYouCourseDisplayConfig = {
-        displayType: 'card-badges',
-        badges: {
-          certification: true,
-          rating: true,
-          sourceName: true
-        },
-      }
+      // Create new array reference so the uiConfig signal notifies Angular of the update
+      this.uiConfig.set([...this.uiConfig()])
     }
-  }
-  formatcneCourseResponse(res: any) {
-
-    const cneCourse = filter(res.result.content, ckey => {
-      return includes(this.cneCoursesIdentifier, ckey.identifier)
+    setTimeout(() => {
+      this.isLoading.set(false)
     })
-    this.cneCourse = uniqBy(cneCourse, 'identifier')
-    if (this.cneCourse.length > 0) {
-      this.CNECourseDisplayConfig = {
-        displayType: 'card-badges',
-        badges: {
-          cneName: true,
-          rating: true,
-          sourceName: true
-        },
-      }
-    }
-  }
-  formatFeaturedCourseResponse(res: any) {
-    const featuredCourse = filter(res.result.content, ckey => {
-      return includes(this.featuredCourseIdentifier, ckey.identifier)
-    })
-    this.featuredCourse = uniqBy(featuredCourse, 'identifier')
-  }
-
-  formatTopCertifiedCourseResponse(res: any) {
-
-    const topCertifiedCourse = filter(res.result.content, ckey => {
-      return includes(this.topCertifiedCourseIdentifier, ckey.identifier)
-    })
-
-    this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
-    if (this.topCertifiedCourse.length > 0) {
-      this.forYouCourseDisplayConfig = {
-        displayType: 'card-badges',
-        badges: {
-          certification: true,
-          rating: true,
-          sourceName: true
-        },
-      }
-    }
   }
 
   // For opening Course Page
   raiseTelemetry(contentIdentifier: any) {
     this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
   }
+
   // To view all course
-  viewAllCourse(courseType: string) {
-    if (courseType === 'continueLearning') {
-      this.router.navigate(['app/user/my_courses'])
-    } else if (courseType === 'formatForYouCourses') {
-      this.router.navigate(['app/user/my_courses'], { queryParams: { courseType } })
-    } else {
-      this.router.navigate(['app/search/topCourse'], { queryParams: { courseType } })
+  viewAllCourse(content: any) {
+    const courseType = content?.button?.courseType
+
+    // Desktop: "View All" always navigates to the full listing page on a single
+    // click. (Previously navigation was gated behind the expand/collapse toggle,
+    // so when all items were already shown it took two clicks — and the
+    // router.navigate() Promise was wrongly assigned to content.displayData.)
+    if (!this.isXSmall()) {
+      if (courseType == 'continueLearning' || courseType == 'completed' || courseType == 'formatForYouCourses') {
+        this.router.navigate(['app/user/my_courses'], { queryParams: { courseType } })
+      } else if (courseType == 'topCourse' || courseType == 'cneCourses') {
+        this.router.navigate(['app/search/topCourse'], {
+          queryParams: {
+            courseType,
+            data: courseType == 'topCourse' ? this.topCertifiedCourseIdentifier : this.cneCoursesIdentifier,
+          },
+        })
+      }
+      return
+    }
+
+    // Mobile: toggle inline expand / collapse.
+    const isViewingAll = content?.data?.length === content?.displayData?.length
+    if (courseType == 'continueLearning' || courseType == 'completed' || courseType == 'formatForYouCourses') {
+      const full = courseType == 'formatForYouCourses' ? this.coursesForYou() : this.userEnrollCourse
+      content.displayData = isViewingAll ? full.slice(0, content.limit) : full
+    } else if (courseType == 'topCourse' || courseType == 'cneCourses') {
+      const full = courseType == 'topCourse' ? this.topCertifiedCourse() : this.cneCourse()
+      content.displayData = isViewingAll ? full.slice(0, content.limit) : full
     }
   }
 
@@ -318,6 +384,14 @@ export class WebPublicComponent implements OnInit {
       },
     }
     this.router.navigate(['/app/video-player'], navigationExtras)
+  }
+
+  ngOnDestroy() {
+    if (this.courseRecommendationTimeout) {
+      clearTimeout(this.courseRecommendationTimeout)
+    }
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 
 }

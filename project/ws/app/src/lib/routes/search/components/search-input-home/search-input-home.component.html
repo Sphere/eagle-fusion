@@ -1,18 +1,19 @@
 <div class="flex items-center border search border-solid search-border">
   <div class="w-full search">
     <form (submit)="updateQuery(queryControl.value)">
-      <mat-form-field appearance="none" class="autocomplete-form" color="primary" [floatLabel]="'never'">
+      <mat-form-field appearance="outline" class="autocomplete-form" color="primary" floatLabel="never">
         <input type="search" id="search-field" #searchInput class="ml-2 search-placeholder"
-          i18n-placeholder="search content" placeholder="What do you want to learn today ?" i18-aria-label aria-label="Query" matInput
-          [formControl]="queryControl" [matAutocomplete]="auto" accesskey="F" />
+          i18n-placeholder="search content" placeholder="{{'What do you want to learn today ?' | translate}}"
+          i18n-aria-label aria-label="Query" matInput [formControl]="queryControl" [matAutocomplete]="auto"
+          accesskey="F" />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
           (optionSelected)="updateQuery($event.option.value)">
-          <mat-option *ngIf="queryControl.value" [value]="queryControl.value">{{ queryControl.value }}
+          <mat-option class="query" *ngIf="queryControl.value" [value]="queryControl.value">{{ queryControl.value }}
           </mat-option>
-          <mat-option *ngFor="let result of autoCompleteResults" [value]="result._source.searchTerm">
+          <mat-option class="auto" *ngFor="let result of autoCompleteResults" [value]="result._source.searchTerm">
             {{result._source.searchTerm}}
           </mat-option>
-          <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
+          <mat-option class="filtered" *ngFor="let option of filteredOptions$ | async" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>

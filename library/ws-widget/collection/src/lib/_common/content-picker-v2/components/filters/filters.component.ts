@@ -2,16 +2,18 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { IAppliedFilters, IFilter, IIncludedFilters } from '../../content-picker-v2.model'
 
 @Component({
-  selector: 'ws-widget-filters',
-  templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-filters',
+    templateUrl: './filters.component.html',
+    styleUrls: ['./filters.component.scss'],
+    
 })
 export class FiltersComponent implements OnInit {
 
   @Input()
-  includedFilters: IIncludedFilters = {}
+  includedFilters!: IIncludedFilters
   @Input()
-  preAppliedFilters: IFilter = {}
+  preAppliedFilters!: IFilter
 
   @Output()
   appliedFiltersEmitter = new EventEmitter<IAppliedFilters>()
@@ -20,7 +22,7 @@ export class FiltersComponent implements OnInit {
   closeSideNav = new EventEmitter()
 
   appliedFilters: IAppliedFilters = {}
-  objKeys = Object.keys
+  objKeys: string[] = []
 
   constructor() { }
 
@@ -45,6 +47,7 @@ export class FiltersComponent implements OnInit {
       this.appliedFilters[key] = new Set(this.preAppliedFilters[key])
     })
     this.appliedFiltersEmitter.emit(this.appliedFilters)
+    this.objKeys = Object.keys(this.includedFilters)
   }
 
 }

@@ -6,7 +6,6 @@ import { SharedModule } from '@ws/author/src/lib/modules/shared/shared.module'
 import { AuthViewerModule } from '@ws/author/src/lib/modules/viewer/viewer.module'
 import { EditorSharedModule } from '@ws/author/src/lib/routing/modules/editor/shared/shared.module'
 import { CurateModule } from './../curate/curate.module'
-import { UploadModule } from './../upload/upload.module'
 import { CollectionRoutingModule } from './collection-routing.module'
 import { AuthCollectionMatmenuComponent } from './components/auth-collection-matmenu/auth-collection-matmenu.component'
 import { AuthEditorOptionsComponent } from './components/auth-editor-options/auth-editor-options.component'
@@ -45,7 +44,6 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     MatTreeModule,
     DragDropModule,
     AuthViewerModule,
-    UploadModule,
     CurateModule,
     QuizModule,
     MatToolbarModule,

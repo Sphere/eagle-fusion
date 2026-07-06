@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .main {
   display: flex;
@@ -22,7 +22,7 @@
   font-size: 35px;
   line-height: 58px;
   letter-spacing: -0.02em;
-  color: #89c575;
+  color: var(--theme-success, #89c575);
 }
 
 .better-luck {
@@ -60,29 +60,28 @@
   text-align: center;
   letter-spacing: -0.02em;
 
-  color: #1c5d95;
+  color: var(--theme-accent);
 }
 
 .next-btn {
   border-radius: 50px;
   width: 100px !important;
   height: 38px !important;
-  color: #1c5d95 !important;
-  // border-color: #1C5D95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-accent) !important;
+  border: 1px solid var(--theme-accent) !important;
 
-  @include breakpoint-xs {}
+  @include ws-mixins.breakpoint-xs {}
 }
 
 .btn-active {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-accent) !important;
   color: #ffffff !important;
 }
 
 
 
 .mat-column-response {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 28% !important;
@@ -94,5 +93,33 @@
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+  }
+}
+
+:host-context(.dark-theme) {
+  .main,
+  .main .child,
+  .better-luck,
+  .correct-answer,
+  .answer-title,
+  span,
+  h1,
+  h2,
+  h3,
+  p,
+  div {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .next-btn {
+    color: var(--theme-text, #ecf3f8) !important;
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
+    background: var(--theme-surface, #0e161b) !important;
+  }
+
+  .btn-active {
+    background: #000 !important;
+    border-color: #000 !important;
+    color: var(--theme-text, #ecf3f8) !important;
   }
 }

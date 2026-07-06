@@ -1,18 +1,22 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, Input, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { FormGroup } from '@angular/forms'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-  selector: 'ws-your-background',
-  templateUrl: './your-background.component.html',
-  styleUrls: ['./your-background.component.scss'],
+    standalone: false,
+    selector: 'ws-your-background',
+    templateUrl: './your-background.component.html',
+    styleUrls: ['./your-background.component.scss'],
+    
 })
 export class YourBackgroundComponent implements OnInit {
-  @Input() aboutYou: any
+  @Input() aboutYou!: FormGroup
   bgImgSelect: any
   almostDone = false
   professions: any
@@ -26,12 +30,14 @@ export class YourBackgroundComponent implements OnInit {
   professionUrl = '../../../fusion-assets/files/professions.json'
   constructor(
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     private activateRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private UserAgentResolverService: UserAgentResolverService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -43,6 +49,7 @@ export class YourBackgroundComponent implements OnInit {
       } else {
         this.professions = data.professions
       }
+      this.cdr.detectChanges()
     })
     this.nextBtnDisable = true
   }
@@ -66,7 +73,7 @@ export class YourBackgroundComponent implements OnInit {
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // ✅ Use LanguageService instead of checking location.href
     this.selectedAddress = this.aboutYou.value.country
     if (this.aboutYou.value.state) {
       this.selectedAddress += ', ' + `${this.aboutYou.value.state}`
@@ -94,10 +101,13 @@ export class YourBackgroundComponent implements OnInit {
         delete userObject[key]
       }
     })
+
     const reqUpdate = {
       request: {
         userId: this.userId,
+        // personalDetails: userObject,
         profileDetails: {
+          userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
           profileLocation: 'sphere-web/your-background',
           profileReq: {
             id: this.userId,
@@ -110,12 +120,7 @@ export class YourBackgroundComponent implements OnInit {
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
-        if (local === 'en') {
-          this.openSnackbar('User profile details updated successfully!')
-        } else {
-          this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-        }
-
+        this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
       }
     })
   }
@@ -138,7 +143,7 @@ export class YourBackgroundComponent implements OnInit {
       }
     }
   }
-  private openSnackbar(primaryMsg: string, duration: number = 2000) {
+  private openSnackbar(primaryMsg: string, duration = 2000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

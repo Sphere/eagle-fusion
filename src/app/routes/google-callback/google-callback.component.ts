@@ -5,9 +5,11 @@ import { SignupService } from '../signup/signup.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
-  selector: 'ws-google-callback',
-  templateUrl: './google-callback.component.html',
-  styleUrls: ['./google-callback.component.scss'],
+    standalone: false,
+    selector: 'ws-google-callback',
+    templateUrl: './google-callback.component.html',
+    styleUrls: ['./google-callback.component.scss'],
+    
 })
 export class GoogleCallbackComponent implements OnInit {
 
@@ -23,11 +25,11 @@ export class GoogleCallbackComponent implements OnInit {
     const req = {
       idToken: tokenurl[1].replace('id_token=', ''),
     }
-    // console.log(req.idToken)
+    // this.logger.log(req.idToken)
     // const storageItem1 = localStorage.getItem(`google_token`)
     const url = this.router.url
     // let resStr = req.idToken.localeCompare(storageItem1)
-    // console.log(resStr)
+    // this.logger.log(resStr)
     // const storageItem2 = localStorage.getItem(`google_isSignedIn`)
     if (url.includes('/google/callback')) {
       // this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
@@ -58,7 +60,7 @@ export class GoogleCallbackComponent implements OnInit {
       )
     }
   }
-  private openSnackbar(primaryMsg: string, duration: number = 3000) {
+  private openSnackbar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

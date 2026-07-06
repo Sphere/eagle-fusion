@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .trusted-by-container {
     display: flex;
@@ -7,20 +7,54 @@
     // padding-left: 100px;
     padding: 0px 85px;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         padding-left: 20px;
     }
 
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
         padding-left: 30px;
     }
+}
 
+.containerMob {
+    margin: 1.5rem;
+    padding: 0;
+    .trusted-by-heading {
+        font-size: 24px !important;
+        line-height: 29px !important;
+    }
+    .trusted-by-ord-heading {
+        font-size: 16px !important;
+        line-height: 24px !important;
+    }
+    .trusted-by-img-container {
+        flex-direction: column;
+        gap: 2px;
 
+        .trusted-by-img2, .trusted-by-img3, .trusted-by-img4{
+            width: 28%;
+            margin-right: 25px;
+            filter: var(--theme-icon-filter);
+        }
+    }
+
+    .rmc-block {
+        flex-direction: column;
+        margin-top: 12px;
+
+        .trusted-by-img8{
+            width: 16%;
+        }
+
+        .button-wrai-rmc {
+            margin-top: 10px;
+        }
+    }
 }
 
 .trusted-by-heading {
     /* Header 2 */
-    color: #000;
+    color: var(--theme-text);
     font-family: 'Roboto', sans-serif !important;
     font-size: 36px !important;
     font-style: normal !important;
@@ -30,10 +64,7 @@
 }
 
 .trusted-by-ord-heading {
-    /* Body */
-    color: #000000;
-
-    color: #000;
+    color: var(--theme-text);
     font-family: 'Roboto', sans-serif;
     font-size: 24px;
     font-style: normal;
@@ -49,13 +80,13 @@
     align-items: center;
     gap: 8px;
     border-radius: 50px;
-    border: 1px solid #2E6491 !important;
-    color: #2E6491 !important;
+    border: 1px solid var(--theme-accent)!important;
+    color: var(--theme-accent)!important;
     ;
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         padding: 4px 4px;
     }
 }
@@ -64,7 +95,7 @@
     width: 375px;
     height: 325px;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         width: 300px;
         height: 290px;
     }
@@ -74,12 +105,12 @@
     width: 760px;
     height: 250px;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         width: 414px;
         height: 150px;
     }
 
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
         width: 500px;
         height: 250px;
     }
@@ -108,7 +139,7 @@
     position: relative;
     margin-top: 30px;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         left: 17px;
     }
 }
@@ -123,7 +154,7 @@
 
     letter-spacing: -0.02em;
 
-    color: #1C5D95 !important;
+    color: var(--theme-accent) !important;
     margin-right: 15px;
 }
 
@@ -237,4 +268,8 @@
     .hr-line {
         width: 400px;
     }
+}
+
+img.trusted-by-img2, .trusted-by-img3, .trusted-by-img4, .trusted-by-img5, .trusted-by-img6, .trusted-by-img7 {
+  filter: var(--theme-icon-filter) !important;
 }

@@ -1,4 +1,4 @@
-import { FlatTreeControl } from '@angular/cdk/typings/tree'
+import { FlatTreeControl } from '@angular/cdk/tree'
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, AfterViewInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -11,18 +11,20 @@ import { AuthInitService } from '@ws/author/src/lib/services/init.service'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { EditorContentService } from '../../../../../services/editor-content.service'
 import { IContentNode } from '../../interface/icontent-tree'
-import { AuthPickerComponent } from './../../../../../shared/components/auth-picker/auth-picker.component'
+// import { AuthPickerComponent } from './../../../../../shared/components/auth-picker/auth-picker.component'
 import { IContentTreeNode } from './../../interface/icontent-tree'
 import { CollectionStoreService } from './../../services/store.service'
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { map } from 'rxjs/operators'
 
-declare var $: any
+declare let $: any
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ws-author-auth-toc',
-  templateUrl: './auth-toc.component.html',
-  styleUrls: ['./auth-toc.component.scss'],
+    standalone: false,
+    // tslint:disable-next-line:component-selector
+    selector: 'ws-author-auth-toc',
+    templateUrl: './auth-toc.component.html',
+    styleUrls: ['./auth-toc.component.scss'],
+    
 })
 export class AuthTocComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() createdFromCourse: any
@@ -338,14 +340,14 @@ export class AuthTocComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async addChildOrSibling(node: IContentTreeNode, asSibling = false) {
     const children = (node.children || []).map(v => this.store.uniqueIdMap.get(v))
-    const dialogRef = this.dialog.open(AuthPickerComponent, {
-      width: '90vw',
-      height: '90vh',
-      data: {
-        filter: this.authInitService.collectionConfig.childrenConfig[node.category].searchFilter,
-        selectedIds: children,
-      },
-    })
+    // const dialogRef = this.dialog.open(AuthPickerComponent, {
+    //   width: '90vw',
+    //   height: '90vh',
+    //   data: {
+    //     filter: this.authInitService.collectionConfig.childrenConfig[node.category].searchFilter,
+    //     selectedIds: children,
+    //   },
+    // })
     this.preserveExpandedNodes()
     dialogRef.afterClosed().subscribe(async (contents: string[]) => {
       if (contents && contents.length) {

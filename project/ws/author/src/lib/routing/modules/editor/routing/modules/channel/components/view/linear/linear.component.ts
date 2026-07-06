@@ -3,9 +3,11 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core'
 import { ChannelStoreService } from './../../../services/store.service'
 
 @Component({
-  selector: 'ws-auth-linear',
-  templateUrl: './linear.component.html',
-  styleUrls: ['./linear.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-linear',
+    templateUrl: './linear.component.html',
+    styleUrls: ['./linear.component.scss'],
+    
 })
 export class LinearComponent implements OnInit, OnChanges {
 

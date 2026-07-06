@@ -1,16 +1,160 @@
-.parent{
+.parent {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    flex-wrap: nowrap;
 }
+
 .child {
-    flex: 1;
-    text-align: center;
-    background-color: #E7F2FA !important;
-    padding-top: 0.75rem !important;
-    padding-bottom: 0.75rem !important;
-    border-radius: 0px !important;
-    pointer-events: auto;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 12px 28px !important;
+    border: 2px solid var(--theme-progress, #469588) !important;
+    border-radius: 30px !important;
+    background-color: transparent !important;
+    color: var(--theme-progress, #469588) !important;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 150px;
+    text-decoration: none;
+    text-transform: none;
+    box-sizing: border-box;
+    white-space: nowrap;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(70, 151, 136, 0.2);
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    img {
+        height: 20px;
+        width: 20px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    span {
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+    }
+}
+
+// Previous button - Outlined style
+.prev-btn {
+    border: 2px solid var(--theme-progress, #469588) !important;
+    background-color: transparent !important;
+    color: var(--theme-progress, #469588) !important;
+
+    img {
+        filter: brightness(0) saturate(100%) invert(50%) sepia(54%) saturate(396%) hue-rotate(136deg) brightness(93%) contrast(87%);
+    }
+
+    &:disabled {
+        border: 2px solid var(--theme-progress, #469588) !important;
+        background-color: transparent !important;
+        color: var(--theme-progress, #469588) !important;
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+
+        img {
+            filter: brightness(0) saturate(100%) invert(50%) sepia(54%) saturate(396%) hue-rotate(136deg) brightness(93%) contrast(87%);
+            opacity: 0.5;
+        }
+    }
+}
+
+// Next button - Filled style
+.next-btn {
+    border: 2px solid var(--theme-progress, #469588) !important;
+    background-color: var(--theme-progress, #469588) !important;
+    color: white !important;
+
+    img {
+        filter: brightness(0) invert(1);
+    }
+
+    &:disabled {
+        border: 2px solid var(--theme-progress, #469588) !important;
+        background-color: transparent !important;
+        color: var(--theme-progress, #469588) !important;
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+
+        img {
+            filter: brightness(0) saturate(100%) invert(50%) sepia(54%) saturate(396%) hue-rotate(136deg) brightness(93%) contrast(87%);
+            opacity: 0.5;
+        }
+    }
 }
 
 .disableButton {
     pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+// Override mat-button styles
+::ng-deep .child.mat-mdc-button {
+    min-width: auto !important;
+    padding: 12px 28px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+::ng-deep .child.mat-mdc-button .mdc-button__label {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+::ng-deep .child.mat-mdc-button:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+
+@media (max-width: 599px) {
+    .parent {
+        gap: 12px;
+        padding: 0 12px;
+    }
+
+    .child {
+        padding: 10px 16px !important;
+        min-width: unset !important;
+        flex: 1;
+        font-size: 14px;
+
+        span {
+            font-size: 14px;
+        }
+
+        img {
+            height: 16px;
+            width: 16px;
+        }
+    }
+
+    ::ng-deep .child.mat-mdc-button {
+        padding: 10px 16px !important;
+    }
 }

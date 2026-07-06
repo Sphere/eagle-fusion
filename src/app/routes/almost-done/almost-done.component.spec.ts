@@ -1,81 +1,72 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+jest.mock('src/app/routes/signup/signup.service', () => ({
+  SignupService: class {
+    fetchStartUpDetails = jest.fn().mockResolvedValue({})
+    keyClockLogin = jest.fn()
+  },
+}))
+jest.mock('src/app/services/user-agent.service', () => ({
+  UserAgentResolverService: class {},
+}))
+jest.mock('src/app/services/user-data-cache.service', () => ({
+  UserDataCacheService: class {},
+}))
+jest.mock('../../../../library/ws-widget/utils/src/public-api', () => ({
+  LoggerService: class {
+    log = jest.fn()
+    warn = jest.fn()
+    error = jest.fn()
+  },
+}))
+
 import { AlmostDoneComponent } from './almost-done.component'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { SignupService } from 'src/app/routes/signup/signup.service'
-import { MatInputModule } from '@angular/material/input'
-import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { RouterTestingModule } from '@angular/router/testing'
+import { FormBuilder } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
-import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { HttpClient } from '@angular/common/http'
-import { UserAgentResolverService } from '../../services/user-agent.service'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { of } from 'rxjs'
 
-const mockConfigService: Partial<ConfigurationsService> = {}
-const mockUserProfileService: Partial<UserProfileService> = {}
-const mockRouterService: Partial<Router> = {}
-const mockActivatedRouteService: Partial<ActivatedRoute> = {}
-const mockHttpService: Partial<HttpClient> = {}
-const mockUserAgentService: Partial<UserAgentResolverService> = {}
-const mockSignupService: Partial<SignupService> = {}
-
-const mockFormBuilder: Partial<FormBuilder> = {
-  group: jest.fn()
-}
-const mockMatSnackBar: Partial<MatSnackBar> = {
-  open: jest.fn()
-}
-
-describe('PublicLoginComponent', () => {
+describe('AlmostDoneComponent', () => {
   let component: AlmostDoneComponent
-  let fixture: ComponentFixture<AlmostDoneComponent>
-  beforeAll(() => {
-    component = new AlmostDoneComponent(
-      mockConfigService as ConfigurationsService,
-      mockUserProfileService as UserProfileService,
-      // mockRouterService as Router,
-      mockMatSnackBar as MatSnackBar,
-      mockFormBuilder as FormBuilder,
-      mockActivatedRouteService as ActivatedRoute,
-      mockHttpService as HttpClient,
-      mockUserAgentService as UserAgentResolverService,
-      mockSignupService as SignupService,
 
+  const mockConfigService = {} as ConfigurationsService
+  const mockUserProfileService = {
+    updateProfileDetails: jest.fn().mockReturnValue(of({ params: { status: 'SUCCESS' }, result: {} })),
+  } as any
+  const mockMatSnackBar = { open: jest.fn() } as unknown as MatSnackBar
+  const mockActivatedRoute = { queryParams: of({}), data: of({}) } as any
+  const mockHttpClient = { get: jest.fn().mockReturnValue(of({})) } as any
+  const mockUserAgentService = { getUserAgent: jest.fn().mockReturnValue('Mozilla/5.0'), generateCookie: jest.fn().mockReturnValue('') } as any
+  const mockSignupService = { fetchStartUpDetails: jest.fn().mockResolvedValue({}), keyClockLogin: jest.fn() } as any
+  const mockLoggerService = { log: jest.fn(), warn: jest.fn(), error: jest.fn() } as any
+  const mockTranslateService = { instant: jest.fn().mockReturnValue('') } as any
+
+  const fb = new FormBuilder()
+
+  beforeEach(() => {
+    component = new AlmostDoneComponent(
+      mockConfigService,
+      mockUserProfileService,
+      mockMatSnackBar,
+      fb as any,
+      mockActivatedRoute,
+      mockHttpClient,
+      mockUserAgentService,
+      mockSignupService,
+      mockLoggerService,
+      mockTranslateService
     )
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist' } }
+    component.backgroundSelect = ''
+    component.ngOnInit()
   })
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [AlmostDoneComponent],
-      imports: [RouterModule, MatInputModule, MatSnackBarModule, BrowserAnimationsModule, ReactiveFormsModule, RouterTestingModule],
-      providers: [
-        FormBuilder,
-        { provide: ConfigurationsService, useValue: mockConfigService },
-        { provide: UserProfileService, useValue: mockUserProfileService },
-        { provide: Router, useValue: mockRouterService },
-        { provide: HttpClient, useValue: mockHttpService },
-        { provide: ActivatedRoute, useValue: mockActivatedRouteService },
-        { provide: UserAgentResolverService, useValue: mockUserAgentService },
-        { provide: SignupService, useValue: mockSignupService },
-        { provide: MatSnackBar, useValue: jest.fn() }
-      ],
-    })
-      .compileComponents()
-  })
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AlmostDoneComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
-  beforeEach(() => {
+
+  afterEach(() => {
     jest.clearAllMocks()
   })
-
-
 
   it('should create the component', () => {
     expect(component).toBeTruthy()
   })
+
   it('should initialize almostDoneForm and createUserForm', () => {
     expect(component.almostDoneForm).toBeDefined()
     expect(component.createUserForm).toBeDefined()
@@ -98,7 +89,7 @@ describe('PublicLoginComponent', () => {
   })
 
   it('should call redirectToParent.emit() on redirectToYourBackground()', () => {
-    spyOn(component.redirectToParent, 'emit')
+    jest.spyOn(component.redirectToParent, 'emit')
     component.redirectToYourBackground()
     expect(component.redirectToParent.emit).toHaveBeenCalledWith('true')
   })
@@ -108,7 +99,7 @@ describe('PublicLoginComponent', () => {
     component.backgroundSelect = 'Background'
     component.almostDoneForm.controls.professSelected.setValue('ASHA')
     component.almostDoneForm.controls.locationselect.setValue('Location')
-    spyOn(component, 'updateProfile')
+    jest.spyOn(component, 'updateProfile')
 
     component.onsubmit()
 
@@ -119,7 +110,7 @@ describe('PublicLoginComponent', () => {
     component.profession = 'Profession'
     component.createUserForm.controls.designation.setValue('Designation')
     component.almostDoneForm.controls.profession.setValue('Profession')
-    spyOn(component.almostDoneForm.controls.professionOtherSpecify, 'clearValidators')
+    jest.spyOn(component.almostDoneForm.controls.professionOtherSpecify, 'clearValidators')
 
     component.professionSelect('New Profession')
 
@@ -132,7 +123,7 @@ describe('PublicLoginComponent', () => {
 
   it('should update orgType and enableSubmit on orgTypeSelect()', () => {
     component.almostDoneForm.controls.orgType.setValue('OrgType')
-    spyOn(component.almostDoneForm.controls.orgOtherSpecify, 'clearValidators')
+    jest.spyOn(component.almostDoneForm.controls.orgOtherSpecify, 'clearValidators')
 
     component.orgTypeSelect('New OrgType')
 
@@ -141,5 +132,241 @@ describe('PublicLoginComponent', () => {
     expect(component.orgOthersField).toBeFalsy()
   })
 
+  it('should set professionOthersField true and add validators when Others selected', () => {
+    component.professionSelect('Others')
+    expect(component.professionOthersField).toBe(true)
+    expect(component.rnFieldDisabled).toBe(true)
+  })
 
+  it('should set professionOthersField false and set null when null selected', () => {
+    component.professionSelect('null')
+    expect(component.professionOthersField).toBe(false)
+    expect(component.almostDoneForm.controls.profession.value).toBeNull()
+  })
+
+  it('should enable rnField for Midwives', () => {
+    component.professionSelect('Midwives')
+    expect(component.rnFieldDisabled).toBe(false)
+  })
+
+  it('should enable rnField for ANM/MPW', () => {
+    component.professionSelect('ANM/MPW')
+    expect(component.rnFieldDisabled).toBe(false)
+  })
+
+  it('should set orgOthersField true when Others is selected in orgTypeSelect', () => {
+    component.orgTypeSelect('Others')
+    expect(component.orgOthersField).toBe(true)
+  })
+
+  it('should set orgType null when null is passed to orgTypeSelect', () => {
+    component.orgTypeSelect('null')
+    expect(component.almostDoneForm.controls.orgType.value).toBeNull()
+  })
+
+  it('should compute getDegree and getAcademics', () => {
+    component.studentCourse = 'BSC Nursing'
+    component.studentInstitute = 'AIIMS'
+    const degrees = component.getDegree('GRADUATE')
+    expect(degrees).toHaveLength(1)
+    expect(degrees[0].nameOfQualification).toBe('BSC Nursing')
+    expect(degrees[0].nameOfInstitute).toBe('AIIMS')
+
+    const academics = component.getAcademics()
+    expect(academics).toHaveLength(1)
+  })
+
+  it('should build org object in getOrganisationsHistory for normal backgroundSelect', () => {
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Public')
+    component.almostDoneForm.controls.orgName.setValue('Apollo')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs).toHaveLength(1)
+    expect(orgs[0].orgType).toBe('Public')
+    expect(orgs[0].name).toBe('Apollo')
+    expect(orgs[0].designation).toBe('Nurse')
+  })
+
+  it('should add ASHA-specific fields to org in getOrganisationsHistory', () => {
+    component.backgroundSelect = 'ASHA'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('PHC')
+    component.almostDoneForm.controls.profession.setValue('ASHA')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.locationselect.setValue('District1')
+    component.almostDoneForm.controls.block.setValue('Block1')
+    component.almostDoneForm.controls.professSelected.setValue('ASHA')
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs[0].locationselect).toBe('District1')
+    expect(orgs[0].block).toBe('Block1')
+  })
+
+  it('should build constructReq without userProfile', () => {
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990-01-01', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    const req = component.constructReq()
+    expect(req).toHaveProperty('profileReq')
+    expect(req.profileReq.personalDetails.dob).toBe('1990-01-01')
+  })
+
+  it('should call updateProfileDetails on updateProfile', async () => {
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990-01-01', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.updateProfile()
+    expect(mockUserProfileService.updateProfileDetails).toHaveBeenCalled()
+  })
+
+  it('should set hideAsha true when country is not India', async () => {
+    component.yourBackground = { value: { country: 'USA', state: '', distict: '' } }
+    await component.ngOnInit()
+    expect(component.hideAsha).toBe(true)
+  })
+
+  it('assignFields profession case should set designation', () => {
+    component.assignFields('profession', 'Nurse', {})
+    expect(component.createUserForm.controls.designation.value).toBe('Nurse')
+  })
+
+  it('assignFields block case should set blockEntered', () => {
+    component.assignFields('block', 'Block A', {})
+    expect(component.blockEntered).toBe(true)
+    component.assignFields('block', '', {})
+    expect(component.blockEntered).toBe(false)
+  })
+
+  it('assignFields subcentre case should set subcentreEntered', () => {
+    component.assignFields('subcentre', 'Sub A', {})
+    expect(component.subcentreEntered).toBe(true)
+  })
+
+  it('assignFields locationselect case should set form value', () => {
+    component.assignFields('locationselect', 'Location A', {})
+    expect(component.almostDoneForm.controls.locationselect.value).toBe('Location A')
+  })
+
+  it('openSnackbar should call snackBar.open', () => {
+    component.openSnackbar('Test message')
+    expect(mockMatSnackBar.open).toHaveBeenCalledWith('Test message', undefined, { duration: 2000 })
+  })
+
+  it('ngOnInit with ASHA backgroundSelect triggers http.get subscribe and map callback', async () => {
+    const statesData = { states: [{ state: 'UP', districts: ['Dist1', 'Dist2'] }] }
+    mockHttpClient.get.mockReturnValue(of(statesData))
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist1' } }
+    component.backgroundSelect = 'ASHA'
+    await component.ngOnInit()
+    expect(component.disticts).toEqual(['Dist1', 'Dist2'])
+  })
+
+  it('chooseBackground Asha Facilitator triggers http.get subscribe and map callback', () => {
+    const statesData = { states: [{ state: 'UP', districts: ['D1', 'D2'] }] }
+    mockHttpClient.get.mockReturnValue(of(statesData))
+    component.yourBackground = { value: { state: 'UP', distict: 'D1' } }
+    component.chooseBackground('Asha Facilitator')
+    expect(component.disticts).toEqual(['D1', 'D2'])
+  })
+
+  it('chooseBackground Asha Trainer triggers http.get subscribe and map callback', () => {
+    const statesData = { states: [{ state: 'MH', districts: ['Pune'] }] }
+    mockHttpClient.get.mockReturnValue(of(statesData))
+    component.yourBackground = { value: { state: 'MH', distict: 'Pune' } }
+    component.chooseBackground('Asha Trainer')
+    expect(component.disticts).toEqual(['Pune'])
+  })
+
+  it('assignFields with Healthcare Volunteer triggers valueChanges callback', () => {
+    component.backgroundSelect = 'Healthcare Volunteer'
+    component.assignFields('profession', 'Nurse', {})
+    component.almostDoneForm.controls.professSelected.setValue('ASHA')
+    expect(component.enableSubmit).toBe(false)
+  })
+
+  it('assignFields with Student triggers valueChanges callback on instituteName change', () => {
+    component.backgroundSelect = 'Student'
+    component.assignFields('institutionName', 'College', {})
+    ;(component.almostDoneForm.controls as any).instituteName.setValue('AIIMS')
+    expect(component.enableSubmit).toBe(false)
+  })
+
+  it('assignFields organizationType case sets orgType', () => {
+    component.assignFields('organizationType', 'Private', {})
+    expect(component.createUserForm.controls.orgType.value).toBe('Private')
+  })
+
+  it('assignFields organizationName case sets orgName', () => {
+    component.assignFields('organizationName', 'Apollo Hospital', {})
+    expect(component.createUserForm.controls.orgName.value).toBe('Apollo Hospital')
+  })
+
+  it('assignFields coursename case sets studentCourse', () => {
+    component.assignFields('coursename', 'BSc Nursing', {})
+    expect(component.studentCourse).toBe('BSc Nursing')
+  })
+
+  it('assignFields institutionName sets studentInstitute when not faculty', () => {
+    component.profession = 'nurse'
+    component.assignFields('institutionName', 'AIIMS', {})
+    expect(component.studentInstitute).toBe('AIIMS')
+  })
+
+  it('assignFields institutionName sets orgName when profession is faculty', () => {
+    component.profession = 'faculty'
+    component.almostDoneForm.controls.orgName.setValue('')
+    component.assignFields('institutionName', 'Delhi College', {})
+    expect(component.createUserForm.controls.orgName.value).toBe('Delhi College')
+  })
+
+  it('getOrganisationsHistory adds Others selectBackground field', () => {
+    component.backgroundSelect = 'Others'
+    component.almostDoneForm.controls.orgType.setValue('Private')
+    component.almostDoneForm.controls.orgName.setValue('Test Org')
+    component.almostDoneForm.controls.profession.setValue('Doctor')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.selectBackground.setValue('Asha Facilitator')
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs[0].selectBackground).toBe('Asha Facilitator')
+  })
+
+  it('getOrganisationsHistory Student adds qualification and instituteName', () => {
+    component.backgroundSelect = 'Student'
+    component.almostDoneForm.controls.orgType.setValue('Education')
+    component.almostDoneForm.controls.orgName.setValue('University')
+    component.almostDoneForm.controls.profession.setValue('Student')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.courseName.setValue('MBBS')
+    ;(component.almostDoneForm.controls as any).instituteName.setValue('AIIMS')
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs[0].qualification).toBe('MBBS')
+    expect(orgs[0].instituteName).toBe('AIIMS')
+  })
+
+  it('constructReq uses configSvc.userProfile when present', () => {
+    ;(mockConfigService as any).userProfile = { email: 'nurse@example.com', firstName: 'John', middleName: 'K', lastName: 'Doe' }
+    ;(mockConfigService as any).unMappedUser = { id: 'u-123' }
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'D1', dob: '1990-01-01', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Public')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    const req = component.constructReq()
+    expect(req.profileReq.personalDetails.primaryEmail).toBe('nurse@example.com')
+  })
 })

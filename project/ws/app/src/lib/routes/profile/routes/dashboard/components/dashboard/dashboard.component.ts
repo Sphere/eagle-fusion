@@ -30,9 +30,11 @@ import {
 //   data: ITimeSpent
 // }
 @Component({
-  selector: 'ws-app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+    standalone: false,
+    selector: 'ws-app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
+    
 })
 
 export class DashboardComponent implements OnInit {

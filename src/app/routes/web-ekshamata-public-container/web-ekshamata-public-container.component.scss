@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .left-container-block{
   display: flex;
@@ -22,7 +22,7 @@
     justify-content: center;
     align-items: center;
     gap: 8px;
-    background-color: #2E6491 !important;
+    background-color: var(--theme-accent, #2E6491) !important;
     border-radius: 50px;
     color: #FFFFFF !important;
     font-family: Roboto, sans-serif;
@@ -62,7 +62,7 @@ height: 132px;
   color: #000000;
 }
 .blue-text{
-  color: #1C5D95;
+  color: var(--theme-accent);
 }
 .font-16{
 font-size: 16px;
@@ -144,7 +144,7 @@ font-weight: 500;
     .ekshamata-bottom-leaf-container{
         display: flex;
         justify-content: center;
-        align-items: end;
+        align-items: flex-end;
         position: fixed;
         bottom: 0;
     }

@@ -5,9 +5,11 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
 import mustache from 'mustache'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 @Component({
-  selector: 'ws-widget-element-html',
-  templateUrl: './element-html.component.html',
-  styleUrls: ['./element-html.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-element-html',
+    templateUrl: './element-html.component.html',
+    styleUrls: ['./element-html.component.scss'],
+    
 })
 export class ElementHtmlComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<IWidgetElementHtml> {
@@ -26,23 +28,31 @@ export class ElementHtmlComponent extends WidgetBaseComponent
     } else if (this.widgetData.template && this.widgetData.templateDataUrl) {
       try {
         const data = await this.http.get<any>(this.widgetData.templateDataUrl).toPromise()
-        this.render(this.widgetData.template, data)
+        if (data && this.widgetData.template) {
+          this.render(this.widgetData.template, data)
+        }
       } catch (er) { }
     } else if (this.widgetData.templateUrl && this.widgetData.templateData) {
       // For template, response needs to be modiefed
-      const template = await this.http
-        .get<string>(this.widgetData.templateUrl, {
-          headers,
-        })
-        .toPromise()
-      this.render(template, this.widgetData.templateData)
+      try {
+        const template = await this.http
+          .get<string>(this.widgetData.templateUrl, {
+            headers,
+          })
+          .toPromise()
+        if (template) {
+          this.render(template, this.widgetData.templateData)
+        }
+      } catch (er) { }
     } else if (this.widgetData.templateUrl && this.widgetData.templateDataUrl) {
       try {
         const [template, data] = await Promise.all([
           this.http.get<string>(this.widgetData.templateUrl, { headers }).toPromise(),
           this.http.get<any>(this.widgetData.templateDataUrl).toPromise(),
         ])
-        this.render(template, data)
+        if (template && data) {
+          this.render(template, data)
+        }
       } catch (er) { }
     }
   }

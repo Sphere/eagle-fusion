@@ -9,9 +9,11 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { IWidgetErrorServiceUnavailable } from './error-service-unavailable.model'
 
 @Component({
-  selector: 'ws-widget-error-service-unavailable',
-  templateUrl: './error-service-unavailable.component.html',
-  styleUrls: ['./error-service-unavailable.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-error-service-unavailable',
+    templateUrl: './error-service-unavailable.component.html',
+    styleUrls: ['./error-service-unavailable.component.scss'],
+    
 })
 export class ErrorServiceUnavailableComponent implements OnInit, OnDestroy {
   @Input() errorData: IWidgetErrorServiceUnavailable | null = null

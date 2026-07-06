@@ -7,9 +7,11 @@ import { ViewerUtilService } from '../../viewer-util.service'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 
 @Component({
-  selector: 'viewer-audio-native',
-  templateUrl: './audio-native.component.html',
-  styleUrls: ['./audio-native.component.scss'],
+    standalone: false,
+    selector: 'viewer-audio-native',
+    templateUrl: './audio-native.component.html',
+    styleUrls: ['./audio-native.component.scss'],
+    
 })
 export class AudioNativeComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
@@ -31,7 +33,7 @@ export class AudioNativeComponent implements OnInit, OnDestroy {
     private valueSvc: ValueService,
     private viewerSvc: ViewerUtilService,
     private configSvc: ConfigurationsService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.configSvc.instanceConfig) {
@@ -61,10 +63,10 @@ export class AudioNativeComponent implements OnInit, OnDestroy {
         if (this.audioData && this.audioData.artifactUrl.indexOf('content-store') >= 0) {
           await this.setS3Cookie(this.audioData.identifier)
         }
-        this.saveContinueLearning(this.audioData)
+        // this.saveContinueLearning(this.audioData)
         this.isFetchingDataComplete = true
       },
-      () => {},
+      () => { },
     )
   }
 
@@ -80,17 +82,17 @@ export class AudioNativeComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveContinueLearning(content: NsContent.IContent | null) {
-    this.contentSvc
-      .saveContinueLearning({
-        contextPathId: content ? content.identifier : '',
-        resourceId: content ? content.identifier : '',
-        data: JSON.stringify({ timestamp: Date.now() }),
-        dateAccessed: Date.now(),
-      })
-      .toPromise()
-      .catch()
-  }
+  // saveContinueLearning(content: NsContent.IContent | null) {
+  //   this.contentSvc
+  //     .saveContinueLearning({
+  //       contextPathId: content ? content.identifier : '',
+  //       resourceId: content ? content.identifier : '',
+  //       data: JSON.stringify({ timestamp: Date.now() }),
+  //       dateAccessed: Date.now(),
+  //     })
+  //     .toPromise()
+  //     .catch()
+  // }
 
   formDiscussionForumWidget(content: NsContent.IContent) {
     this.discussionForumWidget = {

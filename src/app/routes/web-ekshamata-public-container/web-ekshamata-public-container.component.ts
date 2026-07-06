@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, effect, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
-import { Observable } from 'rxjs'
+import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'web-ekshamata-public-container',
-  templateUrl: './web-ekshamata-public-container.component.html',
-  styleUrls: ['./web-ekshamata-public-container.component.scss'],
+    standalone: false,
+    selector: 'web-ekshamata-public-container',
+    templateUrl: './web-ekshamata-public-container.component.html',
+    styleUrls: ['./web-ekshamata-public-container.component.scss'],
+    
 })
 export class WebEkshamataPublicComponent implements OnInit {
 
-  isXSmall$: Observable<boolean>
+  isXSmall$ = false
 
   constructor(private readonly router: Router, private readonly valueSvc: ValueService,
+    private logger: LoggerService
   ) {
-    this.isXSmall$ = this.valueSvc.isXSmall$
+    effect(() => {
+      this.isXSmall$ = this.valueSvc.isMobile() ? true : false
+    })
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.')
+    this.logger.log("public ekshamata home component")
   }
 
   login() {

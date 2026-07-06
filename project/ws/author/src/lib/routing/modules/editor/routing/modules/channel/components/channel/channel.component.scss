@@ -9,20 +9,20 @@
 
 .margin-left {
   margin-left: 120px;
-  @media only screen and(max-width: 930px) {
+  @media only screen and (max-width: 930px) {
     // margin-top: 24px;
     margin-left: 80px;
   }
 
-  @media only screen and(max-width: 824px) {
+  @media only screen and (max-width: 824px) {
     margin-left: 40px;
   }
 
-  @media only screen and(max-width: 699px) {
+  @media only screen and (max-width: 699px) {
     padding-top: 24px;
   }
 
-  @media only screen and(max-width: 585px) {
+  @media only screen and (max-width: 585px) {
     margin-left: 0px;
   }
 }

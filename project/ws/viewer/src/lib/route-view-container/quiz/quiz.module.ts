@@ -68,7 +68,7 @@ import { SharedModule } from '../../../../../author/src/lib/modules/shared/share
     // BtnContentFeedbackV2Module,
     BtnPageBackModule,
     //PlayerBriefModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
     QuizComponent,

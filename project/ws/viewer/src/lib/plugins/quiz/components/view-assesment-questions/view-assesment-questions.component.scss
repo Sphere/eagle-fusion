@@ -1,20 +1,25 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
-.app-class .mat-list-option {
-  padding-top: $size-m;
-  padding-bottom: $size-m;
+.app-class .mat-mdc-list-option {
+  padding-top: ws-vars.$size-m;
+  padding-bottom: ws-vars.$size-m;
   height: auto;
-
+    --mdc-checkbox-selected-checkmark-color: white !important;
+    --mdc-checkbox-selected-container-color: transparent !important;
+    --mdc-checkbox-selected-icon-color: black !important;
+    --mdc-checkbox-unselected-icon-color: black !important;
+    --mdc-checkbox-selected-hover-icon-color: black !important;
+    --mdc-checkbox-selected-focus-icon-color: black !important;
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
     // background-color: #f5d58d !important;
-    background-color: #1c5d95 !important;
+    background-color: var(--theme-accent) !important;
   }
 }
 
 ::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
-  background: #1c5d95 !important;
+  background: var(--theme-primary) !important;
 }
 
 // ::ng-deep .mat-radio-ripple {
@@ -32,13 +37,14 @@
 .quiz-question {
   overflow-x: auto;
   margin: 10px 0 0 0 !important;
+  font-weight: 400;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin: 0 !important;
   }
 
   p {
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       margin: 0 !important;
     }
   }
@@ -64,12 +70,25 @@ correct-option {
   padding: 8px;
 }
 
+::ng-deep .mat-mdc-radio-button .mdc-form-field .mdc-label {
+  font-weight: 400 !important;
+}
+
+::ng-deep .mdc-radio__native-control:enabled:checked+.mdc-radio__background {
+  .mdc-radio__outer-circle {
+    border-color: #424242 !important;
+  }
+  .mdc-radio__inner-circle {
+    border-color: #424242 !important;
+  }
+}
+
 .quiz-selected-value {
   margin: 15px 0;
 }
 
 .margin-bottom-m {
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .correct-option {
@@ -104,4 +123,76 @@ correct-option {
 
 .background-well {
   background: #eee;
+}
+
+.quiz-question{
+  p{
+    margin-bottom: 0px !important;
+  }
+}
+
+.multi-selection-hint {
+  color: var(--theme-primary);
+  margin-top: -12px !important;
+  margin-bottom: 0 !important;
+}
+
+mat-radio-button {
+  --mdc-radio-selected-icon-color: black !important
+}
+
+:host-context(.dark-theme) {
+  .app-class .mat-mdc-list-option {
+    --mdc-checkbox-selected-checkmark-color: var(--theme-on-accent, #08131b) !important;
+    --mdc-checkbox-selected-icon-color: var(--theme-text, #ecf3f8) !important;
+    --mdc-checkbox-unselected-icon-color: var(--theme-text-soft, #8fa4b8) !important;
+    --mdc-checkbox-selected-hover-icon-color: var(--theme-text, #ecf3f8) !important;
+    --mdc-checkbox-selected-focus-icon-color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .quiz-question,
+  .quiz-radio-button,
+  .quiz-selected-value,
+  .question,
+  .answer,
+  .wrap-mat-radio-label,
+  p,
+  label,
+  span {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .question,
+  .answer {
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .background-well {
+    background: var(--theme-bg, #10181e);
+  }
+
+  .multi-selection-hint {
+    color: var(--theme-text-soft, #8fa4b8);
+  }
+
+  .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
+  .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
+    background: #000 !important;
+  }
+
+  ::ng-deep .mat-radio-ripple .mat-ripple-element {
+    background-color: rgba(143, 164, 184, 0.26) !important;
+  }
+
+  ::ng-deep .mdc-radio__native-control:enabled:checked + .mdc-radio__background {
+    .mdc-radio__outer-circle,
+    .mdc-radio__inner-circle {
+      border-color: var(--theme-text, #ecf3f8) !important;
+    }
+  }
+
+  mat-radio-button {
+    --mdc-radio-selected-icon-color: var(--theme-text, #ecf3f8) !important;
+    --mdc-radio-unselected-icon-color: var(--theme-text-soft, #8fa4b8) !important;
+  }
 }

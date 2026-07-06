@@ -6,9 +6,11 @@ import { EventService } from '../../../../utils/src/public-api'
 import { Router } from '@angular/router'
 
 @Component({
-  selector: 'ws-widget-sliders',
-  templateUrl: './sliders.component.html',
-  styleUrls: ['./sliders.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-sliders',
+    templateUrl: './sliders.component.html',
+    styleUrls: ['./sliders.component.scss'],
+    
 })
 export class SlidersComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<ICarousel[]> {
@@ -104,7 +106,7 @@ export class SlidersComponent extends WidgetBaseComponent
     const path = window.location.pathname.replace('/', '')
     const url = path + window.location.search
 
-    this.events.raiseInteractTelemetry('click', 'banner', {
+    this.events.raiseInteractTelemetry('click', 'banner', 'slider', {
       pageUrl: url,
       bannerRedirectUrl: bannerUrl,
     })

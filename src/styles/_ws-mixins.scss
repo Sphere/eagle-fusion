@@ -1,4 +1,5 @@
-@import 'ws-vars';
+@use 'ws-vars';
+@forward 'ws-vars';
 
 @mixin retina {
   @media only screen and (-webkit-min-device-pixel-ratio: 2),

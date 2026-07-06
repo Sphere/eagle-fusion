@@ -1,16 +1,17 @@
-@import 'ws-vars';
-@import 'ws-mixins';
-@import 'ws-common';
+@use 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-common';
 
 .sidenav-container {
   height: 100%;
   min-height: 80vh;
+  background: white !important;
 }
 // Contents of SideNav Menu
 .sidenav {
   width: 25%;
   min-width: 300px;
-  padding: $size-s;
+  padding: ws-vars.$size-s;
   background: inherit;
   box-shadow: none;
 }
@@ -18,7 +19,7 @@
 // Contents of Side Nav Content
 .sidenav-content {
   margin: 0;
-  padding: 0 $size-m $size-l;
+  padding: 0 ws-vars.$size-m ws-vars.$size-l;
   box-sizing: border-box;
   min-height: calc(100vh - 145px);
 }
@@ -39,21 +40,21 @@
 
 .concept {
   text-align: center;
-  margin-right: $size-s;
+  margin-right: ws-vars.$size-s;
   height: 100px;
-  min-width: 5 * $size-l;
+  min-width: 5 * ws-vars.$size-l;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $size-s;
+  padding: ws-vars.$size-s;
   box-sizing: border-box;
   font: inherit;
 }
 
 .search-card {
   display: block;
-  margin-bottom: $size-xs;
-  border-bottom: solid 1px #d1d1d1;
+  // margin-bottom: $size-xs;
+  border-bottom: solid 1px #f1f1f1;
 }
 
 .catalog-link {
@@ -96,4 +97,61 @@
 .withoutFilter{
   margin-top:10px;
 }
+}
+
+
+@keyframes shimmerSlide {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+%shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
+  background-size: 600px 100%;
+  animation: shimmerSlide 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+.sk-title {
+  @extend %shimmer;
+  width: 200px;
+  height: 28px;
+  margin: 20px 0 16px;
+}
+
+.shimmer-title {
+  @extend %shimmer;
+  width: 60%;
+  height: 14px;
+}
+
+.shimmer-subtitle {
+  @extend %shimmer;
+  width: 40%;
+  height: 12px;
+}
+
+/* ── Card ──────────────────────────────────────────────── */
+.shimmer-card {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin: 1rem 2rem 2rem 1rem;
+}
+
+/* ── Image ─────────────────────────────────────────────── */
+.shimmer-image {
+  @extend %shimmer;
+  height: 100px;
+  width: 10%;
+  border-radius: 8px;
+}
+
+/* ── Body ──────────────────────────────────────────────── */
+.shimmer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 80%;
+  justify-content: center;
 }

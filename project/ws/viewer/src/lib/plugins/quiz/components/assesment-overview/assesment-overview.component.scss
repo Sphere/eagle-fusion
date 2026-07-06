@@ -1,31 +1,49 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .overview-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0;
+  padding: 2rem 2rem 2.5rem;
+  width: 100%;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .close {
-  place-self: flex-end;
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
   font-weight: 400;
-  font-size: 17px;
+  font-size: 18px;
+  color: var(--icon-color);
 }
 
 .header1 {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 29px;
+  font-size: 30px;
+  line-height: 36px;
   letter-spacing: -0.02em;
   color: #000000;
   text-align: center;
+  margin-bottom: 0.25rem;
 
-  @include breakpoint-xs {
-    font-size: 16px;
-    line-height: 20px;
+  @include ws-mixins.breakpoint-xs {
+    font-size: 22px;
+    line-height: 28px;
   }
 }
 
@@ -33,17 +51,18 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: -0.02em;
-  color: #000000;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+  color: #667085;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .ellips {
   width: 130px;
   height: 130px;
-  background: #E7F2FA;
+  background: var(--theme-ellipse);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,14 +71,14 @@
   text-align: center;
   padding: auto 0;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 70px;
     height: 70px;
     padding: 0 !important;
     margin: 5px !important;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 100px;
     height: 100px;
     padding: 0 !important;
@@ -76,31 +95,34 @@
   font-style: normal;
   font-weight: 500;
   font-size: 34px !important;
-  line-height: 69px;
+  line-height: 50px;
   text-align: center;
   letter-spacing: -0.02em;
   color: #154976;
   padding: 0px 25px 0px;
   margin-bottom: 0 !important;
+  position: relative;
 
   span {
     font-size: 15px;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       font-size: 11px !important;
     }
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       font-size: 20px !important;
     }
   }
 
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     font-size: 24px !important;
+    padding: 0 !important;
+    line-height: 1.2;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     font-size: 36px !important;
   }
 }
@@ -115,30 +137,36 @@
   letter-spacing: -0.02em;
   color: #154976;
   padding: 0px 24px 0px;
-  margin-top: 10px !important;
   margin-bottom: 0 !important;
+  position: relative;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     font-size: 12px !important;
     margin-top: 0 !important;
+    padding: 0 !important;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     font-size: 16px !important;
     // margin-top: 0 !important;
   }
 }
 
 .btn {
-  // margin-right: 20px;
-  border-radius: 50px;
-  width: 140px;
-  border: 1px solid #1C5D95 !important;
+  border-radius: 24px;
+  width: auto !important;
+  min-width: 140px;
+  min-height: 42px;
+  border: 1px solid var(--theme-accent) !important;
+  padding: 0 24px !important;
+  color: var(--theme-accent) !important;
+  background: transparent;
 }
 
 .btn-active {
-  background-color: #1C5D95 !important;
+  background-color: var(--theme-accent) !important;
   color: #FFFFFF !important;
+  border-color: var(--theme-accent) !important;
 }
 
 .row {
@@ -147,7 +175,7 @@
   justify-content: center;
   padding-top: 12px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     flex-wrap: nowrap;
     padding: 20px 0px;
 
@@ -156,20 +184,56 @@
 
 }
 
-::ng-deep.overview-modal .mat-dialog-container {
-  border-radius: 34px !important;
+::ng-deep .overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 30px !important;
+  background: var(--theme-bg, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12) !important;
 }
 
-::ng-deep .btn btn-active mat-raised-button mat-button-base {
-  background: #1C5D95;
-  border-radius: 50px;
+::ng-deep .btn.btn-active.mat-mdc-raised-button.mat-mdc-button-base {
+  background: var(--theme-accent) !important;
+  border-radius: 50px !important;
+  color: #fff; // ensure text is visible
 }
 
 .status-box {
   display: flex;
-  padding: 12px 32px 32px 32px;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 16px 0 24px;
+  width: 100%;
+}
 
-  @include breakpoint-xs {
-    padding: 20px 0px;
+::ng-deep .dark-theme .ellips {
+  background: var(--theme-ellipse, #E7F2FA) !important;
+  .label2, .label3 {
+    color: var(--theme-text) !important;
   }
+}
+
+:host-context(.dark-theme) {
+  .overview-container,
+  .close,
+  .header1,
+  .label1,
+  p {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .ellips {
+    background: var(--theme-ellipse, #10181e) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .label2,
+  .label3 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+}
+
+::ng-deep .dark-theme .overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background: var(--theme-bg, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

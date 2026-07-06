@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .video-player-summary-container {
   height: auto;
@@ -11,15 +11,15 @@
 
 .padding-dynamic {
   .mat-card {
-     @include breakpoint-xs {
+     @include ws-mixins.breakpoint-xs {
         padding: 0
      }
   }
-  padding: $size-xs;
-  padding-top: $size-m;
+  padding: ws-vars.$size-xs;
+  padding-top: ws-vars.$size-m;
 
-  @include breakpoint-xs {
-    padding: $size-xs;
+  @include ws-mixins.breakpoint-xs {
+    padding: ws-vars.$size-xs;
     // padding-top: 40vh;
   }
 }
@@ -33,11 +33,11 @@
 .video-player-title {
   width: 65%;
 
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     width: 70%;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -45,11 +45,11 @@
 .video-summary {
   width: 30%;
 
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     width: 25%;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -57,7 +57,10 @@
 .video-player {
   width: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
   position: relative;
+  max-height: calc(100vh - 220px);
+  min-height: 50%;
   // height: 75vh;
   // @include breakpoint-lt-xl {
   //   height: 80vh;
@@ -78,7 +81,14 @@
 
 @media (max-width: 900px) {
   .video-player {
-    min-height: 440px;
+    min-height: 200px;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .video-player {
+    min-height: 220px;
+    max-height: 320px;
   }
 }
 
@@ -101,7 +111,7 @@
   z-index: 1000;
   background: black;
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     display: none;
   }
 }
@@ -115,12 +125,12 @@
 }
 
 .author {
-  padding: $size-s 0;
+  padding: ws-vars.$size-s 0;
   display: flex;
 
   .author-image {
-    margin-right: $size-s;
-    $size: 4 * $size-s;
+    margin-right: ws-vars.$size-s;
+    $size: 4 * ws-vars.$size-s;
     font-size: $size;
     height: $size;
     width: $size;
@@ -130,38 +140,35 @@
 .unit-meta-item {
   border-radius: 2px;
   box-sizing: border-box;
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .overflow-class {
   display: block !important;
-  min-height: 85vh;
-  max-height: 85vh;
-  overflow: scroll;
 }
 
 .next-button .width-auto {
   top: -7px;
   right: 0;
-   @include breakpoint-xs {
+   @include ws-mixins.breakpoint-xs {
    right:0px;
   }
 }
 .prev-button .width-auto {
   top: -7px;
   left: 0;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
    left:0px;
   }
 }
 
 .prev-button .title {
-   @include breakpoint-xs {
+   @include ws-mixins.breakpoint-xs {
     margin-left: -1px !important;
    }
 }
 .next-button .title {
-   @include breakpoint-xs {
+   @include ws-mixins.breakpoint-xs {
     margin-right: -1px !important;
    }
 }
@@ -171,9 +178,19 @@
     padding-left: 0;
 }
 
-// @media (min-width: 961px) {
-//   .pdf.player-nav-links {
-//     width: 72%;
-//     position: fixed;
-//   }
-// }
+.pdf {
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+mat-card {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.dark-theme mat-icon {
+  color: #000000 !important;
+}

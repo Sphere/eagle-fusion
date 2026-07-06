@@ -1,8 +1,8 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 .text-intro {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-bottom: 44px;
   }
 }
@@ -20,7 +20,7 @@
   min-height: calc(100vh - 128px);
   align-items: stretch;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin: 0 16px;
   }
 
@@ -35,7 +35,7 @@
     left: 35%;
     z-index: 1;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       top: 160px;
       transform: translate(-50%, -50%);
       left: 50%;
@@ -71,7 +71,7 @@
     align-items: center;
     padding: 48px 70px 48px 48px;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 100%;
       min-height: 160px;
     }
@@ -83,7 +83,7 @@
     position: relative;
     padding: 48px 12px 48px 70px;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 100%;
       padding: 64px 8px 16px 8px;
       min-height: calc(100vh - 220px);
@@ -96,7 +96,7 @@
     top: 36%;
     margin-bottom: 48px;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       top: 8%;
     }
   }
@@ -108,7 +108,7 @@
     padding: 8px;
     width: 300px;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 220px;
     }
   }
@@ -124,7 +124,7 @@
     bottom: 0;
     left: 0;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       display: none;
     }
   }

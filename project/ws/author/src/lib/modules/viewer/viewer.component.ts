@@ -19,9 +19,11 @@ export interface IPreviewDevice {
 }
 
 @Component({
-  selector: 'ws-auth-viewer',
-  templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-viewer',
+    templateUrl: './viewer.component.html',
+    styleUrls: ['./viewer.component.scss'],
+    
 })
 export class ViewerComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @ViewChild('mobile', { static: true }) mobile: ElementRef<any> | null = null

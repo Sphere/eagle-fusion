@@ -1,21 +1,37 @@
-<div>
-  <button class="close-button float-right cursor-pointer" [mat-dialog-close]="true">&times;</button>
-  <div style="display: flex;">
-    <h3><span i18n>Certificate preview of course </span>: {{content.tocConfig}}</h3>
-    <button mat-raised-button [color]="'primary'" style="margin:0px 10px;" (click)="downloadCertificate(content)">
-      <img loading="lazy" src=".\fusion-assets\icons\download.svg" alt="download">
-      <span class="full-text" i18n>Certificate</span>
-      <span class="short-text" i18n>Cert</span>
-    </button>
+<!-- Shimmer while loading -->
+<div *ngIf="isLoading" class="shimmer-container">
+  <div class="shimmer-header-row">
+    <div class="shimmer shimmer-title"></div>
+    <div class="shimmer shimmer-btn"></div>
+    <div class="shimmer shimmer-close"></div>
   </div>
-  <img [src]="img">
-  <canvas id="certCanvas"></canvas>
-  <div class="overlay" *ngIf="isLoading">
-    <div class="loader-container">
-      <div class="loader-ripple">
-        <div></div>
-        <div></div>
+  <div class="shimmer shimmer-image"></div>
+</div>
+
+<!-- Certificate modal -->
+<div *ngIf="!isLoading" class="cert-modal">
+  <div class="cert-header">
+    <div class="cert-title-wrap">
+      <mat-icon class="cert-icon">workspace_premium</mat-icon>
+      <div class="cert-title-text">
+        <span class="cert-label">{{ 'Certificate preview of course:' | translate }}</span>
+        <span class="cert-name" [title]="content.tocConfig">{{ content.tocConfig }}</span>
       </div>
     </div>
+    <div class="cert-actions">
+      <button class="download-btn" (click)="downloadCertificate(content)">
+        <mat-icon>file_download</mat-icon>
+        <span class="btn-label">{{ 'Download' | translate }}</span>
+      </button>
+      <button class="close-btn" [mat-dialog-close]="true" aria-label="Close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
+
+  <div class="cert-image-wrap">
+    <img [src]="img" class="cert-image" alt="Certificate" />
+  </div>
+
+  <canvas id="certCanvas" class="cert-canvas"></canvas>
 </div>

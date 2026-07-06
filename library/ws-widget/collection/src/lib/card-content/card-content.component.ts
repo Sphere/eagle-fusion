@@ -7,18 +7,19 @@ import { Subscription, of } from 'rxjs'
 // import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
-import { MdePopoverTrigger } from '@material-extended/mde'
+import { MdePopoverTrigger } from '@jaguards/material-extended-mde'
 import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { Title } from '@angular/platform-browser'
-import get from 'lodash/get'
-import forEach from 'lodash/forEach'
+import { get, forEach } from 'lodash'
 
 @Component({
-  selector: 'ws-widget-card-content',
-  templateUrl: './card-content.component.html',
-  styleUrls: ['./card-content.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-card-content',
+    templateUrl: './card-content.component.html',
+    styleUrls: ['./card-content.component.scss'],
+    
 })
 export class CardContentComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsCardContent.ICard> {
@@ -97,7 +98,7 @@ export class CardContentComponent extends WidgetBaseComponent
       //   contentType: this.widgetData.content.contentType,
       // }
       // this.cometencyData = JSON.parse(get(this.widgetData, 'content.competencies_v1', ''))
-      // console.log("this.widgetData", this.widgetData, get(this.widgetData, 'content.competencies_v1'))
+      // this.logger.log("this.widgetData", this.widgetData, get(this.widgetData, 'content.competencies_v1'))
 
       if (this.widgetData.content.competencies_v1 && Object.keys(this.widgetData.content.competencies_v1).length > 0) {
         forEach(JSON.parse(get(this.widgetData, 'content.competencies_v1')), (value: any) => {
@@ -135,7 +136,7 @@ export class CardContentComponent extends WidgetBaseComponent
         this.target!.targetOffsetX = event.clientX + 1
       }
     } else {
-      // console.log('this.showEndPopup', this.showEndPopup)
+      // this.logger.log('this.showEndPopup', this.showEndPopup)
     }
   }
   clickToRedirect(data: any) {
@@ -203,24 +204,24 @@ export class CardContentComponent extends WidgetBaseComponent
   login(data: any) {
     const name = `${data.name} - Aastrika`
     this.titleService.setTitle(name)
-    this.router.navigate(['/public/toc/overview'], {
+    const slug = this.slugify(data.name)
+    const courseId = data.identifier
+
+    this.router.navigate(['/public/toc/overview', courseId, slug], {
       state: {
         tocData: data,
-      },
-      queryParams: {
-        courseId: data.identifier,
       },
     })
     localStorage.setItem('tocData', JSON.stringify(data))
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-    // // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-
-    // // if (localStorage.getItem('login_url')) {
-    // //   const url: any = localStorage.getItem('login_url')
-    // //   window.location.href = url
-    // // }
-    // // this.authSvc.login(key, document.baseURI)
-    // this.router.navigateByUrl('app/login')
+  }
+  slugify(text: string): string {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
+      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {

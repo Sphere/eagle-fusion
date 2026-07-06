@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core'
 import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
+  ActivatedRouteSnapshot, Router,
   // RouterStateSnapshot,
   UrlTree,
 } from '@angular/router'
-import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { UserDataCacheService } from '../services/user-data-cache.service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class GeneralGuard implements CanActivate {
+export class GeneralGuard {
   dobFlag = false
   isXSmall = false
   locale = ''
-  constructor(private router: Router, private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService) { }
+  constructor(
+    private router: Router,
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private userDataCacheSvc: UserDataCacheService,
+    private logger: LoggerService,
+  ) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -25,6 +29,26 @@ export class GeneralGuard implements CanActivate {
   ): Promise<boolean | UrlTree> {
     const requiredFeatures = (next.data && next.data.requiredFeatures) || []
     const requiredRoles = (next.data && next.data.requiredRoles) || []
+
+    // ─── Org-based home redirect ───────────────────────────────────────────────
+    // When a logged-in user whose organisation is listed in orgMeta.json's
+    // `homeRedirectOrgs` array navigates to /page/home, send them straight to
+    // their org-details page instead of the generic home page.
+    //
+    // This covers every path to /page/home: post-login, nav-bar home click,
+    // browser back button, or direct URL entry.
+    //
+    // To add a new org: append one entry to homeRedirectOrgs in orgMeta.json.
+    // No code changes here are needed.
+    if (next.params['id'] === 'home') {
+      const rootOrgId = this.configSvc.userProfile?.rootOrgId
+      if (rootOrgId && this.configSvc.orgHomeRedirectMap?.has(rootOrgId)) {
+        const redirectUrl = this.configSvc.orgHomeRedirectMap.get(rootOrgId)!
+        this.logger.log(`[GeneralGuard] Org ${rootOrgId} redirected from /page/home → ${redirectUrl}`)
+        return this.router.parseUrl(redirectUrl)
+      }
+    }
+    // ──────────────────────────────────────────────────────────────────────────
 
     return await this.shouldAllow<boolean | UrlTree>(requiredFeatures, requiredRoles)
   }
@@ -34,7 +58,39 @@ export class GeneralGuard implements CanActivate {
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
-    // console.log("came here 1")
+    // Try to restore user data from cache if it's not already set
+    // This handles the case where user data exists in sessionStorage but hasn't been loaded yet
+    if (this.configSvc.userProfile === null) {
+      const cachedUserData = this.userDataCacheSvc.getCachedUserData()
+      if (cachedUserData && cachedUserData.userId) {
+        this.logger.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserData.userId)
+        this.configSvc.unMappedUser = cachedUserData
+        // Basic user profile setup from cache
+        this.configSvc.userProfile = {
+          userId: cachedUserData.userId,
+          email: cachedUserData.email || cachedUserData.officialEmail,
+          givenName: cachedUserData.firstName,
+          firstName: cachedUserData.firstName,
+          lastName: cachedUserData.lastName,
+          userName: cachedUserData.userName,
+          rootOrgId: cachedUserData.rootOrgId,
+          rootOrgName: cachedUserData.channel,
+          profileImage: cachedUserData.thumbnail,
+          departmentName: cachedUserData.channel,
+          dealerCode: null,
+          isManager: false,
+          phone: cachedUserData.phone,
+          country: null,
+          language: cachedUserData.profileDetails?.preferences?.language || 'en',
+        }
+        // Restore roles
+        if (cachedUserData.roles && Array.isArray(cachedUserData.roles)) {
+          this.configSvc.userRoles = new Set((cachedUserData.roles || []).map((v: string) => v.toLowerCase()))
+        }
+      }
+    }
+
+    // this.logger.log("came here 1")
     // tslint:disable-next-line: no-non-null-assertion
     if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
       // tslint:disable-next-line: no-non-null-assertion
@@ -69,8 +125,8 @@ export class GeneralGuard implements CanActivate {
       }
     }
     // tslint:disable-next-line:no-console
-    console.log(this.locale)
-    // console.log("came here 2")
+    this.logger.log(this.locale)
+    // this.logger.log("came here 2")
 
     // setTimeout(() => {
 
@@ -84,8 +140,8 @@ export class GeneralGuard implements CanActivate {
     //   if (state.url) {
     //     refAppend = `?ref=${encodeURIComponent(state.url)}`
     //   }
-    //   console.log(!this.configSvc.isAuthenticated)
-    //   console.log(refAppend)
+    //   this.logger.log(!this.configSvc.isAuthenticated)
+    //   this.logger.log(refAppend)
 
     //   return this.router.parseUrl(`/login${refAppend}`)
     // }
@@ -97,7 +153,7 @@ export class GeneralGuard implements CanActivate {
     ) {
       return this.router.parseUrl(`/public/home`)
     }
-    // console.log("came here 3")
+    // this.logger.log("came here 3")
 
     /**
      * Test IF User Tnc Is Accepted
@@ -127,12 +183,12 @@ export class GeneralGuard implements CanActivate {
     // return this.router.parseUrl('/app/user-profile/chatbot')
     // }
     if (this.configSvc.unMappedUser) {
-      // console.log("came here 4")
+      // this.logger.log("came here 4")
 
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
-          // console.log("came here 5")
-          console.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
+          // this.logger.log("came here 5")
+          this.logger.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
           // if (data) {
           //   const userData = data.profileDetails.personalDetails
           //   if (userData.dob) {
@@ -148,42 +204,23 @@ export class GeneralGuard implements CanActivate {
           // if (data.profileDetails) {
           //   return this.router.parseUrl(`/page/home`)
           // }
-          console.log(data.profileDetails!.profileReq!.personalDetails)
-          // console.log("came here 6")
+          this.logger.log(data.profileDetails!.profileReq!.personalDetails)
+          // this.logger.log("came here 6")
 
           if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
             if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
               if (data.profileDetails!.profileReq!.personalDetails!.dob !== undefined) {
-                console.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
+                this.logger.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
               }
             } else {
               if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                // console.log('true')
-                if (localStorage.getItem('preferedLanguage') && (sessionStorage.getItem('fromOTPpage'))) {
-                  let data: any
-                  let lang: any
-                  data = localStorage.getItem('preferedLanguage')
-                  lang = JSON.parse(data)
-                  if (lang.id) {
-                    lang = lang.id !== 'en' ? lang.id : ''
-                    let url4 = `${document.baseURI}`
-                    if (url4.includes('hi')) {
-                      lang = ''
-                    }
-                    const url = lang === '' ? `${lang}app/new-tnc` : `${lang}/app/new-tnc`
-                    console.log(url)
-                    location.href = `${url}`
-                    //this.router.navigate([url, 'new-tnc'])
-                  }
-                  //this.router.navigate(['app', 'new-tnc'])
-                } else {
-                  // console.log('alerr')
-                  this.router.navigate(['app', 'new-tnc'])
-                }
+                // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+                // this.logger.log('true')
+                this.router.navigate(['app', 'new-tnc'])
               }
             }
           } else {
-            // console.log("afdssssssssssssss")
+            // this.logger.log("afdssssssssssssss")
             localStorage.setItem('datanow', JSON.stringify(data))
             this.router.navigate(['app', 'new-tnc'])
           }
@@ -203,7 +240,7 @@ export class GeneralGuard implements CanActivate {
         return this.router.parseUrl(`/page/home`)
       }
     }
-    // console.log("came here 7")
+    // this.logger.log("came here 7")
 
     // check if feature is restricted
     if (requiredFeatures && requiredFeatures.length && this.configSvc.restrictedFeatures) {
@@ -215,7 +252,7 @@ export class GeneralGuard implements CanActivate {
         return this.router.parseUrl(`/page/home`)
       }
     }
-    // console.log("came here 8")
+    // this.logger.log("came here 8")
 
     return true
   }

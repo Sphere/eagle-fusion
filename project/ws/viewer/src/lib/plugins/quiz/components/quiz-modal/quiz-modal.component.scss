@@ -1,19 +1,20 @@
 // @import '../../../../../../../../../src/styles/ws-mixins';
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .assesment-container {
   display: flex;
   flex-direction: column;
+  margin: 2rem;
 
   .close-btn {
     place-self: end;
     font-weight: 400;
     font-size: 17px;
-    color: #000000 !important;
+    color: var(--icon-color) !important;
     background: none;
     border: none;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       display: none;
     }
   }
@@ -24,13 +25,13 @@
   font-family: 'Roboto' !important;
   font-style: normal !important;
   font-weight: 400 !important;
-  font-size: 24px;
+  font-size: 24px !important;
   line-height: 24px !important;
   letter-spacing: -0.02em !important;
-  color: #000000 !important;
+  color: var(--theme-text) !important;
   padding-left: 9px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: calc(100% - 30px);
   }
 }
@@ -39,7 +40,7 @@
   display: flex;
   align-items: center;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-top: 15px;
     padding-top: 10px;
   }
@@ -64,13 +65,13 @@
   border-bottom: none !important;
 }
 
-::ng-deep .theme-igot.day-mode .mat-ink-bar {
-  background-color: #1c5d95 !important;
+::ng-deep .light-theme .mat-ink-bar {
+  background-color: var(--theme-accent) !important;
 }
 
 ::ng-deep .mat-tab-label-active {
-  border-bottom: solid 3px #1c5d95;
-  color: #1c5d95 !important;
+  border-bottom: solid 3px var(--theme-primary);
+  color: var(--theme-accent) !important;
 }
 
 ::ng-deep .mat-tab-label-content {
@@ -98,7 +99,7 @@
   // max-height: 400px;
   overflow-y: auto;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     // padding: 17px;
     // margin-top: 20px;
     // height: auto;
@@ -115,40 +116,40 @@
 .btn {
   margin-left: 20px;
   border-radius: 50px;
-  width: 100px !important;
+  width: 100px;
   height: 38px !important;
-  color: #1c5d95 !important;
-  // border-color: #1C5D95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-accent) !important;
+  // border-color: var(--theme-accent) !important;
+  border: 1px solid var(--theme-accent) !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 12px;
   }
 }
 
-// ::ng-deep mat-progress-bar .mat-progress-bar-buffer {
+// ::ng-deep mat-mdc-progress-bar .mat-mdc-progress-bar-buffer {
 //   background: #E4E8EB !important;
 // }
 
-// ::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
-//   background: #1C5D95 !important;
+// ::ng-deep .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
+//   background: var(--theme-primary) !important;
 // }
 .quiz-progress-bar {
-  &.mat-progress-bar {
+  &.mat-mdc-progress-bar {
     width: 128.03px;
     height: 12.6px;
     border-radius: 3.97614px;
   }
 
-  .mat-progress-bar .mat-progress-bar-fill::after {
-    background: #1c5d95 !important;
+  .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
+    background: var(--theme-primary) !important;
   }
 
-  .mat-progress-bar-fill::after {
-    background: #1c5d95 !important;
+  .mat-mdc-progress-bar-fill::after {
+    background: var(--theme-primary) !important;
   }
 
-  .mat-progress-bar-buffer {
+  .mat-mdc-progress-bar-buffer {
     background: #e4e8eb !important;
   }
 }
@@ -158,31 +159,32 @@
 }
 
 .btn-active {
-  background-color: #1c5d95 !important;
+  background-color: var(--theme-primary) !important;
   color: #ffffff !important;
 }
 
 .timer {
-  // position: relative;
-  // bottom: 25px;
-  background: #e7f2fa;
+  background: var(--theme-ellipse);
   border-radius: 16.5px;
-  border-radius: 16.5px;
-  width: 101px;
-  height: 25px;
+  width: auto;
+  height: 30px;
+  padding: 0 12px;
   justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  gap: 6px;
 
-  @include breakpoint-xs {
-    // position: relative;
-    // left: 247px;
-    // top: 5px;
+  @include ws-mixins.breakpoint-xs {
     margin-left: 0px !important;
     z-index: 9999;
-    background: #e7f2fa;
+    background: var(--theme-ellipse);
     border-radius: 16.5px;
-    width: 101px;
+    width: auto;
     place-self: flex-start;
-    //place-self: end;
+  }
+
+  span {
+    color: var(--theme-text);
   }
 }
 
@@ -190,13 +192,13 @@
 //   .timer {
 //     position: relative;
 //     left: 19px;
-//     /* padding: 10px; */
+//     __<<ngThemingMigrationEscapedComment1>>__
 //     top: 82px;
 //     margin-left: 0px !important;
 //   }
 // }
 
-::ng-deep .mat-progress-bar {
+::ng-deep .mat-mdc-progress-bar {
   width: 128.03px;
   height: 12.6px;
   border-radius: 3.97614px;
@@ -206,7 +208,7 @@
   display: flex;
   flex-direction: column;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }
@@ -218,7 +220,7 @@
   font-size: 40px !important;
   line-height: 48px;
   letter-spacing: -0.02em;
-  color: #000000;
+  color: var(--theme-text);
 }
 
 .result-score {
@@ -228,10 +230,10 @@
   font-size: 66px !important;
   line-height: 58px;
   letter-spacing: -0.02em;
-  color: #1c5d95;
+  color: var(--theme-accent);
 
   span {
-    color: #1c5d95;
+    color: var(--theme-accent);
     font-size: 20px !important;
   }
 }
@@ -242,7 +244,7 @@
   font-weight: 400 !important;
   font-size: 20px !important;
   line-height: 24px;
-  color: #000000;
+  color: var(--theme-text);
 }
 
 .result-overview-container {
@@ -252,12 +254,12 @@
   width: 465px;
   margin-top: 20px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 
   .result-overview {
-    background: #e7f2fa;
+    background: var(--theme-ellipse);
     text-align: center;
     padding: auto 0;
     display: flex;
@@ -268,7 +270,7 @@
     width: 130px;
     height: 130px;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 110px;
       height: 110px;
       //margin-right: 10px;
@@ -281,9 +283,9 @@
     .digit {
       font-weight: 400 !important;
       font-size: 40px !important;
-      color: #154976;
+      color: var(--theme-accent);
 
-      @include breakpoint-xs {
+      @include ws-mixins.breakpoint-xs {
         font-weight: 400 !important;
         font-size: 25px !important;
       }
@@ -292,10 +294,10 @@
     .lable {
       font-weight: 500 !important;
       font-size: 15px !important;
-      color: #154976;
+      color: var(--theme-accent);
       margin-top: 10px !important;
 
-      @include breakpoint-xs {
+      @include ws-mixins.breakpoint-xs {
         font-weight: 500 !important;
         font-size: 13px !important;
         white-space: normal;
@@ -305,4 +307,81 @@
       }
     }
   }
+}
+
+.block-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: white;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .dark-theme {
+  .assesment-container,
+  .quiz-question-wrapper,
+  .result-wrapper,
+  .close-btn,
+  .sub-title,
+  .result-title,
+  .result-score-title,
+  span,
+  h1,
+  h3,
+  h4,
+  div {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .timer,
+  .result-overview {
+    background: var(--theme-bg, #10181e) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .digit,
+  .lable,
+  .result-score,
+  .result-score span {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .btn {
+    color: var(--theme-text, #ecf3f8) !important;
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
+    background: var(--theme-surface, #0e161b) !important;
+  }
+
+  .btn-active {
+    background: #000 !important;
+    border-color: #000 !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .quiz-progress-bar .mat-mdc-progress-bar-buffer,
+  .mat-mdc-progress-bar .mat-mdc-progress-bar-buffer {
+    background: var(--theme-surface, #0e161b) !important;
+  }
+
+  .block-screen {
+    background: #000;
+    color: var(--theme-text, #ecf3f8);
+  }
+}
+
+::ng-deep .dark-theme .quiz-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+::ng-deep .dark-theme .quiz-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background: var(--theme-bg, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}
+
+::ng-deep .dark-theme .mat-mdc-progress-bar {
+    --mat-progress-bar-active-indicator-color: var(--theme-progress) !important;
 }

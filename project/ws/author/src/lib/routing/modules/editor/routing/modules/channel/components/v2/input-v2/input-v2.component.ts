@@ -9,9 +9,11 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { COLUMN_WIDTH } from '../../input/image-v2/image-v2.constant'
 
 @Component({
-  selector: 'ws-auth-input-v2',
-  templateUrl: './input-v2.component.html',
-  styleUrls: ['./input-v2.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-input-v2',
+    templateUrl: './input-v2.component.html',
+    styleUrls: ['./input-v2.component.scss'],
+    
 })
 export class InputV2Component implements OnInit {
   isSubmitPressed = false

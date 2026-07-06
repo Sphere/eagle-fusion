@@ -2,9 +2,11 @@ import { Component, OnInit, SimpleChanges, Input, OnChanges } from '@angular/cor
 import { IFollowerId } from '../../person-profile.model'
 
 @Component({
-  selector: 'ws-app-following-list',
-  templateUrl: './following-list.component.html',
-  styleUrls: ['./following-list.component.scss'],
+    standalone: false,
+    selector: 'ws-app-following-list',
+    templateUrl: './following-list.component.html',
+    styleUrls: ['./following-list.component.scss'],
+    
 })
 export class FollowingListComponent implements OnInit, OnChanges {
   @Input() wid = ''

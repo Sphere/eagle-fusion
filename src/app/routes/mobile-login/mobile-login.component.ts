@@ -2,41 +2,41 @@ import {
   Component, OnInit, ElementRef, AfterViewInit,
   ViewChild,
 } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
 import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
-import { HttpClient } from '@angular/common/http'
-import { v4 as uuid } from 'uuid'
+import { ConfigCacheService } from '../../services/config-cache.service'
 
 declare const gapi: any
 
 @Component({
-  selector: 'ws-mobile-login',
-  templateUrl: './mobile-login.component.html',
-  styleUrls: ['./mobile-login.component.scss'],
+    standalone: false,
+    selector: 'ws-mobile-login',
+    templateUrl: './mobile-login.component.html',
+    styleUrls: ['./mobile-login.component.scss'],
+    
 })
 export class MobileLoginComponent implements OnInit, AfterViewInit {
   [x: string]: any
   constructor(
-    private fb: FormBuilder,
-    // private element: ElementRef,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private contentSvc: WidgetContentService,
     location: Location,
     loc: PlatformLocation,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    private http: HttpClient,
+    private configCacheSvc: ConfigCacheService,
     private activeRoute: ActivatedRoute
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      username: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
-      password: new FormControl('', [Validators.required]),
+      username: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      password: new UntypedFormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
       window.location.href = '/public/home'
@@ -45,7 +45,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
-  loginForm: FormGroup
+  loginForm: UntypedFormGroup
   hide = true
   iconChange = 'fas fa-eye-slash'
   public route: string
@@ -59,7 +59,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   loginVerification = false
   redirectMsg = 'Please verify your account before logged in !!'
 
-  private baseUrl = 'assets/configurations'
+  // private baseUrl = 'assets/configurations'
   // const errMsgL = 'Sorry ! Account doesnot exist !! Try Signup..'
 
   public isSignedIn = false
@@ -76,8 +76,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   public auth2: any
 
   checkGoogleAuth() {
-    this.http.get(`${this.baseUrl}/host.config.json`).subscribe((data: any) => {
-      this.googleAuth = data.googleAuth
+    this.configCacheSvc.getHostConfig().subscribe((data: any) => {
+      if (data) { this.googleAuth = data.googleAuth }
     })
   }
 
@@ -98,28 +98,28 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
-        // console.log(`Token || ` + googleUser.getAuthResponse().id_token)
+        // this.logger.log(`Token || ` + googleUser.getAuthResponse().id_token)
         // tslint:disable-next-line:no-console
-        // console.log(`ID: ` + profile.getId())
+        // this.logger.log(`ID: ` + profile.getId())
         // tslint:disable-next-line:no-console
-        // console.log(`Name: ` + profile.getName())
+        // this.logger.log(`Name: ` + profile.getName())
         // tslint:disable-next-line:no-console
-        // console.log(`Image URL: ` + profile.getImageUrl())
+        // this.logger.log(`Image URL: ` + profile.getImageUrl())
         // tslint:disable-next-line:no-console
-        // console.log(`Email: ` + profile.getEmail())
+        // this.logger.log(`Email: ` + profile.getEmail())
       },
       (error: any) => {
         // tslint:disable-next-line:no-console
-        console.log(JSON.stringify(error, undefined, 2))
+        this.logger.log(JSON.stringify(error, undefined, 2))
       })
   }
   ngOnInit() {
 
-    const redirectUrl = `${document.baseURI}openid/keycloak`
-    const state = uuid()
-    const nonce = uuid()
+    // const redirectUrl = `${document.baseURI}openid/keycloak`
+    // const state = uuid()
+    // const nonce = uuid()
     // tslint:disable-next-line:max-line-length
-    window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
+    // window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
 
     if (this.signUpdata) {
       let phone = this.signUpdata.value.emailOrMobile
@@ -166,7 +166,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         },
         (err: any) => {
           // tslint:disable-next-line:no-console
-          console.log(err)
+          this.logger.log(err)
           // this.errorMessage = err.error
           this.router.navigate(['/app/login'])
         }
@@ -275,24 +275,14 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       })
   }
   redirect(lang: string) {
-    if (lang !== '') {
-      if (this.router.url.includes('hi')) {
-        const lan = this.router.url.split('hi/').join('')
-        window.location.assign(`${location.origin}/${lang}${lan}`)
-      } else {
-        window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-      }
-    } else {
-      if (this.router.url.includes('hi')) {
-        const lan = this.router.url.split('hi/').join('')
-        window.location.assign(`${location.origin}${lang}${lan}`)
-      } else {
-        window.location.assign(`${location.origin}${lang}${this.router.url}`)
-      }
+    // Language switching via LanguageService instead of URL-based routing
+    // No need to construct URLs with language prefix; ngx-translate handles it
+    if (lang) {
+      this.router.navigate(['/page/home'])
     }
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 3000) {
+  private openSnackbar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

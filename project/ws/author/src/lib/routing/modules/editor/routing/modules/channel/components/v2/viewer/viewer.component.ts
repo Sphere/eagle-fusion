@@ -5,9 +5,11 @@ import { NsWidgetResolver } from '@ws-widget/resolver/src/public-api'
 import { isNotEmptyWidget } from './viewer.function'
 
 @Component({
-  selector: 'ws-auth-viewer-v2',
-  templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-viewer-v2',
+    templateUrl: './viewer.component.html',
+    styleUrls: ['./viewer.component.scss'],
+    
 })
 export class ViewerComponent implements OnInit {
   @Input() id = ''

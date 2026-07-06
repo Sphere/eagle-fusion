@@ -1,21 +1,23 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .card-collection {
   display: flex;
   align-items: center;
-  margin: $size-xs 0;
+  margin: ws-vars.$size-xs 0;
   padding: 12px 0;
-  border: 1px solid #d8d8d8;
+  border: 1px solid var(--theme-border, #d8d8d8);
   margin-bottom: 10px;
   border-radius: 10px;
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  box-shadow: var(--theme-shadow, 0px 0px 4px rgb(0 0 0 / 15%));
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #101828);
 
   .card-thumbnail {
     $image-height: 65px;
     height: $image-height;
-    width: (16 / 9) * $image-height;
-    margin: 0 $size-s;
+    width: calc(16 / 9) * $image-height;
+    margin: 0 ws-vars.$size-s;
     cursor: pointer;
     // background: url(image.png);
     filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
@@ -27,7 +29,7 @@
     line-height: 16.41px;
     letter-spacing: -0.02em;
     text-align: left;
-    color:#808080 !important;
+    color: var(--theme-inactive, #808080) !important;
     text-transform: uppercase;
 
 
@@ -39,12 +41,12 @@
     line-height: 18.75px;
     letter-spacing: -0.02em;
     text-align: left;
-    color: #000000 !important;
+    color: var(--theme-text, #000000) !important;
   }
 
   @media only screen and (max-width:469px) {
     flex-direction: row;
-    margin: $size-xs $size-xs $size-xs $size-xs !important;
+    margin: ws-vars.$size-xs ws-vars.$size-xs ws-vars.$size-xs ws-vars.$size-xs !important;
     align-items: flex-start !important;
     padding-right: 5px;
 
@@ -70,14 +72,14 @@ height: 41px;
 .resource-container {
   display: flex;
   align-items: center;
-  margin: $size-xs 0;
+  margin: ws-vars.$size-xs 0;
   justify-content: space-between;
 
   .card-thumbnail {
     $image-height: 65px;
     height: $image-height;
-    width: (16 / 9) * $image-height;
-    margin-right: $size-s;
+    width: calc(16 / 9) * $image-height;
+    margin-right: ws-vars.$size-s;
     cursor: pointer;
   }
 
@@ -87,7 +89,7 @@ height: 41px;
 
   @media only screen and (max-width:469px) {
     flex-direction: row;
-    margin: $size-xs $size-xs $size-xs $size-xs !important;
+    margin: ws-vars.$size-xs ws-vars.$size-xs ws-vars.$size-xs ws-vars.$size-xs !important;
     align-items: flex-start !important;
 
     .card-thumbnail {
@@ -106,7 +108,7 @@ height: 41px;
 }
 
 .child-meta-container {
-  margin-top: $size-xs;
+  margin-top: ws-vars.$size-xs;
   display: flex;
 
   .child-structure {
@@ -114,12 +116,12 @@ height: 41px;
     align-items: center;
 
     span {
-      margin-right: $size-s;
+      margin-right: ws-vars.$size-s;
       text-align: center;
     }
 
     .structure-icon {
-      margin-right: $size-s;
+      margin-right: ws-vars.$size-s;
     }
   }
 
@@ -140,8 +142,9 @@ height: 41px;
 .resource-container {
   display: flex;
   align-items: center;
-  margin: $size-s 0;
-  border-bottom: 1px solid #E7F2FA;
+  margin: ws-vars.$size-s 0;
+  border-bottom: 1px solid var(--theme-ellipse);
+  border-bottom: 1px solid var(--theme-ellipse, #E7F2FA);
 
   ws-display-content-type-icon {
     display: flex;
@@ -149,7 +152,7 @@ height: 41px;
   }
 
   .resource-meta {
-    margin-left: $size-s;
+    margin-left: ws-vars.$size-s;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -165,8 +168,9 @@ height: 41px;
 }
 
 .width-expand {
-  position: relative;
-  width: 256px;
+  // position: relative;
+  // width: 256px;
+  flex: 1;
 }
 
 // @media (max-width: 500px) {
@@ -181,7 +185,7 @@ height: 41px;
 }
 
 .duration {
-  color: #898989;
+  color: var(--theme-text-soft, #898989);
 
 }
 
@@ -195,7 +199,7 @@ height: 41px;
   align-self: center;
   padding-right: 25px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding-right: 30px;
   }
 
@@ -212,4 +216,18 @@ height: 41px;
 
 .ml-2 {
   margin-left: 20px;
+}
+
+button {
+  color: var(--theme-text, black) !important;
+}
+
+:host-context(.dark-theme) {
+  .card-thumbnail1,
+  button mat-icon {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+  .resource-container img {
+    filter: var(--theme-icon-filter);
+  }
 }

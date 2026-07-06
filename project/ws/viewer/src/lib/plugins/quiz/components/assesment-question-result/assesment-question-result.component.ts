@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 
 @Component({
-  selector: 'viewer-assesment-question-result',
-  templateUrl: './assesment-question-result.component.html',
-  styleUrls: ['./assesment-question-result.component.scss'],
+    standalone: false,
+    selector: 'viewer-assesment-question-result',
+    templateUrl: './assesment-question-result.component.html',
+    styleUrls: ['./assesment-question-result.component.scss'],
+    
 })
 export class AssesmentQuestionResultComponent implements OnInit {
   @Input() answer: any

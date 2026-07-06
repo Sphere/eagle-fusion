@@ -1,7 +1,9 @@
 import { Directive, ViewContainerRef } from '@angular/core'
 
 @Directive({
-  selector: '[wsLoginRoot]',
+    standalone: false,
+    selector: '[wsLoginRoot]',
+    
 })
 export class LoginRootDirective {
 

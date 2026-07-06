@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .font-family {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
@@ -7,7 +7,7 @@
 }
 
 .socialText {
-  color: #9baebd;
+  color: var(--theme-text-soft, #9baebd);
 }
 
 .navigationbutton {
@@ -25,7 +25,7 @@
 }
 
 .fetching {
-  color: #9baebd !important;
+  color: var(--theme-text-soft, #9baebd) !important;
 }
 
 

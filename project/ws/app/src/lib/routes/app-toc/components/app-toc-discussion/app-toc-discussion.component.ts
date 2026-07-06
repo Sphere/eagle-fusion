@@ -5,9 +5,11 @@ import { ActivatedRoute } from '../../../../../../../../../node_modules/@angular
 import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-app-toc-discussion',
-  templateUrl: './app-toc-discussion.component.html',
-  styleUrls: ['./app-toc-discussion.component.scss'],
+    standalone: false,
+    selector: 'ws-app-toc-discussion',
+    templateUrl: './app-toc-discussion.component.html',
+    styleUrls: ['./app-toc-discussion.component.scss'],
+    
 })
 export class AppTocDiscussionComponent implements OnChanges, OnInit {
   @Input() content!: NsContent.IContent

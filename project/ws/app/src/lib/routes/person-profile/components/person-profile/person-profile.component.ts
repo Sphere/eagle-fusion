@@ -9,9 +9,11 @@ import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
-  selector: 'ws-app-person-profile',
-  templateUrl: './person-profile.component.html',
-  styleUrls: ['./person-profile.component.scss'],
+    standalone: false,
+    selector: 'ws-app-person-profile',
+    templateUrl: './person-profile.component.html',
+    styleUrls: ['./person-profile.component.scss'],
+    
 })
 export class PersonProfileComponent implements OnInit {
 
@@ -42,7 +44,6 @@ export class PersonProfileComponent implements OnInit {
   followingFetchStatus: TFetchStatus = 'none'
   statusFollowed: 'FOLLOWED' | 'NOT_FOLLOWED' | 'PENDING' | 'ERROR' = 'PENDING'
   targetId = ''
-  basePicUrl = `/apis/protected/v8/user/details/wtoken`
   userDetails: IFollowDetails | undefined
   suggestionsInterestLimit = 7
   emailId = ''
@@ -59,7 +60,7 @@ export class PersonProfileComponent implements OnInit {
   currentUserId = ''
   profilePic = ''
 
-  enabledFeatures: String[] = []
+  enabledFeatures: string[] = []
 
   // followingCount: any = ''
 

@@ -1,15 +1,16 @@
 <div class="overview-container">
 
   <div class="header1">
-    <div *ngIf="resourceLink; else elseRouterLock">
+    <!-- <div *ngIf="resourceLink; else elseRouterLock">
       <a [routerLink]="resourceLink?.url? resourceLink.url : content.viewerUrl "
         [queryParams]="resourceLink?.queryParams?resourceLink.queryParams : 'preserve' ">
         {{content.name}}
       </a>
-    </div>
-    <ng-template #elseRouterLock>
+    </div> -->
+    {{ content.name }}
+    <!-- <ng-template #elseRouterLock>
       {{content.name}}
-    </ng-template>
+    </ng-template> -->
   </div>
   <!-- <div class="label1 pt-1">
     {{assesmentdata.isAssessment ? 'Assessment' : 'Quiz'}}
@@ -24,17 +25,16 @@
         assesmentdata.duration | pipeDurationTransform: 'mnts'
         }}
       </h4>
-      <h4 class="label3" i18n>Minutes</h4>
+      <h4 class="label3">{{'Minutes' | translate}}</h4>
     </div>
     <div class="m-2 p-2 ellips">
       <h4 class="label2">
         {{assesmentdata.questions.length}}</h4>
-      <h4 class="label3" i18n>Questions</h4>
+      <h4 class="label3">{{'Questions' | translate}}</h4>
     </div>
     <div class=" m-2 p-2 ellips">
       <h4 class="label2">{{assesmentdata.passPercentage ? assesmentdata.passPercentage : '0' }}<span>%</span></h4>
-      <h4 class="label3" i18n>Required</h4>
-
+      <h4 class="label3">{{'Required' | translate}}</h4>
     </div>
   </div>
 

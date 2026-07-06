@@ -5,12 +5,14 @@ import { ValueService } from '@ws-widget/utils/src/public-api'
 import { AppTocService } from '../../../../../project/ws/app/src/lib/routes/app-toc/services/app-toc.service'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import get from 'lodash/get'
+import { get } from 'lodash'
 @Component({
-  selector: 'ws-public-license',
-  templateUrl: './public-license.component.html',
-  styleUrls: ['./public-license.component.scss'],
-  providers: [AppTocService],
+    standalone: false,
+    selector: 'ws-public-license',
+    templateUrl: './public-license.component.html',
+    styleUrls: ['./public-license.component.scss'],
+    providers: [AppTocService],
+    
 })
 export class PublicLicenseComponent implements OnInit {
   isXSmall = false
@@ -23,7 +25,7 @@ export class PublicLicenseComponent implements OnInit {
 */
   public unsubscribe = new Subject<void>()
   constructor(private valueSvc: ValueService,
-              private tocSvc: AppTocService
+    private tocSvc: AppTocService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall

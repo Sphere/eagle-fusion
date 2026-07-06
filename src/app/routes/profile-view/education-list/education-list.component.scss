@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .content {
   padding: 60px 20px 30px;
@@ -20,7 +20,7 @@
   //   max-width: 50%;
   // }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 90%;
   }
 }
@@ -38,7 +38,7 @@
 
 .heading {
   font-size: 12px;
-  color: #808080;
+  color:  var(--theme-inactive, #808080);
 }
 
 .head-2 {
@@ -57,7 +57,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #1C5D95;
+  color: var(--theme-accent);
 }
 
 .pencil {
@@ -65,31 +65,31 @@
 }
 
 .add-icon {
-  color: #1C5D95;
+  color: var(--theme-accent);
   font-size: 20px;
 }
 
 .edit-icon {
   // position: absolute;
   // right: 1rem;
-  // color: #1C5D95;
+  // color: var(--theme-primary);
 
   position: relative;
   left: 7rem;
-  color: #1C5D95;
+  color: var(--theme-accent);
   float: right;
   top: 6px;
 
 
-  @include breakpoint-gt-m {
+  @include ws-mixins.breakpoint-gt-m {
     left: 24rem;
   }
 
-  @include breakpoint-gt-l {
+  @include ws-mixins.breakpoint-gt-l {
     left: 24rem;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     left: 17rem;
   }
 

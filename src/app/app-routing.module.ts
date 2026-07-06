@@ -1,25 +1,24 @@
-import { NgModule } from '@angular/core'
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
-// import { LearningGuard } from '../../project/ws/app/src/lib/routes/my-learning/guards/my-learning.guard'
-// import { BtnProfileComponent } from '../../library/ws-widget/collection/src/lib/btn-profile/btn-profile.component'
-import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { ETopBar } from './constants/topBar.constants'
 import { ExternalUrlResolverService } from './guards/external-url-resolver.service'
 import { GeneralGuard } from './guards/general.guard'
 import { LoginGuard } from './guards/login.guard'
+import { EmptyRouteGuard } from './guards/empty-route.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
-// import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
-import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
+// import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
-// import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
-import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
-import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
+// import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
+import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
+import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
+import { PublicCourseBlogComponent } from './routes/public/public-course-blog/public-course-blog.component'
+// import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
@@ -27,7 +26,6 @@ import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
 import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
-import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-service.service'
 import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 
@@ -40,9 +38,8 @@ import { YourLocationComponent as AboutYou } from './routes/your-location/your-l
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
-// import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
-import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
+// import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
 import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
 import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
@@ -52,22 +49,23 @@ import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/key
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
-import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
+import { MNCCallbackComponent } from './mnc-callback/mnc-callback.component'
+import { OrgHomeComponent } from './routes/organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
-import { CompetencyDashboardComponent } from '@aastrika_npmjs/competency-web/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
-import { PublicLoginComponent } from './public-login/public-login.component'
+import { PublicLoginComponent } from './routes/public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
 import { NotificationsComponent } from './routes/notification/notification.component'
-
-// import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { CommonModule } from '@angular/common'
+import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
-let domain = window.location.hostname
+const domain = typeof window !== 'undefined' ? window.location.hostname : ''
 // this.domain = window.location.hostname
 
 const routes: Routes = [
@@ -75,13 +73,17 @@ const routes: Routes = [
     path: '',
     redirectTo: 'public/home',
     pathMatch: 'full',
-    data: { title: 'Home - Aastrika Sphere' },
+    data: { title: 'Aastrika Sphere - Home' },
   },
   {
     path: 'public/home',
     component: PublicHomeComponent,
     data: {
-      title: domain.includes('ekshamata') ? 'Home - Ekshamata' : 'Home - Aastrika Sphere',
+      title: domain.includes('ekshamata')
+        ? 'Ekshamata - Free CNE Courses for Healthcare Professionals'
+        : 'Aastrika Sphere - Free CNE Courses | INC Certified | Healthcare Training',
+      seoDescription: 'Earn CNE points and INC certification with free online healthcare courses on Aastrika Sphere. Courses on maternal health, newborn care, midwifery, and more — designed for nurses, midwives, and healthcare workers across India.',
+      seoKeywords: 'CNE points, CNE credits, INC certification, free healthcare courses, nursing courses online, maternal health training, newborn care, midwifery courses, healthcare e-learning India, Aastrika Sphere',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
@@ -90,15 +92,15 @@ const routes: Routes = [
       pageData: PageResolve,
     },
   },
-  {
-    path: 'aboutpoppage',
-    component: MobileAboutPopupComponent,
-  },
+  // {
+  //   path: 'aboutpoppage',
+  //   component: MobileAboutPopupComponent,
+  // },
   {
     path: 'app',
     loadChildren: () =>
       import('./routes/route-disussion.module').then(u => u.RouteDiscussModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
     data: {
       pageType: 'feature',
       pageKey: 'discuss',
@@ -111,11 +113,24 @@ const routes: Routes = [
   },
   {
     path: 'bnrc/register',
+    data: {
+      title: 'Aastrika Sphere - Bnrc Registration',
+    },
     component: BnrcRegisterComponent,
   },
   {
-    path: 'upsmf/register',
+    path: 'uttarpradesh/register',
+    data: {
+      title: 'Aastrika Sphere - Uttar Pradesh Registration',
+    },
     component: UpsmfRegisterComponent,
+  },
+  {
+    path: 'madhyapradesh/register',
+    data: {
+      title: 'Aastrika Sphere - Madhya Pradesh Registration',
+    },
+    component: MpRegisterComponent,
   },
   {
     path: 'app/about-you',
@@ -123,7 +138,24 @@ const routes: Routes = [
   },
   {
     path: 'app/create-account',
+    data: {
+      title: 'Aastrika Sphere - Create Account',
+    },
     component: CreateAccountComponent,
+  },
+  {
+    path: ':lang/app/create-account',
+    data: {
+      title: 'Aastrika Sphere - Create Account',
+    },
+    component: CreateAccountComponent,
+  },
+  {
+    path: 'app/create-account/:stateCode/:orgName/:role',
+    component: CreateAccountComponent,
+    data: {
+      title: 'Create Account',
+    },
   },
   {
     path: 'app/complete-profile',
@@ -148,18 +180,7 @@ const routes: Routes = [
   {
     path: 'app/features',
     component: FeaturesComponent,
-    canActivate: [GeneralGuard],
-  },
-  {
-    path: 'app/invalid-user',
-    component: InvalidUserComponent,
-    data: {
-      pageType: 'feature',
-      pageKey: 'invalid-user',
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'app/login',
@@ -167,6 +188,10 @@ const routes: Routes = [
   },
   {
     path: 'public/login',
+    data: {
+      title: 'Login - Aastrika Sphere',
+      seoDescription: 'Log in to Aastrika Sphere to access your healthcare training courses, track progress, and earn certifications.',
+    },
     component: PublicLoginComponent,
   },
   {
@@ -183,9 +208,15 @@ const routes: Routes = [
   {
     path: 'app/org-details',
     component: OrgComponent,
-    resolve: {
-      orgData: OrgServiceService,
-    },
+    // Resolver removed: OrgServiceService.resolve() was fetching a non-existent
+    // assets/configurations/orgmeta.config.json (404) on every navigation, and
+    // OrgComponent never read the resolver result — it loads its own data via
+    // /assets/orgMeta.json directly in loadOrgData().
+  },
+  {
+    path: 'app/org-selective-course',
+    loadChildren: () =>
+      import('../../project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.module').then(u => u.OrgSelectiveCourseModule),
   },
   {
     path: 'app/personal-detail-edit',
@@ -195,7 +226,7 @@ const routes: Routes = [
     path: 'app/person-profile',
     loadChildren: () =>
       import('./routes/route-person-profile.module').then(u => u.RoutePersonProfileModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   // {
   //   path: 'app/profile/dashboard',
@@ -205,12 +236,12 @@ const routes: Routes = [
     path: 'app/profile',
     loadChildren: () =>
       import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'app/profile-view',
     component: MobileProfileDashboardComponent,
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   // {
   //   path: 'app/profile/settings',
@@ -227,7 +258,7 @@ const routes: Routes = [
     resolve: {
       searchPageData: PageResolve,
     },
-    // canActivate: [EmptyRouteGuard],
+    canActivate: [EmptyRouteGuard],
   },
   {
     path: 'app/signup',
@@ -244,12 +275,7 @@ const routes: Routes = [
   {
     path: 'app/toc',
     loadChildren: () => import('./routes/route-app-toc.module').then(u => u.RouteAppTocModule),
-    canActivate: [GeneralGuard],
-  },
-  {
-    path: 'hi/app/toc',
-    loadChildren: () => import('./routes/route-app-toc.module').then(u => u.RouteAppTocModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'app/user-profile',
@@ -258,21 +284,25 @@ const routes: Routes = [
   },
   {
     path: 'app/user/self-assessment',
-    component: SelfAssessmentComponent, canActivate: [SelfAssessmentGuard],
+    component: SelfAssessmentComponent,
+    canActivate: [SelfAssessmentGuard, EmptyRouteGuard],
   },
   {
-    path: 'app/user/competency', component: CompetencyDashboardComponent,
-    canActivate: [GeneralGuard],
+    path: 'app/user/competency',
+    loadChildren: () =>
+      import('./routes/competency/competency.module').then(u => u.CompetencyModule),
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
-    path: 'app/user/my_courses', component: MyCoursesComponent,
-    canActivate: [GeneralGuard]
+    path: 'app/user/my_courses',
+    component: MyCoursesComponent,
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'notification',
     component: NotificationsComponent,
-    canActivate: [GeneralGuard],
-    data: { animation: 'notification' }
+    canActivate: [GeneralGuard, EmptyRouteGuard],
+    data: { animation: 'notification' },
   },
   // {
   //   path: 'app/video-player',
@@ -289,7 +319,7 @@ const routes: Routes = [
   {
     path: 'author/viewer',
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'certs',
@@ -301,7 +331,7 @@ const routes: Routes = [
       topBar: ETopBar.NONE,
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'error-access-forbidden',
@@ -362,21 +392,9 @@ const routes: Routes = [
     component: GoogleCallbackComponent,
   },
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
-  { path: 'hi/hi/page/home', redirectTo: 'hi/page/home', pathMatch: 'full' },
-  {
-    path: 'hi/app/profile',
-    loadChildren: () =>
-      import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
-    canActivate: [GeneralGuard],
-  },
-  {
-    path: 'hi/app/profile-view',
-    component: MobileProfileDashboardComponent,
-    canActivate: [GeneralGuard],
-  },
   {
     path: 'login',
-    canActivate: [LoginGuard],
+    canActivate: [LoginGuard, EmptyRouteGuard],
     component: LoginRootComponent,
     data: {
       pageType: 'feature',
@@ -403,6 +421,10 @@ const routes: Routes = [
     component: TnnmcCallbackComponent,
   },
   {
+    path: 'openid/mnc',
+    component: MNCCallbackComponent,
+  },
+  {
     path: 'openid/sphereapp',
     component: AppCallBackComponent,
 
@@ -413,8 +435,8 @@ const routes: Routes = [
   },
   {
     path: 'organisations',
-    loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
-    canActivate: [GeneralGuard],
+    loadChildren: () => import('./routes/organisations/organisations.module').then(u => u.OrganisationsModule),
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'public/organisations/home',
@@ -437,7 +459,7 @@ const routes: Routes = [
     },
     runGuardsAndResolvers: 'paramsChange',
     component: PageComponent,
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'page/:id',
@@ -449,8 +471,9 @@ const routes: Routes = [
     resolve: {
       pageData: PageResolve,
     },
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
+
   // {
   //   path: 'page/explore/:tags',
   //   data: {
@@ -469,13 +492,15 @@ const routes: Routes = [
       import('./routes/page-leader-renderer/page-leader-renderer.module').then(
         u => u.PageLeaderRendererModule,
       ),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'public/about',
-    component: PublicAboutComponent,
+    // component: PublicAboutComponent,
+    loadChildren: () => import('./routes/public/public-about/public-about.module').then(u => u.PublicAboutModule),
     data: {
-      title: 'About - Aastrika',
+      title: 'About Us - Aastrika Sphere',
+      seoDescription: 'Learn about Aastrika Sphere — a digital platform enabling health system strengthening and capacity building for healthcare professionals across India.',
       pageType: 'feature',
       pageKey: 'about',
       isPublic: true,
@@ -485,9 +510,30 @@ const routes: Routes = [
     },
   },
   {
-    path: 'public/contact',
-    component: PublicContactComponent,
+    path: 'public/blog',
+    component: PublicBlogListComponent,
     data: {
+      title: 'Healthcare Training Blog | Aastrika Sphere',
+      isPublic: true,
+    },
+  },
+  {
+    path: 'public/blog/:slug',
+    component: PublicBlogArticleComponent,
+    data: { isPublic: true },
+  },
+  {
+    path: 'public/course-blog/:courseId',
+    component: PublicCourseBlogComponent,
+    data: { isPublic: true },
+  },
+  {
+    path: 'public/contact',
+    // component: PublicContactComponent,
+    loadChildren: () => import('./routes/public/public-contact/public-contact.module').then(u => u.PublicContactModule),
+    data: {
+      title: 'Contact Us - Aastrika Sphere',
+      seoDescription: 'Get in touch with the Aastrika Sphere team for queries about our healthcare training courses, partnerships, or platform support.',
       pageType: 'feature',
       pageKey: 'public-faq',
     },
@@ -510,7 +556,8 @@ const routes: Routes = [
     path: 'public/tnc',
     component: TncComponent,
     data: {
-      title: 'Terms of Use - Aastrika',
+      title: 'Terms of Use - Aastrika Sphere',
+      seoDescription: 'Read the Terms of Use for Aastrika Sphere, the digital healthcare training platform.',
       isPublic: true,
     },
     resolve: {
@@ -528,16 +575,30 @@ const routes: Routes = [
   {
     path: 'public/toc',
     component: PublicTocComponent,
+    data: {
+      title: 'Aastrika Sphere - Free Certified Healthcare Courses | CNE Points',
+      seoDescription: 'Explore free certified healthcare training courses on Aastrika Sphere. Earn CNE points and INC certification in maternal health, newborn care, and more.',
+      seoKeywords: 'CNE points, CNE credits, INC certification, free healthcare courses, nursing courses online, maternal health, newborn care, Aastrika Sphere',
+    },
     children: [
       {
-        path: 'overview',
+        path: 'overview/:courseId/:slug',
         component: PublicTocOverviewComponent,
+      },
+      {
+        path: 'overview/:slug',
+        component: PublicTocOverviewComponent, // fallback when courseId is query param
+      },
+      {
+        path: 'overview',
+        component: PublicTocOverviewComponent, // fallback for query param only
       },
     ],
   },
   {
     path: 'public/faq/:tab',
-    component: PublicFaqComponent,
+    // component: PublicFaqComponent,
+    loadChildren: () => import('./routes/public/public-faq/public-faq.module').then(u => u.PublicFaqModule),
   },
   {
     path: 'public/scrom-player',
@@ -550,16 +611,9 @@ const routes: Routes = [
       topBar: ETopBar.NONE,
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
-  {
-    path: 'hi/viewer',
-    data: {
-      topBar: ETopBar.NONE,
-    },
-    loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
-    canActivate: [GeneralGuard],
-  },
+
   {
     path: '**',
     component: ErrorResolverComponent,
@@ -572,6 +626,9 @@ const routes: Routes = [
   imports: [
     PageModule,
     FeaturesModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
     RouterModule.forRoot(routes, {
       onSameUrlNavigation: 'reload',
       anchorScrolling: 'enabled',
@@ -581,6 +638,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [ExploreDetailResolve],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppRoutingModule {
   paramsJSON!: string

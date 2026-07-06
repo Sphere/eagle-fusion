@@ -8,9 +8,11 @@ import { EventService, WsEvents } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-  selector: 'viewer-web-module',
-  templateUrl: './web-module.component.html',
-  styleUrls: ['./web-module.component.scss'],
+    standalone: false,
+    selector: 'viewer-web-module',
+    templateUrl: './web-module.component.html',
+    styleUrls: ['./web-module.component.scss'],
+    
 })
 export class WebModuleComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
@@ -60,11 +62,11 @@ export class WebModuleComponent implements OnInit, OnDestroy {
           }
           if (this.webmoduleData && this.webmoduleData.identifier) {
             this.webmoduleData.resumePage = 1
-            if (this.activatedRoute.snapshot.queryParams.collectionId) {
-              await this.fetchContinueLearning(this.activatedRoute.snapshot.queryParams.collectionId, this.webmoduleData.identifier)
-            } else {
-              await this.fetchContinueLearning(this.webmoduleData.identifier, this.webmoduleData.identifier)
-            }
+            // if (this.activatedRoute.snapshot.queryParams.collectionId) {
+            //   await this.fetchContinueLearning(this.activatedRoute.snapshot.queryParams.collectionId, this.webmoduleData.identifier)
+            // } else {
+            //   await this.fetchContinueLearning(this.webmoduleData.identifier, this.webmoduleData.identifier)
+            // }
           }
           if (this.webmoduleData && this.webmoduleManifest) {
             this.oldData = this.webmoduleData
@@ -144,25 +146,25 @@ export class WebModuleComponent implements OnInit, OnDestroy {
     }
     this.eventSvc.dispatchEvent(event)
   }
-  async fetchContinueLearning(collectionId: string, webModuleId: string): Promise<boolean> {
-    return new Promise(resolve => {
-      this.contentSvc.fetchContentHistory(collectionId).subscribe(
-        data => {
-          if (data) {
-            if (
-              data.identifier === webModuleId
-              && data.continueData
-              && data.continueData.progress
-              && this.webmoduleData
-            ) {
-              this.webmoduleData.resumePage = Number(data.continueData.progress)
-            }
-          }
-          resolve(true)
-        },
-        () => resolve(true))
-    })
-  }
+  // async fetchContinueLearning(collectionId: string, webModuleId: string): Promise<boolean> {
+  //   return new Promise(resolve => {
+  //     this.contentSvc.fetchContentHistory(collectionId).subscribe(
+  //       data => {
+  //         if (data) {
+  //           if (
+  //             data.identifier === webModuleId
+  //             && data.continueData
+  //             && data.continueData.progress
+  //             && this.webmoduleData
+  //           ) {
+  //             this.webmoduleData.resumePage = Number(data.continueData.progress)
+  //           }
+  //         }
+  //         resolve(true)
+  //       },
+  //       () => resolve(true))
+  //   })
+  // }
 
   private async setS3Cookie(contentId: string) {
     await this.contentSvc

@@ -11,14 +11,7 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
-import includes from 'lodash/includes'
-import get from 'lodash/get'
-import map from 'lodash/map'
-import filter from 'lodash/filter'
-import set from 'lodash/set'
-import first from 'lodash/first'
-import each from 'lodash/each'
-import toInteger from 'lodash/toInteger'
+import { includes, get, map, filter, set, first, each, toInteger } from 'lodash'
 
 import moment from 'moment'
 
@@ -35,12 +28,14 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
-  selector: 'ws-app-app-toc-home',
-  templateUrl: './app-toc-home.component.html',
-  styleUrls: ['./app-toc-home.component.scss'],
+    standalone: false,
+    selector: 'ws-app-app-toc-home',
+    templateUrl: './app-toc-home.component.html',
+    styleUrls: ['./app-toc-home.component.scss'],
+    
 })
 export class AppTocHomeComponent implements OnInit, OnDestroy {
 
@@ -94,7 +89,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   result: any
   matspinner = true
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll', [])
   handleScroll() {
     const windowScroll = window.pageYOffset
     if (windowScroll >= this.elementPosition - 100) {
@@ -166,7 +161,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
 
     this.currentFragment = 'overview'
-    this.route.fragment.subscribe((fragment: string) => {
+    this.route.fragment.subscribe((fragment: string | null) => {
       this.currentFragment = fragment || 'overview'
     })
     this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(
@@ -175,7 +170,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
       () => {
         // tslint:disable-next-line: no-console
-        console.log('error on batchSubscription')
+        this.loggerSvc.log('error on batchSubscription')
       },
     )
   }
@@ -322,8 +317,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   }
   redirectTo() {
     this.routelinK = 'discuss'
-    this.loadDiscussionWidget = true
     this.tocSvc._showComponent.next({ showComponent: false })
+    setTimeout(() => { this.loadDiscussionWidget = true }, 0)
   }
   toggleComponent(cname: string) {
     this.routelinK = ''

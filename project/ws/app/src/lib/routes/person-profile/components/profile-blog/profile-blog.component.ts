@@ -4,15 +4,17 @@ import { TFetchStatus, ConfigurationsService, ValueService } from '@ws-widget/ut
 import { Subscription } from 'rxjs'
 import { PersonProfileService } from '../../services/person-profile.service'
 @Component({
-  selector: 'ws-app-profile-blog',
-  templateUrl: './profile-blog.component.html',
-  styleUrls: ['./profile-blog.component.scss'],
+    standalone: false,
+    selector: 'ws-app-profile-blog',
+    templateUrl: './profile-blog.component.html',
+    styleUrls: ['./profile-blog.component.scss'],
+    
 })
 export class ProfileBlogComponent implements OnInit {
 
   @Input() wid = ''
   @Output() count = new EventEmitter<number>()
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
 
   blogSubscription: Subscription | null = null
   requestBody!: NsDiscussionForum.ITimelineRequest

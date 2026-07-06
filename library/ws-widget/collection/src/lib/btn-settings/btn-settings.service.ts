@@ -31,14 +31,14 @@ export class BtnSettingsService {
     // initialize fonts
     this.changeFont()
     // initialize theme mode
-    let isDarkMode = this.configurationsSvc.isDarkMode
-    if (this.configurationsSvc.userPreference && 'isDarkMode' in this.configurationsSvc.userPreference) {
-      isDarkMode = this.configurationsSvc.userPreference.isDarkMode
-    }
+    // let isDarkMode = this.configurationsSvc.isDarkMode
+    // if (this.configurationsSvc.userPreference && 'isDarkMode' in this.configurationsSvc.userPreference) {
+    //   isDarkMode = this.configurationsSvc.userPreference.isDarkMode
+    // }
     // else {
     //   this.configurationsSvc.instanceConfig && this.configurationsSvc.instanceConfig.
     // }
-    this.applyThemeMode(isDarkMode || false)
+    // this.applyThemeMode(isDarkMode || false)
     // setup current locale Setting
     this.setLocaleSetting()
     if (this.configurationsSvc.userPreference) {
@@ -165,15 +165,15 @@ export class BtnSettingsService {
     }
   }
 
-  applyThemeMode(toDarkMode = true) {
-    const [toRemove, toAdd] = toDarkMode ? ['day-mode', 'night-mode'] : ['night-mode', 'day-mode']
-    this.htmlElem.classList.remove(toRemove)
-    this.htmlElem.classList.add(toAdd)
-    this.configurationsSvc.isDarkMode = toDarkMode
-    if (this.notifyOnChange) {
-      this.configurationsSvc.prefChangeNotifier.next({ isDarkMode: toDarkMode })
-    }
-  }
+  // applyThemeMode(toDarkMode = true) {
+  //   const [toRemove, toAdd] = toDarkMode ? ['day-mode', 'night-mode'] : ['night-mode', 'day-mode']
+  //   this.htmlElem.classList.remove(toRemove)
+  //   this.htmlElem.classList.add(toAdd)
+  //   this.configurationsSvc.isDarkMode = toDarkMode
+  //   if (this.notifyOnChange) {
+  //     this.configurationsSvc.prefChangeNotifier.next({ isDarkMode: toDarkMode })
+  //   }
+  // }
 
   intranetContentMode(internetAllowed = true) {
     this.configurationsSvc.isIntranetAllowed = internetAllowed

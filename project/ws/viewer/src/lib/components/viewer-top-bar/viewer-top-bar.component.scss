@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .app-logo {
   max-width: 70px;
@@ -6,7 +6,7 @@
   border-radius: 5px;
 
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 80px;
     max-height: 30px;
   }
@@ -24,7 +24,7 @@
   margin-right: -52px;
   padding-right: 10px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 80px;
     max-height: 30px;
   }
@@ -65,4 +65,22 @@ mat-toolbar {
   font-size: 24px !important;
   font-weight: 400 !important;
   color: #000000;
+}
+
+:host-context(.dark-theme) {
+  mat-toolbar {
+    background: var(--theme-surface, #0e161b) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  .top-title,
+  a,
+  mat-icon {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  ::ng-deep img.action-icons {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+  }
 }

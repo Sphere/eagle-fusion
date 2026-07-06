@@ -86,8 +86,8 @@
 <!-- templates -->
 <ng-template #creators let-authors="authors" let-title="title">
   <mat-card>
-    <h2 *ngIf="title === 'AUTHOR'" i18n>Authors</h2>
-    <h2 *ngIf="title === 'CONTACT'" i18n>Contacts</h2>
+    <h2 *ngIf="title === 'AUTHOR'">{{"Authors" | translate}}</h2>
+    <h2 *ngIf="title === 'CONTACT'">{{"Contacts" | translate}}</h2>
     <mat-divider></mat-divider>
     <div *ngFor="let author of authors" class="author">
       <ws-widget-user-image class="author-image" [email]="author.email"></ws-widget-user-image>

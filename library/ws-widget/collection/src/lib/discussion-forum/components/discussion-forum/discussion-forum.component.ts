@@ -7,9 +7,11 @@ import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 
 @Component({
-  selector: 'ws-widget-discussion-forum',
-  templateUrl: './discussion-forum.component.html',
-  styleUrls: ['./discussion-forum.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-discussion-forum',
+    templateUrl: './discussion-forum.component.html',
+    styleUrls: ['./discussion-forum.component.scss'],
+    
 })
 export class DiscussionForumComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsDiscussionForum.IDiscussionForumInput> {

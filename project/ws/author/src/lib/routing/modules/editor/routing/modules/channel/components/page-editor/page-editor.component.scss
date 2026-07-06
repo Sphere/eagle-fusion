@@ -1,6 +1,6 @@
-@import 'ws-vars';
-@import 'ws-mixins';
-@import 'ws-common';
+@use 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-common';
 
 mat-drawer {
   padding: 10px;
@@ -10,13 +10,13 @@ mat-drawer {
 
 .concept {
   text-align: center;
-  margin-right: $size-s;
+  margin-right: ws-vars.$size-s;
   height: 95px;
   width: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $size-s;
+  padding: ws-vars.$size-s;
   box-sizing: border-box;
   font: inherit;
 }
@@ -66,7 +66,7 @@ mat-drawer {
   width: 100%;
 }
 
-::ng-deep .mat-select-content {
+::ng-deep .mat-mdc-select-panel {
   width: 80px;
 }
 
@@ -84,5 +84,9 @@ mat-drawer {
 }
 
 ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: 30px !important;
+}
+
+::ng-deep .mat-mdc-button-toggle-group-appearance-standard .mat-mdc-button-toggle .mdc-button__label {
   line-height: 30px !important;
 }

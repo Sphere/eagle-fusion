@@ -17,12 +17,13 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
-import { ISortEvent } from '../../../../../../../../../directives/draggable/sortable-list.directive'
 
 @Component({
-  selector: 'ws-auth-chips',
-  templateUrl: './chips.component.html',
-  styleUrls: ['./chips.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-chips',
+    templateUrl: './chips.component.html',
+    styleUrls: ['./chips.component.scss'],
+    
 })
 export class ChipsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('copyText', { static: true }) copyText!: ElementRef<any>
@@ -119,7 +120,7 @@ export class ChipsComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-  sort(event: ISortEvent) {
+  sort(event: any) {
     const current = this.value[event.currentIndex]
     const swapWith = this.value[event.newIndex]
     this.value[event.newIndex] = current

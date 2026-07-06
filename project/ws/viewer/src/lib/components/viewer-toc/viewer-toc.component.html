@@ -68,8 +68,8 @@
                 <mat-icon *ngIf="
                   contentProgressHash &&
                   contentProgressHash[node.identifier] &&
-                  contentProgressHash[node.identifier] > 0.99
-                " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs">check_circle</mat-icon>
+                  contentProgressHash[node.identifier] > 0.99" [matTooltip]="'Completed' | translate"
+                  class="completed-icon margin-left-xs">check_circle</mat-icon>
               </span>
               <button class="width-9-10 pt-2" mat-icon-button matTreeNodeToggle
                 [attr.aria-label]="'toggle ' + node.name">
@@ -94,8 +94,8 @@
     <mat-spinner></mat-spinner>
   </div>
   <div *ngIf="isErrorOccurred" class="flex flex-center">
-    <h2 i18n class="mat-sub-heading">
-      Unsupported Collection Type
+    <h2 class="mat-sub-heading">
+      {{"Unsupported Collection Type" | translate }}
     </h2>
   </div>
 </ng-template>
@@ -106,18 +106,17 @@
     (click)="minimizenav()" [routerLink]="content.viewerUrl" queryParamsHandling="preserve" [attr.tabindex]="'-1'">
     <span class="width-expand flex flex-middle">
 
-      <img i18n-alt alt="thumbnail" class="viewer-toc-thumbnail align-self-start margin-auto mat-app-background"
+      <img alt="thumbnail" class="viewer-toc-thumbnail align-self-center margin-auto mat-app-background"
         [src]="content.thumbnailUrl" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
-      <span class="width-1-1 margin-left-m flex flex-wrapped align-self-start">
+      <span class="width-1-1 margin-left-m flex flex-wrapped align-self-center">
         <div class="width-1-1 flex flex-between" [ngClass]="{ 'content-active': pathSet.has(content.identifier) }">
           <div class="mat-body-2 text-truncate flex">
             <span>
               {{ content.title | pipeLimitTo: 20 }}
             </span>
-            <mat-icon *ngIf="content.disabledNode">lock</mat-icon>
-            <mat-icon *ngIf="
-                content?.completionPercentage === 100
-              " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-start">
+            <mat-icon *ngIf="content.disabledNode && content?.completionPercentage !== 100">lock</mat-icon>
+            <mat-icon *ngIf="content?.completionPercentage === 100" [matTooltip]="'Completed' | translate"
+              class="completed-icon margin-left-xs align-self-start">
               check_circle_outline</mat-icon>
 
           </div>
@@ -179,23 +178,23 @@
             <div [ngSwitch]="content.type | lowercase">
               <div *ngSwitchCase="'pdf'">
                 <img src=".\fusion-assets\icons\pdf-icon.png">
-                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
-                  (click)="downloadResource(content)" mat-icon-button matTooltip="Download Resource" i18n-matTooltip>
-                  <mat-icon matTooltip="Download Resource">get_app</mat-icon>
+                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn==='Yes'"
+                  (click)="downloadResource(content)" mat-icon-button [matTooltip]="'Download Resource' | translate ">
+                  <mat-icon [matTooltip]="'Download Resource' | translate">get_app</mat-icon>
                 </button>
               </div>
               <div *ngSwitchCase="'lecture'">
                 <img src=".\fusion-assets\icons\pdf-icon.png">
-                <button title="Download Resource" matTooltip="Download Resource" aria-label="Download Resource"
-                  *ngIf="content.showDownloadBtn=='Yes'" (click)="downloadResource(content)" mat-icon-button
-                  i18n-matTooltip>
+                <button title="Download Resource" [matTooltip]="'Download Resource' | translate"
+                  aria-label="Download Resource" *ngIf="content.showDownloadBtn==='Yes'"
+                  (click)="downloadResource(content)" mat-icon-button>
                   <mat-icon matTooltip="Download Resource">get_app</mat-icon>
                 </button>
               </div>
               <div *ngSwitchCase="'video'">
                 <img src=".\fusion-assets\icons\video-icon.png">
-                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
-                  (click)="downloadResource(content)" mat-icon-button matTooltip="Download Resource" i18n-matTooltip>
+                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn==='Yes'"
+                  (click)="downloadResource(content)" mat-icon-button [matTooltip]="'Download Resource' | translate">
                   <mat-icon matTooltip="Download Resource">get_app</mat-icon>
                 </button>
               </div>
@@ -223,7 +222,7 @@
                 *ngIf="content?.completionPercentage > 0 && content?.completionPercentage !==100 ; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
                   [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
-                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false"
                   [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
                   [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
                   [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
@@ -258,8 +257,8 @@
         <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex d-none">
           {{ content?.title | pipeLimitTo: 30 }}
           <mat-icon title="{{content?.completionPercentage}}%" *ngIf="
-              content?.completionPercentage === 100
-            " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
+              content?.completionPercentage === 100" [matTooltip]="'Completed' | translate"
+            class="completed-icon margin-left-xs align-self-center">
             check_circle_outline</mat-icon>
         </h1>
       </a>

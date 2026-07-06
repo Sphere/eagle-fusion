@@ -1,26 +1,32 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Router } from '@angular/router'
-import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
+import { LogoutComponent, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { LoggerService } from '@ws-widget/utils'
+import { Observable } from 'rxjs'
 
 @Component({
-  selector: 'ws-mobile-profile-nav',
-  templateUrl: './mobile-profile-nav.component.html',
-  styleUrls: ['./mobile-profile-nav.component.scss'],
+    standalone: false,
+    selector: 'ws-mobile-profile-nav',
+    templateUrl: './mobile-profile-nav.component.html',
+    styleUrls: ['./mobile-profile-nav.component.scss'],
+    
 })
 export class MobileProfileNavComponent implements OnInit {
-  @Input() showbackButton?: Boolean
-  @Input() showLogOutIcon?: Boolean
-  @Input() trigerrNavigation?: Boolean = false
-  @Input() navigateTohome?: Boolean = false
+  @Input() showbackButton?: boolean
+  @Input() showLogOutIcon?: boolean
+  @Input() trigerrNavigation?: boolean = false
+  @Input() navigateTohome?: boolean = false
+  isXSmall$: Observable<boolean>
   constructor(
     private dialog: MatDialog,
     public router: Router,
-    private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
+    private logger: LoggerService,
+    private valueSvc: ValueService,
   ) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
     this.contentSvc.backMessage.subscribe((data: any) => {
       if (data) {
         sessionStorage.setItem('clickedUrl', data)
@@ -33,56 +39,53 @@ export class MobileProfileNavComponent implements OnInit {
   }
 
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container',
+    })
   }
 
   backScreen() {
-    console.log('now')
-    let backURL = sessionStorage.getItem('currentWindow')
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
-    let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
-    }
-    console.log(backURL)
+    this.logger.log('now')
+    const backURL = sessionStorage.getItem('currentWindow')
+    const url3 = `${document.baseURI}`
+    this.logger.log(backURL)
     if (backURL) {
-      let ob = {
+      const ob = {
         "type": "back",
-        "back": true
+        "back": true,
       }
       this.contentSvc.changeWork(ob)
     } else {
-      let orgcheck = sessionStorage.getItem('work')
-      let academicCheck = sessionStorage.getItem('academic')
-      let eduList = sessionStorage.getItem('onListPage')
-      console.log(eduList)
-      console.log(academicCheck)
-      console.log(orgcheck)
+      const orgcheck = sessionStorage.getItem('work')
+      const academicCheck = sessionStorage.getItem('academic')
+      const eduList = sessionStorage.getItem('onListPage')
+      this.logger.log(eduList)
+      this.logger.log(academicCheck)
+      this.logger.log(orgcheck)
       if (orgcheck) {
-        let ob = {
+        const ob = {
           "type": "work",
-          "back": true
+          "back": true,
         }
         this.contentSvc.changeWork(ob)
       } else if (academicCheck && eduList === null) {
-        let ob = {
+        const ob = {
           "type": "academic",
-          "back": true
+          "back": true,
         }
         this.contentSvc.changeWork(ob)
       } else {
         if (eduList) {
-          let ob = {
+          const ob = {
             "type": "onListPage",
-            "back": true
+            "back": true,
           }
           this.contentSvc.changeWork(ob)
         }
       }
     }
     this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data, 'back')
+      this.logger.log(data, 'back')
       if (data === undefined) {
 
       }
@@ -96,35 +99,35 @@ export class MobileProfileNavComponent implements OnInit {
         if (localStorage.getItem('orgValue') === 'nhsrc') {
           this.router.navigateByUrl('/organisations/home')
         } else {
-          console.log("fasdfasdwew")
+          this.logger.log("fasdfasdwew")
           // this.currentText = text.name
-          let url = '/page/home'
-          location.href = `${url3}${url1}${url}`
+          const url = '/page/home'
+          location.href = `${url3}${url}`
           // this.router.navigate(['/page/home'])
         }
       } else {
-        let orgcheck = sessionStorage.getItem('work')
-        let academicCheck = sessionStorage.getItem('academic')
-        console.log(academicCheck)
-        console.log(orgcheck)
+        const orgcheck = sessionStorage.getItem('work')
+        const academicCheck = sessionStorage.getItem('academic')
+        this.logger.log(academicCheck)
+        this.logger.log(orgcheck)
         if (orgcheck) {
-          let ob = {
+          const ob = {
             "type": "work",
-            "back": true
+            "back": true,
           }
           this.contentSvc.changeWork(ob)
         } else if (academicCheck) {
-          let ob = {
+          const ob = {
             "type": "academic",
-            "back": true
+            "back": true,
           }
           this.contentSvc.changeWork(ob)
         } else {
-          let backURL = sessionStorage.getItem('currentWindow')
-          console.log(backURL)
+          const backURL = sessionStorage.getItem('currentWindow')
+          this.logger.log(backURL)
           const url = sessionStorage.getItem('clickedUrl') || ''
           sessionStorage.removeItem('clickedUrl')
-          console.log(url)
+          this.logger.log(url)
           //this.router.navigateByUrl(url)
         }
       }

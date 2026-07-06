@@ -1,11 +1,17 @@
 .pdf-nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   min-height: 56px;
   overflow: hidden;
   font: inherit;
-  background-color: #edf1e5 !important;
+  background-color: var(--theme-bg, #edf1e5) !important;
   height: 50px !important;
+  color: var(--theme-text, #101828) !important;
+
+  mat-icon { color: var(--theme-text, #101828) !important; }
 }
 
 @media screen and (max-width:350px) {
@@ -40,10 +46,26 @@
 }
 
 .pdf-container {
-  height: 100%;
+  height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
+  max-height: none;
+}
+
+@media only screen and (max-width: 599px) {
+  .pdf-container {
+    max-height: 360px;
+  }
+  #fullScreenContainer {
+    min-height: 200px;
+    max-height: 320px;
+  }
+  ::ng-deep ngx-extended-pdf-viewer {
+    min-height: 200px !important;
+    max-height: 320px !important;
+    height: auto !important;
+  }
 }
 
 .container {
@@ -66,6 +88,7 @@
 ::ng-deep .pdf-fullscreen img.action-icons {
   border: none !important;
   width: 20px;
+  filter: var(--theme-icon-filter);
 }
 
 ::ng-deep .fullscreen #youtubeTag {
@@ -73,5 +96,36 @@
 }
 
 #fullScreenContainer {
-  min-height: 75vh;
+  min-height: 200px;
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+}
+
+
+::ng-deep .auto-mat-form-field-input-infix {
+  .mat-mdc-text-field-wrapper {
+    background: transparent !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .mat-mdc-form-field-infix {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    min-height: unset !important;
+  }
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
+  .mat-mdc-input-element {
+    color: var(--theme-text, #101828) !important;
+  }
+  .mat-mdc-form-field-text-prefix,
+  .mat-mdc-form-field-text-suffix {
+    color: var(--theme-text, #101828) !important;
+  }
+}
+
+.auto-mat-form-field-input-infix {
+  font-size: 16px;
+  font-weight: 400;
 }

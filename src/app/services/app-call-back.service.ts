@@ -1,9 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-
-const endpoint = {
-  webview_login: 'apis/public/v8/mobileApp/webviewLogin',
-}
+import { API_END_POINTS } from '../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +14,6 @@ export class AppCallBackService {
   webviewCookieSet(token: string) {
     const headers = new HttpHeaders()
       .set('x-authenticated-user-token', token)
-    return this.http.get<any>(endpoint.webview_login, { headers })
+    return this.http.get<any>(API_END_POINTS.webview_login, { headers })
   }
 }

@@ -7,21 +7,23 @@ import { LoaderService } from '../../../../../project/ws/author/src/public-api'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
-import { FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { constructReq } from '../request-util'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
-  selector: 'ws-profile-select',
-  templateUrl: './profile-select.component.html',
-  styleUrls: ['./profile-select.component.scss'],
+    standalone: false,
+    selector: 'ws-profile-select',
+    templateUrl: './profile-select.component.html',
+    styleUrls: ['./profile-select.component.scss'],
+    
 })
 export class ProfileSelectComponent implements OnInit {
   imageTypes = IMAGE_SUPPORT_TYPES
   photoUrl!: string | ArrayBuffer | null
-  createUserForm: FormGroup
+  createUserForm: UntypedFormGroup
   userProfileData!: any
   userID: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -42,8 +44,8 @@ export class ProfileSelectComponent implements OnInit {
     private loader: LoaderService,
     private UserAgentResolverService: UserAgentResolverService,
   ) {
-    this.createUserForm = new FormGroup({
-      photo: new FormControl('', []),
+    this.createUserForm = new UntypedFormGroup({
+      photo: new UntypedFormControl('', []),
     })
   }
 
@@ -136,21 +138,23 @@ export class ProfileSelectComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData.profileReq, userAgent, userCookie)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/profile-select'
 
     const obj = {
       personalDetails: profileRequest.profileReq.personalDetails,
       preferences: this.userProfileData.preferences,
+      userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
+
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userID,
         profileDetails: {
-          ...profileRequest, profileLocation: 'sphere-web/profile-select'
+          ...profileRequest, profileLocation: 'sphere-web/profile-select',
         },
       },
     }

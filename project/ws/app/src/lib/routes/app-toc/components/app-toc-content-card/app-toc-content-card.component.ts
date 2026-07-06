@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
 import { NsContent, WidgetContentService, viewerRouteGenerator } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 @Component({
-  selector: 'ws-app-toc-content-card',
-  templateUrl: './app-toc-content-card.component.html',
-  styleUrls: ['./app-toc-content-card.component.scss'],
+    standalone: false,
+    selector: 'ws-app-toc-content-card',
+    templateUrl: './app-toc-content-card.component.html',
+    styleUrls: ['./app-toc-content-card.component.scss'],
+    
 })
 export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() content: NsContent.IContent | null = null
@@ -24,8 +26,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     pdf: '/fusion-assets/icons/PDF.svg', // Replace with your icon path or class
     video: '/fusion-assets/icons/Video.svg',
     link: '/fusion-assets/icons/Link.svg',
-    audio: '/fusion-assets/icons/Audio.svg'
-  };
+    audio: '/fusion-assets/icons/Audio.svg',
+  }
   contentId!: string
   hasContentStructure = false
   resourceContentType: any
@@ -55,7 +57,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private router: Router,
     private tocSvc: AppTocService,
-    private contentSvc: WidgetContentService
+    private contentSvc: WidgetContentService,
+    private logger: LoggerService
   ) {
   }
 
@@ -103,9 +106,35 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
 
   reDirect(content: any) {
+    // Check if resource is accessible based on gating rules
+    if (!this.canAccessResource(content)) {
+      this.logger.warn('Access denied: Resource is locked due to course gating', content.identifier)
+      // Silently prevent navigation - lock icon indicates user shouldn't click
+      return
+    }
+
     // tslint:disable-next-line:max-line-length
     const url = `${content.url}?primaryCategory=${content.queryParams.primaryCategory}&collectionId=${content.queryParams.collectionId}&collectionType=${content.queryParams.collectionType}&batchId=${content.queryParams.batchId}`
     this.router.navigateByUrl(`${url}`)
+  }
+
+  /**
+   * Validates if a resource can be accessed based on gating rules
+   * When gating is enabled, hideLocIcon indicates if resource is locked
+   */
+  canAccessResource(content: any): boolean {
+    // If gating is not enabled, allow access
+    if (!this.disabledNode) {
+      return true
+    }
+
+    // If hideLocIcon is true, the resource is unlocked and accessible
+    if (content.hideLocIcon === true) {
+      return true
+    }
+
+    // In gating mode, if hideLocIcon is not true, the resource is locked
+    return false
   }
   get isCollection(): boolean {
     if (this.content) {

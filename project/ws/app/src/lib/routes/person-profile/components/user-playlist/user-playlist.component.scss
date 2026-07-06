@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .playlist-card {
   //width: 185px;
@@ -61,9 +61,9 @@
 }
 
 .margin-top-xxs {
-  margin-top: $size-xs / 2;
+  margin-top: calc(ws-mixins.$size-xs / 2);
 }
 
 .fetching {
-  color: #9baebd !important;
+  color: var(--theme-text-soft, #9baebd) !important;
 }

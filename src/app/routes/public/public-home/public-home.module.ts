@@ -1,7 +1,8 @@
 
-import { NgModule } from '@angular/core'
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
+import { TranslateModule } from '@ngx-translate/core'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatExpansionModule } from '@angular/material/expansion'
@@ -13,19 +14,9 @@ import { BtnPageBackModule, UserImageModule } from '@ws-widget/collection'
 import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule, RetainScrollModule } from '@ws-widget/utils'
 import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
-import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
-import { MobileHomeComponent } from '../../../routes/mobile-home/mobile-home.component'
-import { MobileTrustedByPageComponent } from '../../../routes/mobile-trusted-by-page/mobile-trusted-by-page.component'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
-import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
-import { MobileLatestCommentComponent } from '../../../routes/mobile-latest-comment/mobile-latest-comment.component'
-import { MobileTestimonialsComponent } from '../../../routes/mobile-testimonials/mobile-testimonials.component'
-
-import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
-import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
-import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
-// import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 import { PublicTocComponent } from '../public-toc/public-toc.component'
 import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner.component'
 import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-overview.component'
@@ -33,32 +24,48 @@ import { PublicLicenseComponent } from '../public-license/public-license.compone
 import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callback.component'
 import { WebHomeComponent } from '../../../routes/web-home/web-home.component'
 import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-container/web-ekshamata-public-container.component'
+import { RegisterComponent } from '../../register/register.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { NotificationsComponent } from '../../notification/notification.component'
+import { SelfAssessmentComponent } from '../../self-assessment/self-assessment.component'
+import { MobileLoginComponent } from '../../mobile-login/mobile-login.component'
+import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
+import { LoginOtpComponent } from '../../login-otp/login-otp.component'
+import { TncRendererComponent } from '../../../component/tnc-renderer/tnc-renderer.component'
+import { AlmostDoneComponent } from '../../almost-done/almost-done.component'
+import { BnrcLoginOtpComponent } from '../../bnrc-login-otp/bnrc-login-otp.component'
+import { TnnmcConfirmComponent } from '../../../component/tnnmc-dialog-confirm/tnnmc-confirm.component'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatMenuModule } from '@angular/material/menu'
 
 @NgModule({
   declarations: [
     PublicHomeComponent,
     WebEkshamataPublicComponent,
-    MobilePageComponent,
-    MobileHomeComponent,
-    MobileTrustedByPageComponent,
-    MobilePageFaqComponent,
-    MobileLatestCommentComponent,
-    MobileTestimonialsComponent,
-    MobileCourseViewComponent,
-    MobileHowDoesWorkComponent,
-    MobileOrganizationComponent,
-    // MobileLeaderboardComponent,
     PublicTocComponent,
     PublicTocBannerComponent,
     PublicTocOverviewComponent,
     PublicLicenseComponent,
     KeycloakCallbackComponent,
     WebHomeComponent,
-
+    RegisterComponent,
+    NotificationsComponent,
+    SelfAssessmentComponent,
+    MobileLoginComponent,
+    MobileCourseViewComponent,
+    LoginOtpComponent,
+    TncRendererComponent,
+    AlmostDoneComponent,
+    BnrcLoginOtpComponent,
+    TnnmcConfirmComponent,
   ],
   imports: [
     MatProgressBarModule,
+    MatSnackBarModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
     MatToolbarModule,
     MatDividerModule,
     MatExpansionModule,
@@ -66,6 +73,8 @@ import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-containe
     MatCardModule,
     MatTabsModule,
     BtnPageBackModule,
+    MatDialogModule,
+    MatMenuModule,
     MatButtonModule,
     HorizontalScrollerModule,
     PipeSafeSanitizerModule,
@@ -75,19 +84,26 @@ import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-containe
     UserImageModule,
     RetainScrollModule,
   ],
-
-  exports: [PublicHomeComponent,
-    MobilePageComponent,
-    MobileHomeComponent,
-    MobileTrustedByPageComponent,
-    MobilePageFaqComponent,
-    MobileLatestCommentComponent,
-    MobileTestimonialsComponent,
-    MobileCourseViewComponent,
-    MobileHowDoesWorkComponent,
+  exports: [
+    PublicHomeComponent,
+    WebEkshamataPublicComponent,
     PublicTocComponent,
     PublicTocBannerComponent,
     PublicTocOverviewComponent,
-    KeycloakCallbackComponent],
+    PublicLicenseComponent,
+    KeycloakCallbackComponent,
+    WebHomeComponent,
+    RegisterComponent,
+    NotificationsComponent,
+    SelfAssessmentComponent,
+    MobileLoginComponent,
+    MobileCourseViewComponent,
+    LoginOtpComponent,
+    TncRendererComponent,
+    AlmostDoneComponent,
+    BnrcLoginOtpComponent,
+    TnnmcConfirmComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PublicHomeModule { }

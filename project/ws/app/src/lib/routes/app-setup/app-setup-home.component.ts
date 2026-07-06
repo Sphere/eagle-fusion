@@ -8,15 +8,17 @@ import { ConfigurationsService } from '../../../../../../../library/ws-widget/ut
 import { SettingsComponent } from '../profile/routes/settings/settings.component'
 
 @Component({
-  selector: 'ws-app-app-setup-home',
-  templateUrl: './app-setup-home.component.html',
-  styleUrls: ['./app-setup-home.component.scss'],
-  providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false },
-    },
-  ],
+    standalone: false,
+    selector: 'ws-app-app-setup-home',
+    templateUrl: './app-setup-home.component.html',
+    styleUrls: ['./app-setup-home.component.scss'],
+    providers: [
+        {
+            provide: STEPPER_GLOBAL_OPTIONS,
+            useValue: { displayDefaultIndicatorType: false },
+        },
+    ],
+    
 })
 export class AppSetupHomeComponent implements OnInit, AfterViewInit {
   currentIndex = 0
@@ -59,7 +61,7 @@ export class AppSetupHomeComponent implements OnInit, AfterViewInit {
     this.appLanguage = (this.configSvc.activeLocale && this.configSvc.activeLocale.path) || ''
     if (this.configSvc.instanceConfig) {
       this.introVideos = this.configSvc.instanceConfig.introVideo
-      // //console.log('TYPE: ', this.introVideos)
+      // //this.logger.log('TYPE: ', this.introVideos)
     }
     this.widgetResolverData = {
       ...this.widgetResolverData,
@@ -125,6 +127,6 @@ export class AppSetupHomeComponent implements OnInit, AfterViewInit {
       },
     }
     // this.widgetResolverData.widgetData.url = this.introVideos[value]
-    // //console.log('TYPE: ', this.widgetResolverData)
+    // //this.logger.log('TYPE: ', this.widgetResolverData)
   }
 }

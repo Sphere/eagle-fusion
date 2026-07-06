@@ -1,19 +1,22 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import moment from 'moment'
 import { Observable } from 'rxjs'
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../project/ws/app/src/lib/routes/user-profile/services/format-datepicker'
+import { LoggerService } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-your-location',
-  templateUrl: './your-location.component.html',
-  styleUrls: ['./your-location.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: AppDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
-  ],
+    standalone: false,
+    selector: 'ws-your-location',
+    templateUrl: './your-location.component.html',
+    styleUrls: ['./your-location.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: AppDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+    ],
+    
 })
 export class YourLocationComponent implements OnInit {
   disticts: any
@@ -23,7 +26,7 @@ export class YourLocationComponent implements OnInit {
   districtArr: any
   selectDisable = true
   yourBackground = false
-  aboutYouForm: FormGroup
+  aboutYouForm: UntypedFormGroup
   // maxDate = new Date()
   // minDate = new Date(1900, 1, 1)
   invalidDob = false
@@ -35,14 +38,15 @@ export class YourLocationComponent implements OnInit {
   startDate = new Date(1999, 0, 1)
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private logger: LoggerService
   ) {
-    this.aboutYouForm = new FormGroup({
-      dob: new FormControl(),
-      country: new FormControl(),
-      distict: new FormControl(),
-      state: new FormControl(),
-      countryCode: new FormControl(),
+    this.aboutYouForm = new UntypedFormGroup({
+      dob: new UntypedFormControl(),
+      country: new UntypedFormControl(),
+      distict: new UntypedFormControl(),
+      state: new UntypedFormControl(),
+      countryCode: new UntypedFormControl(),
     })
   }
 
@@ -54,21 +58,22 @@ export class YourLocationComponent implements OnInit {
     this.http.get(this.countryUrl).subscribe((data: any) => {
       this.countries = data.nationalities
     })
-
-    this.http.get(this.stateUrl).subscribe((data: any) => {
-      this.states = data.states
-    })
   }
-  countrySelect(option: any) {
-    console.log(this.aboutYouForm.controls)
-    this.setCountryCode(option)
-    if (option === 'India') {
+  countrySelect(event: any) {
+    this.logger.log(this.aboutYouForm.controls)
+    const value = event.value
+    this.setCountryCode(value)
+    if (value === 'India') {
+      this.http.get(this.stateUrl).subscribe((data: any) => {
+        this.states = data.states
+      })
       this.selectDisable = false
     } else {
       this.selectDisable = true
       this.aboutYouForm.controls.state.setValue(null)
       this.aboutYouForm.controls.distict.setValue(null)
     }
+    this.disableNextBtn()
   }
   setCountryCode(country: string) {
     const selectedCountry = this.countries.filter((e: any) => e.name.toLowerCase() === country.toLowerCase())
@@ -85,7 +90,7 @@ export class YourLocationComponent implements OnInit {
     }
   }
   disableNextBtn() {
-    console.log(this.aboutYouForm.controls)
+    this.logger.log(this.aboutYouForm.controls)
     if (this.aboutYouForm.controls.dob.value && this.aboutYouForm.controls.country.value) {
       if (this.aboutYouForm.controls.country.value !== 'India') {
         this.nextBtnDisable = false
@@ -103,14 +108,16 @@ export class YourLocationComponent implements OnInit {
     }
   }
 
-  stateSelect(option: any) {
+  stateSelect(event: any) {
+    const value = event.value
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
       statesdata.states.map((item: any) => {
-        if (item.state === option) {
+        if (item.state === value) {
           this.disticts = item.districts
         }
       })
     })
+    this.disableNextBtn()
   }
 
   onsubmit() {
@@ -119,8 +126,8 @@ export class YourLocationComponent implements OnInit {
   }
 
   dobData(event: any) {
-    console.log(event)
-    console.log(this.aboutYouForm.controls)
+    this.logger.log(event)
+    this.logger.log(this.aboutYouForm.controls)
     this.aboutYouForm.patchValue({
       dob: event,
     })

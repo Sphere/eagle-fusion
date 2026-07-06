@@ -8,9 +8,11 @@ import { IContentNode, IContentTreeNode } from './../../interface/icontent-tree'
 import { CollectionStoreService } from './../../services/store.service'
 
 @Component({
-  selector: 'ws-auth-editor-options',
-  templateUrl: './auth-editor-options.component.html',
-  styleUrls: ['./auth-editor-options.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-editor-options',
+    templateUrl: './auth-editor-options.component.html',
+    styleUrls: ['./auth-editor-options.component.scss'],
+    
 })
 export class AuthEditorOptionsComponent implements OnInit {
   @Input() node!: IContentTreeNode
@@ -96,10 +98,10 @@ export class AuthEditorOptionsComponent implements OnInit {
       icon: content.icon,
     }
     // if (content.id === 'resource' && content.children) {
-    //   // console.log('children==>', content.children)
+    //   // this.logger.log('children==>', content.children)
     //   content.children.forEach(v => {
     //     const entity = this.authInitService.creationEntity.get(v)
-    //     // console.log('entity==>', entity)
+    //     // this.logger.log('entity==>', entity)
     //     if (
     //       entity &&
     //       allowedType.includes(entity.id) &&

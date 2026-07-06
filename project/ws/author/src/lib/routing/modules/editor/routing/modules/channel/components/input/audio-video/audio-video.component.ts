@@ -19,9 +19,11 @@ interface ISubtitle {
 }
 
 @Component({
-  selector: 'ws-auth-audio-video',
-  templateUrl: './audio-video.component.html',
-  styleUrls: ['./audio-video.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-audio-video',
+    templateUrl: './audio-video.component.html',
+    styleUrls: ['./audio-video.component.scss'],
+    
 })
 export class AudioVideoComponent implements OnChanges, OnInit {
   @Input() isSubmitPressed = false
@@ -103,7 +105,7 @@ export class AudioVideoComponent implements OnChanges, OnInit {
 
   removeSubtitle(index: number) {
     // tslint:disable-next-line: semicolon
-    ; (this.content.subtitles || []).splice(index, 1)
+     (this.content.subtitles || []).splice(index, 1)
     this.update('subtitles', this.content.subtitles)
   }
 
@@ -164,7 +166,7 @@ export class AudioVideoComponent implements OnChanges, OnInit {
               this.update('url', url)
             } else {
               // tslint:disable-next-line: semicolon
-              ; (this.content.subtitles || []).push({
+               (this.content.subtitles || []).push({
                 url,
                 srclang: this.selectedSubtitle.srclang,
                 label: this.selectedSubtitle.label,

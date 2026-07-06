@@ -1,30 +1,30 @@
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { DOCUMENT } from '@angular/common'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-create-account-dialog',
-  templateUrl: './create-account-dialog.component.html',
-  styleUrls: ['./create-account-dialog.component.scss'],
+    standalone: false,
+    selector: 'ws-create-account-dialog',
+    templateUrl: './create-account-dialog.component.html',
+    styleUrls: ['./create-account-dialog.component.scss'],
+    
 })
 export class CreateAccountDialogComponent implements OnInit {
 
   name = ''
-  firstName: string = '';
-  lastName: string = '';
-  userNotExistEkshamta: boolean = false
+  firstName = ''
+  lastName = ''
+  userNotExistEkshamta = false
   constructor(
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,
     @Inject(DOCUMENT) private readonly _document: Document,
-    private readonly _renderer2: Renderer2,
+    private logger: LoggerService
   ) {
   }
 
   ngOnInit() {
-    if (this.selectedData.selected === 'help') {
-      this.showSocialChats()
-    }
     this.name = this.selectedData.selected
     this.userNotExistEkshamta = this.selectedData.userNotExistEkshamta
     if (this.selectedData.selected === 'name') {
@@ -35,46 +35,46 @@ export class CreateAccountDialogComponent implements OnInit {
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
-      this.showSocialChats()
-      window.fcWidget.open()
-      window.fcWidget.show()
+    }
+  }
+  showChat() {
+    const el = this._document.getElementById('widget')
+    if (el) {
+      el.style.display = 'block'
+
+      setTimeout(() => {
+        const btn = el.querySelector('button') as HTMLElement
+        if (btn) {
+          const ariaLabel = btn.getAttribute('aria-label')
+          if (ariaLabel === 'Open chat') {
+            btn.click()
+            this.dialogRef.close()
+            this.logger.log('Chat opened')
+          }
+        } else {
+          this.logger.warn('Button not found inside widget yet')
+        }
+      }, 300)
     }
   }
 
-  /* istanbul ignore next */
-  showSocialChats() {
-    try {
-      setTimeout(() => {
-        if (window.fcWidget) {
-          window.fcWidget.init()
-          window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
-          window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-        }
-      }, 300)
-      const script = this._renderer2.createElement('script')
-      script.src = '//in.fw-cdn.com/30492305/271953.js'
-      this._renderer2.appendChild(this._document.body, script)
-    } catch (error) {
-      // tslint:disable-next-line:no-console
-      console.log(error)
-    }
-  }
+
   /* istanbul ignore next */
   backToChatIcon() {
     try {
-      if (window.fcWidget) {
-        window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
-        window.fcWidget.init()
+      const el = this._document.getElementById('widget')
+      if (el) {
+        el.style.display = 'none'
       }
     } catch (error) {
       // tslint:disable-next-line:no-console
-      console.log(error)
+      this.logger.log(error)
     }
   }
 
   confirm(data: any) {
     // tslint:disable-next-line:no-console
-    console.log(data)
+    this.logger.log(data)
     this.dialogRef.close(data)
   }
 

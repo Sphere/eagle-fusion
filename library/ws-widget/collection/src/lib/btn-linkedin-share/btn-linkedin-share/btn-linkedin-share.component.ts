@@ -2,9 +2,11 @@ import { Component, ElementRef, AfterViewInit, Input, ViewChild, OnInit } from '
 import { ConfigurationsService } from '../../../../../utils/src/public-api'
 
 @Component({
-  selector: 'ws-widget-btn-linkedin-share',
-  templateUrl: './btn-linkedin-share.component.html',
-  styleUrls: ['./btn-linkedin-share.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-btn-linkedin-share',
+    templateUrl: './btn-linkedin-share.component.html',
+    styleUrls: ['./btn-linkedin-share.component.scss'],
+    
 })
 export class BtnLinkedinShareComponent implements OnInit, AfterViewInit {
   @Input() url = location.href

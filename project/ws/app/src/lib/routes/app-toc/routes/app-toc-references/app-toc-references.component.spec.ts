@@ -40,7 +40,7 @@ describe('AppTocReferencesComponent', () => {
 
     fixture = TestBed.createComponent(AppTocReferencesComponent)
     component = fixture.componentInstance
-    tocSharedSvc = TestBed.get(AppTocService)
+    tocSharedSvc = TestBed.inject(AppTocService)
     fixture.detectChanges()
   })
 

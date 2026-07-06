@@ -9,14 +9,16 @@ import { MatDialog } from '@angular/material/dialog'
 import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
-  selector: 'ws-app-user-kb',
-  templateUrl: './user-kb.component.html',
-  styleUrls: ['./user-kb.component.scss'],
+    standalone: false,
+    selector: 'ws-app-user-kb',
+    templateUrl: './user-kb.component.html',
+    styleUrls: ['./user-kb.component.scss'],
+    
 })
 export class UserKbComponent implements OnInit, OnChanges {
   @Input() wid = ''
   @Input() name = ''
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
 
   followingFetchStatus: TFetchStatus = 'none'
   followContent: NSProfileData.IFollowing[] = []

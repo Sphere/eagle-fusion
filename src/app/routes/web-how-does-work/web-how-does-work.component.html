@@ -1,43 +1,21 @@
-<div id="scrollToHowSphereWorks" class="scrollHowSphereWorks">
-  <p class="header2 mb-0" i18n>How Sphere works</p>
-  <p class="label1" i18n>In 3-simple videos we guide you through making an account and getting certified.</p>
-</div>
-<section id="scrollToHowSphereWorks" class="scrollHowSphereWorks-block">
-
-  <div class="block-container ">
-    <div class="how-work-content" (click)="openVideoPopup('0')">
-      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/1fqlys8mkHg" allowfullscreen
-        webkitallowfullscreen mozAllowFullScreen style="border:none"
-        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Register for a course"></iframe>
-      <div class="video-div">
-        <p class="videoTitle" i18n>Register for a course</p>
-        <p class="leading-snug videoDes" i18n>Explore various courses and pick the ones you like </p>
+<section id="scrollToHowSphereWorks" class="scrollHowSphereWorks">
+  <p class="header2 mb-0">{{ config?.title | translate }}</p>
+  <p class="label1" *ngIf="!isXSmall$">{{config?.subTitle | translate}}</p>
+  <p class="label1" *ngIf="isXSmall$">{{config?.subTitleMobile | translate }}</p>
+  <div *ngIf="videoData?.length>0" class="scrollHowSphereWorks-block">
+    <div class="block-container " *ngFor="let video of videoData">
+      <div class="how-work-content" (click)="openVideoPopup(video?.url)">
+        <div class="how-work-thumbnail">
+          <img [src]="getYoutubeThumbnail(video.url)" [alt]="video?.title | translate" class="how-work-thumb-img" />
+          <div class="play-overlay">
+            <mat-icon class="play-icon">play_circle_filled</mat-icon>
+          </div>
+        </div>
+        <div class="video-div">
+          <p class="videoTitle">{{ video?.title | translate }}</p>
+          <p class="leading-snug videoDes">{{ video?.description | translate }}</p>
+        </div>
       </div>
-
-    </div>
-  </div>
-  <div class="block-container ">
-    <div class="how-work-content" (click)="openVideoPopup('1')">
-      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/Kl28R7m2k50" allowfullscreen
-        webkitallowfullscreen mozAllowFullScreen style="border:none"
-        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Take the course"></iframe>
-      <div class="video-div">
-        <p class="videoTitle" i18n>Take the course</p>
-        <p class="leading-snug videoDes" i18n>Access the course anytime, at your convinience</p>
-      </div>
-
-    </div>
-  </div>
-  <div class="block-container ">
-    <div class="how-work-content" (click)="openVideoPopup('2')">
-      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/JTGzCkEXlmU" allowfullscreen
-        webkitallowfullscreen mozAllowFullScreen style="border:none"
-        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Get certified"></iframe>
-      <div class="video-div">
-        <p class="videoTitle" i18n>Get certified</p>
-        <p class="leading-snug videoDes" i18n>Receive downloadable and shareable certificates</p>
-      </div>
-
     </div>
   </div>
 </section>

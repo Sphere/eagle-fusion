@@ -4,9 +4,11 @@ import { IWidgetAuthor } from './../../../interface/widget'
 import { ChannelStoreService } from './../../../services/store.service'
 
 @Component({
-  selector: 'ws-auth-content-strip-holder',
-  templateUrl: './content-strip-holder.component.html',
-  styleUrls: ['./content-strip-holder.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-content-strip-holder',
+    templateUrl: './content-strip-holder.component.html',
+    styleUrls: ['./content-strip-holder.component.scss'],
+    
 })
 export class ContentStripHolderComponent implements OnInit, OnChanges {
 

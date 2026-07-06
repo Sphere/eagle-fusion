@@ -1,16 +1,12 @@
 import { Component, Inject } from '@angular/core'
 import { ConfigService, EventsService, NavigationServiceService, DiscussionService, BaseWrapperComponent } from '@aastrika_npmjs/discussions-ui-v8'
-// import { EventsService } from '@project-sunbird/discussions-ui-v8/lib/events.service'
-// import { NavigationServiceService } from '@project-sunbird/discussions-ui-v8/lib/navigation-service.service'
-// import { DiscussionService } from '@project-sunbird/discussions-ui-v8/lib/services/discussion.service'
-// import { BaseWrapperComponent } from '@project-sunbird/discussions-ui-v8/lib/wrapper/base-wrapper/base-wrapper.component'
-// import lodash from 'lodash'
-// import * as CONSTANTS from '@project-sunbird/discussions-ui-v8'
 
 @Component({
+  standalone: false,
   selector: 'all-discussion-widget',
   templateUrl: './all-discussion-widget.component.html',
   styleUrls: ['./all-discussion-widget.component.css'],
+
 })
 export class AllDiscussionWidgetComponent extends BaseWrapperComponent {
 
@@ -20,13 +16,14 @@ export class AllDiscussionWidgetComponent extends BaseWrapperComponent {
   tagAllDiscussPage = 'tagAllDiscuss'
   homePage = 'categoryHome'
   showTrendTagPost = 0
-  tid!: number
-  slug!: string
+  tid: number = 0
+  slug: string = ''
   context: any = { categories: { result: [] } }
   categoryId: any
   alldiscussPage = 'alldiscuss'
   previousState: any
   cIds: any = {}
+  state: any = this.alldiscussPage
 
   constructor(
     @Inject(ConfigService)
@@ -52,7 +49,7 @@ export class AllDiscussionWidgetComponent extends BaseWrapperComponent {
 
   stateChange(event: any) {
     // debugger
-    // console.log(event)
+    // this.logger.log(event)
     this.previousState = this.state
     this.state = event.action
     if (event.action === this.detailsPage) {

@@ -16,9 +16,11 @@ import { ConfigurationsService, NsPage, AuthKeycloakService } from '@ws-widget/u
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'ws-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    standalone: false,
+    selector: 'ws-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    
 })
 export class LoginComponent extends WidgetBaseComponent
 implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {

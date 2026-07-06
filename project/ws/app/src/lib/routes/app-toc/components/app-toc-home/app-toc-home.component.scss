@@ -1,17 +1,17 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 %container-padding {
-  padding: $size-xl 12rem;
-  @include breakpoint-xs {
-    padding: $size-m $size-l;
+  padding: ws-mixins.$size-xl 12rem;
+  @include ws-mixins.breakpoint-xs {
+    padding: ws-mixins.$size-m ws-mixins.$size-l;
   }
 }
 
 .toc-body {
   @extend %container-padding;
   padding-top: 0px !important;
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     padding-right: 1rem;
     padding-left: 1rem;
   }
@@ -33,13 +33,13 @@
 
 .hidden-xs-inline {
   display: inline;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }
 .visible-xs-inline {
   display: none;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: inline;
   }
 }
@@ -54,13 +54,13 @@
   .cohorts {
     width: 28%;
     margin-left: 48px;
-    @include breakpoint-s {
-      margin-left: $size-l;
+    @include ws-mixins.breakpoint-s {
+      margin-left: ws-mixins.$size-l;
       min-width: 250px;
     }
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       margin-left: 0;
-      margin-bottom: $size-l;
+      margin-bottom: ws-mixins.$size-l;
       width: 100%;
     }
   }
@@ -81,7 +81,7 @@
   padding-right: 0 !important;
   margin-right: -5px;
 }
-::ng-deep .mat-expansion-panel-header, ::ng-deep .theme-igot.day-mode .mat-expansion-panel-header {
+::ng-deep .mat-expansion-panel-header, ::ng-deep .light-theme .mat-expansion-panel-header {
     margin-top: -5px;
     border-bottom: solid 1px #d9d9d9;
     padding-top: 0px;
@@ -106,4 +106,10 @@
   top: 50%;
   left: 50%;
   z-index: 1000;
+}
+
+::ng-deep .dark-theme {
+  lib-discuss-start .discussion-start-modal .discussion-start-modal-content {
+    background: var(--theme-bg, #0e161b) !important;
+  }
 }

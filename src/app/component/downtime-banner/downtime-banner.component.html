@@ -1,0 +1,25 @@
+<div *ngIf="isVisible" class="downtime-banner-wrapper" [ngStyle]="getWrapperStyles()">
+  <div class="downtime-banner-card" [ngStyle]="getBannerStyles()">
+    <!-- Icon: S3 URL or Material icon -->
+    <img *ngIf="isIconUrl()" [src]="content?.icon" class="banner-icon-img" alt="notification icon" />
+    <mat-icon *ngIf="!isIconUrl()" class="banner-icon" [ngStyle]="getIconStyles()">{{ getIconName() }}</mat-icon>
+
+    <!-- Text Content -->
+    <div class="banner-text">
+      <span class="banner-title">{{ getLocalizedTitle() }}</span>
+      <span *ngIf="getLocalizedMessage()" class="banner-message">{{ getLocalizedMessage() }}</span>
+
+      <!-- App Link: render single link if enabled -->
+      <div *ngIf="getAppLink()" class="banner-app-link-wrapper">
+        <a class="banner-app-link" [href]="getAppLink()?.url" target="_blank" rel="noopener noreferrer">
+          {{ getAppLink()?.label }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Dismiss Button -->
+    <button mat-icon-button class="banner-close" (click)="dismissBanner()" aria-label="Close notification">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

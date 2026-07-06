@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { KeycloakEvent, KeycloakEventType, KeycloakService } from 'keycloak-angular'
+import { KeycloakEventLegacy, KeycloakEventTypeLegacy, KeycloakService } from 'keycloak-angular'
 import { ReplaySubject } from 'rxjs'
-// import { filter } from 'rxjs/operators'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
+import { LoggerService } from './logger.service'
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
+import { ThemeService } from '../../../../../../src/app/services/theme.service'
 
 interface IParsedToken {
   email?: string
@@ -21,13 +23,14 @@ const storageKey = 'kc'
 })
 export class AuthKeycloakService {
   private loginChangeSubject = new ReplaySubject<boolean>(1)
-  // domain!: string
 
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService,
     private keycloakSvc: KeycloakService,
-    private msAuthSvc: AuthMicrosoftService
+    private msAuthSvc: AuthMicrosoftService,
+    private logger: LoggerService,
+    private themeSvc: ThemeService
   ) {
     this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
       this.configSvc.isAuthenticated = isLoggedIn
@@ -49,7 +52,7 @@ export class AuthKeycloakService {
   get isLoggedIn$() {
     return this.loginChangeSubject.asObservable()
   }
-  get isLoggedIn(): Promise<boolean> {
+  get isLoggedIn(): boolean {
     return this.keycloakSvc.isLoggedIn()
   }
   get isAuthenticated(): boolean | undefined {
@@ -100,7 +103,6 @@ export class AuthKeycloakService {
       this.msAuthSvc.init({ microsoft: instanceConfig.microsoft })
     }
     try {
-      // this.setupGlobalAuthResponder()
       this.addKeycloakEventListener()
       return await this.keycloakSvc.init({
         config: {
@@ -126,8 +128,7 @@ export class AuthKeycloakService {
     idpHint: 'E' | 'N' | 'S' = 'E',
     redirectUrl: string
   ) {
-    // tslint:disable-next-line: no-console
-    console.log(idpHint, redirectUrl)
+    this.logger.log(idpHint, redirectUrl)
   }
 
   register(
@@ -138,23 +139,9 @@ export class AuthKeycloakService {
     })
   }
 
-  // async logout(redirectUrl = this.defaultRedirectUrl) {
-  //   storage.removeItem(storageKey)
-  //   await this.http.get('/apis/reset').toPromise()
-  //   if (this.msAuthSvc.isLogoutRequired) {
-  //     this.keycloakSvc.logout(this.msAuthSvc.logoutUrl(redirectUrl))
-  //   } else {
-  //     this.keycloakSvc.logout(redirectUrl)
-  //   }
-  // }
-  // async logout(redirectUrl = this.defaultRedirectUrl)
   async logout() {
-    // let keycloakID = await this.http.get(
-    // 'https://aastrika-stage.tarento.com/auth/realms/sunbird/protocol/openid-connect/logout').toPromise()
-    // console.log(keycloakID)
-    // if (storage.getItem('telemetrySessionId') || (localStorage.getItem('loginbtn'))) {
-    // this.http.get('/apis/reset')
     try {
+      const theme = localStorage.getItem('theme')
       sessionStorage.clear()
       localStorage.removeItem('preferedLanguage')
       localStorage.removeItem('telemetrySessionId')
@@ -165,112 +152,44 @@ export class AuthKeycloakService {
       localStorage.removeItem('showConformation')
       localStorage.removeItem('loginDetailsWithToken')
       localStorage.clear()
-      let url = `${document.baseURI}`
-      let redirectUrl = ''
-      // this.domain= 'ekshamata'
-      if (url.includes('hi')) {
-        url = url.replace('hi/', '')
-        redirectUrl = `${url}public/home`
-        sessionStorage.setItem('lang', 'hi')
-      } else {
-        redirectUrl = `${url}public/home`
+      localStorage.setItem('theme', theme || 'light')
+      if (theme == 'dark') {
+        this.themeSvc.setTheme(true)
       }
-
-      const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectUrl)}`
-      window.location.href = keycloakurl
-      await this.http.get('/apis/proxies/v8/logout/user').toPromise()
+      const url = `${document.baseURI}`
+      const redirectUrl = `${url}public/home`
+      window.location.href = redirectUrl
+      await this.http.get(API_END_POINTS.LOGOUT_USER).toPromise()
     } catch (error) { }
-    // window.location.href = `${this.defaultRedirectUrl}public/home`
-    // this.router.navigate(['/page/home'])
-    // }
   }
   private addKeycloakEventListener() {
-    this.keycloakSvc.keycloakEvents$.subscribe((event: KeycloakEvent) => {
+    this.keycloakSvc.keycloakEvents$.subscribe((event: KeycloakEventLegacy) => {
       switch (event.type) {
-        case KeycloakEventType.OnAuthError:
+        case KeycloakEventTypeLegacy.OnAuthError:
           this.loginChangeSubject.next(false)
           break
-        case KeycloakEventType.OnAuthLogout:
+        case KeycloakEventTypeLegacy.OnAuthLogout:
           this.loginChangeSubject.next(false)
           storage.removeItem(storageKey)
           break
-        case KeycloakEventType.OnAuthRefreshError:
+        case KeycloakEventTypeLegacy.OnAuthRefreshError:
           break
-        case KeycloakEventType.OnAuthRefreshSuccess:
+        case KeycloakEventTypeLegacy.OnAuthRefreshSuccess:
           break
-        case KeycloakEventType.OnAuthSuccess:
+        case KeycloakEventTypeLegacy.OnAuthSuccess:
           break
-        case KeycloakEventType.OnReady:
-          this.loginChangeSubject.next(event.args)
+        case KeycloakEventTypeLegacy.OnReady:
+          this.loginChangeSubject.next(event?.args as any)
           if (event.args) {
             //   this.saveKeycloakConfig()
           }
           break
-        case KeycloakEventType.OnTokenExpired:
+        case KeycloakEventTypeLegacy.OnTokenExpired:
           //  this.keycloakSvc.updateToken(60)
           break
       }
     })
   }
-
-  // private setupGlobalAuthResponder() {
-  //   fromEvent<MessageEvent>(window, 'message')
-  //     .pipe(
-  //       filter(
-  //         (event: MessageEvent) =>
-  //           Boolean(event) &&
-  //           Boolean(event.data) &&
-  //           event.data.type === 'AUTH_REQUEST' &&
-  //           Boolean(event.source && typeof event.source.postMessage === 'function'),
-  //       ),
-  //     )
-  //     .subscribe(async (event: MessageEvent) => {
-  //       const contentWindow = event.source as Window
-  //     // //  const token = await this.keycloakSvc.getToken()
-  //     //   const response = {
-  //     //     app: 'WEB_PORTAL',
-  //     //     type: 'AUTH_RESPONSE',
-  //     //     state: 'NONE',
-  //     //     plugin: 'NONE',
-  //     //     data: {
-  //     //       token,
-  //     //       id: event.data && event.data.data && event.data.data.id,
-  //     //     },
-  //     //   }
-  //       contentWindow.postMessage('resp', '*')
-  //     })
-  // }
-
-  // Utility Methods
-  // private saveKeycloakConfig() {
-  //  // const kc = this.keycloakSvc.getKeycloakInstance()
-  //   // const kcInitOptions: KeycloakInitOptions = {
-  //   //   idToken: kc.idToken,
-  //   //   refreshToken: kc.refreshToken,
-  //   //   timeSkew: kc.timeSkew,
-  //   //   token: kc.token,
-  //   // }
-  // //  storage.setItem(storageKey, JSON.stringify(kcInitOptions))
-  // return
-  // }
-  // private getSavedKcConfig(): KeycloakInitOptions {
-  //   try {
-  //     // const lastSaved = KEYCLOAK_STORAGE.getItem(key);
-  //     const lastSaved = storage.getItem(storageKey)
-  //     if (lastSaved) {
-  //       const processed = JSON.parse(lastSaved)
-  //       if (
-  //         'idToken' in processed &&
-  //         'refreshToken' in processed &&
-  //         'timeSkew' in processed &&
-  //         'token' in processed
-  //       ) {
-  //         return processed
-  //       }
-  //     }
-  //   } catch (e) { }
-  //   return {}
-  // }
 
   private get defaultRedirectUrl(): string {
     try {

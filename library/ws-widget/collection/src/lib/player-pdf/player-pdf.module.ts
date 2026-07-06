@@ -12,23 +12,24 @@ import { MatInputModule } from '@angular/material/input'
 import { ReactiveFormsModule } from '@angular/forms'
 import { BtnFullscreenModule } from '../btn-fullscreen/btn-fullscreen.module'
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
+import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
-  declarations: [PlayerPdfComponent],
-  imports: [
-    CommonModule,
-    MatInputModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatSliderModule,
-    MatToolbarModule,
-    ReactiveFormsModule,
-    BtnFullscreenModule,
-    MatInputModule,
-    NgxExtendedPdfViewerModule
-  ],
-  exports: [PlayerPdfComponent, NgxExtendedPdfViewerModule],
-  entryComponents: [PlayerPdfComponent],
+    declarations: [PlayerPdfComponent],
+    imports: [
+        CommonModule,
+        MatInputModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatSliderModule,
+        MatToolbarModule,
+        ReactiveFormsModule,
+        BtnFullscreenModule,
+        MatInputModule,
+        NgxExtendedPdfViewerModule,
+        TranslateModule,
+    ],
+    exports: [PlayerPdfComponent, NgxExtendedPdfViewerModule],
 })
 export class PlayerPdfModule { }

@@ -1,8 +1,129 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
+/* ── Shimmer base animation ─────────────────────────────────────────────── */
+@keyframes shimmerSlide {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+%shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
+  background-size: 600px 100%;
+  animation: shimmerSlide 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+/* ── Title shimmer ───────────────────────────────────────────────────────── */
+.sk-title {
+  @extend %shimmer;
+  width: 200px;
+  height: 28px;
+  margin: 20px 0 16px;
+}
+
+/* ── Tab bar shimmer ─────────────────────────────────────────────────────── */
+.sk-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+
+.sk-tab {
+  @extend %shimmer;
+  width: 110px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+/* ── Card shimmer ────────────────────────────────────────────────────────── */
+.sk-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: var(--mat-toolbar-container-background-color);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.sk-image {
+  @extend %shimmer;
+  flex-shrink: 0;
+  width: 110px;
+  height: 90px;
+  border-radius: 8px;
+}
+
+.sk-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sk-line {
+  @extend %shimmer;
+  height: 14px;
+
+  &--title  { width: 65%; height: 18px; }
+  &--subtitle { width: 40%; }
+  &--pct    { width: 80px; height: 12px; }
+}
+
+.sk-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sk-progress-bar {
+  @extend %shimmer;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.sk-btn {
+  @extend %shimmer;
+  flex-shrink: 0;
+  width: 90px;
+  height: 36px;
+  border-radius: 20px;
+}
+
+/* ── Legacy placeholder (kept for safety) ───────────────────────────────── */
+.loading-placeholders {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.placeholder-card {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 8px 0px #00000020;
+  border: 1px solid #00000014;
+  background: #fff;
+}
+
+.placeholder-shimmer {
+  @extend %shimmer;
+  width: 100%;
+  height: 125px;
+}
+
+h3 {
+  color: var(--theme-primary);
+}
 
 :host ::ng-deep .card-long {
-  width: 100% !important;
+  width: 99% !important;
 }
 ::ng-deep .text-block-mini{
   flex: 75%;
@@ -26,10 +147,11 @@
 
 #heading {
   //margin-left: 20px;
+  color: var(--theme-text);
   margin-top: 20px;
   margin-bottom: 0px;
-
-  @include breakpoint-xs {
+  font: 400 24px / 32px Roboto;
+  @include ws-mixins.breakpoint-xs {
     margin-top: 0px;
   }
 }
@@ -37,17 +159,25 @@
 .hideLower {
   font-size: 14px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none !important;
   }
 }
 
+.show-more-container {
+  padding: 16px 0 20px;
+}
+
 @media (max-width: 767px) {
+  .show-more-container {
+    padding-bottom: 80px;
+  }
   #heading {
     margin-left: 15px;
     margin-bottom: 10px;
+    font: 400 24px / 32px Roboto;
   }
-  ::ng-deep .mat-progress-bar {
+  ::ng-deep .mat-mdc-progress-bar {
     width: 100% !important;
 
   }
@@ -63,6 +193,8 @@
 
   .paddingView {
     padding: 80px 0px 0px 0px;
+    min-height: 50%;
+    height: 30%;
   }
 
   .resource-container {
@@ -80,13 +212,9 @@
     font-size: 16px !important;
   }
 
-  .last-child2 {
-    height: 270px !important;
-  }
-
   .last-child1,
-  .last-child3 {
-    padding-bottom: 50px !important;
+  .last-child2 {
+    padding-bottom: 80px !important;
   }
 }
 
@@ -98,12 +226,12 @@
   .resource-container {
     margin: 20px 0px 8px 1px !important;
   }
-  ::ng-deep .mat-progress-bar {
+  ::ng-deep .mat-mdc-progress-bar {
     width: 50% !important;
   }
   ::ng-deep .mat-tab-label {
     padding: 0px !important; // adjust this to whatever padding you need
-    justify-content: left !important;
+    justify-content: end !important;
   }
 }
 
@@ -111,7 +239,7 @@
   .paddingView {
     padding: 10px 315px 10px 60px;
   }
-  :host ::ng-deep .mat-progress-bar {
+  :host ::ng-deep .mat-mdc-progress-bar {
       width: 50% !important;
   }
   .resource-container {
@@ -120,7 +248,7 @@
 
   ::ng-deep .mat-tab-label {
     padding: 0px !important; // adjust this to whatever padding you need
-    justify-content: left !important;
+    justify-content: end !important;
   }
 
   .myCoursesList {
@@ -145,10 +273,10 @@
 }
 
 .blue-btn {
-  background: #1C5D95 !important;
+  background: var(--theme-accent) !important;
   font-size: 14px;
   border-radius: 50px;
-  color: #fff !important;
+  color: var(--mat-toolbar-container-background-color) !important;
   padding: 8px 32px;
   line-height: 19px;
 }
@@ -161,17 +289,17 @@
 
   .card-thumbnail {
     $image-height: 65px;
-    width: (16 / 9) * $image-height;
+    width: calc(16 / 9) * $image-height;
     cursor: pointer;
     height: 70px;
     min-width: 100px;
     border-radius: 10px;
-    border: 0.4px solid #2e6491;
+    border: 0.4px solid var(--theme-accent, #2E6491);
   }
 
   .card-title {
     font-size: 17px !important;
-    color: #1C5D95;
+    color: var(--theme-primary);
     line-height: 17px;
     font-weight: 400;
   }
@@ -188,6 +316,9 @@
   border-radius: 10px;
 }
 
+::ng-deep .progress-bar {
+  background-color: #c8c7c7 !important;
+}
 .value {
   color: #000000;
   width: 275px;
@@ -198,12 +329,12 @@
 }
 
 :host ::ng-deep {
-  .mat-progress-bar-fill:after {
-    background: #2E6491 !important;
+  .mat-mdc-progress-bar-fill:after {
+    background: var(--theme-accent, #2E6491) !important;
     border-radius: 10px;
   }
 
-  .mat-progress-bar-buffer {
+  .mdc-linear-progress__buffer {
     background-color: #F7F7F7 !important
   }
 }
@@ -218,12 +349,36 @@
   background: #00000085;
 }
 
-::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab--active {
   opacity: 1;
+  --mat-tab-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-active-focus-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-active-hover-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-active-focus-indicator-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-active-hover-indicator-color: var(--theme-tab-active-text, #000000) !important;
 }
 
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-ink-bar {
   background-color: rgb(3, 22, 21) !important;
+}
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
+  --mat-tab-inactive-ripple-color: var(--theme-inactive, #808080) !important;
+  .mat-mdc-tab {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    .mdc-tab__text-label {
+      font-family: 'Roboto' !important;
+    }
+  }
+}
+
+::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid rgb(204, 203, 203);
+  .mdc-tab__text-label {
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 
 .fitsize {
@@ -245,7 +400,7 @@
   top: 0px;
   padding: 5px;
   background-color: #D68480;
-  color: #FFFFFF;
+  color: var(--mat-toolbar-container-background-color);
   border-top-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -256,7 +411,7 @@
   right: 0px;
   padding: 5px;
   background-color: #519DB2;
-  color: #FFFFFF;
+  color: var(--mat-toolbar-container-background-color);
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
@@ -268,7 +423,7 @@
 }
 
 .course-container .name {
-  color: #1C5D95;
+  color: var(--theme-primary);
   font-weight: 400;
   font-size: 14.5px;
 }
@@ -281,17 +436,19 @@
 .mt15 {
   margin-top: 15px !important;
   margin-left: 15px !important;
+  font-weight: 400 !important;
 }
 
 .outline-btn {
   border-radius: 50px;
-  color: #2E6491 !important;
-  border: 1px solid #2E6491;
-  font-Weight: 400;
+  color: var(--theme-accent, #2E6491) !important;
+  border: 1px solid var(--theme-accent, #2E6491);
+  font-weight: 400;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   height: 35px;
   background-color: #fff;
+  padding-inline: 10px;
 }
 
 .heightBox {
@@ -302,16 +459,17 @@
 }
 
 .overlay {
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 15%;
   left: 0;
-  bottom: 0;
+  bottom: 25%;
   right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000 !important;
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(2px);
 }
 
 .relative-content {
@@ -344,6 +502,87 @@
   animation: loader-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 
+:host-context(.dark-theme) {
+  .blue-btn {
+    background: #000 !important;
+  }
+
+  .sk-tabs {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .sk-card {
+    box-shadow: var(--theme-shadow, 0 0 8px 0 rgba(0, 0, 0, 0.08));
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .placeholder-card {
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    background: var(--theme-surface, #17242d);
+  }
+
+  .resource-container .card-thumbnail {
+    border-color: var(--theme-accent, var(--theme-accent, #2E6491));
+  }
+
+  .resource-container .card-title,
+  .course-container .name,
+  .outline-btn {
+    color: var(--theme-accent, #1c5d95) !important;
+  }
+
+  .outline-btn {
+    background-color: transparent !important;
+  }
+
+  .value,
+  ::ng-deep .mat-mdc-tab-header .mdc-tab__text-label {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  :host ::ng-deep .mdc-linear-progress__buffer {
+    background-color: var(--theme-surface, #17242d) !important;
+  }
+
+  ::ng-deep .mat-mdc-tab-header {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep .mat-tab-group .mat-mdc-tab-header {
+    --mat-tab-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-inactive-label-text-color: var(--theme-inactive, #8fa4b8) !important;
+    --mat-tab-active-ripple-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-inactive-ripple-color: var(--theme-inactive, #8fa4b8) !important;
+    --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-active-focus-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-active-hover-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-active-focus-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-active-hover-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
+  }
+
+  ::ng-deep .mat-mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label {
+    color: var(--theme-text-soft, #8fa4b8) !important;
+  }
+  .overlay {
+    background: color-mix(in srgb, var(--theme-surface, #17242d) 85%, transparent);
+  }
+
+  .loader-ripple div {
+    border-color: var(--theme-text, #ecf3f8);
+  }
+
+  .sk-title,
+  .sk-tab,
+  .sk-image,
+  .sk-line,
+  .sk-progress-bar,
+  .sk-btn,
+  .placeholder-shimmer {
+    background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
+    background-size: 600px 100%;
+  }
+}
+
 .loader-ripple div:nth-child(2) {
   animation-delay: -0.5s;
 }
@@ -363,5 +602,17 @@
     width: 78px;
     height: 78px;
     opacity: 0;
+  }
+}
+
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab-header{
+  --mat-tab-active-label-text-color: var(--theme-primary) !important;
+  --mat-tab-active-ripple-color: black !important;
+  --mat-tab-inactive-ripple-color: black !important;
+}
+/* Animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

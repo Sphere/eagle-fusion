@@ -6,9 +6,11 @@ import { ConfigurationsService } from '../../../../../../../library/ws-widget/ut
 import { PlayerStateService } from '../../player-state.service'
 
 @Component({
-  selector: 'viewer-video-container',
-  templateUrl: './video.component.html',
-  styleUrls: ['./video.component.scss'],
+    standalone: false,
+    selector: 'viewer-video-container',
+    templateUrl: './video.component.html',
+    styleUrls: ['./video.component.scss'],
+    
 })
 export class VideoComponent implements OnInit {
   @Input() isScreenSizeSmall = false

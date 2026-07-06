@@ -1,11 +1,11 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .feature {
   position: relative;
   display: block;
   padding: 8px;
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     padding: 16px;
   }
 }
@@ -36,7 +36,7 @@
   font-size: 36px;
   margin-right: 16px;
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     margin-right: 0;
     margin-bottom: 12px;
   }
@@ -125,8 +125,8 @@ a {
   color: inherit;
 }
 
-::ng-deep .theme-igot.day-mode .ws-mat-accent-text {
-  color: #1C5D95;
+::ng-deep .light-theme .ws-mat-accent-text {
+  color: var(--theme-accent);
 
   .feature-icon-img {
     filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
@@ -134,7 +134,7 @@ a {
 
 }
 
-::ng-deep .theme-igot.day-mode .ws-mat-accent-text  .feature-icon-img {
+::ng-deep .light-theme .ws-mat-accent-text  .feature-icon-img {
   filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
 }
 
@@ -143,7 +143,7 @@ a {
   filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
 }
 .ws-mat-accent-text {
-    color: #1c5d95;
+    color: var(--theme-accent);
     cursor: pointer;
     filter: invert(.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
 

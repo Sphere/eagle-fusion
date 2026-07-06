@@ -1,40 +1,57 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .content {
-  padding: 60px 20px 30px;
-  margin: auto;
+  padding: 20px 20px 30px;
+  color: var(--theme-text, #101828);
 
-  @include breakpoint-gt-s {
-    //max-width: 30%;
+  @include ws-mixins.breakpoint-s {
+    max-width: 100%;
   }
 
-  @include breakpoint-gt-m {
-    //max-width: 35%;
-  }
-
-  @include breakpoint-gt-l {
-    //max-width: 30%;
-  }
-
-  @include breakpoint-s {
-    max-width: 50%;
-  }
-
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 90%;
   }
 }
 
+.form-control,
+.select-box {
+  color: var(--theme-text, #101828);
+  border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
+  background-color: var(--theme-surface, #ffffff) !important;
+  border-radius: 8px;
+}
+
+.form-group.input-box {
+  margin-bottom: 16px;
+}
+
+label {
+  font-size: 13px;
+  color: var(--theme-text-soft, #5f6b7a);
+  margin-bottom: 4px;
+  display: block;
+}
+
+input,
+select {
+  height: 44px;
+  padding: 0 12px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: transparent !important;
+}
+
 ::placeholder {
-  color: #bebebe !important;
+  color: var(--theme-inactive, #8c98a8) !important;
 }
 
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: #1C5D95;
+  background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
-  color: #fff;
+  color: var(--theme-on-accent, #ffffff);
   border: 0;
   font-size: 16px;
   line-height: 19px;
@@ -42,20 +59,60 @@
   cursor: pointer;
 }
 
-button:disabled,
-button[disabled]{
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+.save-btn:disabled {
+  background-color: #BFBFBF;
+  color:  var(--theme-inactive, #808080);
+  cursor: default;
 }
 
-.field-fullwidth {
+::ng-deep .field-fullwidth {
+  --mdc-outlined-text-field-container-height: 44px;
   width: 100% !important;
+  margin-bottom: 16px;
 }
 
+::ng-deep .field-fullwidth .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
 
-::ng-deep .mat-form-field-infix {
-  padding: 5px 0 !important;
-  font-size: 16px;
-  line-height: 14px !important;
+::ng-deep .field-fullwidth .mat-mdc-text-field-wrapper {
+  border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+  border-radius: 8px !important;
+}
+
+::ng-deep .field-fullwidth .mat-mdc-form-field-infix {
+  padding-top: 11px !important;
+  padding-bottom: 11px !important;
+  min-height: unset !important;
+}
+
+::ng-deep .field-fullwidth .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+::ng-deep .field-fullwidth .mat-mdc-select .mat-mdc-select-trigger .mat-mdc-select-value {
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: var(--theme-text, #101828) !important;
+}
+
+::ng-deep .mat-mdc-option {
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: var(--theme-text, #101828) !important;
+  background-color: var(--theme-surface, #ffffff) !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected,
+::ng-deep .mat-mdc-option.mat-selected {
+  background-color: var(--theme-accent, #1c5d95) !important;
+  color: var(--theme-on-accent, #ffffff) !important;
+}
+
+::ng-deep .themed-mat-field,
+::ng-deep .field-fullwidth {
+  --mdc-outlined-text-field-outline-color: var(--theme-border, rgba(28, 93, 149, 0.12));
+  --mdc-outlined-text-field-hover-outline-color: var(--theme-border, rgba(28, 93, 149, 0.12));
+  --mdc-outlined-text-field-focus-outline-color: var(--theme-accent, #1c5d95);
 }

@@ -1,22 +1,25 @@
 import { Component, OnDestroy, ViewChild, ElementRef, OnInit, AfterViewChecked } from '@angular/core'
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { mustMatch } from '../password-validator'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 // import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
-  selector: 'ws-app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+    standalone: false,
+    selector: 'ws-app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+
 })
 export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
-  signupForm: FormGroup
-  emailForm: FormGroup
-  unseenCtrl!: FormControl
+  signupForm: UntypedFormGroup
+  emailForm: UntypedFormGroup
+  unseenCtrl!: UntypedFormControl
   unseenCtrlSub!: Subscription
   uploadSaveData = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -32,23 +35,24 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   constructor(
     private snackBar: MatSnackBar,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private tncService: TncPublicResolverService,
-    private authSvc: AuthKeycloakService
+    private authSvc: AuthKeycloakService,
+    private logger: LoggerService,
   ) {
     this.signupForm = this.fb.group({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      otp: new FormControl(''),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl(['']),
+      firstName: new UntypedFormControl('', [Validators.required]),
+      lastName: new UntypedFormControl('', [Validators.required]),
+      otp: new UntypedFormControl(''),
+      password: new UntypedFormControl('', [Validators.required, Validators.minLength(6)]),
+      confirmPassword: new UntypedFormControl(['']),
     }, { validator: mustMatch('password', 'confirmPassword') })
 
     // this.emailForm = this.fb.group({
     //   userInput: new FormControl(['']),
     // }, { validators: EmailMobileValidators.combinePattern })
-    // console.log(this.emailForm)
+    // this.logger.log(this.emailForm)
     // tslint:disable-next-line:max-line-length
     this.emailForm = fb.group({
       // tslint:disable-next-line:max-line-length
@@ -90,7 +94,6 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
             },
             (err: any) => {
               this.openSnackbar(err)
-
             }
           )
         }
@@ -144,7 +147,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.tncService.signup(reqObj).subscribe(
         userData => {
           // tslint:disable-next-line:no-console
-          console.log(userData)
+          this.logger.log(userData)
           const departmentData = {
             request: {
               userId: userData.userId,
@@ -155,45 +158,25 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           this.tncService.assignAdminToDepartment(departmentData)
             .subscribe(data => {
               // tslint:disable-next-line:no-console
-              console.log(data)
+              this.logger.log(data)
               this.openSnackbar(`${data.result.response}`)
               this.router.navigate(['/app/profile/dashboard'])
             },
               err => {
                 // tslint:disable-next-line:no-console
-                console.log(err)
+                this.logger.log(err)
                 this.router.navigate([`/public/register`])
                 this.openSnackbar(`Error in assign roles ${err}`)
               })
-
-          // (res: { message: string }) => {
-          //   console.log(res)
-          // if (res.message === 'Success') {
-          //   form.reset()
-          //   this.uploadSaveData = false
-          //   this.openSnackbar(this.toastSuccess.nativeElement.value)
-          //   setTimeout(() => {
-          //     this.authSvc.login('S', document.baseURI)
-          //   }, 5000)
-          // }
         },
         (err: any) => {
           // tslint:disable-next-line:no-console
-          console.log(err)
+          this.logger.log(err)
           this.openSnackbar(`User Creation ${err}`)
         }
-        // (err: { error: { error: string } }) => {
-        //   this.openSnackbar(err.error.error)
-        //   this.uploadSaveData = false
-        //   setTimeout(() => {
-        //     this.emailForm.reset()
-        //     this.signupForm.reset()
-        //   }, 3000)
-        // }
       )
     } else {
       const requestBody = {
-
         data: {
           firstname: form.value.firstName,
           lastname: form.value.lastName,
@@ -202,7 +185,6 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           otp: form.value.otp,
         },
         mobileNumber: this.emailOrMobile,
-
       }
       this.tncService.verifyUserMobile(requestBody).subscribe(
         (res: { message: string }) => {
@@ -215,15 +197,12 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
         (err: { error: { error: string } }) => {
           this.openSnackbar(err.error.error)
           this.uploadSaveData = false
-          // form.reset()
         }
       )
-
     }
-
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
@@ -231,8 +210,5 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   gotoHome() {
     this.router.navigate(['/page/home'])
-    // .then(() => {
-    //   window.location.reload()
-    // })
   }
 }

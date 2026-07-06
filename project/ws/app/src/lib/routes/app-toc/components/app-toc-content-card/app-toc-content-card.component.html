@@ -15,8 +15,7 @@
             <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
               <mat-icon>more_vertical</mat-icon>
             </button>
-            <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button
-              color="primary">
+            <button mat-button (click)="viewChildren = !viewChildren" class="margin-left-m">
               <ng-container *ngIf="!viewChildren">
                 <mat-icon>expand_more</mat-icon>
               </ng-container>
@@ -123,11 +122,15 @@
     </ws-widget-display-content-type-icon> -->
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
-      <ws-app-assessment-detail
-        [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode || content.hideLocIcon ? resourceLink : ''"
-        [content]="content">
+      <a style="width: 100%" class="block no-underline"
+        [routerLink]="(content?.completionPercentage > 0 || content.index === 1 || !disabledNode || content.hideLocIcon) ? (resourceLink?.url || content.viewerUrl) : null"
+        [queryParams]="(content?.completionPercentage > 0 || content.index === 1 || !disabledNode || content.hideLocIcon) ? (resourceLink?.queryParams || 'preserve') : null">
+        <ws-app-assessment-detail
+          [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode || content.hideLocIcon ? resourceLink : ''"
+          [content]="content">
 
-      </ws-app-assessment-detail>
+        </ws-app-assessment-detail>
+      </a>
       <div class="align-rt progrss-box">
         <span class="content-check"
           *ngIf="content?.completionPercentage===100 && content?.completionStatus == 2; else elseAssesmentPercentage">
@@ -138,7 +141,7 @@
           <ng-container *ngIf="content?.completionPercentage > 0; else elseAssesmentLock">
             <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
               [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
-              [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+              [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false"
               [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
               [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
               [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
@@ -239,7 +242,7 @@
               <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
                   [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
-                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false"
                   [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
                   [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
                   [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
@@ -253,7 +256,7 @@
               <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
                   [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
-                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false"
                   [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
                   [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
                   [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
@@ -282,7 +285,7 @@
             class="flex items-center progress" [percent]="content?.completionPercentage" [radius]="12"
             [outerStrokeWidth]="3" [innerStrokeWidth]="3" [space]="-3"
             [outerStrokeColor]="progressColor(content?.completionPercentage)" [innerStrokeColor]="'rgba(0,0,0,.16)'"
-            [animation]="true" [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
+            [animation]="false" [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
             [showInnerStroke]="true" [clockwise]="true" [backgroundOpacity]="0" [backgroundGradient]="false"
             [backgroundStrokeWidth]="3" [showZeroOuterStroke]=false [backgroundPadding]="-9" [startFromZero]="false"
             [backgroundPadding]="0" [imageHeight]="24" [imageWidth]="24" [showBackground]="false"
@@ -297,7 +300,7 @@
       <!-- <circle-progress title="{{content?.completionPercentage}}%" class="flex items-center progress"
             [percent]="content?.completionPercentage" [radius]="12" [outerStrokeWidth]="3" [innerStrokeWidth]="3"
             [space]="-3" [outerStrokeColor]="progressColor(content?.completionPercentage)"
-            [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true" [animationDuration]="300" [showTitle]="false"
+            [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false" [animationDuration]="300" [showTitle]="false"
             [showUnits]="false" [showSubtitle]="false" [showInnerStroke]="true" [clockwise]="true"
             [backgroundOpacity]="0" [backgroundGradient]="false" [backgroundStrokeWidth]="3" [showZeroOuterStroke]=false
             [backgroundPadding]="-9" [startFromZero]="false" [backgroundPadding]="0" [imageHeight]="24"

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core'
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { IWidgetImageMap, IWidgetMapMeta } from '@ws-widget/collection/src/lib/image-map-responsive/image-map-responsive.model'
 import { AUTHORING_CONTENT_BASE, CONTENT_BASE_WEBHOST_ASSETS } from '@ws/author/src/lib/constants/apiEndpoints'
@@ -12,9 +12,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { FILE_MAX_SIZE } from './../../../../../../../../../constants/upload'
 
 @Component({
-  selector: 'ws-auth-image-map',
-  templateUrl: './image-map.component.html',
-  styleUrls: ['./image-map.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-image-map',
+    templateUrl: './image-map.component.html',
+    styleUrls: ['./image-map.component.scss'],
+    
 })
 export class ImageMapComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas', { static: false }) canvas!: ElementRef
@@ -24,7 +26,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   @Input() content!: IWidgetImageMap
   @Input() isSubmitPressed = false
   @Output() data = new EventEmitter<{ content: IWidgetImageMap; isValid: boolean }>()
-  form!: FormGroup
+  form!: UntypedFormGroup
   startX1 = 0
   startY1 = 0
   startX2 = 0
@@ -45,7 +47,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   constructor(
     private uploadService: UploadService,
     private snackBar: MatSnackBar,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
   ) { }
 
@@ -96,13 +98,13 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
     //   identifier = identifier.substring(0, identifier.indexOf('.'))
     // }
     // url = url.concat(identifier).concat('#').concat(value)
-    // console.log(url)
+    // this.logger.log(url)
     const link = this.paths.at(index).get('link') as AbstractControl
     link.setValue(`./page/${this.identifier.replace('.img', '')}#${value}`)
   }
 
-  get paths(): FormArray {
-    return this.form.get('map') as FormArray
+  get paths(): UntypedFormArray {
+    return this.form.get('map') as UntypedFormArray
   }
 
   selectionChange(event: any, index: number) {
@@ -117,10 +119,10 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
     this.paths.push(
       this.formBuilder.group({
         coords: this.formBuilder.array([
-          new FormControl(data && data.coords ? data.coords[0] || 0 : 0),
-          new FormControl(data && data.coords ? data.coords[1] || 0 : 0),
-          new FormControl(data && data.coords ? data.coords[2] || 0 : 0),
-          new FormControl(data && data.coords ? data.coords[3] || 0 : 0),
+          new UntypedFormControl(data && data.coords ? data.coords[0] || 0 : 0),
+          new UntypedFormControl(data && data.coords ? data.coords[1] || 0 : 0),
+          new UntypedFormControl(data && data.coords ? data.coords[2] || 0 : 0),
+          new UntypedFormControl(data && data.coords ? data.coords[3] || 0 : 0),
         ]),
         alt: [data ? data.alt || '' : ''],
         title: [data ? data.title || '' : ''],
@@ -455,7 +457,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   //     context.globalAlpha = 0.5
   //     context.strokeStyle = 'white'
   //     context.fillRect(item.coords[2], item.coords[3], width, height)
-  //     //console.log("from drawALL: " + item.coords[2], item.coords[3], width, height);
+  //     //this.logger.log("from drawALL: " + item.coords[2], item.coords[3], width, height);
 
   //   })
   //   this.drawAllnew(context)
@@ -536,7 +538,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   //     pathName = inputURL.pathname
   //   else
   //     pathName = url
-  //   //console.log(pathName)
+  //   //this.logger.log(pathName)
   //   return pathName
 
   // }

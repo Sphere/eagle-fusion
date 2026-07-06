@@ -9,9 +9,11 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { IWidgetErrorFeatureDisabled } from './error-feature-disabled.model'
 
 @Component({
-  selector: 'ws-widget-error-feature-disabled',
-  templateUrl: './error-feature-disabled.component.html',
-  styleUrls: ['./error-feature-disabled.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-error-feature-disabled',
+    templateUrl: './error-feature-disabled.component.html',
+    styleUrls: ['./error-feature-disabled.component.scss'],
+    
 })
 export class ErrorFeatureDisabledComponent implements OnInit, OnDestroy {
   @Input() errorData: null | IWidgetErrorFeatureDisabled = null

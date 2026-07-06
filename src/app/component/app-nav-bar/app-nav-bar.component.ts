@@ -1,31 +1,29 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, HostListener } from '@angular/core'
+import { ChangeDetectorRef, Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import {
-  IBtnAppsConfig,
-  // CustomTourService
-} from '@ws-widget/collection'
+import { IBtnAppsConfig } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
-import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
 import { appNavBarService } from './app-nav-bar.service'
+import { PlaylistService } from '../../services/playlist.service'
+import { LanguageService } from '../../services/language.service'
+import { ThemeService } from '../../services/theme.service'
 
 @Component({
+  standalone: false,
   selector: 'ws-app-nav-bar',
   templateUrl: './app-nav-bar.component.html',
   styleUrls: ['./app-nav-bar.component.scss'],
+
 })
 export class AppNavBarComponent implements OnInit, OnChanges {
   allowAuthor = false
   @Input() mode: 'top' | 'bottom' = 'top'
   @Input() authorised = false
-  // @Input()
-  // @HostBinding('id')
-  // public id!: string
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
     widgetSubType: 'actionButtonApps',
@@ -45,9 +43,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   isTourGuideClosed = false
   showAppNavBar = false
   popupTour: any
-  courseNameHeader: any
   showCreateBtn = false
-  isXSmall$: Observable<boolean>
   isXSmall!: boolean
   showSearchIcon = true
   langDialog: any
@@ -55,29 +51,32 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   hideCreateButton = true
   hideSearch = false
   showNavLinkPage = true
-  langPresent: boolean = false
+  langPresent = false
   domain!: string
-
+  orgData: any
+  menuItems: any[] = []
+  config: any
+  isDark: boolean = false
   constructor(
     private domSanitizer: DomSanitizer,
     public configSvc: ConfigurationsService,
-    // private tourService: CustomTourService,
     private router: Router,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
     public dialog: MatDialog,
-    //location: Location,
-    public navOption: appNavBarService
+    public navOption: appNavBarService,
+    private playlistSvc: PlaylistService,
+    private languageSvc: LanguageService,
+    private cdr: ChangeDetectorRef,
+    private logger: LoggerService,
+    private themeSvc: ThemeService
   ) {
-    this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
       this.showNavLinkPage = false
     }
-    console.log(location.href)
-    if (location.href.includes('/hi/')) {
-      this.langPresent = true
-    }
+    this.logger.log(location.href)
+    this.langPresent = this.languageSvc.isHindi()
     if (location.href.includes('/app/new-tnc')) {
       this.showNavLinkPage = false
     } else {
@@ -93,10 +92,42 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.cancelTour()
       }
     })
-    // Header view
+
+    effect(() => {
+      this.isDark = this.themeSvc.isDark()
+      if (this.valueSvc.isMobile()) {
+        this.isXSmall = true
+        this.showCreateBtn = this.configSvc.userProfile === null
+      } else {
+        this.isXSmall = false
+        this.showCreateBtn = false
+      }
+      // trigger async safely
+      queueMicrotask(() => this.setUIData())
+    })
   }
 
-  ngOnInit() {
+  async setUIData() {
+    this.orgData = this.playlistSvc.orgDetails()
+    if (this.orgData === "") {
+      await this.playlistSvc.loadPlaylistData().then(() => {
+        this.orgData = this.playlistSvc.orgDetails()
+      })
+    }
+    this.config = this.playlistSvc.headerConfig()
+    if (this.config) {
+      const menuItem = this.config.menuItems
+      this.menuItems = this.isXSmall
+        ? menuItem?.filter(item => this.config.mobileMenuItems.includes(item.id))
+        : menuItem?.filter(item => this.config.webMenuItems.includes(item.id))
+    }
+    this.appIcon = this.orgData?.appLogo
+    this.orgLogo = this.isDark ? this.orgData?.foundationLogoDark : this.orgData?.foundationLogo
+    this.cdr.detectChanges()
+  }
+
+  async ngOnInit() {
+    await this.setUIData()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false
     }
@@ -121,25 +152,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       }
     })
 
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
-
     if (this.configSvc.instanceConfig) {
-      if (localStorage.getItem('orgValue') === 'nhsrc') {
-        this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          '/fusion-assets/images/sphere-new-logo.svg',
-        )
-      } else {
-        this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          '/fusion-assets/images/sphere-new-logo.svg',
-        )
-      }
       this.instanceVal = this.configSvc.rootOrg || ''
       if (this.configSvc.instanceConfig.logos.appBottomNav) {
         this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
@@ -149,64 +162,45 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       this.primaryNavbarBackground = this.configSvc.primaryNavBar
       this.pageNavbar = this.configSvc.pageNavBar
       this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
+      this.cdr.detectChanges()
     }
     if (this.configSvc.appsConfig) {
       this.featureApps = Object.keys(this.configSvc.appsConfig.features)
     }
-    this.configSvc.tourGuideNotifier.subscribe(canShow => {
-      if (
-        this.configSvc.restrictedFeatures &&
-        !this.configSvc.restrictedFeatures.has('tourGuide')
-      ) {
-        this.isTourGuideAvailable = canShow
-        // this.popupTour = this.tourService.createPopupTour()
-      }
-    })
     this.domain = window.location.hostname
-
-    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-      console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
-      this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
-      this.orgLogo = this.configSvc.hostedInfo?.logo
-    }
   }
 
   createAcct() {
     this.router.navigateByUrl('app/create-account')
   }
   navigate() {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
-    // let url3 = `${document.baseURI}`
-    // if (url3.includes('hi')) {
-    //   url3 = url3.replace(/hi\//g, '')
-    // }
-
-    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails.profileReq!.personalDetails!.dob) {
-      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-      this.router.navigateByUrl(`${url}`)
+    // Use LanguageService instead of checking location.href
+    // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+    this.menuItems?.forEach(item => {
+      item.active = false
+    })
+    if (this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails?.dob) {
+      this.router.navigate(['/app/profile-view'])
     } else {
-      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: '/page/home' } })
     }
 
   }
 
   goHomePage() {
-    // localStorage.setItem('url_before_login', '/page/home')
-    //if (this.showNavLinkPage) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1)
-    let url2 = `${document.baseURI}`
-    if (url2.includes('hi')) {
-      url2 = url2.replace(/hi\//g, '')
+    // ✅ Check if orgSelectiveConfig matches and redirect accordingly
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+    const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+
+    let url = 'page/home'
+    if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+      url = orgSelectiveConfig.redirectUrl || 'page/home'
+      this.logger.log('Redirecting to selective org page:', url)
     }
-    let url = url1 === 'hi' ? '/page/home' : 'page/home'
-    location.href = `${url2}${url1}${url}`
-    //location.href = '/page/home'
-    //}
+
+    this.router.navigateByUrl(url)
   }
+
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'mode') {
@@ -229,41 +223,12 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: any) {
-    console.log('Back button pressed', event)
+    this.logger.log('Back button pressed', event)
     location.href = '/page/home'
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
-  }
-
-  // startTour() {
-  //   this.tourService.startTour()
-  //   this.tourService.isTourComplete.subscribe((result: boolean) => {
-  //     if ((result)) {
-  //       this.tourService.startPopupTour()
-  //       this.configSvc.completedTour = true
-  //       this.configSvc.prefChangeNotifier.next({ completedTour: this.configSvc.completedTour })
-  //       // this.tour = tour
-  //       setTimeout(
-  //         () => {
-  //           this.tourService.cancelPopupTour()
-  //         },
-  //         3000,
-  //       )
-  //     }
-  //   })
-  // }
   cancelTour() {
     if (this.popupTour) {
-      // this.tourService.cancelPopupTour()
       this.isTourGuideClosed = false
     }
 
@@ -279,8 +244,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
-      // tslint:disable-next-line:no-console
-      console.log(this.preferedLanguage)
+      this.logger.log(this.preferedLanguage)
     })
   }
 }

@@ -1,6 +1,3 @@
-<!-- <img alt="user-image" *ngIf="(!errorOccurred && verifiedMicrosoftEmail?.length) || imageUrl" class="user-image"
-  [src]="verifiedMicrosoftEmail?.length ? basePicUrl + verifiedMicrosoftEmail : imageUrl"
-  (error)="errorOccurred = true" /> -->
 <ng-container>
   <mat-icon class="user-icon" *ngIf="imageType === 'initial'">person</mat-icon>
   <span class="mat-app-background rounded-icon" *ngIf="imageType === 'rounded'">

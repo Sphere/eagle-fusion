@@ -6,14 +6,16 @@ import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils/src/public
 // import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
-  selector: 'ws-app-user-playlist',
-  templateUrl: './user-playlist.component.html',
-  styleUrls: ['./user-playlist.component.scss'],
+    standalone: false,
+    selector: 'ws-app-user-playlist',
+    templateUrl: './user-playlist.component.html',
+    styleUrls: ['./user-playlist.component.scss'],
+    
 })
 export class UserPlaylistComponent implements OnInit, OnChanges {
   @Input() wid = ''
   @Input() name = ''
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
 
   // playlists: NsPlaylist.IPlaylist[] | null = null
   // type: NsPlaylist.EPlaylistTypes = NsPlaylist.EPlaylistTypes.ME

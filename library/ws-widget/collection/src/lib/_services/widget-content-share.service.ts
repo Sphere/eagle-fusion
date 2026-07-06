@@ -5,11 +5,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { NsContent } from './widget-content.model'
 import { NsShare } from './widget-share.model'
 import { ICommon } from '../_models/common.model'
-
-const API_END_POINTS = {
-  USER_SHARE: `/apis/protected/v8/user/share`,
-  USER_CONTENT_SHARE: `/apis/protected/v8/user/share/content`,
-}
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +16,7 @@ export class WidgetContentShareService {
   constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
 
   fetchConfigFile(): Observable<ICommon> {
-    return this.http.get<ICommon>(`${this.baseUrl}/feature/common.json`).pipe()
+    return this.http.get<ICommon>(`fusion-assets/files/common.json`).pipe()
   }
 
   private shareContentApi(req: NsShare.IEmailRequest): Observable<NsShare.IEmailResponse> {

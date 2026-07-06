@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .icon {
   margin: 0 5px;
@@ -24,7 +24,7 @@
   max-width: 100px;
   max-height: 30px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 80px;
     max-height: 30px;
   }

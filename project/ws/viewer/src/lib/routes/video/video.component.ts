@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { AccessControlService } from '@ws/author'
 import {
@@ -8,15 +8,18 @@ import {
   WidgetContentService,
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { Platform } from '@angular/cdk/platform'
 import dayjs from 'dayjs'
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 @Component({
-  selector: 'viewer-video',
-  templateUrl: './video.component.html',
-  styleUrls: ['./video.component.scss'],
+    standalone: false,
+    selector: 'viewer-video',
+    templateUrl: './video.component.html',
+    styleUrls: ['./video.component.scss'],
+    
 })
 export class VideoComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
@@ -41,7 +44,9 @@ export class VideoComponent implements OnInit, OnDestroy {
     private contentSvc: WidgetContentService,
     private platform: Platform,
     private accessControlSvc: AccessControlService,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -58,7 +63,7 @@ export class VideoComponent implements OnInit, OnDestroy {
       this.viewerDataSubscription = this.viewerSvc
         .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
         .subscribe(data => {
-          console.log(data, '')
+          this.logger.log(data, '')
           this.videoData = data
           if (this.videoData) {
             this.formDiscussionForumWidget(this.videoData)
@@ -66,9 +71,9 @@ export class VideoComponent implements OnInit, OnDestroy {
           this.widgetResolverVideoData = this.initWidgetResolverVideoData(this.videoData)
           let url = ''
           if (this.videoData.artifactUrl.indexOf('/content-store/') > -1) {
-            url = `/apis/authContent/${new URL(this.videoData.artifactUrl).pathname}`
+            url = API_END_POINTS.AUTH_CONTENT(new URL(this.videoData.artifactUrl).pathname)
           } else {
-            url = `/apis/authContent/${encodeURIComponent(this.videoData.artifactUrl)}`
+            url = API_END_POINTS.AUTH_CONTENT(encodeURIComponent(this.videoData.artifactUrl))
           }
           this.widgetResolverVideoData.widgetData.url = this.videoData ? url : ''
           this.widgetResolverVideoData.widgetData.disableTelemetry = true
@@ -92,17 +97,17 @@ export class VideoComponent implements OnInit, OnDestroy {
                 userId,
                 batchId: this.batchId,
                 courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                contentIds: [],
+                contentIds: this.videoData ? [this.videoData.identifier] : [],
                 fields: ['progressdetails'],
               },
             }
             this.contentSvc.fetchContentHistoryV2(req).subscribe(
               async data => {
                 if (data && data.result && data.result.contentList.length) {
-                  let contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
-                  console.log(contentData)
+                  const contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
+                  this.logger.log(contentData)
                   if (contentData === undefined || contentData.completionPercentage === 0) {
-                    console.log('contentData')
+                    this.logger.log('contentData')
                     let req: any
                     if (this.configSvc.userProfile) {
                       req = {
@@ -116,15 +121,15 @@ export class VideoComponent implements OnInit, OnDestroy {
                               status: 1,
                               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                               progressdetails: {},
-                              completionPercentage: 0
-                            }
+                              completionPercentage: 0,
+                            },
                           ],
                         },
                       }
-                      console.log(req)
-                      //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
+                      this.logger.log(req)
+                      //this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
                       this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                        console.log(data)
+                        this.logger.log(data)
                         const result = data.result
                         result['type'] = 'video'
                         this.contentSvc.changeMessage(result)
@@ -144,15 +149,15 @@ export class VideoComponent implements OnInit, OnDestroy {
                               status: contentData.status,
                               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                               progressdetails: contentData.progressdetails,
-                              completionPercentage: contentData.completionPercentage
-                            }
+                              completionPercentage: contentData.completionPercentage,
+                            },
                           ],
                         },
                       }
-                      console.log(req)
-                      //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
+                      this.logger.log(req)
+                      //this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
                       this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                        console.log(data)
+                        this.logger.log(data)
                         const result = data.result
                         result['type'] = 'video'
                         this.contentSvc.changeMessage(result)
@@ -174,14 +179,14 @@ export class VideoComponent implements OnInit, OnDestroy {
                             status: 1,
                             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                             progressdetails: {},
-                            completionPercentage: 0
-                          }
+                            completionPercentage: 0,
+                          },
                         ],
                       },
                     }
-                    console.log(req, '183')
+                    this.logger.log(req, '183')
                     this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                      console.log(data)
+                      this.logger.log(data)
                     })
                   }
                 }
@@ -204,7 +209,10 @@ export class VideoComponent implements OnInit, OnDestroy {
               ? this.viewerSvc.getAuthoringUrl(this.videoData.artifactUrl)
               : this.videoData.artifactUrl
             : ''
-          this.widgetResolverVideoData.widgetData.resumePoint = this.getResumePoint(this.videoData)
+          // Only use getResumePoint as fallback if fetchContinueLearning didn't set a value
+          if (!this.widgetResolverVideoData.widgetData.resumePoint) {
+            this.widgetResolverVideoData.widgetData.resumePoint = this.getResumePoint(this.videoData)
+          }
           this.widgetResolverVideoData.widgetData.identifier = this.videoData
             ? this.videoData.identifier
             : ''
@@ -214,6 +222,7 @@ export class VideoComponent implements OnInit, OnDestroy {
             await this.setS3Cookie(this.videoData.identifier)
           }
           this.isFetchingDataComplete = true
+          this.cdr.detectChanges()
         },
         () => { },
       )
@@ -317,7 +326,7 @@ export class VideoComponent implements OnInit, OnDestroy {
           userId,
           batchId: this.batchId,
           courseId: collectionId || '',
-          contentIds: [],
+          contentIds: [videoId],
           fields: ['progressdetails'],
         },
       }
@@ -332,8 +341,9 @@ export class VideoComponent implements OnInit, OnDestroy {
                 this.widgetResolverVideoData
               ) {
                 this.widgetResolverVideoData.widgetData.resumePoint = Number(
-                  content.progressdetails.current
-                  // content.progressdetails.current.pop(),
+                  Array.isArray(content.progressdetails.current)
+                    ? content.progressdetails.current[0]
+                    : content.progressdetails.current
                 )
               }
             }

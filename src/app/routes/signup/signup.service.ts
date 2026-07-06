@@ -1,28 +1,15 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
+import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { map, share } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
-import get from 'lodash/get'
-import isUndefined from 'lodash/isUndefined'
+import { UserDataCacheService } from '../../services/user-data-cache.service'
+import { get, isUndefined } from 'lodash'
 
 import { v4 as uuid } from 'uuid'
-
-const API_END_POINTS = {
-  USER_SIGNUP: `/apis/public/v8/emailMobile/signup`,
-  REGISTERUSERWITHMOBILE: `/apis/public/v8/emailMobile/registerUserWithMobile`,
-  GENERATE_OTP: `/apis/public/v8/emailMobile/generateOtp`,
-  VALIDATE_OTP: `/apis/public/v8/emailMobile/validateOtp`,
-  VERIFY_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
-  RESET_PASSWORD: `/apis/public/v8/forgot-password/reset/proxy/password`,
-  SETPASSWORD_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
-  profilePid: '/apis/proxies/v8/api/user/v2/read',
-  newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
-  validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin',
-  sendUserOTP: '/apis/public/v8/ssoLogin/otp/sendOtp',
-  newLogin: '/apis/public/v8/ssoLogin/login',
-  resendOTP: '/apis/public/v8/ssoLogin/otp/resendOtp'
-}
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
+import { API_END_POINTS, S3_END_POINTS } from '../../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -31,11 +18,21 @@ export class SignupService {
   someDataObservable!: Observable<any>
 
   constructor(private http: HttpClient,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private userDataCacheSvc: UserDataCacheService,
+    private logger: LoggerService,
+    private router: Router,
   ) { }
 
   ssoValidateOTP(data: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.validateOTP, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+  ssoValidateOrgOTP(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.validateOrgOTP, data).pipe(
       map(response => {
         return response
       }),
@@ -70,8 +67,16 @@ export class SignupService {
     )
   }
 
+  ssoWithMobileEmailOrgForm(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.newssowithMobileEmailOrgForm, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+
   signup(data: any): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.USER_SIGNUP, data).pipe(
+    return this.http.post<any>(API_END_POINTS.SIGNUP, data).pipe(
       map(response => {
         return response
       }),
@@ -79,7 +84,7 @@ export class SignupService {
   }
 
   registerWithMobile(data: any) {
-    return this.http.post<any>(API_END_POINTS.REGISTERUSERWITHMOBILE, data).pipe(
+    return this.http.post<any>(API_END_POINTS.REGISTER_USERWITH_MOBILE, data).pipe(
       map(response => {
         return response
       })
@@ -87,7 +92,7 @@ export class SignupService {
   }
 
   verifyUserMobile(data: any) {
-    return this.http.post<any>(API_END_POINTS.VERIFY_OTP, data).pipe(
+    return this.http.post<any>(API_END_POINTS.VERIFY_FPW_OTP, data).pipe(
       map(response => {
         return response
       })
@@ -131,14 +136,14 @@ export class SignupService {
   }
 
   public forgotPassword(request: any): Observable<any> {
-    return this.http.post(API_END_POINTS.RESET_PASSWORD, request).pipe(
+    return this.http.post(API_END_POINTS.RESET_FPW_PASSWORD, request).pipe(
       map((response: any) => {
         return response
       }))
   }
 
   setPasswordWithOtp(request: any): Observable<any> {
-    return this.http.post(API_END_POINTS.SETPASSWORD_OTP, request).pipe(
+    return this.http.post(API_END_POINTS.SET_FPW_OTP, request).pipe(
       map((response: any) => {
         return response
       }))
@@ -146,12 +151,10 @@ export class SignupService {
   async getUserData(): Promise<any> {
     let userPidProfile: any | null = null
     try {
-      userPidProfile = await this.http
-        .get<any>(API_END_POINTS.profilePid)
-        .pipe(map((res: any) => res.result.response))
-        .toPromise()
-      console.log(this.configSvc.unMappedUser)
-      console.log(userPidProfile)
+      // Use cached user data service to prevent repeated API calls
+      userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
+      this.logger.log(this.configSvc.unMappedUser)
+      this.logger.log(userPidProfile)
       if (this.configSvc.unMappedUser === undefined) {
         localStorage.setItem('telemetrySessionId', uuid())
         this.configSvc.unMappedUser = userPidProfile
@@ -168,10 +171,8 @@ export class SignupService {
     if (this.configSvc.instanceConfig) {
       let userPidProfile: any | null = null
       try {
-        userPidProfile = await this.http
-          .get<any>(API_END_POINTS.profilePid)
-          .pipe(map((res: any) => res.result.response))
-          .toPromise()
+        // Use cached user data service to prevent repeated API calls
+        userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
         if (userPidProfile && userPidProfile.roles && userPidProfile.roles.length > 0 &&
           this.hasRole(userPidProfile.roles)) {
           if (localStorage.getItem('telemetrySessionId')) {
@@ -217,6 +218,13 @@ export class SignupService {
             email: 'null',
           }
         }
+        // Cache the user data for future use
+        this.userDataCacheSvc.setUserData(userPidProfile)
+        try {
+          await this.fetchOrgSelectiveConfig()
+        } catch (err) {
+          this.logger.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
+        }
         const details = {
           group: [],
           profileDetailsStatus: !!get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
@@ -253,24 +261,83 @@ export class SignupService {
   }
 
   keyClockLogin() {
-    location.href = '/public/login'
-    // let url = `${document.baseURI}`
-    // let redirectUrl = ''
-    // sessionStorage.setItem('url', url)
-    // if (url.includes('hi')) {
-    //   url = url.replace('hi/', '')
-    //   redirectUrl = `${url}openid/keycloak`
-    //   sessionStorage.setItem('lang', 'hi')
-    // } else {
-    //   redirectUrl = `${url}openid/keycloak`
-    // }
-    // // console.log(url, redirectUrl)
-    // const state = uuid()
-    // const nonce = uuid()
-    // sessionStorage.setItem('login-btn', 'clicked')
-    // // tslint:disable-next-line:max-line-length
-    // const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-    // window.location.href = keycloakurl
+    this.router.navigateByUrl('/public/login')
+  }
+  private async fetchOrgSelectiveConfig(): Promise<void> {
+    try {
+      const s3Url = S3_END_POINTS.ORG_SELECTIVE_COURSE
+      const orgSelectiveData = await this.http.get<any>(s3Url).toPromise()
+
+      if (orgSelectiveData && Array.isArray(orgSelectiveData.states)) {
+        let matchedOrg: any = null
+
+        // 1. Try matching for logged-in user (rootOrgId)
+        if (this.configSvc.userProfile?.rootOrgId) {
+          const rootOrgId = this.configSvc.userProfile.rootOrgId
+          this.logger.log('Root Org ID:', rootOrgId)
+
+          for (const state of orgSelectiveData.states) {
+            const found = state.organisations?.find(
+              (org: any) => org.orgId === rootOrgId
+            )
+            if (found) {
+              matchedOrg = found
+              break
+            }
+          }
+        }
+
+        // 2. If no match found, check ?org= param (public route)
+        if (!matchedOrg) {
+          const urlParams = new URLSearchParams(window.location.search)
+          let orgNameFromUrl = urlParams.get('org')
+
+          if (orgNameFromUrl) {
+            // Decode + sanitize URL param
+            orgNameFromUrl = decodeURIComponent(orgNameFromUrl)
+              .replace(/\+/g, ' ')
+              .trim()
+              .toLowerCase()
+              .replace(/&/g, 'and')
+
+            this.logger.log('Normalized Org from URL:', orgNameFromUrl)
+
+            // Iterate over all orgs to find match
+            for (const state of orgSelectiveData.states) {
+              const found = state.organisations?.find((org: any) => {
+                const orgNameNormalized = (org.orgName || '')
+                  .toLowerCase()
+                  .trim()
+                  .replace(/&/g, 'and')
+                return orgNameNormalized === orgNameFromUrl
+              })
+              if (found) {
+                matchedOrg = found
+                break
+              }
+            }
+          }
+        }
+
+        // 🔹 3. Save matched config
+        if (matchedOrg) {
+          this.configSvc.orgSelectiveCourseConfig = matchedOrg
+          this.logger.log('Org Selective Config Found:', matchedOrg.orgName)
+        } else {
+          this.logger.warn('No matching org found in org-selective-course.json')
+          this.logger.warn(
+            'Available org names:',
+            orgSelectiveData.states.flatMap((s: any) =>
+              s.organisations.map((o: any) => o.orgName)
+            )
+          )
+        }
+      } else {
+        this.logger.warn('org-selective-course.json missing or invalid format')
+      }
+    } catch (error) {
+      this.logger.error('Failed to fetch org-selective-course.json:', error)
+    }
   }
 
 }

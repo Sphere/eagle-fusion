@@ -2,91 +2,79 @@
 import {
   Component,
   OnInit,
-  ViewChild,
-  ViewContainerRef,
-  OnDestroy,
   Input,
+  effect,
+  Inject,
+  PLATFORM_ID,
 } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { isPlatformBrowser } from '@angular/common'
+import { Router } from '@angular/router'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-// import { ILoginDescriptiveFooterConfig, IWSPublicLoginConfig } from './login.model'
 import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
-import { Subscription } from 'rxjs'
+import { SeoService } from '../../../services/seo.service'
+import { UserAgentResolverService } from '../../../services/user-agent.service'
 @Component({
-  selector: 'ws-public-home',
-  templateUrl: './public-home.component.html',
-  styleUrls: ['./public-home.component.scss'],
+    standalone: false,
+    selector: 'ws-public-home',
+    templateUrl: './public-home.component.html',
+    styleUrls: ['./public-home.component.scss'],
+    
 })
 export class PublicHomeComponent extends WidgetBaseComponent
-  implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {
-  objectKeys = Object.keys
-  productLogo = ''
-  contactUs = false
-  productLogoWidth: string | undefined = ''
-  showIconBackground = false
-  developedBy = ''
-  appIcon: SafeUrl | null = null
-  // todo what to do for client login
-  isClientLogin = false
-  // loginConfig: IWSPublicLoginConfig | null = null
-  // welcomeFooter: ILoginDescriptiveFooterConfig | null = null
-  title = ''
-  subTitle = ''
-  redirectUrl = ''
-  private subscriptionHome: Subscription | null = null
-  pageLayout: any
-  pageData: NsPage.IPage | null = null
-  oldData: NsPage.IPage | null = null
-  alreadyRaised = false
-  error: any
+  implements OnInit, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {
   isXSmall = false
-
-  routeChangeInProgress = false
-  showNavbar = false
-  currentUrl!: string
-  isNavBarRequired = false
-  isInIframe = false
-  appStartRaised = false
-  isSetupPage = false
-  @ViewChild('previewContainer', { read: ViewContainerRef, static: true })
-  previewContainerViewRef: ViewContainerRef | null = null
   @Input() widgetData: NsPage.IPage | null = null
-
   navBackground: Partial<NsPage.INavBackground> | null = null
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
-  isXSmall$ = this.valueSvc.isXSmall$
-  domain!: string
-  isEkshamata: boolean = false
+  isEkshamata = false
   constructor(
-    private activateRoute: ActivatedRoute,
-    // private authSvc: AuthKeycloakService,
     private configSvc: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
     private router: Router,
     private valueSvc: ValueService,
+    private snackBar: MatSnackBar,
+    private seoSvc: SeoService,
+    private userAgentSvc: UserAgentResolverService,
+    @Inject(PLATFORM_ID) private platformId: object,
   ) {
     super()
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
+    if (isPlatformBrowser(this.platformId) && localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/public/organisations/home')
-    }
-    const instanceConfig = this.configSvc.instanceConfig
-    if (instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        instanceConfig.logos.appTransparent,
-      )
-      this.productLogo = instanceConfig.logos.company
-      this.developedBy = instanceConfig.logos.developedBy
     }
 
     if (this.configSvc.instanceConfig && this.configSvc.userProfile !== null) {
       this.router.navigate(['/page/home'])
     }
+    effect(() => {
+      this.isXSmall = this.valueSvc.isMobile() ? true : false
+    })
   }
 
   ngOnInit() {
-    this.domain = window.location.hostname
-    if (this.domain.includes('ekshamata')) {
+    this.seoSvc.update({
+      title: 'Free Online Courses for Nurses in India | INC Certified | Aastrika Sphere',
+      description: 'Earn CNE points with 500+ free INC-certified online courses for nurses, ANMs, GNMs, midwives and healthcare workers across India. Maternal health, newborn care, and more — in Hindi and English.',
+      keywords: 'free nursing courses online India, INC certified courses, CNE points online, free courses for nurses India, ANM GNM courses online, healthcare training online India, maternal health courses nurses, free courses for healthcare workers',
+      canonicalUrl: 'https://sphere.aastrika.org/public/home',
+      ogType: 'website',
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        'name': 'Aastrika Sphere',
+        'url': 'https://sphere.aastrika.org',
+        'description': 'Free INC-certified online courses for nurses, ANMs, GNMs, midwives and healthcare workers across India.',
+        'potentialAction': {
+          '@type': 'SearchAction',
+          'target': 'https://sphere.aastrika.org/app/search?q={search_term_string}',
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    })
+    if (!isPlatformBrowser(this.platformId)) { return }
+
+    this.userAgentSvc.requestGeolocation()
+
+    if (window.location.hostname?.includes('ekshamata')) {
       this.isEkshamata = true
     }
 
@@ -99,71 +87,15 @@ export class PublicHomeComponent extends WidgetBaseComponent
     if (sessionStorage.getItem('academic')) {
       sessionStorage.removeItem('academic')
     }
-    this.subscriptionHome = this.activateRoute.data.subscribe(data => {
-      this.pageLayout = data.pageData.data.pageLayout
-      // todo
-      // this.loginConfig = data.pageData.data
-      this.isClientLogin = data.pageData.data.isClient
-      // this.welcomeFooter = data.pageData.data.footer.descriptiveFooter
-      // this.title = data.pageData.data.topbar.title
-      // this.subTitle = data.pageData.data.topbar.subTitle
-      // this.contactUs = data.pageData.data.footer.contactUs
-    })
 
-    const paramsMap = this.activateRoute.snapshot.queryParamMap
-    if (paramsMap.has('ref')) {
-      this.redirectUrl = document.baseURI + paramsMap.get('ref')
-    } else {
-      this.redirectUrl = document.baseURI
-    }
-
-    this.activateRoute.data.subscribe(routeData => {
-
-      if (routeData.pageData && routeData.pageData.data) {
-        this.error = null
-        this.pageData = routeData.pageData.data
-        if (this.pageData) {
-          this.navBackground = this.configSvc.pageNavBar
-          this.links = this.isXSmall ? this.getNavLinks() : this.getNavLinks().filter(data =>
-            data.widgetData.actionBtnId !== 'channel_how_to')
-        }
-      } else if (this.widgetData) {
-        this.pageData = this.widgetData
-      } else {
-        this.pageData = null
-        this.error = routeData.pageData.error
-        // this.logger.warn('No page data available')
-      }
-      if (this.pageData) {
-        this.oldData = this.pageData
-        this.alreadyRaised = true
-      }
-
-    })
-  }
-
-  getNavLinks(): NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] {
-    if (this.pageData && this.pageData.navigationBar && Array.isArray(this.pageData.navigationBar.links)) {
-      if (this.isXSmall) {
-        return this.pageData.navigationBar.links.map(link => ({
-          ...link,
-          widgetData: {
-            ...link.widgetData,
-            config: {
-              ...link.widgetData.config,
-              type: 'mat-menu-item',
-            },
-          },
-        }))
-      }
-      return this.pageData.navigationBar.links
-    }
-    return []
-  }
-
-  ngOnDestroy() {
-    if (this.subscriptionHome) {
-      this.subscriptionHome.unsubscribe()
+    const mncError = sessionStorage.getItem('mnc_error')
+    if (mncError) {
+      sessionStorage.removeItem('mnc_error')
+      this.snackBar.open(mncError, 'OK', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['mnc-error-snackbar'],
+      })
     }
   }
 }

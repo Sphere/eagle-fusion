@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input, Inject, PLATFORM_ID } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 
 import { Subject } from 'rxjs'
 
@@ -7,14 +8,16 @@ import { Subject } from 'rxjs'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+// import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 // import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
-  selector: 'ws-public-toc-overview',
-  templateUrl: './public-toc-overview.component.html',
-  styleUrls: ['./public-toc-overview.component.scss'],
+    standalone: false,
+    selector: 'ws-public-toc-overview',
+    templateUrl: './public-toc-overview.component.html',
+    styleUrls: ['./public-toc-overview.component.scss'],
+    
 })
 export class PublicTocOverviewComponent implements OnInit, OnDestroy {
   /*
@@ -31,13 +34,15 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private route: ActivatedRoute,
     private widgetContentSvc: WidgetContentService,
-    private configSvc: ConfigurationsService) { }
+    private cdr: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: object,
+  ) { }
 
   ngOnInit() {
     if (this.tocData) {
       this.content = this.tocData
     }
-    if (localStorage.getItem('tocData')) {
+    if (isPlatformBrowser(this.platformId) && localStorage.getItem('tocData')) {
       const data: any = localStorage.getItem('tocData')
       this.content = JSON.parse(data)
     }
@@ -49,20 +54,21 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
     })
   }
   fetchTocConfig() {
-    this.http.get('assets/configurations/feature/toc.json').pipe().subscribe((res: any) => {
+    this.http.get('fusion-assets/files/toc.json').pipe().subscribe((res: any) => {
       this.tocConfig = res
     })
   }
 
   getLicenseConfig() {
-    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    const licenseurl = '/fusion-assets/files/license.meta.json'
     this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
       const licenseData = data
       if (licenseData) {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
+        this.cdr.markForCheck()
       }
     },
-                                                            (err: HttpErrorResponse) => {
+      (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }

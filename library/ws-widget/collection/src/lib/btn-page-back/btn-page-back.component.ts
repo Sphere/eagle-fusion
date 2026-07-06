@@ -4,9 +4,11 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { BtnPageBackService } from './btn-page-back.service'
 type TUrl = undefined | 'none' | 'back' | string
 @Component({
-  selector: 'ws-widget-btn-page-back',
-  templateUrl: './btn-page-back.component.html',
-  styleUrls: ['./btn-page-back.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-btn-page-back',
+    templateUrl: './btn-page-back.component.html',
+    styleUrls: ['./btn-page-back.component.scss'],
+    
 })
 export class BtnPageBackComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<{ url: TUrl }> {

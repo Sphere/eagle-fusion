@@ -68,9 +68,9 @@
           <div class="option margin-bottom-sm" *ngIf="question['option' + number]">
             <mat-radio-button
               [disabled]="true"
-              *ngIf="question.questionType == 'SCQ'"
+              *ngIf="question.questionType === 'SCQ'"
             ></mat-radio-button>
-            <mat-checkbox [disabled]="true" *ngIf="question.questionType == 'MCQ'"></mat-checkbox>
+            <mat-checkbox [disabled]="true" *ngIf="question.questionType === 'MCQ'"></mat-checkbox>
             <span class="populate-innerhtml" [innerHTML]="question['option' + number]"></span>
           </div>
         </div>
@@ -106,7 +106,7 @@
                   <div *ngIf="question.questionType !== 'fib'">
                     Solution: &nbsp;{{ question.solution.split('').join(',') }}
                   </div>
-                  <div *ngIf="question.questionType == 'fib'">
+                  <div *ngIf="question.questionType === 'fib'">
                     Solution: &nbsp;{{ question.solution }}
                   </div>
                   <div>Difficulty: &nbsp; {{ question.difficulty }}</div>
@@ -197,11 +197,11 @@
                 <div class="option margin-bottom-sm" *ngIf="question['option' + number]">
                   <mat-radio-button
                     [disabled]="true"
-                    *ngIf="question.questionType == 'SCQ'"
+                    *ngIf="question.questionType === 'SCQ'"
                   ></mat-radio-button>
                   <mat-checkbox
                     [disabled]="true"
-                    *ngIf="question.questionType == 'MCQ'"
+                    *ngIf="question.questionType === 'MCQ'"
                   ></mat-checkbox>
                   <span class="populate-innerhtml" [innerHTML]="question['option' + number]"></span>
                 </div>
@@ -238,7 +238,7 @@
                         <div *ngIf="question.questionType !== 'fib'">
                           Solution: &nbsp;{{ question.solution.split('').join(',') }}
                         </div>
-                        <div *ngIf="question.questionType == 'fib'">
+                        <div *ngIf="question.questionType === 'fib'">
                           Solution: &nbsp;{{ question.solution }}
                         </div>
                         <div>Difficulty: &nbsp; {{ question.difficulty }}</div>

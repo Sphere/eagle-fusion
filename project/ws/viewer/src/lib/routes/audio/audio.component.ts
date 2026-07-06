@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { ValueService, TelemetryService } from '@ws-widget/utils'
+import { ValueService, TelemetryService, LoggerService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { AccessControlService } from '@ws/author'
 import {
@@ -11,11 +11,14 @@ import {
 } from '@ws-widget/collection'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { NsWidgetResolver } from '@ws-widget/resolver'
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Component({
-  selector: 'viewer-audio',
-  templateUrl: './audio.component.html',
-  styleUrls: ['./audio.component.scss'],
+    standalone: false,
+    selector: 'viewer-audio',
+    templateUrl: './audio.component.html',
+    styleUrls: ['./audio.component.scss'],
+    
 })
 export class AudioComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
@@ -39,6 +42,7 @@ export class AudioComponent implements OnInit, OnDestroy {
     private viewerSvc: ViewerUtilService,
     private accessControlSvc: AccessControlService,
     private telemetrySvc: TelemetryService,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -63,7 +67,7 @@ export class AudioComponent implements OnInit, OnDestroy {
           }
           this.widgetResolverAudioData = this.initWidgetResolverAudioData()
           this.widgetResolverAudioData.widgetData.url = this.audioData
-            ? `/apis/authContent/${encodeURIComponent(this.audioData.artifactUrl)}`
+            ? API_END_POINTS.AUTH_CONTENT(encodeURIComponent(this.audioData.artifactUrl))
             : ''
           this.widgetResolverAudioData.widgetData.disableTelemetry = true
           this.isFetchingDataComplete = true
@@ -158,8 +162,7 @@ export class AudioComponent implements OnInit, OnDestroy {
     const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
       this.activatedRoute.snapshot.queryParams.batchId : audioId
 
-    this.telemetrySvc.start('audio', 'audio-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-      this.activatedRoute.snapshot.queryParams.collectionId : this.audioData!.identifier)
+    this.telemetrySvc.start('audio', 'audio-start', 'player', { id: audioId, type: "audio", version: "", rollup: { l1: collectionID, l2: audioId } })
 
     setTimeout(() => {
       const data2 = {
@@ -168,10 +171,14 @@ export class AudioComponent implements OnInit, OnDestroy {
         mime_type: "audio/mpeg",
       }
       // @ts-ignore: Object is possibly 'null'.
-      this.viewerSvc.realTimeProgressUpdate(audioId, data2, collectionId, batchId).subscribe((data: any) => {
-        console.log(data.result.contentList)
+      this.viewerSvc.realTimeProgressUpdateV3(audioId, data2, collectionId, batchId).subscribe((data: any) => {
+        this.logger.log(data.result.contentList)
         const result = data.result
         result['type'] = 'audio'
+        const res = (data["result"]["contentList"] || []).find(
+          (obj: any) => obj.contentId === audioId
+        )
+        this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'audio' })
         this.contentSvc.changeMessage(result)
       })
 

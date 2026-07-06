@@ -5,9 +5,11 @@ import { EventService } from '../../../../utils/src/public-api'
 import { ICarousel } from '../sliders/sliders.model'
 
 @Component({
-  selector: 'ws-widget-sliders-mob',
-  templateUrl: './sliders-mob.component.html',
-  styleUrls: ['./sliders-mob.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-sliders-mob',
+    templateUrl: './sliders-mob.component.html',
+    styleUrls: ['./sliders-mob.component.scss'],
+    
 })
 export class SlidersMobComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<ICarousel[]> {
@@ -77,7 +79,7 @@ export class SlidersMobComponent extends WidgetBaseComponent
     const path = window.location.pathname.replace('/', '')
     const url = path + window.location.search
 
-    this.events.raiseInteractTelemetry('click', 'banner', {
+    this.events.raiseInteractTelemetry('click', 'banner', 'slider', {
       pageUrl: url,
       bannerRedirectUrl: bannerUrl,
     })

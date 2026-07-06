@@ -1,6 +1,6 @@
 import { animate, transition, trigger } from '@angular/animations'
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
@@ -17,14 +17,16 @@ import { ViewQuestionDialogComponent } from '../view-question-dialog/view-questi
 import { CONTENT_BASE_WEBHOST_ASSETS } from '../../../../../../../../constants/apiEndpoints'
 
 @Component({
-  selector: 'ws-auth-general-details',
-  templateUrl: './general-details.component.html',
-  styleUrls: ['./general-details.component.scss', '../iap-assessment/iap-assessment.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+    standalone: false,
+    selector: 'ws-auth-general-details',
+    templateUrl: './general-details.component.html',
+    styleUrls: ['./general-details.component.scss', '../iap-assessment/iap-assessment.component.scss'],
+    animations: [
+        trigger('detailExpand', [
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    
 })
 export class GeneralDetailsComponent implements OnInit {
   @ViewChild('searchInput', { static: false }) searchInputElem: ElementRef<any> = {} as ElementRef<
@@ -36,14 +38,14 @@ export class GeneralDetailsComponent implements OnInit {
   showInfo = false
   sectionDataList: ISectionDetailsContent[] = []
   currentContent = ''
-  contentForm = new FormGroup({
-    assessmentInstruction: new FormControl(''),
+  contentForm = new UntypedFormGroup({
+    assessmentInstruction: new UntypedFormControl(''),
   })
   dummyResponse!: any
-  generalDetailsForm!: FormGroup
+  generalDetailsForm!: UntypedFormGroup
   loaderFlag = false
   contestData!: IAssessmentDetails
-  selected = new FormControl(0)
+  selected = new UntypedFormControl(0)
   showSettingButtons = true
   showQuestions = false
   showOptions = false
@@ -56,16 +58,16 @@ export class GeneralDetailsComponent implements OnInit {
   searchInu = ''
   searchClicked = false
   isSubmitPressed = false
-  addSectionForm = new FormGroup({
-    sectionName: new FormControl(''),
-    sectionDescription: new FormControl(''),
+  addSectionForm = new UntypedFormGroup({
+    sectionName: new UntypedFormControl(''),
+    sectionDescription: new UntypedFormControl(''),
   })
-  searchForm = new FormGroup({
-    searchField: new FormControl(''),
+  searchForm = new UntypedFormGroup({
+    searchField: new UntypedFormControl(''),
   })
   location = CONTENT_BASE_WEBHOST_ASSETS
-  groupForm = new FormGroup({
-    randomization: new FormControl(''),
+  groupForm = new UntypedFormGroup({
+    randomization: new UntypedFormControl(''),
   })
   objQuestionData!: IResponseQuestion
   groupQuestionData!: any[]
@@ -111,7 +113,7 @@ export class GeneralDetailsComponent implements OnInit {
     public _service: IapAssessmentService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) { }
 
   ngOnInit() {
@@ -140,8 +142,8 @@ export class GeneralDetailsComponent implements OnInit {
           )
           this._id = value.contentIdAtSource
           this.id.emit(this._id)
-          this.contentForm = new FormGroup({
-            assessmentInstruction: new FormControl(this.contestData.instructions || ''),
+          this.contentForm = new UntypedFormGroup({
+            assessmentInstruction: new UntypedFormControl(this.contestData.instructions || ''),
           })
           this.generalDetailsForm.controls.objNegMarks.setValue(this.contestData.objNegMarks)
           this.objNegMarks(this.contestData.objNegMarks)
@@ -216,8 +218,8 @@ export class GeneralDetailsComponent implements OnInit {
         })
 
       })
-      this.contentForm = new FormGroup({
-        assessmentInstruction: new FormControl(''),
+      this.contentForm = new UntypedFormGroup({
+        assessmentInstruction: new UntypedFormControl(''),
       })
     }
 
@@ -470,7 +472,7 @@ export class GeneralDetailsComponent implements OnInit {
     section.showOptions = !section.showOptions
   }
 
-  cardActions(name: String, section: ISectionDetailsContent) {
+  cardActions(name: string, section: ISectionDetailsContent) {
     if (name === 'Delete Section') {
       this.deleteSection(section)
     } else if (name === 'Add Questions') {

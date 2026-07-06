@@ -1,9 +1,9 @@
-<div>
+<div class="profile-select-shell">
   <div>
-    <img class="cursor-pointer" src="../../../../fusion-assets/icons/close-vector.png" (click)="closeDialog()">
+    <img class="cursor-pointer close-icon" src="../../../../fusion-assets/icons/close-vector.png" (click)="closeDialog()">
   </div>
-  <p class="profile-title" i18n>Profile Picture</p>
-  <p clas="pick-text" i18n>Pick from the following</p>
+  <p class="profile-title">{{'Profile Picture' | translate}}</p>
+  <p class="pick-text">{{'Pick from the following' | translate}}</p>
 
   <div class="py-2 pl-0 row">
     <div *ngFor="let img of imgJson">
@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <p class="ml-2" i18n>OR</p>
+  <p class="ml-2">{{'OR' | translate}}</p>
   <form [formGroup]="createUserForm">
     <div class="flex mt-3">
 
@@ -28,7 +28,7 @@
       </div>
       <div class="my-auto mx-3 cursor-pointer" (click)="uploadProfilePic.click(); $event.stopPropagation()"
         (keydown.enter)="uploadProfilePic.click(); $event.stopPropagation()">
-        <p class="add-own-img" i18n>Add your own image</p>
+        <p class="add-own-img">{{'Add your own image' | translate}}</p>
       </div>
 
     </div>

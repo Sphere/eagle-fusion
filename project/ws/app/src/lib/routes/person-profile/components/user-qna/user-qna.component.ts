@@ -4,14 +4,16 @@ import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
 import { PersonProfileService } from '../../services/person-profile.service'
 import { Subscription } from 'rxjs'
 @Component({
-  selector: 'ws-app-user-qna',
-  templateUrl: './user-qna.component.html',
-  styleUrls: ['./user-qna.component.scss'],
+    standalone: false,
+    selector: 'ws-app-user-qna',
+    templateUrl: './user-qna.component.html',
+    styleUrls: ['./user-qna.component.scss'],
+    
 })
 export class UserQnaComponent implements OnInit {
   @Input() wid = ''
   @Output() count = new EventEmitter<number>()
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
 
   qnaTimelineRequest!: NsDiscussionForum.ITimelineRequest
   qnaSubscription: Subscription | null = null
@@ -49,7 +51,7 @@ export class UserQnaComponent implements OnInit {
       }
       this.fetchQnaData(this.qnaTimelineRequest)
     }
-    // console.log(this.fetchQnaData)
+    // this.logger.log(this.fetchQnaData)
   }
 
   qnaSorting(result: NsDiscussionForum.ITimelineResult[]) {

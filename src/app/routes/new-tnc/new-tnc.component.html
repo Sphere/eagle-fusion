@@ -1,38 +1,34 @@
-<!-- <ws-header class="tnc-header"></ws-header> -->
-<!-- <nav class="navbar navbar-expand-sm light">
-  <a class="navbar-brand cursor-pointer" (click)="homePage()">
-    <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
-  </a>
-</nav> -->
-<nav aria-label="navbar" *ngIf="(isXSmall$ | async) === true " class="nav-bar-bg1">
+<nav aria-label="navbar" *ngIf="isXSmall$" class="nav-bar-bg1">
   <a class="navbar-brand cursor-pointer" (click)="homePage()">
     <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>
 </nav>
 <div class="tnc-main">
   <div class="tnc-render-content" appScrollDetector (scrolled)="handleScroll($event)">
-    <div *ngIf="(isXSmall$ | async) === true " class="flex justify-content-end">
-      <div (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn"><span i18n>Help</span>
+    <div *ngIf="isXSmall$" class="flex justify-content-end">
+      <div (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn"><span>{{ 'Help' | translate }}</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
 
     <div class="terms-block" *ngIf="!showTnc">
-      <span class="terms-text" i18n>Terms of use</span>
+      <span class="terms-text">{{ 'Terms of use' | translate }}</span>
       <img class="tnc-image margin-top-m margin-bottom-m" alt="" src="fusion-assets/images/t&c.svg" />
-      <span class="tick-text" i18n>By ticking the box below, you acknowledge that you have read and agree to the</span>
+      <span class="tick-text">{{ 'By ticking the box below, you acknowledge that you have read and agree to the' |
+        translate }}</span>
       <ul class="ul-class margin-top-m">
         <li>
-          <span class="link-text" (click)="showTncPage('terms')" i18n>Terms of use and Privacy Policy</span>
+          <span class="link-text" (click)="showTncPage('terms')">{{ 'Terms of use and Privacy Policy' | translate}}
+          </span>
         </li>
         <!-- <li>
-          <span class="link-text margin-top-m" (click)="showTncPage('privacy')" i18n>Privacy Policy</span>
+          <span class="link-text margin-top-m" (click)="showTncPage('privacy')">{{ 'Privacy Policy' | translate }}</span>
         </li> -->
       </ul>
       <div class="flex flex-middle margin-top-xs">
         <mat-checkbox class="tnc-checkbox" [checked]="tncAcceptedBtn" (change)="tncChecked();"></mat-checkbox>
-        <p class="margin-left-xs read-and-agree-top-margin margin-remove-bottom cons-text" i18n>
-          I have read and agree to the Terms of use & Privacy policy
+        <p class="margin-left-xs read-and-agree-top-margin margin-remove-bottom cons-text">
+          {{ 'I have read and agree to the Terms of use & Privacy policy' | translate }}
         </p>
       </div>
     </div>
@@ -44,12 +40,12 @@
   <div class="tnc-bottom-navbar" *ngIf="showAcceptbtn">
     <div class="decline-div">
       <button [disabled]="tncAcceptedBtn" id="decline" class="decline-btn cursor-pointer" (click)="gotoLogin()">
-        <ng-container i18n>Decline</ng-container>
+        <ng-container>{{ 'Decline' | translate }}</ng-container>
       </button>
     </div>
     <div class="accept-div">
       <button [disabled]="!tncAcceptedBtn" id="agree" (click)="acceptTnc()" class="accept-btn cursor-pointer">
-        <ng-container i18n>Accept</ng-container>
+        <ng-container>{{ 'Accept' | translate }}</ng-container>
       </button>
     </div>
   </div>

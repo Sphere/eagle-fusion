@@ -1,6 +1,6 @@
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -29,14 +29,16 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { HeaderServiceService } from './../../../../../../../../../../../../../src/app/services/header-service.service'
 import { RootService } from 'src/app/component/root/root.service'
-import { FlatTreeControl } from '@angular/cdk/typings/tree'
+import { FlatTreeControl } from '@angular/cdk/tree'
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ws-author-course-collection',
-  templateUrl: './course-collection.component.html',
-  styleUrls: ['./course-collection.component.scss'],
-  providers: [CollectionStoreService, CollectionResolverService],
+    standalone: false,
+    // tslint:disable-next-line:component-selector
+    selector: 'ws-author-course-collection',
+    templateUrl: './course-collection.component.html',
+    styleUrls: ['./course-collection.component.scss'],
+    providers: [CollectionStoreService, CollectionResolverService],
+    
 })
 export class CourseCollectionComponent implements OnInit, OnDestroy {
   contents: NSContent.IContentMeta[] = []
@@ -67,7 +69,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
   mode$ = this.mediumSizeBreakpoint$.pipe(map(isMedium => (isMedium ? 'over' : 'side')))
   leftArrow = true
   showAddchapter = false
-  createTopicForm: FormGroup | undefined
+  createTopicForm: UntypedFormGroup | undefined
   reloadTOC = false
   public sideNavBarOpened = false
   callSaveFn!: boolean
@@ -92,7 +94,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     private notificationSvc: NotificationService,
     private accessControlSvc: AccessControlService,
     private breakpointObserver: BreakpointObserver,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private headerService: HeaderServiceService,
     private rootSvc: RootService,
   ) {
@@ -110,8 +112,8 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     this.parentNodeId = this.storeService.currentParentNode
     // this.expandNodesById([this.parentNodeId])
     this.createTopicForm = this.fb.group({
-      topicName: new FormControl('', [Validators.required]),
-      topicDescription: new FormControl('', [Validators.required]),
+      topicName: new UntypedFormControl('', [Validators.required]),
+      topicDescription: new UntypedFormControl('', [Validators.required]),
     })
 
     this.stepper = this.initService.collectionConfig.stepper
@@ -193,7 +195,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
 
         // this.storeService.selectedNodeChange.subscribe(node => {
         //   if (node) {
-        //     console.log('selected node', node)
+        //     this.logger.log('selected node', node)
         //     const getNodeId = (this.storeService.lexIdMap.get(node.toString()) as number[])[0]
         //     this.storeService.currentSelectedNode = getNodeId
 
@@ -256,7 +258,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
   }
 
   addChapterName() {
-    // console.log('newchap', this.newChapterName)
+    // this.logger.log('newchap', this.newChapterName)
   }
 
   async setContentType(param: string) {
@@ -324,7 +326,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
       this.triggerQuizSave = true
     } else
       if (this.viewMode === 'upload') {
-        // TODO  console.log('viewmode', this.viewMode)
+        // TODO  this.logger.log('viewmode', this.viewMode)
         this.triggerUploadSave = true
       }
     if (
@@ -450,13 +452,13 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
         data: this.contentService.getOriginalMeta(this.currentParentId),
       })
 
-      dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+      dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
         this.finalCall(commentsForm)
       })
     }
   }
 
-  finalCall(commentsForm: FormGroup) {
+  finalCall(commentsForm: UntypedFormGroup) {
     if (commentsForm) {
       const body: NSApiRequest.IForwardBackwardActionGeneral = {
         comment: commentsForm.controls.comments.value,

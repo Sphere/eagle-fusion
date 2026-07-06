@@ -1,63 +1,58 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core'
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
 import { Observable } from 'rxjs'
-import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ValueService, LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
-//import { Router } from '@angular/router'
-//import { v4 as uuid } from 'uuid'
-//import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
+  standalone: false,
   selector: 'ws-login-otp',
   templateUrl: './login-otp.component.html',
   styleUrls: ['./login-otp.component.scss'],
+
 })
-export class LoginOtpComponent implements OnInit {
+export class LoginOtpComponent implements OnInit, OnDestroy {
   [x: string]: any
 
   isLoading = false
-  loginOtpForm!: FormGroup
+  loginOtpForm!: UntypedFormGroup
   @Input() signUpdata: any
   @Input() loginData: any
+  @Input() organisationId = '0132317968766894088'
   @Output() redirectToParent = new EventEmitter()
   @Output() backToCreate = new EventEmitter<string>()
   emailPhoneType: any = 'phone'
   loginVerification = false
   redirectUrl = ''
-  resendTimer: number = 600; // Initialize with 600 seconds (10 minutes)
-  resendTimerText: string = '10:00'; // Initialize the display text
+  resendTimer = 600 // Initialize with 600 seconds (10 minutes)
+  resendTimerText = '10:00' // Initialize the display text
   interval: any
   otpInputs: string[] = ['', '', '', '']
   isXSmall$: Observable<boolean>
-  isBelowOneMinute: boolean = false;
+  isBelowOneMinute = false
   langDialog: any
 
   constructor(
-    //private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     public signupService: SignupService,
-    //private userProfileSvc: UserProfileService,
     private readonly valueSvc: ValueService,
     public dialog: MatDialog,
+    private logger: LoggerService,
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForm()
 
   }
   ngOnInit() {
-    // this.checkEmailPhoneType()
     this.startTimer()
-    // let x = localStorage.getItem(`userUUID`) || ''
-    // console.log(x)
-    // setTimeout(() => {
-    //   this.userProfileSvc.getUserdetailsFromRegistry(x).subscribe((result: any) => {
-    //     console.log(result)
-    //   })
-    // }, 2000)
     if (this.signUpdata || this.loginData) {
       sessionStorage.setItem('fromOTPpage', 'true')
       let phone = this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username
@@ -82,7 +77,7 @@ export class LoginOtpComponent implements OnInit {
   initializeForm(): void {
     if (this.emailPhoneType === 'email') {
       this.loginOtpForm = this.fb.group({
-        code: ['', Validators.required] // This control will store the combined OTP code
+        code: ['', Validators.required], // This control will store the combined OTP code
       })
     } else {
       this.loginOtpForm = this.fb.group({
@@ -90,7 +85,7 @@ export class LoginOtpComponent implements OnInit {
         otp2: ['', Validators.required],
         otp3: ['', Validators.required],
         otp4: ['', Validators.required],
-        code: [''] // This control will store the combined OTP code
+        code: [''], // This control will store the combined OTP code
       })
     }
 
@@ -101,13 +96,7 @@ export class LoginOtpComponent implements OnInit {
       event.preventDefault()
     }
   }
-  // checkEmailPhoneType(): void {
-  //   if (this.emailPhoneType !== 'phone' && !this.loginOtpForm.get('otp5')) {
-  //     this.loginOtpForm.addControl('otp5', new FormControl('', Validators.required))
-  //   } else if (this.emailPhoneType === 'phone' && this.loginOtpForm.get('otp5')) {
-  //     this.loginOtpForm.removeControl('otp5')
-  //   }
-  // }
+
   moveFocus(currentInput: any, nextInput: any) {
     if (currentInput.value.length === 1 && nextInput) {
       nextInput.focus()
@@ -135,12 +124,16 @@ export class LoginOtpComponent implements OnInit {
       const code = otp1 + otp2 + otp3 + otp4
       this.loginOtpForm.controls['code'].setValue(code)
     } else {
-      console.error('One or more OTP controls are missing')
+      this.logger.error('One or more OTP controls are missing')
     }
   }
 
-
-
+  ngOnDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval)
+      this.interval = null
+    }
+  }
 
   startTimer() {
     if (this.interval) {
@@ -150,17 +143,20 @@ export class LoginOtpComponent implements OnInit {
     this.resendTimer = 600 // Reset the timer value to 10 minutes
     this.resendTimerText = '10:00' // Reset the display text to 10:00
     this.isBelowOneMinute = false
-    this.interval = setInterval(() => {
-      this.resendTimer--
-      if (this.resendTimer === 0) {
-        clearInterval(this.interval)
-        this.interval = null
-      }
-      const minutes: string = Math.floor(this.resendTimer / 60).toString().padStart(2, '0')
-      const seconds: string = (this.resendTimer % 60).toString().padStart(2, '0')
-      this.resendTimerText = `${minutes}:${seconds}`
-      this.isBelowOneMinute = this.resendTimer < 60
-    }, 1000)
+    this.ngZone.runOutsideAngular(() => {
+      this.interval = setInterval(() => {
+        this.resendTimer--
+        if (this.resendTimer === 0) {
+          clearInterval(this.interval)
+          this.interval = null
+        }
+        const minutes: string = Math.floor(this.resendTimer / 60).toString().padStart(2, '0')
+        const seconds: string = (this.resendTimer % 60).toString().padStart(2, '0')
+        this.resendTimerText = `${minutes}:${seconds}`
+        this.isBelowOneMinute = this.resendTimer < 60
+        this.cdr.markForCheck()
+      }, 1000)
+    })
   }
 
   redirectToSignUp() {
@@ -174,8 +170,9 @@ export class LoginOtpComponent implements OnInit {
   async verifyOtp() {
     let request: any = []
     let phone = this.signUpdata.value.emailOrMobile
-    console.log(this.signUpdata.value)
+    this.logger.log(this.signUpdata.value)
     phone = phone.replace(/[^0-9+#]/g, '')
+    const organisationId = this.organisationId
     // at least 10 in number
     if (phone.length >= 10) {
       request = {
@@ -183,6 +180,7 @@ export class LoginOtpComponent implements OnInit {
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
+        organisationId,
       }
 
     } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
@@ -192,132 +190,42 @@ export class LoginOtpComponent implements OnInit {
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
+        organisationId,
       }
     }
     this.isLoading = true
+    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    const otpService$ = isOrgSelectiveCourse
+      ? this.signupService.ssoValidateOrgOTP(request)
+      : this.signupService.ssoValidateOTP(request)
+
     //this.signupService.validateOtp(request).subscribe(
-    this.signupService.ssoValidateOTP(request).subscribe(
-      async (res: any) => {
-        let res1 = await res
-        console.log(res1)
-        let url = `${document.baseURI}`
-        //   await this.signupService.fetchStartUpDetails()
-        //this.openSnackbar(res.msg)
-        // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
-        //const state = uuid()
-        //const nonce = uuid()
+    otpService$.subscribe(
+      (res: any) => {
+        const url = `${document.baseURI}`
         sessionStorage.setItem('login-btn', 'clicked')
-        // if (url.includes('hi')) {
-        //   url = url.replace('hi/', '')
-        //   this.redirectUrl = `${url}openid/keycloak`
-        //   sessionStorage.setItem('lang', 'hi')
-        // } else {
-        //   this.redirectUrl = `${url}openid/keycloak`
-        // }
-        if (localStorage.getItem('preferedLanguage')) {
-          let data: any
-          let lang: any
-          data = localStorage.getItem('preferedLanguage')
-          lang = JSON.parse(data)
-          if (lang.id) {
-            lang = lang.id !== 'en' ? lang.id : ''
-            if (url.includes('hi')) {
-              url = url.replace('hi/', '')
-            }
-            url = `${url}${lang}/app/new-tnc`
-            console.log(this.preferedLanguage, data)
-            if (lang) {
-
-              console.log(lang)
-              if (lang === 'hi') {
-                console.log('enb')
-                if (res1.msg === 'Success ! User is sucessfully authenticated.') {
-                  const msg = 'सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.'
-                  this.openSnackbar(msg)
-                }
-              } else {
-                this.openSnackbar(res1.msg)
-              }
-            } else {
-              this.openSnackbar(res1.msg)
-            }
-            this.isLoading = false
-            console.log("afdadssssssssssssssssssssssss")
-            window.location.href = url
-
-            //this.router.navigate([url, 'new-tnc'])
-          }
-        } else {
-          this.openSnackbar(res1.msg)
-          //this.router.navigate(['app', 'new-tnc'])
-          window.location.href = `${url}app/new-tnc`
-          this.isLoading = false
-        }
-        // this.signupService.fetchStartUpDetails().then(result => {
-        //   console.log(result)
-        //   if (result.userId) {
-        //     console.log(result.userID)
-        //     setTimeout(() => {
-        //       this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
-        //         (data: any) => {
-        //           console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
-        //           if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-        //             if (localStorage.getItem('preferedLanguage')) {
-        //               let data: any
-        //               let lang: any
-        //               data = localStorage.getItem('preferedLanguage')
-        //               lang = JSON.parse(data)
-        //               if (lang.id) {
-        //                 lang = lang.id !== 'en' ? lang.id : ''
-        //                 if (url.includes('hi')) {
-        //                   url = url.replace('hi/', '')
-        //                 }
-        //                 url = `${url}${lang.id}/app/new-tnc`
-        //                 this.isLoading = false
-        //                 window.location.href = url
-        //                 //this.router.navigate([url, 'new-tnc'])
-        //               }
-        //             } else {
-        //               this.isLoading = false
-        //               this.router.navigate(['app', 'new-tnc'])
-        //             }
-        //           }
-        //         })
-        //     }, 1000)
-        //   }
-        // })
-        // tslint:disable-next-line:max-line-length
-        //const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-        //window.location.href = keycloakurl
+        this.openSnackbar(this.translate.instant(res.msg))
+        window.location.href = `${url}app/new-tnc`
+        this.isLoading = false
       },
       (err: any) => {
         this.isLoading = false
-        if (localStorage.getItem(`preferedLanguage`)) {
-          const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-          const lang = JSON.parse(reqObj) || ''
-          if (lang.id === 'hi') {
-            if (err.error.message === 'Please provide correct otp and try again.') {
-              const err = 'कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।'
-              this.openSnackbar(err)
-            }
-          } else {
-            this.openSnackbar(err.error.error || err.error.message)
-          }
-        } else {
-          this.openSnackbar(err.error.error || err.error.message)
-        }
+        const errMsg = err.error.error || err.error.message || 'VERIFY_OTP'
+        this.openSnackbar(this.translate.instant(errMsg))
       })
   }
 
   async loginVerifyOtp() {
     let request: any = []
     const username = this.loginData.value.username
+    const organisationId = this.organisationId
     if (!username.includes('@')) {
       request = {
         phone: this.loginData.value.username,
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
+        organisationId,
       }
 
     } else {
@@ -326,19 +234,25 @@ export class LoginOtpComponent implements OnInit {
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
+        organisationId,
       }
     }
+    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    const otpService$ = isOrgSelectiveCourse
+      ? this.signupService.ssoValidateOrgOTP(request)
+      : this.signupService.ssoValidateOTP(request)
+
     //this.signupService.validateOtp(request).subscribe(
-    this.signupService.ssoValidateOTP(request).subscribe(
+    otpService$.subscribe(
       async (res: any) => {
-        console.log(res, '2')
-        this.openSnackbar(res.message)
+        this.logger.log(res, '2')
+        this.openSnackbar(this.translate.instant(res.message))
         // localStorage.removeItem('preferedLanguage')
         //location.href = '/page/home'
         return res
       },
       (err: any) => {
-        this.openSnackbar(err.error.error || err.error.message)
+        this.openSnackbar(this.translate.instant(err.error.error || err.error.message))
       })
 
   }
@@ -361,48 +275,21 @@ export class LoginOtpComponent implements OnInit {
       otp2: '',
       otp3: '',
       otp4: '',
-      code: ''
+      code: '',
     })
     this.signupService.generateOtp(requestBody).subscribe(
       async (res: any) => {
         this.loginOtpForm.patchValue({ code: '' })
         this.isLoading = false
-        let res1 = res
-        //this.openSnackbar(res.message)
-        if (this.preferedLanguage || localStorage.getItem('preferedLanguage')) {
-          const reqObj = this.preferedLanguage || localStorage.getItem('preferedLanguage')
-          const lang = JSON.parse(reqObj) || ''
-          if (lang.id === 'hi') {
-            if (res1.message === 'Success ! Please verify the OTP .') {
-              const msg = 'सफलता ! कृपया ओटीपी सत्यापित करें।'
-              this.openSnackbar(msg)
-            }
-          } else {
-            this.openSnackbar(res1.message)
-          }
-        } else {
-          this.openSnackbar(res1.message)
-        }
-        // localStorage.removeItem('preferedLanguage')
+        const str = res.msg ?? res.message
+        const parts = str.split(" ")
+        const lastValue = parts[parts.length - 1]
+        const message = parts.slice(0, -1).join(" ")
+        this.openSnackbar(this.translate.instant(message, { value: lastValue }))
       },
       (err: any) => {
         this.isLoading = false
-        if (localStorage.getItem(`preferedLanguage`)) {
-          const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-          const lang = JSON.parse(reqObj) || ''
-          if (lang.id === 'hi') {
-            if (err.error.message === 'Please provide correct otp and try again.') {
-              const err = 'कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।'
-              this.openSnackbar(err)
-            }
-          } else {
-            this.openSnackbar(err.error.error || err.error.message)
-          }
-        } else {
-          this.openSnackbar(err.error.error || err.error.message)
-        }
-
-        // this.openSnackbar(`OTP Error`, + err.error.message)
+        this.openSnackbar(this.translate.instant(err.error.error || err.error.message))
       }
     )
   }
@@ -416,7 +303,7 @@ export class LoginOtpComponent implements OnInit {
       },
     })
   }
-  private openSnackbar(primaryMsg: string, duration: number = 3000) {
+  private openSnackbar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

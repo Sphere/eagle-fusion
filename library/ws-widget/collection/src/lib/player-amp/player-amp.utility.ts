@@ -39,7 +39,7 @@ export const LINKS = {
 export function getAmpConfig(
   poster?: string,
   markers: string[] = [],
-  autoplay: boolean = true,
+  autoplay = true,
 ): amp.Player.Options {
   const config = { ...ampDefaultConfig, autoplay, poster }
   if (markers.length) {

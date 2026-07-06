@@ -2,18 +2,11 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
 import { BehaviorSubject, Observable } from 'rxjs'
-import get from 'lodash/get'
-import filter from 'lodash/filter'
-import toLower from 'lodash/toLower'
-import { IndexedDBService } from 'src/app/online-indexed-db.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { get, filter, toLower } from 'lodash'
+import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
-const API_END_POINTS = {
-  // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
-  ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/assessment/submit/v2`,
-  UPDATE_PASSBOOK: `/apis/proxies/v8/user/v1/passbook`,
-  COMPETENCY_ASSESSMENT_SUBMIT_V2: 'apis/protected/v8/assessmentCompetency/v1/assessment/submit',
-}
 
 @Injectable({
   providedIn: 'root',
@@ -26,44 +19,45 @@ export class QuizService {
   constructor(
     private http: HttpClient,
     private configservice: ConfigurationsService,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
+    private logger: LoggerService
   ) {
 
   }
   submitQuizV2(req: any): Observable<NSQuiz.IQuizSubmitResponse> {
-    console.log(req, 'req')
-    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe((record) => {
-      console.log(record, '36')
+    this.logger.log(req, 'req')
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe(record => {
+      this.logger.log(record, '36')
 
-      let cUrl = window.location.href
-      console.log(cUrl.split('/'))
-      let id = cUrl.split('/')[5]
-      console.log(id)
+      const cUrl = window.location.href
+      this.logger.log(cUrl.split('/'))
+      const id = cUrl.split('/')[5]
+      this.logger.log(id)
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.courseId).subscribe(
         (message: any) => { // 'next' callback
-          console.log('Record deleted successfully', message)
+          this.logger.log('Record deleted successfully', message)
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
             async (dat: any) => {
-              console.log('Data inserted successfully2', dat)
-              let msg = await dat
+              this.logger.log('Data inserted successfully2', dat)
+              const msg = await dat
               if (msg) {
               }
             },
             (error: any) => { // 'error' callback for insertProgressData
-              console.error('Error inserting progress data:', error)
+              this.logger.error('Error inserting progress data:', error)
             }
           )
         },
         (error: any) => { // 'error' callback for deleteRecordByKey
-          console.error('Error deleting record:', error)
+          this.logger.error('Error deleting record:', error)
         }
       )
-    }, (error) => {
-      console.log(error, '63')
+    }, error => {
+      this.logger.log(error, '63')
       this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
         (dat: any) => {
-          console.log('Data inserted successfully1', dat)
+          this.logger.log('Data inserted successfully1', dat)
 
         })
     })
@@ -73,11 +67,11 @@ export class QuizService {
   competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
     let url = ''
     if (window.location.origin.indexOf('http://localhost:') === -1) {
-      url = `${window['env']['azureHost']}/${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
+      url = `${window['env']['azureHost']}${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     } else {
       url = `${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     }
-    // console.log(url)
+    // this.logger.log(url)
     return this.http.post<NSQuiz.IQuizSubmitResponse>(url, req)
   }
 
@@ -206,13 +200,18 @@ export class QuizService {
     return userSelectedAnswer
   }
   sanitizeAssessmentSubmitRequest(requestData: NSQuiz.IQuizSubmitRequest): NSQuiz.IQuizSubmitRequest {
-    requestData.questions.map(question => {
-      question.question = ''
-      question.options.map(option => {
-        option.hint = ''
-        option.text = question.questionType === 'fitb' || question.questionType === 'mtf' ? option.text : ''
+    requestData.questions = requestData.questions
+      ?.filter(question => question.options !== undefined) // remove questions without options
+      .map(question => {
+        question.question = ''
+        question.options?.forEach(option => {
+          option.hint = ''
+          option.text = (question.questionType === 'fitb' || question.questionType === 'mtf')
+            ? option.text
+            : ''
+        })
+        return question
       })
-    })
     return requestData
   }
 

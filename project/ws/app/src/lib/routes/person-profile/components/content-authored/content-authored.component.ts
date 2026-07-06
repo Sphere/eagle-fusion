@@ -6,13 +6,15 @@ import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
-  selector: 'ws-app-content-authored',
-  templateUrl: './content-authored.component.html',
-  styleUrls: ['./content-authored.component.scss'],
+    standalone: false,
+    selector: 'ws-app-content-authored',
+    templateUrl: './content-authored.component.html',
+    styleUrls: ['./content-authored.component.scss'],
+    
 })
 export class ContentAuthoredComponent implements OnInit, OnDestroy {
   @Input() wid = ''
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
   @Output() count = new EventEmitter<number>()
 
   userWid = ''

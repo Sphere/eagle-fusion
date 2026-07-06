@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core'
 import { UserAutocompleteService } from './user-autocomplete.service'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -10,14 +10,16 @@ import { NsAutoComplete } from './user-autocomplete.model'
 import { of } from 'rxjs'
 
 @Component({
-  selector: 'ws-widget-user-autocomplete',
-  templateUrl: './user-autocomplete.component.html',
-  styleUrls: ['./user-autocomplete.component.scss'],
+    standalone: false,
+    selector: 'ws-widget-user-autocomplete',
+    templateUrl: './user-autocomplete.component.html',
+    styleUrls: ['./user-autocomplete.component.scss'],
+    
 })
 export class UserAutocompleteComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA]
-  userFormControl = new FormControl()
+  userFormControl = new UntypedFormControl()
   selectedUsers: NsAutoComplete.IUserAutoComplete[] = []
   autocompleteAllUsers: NsAutoComplete.IUserAutoComplete[] = []
   tagsFromConversation = []

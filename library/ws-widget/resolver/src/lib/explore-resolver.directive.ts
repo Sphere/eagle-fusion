@@ -4,8 +4,10 @@ import { NsWidgetResolver } from './widget-resolver.model'
 import { ExploreResolverService } from './explore-resolver.service'
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
-  selector: '[wsExploreResolverWidget]',
+    standalone: false,
+    // tslint:disable-next-line:directive-selector
+    selector: '[wsExploreResolverWidget]',
+    
 })
 export class ExploreResolverDirective implements OnChanges {
   @Input() wsExploreResolverWidget: NsWidgetResolver.IRenderConfigWithAnyData | null = null

@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, effect, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -19,12 +19,14 @@ export enum ErrorType {
 }
 
 @Component({
+  standalone: false,
   selector: 'viewer-container',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
+
 })
 export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall$: boolean = false
   fullScreenContainer: HTMLElement | null = null
   content: NsContent.IContent | null = null
   contentData: any
@@ -78,6 +80,10 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     }
 
+    effect(() => {
+      this.isXSmall$ = this.valueSvc.isMobile()
+    })
+
   }
 
   getContentData(e: any) {
@@ -116,7 +122,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.contentData = data.result.content
       })
     } catch (e) {
-      // console.log(e)
+      // this.logger.log(e)
     }
   }
   checkJson(str: any) {
@@ -182,7 +188,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     // this.getDiscussionConfig()
   }
   getLicenseConfig() {
-    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    const licenseurl = '/fusion-assets/files/license.meta.json'
     this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
       const licenseData = data
       if (licenseData) {
@@ -190,7 +196,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
     },
-                                                            err => {
+      err => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }
@@ -214,20 +220,19 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getTocConfig() {
-    const url = `${this.configSvc.sitePath}/feature/toc.json`
+    const url = `fusion-assets/files/toc.json`
     this.widgetContentSvc.fetchConfig(url).subscribe(data => {
       this.tocConfig = data
     })
   }
 
   ngAfterViewChecked() {
-    const container = document.getElementById('fullScreenContainer')
-    if (container) {
-      this.fullScreenContainer = container
-      this.changeDetector.detectChanges()
-    } else {
-      this.fullScreenContainer = null
-      this.changeDetector.detectChanges()
+    const container = document.getElementById('fullScreenContainer') || null
+    if (this.fullScreenContainer !== container) {
+      Promise.resolve().then(() => {
+        this.fullScreenContainer = container
+        this.changeDetector.detectChanges()
+      })
     }
   }
 

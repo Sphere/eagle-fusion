@@ -5,17 +5,21 @@ import { of } from 'rxjs'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { SignupService } from '../signup/signup.service'
-import forEach from 'lodash/forEach'
+import { get, forEach } from 'lodash'
 import { Title } from '@angular/platform-browser'
-import get from 'lodash/get'
+import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-web-course-card',
-  templateUrl: './web-course-card.component.html',
-  styleUrls: ['./web-course-card.component.scss'],
+    standalone: false,
+    selector: 'ws-web-course-card',
+    templateUrl: './web-course-card.component.html',
+    styleUrls: ['./web-course-card.component.scss'],
+    
 })
 export class WebCourseCardComponent implements OnInit {
   isUserLoggedIn = false
+  imgLoaded = false
+  imgMiniLoaded = false
   @Input() widgetData!: any
   @Input() cnePoints: any = false
   @Input() courseData: any
@@ -27,19 +31,30 @@ export class WebCourseCardComponent implements OnInit {
       certification: true,
       sourceName: true,
       rating: true,
-      cnePoints: true
+      cnePoints: true,
+      cneName: true,
     },
   }
+  displayStyle = 'none'
   isLoggedIn = false
+
+  // Helper to get language prefix - DEPRECATED: ngx-translate should be used instead
+  // Do NOT use URL-based language prefixes with ngx-translate
+  private getLanguagePrefix(): string {
+    return '' // Always empty - language is now managed by ngx-translate
+  }
+
   constructor(private router: Router,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private signUpSvc: SignupService,
-    private titleService: Title
+    private titleService: Title,
+    private telemetrySvc: TelemetryService,
+    private logger: LoggerService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
-    // console.log("this.courseData", this.courseData, this.displayConfig)
+    // this.logger.log("this.courseData", this.courseData, this.displayConfig)
     if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
       this.isUserLoggedIn = true
     } else {
@@ -67,30 +82,34 @@ export class WebCourseCardComponent implements OnInit {
     }
   }
   clickToRedirect(data: any) {
+    const prefix = this.getLanguagePrefix()
     if (this.configSvc.userProfile === null) {
-      localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-      const url = localStorage.getItem(`url_before_login`) || ''
-      this.router.navigateByUrl(url)
+      const urlBeforeLogin = `${prefix}/app/toc/${data.identifier}/overview`
+      localStorage.setItem(`url_before_login`, urlBeforeLogin)
+      this.router.navigateByUrl(urlBeforeLogin)
     } else {
       this.raiseTelemetry(data)
     }
 
   }
   raiseTelemetry(data: any) {
+    const prefix = this.getLanguagePrefix()
     if (this.configSvc.unMappedUser) {
+      this.logger.log('[WebCourseCard] Fetching user details for:', this.configSvc.unMappedUser.id)
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(50), mergeMap((data: any) => {
         return of(data)
       })).subscribe((userDetails: any) => {
-        if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
-          // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-          //   contentId: this.widgetData.content.identifier,
-          //   contentType: this.widgetData.content.contentType,
-          //   context: this.widgetData.context,
-          // })
-          this.router.navigateByUrl(`/app/toc/${data.identifier}/overview?primaryCategory=Course`)
+        this.logger.log('[WebCourseCard] User details received:', userDetails)
+        const profileReq = get(userDetails, 'profileDetails.profileReq')
+        this.logger.log('[WebCourseCard] Profile request data:', profileReq)
+        const isFilled = this.userProfileSvc.isBackgroundDetailsFilled(profileReq)
+        this.logger.log('[WebCourseCard] Is background details filled:', isFilled)
+        if (isFilled) {
+          // Navigate to course with language prefix
+          this.router.navigateByUrl(`${prefix}/app/toc/${data.identifier}/overview?primaryCategory=Course`)
         } else {
-          const url = `/app/toc/${data.identifier}/overview`
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+          const url = `${prefix}/app/toc/${data.identifier}/overview`
+          this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: url } })
         }
       })
     }
@@ -98,50 +117,112 @@ export class WebCourseCardComponent implements OnInit {
   login(data: any) {
     const name = `${data.name} - Aastrika`
     this.titleService.setTitle(name)
-    this.router.navigate(['/public/toc/overview'], {
+
+    const slug = this.slugify(data.name)
+    const courseId = data.identifier
+
+    this.router.navigate(['/public/toc/overview', courseId, slug], {
       state: {
         tocData: data,
       },
-      queryParams: {
-        courseId: data.identifier,
-      },
     })
+
     localStorage.setItem('tocData', JSON.stringify(data))
-    localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+    localStorage.setItem(`url_before_login`, `app/toc/${courseId}/overview`)
   }
+
+  // Helper function to slugify the course name
+  slugify(text: string): string {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
+      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
+  }
+
+
   redirectPage(course: any) {
+    this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course', version: "", rollup: { l1: course.identifier } })
+    const prefix = this.getLanguagePrefix()
     if (this.isLoggedIn) {
-      console.log('yes here')
+      this.logger.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log('else')
-      this.login(course)
+      this.logger.log('else')
+      const currentRoute = this.router.url
+
+      if (currentRoute.includes('org-selective-course')) {
+        const url = `${prefix}/app/toc/${course.identifier}/overview`
+        localStorage.setItem(`url_before_login`, url)
+        this.showPopup()
+      } else {
+        this.login(course)
+      }
     }
+  }
+
+  showPopup() {
+    this.displayStyle = 'block'
+  }
+  closePopup() {
+    this.displayStyle = 'none'
+  }
+  orgLogin() {
+    this.router.navigateByUrl('public/login')
+  }
+  orgCreateAccount() {
+    const cachedOrgConfig = this.configSvc.orgSelectiveCourseConfig
+    const urlParams = new URLSearchParams(window.location.search)
+    const orgNameFromUrl = urlParams.get('org')?.trim()
+
+    // If no org data available, stay safe
+    if (!cachedOrgConfig && !orgNameFromUrl) {
+      this.logger.warn('No organization data found for signup')
+      this.router.navigateByUrl('/app/create-account')
+      return
+    }
+
+    // Determine state code and org name
+    const stateCode = cachedOrgConfig?.stateCode || 'TN'
+    const orgName = cachedOrgConfig?.orgName || orgNameFromUrl || 'UnknownOrg'
+
+    // Determine user role (can also come from org config if needed)
+    const role = cachedOrgConfig?.signupRole || 'TNNMC-Student'
+
+    // Construct dynamic URL
+    const path = `/app/create-account/${encodeURIComponent(stateCode)}/${encodeURIComponent(orgName)}/${encodeURIComponent(role)}`
+
+    this.logger.log('Navigating to:', path)
+    this.router.navigateByUrl(path)
+
   }
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
-    // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
-    const url = `app/toc/` + `${contentIdentifier}` + `/overview`
+    const prefix = this.getLanguagePrefix()
+    const url = `${prefix}/app/toc/${contentIdentifier}/overview`
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
       localStorage.setItem(`url_before_login`, url)
       this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
-        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
-          return of(data)
-        })).subscribe((userDetails: any) => {
-          if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
+        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
+          .pipe(delay(500))
+          .subscribe((userDetails: any) => {
+            const profileReq = get(userDetails, 'profileDetails.profileReq')
+            this.logger.log('USER DETAILS FROM REGISTRY:', userDetails) // ← Add this
+            this.logger.log('Profile Req:', profileReq) // ← Add this
 
-            // location.href = url
-            this.router.navigateByUrl(url)
-          } else {
-            const courseUrl = `/app/toc/${contentIdentifier}/overview`
-            this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-          }
-        })
+            if (this.userProfileSvc.isBackgroundDetailsFilled(profileReq)) {
+              this.router.navigateByUrl(url)
+            } else {
+              this.logger.log('Background details not filled, redirecting to about-you')
+              const courseUrl = `${prefix}/app/toc/${contentIdentifier}/overview`
+              this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: courseUrl } })
+            }
+          })
       }
     }
-
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
 import { startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators'
@@ -9,18 +9,20 @@ import {
   ROOT_WIDGET_CONFIG,
   // CustomTourService
 } from '@ws-widget/collection'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { AccessControlService } from '../../../../project/ws/author/src/public-api'
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
   featureWidgets: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[]
 }
 @Component({
-  selector: 'ws-app-root-features',
-  templateUrl: './features.component.html',
-  styleUrls: ['./features.component.scss'],
+    standalone: false,
+    selector: 'ws-app-root-features',
+    templateUrl: './features.component.html',
+    styleUrls: ['./features.component.scss'],
+    
 })
 export class FeaturesComponent implements OnInit, OnDestroy {
-  queryControl = new FormControl(this.activateRoute.snapshot.queryParamMap.get('q'))
+  queryControl = new UntypedFormControl(this.activateRoute.snapshot.queryParamMap.get('q'))
   private readonly featuresConfig: IGroupWithFeatureWidgets[] = []
   featureGroups: IGroupWithFeatureWidgets[] | null = null
   private responseSubscription: Subscription | null = null
@@ -139,7 +141,9 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container',
+    })
   }
   startTour() {
     // this.tour.startTour()

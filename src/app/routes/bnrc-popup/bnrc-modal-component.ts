@@ -1,12 +1,15 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'bnrc-modal-component',
-  templateUrl: './bnrc-modal-component.html',
-  styleUrls: ['./bnrc-modal-component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+    standalone: false,
+    selector: 'bnrc-modal-component',
+    templateUrl: './bnrc-modal-component.html',
+    styleUrls: ['./bnrc-modal-component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    
 })
 export class BnrcmodalComponent implements OnInit {
 
@@ -16,14 +19,14 @@ export class BnrcmodalComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<BnrcmodalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-
+    private logger: LoggerService
   ) {
     dialogRef.disableClose = true
-    console.log("yes here", this.data.from)
+    this.logger.log("yes here", this.data.from)
   }
 
   ngOnInit() {
-    console.log("yes here", this.data.from)
+    this.logger.log("yes here", this.data.from)
   }
 
 
@@ -32,7 +35,7 @@ export class BnrcmodalComponent implements OnInit {
 
   done(value: string) {
     if (value === 'download') {
-      window.location.href = 'https://bit.ly/E-kshamataApp'
+      window.location.href = 'https://links-ekshamata.aastrika.org'
     } else {
       if (this.data.from === 'Upsmf') {
         window.location.href = 'https://upsmf.aastrika.org/'

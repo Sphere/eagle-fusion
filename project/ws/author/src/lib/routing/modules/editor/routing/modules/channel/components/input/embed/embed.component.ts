@@ -9,9 +9,11 @@ interface IEmbedWidget {
 }
 
 @Component({
-  selector: 'ws-auth-embed',
-  templateUrl: './embed.component.html',
-  styleUrls: ['./embed.component.scss'],
+    standalone: false,
+    selector: 'ws-auth-embed',
+    templateUrl: './embed.component.html',
+    styleUrls: ['./embed.component.scss'],
+    
 })
 export class EmbedComponent implements OnInit {
 

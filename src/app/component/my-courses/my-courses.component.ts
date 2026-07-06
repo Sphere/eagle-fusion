@@ -1,252 +1,397 @@
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, effect } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import lodash from 'lodash'
+import { PlaylistService } from '../../services/playlist.service'
+import { LanguageService } from '../../services/language.service'
+import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
+import { Observable, of, Subject } from 'rxjs'
+import { catchError, map, takeUntil } from 'rxjs/operators'
 
 @Component({
+  standalone: false,
   selector: 'ws-my-courses',
   templateUrl: './my-courses.component.html',
   styleUrls: ['./my-courses.component.scss'],
+
 })
-export class MyCoursesComponent implements OnInit {
+export class MyCoursesComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>()
   startedCourse: any[] = []
   completedCourse: any[] = []
   coursesForYou: any[] = []
   isLoading = false
-  displayConfig = {
-    displayType: 'card-badges',
-    badges: {
-      orgIcon: true,
-      certification: false,
-      isCertified: true
-    }
-  }
-  isXSmall$ = this.valueSvc.isXSmall$
-  myCourseDisplayConfig: any
-  myCourseWebDisplayConfig: any
-  coursesForYouDisplayConfig: any
-  completedWebCourseDisplayConfig: any
-  completedCourseDisplayConfig: any
-  isForYouActive = false; // Flag to track if "For you" should be active
-  selectedIndex = 0; // Index for the active tab
-
+  private pendingRequests = 0
+  isXSmall = false
+  selectedIndex = 0 // Index for the active tab
+  yourPlansCourseIdentifier: any[] = []
+  config: any
+  lang: any
+  plyLsData: any
+  userEnrolledCourse: any = []
+  currentOffset = 1
+  pageLimit = 500
+  initialPageLimit = 10
+  displayLimit: number[] = [] // Per-tab display limits for progressive rendering
+  private readonly PAGE_SIZE = 10
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
     public router: Router,
     private valueSvc: ValueService,
-    private readonly route: ActivatedRoute
-  ) { }
+    private readonly route: ActivatedRoute,
+    private playlistSvc: PlaylistService,
+    private langSvc: LanguageService,
+    private orgService: OrgServiceService,
+    private cdr: ChangeDetectorRef
+  ) {
+    effect(() => {
+      this.isXSmall = this.valueSvc.isMobile() ? true : false
+    })
+  }
 
-  ngOnInit() {
-    if (sessionStorage.getItem('cURL')) {
-      sessionStorage.removeItem('cURL')
+  async ngOnInit() {
+    this.lang = this.langSvc.getCurrentLanguage()
+    this.isLoading = true
+    this.pendingRequests = 2 // enrollment list + professional/forYou courses
+
+    // Load playlist configs.
+    // getPlaylistConfig() and loadPlaylistData() are awaited here — if either
+    // throws (e.g. 4xx/5xx from the API), the error propagates out of ngOnInit
+    // and isLoading is never set false, leaving the page stuck on the skeleton.
+    // Wrap both in try/catch so a failed config fetch degrades gracefully.
+    try {
+      this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+    } catch (e) {
+      this.plyLsData = []
     }
-    let userId
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
+
+    try {
+      let res = this.playlistSvc.selectedTabConfig()
+      if (res == '') {
+        res = await this.playlistSvc.loadPlaylistData()
+        this.config = res?.LAYOUT_BODY?.sections?.courseTab
+      } else {
+        this.config = res
+      }
+    } catch (e) {
+      this.config = null
     }
-    this.route.queryParams.subscribe(params => {
+
+    sessionStorage.removeItem('cURL')
+
+    const userId = this.configSvc?.userProfile?.userId || ''
+
+    // Handle route params
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (params['courseType'] === 'formatForYouCourses') {
-        this.isForYouActive = true
-        this.selectedIndex = 1 // Set the index for "For You" tab
+        this.selectedIndex = 1
+      } else if (params['courseType'] === 'completed') {
+        this.selectedIndex = 2
       }
     })
 
-    this.isLoading = true
-    this.contentSvc.fetchUserBatchList(userId).subscribe(
-      (courses: NsContent.ICourse[]) => {
-        console.log("courses", courses)
+    // Fetch user courses - pending request 1
+    this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: courses => {
+        this.userEnrolledCourse = courses
+        this.processUserCourses(courses)
+        this.updateTabData()
+        this.decrementPending()
+      },
+      error: () => {
+        this.decrementPending()
+      },
+    })
 
-        courses.forEach((key) => {
-          // Check if competency exists, if not, assume it's okay to process (e.g., no competency required)
-          const competencyExists = lodash.has(key, 'content.competency')
-          const competency = competencyExists ? lodash.get(key, 'content.competency', false) : false  // Default to false if competency is absent
+    // Handle professional details - pending request 2
+    this.handleProfessionalCourses()
+  }
 
-          // Only process courses with competency === false
-          // Only process courses where competency is either false or not present
-          if (competency === false) {
-            if (key.completionPercentage !== 100) {
-              const myCourseObject = {
-                identifier: key.content.identifier,
-                appIcon: key.content.appIcon,
-                thumbnail: key.content.thumbnail,
-                name: key.content.name,
-                dateTime: key.dateTime,
-                completionPercentage: key.completionPercentage,
-                sourceName: key.content.sourceName,
-                issueCertification: key.content.issueCertification
-              }
-
-              this.startedCourse.push(myCourseObject)
-              this.isLoading = false
-            } else {
-              const completedCourseObject = {
-                identifier: key.content.identifier,
-                appIcon: key.content.appIcon,
-                thumbnail: key.content.thumbnail,
-                name: key.content.name,
-                dateTime: key.dateTime,
-                completionPercentage: key.completionPercentage,
-                sourceName: key.content.sourceName,
-                issueCertification: key.content.issueCertification
-              }
-
-              this.completedCourse.push(completedCourseObject)
-            }
-          }
-        })
-
-        // Sort courses based on dateTime in descending order
-        this.startedCourse.sort((a, b) => {
-          const dateTimeA = new Date(a.dateTime).getTime()
-          const dateTimeB = new Date(b.dateTime).getTime()
-          return dateTimeB - dateTimeA
-        })
-
-        this.completedCourse.sort((a, b) => {
-          const dateTimeA = new Date(a.dateTime).getTime()
-          const dateTimeB = new Date(b.dateTime).getTime()
-          return dateTimeB - dateTimeA
-        })
-        if (this.startedCourse.length > 0) {
-          this.myCourseDisplayConfig = {
-            displayType: 'card-mini',
-            badges: {
-              certification: true,
-              rating: true,
-              completionPercentage: true,
-              mobilesourceName: true
-            },
-          }
-          this.myCourseWebDisplayConfig = {
-            displayType: 'card-mini',
-            badges: {
-              certification: true,
-              rating: true,
-              completionPercentage: true,
-              resume: true,
-            },
-          }
-        }
-        if (this.completedCourse.length > 0) {
-          this.completedCourseDisplayConfig = {
-            displayType: 'card-mini',
-            badges: {
-              rating: true,
-              mobilesourceName: true,
-              sourceLine: true,
-            },
-          }
-          this.completedWebCourseDisplayConfig = {
-            displayType: 'card-mini',
-            badges: {
-              rating: true,
-              viewAll: true,
-              mobilesourceName: true,
-              sourceLine: true,
-            },
-          }
-        }
-        // console.log(this.startedCourse, 'c', this.startedCourse.length)
-        // console.log(this.completedCourse, 'aa', this.completedCourse.length)
-
-      })
-    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
-      const professionalDetails = this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails[0]
-      if (professionalDetails) {
-        const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
-        this.contentSvc
-          .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
-            //console.log(res, 'res')
-            this.coursesForYou = res
-            this.isLoading = false
-
-            const myCourse: any = []
-            let myCourseObject = {}
-
-            res.forEach((key: any) => {
-              myCourseObject = {
-                identifier: key.course_id,
-                appIcon: key.course_appIcon,
-                thumbnail: key.course_thumbnail,
-                name: key.course_name,
-                sourceName: key.course_sourceName,
-                issueCertification: key.course_issueCertification
-              }
-
-              myCourse.push(myCourseObject)
-
-            })
-
-            this.coursesForYou = myCourse
-            if (this.coursesForYou.length > 0) {
-              this.coursesForYouDisplayConfig = {
-                displayType: 'card-badges',
-                badges: {
-                  certification: true,
-                  sourceName: true,
-                  rating: true
-                },
-              }
-
-            }
-          }, err => {
-            console.log(err, err.status === 500)
-            if (err.status === 500 || err.status === 400 || err.status === 419) {
-              this.coursesForYou = []
-              this.isLoading = false
-            }
-          }
-
-          )
-      }
-    } else {
-      this.coursesForYou = []
+  private decrementPending() {
+    this.pendingRequests--
+    if (this.pendingRequests <= 0) {
       this.isLoading = false
+      this.cdr.detectChanges()
     }
   }
-  tabClick() {
-    const tabElement = document.getElementById('mat-tab-label-0-1')
-    if (tabElement) {
-      tabElement.click()
+
+  private processUserCourses(courses: NsContent.ICourse[]) {
+    this.startedCourse = []
+    this.completedCourse = []
+
+    courses.forEach(course => {
+      const content = course?.content
+      if (!content?.identifier || content?.competency) return
+
+      const courseObj = {
+        identifier: content.identifier,
+        appIcon: content.appIcon,
+        thumbnail: content.thumbnail,
+        name: content.name,
+        dateTime: course.dateTime,
+        completionPercentage: course.completionPercentage,
+        sourceName: content.sourceName,
+        issueCertification: content.issueCertification,
+        posterImage: content.posterImage,
+      }
+
+        ; (course.completionPercentage !== 100
+          ? this.startedCourse
+          : this.completedCourse
+        ).push(courseObj)
+    })
+    const sortFn = (a, b) => +new Date(b.dateTime) - +new Date(a.dateTime)
+    this.startedCourse.sort(sortFn)
+    this.completedCourse.sort(sortFn)
+  }
+
+  private handleProfessionalCourses() {
+    const profDet = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails
+
+    if (!profDet) {
+      this.coursesForYou = []
+      this.decrementPending()
+      return
     }
+
+    const professionalDetails = profDet[0]
+    const designation = professionalDetails.designation || professionalDetails.profession
+    const rootOrgId = this.configSvc.userProfile.rootOrgId
+    const roleCheck = (roles: string[]) =>
+      roles?.some(r => r.toLowerCase() === designation.toLowerCase())
+
+    let matchedElements = this.plyLsData?.filter(element =>
+      element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === 'YOUR_PLANS_PLAYLIST' && element.language === this.lang)
+
+    if (matchedElements.length === 0) {
+      matchedElements = this.plyLsData?.filter(element =>
+        element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
+
+      const listOfEnrolledCourseId = (this.userEnrolledCourse || [])
+        .filter(course => course?.content?.identifier && !course?.content?.competency)
+        .map(course => course.content.identifier)
+
+      const competencySearchArray: string[] = []
+      let baseQuery: any = {}
+      let sourceName: string[] = []
+
+      matchedElements?.forEach(element => {
+        if (element.playlistId === 'COMPETENCY_PLAYLIST') {
+          competencySearchArray.push(
+            ...this.buildCompetencySearchArray(element?.dataSource?.payload)
+          )
+        }
+
+        if (element.playlistId === 'SEARCH_PLAYLIST') {
+          baseQuery = element?.dataSource?.payload || {}
+          baseQuery.request ??= {}
+          baseQuery.request.filters ??= {}
+
+          baseQuery.request.offset = this.currentOffset
+          baseQuery.request.limit = this.pageLimit
+          sourceName = baseQuery.request.filters.sourceName || []
+        }
+      })
+
+      this.currentOffset += this.initialPageLimit
+      this.pageLimit += this.initialPageLimit
+
+      if (competencySearchArray.length > 0) {
+        this.searchContentByCompetencies$(baseQuery, competencySearchArray, sourceName, listOfEnrolledCourseId).subscribe({
+          next: (res: any) => {
+            this.coursesForYou = res || []
+            this.updateTabData()
+            this.decrementPending()
+          },
+          error: () => {
+            this.decrementPending()
+          },
+        })
+      } else {
+        this.updateTabData()
+        this.decrementPending()
+      }
+    } else {
+      const element = matchedElements[0]
+      this.yourPlansCourseIdentifier = element.dataSource.payload
+
+      this.orgService
+        .getTopLiveSearchResults(this.yourPlansCourseIdentifier, this.lang)
+        .subscribe({
+          next: (results: any) => {
+            const content = results?.result?.content || []
+            const idSet = new Set(this.yourPlansCourseIdentifier)
+
+            this.coursesForYou = Array.from(
+              new Map(
+                content
+                  .filter(item => idSet.has(item.identifier))
+                  .map(item => [item.identifier, item])
+              ).values()
+            )
+
+            this.updateTabData()
+            this.decrementPending()
+          },
+          error: () => {
+            this.decrementPending()
+          },
+        })
+    }
+  }
+
+  private updateTabData() {
+    if (!this.config?.tabMenu) return
+
+    this.config.tabMenu.forEach((tab: any, index: number) => {
+      if (tab.label === 'For You') {
+        tab.data = this.coursesForYou.filter(item =>
+          !this.userEnrolledCourse.some(bItem => bItem.contentId === item.identifier))
+      }
+      if (tab.label === 'Started') {
+        tab.data = this.startedCourse
+      }
+      if (tab.label === 'Completed') {
+        tab.data = this.completedCourse
+      }
+      // Initialize display limits for each tab
+      if (this.displayLimit[index] === undefined) {
+        this.displayLimit[index] = this.PAGE_SIZE
+      }
+    })
+    this.cdr.markForCheck()
+  }
+
+  tabClick() {
+    this.selectedIndex = 1
+  }
+
+  onTabChange(index: number) {
+    this.selectedIndex = index
+    // Reset display limit for new tab to show first page quickly
+    if (this.displayLimit[index] === undefined) {
+      this.displayLimit[index] = this.PAGE_SIZE
+    }
+  }
+
+  showMore(tabIndex: number, totalLength: number) {
+    this.displayLimit[tabIndex] = Math.min(
+      (this.displayLimit[tabIndex] || this.PAGE_SIZE) + this.PAGE_SIZE,
+      totalLength
+    )
+  }
+
+  courseTrackBy(index: number, item: any): string {
+    return item?.identifier || index
   }
 
 
   async navigateToToc(contentIdentifier: any) {
     sessionStorage.setItem('cURL', location.href)
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
-    let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
-    }
-    let url = url1 === 'hi' ? `/app/toc/` + `${contentIdentifier}` + `/overview` : `app/toc/` + `${contentIdentifier}` + `/overview`
-    //this.commonUtilService.addLoader()
+    // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+    const baseUrl = document.baseURI
+    const tocUrl = `/app/toc/${contentIdentifier}/overview`
     const result = await this.signupService.getUserData()
-    // this.commonUtilService.removeLoader()
     if (this.configSvc.unMappedUser) {
-      //this.commonUtilService.addLoader()
       if (result && result.profileDetails!.profileReq && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        location.href = `${url3}${url1}${url}`
+        location.href = `${baseUrl}${tocUrl}`
       } else {
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-          // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
-          let url = '/page/home'
-          let url4 = `${document.baseURI}`
-          if (url4.includes('hi')) {
-            url1 = ''
-          }
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: tocUrl } })
         }
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next()
+    this.destroy$.complete()
+  }
+
+  buildCompetencySearchArray = (competencyPayload: any[]): string[] => {
+    if (!Array.isArray(competencyPayload) || competencyPayload?.length === 0) {
+      return []
+    }
+    const competencySearchArray: string[] = []
+    competencyPayload.forEach(competencyObj => {
+      Object.keys(competencyObj).forEach(key => {
+        const competency = competencyObj[key]
+        const competencyId = competency?.id
+        if (!competencyId) return
+
+        const levelDescriptions = competency?.additionalProperties?.competencyLevelDescription || []
+
+        levelDescriptions.forEach((levelDesc: any) => {
+          const level = levelDesc?.level
+          if (level) {
+            competencySearchArray.push(`${competencyId}-${level}`)
+          }
+        })
+      })
+    })
+    return competencySearchArray
+  }
+
+  searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
+    if (!Array.isArray(competencySearchArray) || competencySearchArray.length === 0) {
+      return of([])
+    }
+
+    const requestBody = typeof structuredClone === 'function'
+      ? structuredClone(baseQuery)
+      : JSON.parse(JSON.stringify(baseQuery))
+
+    requestBody.request = requestBody.request || {}
+    requestBody.request.filters = requestBody.request.filters || {}
+    requestBody.request.filters.competencySearch = competencySearchArray
+
+    return this.contentSvc.getCouseByContentSearch(competencySearchArray, true, requestBody).pipe(
+      map((res: any) => {
+        const content = res?.result?.content ?? []
+
+        const processedCourses = this.processRecommendedCourses(content, requiredSourceName, listOfEnrolledCourseId)
+        return processedCourses
+      }),
+      catchError(err => {
+        console.error("Error fetching recommendation", err)
+        return of([])
+      })
+    )
+  }
+
+  recommendedCourse = (data: any[]) =>
+    (data || [])
+      .filter(item => item && item.identifier)
+      .map(item => ({
+        identifier: item.identifier,
+        appIcon: item.appIcon,
+        thumbnail: item.posterImage || item.thumbnail,
+        name: item.name,
+        sourceName: item.sourceName,
+        issueCertification: item.issueCertification,
+        averageRating: item.averageRating,
+        competency: item.competency,
+      }))
+
+
+  processRecommendedCourses = (courseList: any[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): any[] => {
+    const seen = new Set()
+    const enrolledSet = new Set(listOfEnrolledCourseId || [])
+    const sourceSet = new Set(requiredSourceName || [])
+
+    return this.recommendedCourse(courseList)
+      .filter(item => {
+        if (!item?.identifier || seen.has(item.identifier)) return false
+        seen.add(item.identifier)
+        return true
+      })
+      .filter(item => sourceSet.has(item.sourceName))
+      .filter(item => !enrolledSet.has(item.identifier))
   }
 }

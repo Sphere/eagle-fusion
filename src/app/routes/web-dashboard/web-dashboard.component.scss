@@ -1,8 +1,8 @@
 .banner-container{
-    display: flex;
-    margin-top: 45px;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  margin-top: 45px;
+  align-items: center;
+  justify-content: space-around;
 }
 .isEkshamata{
   margin-top: 5px;
@@ -21,81 +21,53 @@
 .ekshamta-banner-container{
    display: flex;
   flex: 100%;
-  justify-content: end;
+  justify-content: flex-end;
   transition: transform 0.3s ease
 }
 .banner-sub-heading{
   font-family: Roboto, sans-serif;
-font-size: 24px;
-font-weight: 400;
-line-height: 26px;
-text-align: left;
-color: #513433;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 26px;
+  text-align: left;
+  // color: #513433;
 }
 .banner-first-image{
-width: 92.08px;
-height: 79.23px;
+  width: 92.08px;
+  height: 79.23px;
 }
 .banner-second-image{
-width: 210.14px;
-height: 134.79px;
+  width: 210.14px;
+  height: 134.79px;
 }
 .banner-heading-container{
   display: flex;
-    flex-direction: column;
-    flex: 35%;
-    justify-content: left;
-        padding-left: 85px;
+  flex-direction: column;
+  flex: 35%;
+  justify-content: flex-end;
+  padding-left: 85px;
 }
 .banner-heading{
-font-family: Roboto, sans-serif;
-font-size: 48px;
-font-weight: 500;
-line-height: 56.25px;
-letter-spacing: -0.02em;
-text-align: left;
-
-  // padding-left: 51px;
-    font-style: normal;
-    color: #000000;
+  font-family: Roboto, sans-serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 56.25px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  font-style: normal;
+  // color: #000000;
 }
 .banner-mini-heading{
-//     font-family: 'Roboto';
-// font-style: normal;
-// font-weight: 400;
-// font-size: 24px;
-// line-height: 28px;
-// /* identical to box height */
+  // color: #000000;
+  font-style: normal;
+  letter-spacing: -0.48px;
+  font-family: Roboto, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 37.5px;
+  letter-spacing: -0.02em;
+  text-align: left;
 
-// letter-spacing: -0.02em;
-
-// color: #000000;
-
-//  padding-left: 51px;
-    color: #000000;
-    /* Header 2 */
-    font-style: normal;
-    letter-spacing: -0.48px;
-
-    font-family: Roboto, sans-serif;
-font-size: 32px;
-font-weight: 400;
-line-height: 37.5px;
-letter-spacing: -0.02em;
-text-align: left;
-
-}
-.scrollToCneCourses{
-    cursor: pointer;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    // background: #D7AC5C;
-    height: 51px;
-    margin-bottom: 20px;
-    margin-top: -1px;
-    flex-direction: column;
 }
 .scrollToHowSphereWorks{
     cursor: pointer;
@@ -103,61 +75,23 @@ text-align: left;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    // background: #469788;
     height: 51px;
     margin-bottom: 20px;
     margin-top: -1px;
     flex-direction: column;
 }
-.tutorials-text{
-    /* Body */
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    /* or 150% */
-    text-align: center;
-    letter-spacing: -0.02em;
-    color: #FFFFFF !important;
-    margin: 0px !important;
-}
-.banner-image{
-    // width: 600px;
-    // height: 325px;
-}
-@media only screen and (min-width: 600px) and (max-width: 959px){
-.banner-image{
-    max-width: 350px;
-    height: 267px;
-}
-.banner-heading {
-    font-weight: 400;
-    font-size: 40px;
-    line-height: 42px;
 
-}
-.banner-mini-heading {
-    font-size: 22px;
-    line-height: 28px;
-}
-}
-.view-course{
-  cursor: pointer;
-  margin-top: 25px;
-  width: 248px;
-  height: 39px;
-  background-color: #2E6491 !important;
-  border-radius: 50px;
-  color: #FFFFFF !important;
-  border: none !important;
-
+.slides-viewport {
+  flex: 65%;
+  overflow: hidden;
+  min-width: 0;
 }
 
 .slides {
   display: flex;
-  flex: 65%;
-  transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
+  width: 100%;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 .slide {
@@ -169,16 +103,13 @@ text-align: left;
   height: auto; /* Maintain aspect ratio */
 }
 
-/* carousel.component.css */
-
 .carousel {
   overflow: hidden;
   width: 100%;
   display: flex;
   align-items: center;
+  // background-color: #fdfcfc;
 }
-
-
 
 .slide {
   flex: 0 0 100%;
@@ -186,29 +117,65 @@ text-align: left;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  //padding: 0 10px;
-  /* Adjust padding as needed */
 }
 
 .slide-content {
-  display: none;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
 }
 
-.slide-content.active {
-  display: block;
+@keyframes bannerShimmer {
+  0% { background-position: -800px 0; }
+  100% { background-position: 800px 0; }
 }
 
+.banner-shimmer {
+  width: 100%;
+  height: 280px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #e8e8e8 0px, #d0d0d0 200px, #e8e8e8 400px);
+  background-size: 800px 100%;
+  animation: bannerShimmer 1.4s infinite linear;
 
-.round-buttons {
- background: none;
-    border: none;
-     padding: 0px 0px 0px 4px !important;
+  @media (max-width: 767px) {
+    height: 180px;
+    border-radius: 8px;
+  }
+}
 
+.dot-btn {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: width 0.3s ease, background 0.3s ease;
+
+  &.active {
+    width: 24px;
+    border-radius: 4px;
+    background: var(--theme-progress, #469788);
+  }
 }
-.dot-icon{
-      width: 10px;
-    height: 10px;
+
+.dark-theme .round-button {
+  background-color: rgba(255, 255, 255, 0.978) !important;
+  .dot-icon {
+    filter: brightness(0) invert(1) !important;
+  }
 }
+
+.dark-theme .round-button.active {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  .dot-icon {
+    filter: brightness(0) invert(0) !important;
+  }
+}
+
 .round-button {
  width: 6px;
   height: 6px;
@@ -223,6 +190,201 @@ text-align: left;
   background-color: rgba(0, 0, 0, 0.978);
 }
 
+.slide {
+  min-width: 100%;
+}
+
+/* ===== Dots ===== */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 51px;
+  padding-top: 16px;
+
+  @media (max-width: 767px) {
+    height: 32px;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  :host {
+    display: block;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .banner-image{
+    max-width: 350px;
+  }
+
+  .banner-container {
+    margin-top: 45px;
+    padding-top: 0px;
+  }
+
+  .banner-heading {
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 42px;
+  }
+  .banner-mini-heading {
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+/* ===== Mobile Styles ===== */
+@media (max-width: 767px) {
+  .banner-image,
+  .banner-first-image,
+  .banner-second-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .carousel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .heading {
+    display: flex;
+    align-items: center;
+  }
+
+  .banner-container {
+    width: 100%;
+    margin-top: 50px;
+  }
+
+  .banner-heading-container {
+    position: relative;
+    text-align: center;
+    padding: 16px;
+    display: flex;
+  }
+
+  .banner-mini-heading {
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: 400;
+  }
+
+  .banner-heading {
+    font-size: 24px;
+    font-weight: 400;
+    padding-left: 6px;
+    line-height: 45px;
+    text-transform: capitalize;
+  }
+
+  .banner-sub-heading {
+    line-height: 5px;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  .ekshamata-banner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .slides-viewport {
+    width: 100%;
+    flex: unset;
+    margin-left: 0;
+  }
 
 
+  .round-button.active {
+    background-color: rgba(0, 0, 0, 0.978);
+  }
 
+  .isEkshamata{
+    margin-top: 54px;
+    .carousel {
+      flex-direction: row;
+    }
+
+    .banner-heading-container {
+      flex: 50%;
+    }
+
+    .ekshamta-banner-container {
+      flex: 5%;
+    }
+    .heading {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .badge-container {
+      img {
+        width: 1.5rem;
+      }
+      .label {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.badge-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  white-space: nowrap;
+  color: rgba(70, 151, 136, 1);
+  background: white;
+  border-radius: 20px;
+}
+
+.badge-container img {
+  width: 2rem;
+  height: auto;
+}
+
+.label {
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+:host-context(.dark-theme) {
+  .banner-container.isEkshamata {
+    background: linear-gradient(180deg, #7CB5E6 0%, #74BEB1 100%, #FFFCC8 100%);
+  }
+
+  .isEkshamata {
+    .banner-heading,
+    .banner-mini-heading,
+    .banner-sub-heading {
+      color: #20463F;
+    }
+  }
+
+  .badge-container {
+    color: var(--theme-text, #e5f3ff);
+    background: var(--theme-bg, #1c2d38);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  .dot-btn {
+    background: rgba(255, 255, 255, 0.35);
+    &.active {
+      background: var(--theme-progress, #469788);
+    }
+  }
+}

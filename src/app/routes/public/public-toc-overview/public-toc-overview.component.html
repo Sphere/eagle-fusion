@@ -6,14 +6,14 @@
         tocConfig?.overview?.description?.enabled &&
         tocData?.description
       " class="unit-meta-item">
-      <h2 i18n>Summary</h2>
+      <h2>{{'Summary' | translate}}</h2>
       <mat-card-content>
         <div class="mat-subheading-1" [innerHTML]="tocData?.description"></div>
       </mat-card-content>
     </div>
     <!-- Content Body -->
     <div *ngIf="tocConfig?.overview?.body?.enabled && tocData?.instructions" class="unit-meta-item">
-      <h2 i18n>Description</h2>
+      <h2>{{'Description' | translate}}</h2>
       <mat-card-content>
         <div class="break-words" [innerHTML]="tocData?.instructions"></div>
       </mat-card-content>
@@ -37,7 +37,7 @@
 
     <ng-template #creators let-authors="authors" let-title="title">
       <div class="unit-meta-item">
-        <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
+        <h2 *ngIf="title === 'AUTHOR'">{{'Authors' | translate}}</h2>
         <mat-divider></mat-divider>
         <div class="author">
           <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="authors || ''">

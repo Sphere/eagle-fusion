@@ -15,10 +15,10 @@
   margin-right: auto;
   padding: 0em 1.25em;
 
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     padding: 0em;
-    width: 100%
+    width: 100%;
   }
 }
 
@@ -38,10 +38,10 @@ mat-toolbar {
   z-index: 1 !important;
 }
 
-mat-dialog-content {
+mat-mdc-dialog-content {
   padding: 1.25em 1.25em !important;
 
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     padding: 0.25em 0.5em !important;
   }
@@ -50,14 +50,14 @@ mat-dialog-content {
 .heightwidth {
   display: flex;
 
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     display: block;
   }
 }
 
-.mat-button {
-  @media only screen and(max-width: 1030px) {
+.mat-mdc-button {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     min-width: auto;
     padding: 0 14px;
@@ -81,13 +81,13 @@ mat-dialog-content {
 
 /* .title-margin{
   margin-left: 35%;
-  @media only screen and(max-width: 1030px) {  // media less than 1030px
+  @media only screen and (max-width: 1030px) {  // media less than 1030px
     margin-left: 30%;
   }
 } */
 
 .button-text {
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     display: none;
   }
@@ -108,7 +108,7 @@ mat-dialog-content {
   margin-left: auto;
   margin-right: auto;
 
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     padding: 0em;
     width: 100%
@@ -117,12 +117,19 @@ mat-dialog-content {
 }
 
 .toolbar {
-  left: 50%;
-  margin: 1em 0 0 -10em;
+  left: 20%;
+  margin: 1.2em 0 0 -10em;
   position: absolute;
   width: auto;
   border-radius: 4px;
 
+}
+
+.darktheme .toolbar {
+  li button {
+    background-color: transparent !important;
+    --mat-button-protected-container-color: transparent !important;
+  }
 }
 
 .cf:before,

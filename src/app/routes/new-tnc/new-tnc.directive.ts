@@ -1,10 +1,12 @@
 import { Directive, HostListener, Output, EventEmitter } from '@angular/core'
 
 @Directive({
-  selector: '[appScrollDetector]'
+    standalone: false,
+    selector: '[appScrollDetector]',
+    
 })
 export class ScrollDetectorDirective {
-  @Output() scrolled = new EventEmitter<boolean>();
+  @Output() scrolled = new EventEmitter<boolean>()
 
 
   @HostListener('scroll', ['$event'])

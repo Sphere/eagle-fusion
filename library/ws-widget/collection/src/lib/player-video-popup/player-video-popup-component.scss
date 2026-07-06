@@ -1,13 +1,17 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
+
+.quiz-container {
+  margin: 2rem;
+}
 
 .app-class .mat-list-option {
-  padding-top: $size-m;
-  padding-bottom: $size-m;
+  padding-top: ws-vars.$size-m;
+  padding-bottom: ws-vars.$size-m;
   height: auto;
 
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
-    background-color: #1c5d95 !important;
+    background-color: var(--theme-accent) !important;
   }
 }
 .answer-text{
@@ -28,7 +32,7 @@ letter-spacing: -2%;
     opacity: 0.5 !important; /* Makes the radio button appear gray */
 }
 .correct-text {
-    color: #469788 !important;
+    color: var(--theme-progress, #469788) !important;
 }
 
 :host ::ng-deep.quiz-option{
@@ -39,6 +43,9 @@ letter-spacing: -2%;
     .mat-radio-outer-circle{
       color: #757575 !important;
     }
+  }
+  .mdc-form-field .mdc-label {
+    margin-bottom: 0px !important;
   }
 }
 .custom-list .mat-list-option.mat-focus-indicator {
@@ -57,7 +64,7 @@ letter-spacing: -2%;
 
 ::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
-  background: #1c5d95 !important;
+  background: var(--theme-accent) !important;
 }
 
 
@@ -120,12 +127,12 @@ text-decoration-skip-ink: none;
   overflow-x: auto;
   margin: 10px 0 5px 0 !important;
 color: #000000 !important;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin: 0 !important;
   }
 
   p {
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       margin: 0 !important;
     }
   }
@@ -156,7 +163,7 @@ correct-option {
 }
 
 .margin-bottom-m {
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .correct-option {
@@ -190,7 +197,7 @@ correct-option {
 }
 .next-button{
     cursor: pointer;
-  background: #2E6491 !important;
+  background: var(--theme-accent, #2E6491) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
@@ -215,14 +222,14 @@ correct-option {
   letter-spacing: 0em;
   text-align: center !important;
   height: 40px !important;
-  color: #1c5d95 !important;
-  border: 1px solid #1c5d95 !important;
+  color: var(--theme-accent) !important;
+  border: 1px solid var(--theme-accent) !important;
 
 }
 .skip-button{
    cursor: pointer;
   background: #FFFFFF !important;
-  color: #1C5D95 !important;
+  color: var(--theme-accent) !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
   font-family: Roboto, sans-serif;
@@ -233,11 +240,11 @@ correct-option {
   text-align: center !important;
   border: 1px solid !important;
   height: 40px !important;
-  border-color: #1C5D95 !important;
+  border-color: var(--theme-accent) !important;
 }
 .disabled-back-button {
   background: #BFBFBF !important;
-  color: #808080 !important;
+  color:  var(--theme-inactive, #808080) !important;
   cursor: not-allowed !important;
   border: none !important;
 }
@@ -245,7 +252,7 @@ correct-option {
 
 .submit-button {
   cursor: pointer;
-  background: #1C5D95 !important;
+  background: var(--theme-accent) !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
@@ -278,7 +285,7 @@ gap: 10px !important;
 }
 }
 
-::ng-deep .theme-igot.day-mode .mat-list-option:hover, .theme-igot.day-mode .mat-list-option:focus, .theme-igot.day-mode .mat-nav-list .mat-list-item:hover, .theme-igot.day-mode .mat-nav-list .mat-list-item:focus, .theme-igot.day-mode .mat-action-list .mat-list-item:hover, .theme-igot.day-mode .mat-action-list .mat-list-item:focus {
+::ng-deep .light-theme .mat-list-option:hover, .light-theme .mat-list-option:focus, .light-theme .mat-nav-list .mat-mdc-list-item:hover, .light-theme .mat-nav-list .mat-mdc-list-item:focus, .light-theme .mat-action-list .mat-mdc-list-item:hover, .light-theme .mat-action-list .mat-mdc-list-item:focus {
     background: rgba(255, 255, 255, 0.04);
 }
 .questions-header{
@@ -304,30 +311,37 @@ text-decoration-skip-ink: none;
 color: #000000;
 white-space: break-spaces;
 }
-.theme-igot.day-mode .mat-radio-button .mat-radio-container .mat-radio-inner-circle {
+.light-theme .mat-mdc-radio-button
+.mdc-radio__outer-circle {
+   background-color: #424242 !important;
+}
+.mdc-radio__inner-circle {
     background-color: #424242 !important;
 }
 .correct-answer{
   background-color: #E8F4F2 !important;
   border-radius: 30px;
-  color: #469788 !important;
+  color: var(--theme-progress, #469788) !important;
   padding: 8px 14px;
-    margin-left: -14px;
+    margin-left: 0px;
 }
 .wrong-answer{
   background-color: #FFDFDD !important;
   border-radius: 30px;
   color:#ED2C23 !important;
   padding: 8px 14px;
-    margin-left: -14px;
+    margin-left: 0px;
 }
 .result-message{
     border-radius: 8px 8px 0px 0px;
-
+    img {
+      width: 14px;
+      height: 15px;
+    }
 }
 .result-message-container{
   display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     flex-direction: column;
 }
 .result-answer-info{
@@ -352,4 +366,17 @@ letter-spacing: -0.02em;
 text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
+}
+.correct-text,
+.correct-answer, .wrong-answer {
+  display: flex;
+  align-items: center;
+}
+::ng-deep .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background {
+  .mdc-radio__outer-circle {
+    border-color: #424242 !important;
+  }
+  .mdc-radio__inner-circle {
+    border-color: #424242 !important;
+  }
 }

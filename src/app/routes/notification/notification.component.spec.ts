@@ -1,5 +1,9 @@
+jest.mock('socket.io-client', () => ({
+  io: jest.fn(),
+}))
+
 import { NotificationsComponent } from './notification.component'
-import { of } from 'rxjs'
+import { of, Subject } from 'rxjs'
 import { ChangeDetectorRef } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { Socket } from 'socket.io-client'
@@ -64,7 +68,8 @@ describe('NotificationsComponent', () => {
       mockConfigSvc,
       mockValueSvc,
       mockDialogRef as MatDialogRef<any>,
-      mockCdr as ChangeDetectorRef
+      mockCdr as ChangeDetectorRef,
+      { log: jest.fn(), warn: jest.fn(), error: jest.fn() } as any
     )
     component.socket = mockSocket as unknown as Socket
     component.user_id = 'user123' // Initialize user_id here
@@ -198,5 +203,214 @@ describe('NotificationsComponent', () => {
 
     component.onTouchEnd(touchEndEvent, element, 0)
     expect(element.style.transform).toBe('translateX(0)')
+  })
+
+  it('ngOnInit should set user_id from configSvc.userProfile', () => {
+    component.ngOnInit()
+    expect(component.user_id).toBe('user123')
+  })
+
+  it('ngOnInit should set user_id to empty when userProfile is null', () => {
+    mockConfigSvc.userProfile = null
+    component.ngOnInit()
+    expect(component.user_id).toBe('')
+  })
+
+  it('openDailog should toggle dropdownContent', () => {
+    expect(component.dropdownContent).toBe(false)
+    component.openDailog()
+    expect(component.dropdownContent).toBe(true)
+    component.openDailog()
+    expect(component.dropdownContent).toBe(false)
+  })
+
+  it('closeDailog should set dropdownContent to false when it is true', () => {
+    component.dropdownContent = true
+    component.closeDailog()
+    expect(component.dropdownContent).toBe(false)
+  })
+
+  it('closeDailog should not change dropdownContent when it is already false', () => {
+    component.dropdownContent = false
+    component.closeDailog()
+    expect(component.dropdownContent).toBe(false)
+  })
+
+  it('getAccessToken should not read tokens from localStorage (tokens are no longer persisted)', async () => {
+    // Security: access/refresh tokens are no longer persisted in localStorage,
+    // so getAccessToken must return '' even when legacy token data is present.
+    const tokenData = JSON.stringify({ token: { access_token: 'my-token-123' } })
+    localStorage.setItem('loginDetailsWithToken', tokenData)
+    const result = await component.getAccessToken()
+    expect(result).toBe('')
+    localStorage.removeItem('loginDetailsWithToken')
+  })
+
+  it('getAccessToken should return empty string when no localStorage data', async () => {
+    localStorage.removeItem('loginDetailsWithToken')
+    const result = await component.getAccessToken()
+    expect(result).toBe('')
+  })
+
+  it('getReadNotifications should set readNotificationList when userId matches', async () => {
+    mockStorage.getLocalStorage = jest.fn().mockResolvedValue({
+      userId: 'user123',
+      notifications: [{ id: '1', status: 'read' }],
+    })
+    component.user_id = 'user123'
+    component.getReadNotifications()
+    await Promise.resolve()
+    expect(component.readNotificationList).toEqual([{ id: '1', status: 'read' }])
+  })
+
+  it('getReadNotifications should not update when userId does not match', async () => {
+    mockStorage.getLocalStorage = jest.fn().mockResolvedValue({
+      userId: 'other-user',
+      notifications: [{ id: '1', status: 'read' }],
+    })
+    component.user_id = 'user123'
+    component.getReadNotifications()
+    await Promise.resolve()
+    expect(component.readNotificationList).toEqual([])
+  })
+
+  it('setAllNotificationList should merge and sort notifications', () => {
+    component.readNotificationList = [{ createdon: '2025-01-01T00:00:00Z', status: 'read' }]
+    component.unReadNotificationList = [{ createdon: '2025-01-02T00:00:00Z', status: 'unread' }]
+    component.setAllNotificationList()
+    expect(component.allnotificationList.length).toBe(2)
+    expect(component.allnotificationList[0].status).toBe('unread')
+  })
+
+  it('setAllNotificationList should not change allnotificationList when both lists are empty', () => {
+    component.readNotificationList = []
+    component.unReadNotificationList = []
+    component.allnotificationList = []
+    component.setAllNotificationList()
+    expect(component.allnotificationList).toEqual([])
+  })
+
+  it('deleteNotification should remove item from readNotificationList when status is read', async () => {
+    const item = { id: '1', status: 'read' }
+    component.readNotificationList = [item]
+    component.user_id = 'user123'
+    await component.deleteNotification(item)
+    expect(component.readNotificationList.length).toBe(0)
+    expect(mockStorage.setLocalStorage).toHaveBeenCalled()
+  })
+
+  describe('notificationAction', () => {
+    it('should navigate to course overview on actionType course', async () => {
+      const item = { data: { actionData: { actionType: 'course', identifier: 'do_123' } } }
+      await component.notificationAction(item)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/do_123/overview'], { replaceUrl: true })
+    })
+
+    it('should navigate to course overview on actionType certificate', async () => {
+      const item = { data: { actionData: { actionType: 'certificate', identifier: 'do_456' } } }
+      await component.notificationAction(item)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/do_456/overview'], { replaceUrl: true })
+    })
+
+    it('should close dialog even when item has no actionData', async () => {
+      const item = { data: {} }
+      await component.notificationAction(item)
+      expect(mockDialogRef.close).toHaveBeenCalled()
+    })
+  })
+
+  it('handleKeyDown should call readNotification on Enter key', () => {
+    const item = { id: '1', status: 'unread', data: { actionData: { actionType: 'course' } } }
+    component.unReadNotificationList = [item]
+    const spy = jest.spyOn(component, 'readNotification').mockImplementation(() => Promise.resolve())
+    const event = { key: 'Enter', preventDefault: jest.fn() } as any
+    component.handleKeyDown(event, item)
+    expect(spy).toHaveBeenCalledWith(item)
+    expect(event.preventDefault).toHaveBeenCalled()
+  })
+
+  it('handleKeyDown should not call readNotification for other keys', () => {
+    const item = { id: '1', status: 'unread' }
+    const spy = jest.spyOn(component, 'readNotification').mockImplementation(() => Promise.resolve())
+    const event = { key: 'Tab', preventDefault: jest.fn() } as any
+    component.handleKeyDown(event, item)
+    expect(spy).not.toHaveBeenCalled()
+  })
+
+  it('ngAfterViewInit should call renderer.listen', () => {
+    component.ngAfterViewInit()
+    expect(mockRenderer.listen).toHaveBeenCalledWith('document', 'click', expect.any(Function))
+  })
+
+  it('onTouchEnd should set transform to threshold when movedX is less than threshold', () => {
+    const element = { style: { transform: '' } } as HTMLElement
+    component.movedX = -100
+    component.onTouchEnd({} as TouchEvent, element, 0)
+    expect(element.style.transform).toBe('translateX(-80px)')
+  })
+
+  it('isWebView$ map callback emits opposite of isXSmall$', () => {
+    const xSmallSubject = new Subject<boolean>()
+    const localValueSvc = { isXSmall$: xSmallSubject.asObservable() }
+    const localComponent = new NotificationsComponent(
+      mockEvents, mockStorage, mockRouter, mockRenderer,
+      mockConfigSvc, localValueSvc as any,
+      mockDialogRef as MatDialogRef<any>, mockCdr as ChangeDetectorRef,
+      { log: jest.fn(), warn: jest.fn(), error: jest.fn() } as any,
+    )
+    const results: boolean[] = []
+    localComponent.isWebView$.subscribe((v: boolean) => results.push(v))
+    xSmallSubject.next(false)
+    xSmallSubject.next(true)
+    expect(results).toEqual([true, false])
+  })
+
+  it('connectSocket creates socket, handles connect event, and calls setAllNotificationList', async () => {
+    const { io: mockIo } = require('socket.io-client')
+    const mockSocketObj = {
+      on: jest.fn((event: string, cb: any) => { if (event === 'connect') cb() }),
+      emit: jest.fn(),
+      connected: true,
+      disconnect: jest.fn(),
+    }
+    mockIo.mockReturnValue(mockSocketObj)
+    const logSpy = jest.fn()
+    ;(component as any).logger = { log: logSpy, warn: jest.fn(), error: jest.fn() }
+    await component.connectSocket()
+    expect(mockSocketObj.on).toHaveBeenCalledWith('connect', expect.any(Function))
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Connected'))
+  })
+
+  it('ngAfterViewInit renderer listen callback is invocable and does not throw', () => {
+    let capturedCallback: Function | undefined
+    mockRenderer.listen = jest.fn((_target: any, _event: any, cb: any) => { capturedCallback = cb })
+    component.ngAfterViewInit()
+    expect(() => capturedCallback!(new Event('click'))).not.toThrow()
+  })
+
+  it('handleAction with unknown message hits default branch', () => {
+    component.handleAction('unknown_action')
+    expect(component.dropdownContent).toBe(true)
+  })
+
+  it('readNotification calls notificationAction and returns early when item is already read', async () => {
+    const item = { id: '1', status: 'read', data: { actionData: { actionType: 'course', identifier: 'do_1' } } }
+    const spy = jest.spyOn(component, 'notificationAction').mockResolvedValue(undefined as any)
+    await component.readNotification(item)
+    expect(spy).toHaveBeenCalledWith(item)
+    expect(mockSocket.emit).not.toHaveBeenCalledWith('markAsRead', expect.any(Object))
+  })
+
+  it('notificationAction calls closeDailog when dropdownContent is true', async () => {
+    component.dropdownContent = true
+    const closeSpy = jest.spyOn(component, 'closeDailog')
+    await component.notificationAction({ data: {} })
+    expect(closeSpy).toHaveBeenCalled()
+  })
+
+  it('notificationAction handles other actionType', async () => {
+    const item = { data: { actionData: { actionType: 'other', identifier: 'other-1' } } }
+    await expect(component.notificationAction(item)).resolves.not.toThrow()
+    expect(mockDialogRef.close).toHaveBeenCalled()
   })
 })

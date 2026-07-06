@@ -1,81 +1,238 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
+
+// ── Shimmer skeleton ──────────────────────────────────────────────────────────
+// Mirrors the org page layout: banner → logo → text block → course card rows.
+// The .shimmer base class provides the sweeping gradient animation.
+// All measurements match the real elements so there's no layout jump on load.
+
+@keyframes shimmerSlide {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
+  background-size: 600px 100%;
+  animation: shimmerSlide 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+.org-shimmer-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+// Banner — same height as the real banner image
+.org-shimmer-banner {
+  width: 100%;
+  height: 220px;
+  border-radius: 0;
+
+  @include ws-mixins.breakpoint-xs {
+    height: 130px;
+  }
+}
+
+// Circular logo — floats over the bottom-left of the banner, same size as .org-logo
+.org-shimmer-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: -40px 0 0 16px;  // pull up so it overlaps the banner bottom edge
+  position: relative;
+  z-index: 1;
+}
+
+// Text lines block (name, about, filter pills)
+.org-shimmer-text-block {
+  padding: 12px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.org-shimmer-line {
+  display: block;
+  border-radius: 4px;
+}
+
+.org-shimmer-name    { width: 55%; height: 18px; }
+.org-shimmer-about-1 { width: 90%; height: 12px; }
+.org-shimmer-about-2 { width: 70%; height: 12px; }
+
+// Language filter pill shimmers
+.org-shimmer-pills {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.org-shimmer-pill {
+  width: 70px;
+  height: 32px;
+  border-radius: 20px;
+}
+
+.banner-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+// position:relative scoped to the banner image area so .banner-logo-wrap and
+// shimmer overlays anchor to the banner bottom, not the full page height.
+.banner-image-section {
+  position: relative;
+  width: 100%;
+  margin-bottom: 72px;
+  overflow: visible;
+
+  @include ws-mixins.breakpoint-s {
+    margin-bottom: 64px;
+  }
+}
+
+// Banner image shimmer — sits on top of the real <img> until (load) fires.
+// Matches .banner height; position:absolute inside .banner-container.
+.org-shimmer-banner-img {
+  width: 100%;
+  height: 220px;
+  border-radius: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  @include ws-mixins.breakpoint-xs {
+    height: 130px;
+  }
+}
+
+// Logo shimmer — fills .image-outer completely.
+// .image-outer already has overflow:hidden + border-radius:84px, so this div
+// is clipped to the circle shape without needing its own border-radius.
+.org-shimmer-logo-img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+// Keeps the real <img> in the layout (so the container holds its size) but
+// invisible while downloading. Cleared the moment (load) flips the flag.
+.org-img-hidden {
+  opacity: 0;
+}
+
+// Course section rows (one per CNE group)
+.org-shimmer-section {
+  padding: 16px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.org-shimmer-section-header {
+  width: 40%;
+  height: 14px;
+}
+
+// Horizontal row of card placeholders
+.org-shimmer-card-row {
+  display: flex;
+  gap: 12px;
+  overflow: hidden;  // hide overflow so it looks like a scroll container
+}
+
+.org-shimmer-card {
+  flex-shrink: 0;
+  width: 140px;
+  height: 120px;
+  border-radius: 8px;
+
+  @include ws-mixins.breakpoint-xs {
+    width: 120px;
+    height: 100px;
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 .default-banner{
   display: flex;
   justify-content: flex-end;
-  background: #EEF8F8 !important;
+  background: var(--theme-ellipse, #EEF8F8) !important;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
      height: 300px;
     }
 
 }
 .load-more-block{
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
      padding-bottom: 50px;
     }
 }
 .default-banner-img{
   position: relative;
-    height: 372px;
-    background-size: cover;
-    background-position: center;
-    padding: 20px 20px 0px 0px;
-      @include breakpoint-xs {
-       width: 298px;
-      height: 442px;
-      }
+  display: block;
+  width: auto;
+  height: 100%;
+  padding: 0;
 }
 .banner {
-      position: relative;
-      width: 100%;
-      height: 392px;
-      background-size: cover;
-      background-position: center;
-    }
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
 
     .logo {
       position: relative;
       top: 87%;
       left: 12%;
       transform: translate(-50%, -50%);
-      width: 212px;
-      height: 212px;
+      width: 140px;
+      height: 140px;
       flex-shrink: 0;
       background-size: cover;
       background-position: center;
-      border-radius: 212px;
+      border-radius: 140px;
       border: 0.2px solid #000;
     }
     .org-body{
       display: flex;
       flex-direction: column;
-      padding: 0px 150px 0px 150px;
-      margin-top: -60px;
-      @include breakpoint-s {
+      padding: 0px 80px 0px 80px;
+      margin-top: 0;
+      @include ws-mixins.breakpoint-s {
         padding: 0px 50px 0px 50px;
-        margin-top: -45px;
+        margin-top: 0;
       }
     }
 .org-name{
-color: #000;
+color: var(--theme-text, #000);
 /* Display 2 */
-font-size: 40px;
+font-size: 28px;
 font-family: Roboto, sans-serif;
-line-height: 48px;
+line-height: 36px;
 letter-spacing: -0.8px;
-color: #000;
+color: var(--theme-text, #000);
 /* Display 2 */
 font-family: Roboto, sans-serif;
-font-size: 40px;
+font-size: 28px;
 font-style: normal;
 font-weight: 400;
-line-height: 48px;
+line-height: 36px;
 letter-spacing: -0.8px;
- @include breakpoint-xs {
-        color: #000;
+ @include ws-mixins.breakpoint-xs {
+        color: var(--theme-text, #000);
 /* Header 2 */
 font-family: Roboto, sans-serif;
 font-size: 24px;
@@ -86,27 +243,29 @@ letter-spacing: -0.48px;
   }
 }
 .org-desc{
-  color: #000;
+  color: var(--theme-text, #000);
 /* Header 3 */
-font-size: 20px;
+font-size: 16px;
 font-family: Roboto, sans-serif;
-line-height: 24px;
+line-height: 20px;
 letter-spacing: -0.4px;
 }
 .org-details{
-color: #1C5D95;
+color: var(--theme-accent, #1c5d95);
 font-size: 16px;
 font-family: Roboto, sans-serif;
 line-height: 18.93px;
 letter-spacing: -0.32px;
 margin: 0px 0px 15px 0px;
+display: flex;
+align-items: center;
 }
 .org-details-block{
   display: flex;
   // align-items: center;
   margin: 5px 0px;
   flex-direction: column;
-   @include breakpoint-xs {
+   @include ws-mixins.breakpoint-xs {
 // padding-left: 15px;
   }
 }
@@ -122,9 +281,9 @@ margin: 0px 0px 15px 0px;
 
 .card-standard-container {
   display: flex;
-  $card-padding: $size-m;
+  $card-padding: ws-vars.$size-m;
   padding-bottom: 0px !important;
-  $action-btn-size: 2.5 * $size-m;
+  $action-btn-size: 2.5 * ws-vars.$size-m;
   $card-width: 293px;
   position: relative;
   width: $card-width;
@@ -135,22 +294,22 @@ margin: 0px 0px 15px 0px;
   float: left;
   //margin-top: 15px;
   border-radius: 9.398px !important;
-  background: #FFF !important;
+  background: var(--theme-surface, #FFF) !important;
 
   min-height: 100px;
   // max-height: 200px;
   height: auto;
-  box-shadow: 0px 0px 3.7592592239379883px 0px rgba(0, 0, 0, 0.15)!important;
+  box-shadow: var(--theme-shadow, 0px 0px 3.7592592239379883px 0px rgba(0, 0, 0, 0.15))!important;
   .mde-popover-content {
-    background-color: #fff;
+    background-color: var(--theme-surface, #fff);
   }
 
   .source-div {
     position: relative;
     top: 100px;
-    background: white;
+    background: var(--theme-surface, white);
     z-index: 3;
-    border: 1px solid #dedfe0;
+    border: 1px solid var(--theme-border, #dedfe0);
     min-width: 72px;
     min-height: 72px;
     max-width: 72px;
@@ -248,7 +407,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
 
 .border-top {
   margin-top: 25px;
-  border-top: solid 1px rgba(221, 221, 221, 0.89);
+  border-top: solid 1px var(--theme-border, rgba(221, 221, 221, 0.89));
 }
 
 .heading-title {
@@ -260,35 +419,43 @@ mat-card.card-standard-container.mr-8 .mat-card {
   float: left;
   width: 100%;
 }
+.banner-logo-wrap {
+  position: absolute;
+  left: 80px;
+  bottom: 0;
+  z-index: 2;
+  transform: translateY(50%);
+
+  @include ws-mixins.breakpoint-s {
+    left: 50px;
+  }
+}
+
 .image-outer {
-    display: flex;
-    align-items: center;
-    border-radius: 84px;
-    overflow: hidden;
-    justify-content: center;
-    border: solid 1px #dfdfdf;
-     position: relative;
-      top: 87%;
-      left: 12%;
-      transform: translate(-50%, -50%);
-      width: 212px;
-      height: 212px;
-      flex-shrink: 0;
-      background-size: cover;
-      background-position: center;
-      border-radius: 212px;
-      border: 0.2px solid #000;
-      background-color: #fff;
-      @include breakpoint-s {
-      top: 87%;
-      left: 20%;
-      width: 190px;
-      height: 190px;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 140px;
+  border: 0.2px solid #000;
+  background-color: var(--theme-surface, #fff);
+
+  @include ws-mixins.breakpoint-s {
+    width: 120px;
+    height: 120px;
+  }
 }
 
 .org-logo {
-  max-width: 150px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 .align-logo {
@@ -310,9 +477,14 @@ mat-card.card-standard-container.mr-8 .mat-card {
 .popover-card {
   min-width: 350px;
   max-width: 350px;
-  max-height: 500px;
-  box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
-  background-color: #fff;
+  max-height: auto;
+  box-shadow: none !important;
+  background-color: var(--theme-surface, #fff);
+  color: var(--theme-text, #101828);
+  .mat-mdc-button-base {
+    background-color: var(--theme-accent, #f7c57a);
+    color: var(--theme-on-accent, #ffffff);
+  }
 }
 
 .photo {
@@ -330,6 +502,64 @@ mat-card.card-standard-container.mr-8 .mat-card {
 }
 .about-text {
   font-size: 18px;
+}
+
+:host {
+  color: var(--theme-text, #101828);
+}
+
+:host-context(.dark-theme) {
+  .banner-container,
+  .course-container,
+  .container,
+  .popover-card,
+  .image-outer {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .default-banner-img,
+  // .org-logo,
+  .org-details img,
+  .filter-btn img,
+  .competency-block img,
+  .cne-block img {
+    filter: brightness(0) invert(1);
+  }
+
+  .course-name,
+  .by-org-name,
+  .filter-label,
+  .org-desc,
+  .org-name,
+  .average-rating,
+  .time-text,
+  .description-text,
+  p,
+  span,
+  h3 {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .filter-btn,
+  .view-all-course,
+  .load-more {
+    background: var(--theme-surface, #17242d);
+    color: var(--theme-text, #ecf3f8);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .filter-btn.active,
+  .load-more,
+  .view-all-course {
+    background: var(--theme-accent, #78b7ff);
+    color: var(--theme-on-accent, #08131b);
+  }
+
+  .course-header,
+  .header1,
+  .header0 {
+    color: #4B4B4B !important;
+  }
 }
 @media (max-width: 500px) {
   .flex-main {
@@ -369,24 +599,94 @@ mat-card.card-standard-container.mr-8 .mat-card {
 }
 .course-container{
     padding: 0px 150px 0px 150px;
-     @include breakpoint-s {
+     @include ws-mixins.breakpoint-s {
         padding: 0px 50px 0px 50px;
       }
 }
+.line-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+  min-height: 42px;
+}
+
+.line-label::after {
+  content: '';
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background-color: #CBC9B5;
+  z-index: 0;
+}
+
+.bg-green::after {
+  background: #A4DFCA;
+}
+
+.heading-line-yellow::after {
+  background: #F6F3D9;
+}
+
+.heading-line-teal::after {
+  background: #C2E3DD;
+}
+
+.heading-line {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border-top: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.header1 {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  color: #4B4B4B;
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28.8px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background-color: #F6F3D9 !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+}
+.header0 {
+  background-color: #C2E3DD !important;
+  color: #4B4B4B !important;
+}
+
 .course-header{
-  margin-top: 25px;
-  color: #000;
-/* Header 1 */
-font-size: 32px;
+position: relative;
+z-index: 1;
+display: inline-flex;
+align-items: center;
+  color: #4B4B4B;
+font-size: 18px;
 font-family: Roboto, sans-serif;
-line-height: 38.4px;
-letter-spacing: -0.64px;
+font-weight: 500;
+line-height: 28.8px;
+letter-spacing: 0.02em;
+text-transform: uppercase;
+background-color: #F6F3D9 !important;
+border-radius: 4px !important;
+padding: 8px 12px !important;
 }
 .load-more{
   cursor: pointer;
   border-radius: 50px;
-border: 1px solid #2E6491;
-color: #2E6491;
+border: 1px solid var(--theme-accent, #2E6491);
+color: var(--theme-accent, #2E6491);
 font-size: 16px;
 font-family: Roboto, sans-serif;
 padding: 8px 32px;
@@ -400,6 +700,42 @@ background-color: #fff;
   flex-wrap: wrap;
 }
 @media (min-width:320px) and (max-width:600px)  {
+  .line-label {
+    justify-content: center;
+    min-height: 34px;
+  }
+
+  .line-label::after {
+    width: 100%;
+    height: 2px;
+    background-color: #CBC9B5;
+  }
+
+  .bg-green::after {
+    background: #A4DFCA;
+  }
+
+  .heading-line-yellow::after {
+    background: #F6F3D9;
+  }
+
+  .heading-line-teal::after {
+    background: #C2E3DD;
+  }
+
+  .heading-line {
+    justify-content: center;
+  }
+
+  .course-header,
+  .header1 {
+    font-size: 14px;
+    line-height: 20px;
+    padding: 6px 10px !important;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+
 // .course-body{
 //   padding: 0px 15px;
 //   padding-bottom: 30px;
@@ -409,31 +745,36 @@ background-color: #fff;
    margin-bottom: 15px !important;
 }
     .image-outer{
-      top: 87%;
-      left: 23%;
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
     }
+  .banner-image-section {
+    margin-bottom: 45px;
+  }
+  .banner-logo-wrap {
+    left: 16px;
+  }
   .org-logo {
-    max-width: 88px;
+    width: 100%;
+    height: 100%;
   }
   .banner{
     margin-top: 50px;
-      height: 225px;
   }
   .org-body {
     padding: 10px;
+    margin-top: 0;
   }
   .org-name {
     font-size: 18px;
     line-height: 22px;
-    padding-top: 26px;
+    padding-top: 5px;
     // padding-left: 15px;
 }
 .org-desc{
    font-size: 14px;
     line-height: 20px;
-    color: #000;
+    color: var(--theme-text, #000);
 font-family: Roboto, sans-serif;
 font-size: 14px;
 font-style: normal;
@@ -456,14 +797,14 @@ letter-spacing: -0.28px;
 }
 
 .course-name{
-  color: #1C5D95;
+  color: var(--theme-accent, #1c5d95);
   font-size: 16px;
   font-family: Roboto, sans-serif;
   letter-spacing: -0.32px;
   margin: 10px;
 }
 .by-org-name{
-  color: #747474;
+  color: var(--theme-text-soft, #747474);
   font-size: 12px;
   font-family: Roboto, sans-serif;
   line-height: 13.533px;
@@ -471,7 +812,7 @@ letter-spacing: -0.28px;
   padding-left: 15px;
 }
 .rating{
-  color: #747474;
+  color: var(--theme-text-soft, #747474);
 font-size: 12px;
 font-family: Roboto, sans-serif;
 line-height: 13.533px;
@@ -493,7 +834,7 @@ letter-spacing: -0.24px;
     padding: 0px 10px;
 }
 .cne-content{
-  color: #FFF;
+  color: var(--theme-text, #FFF);
 font-size: 12px;
 font-family: Roboto, sans-serif;
 line-height: 13.533px;
@@ -506,7 +847,8 @@ height: 25px;
 font-size: 12px;
   border-radius: 15px;
 background: #519DB2;
-color: #FFF;
+background: var(--theme-ellipse, #519DB2);
+color: var(--theme-text, #FFF);
 margin: 0px;
     align-items: center;
     display: flex;
@@ -519,40 +861,41 @@ margin: 0px;
   padding: 0px 15px;
 }
 .border-content{
-  background: #FFF;
+  background: var(--theme-border, #FFF);
 }
 .competency-block{
   display: flex;
   padding: 0px 15px;
 }
 .complexity-details{
-  color: #000;
+  color: var(--theme-text, #000);
 font-size: 11.278px;
 font-family: Roboto, sans-serif;
 line-height: 13.533px;
 letter-spacing: -0.226px;
 }
- @include breakpoint-s {
+ @include ws-mixins.breakpoint-s {
   .course-header{
-    /* Header 2 */
-font-family: Roboto, sans-serif;
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: 28.8px;
-letter-spacing: -0.48px;
+    font-family: Roboto, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-transform: uppercase;
   }
 }
- @include breakpoint-xs {
+ @include ws-mixins.breakpoint-xs {
   .course-header{
-    /* Header 2 */
-font-family: Roboto, sans-serif;
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: 28.8px;
-letter-spacing: -0.48px;
-// padding-left: 15px;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-transform: uppercase;
   }
 }
 #navy-blue-bg {
@@ -574,6 +917,7 @@ line-height: 13.53px;
 letter-spacing: -0.02em;
 text-align: left;
 color: #747474;
+color: var(--theme-text-soft, #747474);
 padding-top: 3px !important;
 
 }
@@ -585,7 +929,7 @@ font-weight: 400;
 line-height: 16.8px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #000000;
+color: var(--theme-text, #000000);
 
 }
 .view-all-course {
@@ -595,9 +939,9 @@ cursor: pointer;
     align-items: center;
     gap: 8px;
     border-radius: 50px;
-    color: #2E6491;
+    color: var(--theme-accent, var(--theme-accent, #2E6491));
     text-decoration: underline;
-    background: white;
+    background: var(--theme-surface, #f8f8f8);
     border: none;
     font-family: Roboto, sans-serif;
     font-size: 16px;
@@ -619,4 +963,60 @@ left: 1px;
 gap: 0px;
 
 
+}
+
+.language-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1rem;
+
+  .filter-label {
+    color: var(--theme-text, #000) !important;
+    width: 125;
+height: 19;
+font-family: Roboto;
+font-weight: 400;
+font-style: Regular;
+font-size: 16px;
+line-height: 100%;
+letter-spacing: -2%;
+
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    width: 88px;
+    height: 38px;
+    background-color: var(--theme-surface, #ffffff);
+    border-radius: 50px;
+    color: var(--theme-accent, #1c5d95);
+    border: 1px solid var(--theme-accent, #1c5d95);
+    font-size: 16px;
+    line-height: 19px;
+    float: right;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active {
+      background-color: var(--theme-accent, #1c5d95);
+      color: var(--theme-on-accent, white);
+      border-color: var(--theme-accent, #1c5d95);
+    }
+  }
+}
+
+.dark-theme .shimmer {
+  background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px) !important;
+}
+
+
+.lang-empty-state {
+  color: #888;
+  font-size: 14px;
+  padding: 16px 0;
 }

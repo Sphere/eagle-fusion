@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, forwardRef, ViewChild, ElementRef } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '@ws-widget/utils'
@@ -8,16 +8,18 @@ import { AppTocService } from '../../services/app-toc.service'
 import { AppDateAdapter, APP_DATE_FORMATS, startWithYearformat } from '../../../user-profile/services/format-datepicker'
 
 @Component({
-  selector: 'ws-app-create-batch-dialog',
-  templateUrl: './create-batch-dialog.component.html',
-  styleUrls: ['./create-batch-dialog.component.scss'],
-  providers: [
-    { provide: forwardRef(() => DateAdapter), useClass: forwardRef(() => AppDateAdapter) },
-    { provide: forwardRef(() => MAT_DATE_FORMATS), useValue: forwardRef(() => APP_DATE_FORMATS) },
-  ],
+    standalone: false,
+    selector: 'ws-app-create-batch-dialog',
+    templateUrl: './create-batch-dialog.component.html',
+    styleUrls: ['./create-batch-dialog.component.scss'],
+    providers: [
+        { provide: forwardRef(() => DateAdapter), useClass: forwardRef(() => AppDateAdapter) },
+        { provide: forwardRef(() => MAT_DATE_FORMATS), useValue: forwardRef(() => APP_DATE_FORMATS) },
+    ],
+    
 })
 export class CreateBatchDialogComponent implements OnInit {
-  createBatchForm: FormGroup
+  createBatchForm: UntypedFormGroup
   enrollmentTypes = ['open', 'closed']
   namePatern = `^[a-zA-Z\\s\\']{1,32}$`
   today = new Date()
@@ -32,17 +34,17 @@ export class CreateBatchDialogComponent implements OnInit {
     private snackBar: MatSnackBar,
     private configSvc: ConfigurationsService
   ) {
-    this.createBatchForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.pattern(this.namePatern)]),
-      description: new FormControl('', []),
-      enrollmentType: new FormControl(this.enrollmentTypes[0], [Validators.required]),
-      startDate: new FormControl('', [Validators.required]),
-      endDate: new FormControl('', []),
-      enrollmentEndDate: new FormControl('', []),
+    this.createBatchForm = new UntypedFormGroup({
+      name: new UntypedFormControl('', [Validators.required, Validators.pattern(this.namePatern)]),
+      description: new UntypedFormControl('', []),
+      enrollmentType: new UntypedFormControl(this.enrollmentTypes[0], [Validators.required]),
+      startDate: new UntypedFormControl('', [Validators.required]),
+      endDate: new UntypedFormControl('', []),
+      enrollmentEndDate: new UntypedFormControl('', []),
       // createdFor: new FormControl('', []),
-      mentors: new FormControl('', []),
-      courseId: new FormControl('', []),
-      createdBy: new FormControl('', []),
+      mentors: new UntypedFormControl('', []),
+      courseId: new UntypedFormControl('', []),
+      createdBy: new UntypedFormControl('', []),
     })
   }
 
@@ -86,7 +88,7 @@ export class CreateBatchDialogComponent implements OnInit {
         this.uploadSaveData = false
       })
   }
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
