@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { EditorContentService } from '../editor/services/editor-content.service'
 import { EditorService } from '../editor/services/editor.service'
-// import { CatalogSelectModule } from './../editor/shared/components/catalog-select/catalog-select.module'
 @NgModule({
   declarations: [
 
@@ -13,8 +12,7 @@ import { EditorService } from '../editor/services/editor.service'
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule,
-    // CatalogSelectModule,
+    RouterModule
   ],
   providers: [UploadService, EditorContentService, EditorService],
 })

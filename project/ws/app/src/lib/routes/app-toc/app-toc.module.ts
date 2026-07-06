@@ -33,10 +33,8 @@ import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-conte
 import { AppTocReferencesComponent } from './routes/app-toc-references/app-toc-references.component'
 import { AppTocHomeComponent } from './components/app-toc-home/app-toc-home.component'
 import { AppTocHomeComponent as AppTocHomeRootComponent } from './routes/app-toc-home/app-toc-home.component'
-import { AppTocOverviewComponent } from './components/app-toc-overview/app-toc-overview.component'
 import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
 import { AppTocContentCardComponent } from './components/app-toc-content-card/app-toc-content-card.component'
-import { AppTocDiscussionComponent } from './components/app-toc-discussion/app-toc-discussion.component'
 
 // services
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
@@ -66,7 +64,6 @@ import {
   PipeContentRoutePipe,
   CardContentModule,
 } from '@ws-widget/collection'
-import { AppTocOverviewDirective } from './routes/app-toc-overview/app-toc-overview.directive'
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
 import { AppTocHomeDirective } from './routes/app-toc-home/app-toc-home.directive'
 import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
@@ -87,11 +84,8 @@ import { TranslateModule } from '@ngx-translate/core'
     AppTocContentsComponent,
     AppTocReferencesComponent,
     AppTocHomeComponent,
-    AppTocOverviewComponent,
     AppTocCohortsComponent,
     AppTocContentCardComponent,
-    AppTocDiscussionComponent,
-    AppTocOverviewDirective,
     AppTocOverviewRootComponent,
     AppTocHomeDirective,
     AppTocHomeRootComponent,
@@ -169,7 +163,7 @@ import { TranslateModule } from '@ngx-translate/core'
       deps: [[new Optional(), new SkipSelf(), DiscussionService]],
     },
   ],
-  exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
+  exports: [AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppTocModule { }

@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy, ChangeDetectorRef } from '@angular/core'
-import { AppTocOverviewDirective } from './app-toc-overview.directive'
+import { Component, OnInit, Input, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { AccessControlService } from '@ws/author'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { ActivatedRoute, Data, Router } from '@angular/router'
@@ -18,8 +17,6 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 
 })
 export class AppTocOverviewComponent implements OnInit, OnDestroy {
-
-  @ViewChild(AppTocOverviewDirective, { static: true }) wsAppAppTocOverview!: AppTocOverviewDirective
   content: NsContent.IContent | null = null
   routeSubscription: Subscription | null = null
   tocStructure: NsAppToc.ITocStructure | null = null

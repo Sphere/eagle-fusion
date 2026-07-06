@@ -39,14 +39,13 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import { ViewerComponent } from './viewer.component'
 import { ViewerTocComponent } from './components/viewer-toc/viewer-toc.component'
 import { ViewerTopBarModule } from './components/viewer-top-bar/viewer-top-bar.module'
-import { FilterResourcePipe } from './pipes/filter-resource.pipe'
 import { UserImageModule } from './../../../../../library/ws-widget/collection/src/lib/_common/user-image/user-image.module'
 import { AppTocModule } from '@ws/app'
 import { QuizModule } from './plugins/quiz/quiz.module'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
-  declarations: [ViewerComponent, ViewerTocComponent, FilterResourcePipe],
+  declarations: [ViewerComponent, ViewerTocComponent],
   imports: [
     CommonModule,
     MatCardModule,

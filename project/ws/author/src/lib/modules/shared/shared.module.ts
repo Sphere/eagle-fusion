@@ -35,8 +35,6 @@ import { MatStepperModule } from '@angular/material/stepper'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTreeModule } from '@angular/material/tree'
-// import { ImageCropModule } from '@ws-widget/utils/src/public-api'
-import { AuthEditorStepsComponent } from './components/auth-editor-steps/auth-editor-steps.component'
 import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component'
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
 import { ErrorParserComponent } from './components/error-parser/error-parser.component'
@@ -52,7 +50,6 @@ import { ShowHideToolTipDirective } from './directives/show-hide-tool-tip.direct
 import { StatusTrackComponent } from './components/status-track/status-track.component'
 import { PlayerNavigationWidgetComponent } from '../../../../../../../library/ws-widget/collection/src/lib/player-navigation-widget/player-navigation-widget.component'
 import { RouterModule } from '@angular/router'
-import { CourseRatingDialogComponent } from './components/course-rating/course-rating-dialog.component'
 import { TextFieldModule } from '@angular/cdk/text-field'
 
 @NgModule({
@@ -61,11 +58,9 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         NotificationComponent,
         CommentsDialogComponent,
         ConfirmDialogComponent,
-        AuthEditorStepsComponent,
         ErrorParserComponent,
         StatusDisplayComponent,
         DeleteDialogComponent,
-        CourseRatingDialogComponent,
         RestoreDialogComponent,
         UnpublishDialogComponent,
         ShowHideToolTipDirective,
@@ -147,13 +142,10 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         MatTreeModule,
         MatRadioModule,
         MatProgressBarModule,
-        // ImageCropModule,
-        AuthEditorStepsComponent,
         ErrorParserComponent,
         PipeContentRouteModule,
         StatusDisplayComponent,
         DeleteDialogComponent,
-        CourseRatingDialogComponent,
         RestoreDialogComponent,
         UnpublishDialogComponent,
         ShowHideToolTipDirective,

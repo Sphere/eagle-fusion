@@ -38,38 +38,6 @@ const routes: Routes = [
       content: ViewerResolve,
     },
   },
-  // {
-  //   path: 'certification',
-  //   data: {
-  //     resourceType: 'certification',
-  //   },
-  //   loadChildren: () =>
-  //     import('./routes/certification/certification.module').then(u => u.CertificationModule),
-  // },
-  // {
-  //   path: 'class-diagram',
-  //   data: {
-  //     resourceType: 'class-diagram',
-  //   },
-  //   loadChildren: () =>
-  //     import('./routes/class-diagram/class-diagram.module').then(u => u.ClassDiagramModule),
-  // },
-  // {
-  //   path: 'dnd-quiz',
-  //   data: {
-  //     resourceType: 'dnd-quiz',
-  //   },
-  //   loadChildren: () =>
-  //     import('./routes/dnd-quiz/dnd-quiz.module').then(u => u.DndQuizModule),
-  // },
-  // {
-  //   path: 'hands-on',
-  //   data: {
-  //     resourceType: 'hands-on',
-  //   },
-  //   loadChildren: () =>
-  //     import('./routes/hands-on/hands-on.module').then(u => u.HandsOnModule),
-  // },
   {
     path: 'html/:resourceId',
     component: HtmlComponent,
@@ -80,14 +48,6 @@ const routes: Routes = [
       content: ViewerResolve,
     },
   },
-  // {
-  //   path: 'html-picker',
-  //   data: {
-  //     resourceType: 'html-picker',
-  //   },
-  //   loadChildren: () =>
-  //     import('./routes/html-picker/html-picker.module').then(u => u.HtmlPickerModule),
-  // },
   {
     path: 'channel/:resourceId',
     data: {
@@ -106,14 +66,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/iap/iap.module').then(u => u.IapModule),
   },
-  // {
-  //   path: 'interactive-exercise',
-  //   data: {
-  //     resourceType: 'interactive-exercise',
-  //   },
-  //   loadChildren: () =>
-  //     import('./routes/interactive-exercise/interactive-exercise.module').then(u => u.InteractiveExerciseModule),
-  // },
   {
     path: 'pdf/:resourceId',
     component: PdfComponent,
@@ -132,14 +84,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/quiz/quiz.module').then(u => u.QuizModule),
   },
-  // {
-  //   path: 'rdbms-hands-on',
-  //   data: {
-  //     resourceType: 'rdbms-hands-on',
-  //   },
-  //   loadChildren: () =>
-  //     import('./routes/rdbms-hands-on/rdbms-hands-on.module').then(u => u.RdbmsHandsOnModule),
-  // },
   {
     path: 'resource-collection',
     data: {

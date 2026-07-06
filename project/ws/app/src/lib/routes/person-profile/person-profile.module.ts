@@ -28,9 +28,7 @@ import { ProfileBlogComponent } from './components/profile-blog/profile-blog.com
 import { ContentReviewedComponent } from './components/content-reviewed/content-reviewed.component'
 import { UserQnaComponent } from './components/user-qna/user-qna.component'
 import { UserdetailallComponent } from './components/userdetailall/userdetailall.component'
-import { UserGoalsComponent } from './components/user-goals/user-goals.component'
 import { BtnPageBackModule } from '@ws-widget/collection/src/lib/btn-page-back/btn-page-back.module'
-import { LastLearntComponent } from './components/last-learnt/last-learnt.component'
 import { ViewFollowpersonComponent } from './components/view-followperson/view-followperson.component'
 import { FollowListComponent } from './components/follow-list/follow-list.component'
 import { ProfileSettingsComponent } from './module/profile-settings/profile-settings.component'
@@ -50,8 +48,6 @@ import { FollowingListComponent } from './components/following-list/following-li
         ContentReviewedComponent,
         UserQnaComponent,
         UserdetailallComponent,
-        UserGoalsComponent,
-        LastLearntComponent,
         ViewFollowpersonComponent,
         FollowListComponent,
         ProfileSettingsComponent,

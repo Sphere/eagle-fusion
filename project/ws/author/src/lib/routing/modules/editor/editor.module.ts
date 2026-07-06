@@ -1,4 +1,3 @@
-import { CreateContentResolverService } from './services/create-content-resolver.service'
 import { AuthViewerModule } from '@ws/author/src/lib/modules/viewer/viewer.module'
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
@@ -17,8 +16,7 @@ import { EditorSharedModule } from './shared/shared.module'
     SharedModule,
   ],
   providers: [
-    EditorService,
-    CreateContentResolverService,
+    EditorService
   ],
 })
 export class EditorModule { }

@@ -7,12 +7,10 @@ import { IConditionsV2 } from './../../../../interface/conditions-v2'
 import { IFormMeta } from './../../../../interface/form'
 import { AuthInitService } from './../../../../services/init.service'
 import { EditorService } from './editor.service'
-import { IAssessmentDetails } from '../routing/modules/iap-assessment/interface/iap-assessment.interface'
 @Injectable()
 export class EditorContentService {
   originalContent: { [key: string]: NSContent.IContentMeta } = {}
   upDatedContent: { [key: string]: NSContent.IContentMeta } = {}
-  iapContent: { [key: string]: IAssessmentDetails } = {}
   public currentContent!: string
   public parentContent!: string
   public isSubmitted = false
@@ -101,16 +99,6 @@ export class EditorContentService {
     if (emit) {
       this.onContentChange.next(id)
     }
-  }
-
-  setIapContent(meta: IAssessmentDetails, id: string) {
-    this.iapContent[id] = {
-      ...(this.iapContent[id] ? this.iapContent[id] : {}),
-      ...JSON.parse(JSON.stringify(meta)),
-    }
-  }
-  getIapContent(id: string): IAssessmentDetails {
-    return this.iapContent[id]
   }
 
   reset() {

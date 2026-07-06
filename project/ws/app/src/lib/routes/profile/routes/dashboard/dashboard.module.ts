@@ -4,11 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component'
 import { HorizontalScrollerModule, PipeDurationTransformModule, DefaultThumbnailModule } from '@ws-widget/utils'
 import {
   UserImageModule,
-  // CardKnowledgeModule
 } from '@ws-widget/collection'
-// import { InterestModule } from './../interest/interest.module'
-// import { LearningModule } from './../learning/learning.module'
-// import { CompetencyModule } from './../competency/competency.module'
 import { MatCardModule } from '@angular/material/card'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatIconModule } from '@angular/material/icon'
@@ -19,13 +15,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatTooltipModule } from '@angular/material/tooltip'
 
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { CalendarModule } from '../../module/calendar-module/calendar.module'
 import { RouterModule } from '@angular/router'
-import { CoursePendingCardComponent } from './components/course-pending-card/course-pending-card.component'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
 
 @NgModule({
-  declarations: [DashboardComponent, CoursePendingCardComponent],
+  declarations: [DashboardComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -39,14 +33,9 @@ import { UserProfileService } from '../../../user-profile/services/user-profile.
     UserImageModule,
     WidgetResolverModule,
     PipeDurationTransformModule,
-    CalendarModule,
     RouterModule,
-    // CardKnowledgeModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    // InterestModule,
-    // LearningModule,
-    // CompetencyModule,
   ],
   providers: [UserProfileService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
