@@ -1,3 +1,5 @@
+@use 'ws-mixins';
+
 .asha-card {
   box-shadow:  0 0 8px #0f172a14;
   background-color: #F2FEFF;
@@ -5,6 +7,16 @@
   border-radius: 10px;
   margin-bottom: 20px;
   margin-inline: 24%;
+
+  @include ws-mixins.breakpoint-s {
+    margin-inline: 10%;
+  }
+
+  @include ws-mixins.breakpoint-xs {
+    margin-inline: 1rem;
+    padding: 14px;
+    margin-bottom: 16px;
+  }
 }
 
 
@@ -39,6 +51,9 @@
     font-weight: 400;
     line-height: 9.38px;
     text-align: center;
+    flex-shrink: 0;
+    align-self: flex-start;
+    white-space: nowrap;
 }
 
 .asha-m-title {
@@ -50,6 +65,12 @@
     text-align: left;
     display: flex;
     align-items: center;
+    word-break: break-word;
+
+    @include ws-mixins.breakpoint-xs {
+      font-size: 18px;
+      line-height: 1.3;
+    }
 }
 
 .levels-title {

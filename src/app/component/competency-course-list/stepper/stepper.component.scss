@@ -1,3 +1,5 @@
+@use 'ws-mixins';
+
 .stepper-container {
     display: flex;
     align-items: center;
@@ -29,6 +31,12 @@
     position: relative;
     z-index: 2;
 
+    @include ws-mixins.breakpoint-xs {
+      width: 28px;
+      height: 28px;
+      font-size: 13px;
+    }
+
     &.completed {
       background-color: var(--theme-progress);
       color: var(--theme-text);
@@ -36,8 +44,6 @@
     &.current {
       background-color: var(--theme-ellipse);
       color: var(--theme-text);
-      width: 32px;
-      height: 32px;
     }
     &.completed.current {
       background-color: var(--theme-progress); // keep completed green
@@ -56,6 +62,10 @@
     flex-grow: 1;
     margin: 0 0px;
     z-index: 1;
+
+    @include ws-mixins.breakpoint-xs {
+      height: 6px;
+    }
 
     &.completed {
       background-color: var(--theme-progress);

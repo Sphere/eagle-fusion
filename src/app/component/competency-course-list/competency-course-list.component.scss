@@ -37,6 +37,11 @@
     background: var(--mat-toolbar-container-background-color, #fff);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     margin-bottom: 12px;
+
+    @include ws-mixins.breakpoint-xs {
+      gap: 12px;
+      padding: 12px;
+    }
   }
 
   &__thumb {
@@ -45,6 +50,11 @@
     width: 120px;
     height: 90px;
     border-radius: 8px;
+
+    @include ws-mixins.breakpoint-xs {
+      width: 88px;
+      height: 66px;
+    }
   }
 
   &__body {
@@ -228,6 +238,10 @@ height: 42px;
   width: 112%;
   height: 1px; /* Adjust thickness as needed */
   background-color: #000; /* Adjust color as needed */
+
+  @include ws-mixins.breakpoint-lt-m {
+    width: 100%;
+  }
 }
 
 .bg-green::after {
@@ -250,6 +264,12 @@ height: 42px;
   line-height: 28.8px;
   letter-spacing: 0.02em;
   padding-inline: 0.8rem;
+
+  @include ws-mixins.breakpoint-xs {
+    font-size: 16px;
+    line-height: 24px;
+    padding-inline: 0.5rem;
+  }
 }
 
 .view-all-course {
