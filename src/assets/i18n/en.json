@@ -917,6 +917,7 @@
   "ENTER_VALID_MAIL_PHONE": "Please enter a valid email or phone number",
   "User successfully created": "User successfully created",
   "An error occurred": "An error occurred",
+  "Sorry ! User not created. Please try again in sometime.": "Sorry ! User not created. Please try again in sometime.",
   "PROFILE_UPDATE_ERR": "Error updating profile. Please try again.",
   "USER_AUTH_SUCCESS": "Success ! User is sucessfully authenticated.",
   "Success ! User is sucessfully authenticated.": "Success ! User is sucessfully authenticated.",

@@ -920,6 +920,7 @@
   "ENTER_VALID_MAIL_PHONE": "कृपया एक वैध ईमेल या फ़ोन नंबर दर्ज करें",
   "User successfully created": "उपयोगकर्ता सफलतापूर्वक बनाया गया",
   "An error occurred": "एक त्रुटि घटित हुई है",
+  "Sorry ! User not created. Please try again in sometime.": "क्षमा करें! उपयोगकर्ता नहीं बनाया गया। कृपया कुछ समय बाद पुनः प्रयास करें।",
   "PROFILE_UPDATE_ERR": "प्रोफ़ाइल अपडेट करने में त्रुटि। कृपया पुनः प्रयास करें।",
   "USER_AUTH_SUCCESS": "सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.",
   "Success ! User is sucessfully authenticated.": "सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.",
