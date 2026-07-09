@@ -180,4 +180,80 @@ describe('PublicCourseBlogComponent', () => {
       expect(result).toContain('2024')
     })
   })
+
+  describe('fetchCourse / updateSeo branches', () => {
+    it('should set notFound when result is null (optional chaining + nullish content)', () => {
+      mockHttp.post.mockReturnValue(of(null))
+      component.ngOnInit()
+      expect(component.notFound).toBe(true)
+      expect(component.isLoading).toBe(false)
+    })
+
+    it('should map totalNumberOfRatings onto totalRatingsCount when unset', () => {
+      mockHttp.post.mockReturnValue(of({ result: { content: [{ ...mockCourse, totalNumberOfRatings: 42 }] } }))
+      component.ngOnInit()
+      expect(component.course.totalRatingsCount).toBe(42)
+    })
+
+    it('should build SEO with fallbacks: no sourceName, no description, thumbnail, lang, aggregateRating', () => {
+      const richCourse = {
+        identifier: 'c9',
+        name: 'Rich Course',
+        averageRating: 4.5,
+        totalRatingsCount: 20,
+        lang: 'ta',
+        thumbnail: 'thumb.png',
+      }
+      mockHttp.post.mockReturnValue(of({ result: { content: [richCourse] } }))
+      component.ngOnInit()
+      const arg = mockSeoSvc.update.mock.calls[0][0]
+      expect(arg.description).toBe('Rich Course')
+      expect(arg.ogImage).toBe('thumb.png')
+      expect(arg.jsonLd.provider.name).toBe('Aastrika Sphere')
+      expect(arg.jsonLd.hasCourseInstance.inLanguage).toBe('Tamil')
+      expect(arg.jsonLd.aggregateRating.ratingValue).toBe(4.5)
+      expect(arg.jsonLd.aggregateRating.ratingCount).toBe(20)
+    })
+
+    it('should default aggregateRating ratingCount to 1 and omit ogImage when no icon/thumbnail', () => {
+      const c = { identifier: 'c10', name: 'C', averageRating: 3 }
+      mockHttp.post.mockReturnValue(of({ result: { content: [c] } }))
+      component.ngOnInit()
+      const arg = mockSeoSvc.update.mock.calls[0][0]
+      expect(arg.ogImage).toBeUndefined()
+      expect(arg.jsonLd.aggregateRating.ratingCount).toBe(1)
+    })
+
+    it('should omit aggregateRating when averageRating is absent and fall back to empty description', () => {
+      const c = { identifier: 'c11' }
+      mockHttp.post.mockReturnValue(of({ result: { content: [c] } }))
+      component.ngOnInit()
+      const arg = mockSeoSvc.update.mock.calls[0][0]
+      expect(arg.jsonLd.aggregateRating).toBeUndefined()
+      expect(arg.description).toBe('')
+    })
+  })
+
+  describe('getKeywordsString branches', () => {
+    it('should handle a non-array subject value', () => {
+      const result = component.getKeywordsString({ subject: 'Nursing' })
+      expect(result).toContain('Nursing')
+    })
+    it('should work with no name/sourceName/subject', () => {
+      const result = component.getKeywordsString({})
+      expect(result).toContain('Aastrika Sphere')
+    })
+  })
+
+  describe('getDurationHours / getLanguageLabel edge branches', () => {
+    it('should format a single whole hour without plural s', () => {
+      expect(component.getDurationHours(3600)).toBe('1 hour')
+    })
+    it('should return English for empty lang', () => {
+      expect(component.getLanguageLabel('')).toBe('English')
+    })
+    it('should return English for undefined lang', () => {
+      expect(component.getLanguageLabel(undefined as any)).toBe('English')
+    })
+  })
 })

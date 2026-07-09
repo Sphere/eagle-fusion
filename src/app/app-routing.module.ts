@@ -3,22 +3,18 @@ import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
 import { LoginRootComponent } from './component/login-root/login-root.component'
-import { ETopBar } from './constants/topBar.constants'
 import { ExternalUrlResolverService } from './guards/external-url-resolver.service'
 import { GeneralGuard } from './guards/general.guard'
 import { LoginGuard } from './guards/login.guard'
 import { EmptyRouteGuard } from './guards/empty-route.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
-// import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
-// import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
 import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
 import { PublicCourseBlogComponent } from './routes/public/public-course-blog/public-course-blog.component'
-// import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
@@ -39,7 +35,6 @@ import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
-// import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
 import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
 import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
@@ -92,10 +87,6 @@ const routes: Routes = [
       pageData: PageResolve,
     },
   },
-  // {
-  //   path: 'aboutpoppage',
-  //   component: MobileAboutPopupComponent,
-  // },
   {
     path: 'app',
     loadChildren: () =>
@@ -228,10 +219,6 @@ const routes: Routes = [
       import('./routes/route-person-profile.module').then(u => u.RoutePersonProfileModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
-  // {
-  //   path: 'app/profile/dashboard',
-  //   redirectTo: 'app/profile-view',
-  // },
   {
     path: 'app/profile',
     loadChildren: () =>
@@ -243,10 +230,6 @@ const routes: Routes = [
     component: MobileProfileDashboardComponent,
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
-  // {
-  //   path: 'app/profile/settings',
-  //   component: SettingsComponent,
-  // },
   {
     path: 'app/search',
     loadChildren: () =>
@@ -304,10 +287,6 @@ const routes: Routes = [
     canActivate: [GeneralGuard, EmptyRouteGuard],
     data: { animation: 'notification' },
   },
-  // {
-  //   path: 'app/video-player',
-  //   component: MobileVideoPlayerComponent,
-  // },
   {
     path: 'app/workinfo-edit',
     component: WorkInfoEditComponent,
@@ -328,7 +307,7 @@ const routes: Routes = [
   {
     path: 'embed',
     data: {
-      topBar: ETopBar.NONE,
+      topBar: 'NONE',
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
@@ -473,27 +452,6 @@ const routes: Routes = [
     },
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
-
-  // {
-  //   path: 'page/explore/:tags',
-  //   data: {
-  //     pageType: 'page',
-  //     pageKey: 'catalog-details',
-  //   },
-  //   resolve: {
-  //     pageData: ExploreDetailResolve,
-  //   },
-  //   component: PageComponent,
-  //   // canActivate: [GeneralGuard],
-  // },
-  {
-    path: 'page-leaders',
-    loadChildren: () =>
-      import('./routes/page-leader-renderer/page-leader-renderer.module').then(
-        u => u.PageLeaderRendererModule,
-      ),
-    canActivate: [GeneralGuard, EmptyRouteGuard],
-  },
   {
     path: 'public/about',
     // component: PublicAboutComponent,
@@ -541,17 +499,6 @@ const routes: Routes = [
       pageData: PageResolve,
     },
   },
-  // {
-  //   path: 'public/mobile-app',
-  //   component: MobileAppHomeComponent,
-  //   data: {
-  //     pageType: 'feature',
-  //     pageKey: 'mobile-app',
-  //   },
-  //   resolve: {
-  //     pageData: PageResolve,
-  //   },
-  // },
   {
     path: 'public/tnc',
     component: TncComponent,
@@ -608,7 +555,7 @@ const routes: Routes = [
   {
     path: 'viewer',
     data: {
-      topBar: ETopBar.NONE,
+      topBar: 'NONE',
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],

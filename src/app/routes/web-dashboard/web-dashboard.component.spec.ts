@@ -21,7 +21,7 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LanguageService } from 'src/app/services/language.service'
 import { PlaylistService } from '../../services/playlist.service'
-import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
 
 describe('WebDashboardComponent', () => {
@@ -249,5 +249,50 @@ describe('WebDashboardComponent', () => {
     fixture.detectChanges()
     expect(themeSvc.isDark).toHaveBeenCalled()
     expect(component.isDark).toBe(false)
+  })
+
+  it('effect should set dark ekshamata banner and mobile flag when isDark and isMobile are true', () => {
+    const themeSvc = TestBed.inject(ThemeService) as any
+    themeSvc.isDark.mockReturnValue(true)
+    const valueSvc = TestBed.inject(ValueService) as any
+    jest.spyOn(valueSvc, 'isMobile').mockReturnValue(true)
+    component.isEkshamata = true
+    fixture.detectChanges()
+    expect(component.isDark).toBe(true)
+    expect(component.isXsmall).toBe(true)
+    expect(component.bannerSecondImage).toBe('/fusion-assets/images/ekshamata-group-dark.svg')
+  })
+
+  it('ngOnInit should set ekshamata logo via localhost branch when hostedInfo is absent', async () => {
+    const configSvc = TestBed.inject(ConfigurationsService) as any
+    configSvc.hostedInfo = undefined
+    component.isEkshamata = true
+    component.configData = null
+    await component.ngOnInit()
+    expect(component.bannerFirstImage).toBe('/fusion-assets/images/ekshamata-logo.svg')
+  })
+
+  it('ngOnInit should set Hindi preferred language when current language is hi', async () => {
+    jest.useFakeTimers()
+    const langSvc = TestBed.inject(LanguageService) as any
+    langSvc.getCurrentLanguage = jest.fn().mockReturnValue('hi')
+    component.configData = null
+    await component.ngOnInit()
+    expect(component.preferedLanguage.lang).toBe('हिंदी')
+    jest.useRealTimers()
+  })
+
+  it('calculateBadges should default playListIds to [] when no language match and fall back to en', async () => {
+    const plylsSvc = TestBed.inject(PlaylistService) as any
+    plylsSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+      { language: 'fr', dataSource: { payload: ['x'] } },
+    ])
+    const configSvc = TestBed.inject(ConfigurationsService) as any
+    configSvc.userProfile = null
+    component.configData = [{ badges: { showCompletedCourses: true } }]
+    component.userEnrolledCourse = [{ identifier: 'x', completionPercentage: 100 }]
+    await component.ngOnInit()
+    expect(component.playListIds).toEqual([])
+    expect(component.noOfBadges).toBe(0)
   })
 })

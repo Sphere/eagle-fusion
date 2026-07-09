@@ -217,4 +217,116 @@ describe('BnrcLoginOtpComponent', () => {
 
     expect(mockSnackBar.open).toHaveBeenCalledWith('An unexpected error occurred', undefined, { duration: 3000 })
   })
+
+  it('shows the response message when validation succeeds but status is not "success"', () => {
+    const mockRouter = { url: 'uttarpradesh/register' }
+    const mockSnackBar = { open: jest.fn() }
+    const mockUserProfileSvc = {
+      upsmfValidateOtp: jest.fn().mockReturnValue({
+        subscribe: (success: Function) => success({ status: 'failed', message: 'OTP expired' }),
+      }),
+      bnrcValidateOtp: jest.fn(),
+      mpValidateOtp: jest.fn(),
+    }
+    const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    const comp = new BnrcLoginOtpComponent(mockRouter as any, new FormBuilder(), mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
+    comp.loginData = { value: { phone: '1234567890' } }
+    comp.loginOtpForm.setValue({ code: '1234' })
+    comp.loginVerifyOtp()
+    expect(mockSnackBar.open).toHaveBeenCalledWith('OTP expired', undefined, { duration: 3000 })
+  })
+
+  it('falls back to a default message when a non-success validation has no message', () => {
+    const mockRouter = { url: 'madhyapradesh/register' }
+    const mockSnackBar = { open: jest.fn() }
+    const mockUserProfileSvc = {
+      upsmfValidateOtp: jest.fn(),
+      bnrcValidateOtp: jest.fn(),
+      mpValidateOtp: jest.fn().mockReturnValue({
+        subscribe: (success: Function) => success({ status: 'failed' }),
+      }),
+    }
+    const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    const comp = new BnrcLoginOtpComponent(mockRouter as any, new FormBuilder(), mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
+    comp.loginData = { value: { phone: '1234567890' } }
+    comp.loginOtpForm.setValue({ code: '1234' })
+    comp.loginVerifyOtp()
+    expect(mockSnackBar.open).toHaveBeenCalledWith('OTP verification failed. Please try again.', undefined, { duration: 3000 })
+  })
+
+  it('shows the Hindi resend-success message when the stored language is hi', () => {
+    const mockRouter = { url: 'bnrc/register' }
+    const mockSnackBar = { open: jest.fn() }
+    const mockUserProfileSvc = {
+      upsmfResendOtp: jest.fn(),
+      mpResendOtp: jest.fn(),
+      bnrcResendOtp: jest.fn().mockReturnValue({
+        subscribe: (success: Function) => success({ message: 'Success ! Please verify the OTP .' }),
+      }),
+    }
+    const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    const comp = new BnrcLoginOtpComponent(mockRouter as any, new FormBuilder(), mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
+    comp.loginData = { value: { phone: '9876543210' } }
+    localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'hi' }))
+    comp.resendOTP()
+    expect(mockSnackBar.open).toHaveBeenCalledWith('सफलता ! कृपया ओटीपी सत्यापित करें।', undefined, { duration: 3000 })
+    localStorage.removeItem('preferedLanguage')
+  })
+
+  it('shows the raw resend-success message when the stored language is not hi', () => {
+    const mockRouter = { url: 'bnrc/register' }
+    const mockSnackBar = { open: jest.fn() }
+    const mockUserProfileSvc = {
+      upsmfResendOtp: jest.fn(),
+      mpResendOtp: jest.fn(),
+      bnrcResendOtp: jest.fn().mockReturnValue({
+        subscribe: (success: Function) => success({ message: 'OTP resent' }),
+      }),
+    }
+    const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    const comp = new BnrcLoginOtpComponent(mockRouter as any, new FormBuilder(), mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
+    comp.loginData = { value: { phone: '9876543210' } }
+    localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'en' }))
+    comp.resendOTP()
+    expect(mockSnackBar.open).toHaveBeenCalledWith('OTP resent', undefined, { duration: 3000 })
+    localStorage.removeItem('preferedLanguage')
+  })
+
+  it('shows the Hindi resend-error message when the stored language is hi', () => {
+    const mockRouter = { url: 'bnrc/register' }
+    const mockSnackBar = { open: jest.fn() }
+    const mockUserProfileSvc = {
+      upsmfResendOtp: jest.fn(),
+      mpResendOtp: jest.fn(),
+      bnrcResendOtp: jest.fn().mockReturnValue({
+        subscribe: (_s: Function, error: Function) => error({ error: { message: 'Please provide correct otp and try again.' } }),
+      }),
+    }
+    const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    const comp = new BnrcLoginOtpComponent(mockRouter as any, new FormBuilder(), mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
+    comp.loginData = { value: { phone: '9876543210' } }
+    localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'hi' }))
+    comp.resendOTP()
+    expect(mockSnackBar.open).toHaveBeenCalledWith('कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।', undefined, { duration: 3000 })
+    localStorage.removeItem('preferedLanguage')
+  })
+
+  it('shows the raw resend-error message when stored language is not hi', () => {
+    const mockRouter = { url: 'bnrc/register' }
+    const mockSnackBar = { open: jest.fn() }
+    const mockUserProfileSvc = {
+      upsmfResendOtp: jest.fn(),
+      mpResendOtp: jest.fn(),
+      bnrcResendOtp: jest.fn().mockReturnValue({
+        subscribe: (_s: Function, error: Function) => error({ error: { error: 'raw error', message: 'msg' } }),
+      }),
+    }
+    const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
+    const comp = new BnrcLoginOtpComponent(mockRouter as any, new FormBuilder(), mockSnackBar as any, mockUserProfileSvc as any, mockLogger as any, { detectChanges: jest.fn() } as any)
+    comp.loginData = { value: { phone: '9876543210' } }
+    localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'en' }))
+    comp.resendOTP()
+    expect(mockSnackBar.open).toHaveBeenCalledWith('raw error', undefined, { duration: 3000 })
+    localStorage.removeItem('preferedLanguage')
+  })
 })

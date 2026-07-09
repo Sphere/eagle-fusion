@@ -110,4 +110,27 @@ describe('ScromPlayerComponent', () => {
   it('should not throw on ngOnDestroy', () => {
     expect(() => component.ngOnDestroy()).not.toThrow()
   })
+
+  it('should default to empty strings when query params are missing', () => {
+    const emptyRoute = makeRoute({})
+    const cmp = new ScromPlayerComponent(emptyRoute, mockSanitizer, mockScormAdapter, mockLogger)
+    cmp.ngOnInit()
+    expect(mockScormAdapter.contentId).toBe('')
+    expect(mockScormAdapter.setProperties).toHaveBeenCalledWith(
+      expect.objectContaining({
+        contentId: '',
+        userId: '',
+        batchId: '',
+        courseId: '',
+        authorization: null,
+        userToken: null,
+      }),
+    )
+    expect(mockScormAdapter.loadDataV2).toHaveBeenCalledWith(
+      expect.objectContaining({
+        request: expect.objectContaining({ userId: '', batchId: '', courseId: '' }),
+      }),
+      expect.objectContaining({ Authorization: null, userToken: null }),
+    )
+  })
 })

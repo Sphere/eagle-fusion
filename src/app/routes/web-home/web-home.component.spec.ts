@@ -35,6 +35,7 @@ jest.mock('../../services/theme.service', () => ({
   ThemeService: class { isDark = jest.fn().mockReturnValue(false) },
 }))
 
+import { isPlatformBrowser } from '@angular/common'
 import { WebHomeComponent } from './web-home.component'
 
 describe('WebHomeComponent', () => {
@@ -110,6 +111,26 @@ describe('WebHomeComponent', () => {
       mockElementRef, mockLanguageSvc, mockPlaylistSvc, mockLogger, mockThemeSvc, mockCdr,
     )
     expect(component.isXsmall).toBe(true)
+  })
+
+  it('should set showCreateBtn false when isMobile is true and userProfile is not null', () => {
+    mockValueSvc.isMobile.mockReturnValue(true)
+    mockConfigSvc.userProfile = { id: 'u1' }
+    component = new WebHomeComponent(
+      'browser', mockRouter, mockValueSvc, mockConfigSvc, mockScrollService,
+      mockElementRef, mockLanguageSvc, mockPlaylistSvc, mockLogger, mockThemeSvc, mockCdr,
+    )
+    expect(component.showCreateBtn).toBe(false)
+  })
+
+  it('should set showCreateBtn true when isMobile is true and userProfile is null', () => {
+    mockValueSvc.isMobile.mockReturnValue(true)
+    mockConfigSvc.userProfile = null
+    component = new WebHomeComponent(
+      'browser', mockRouter, mockValueSvc, mockConfigSvc, mockScrollService,
+      mockElementRef, mockLanguageSvc, mockPlaylistSvc, mockLogger, mockThemeSvc, mockCdr,
+    )
+    expect(component.showCreateBtn).toBe(true)
   })
 
   describe('nextSlide', () => {
@@ -253,6 +274,29 @@ describe('WebHomeComponent', () => {
       mockScrollService.scrollToDivEvent.subscribe = jest.fn((cb: Function) => cb('unknownDiv'))
       await component.ngOnInit()
       expect(mockElementRef.nativeElement.scrollIntoView).not.toHaveBeenCalled()
+    })
+
+    it('should fall back to "en" when getCurrentLanguage returns a falsy value', async () => {
+      mockConfigSvc.unMappedUser = null
+      mockLanguageSvc.getCurrentLanguage.mockReturnValue(undefined)
+      await component.ngOnInit()
+      expect(component.lang).toBe('en')
+    })
+
+    it('should default imgsLoaded to empty array when config has no data', async () => {
+      mockPlaylistSvc.bodyConfig.mockReturnValue([{ bannerStats: {} }])
+      await component.ngOnInit()
+      expect(component.imgsLoaded).toEqual([])
+    })
+  })
+
+  describe('startCarousel platform guard', () => {
+    it('should not start the interval when not running in a browser', () => {
+      ;(isPlatformBrowser as jest.Mock).mockReturnValueOnce(false)
+      const spy = jest.spyOn(global, 'setInterval')
+      component.startCarousel()
+      expect(spy).not.toHaveBeenCalled()
+      spy.mockRestore()
     })
   })
 })

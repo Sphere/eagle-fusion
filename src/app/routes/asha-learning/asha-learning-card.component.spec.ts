@@ -163,6 +163,14 @@ describe('AshaLearningCardComponent', () => {
       expect(comp.noteLabel).toBe('YOU_CLEAR_ALL_LEVELS')
     })
 
+    it('getNoteLabel congratulates when no incomplete level even below full progress', () => {
+      comp.levels = [
+        { level: 1, levelName: 'L1', courseIds: ['c1'], completed: true },
+      ]
+      comp.progressPercentage = 50
+      expect(comp.getNoteLabel()).toBe('YOU_CLEAR_ALL_LEVELS')
+    })
+
     it('getLevelState reports completed, current, and pending', () => {
       comp.competency = normalizedCompetency()
       comp.buildCard()

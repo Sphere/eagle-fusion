@@ -72,4 +72,18 @@ describe('LoginGuard', () => {
     guard.canActivate(route, {} as any)
     expect(mockRouter.parseUrl).toHaveBeenCalledWith('/app/user/profile')
   })
+
+  it('handles empty ref param gracefully when authenticated', () => {
+    mockConfigSvc.isAuthenticated = true
+    const route = makeRoute({ ref: '' })
+    guard.canActivate(route, {} as any)
+    expect(mockRouter.parseUrl).toHaveBeenCalledWith('')
+  })
+
+  it('returns true when not authenticated with instanceConfig and isLoginHidden false', () => {
+    mockConfigSvc.isAuthenticated = false
+    mockConfigSvc.instanceConfig = { keycloak: { isLoginHidden: false } }
+    const result = guard.canActivate(makeRoute(), {} as any)
+    expect(result).toBe(true)
+  })
 })

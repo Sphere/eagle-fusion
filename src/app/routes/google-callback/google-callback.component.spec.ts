@@ -76,6 +76,29 @@ describe('GoogleCallbackComponent', () => {
     expect(mockSnackBar.open).toHaveBeenCalledWith('Session expired', undefined, expect.any(Object))
   })
 
+  it('should redirect to url_before_login on 200 result with roles', async () => {
+    const originalLocation = window.location
+    delete (window as any).location
+    ;(window as any).location = { href: '' }
+    localStorage.setItem('url_before_login', '/app/toc/123')
+    mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200, roles: ['PUBLIC'] })
+    component.ngOnInit()
+    await new Promise(resolve => setTimeout(resolve))
+    expect(window.location.href).toBe('/app/toc/123')
+    ;(window as any).location = originalLocation
+  })
+
+  it('should redirect to /page/home on 200 result when no url_before_login', async () => {
+    const originalLocation = window.location
+    delete (window as any).location
+    ;(window as any).location = { href: '' }
+    mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200, roles: ['PUBLIC'] })
+    component.ngOnInit()
+    await new Promise(resolve => setTimeout(resolve))
+    expect(window.location.href).toBe('/page/home')
+    ;(window as any).location = originalLocation
+  })
+
   it('should navigate to /app/login on googleAuthenticate error', async () => {
     mockContentSvc.googleAuthenticate.mockReturnValue(throwError(() => ({ error: 'Auth failed' })))
     component.ngOnInit()

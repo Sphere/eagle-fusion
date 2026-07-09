@@ -135,4 +135,58 @@ describe('YourBackgroundComponent', () => {
       expect(component.updateProfile).toHaveBeenCalled()
     })
   })
+
+  describe('onsubmit redirect branches', () => {
+    it('should navigate to redirect url and clear url_before_login when redirect param present', () => {
+      jest.spyOn(component, 'updateProfile').mockImplementation(() => {})
+      localStorage.setItem('url_before_login', '/somewhere')
+      mockRoute.queryParams = { subscribe: jest.fn((cb: any) => cb({ redirect: '/dashboard' })) }
+      component.imgSelect({ name: 'Mother/Family Member' })
+      expect(localStorage.getItem('url_before_login')).toBeNull()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/dashboard'])
+    })
+
+    it('should navigate to page/home when no redirect param', () => {
+      jest.spyOn(component, 'updateProfile').mockImplementation(() => {})
+      mockRoute.queryParams = { subscribe: jest.fn((cb: any) => cb({})) }
+      component.imgSelect({ name: 'Mother/Family Member' })
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['page', 'home'])
+    })
+
+    it('should do nothing in onsubmit when bgImgSelect is unset', () => {
+      component.bgImgSelect = undefined
+      component.onsubmit()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('updateProfile branches', () => {
+    it('should skip user field mapping when userProfile is null and build address without state/distict', () => {
+      mockConfigSvc.userProfile = null
+      mockAboutYou.patchValue({ country: 'India', state: '', distict: '' })
+      component.updateProfile()
+      const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
+      expect(req.request.profileDetails.profileReq.personalDetails.postalAddress).toBe('India')
+      expect(component.userId).toBe('')
+    })
+
+    it('should append state and district to address when present', () => {
+      mockAboutYou.patchValue({ country: 'India', state: 'UP', distict: 'Agra' })
+      component.updateProfile()
+      const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
+      expect(req.request.profileDetails.profileReq.personalDetails.postalAddress).toBe('India, UP, Agra')
+    })
+
+    it('should not open snackbar when update response is falsy', () => {
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of(null))
+      component.updateProfile()
+      expect(mockSnackBar.open).not.toHaveBeenCalled()
+    })
+
+    it('should open snackbar on successful update', () => {
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ ok: true }))
+      component.updateProfile()
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
 })

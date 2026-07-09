@@ -356,6 +356,154 @@ describe('AlmostDoneComponent', () => {
     expect(orgs[0].instituteName).toBe('AIIMS')
   })
 
+  it('assignFields subcentre empty sets subcentreEntered false', () => {
+    component.backgroundSelect = 'Others'
+    component.assignFields('subcentre', '', {})
+    expect(component.subcentreEntered).toBe(false)
+  })
+
+  it('assignFields default case does not throw for unknown qid', () => {
+    component.backgroundSelect = 'Others'
+    expect(() => component.assignFields('unknownQid', 'value', {})).not.toThrow()
+  })
+
+  it('assignFields sets enableSubmit false when both block and subcentre entered', () => {
+    component.backgroundSelect = 'Others'
+    component.assignFields('block', 'Block A', {})
+    component.assignFields('subcentre', 'Sub A', {})
+    expect(component.blockEntered).toBe(true)
+    expect(component.subcentreEntered).toBe(true)
+    expect(component.enableSubmit).toBe(false)
+  })
+
+  it('assignFields Healthcare Worker valueChanges else branch sets enableSubmit true', () => {
+    component.backgroundSelect = 'Healthcare Worker'
+    component.assignFields('profession', 'Nurse', {})
+    component.almostDoneForm.controls.professSelected.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.block.setValue('trigger')
+    expect(component.enableSubmit).toBe(true)
+  })
+
+  it('assignFields ASHA sets enableSubmit false when block and locationselect present', () => {
+    component.backgroundSelect = 'ASHA'
+    component.almostDoneForm.controls.block.setValue('Block1')
+    component.almostDoneForm.controls.locationselect.setValue('Loc1')
+    component.assignFields('profession', 'ASHA', {})
+    expect(component.enableSubmit).toBe(false)
+  })
+
+  it('assignFields Student valueChanges else branch sets enableSubmit true when no instituteName', () => {
+    component.backgroundSelect = 'Student'
+    component.assignFields('coursename', 'BSc', {})
+    ;(component.almostDoneForm.controls as any).instituteName.setValue('')
+    component.almostDoneForm.controls.block.setValue('trigger')
+    expect(component.enableSubmit).toBe(true)
+  })
+
+  it('assignFields builds degrees when profession is student and studentInstitute set', () => {
+    component.profession = 'student'
+    component.studentInstitute = 'AIIMS'
+    component.studentCourse = 'MBBS'
+    component.backgroundSelect = 'Others'
+    component.assignFields('coursename', 'MBBS', {})
+    const degrees = component.createUserForm.get('degrees') as any
+    expect(degrees.length).toBe(1)
+    expect(degrees.at(0).value.instituteName).toBe('AIIMS')
+  })
+
+  it('assignFields sets enableSubmit false when event has keys, form dirty and not ASHA', () => {
+    component.backgroundSelect = 'Others'
+    component.almostDoneForm.markAsDirty()
+    component.assignFields('profession', 'Nurse', { some: 'value' })
+    expect(component.enableSubmit).toBe(false)
+  })
+
+  it('getOrganisationsHistory adds Asha Facilitator location fields for Others background', () => {
+    component.backgroundSelect = 'Others'
+    component.selectedBg = 'Asha Facilitator'
+    component.almostDoneForm.controls.orgType.setValue('Public')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('ASHA')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.selectBackground.setValue('Asha Facilitator')
+    component.almostDoneForm.controls.locationselect.setValue('Dist1')
+    component.almostDoneForm.controls.block.setValue('Block1')
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs[0].locationselect).toBe('Dist1')
+    expect(orgs[0].designation).toBe('Asha Facilitator')
+  })
+
+  it('getOrganisationsHistory adds Asha Trainer location fields for Others background', () => {
+    component.backgroundSelect = 'Others'
+    component.selectedBg = 'Asha Trainer'
+    component.almostDoneForm.controls.orgType.setValue('Public')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('ASHA')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.selectBackground.setValue('Asha Trainer')
+    component.almostDoneForm.controls.subcentre.setValue('Sub1')
+    const orgs = component.getOrganisationsHistory()
+    expect(orgs[0].subcentre).toBe('Sub1')
+    expect(orgs[0].designation).toBe('Asha Trainer')
+  })
+
+  it('updateProfile sets userId from unMappedUser when present', () => {
+    ;(mockConfigService as any).userProfile = null
+    ;(mockConfigService as any).unMappedUser = { id: 'unmapped-99' }
+    component.result = { userId: 'result-1' }
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    component.updateProfile()
+    expect(component.userId).toBe('unmapped-99')
+  })
+
+  it('updateProfile redirect branch navigates to redirect url when valid', async () => {
+    ;(mockConfigService as any).userProfile = null
+    ;(mockConfigService as any).unMappedUser = { id: 'unmapped-99' }
+    component.result = { userId: 'result-1' }
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    ;(component as any).activateRoute = { queryParams: of({ redirect: '/app/some/course' }) }
+    Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+    mockUserProfileService.updateProfileDetails.mockReturnValue(of({ params: { status: 'SUCCESS' }, result: {} }))
+    component.updateProfile()
+    await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+    expect(window.location.href).toContain('/app/some/course')
+  })
+
+  it('updateProfile redirect else branch navigates to home when redirect absent', async () => {
+    ;(mockConfigService as any).userProfile = null
+    ;(mockConfigService as any).unMappedUser = { id: 'unmapped-99' }
+    component.result = { userId: 'result-1' }
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990', countryCode: '+91' } }
+    component.backgroundSelect = 'Healthcare Worker'
+    component.almostDoneForm.controls.orgType.setValue('Gov')
+    component.almostDoneForm.controls.orgName.setValue('Org')
+    component.almostDoneForm.controls.profession.setValue('Nurse')
+    component.almostDoneForm.controls.orgOtherSpecify.setValue(null)
+    component.almostDoneForm.controls.professionOtherSpecify.setValue(null)
+    ;(component as any).activateRoute = { queryParams: of({}) }
+    Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+    mockUserProfileService.updateProfileDetails.mockReturnValue(of({ params: { status: 'SUCCESS' }, result: {} }))
+    component.updateProfile()
+    await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+    expect(window.location.href).toContain('/page/home')
+  })
+
   it('constructReq uses configSvc.userProfile when present', () => {
     ;(mockConfigService as any).userProfile = { email: 'nurse@example.com', firstName: 'John', middleName: 'K', lastName: 'Doe' }
     ;(mockConfigService as any).unMappedUser = { id: 'u-123' }

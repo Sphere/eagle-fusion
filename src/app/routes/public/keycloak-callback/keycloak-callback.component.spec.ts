@@ -121,4 +121,88 @@ describe('KeycloakCallbackComponent', () => {
     await Promise.resolve()
     expect(mockAuthSvc.logout).toHaveBeenCalled()
   })
+
+  it('should not remove code when setConnectSid emits a falsy response', () => {
+    sessionStorage.setItem('code', 'my-code')
+    mockOrgService.setConnectSid.mockReturnValue(of(null))
+    component.checkKeycloakCallback()
+    expect(sessionStorage.getItem('code')).toBe('my-code')
+  })
+
+  it('should log but not logout on non-400 error from setConnectSid', () => {
+    sessionStorage.setItem('code', 'my-code')
+    mockOrgService.setConnectSid.mockReturnValue(throwError(() => ({ status: 500 })))
+    component.checkKeycloakCallback()
+    expect(mockLogger.log).toHaveBeenCalled()
+    expect(mockAuthSvc.logout).not.toHaveBeenCalled()
+  })
+
+  it('should log and logout when setConnectSid throws synchronously', () => {
+    sessionStorage.setItem('code', 'my-code')
+    mockOrgService.setConnectSid.mockImplementation(() => { throw new Error('boom') })
+    component.checkKeycloakCallback()
+    expect(mockLogger.log).toHaveBeenCalledWith(expect.any(Error))
+    expect(mockAuthSvc.logout).toHaveBeenCalled()
+  })
+
+  describe('checkKeycloakCallback success redirect flows', () => {
+    let originalLocation: any
+
+    beforeEach(() => {
+      originalLocation = window.location
+      delete (window as any).location
+      ;(window as any).location = { href: '' }
+    })
+
+    afterEach(() => {
+      ;(window as any).location = originalLocation
+    })
+
+    const runCallbackAndFlush = async () => {
+      component.checkKeycloakCallback()
+      jest.runAllTimers()
+      await Promise.resolve()
+    }
+
+    it('should store lang1 and redirect to url_before_login when language is present', async () => {
+      sessionStorage.setItem('code', 'my-code')
+      localStorage.setItem('url_before_login', '/app/toc/do_1/overview')
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200, language: 'hi' })
+      await runCallbackAndFlush()
+      expect(JSON.parse(sessionStorage.getItem('lang1') || '{}').lang).toBe('hi')
+      expect((window as any).location.href).toBe('/app/toc/do_1/overview')
+      expect(component.isLoading).toBe(false)
+    })
+
+    it('should redirect to /page/home when language is present and no url_before_login', async () => {
+      sessionStorage.setItem('code', 'my-code')
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200, language: 'en' })
+      await runCallbackAndFlush()
+      expect((window as any).location.href).toBe('/page/home')
+    })
+
+    it('should store lang2 from preferedLanguage when response has no language', async () => {
+      sessionStorage.setItem('code', 'my-code')
+      localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'hi' }))
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200 })
+      await runCallbackAndFlush()
+      expect(JSON.parse(sessionStorage.getItem('lang2') || '{}').lang).toBe('hi')
+      expect((window as any).location.href).toBe('/page/home')
+    })
+
+    it('should redirect to url_before_login when no language and no preferedLanguage', async () => {
+      sessionStorage.setItem('code', 'my-code')
+      localStorage.setItem('url_before_login', '/app/profile')
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200 })
+      await runCallbackAndFlush()
+      expect((window as any).location.href).toBe('/app/profile')
+    })
+
+    it('should redirect to /page/home when no language, preferedLanguage or url_before_login', async () => {
+      sessionStorage.setItem('code', 'my-code')
+      mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200 })
+      await runCallbackAndFlush()
+      expect((window as any).location.href).toBe('/page/home')
+    })
+  })
 })

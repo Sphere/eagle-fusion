@@ -36,9 +36,16 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.ts',
-    '!src/**/*.spec.ts',
+    '!src/app/workers/*',
+    '!src/environments/*',
+    '!src/**/*.module.ts',
+    '!src/**/mocks/*.ts',
+    '!src/**/index.ts',
     '!src/main.ts',
+    '!src/main.server.ts',
     '!src/polyfills.ts',
+    '!src/server.polyfills.ts',
+    '!src/test-import.ts',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',

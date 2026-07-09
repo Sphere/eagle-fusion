@@ -80,4 +80,12 @@ describe('PublicTocBannerComponent', () => {
     component.createAcct()
     expect(routerSpy).toHaveBeenCalledWith('app/create-account')
   })
+
+  it('should remove preferedLanguage from localStorage when present', () => {
+    const routerSpy = jest.spyOn(router, 'navigateByUrl').mockReturnValue(Promise.resolve(true))
+    localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'hi' }))
+    component.createAcct()
+    expect(localStorage.getItem('preferedLanguage')).toBeNull()
+    expect(routerSpy).toHaveBeenCalledWith('app/create-account')
+  })
 })

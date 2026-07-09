@@ -703,6 +703,105 @@ describe('PublicLoginComponent', () => {
     })
   })
 
+  describe('help isXSmall subscribe branch', () => {
+    it('should open dialog and run subscribe callback with truthy data', () => {
+      const { of: rxOf } = require('rxjs')
+      component.isXSmall$ = rxOf(true) as any
+      component.help()
+      expect(mockDialog.open).toHaveBeenCalled()
+      expect(mockLogger.log).toHaveBeenCalledWith('data', true)
+    })
+  })
+
+  describe('userDoesnotExist url_before_login branch', () => {
+    it('should remove url_before_login when on /public/home', () => {
+      localStorage.setItem('url_before_login', '/somewhere')
+      mockRouter.url = '/public/home'
+      let afterClosedCb: any
+      mockDialog.open = jest.fn().mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue({
+          subscribe: jest.fn((cb: any) => { afterClosedCb = cb }),
+        }),
+      })
+      component.userDoesnotExist()
+      afterClosedCb('createAccount')
+      expect(localStorage.getItem('url_before_login')).toBeNull()
+    })
+  })
+
+  describe('otpClick email-otp url branch', () => {
+    it('should set emailPhoneType email when url includes email-otp', () => {
+      const { of: rxOf } = require('rxjs')
+      jest.useFakeTimers()
+      Object.defineProperty(window, 'location', { writable: true, value: { href: 'https://x.com/email-otp', includes: (s: string) => 'https://x.com/email-otp'.includes(s) } })
+      mockSignupService.sendOTP = jest.fn().mockReturnValue(rxOf({ userId: 'u1', msg: 'OTP sent to phone' }))
+      component.loginForm.patchValue({ emailOrMobile: '9876543210' })
+      component.otpClick({ status: 'VALID' })
+      expect(component.emailPhoneType).toBe('email')
+      jest.useRealTimers()
+    })
+  })
+
+  describe('otpSubmit success language and org branches', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+      jest.useFakeTimers()
+    })
+    afterEach(() => jest.useRealTimers())
+
+    it('should store lang and redirect to orgSelective url on otp success', async () => {
+      const { of: rxOf } = require('rxjs')
+      mockSignupService.loginAPI = jest.fn().mockReturnValue(rxOf({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({ status: 200, language: 'hi' })
+      component.configSvc = {
+        orgSelectiveCourseConfig: { orgId: 'org1', redirectUrl: '/org/course' },
+        userProfile: { rootOrgId: 'org1' },
+        unMappedUser: null,
+      } as any
+      component.loginForm.patchValue({ emailOrMobile: '9876543210' })
+      component.initializeForm()
+      component.OTPForm.patchValue({ otp1: '1', otp2: '2', otp3: '3', otp4: '4', OTPcode: '1234' })
+      component.otpSubmit()
+      jest.advanceTimersByTime(600)
+      await Promise.resolve(); await Promise.resolve()
+      expect(window.location.href).toBe('/org/course')
+      expect(localStorage.getItem('lang123')).toContain('hi')
+    })
+
+    it('should redirect to /page/home on otp success without org config', async () => {
+      const { of: rxOf } = require('rxjs')
+      mockSignupService.loginAPI = jest.fn().mockReturnValue(rxOf({ msg: 'ok' }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({ status: 200 })
+      component.loginForm.patchValue({ emailOrMobile: '9876543210' })
+      component.initializeForm()
+      component.OTPForm.patchValue({ otp1: '1', otp2: '2', otp3: '3', otp4: '4', OTPcode: '1234' })
+      component.otpSubmit()
+      jest.advanceTimersByTime(600)
+      await Promise.resolve(); await Promise.resolve()
+      expect(window.location.href).toBe('/page/home')
+    })
+  })
+
+  describe('startTimer branches', () => {
+    it('should clear existing interval before starting a new one', () => {
+      jest.useFakeTimers()
+      component.startTimer()
+      const firstInterval = component.interval
+      component.startTimer()
+      expect(component.interval).not.toBe(firstInterval)
+      jest.useRealTimers()
+    })
+
+    it('should clear interval when timer reaches 0', () => {
+      jest.useFakeTimers()
+      component.startTimer()
+      jest.advanceTimersByTime(600 * 1000)
+      expect(component.resendTimer).toBe(0)
+      expect(component.interval).toBeNull()
+      jest.useRealTimers()
+    })
+  })
+
   describe('otpClick additional paths', () => {
     it('should call userDoesnotExist on specific user-not-found error', () => {
       const { throwError } = require('rxjs')

@@ -495,4 +495,334 @@ describe('CreateAccountComponent', () => {
       expect(mockDialog.open).toHaveBeenCalled()
     })
   })
+
+  // ----- Additional coverage for uncovered branches -----
+
+  const makeParamMap = (m: Record<string, string>) => ({
+    paramMap: of({ get: (k: string) => (k in m ? m[k] : null) }),
+  })
+
+  const instantiate = (routeOverride?: any, httpOverride?: any) =>
+    new CreateAccountComponent(
+      new FormBuilder(),
+      mockSnackBar,
+      mockSignupService,
+      mockRouter,
+      mockDialog,
+      mockLoader,
+      mockConfigSvc,
+      mockValueSvc,
+      routeOverride || mockRoute,
+      httpOverride || mockHttp,
+      mockLanguageService,
+      mockLogger,
+      mockTranslate,
+      mockCdr,
+      mockUserAgentSvc,
+      mockTelemetrySvc,
+    )
+
+  describe('loadPreferredLanguage (constructor)', () => {
+    it('reads a valid stored language into preferedLanguage', () => {
+      localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'hi', lang: 'हिंदी' }))
+      const c = instantiate()
+      expect(c.preferredLanguage).toBe('hi')
+      expect(c.preferedLanguage.id).toBe('hi')
+    })
+
+    it('logs an error and does not throw for malformed stored language', () => {
+      localStorage.setItem('preferedLanguage', '{not-json')
+      expect(() => instantiate()).not.toThrow()
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+  })
+
+  describe('loadStoredLanguage (ngOnInit)', () => {
+    it('logs an error when stored language is malformed JSON', () => {
+      localStorage.setItem('preferedLanguage', '{not-json')
+      const c = instantiate()
+      c.ngOnInit()
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+  })
+
+  describe('initializeFromRoute', () => {
+    it('shows the language page and marks non-org course when params are missing', () => {
+      const c = instantiate(makeParamMap({}))
+      c.ngOnInit()
+      jest.runAllTimers()
+      expect(localStorage.getItem('isOrgSelectiveCourse')).toBe('false')
+      expect(c.langPage).toBe(true)
+    })
+
+    it('resolves org, role, districts and institutes for a matching org-selective route', () => {
+      const orgData = {
+        states: [
+          {
+            code: 'KA',
+            name: 'Karnataka',
+            organisations: [{ orgName: 'Org One', orgId: 'oid1', roles: ['ASHA'] }],
+            districts: [{ name: 'D1', institutes: ['Inst1'] }],
+          },
+        ],
+      }
+      const http = { get: jest.fn().mockReturnValue(of(orgData)) }
+      const c = instantiate(makeParamMap({ stateCode: 'ka', orgName: 'Org%20One', role: 'asha' }), http)
+      c.ngOnInit()
+      expect(localStorage.getItem('isOrgSelectiveCourse')).toBe('true')
+      expect(c.isOrgSelectiveCourse).toBe(true)
+      expect(c.organisationId).toBe('oid1')
+      expect(c.channelName).toBe('Org One')
+      expect(c.userRole).toBe('ASHA')
+      expect(c.state).toBe('Karnataka')
+      expect(c.districts).toEqual(['D1'])
+      expect(c.showDistricts).toBe(true)
+      expect(c.createAccountForm.get('district')?.hasValidator(Validators.required)).toBe(true)
+      expect(localStorage.getItem('showDistricts')).toBe('true')
+    })
+
+    it('returns early when the state code does not match', () => {
+      const http = { get: jest.fn().mockReturnValue(of({ states: [{ code: 'ZZ', name: 'X', organisations: [] }] })) }
+      const c = instantiate(makeParamMap({ stateCode: 'ka', orgName: 'Org One' }), http)
+      c.ngOnInit()
+      expect(c.organisationId).toBe('0132317968766894088')
+    })
+
+    it('returns early when the org name does not match', () => {
+      const orgData = { states: [{ code: 'KA', name: 'Karnataka', organisations: [{ orgName: 'Other', orgId: 'x', roles: [] }] }] }
+      const http = { get: jest.fn().mockReturnValue(of(orgData)) }
+      const c = instantiate(makeParamMap({ stateCode: 'ka', orgName: 'Org One' }), http)
+      c.ngOnInit()
+      expect(c.channelName).toBeUndefined()
+    })
+
+    it('falls back to the role param and clears district validators when there are no districts', () => {
+      const orgData = {
+        states: [{ code: 'KA', name: 'Karnataka', organisations: [{ orgName: 'Org One', orgId: 'oid1', roles: ['ADMIN'] }], districts: [] }],
+      }
+      const http = { get: jest.fn().mockReturnValue(of(orgData)) }
+      const c = instantiate(makeParamMap({ stateCode: 'ka', orgName: 'Org One', role: 'unknown-role' }), http)
+      c.ngOnInit()
+      expect(c.userRole).toBe('unknown-role')
+      expect(c.showDistricts).toBe(false)
+      expect(localStorage.getItem('showDistricts')).toBe('false')
+    })
+  })
+
+  describe('onPopState', () => {
+    it('navigates home with force', () => {
+      const spy = jest.spyOn(component as any, 'navigateToHome').mockImplementation(() => undefined)
+      component.onPopState()
+      expect(spy).toHaveBeenCalledWith(true)
+    })
+  })
+
+  describe('navigateToHome (non-force)', () => {
+    it('uses router.navigate when not forced', () => {
+      ;(component as any).navigateToHome(false)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/public/home'])
+    })
+  })
+
+  describe('password validation subscription', () => {
+    it('updates validation images to ticks when a strong password is typed', () => {
+      component.ngOnInit()
+      component.createAccountWithPasswordForm.get('password')?.setValue('Abcdef1@')
+      expect(component.passwordValidation.length).toContain('pwd-tick')
+      expect(component.passwordValidation.uppercase).toContain('pwd-tick')
+      expect(component.passwordValidation.number).toContain('pwd-tick')
+      expect(component.passwordValidation.specialChar).toContain('pwd-tick')
+    })
+
+    it('resets validation images to gray dots when the password is cleared', () => {
+      component.ngOnInit()
+      component.createAccountWithPasswordForm.get('password')?.setValue('Abcdef1@')
+      component.createAccountWithPasswordForm.get('password')?.setValue('')
+      expect(component.passwordValidation.length).toContain('gray_dot')
+    })
+  })
+
+  describe('emailOrMobile debounce subscription', () => {
+    it('clears emailDelaid after the debounce window', () => {
+      component.ngOnInit()
+      component.emailDelaid = true
+      component.createAccountForm.get('emailOrMobile')?.setValue('some@mail.com')
+      jest.advanceTimersByTime(300)
+      expect(component.emailDelaid).toBe(false)
+    })
+  })
+
+  describe('emailOrMobileErrorStatus branches', () => {
+    it('returns empty string when emailDelaid is true even for an invalid control', () => {
+      const ctrl = component.createAccountForm.get('emailOrMobile')
+      ctrl?.setValue('bad')
+      ctrl?.markAsDirty()
+      component.emailDelaid = true
+      expect(component.emailOrMobileErrorStatus).toBe('')
+    })
+
+    it('returns "pattern" for an invalid pattern', () => {
+      const ctrl = component.createAccountForm.get('emailOrMobile')
+      ctrl?.setValue('not-valid-input')
+      ctrl?.markAsDirty()
+      expect(component.emailOrMobileErrorStatus).toBe('pattern')
+    })
+  })
+
+  describe('handleOptionDialogClose (otp path)', () => {
+    it('shows the otp page and submits when loginSelected is otp and dialog confirms', () => {
+      mockDialog.open = jest.fn().mockReturnValue({ afterClosed: jest.fn().mockReturnValue(of('confirm')) })
+      component.loginSelected = 'otp'
+      component.createAccountForm.patchValue({ firstname: 'A', lastname: 'B', emailOrMobile: '9876543210' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.optionSelected()
+      jest.runAllTimers()
+      expect(component.otpPage).toBe(true)
+      expect(mockSignupService.ssoWithMobileEmail).toHaveBeenCalled()
+    })
+
+    it('navigates to login when dialog returns "login"', () => {
+      mockDialog.open = jest.fn().mockReturnValue({ afterClosed: jest.fn().mockReturnValue(of('login')) })
+      mockRouter.url = '/some/path'
+      component.optionSelected()
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/public/login')
+    })
+  })
+
+  describe('navigateToLogin', () => {
+    let origLocation: Location
+
+    beforeEach(() => {
+      origLocation = window.location
+    })
+
+    afterEach(() => {
+      Object.defineProperty(window, 'location', { value: origLocation, configurable: true })
+    })
+
+    it('redirects to a stored login_url when present', () => {
+      Object.defineProperty(window, 'location', { value: { href: '' }, configurable: true })
+      localStorage.setItem('login_url', '/custom/login')
+      ;(component as any).navigateToLogin()
+      expect(window.location.href).toBe('/custom/login')
+    })
+
+    it('removes url_before_login and navigates by url when on public home', () => {
+      localStorage.setItem('url_before_login', '/prev')
+      mockRouter.url = '/public/home'
+      ;(component as any).navigateToLogin()
+      expect(localStorage.getItem('url_before_login')).toBeNull()
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/public/login')
+    })
+  })
+
+  describe('org-selective submission', () => {
+    it('calls ssoWithMobileEmailOrgForm and includes org fields for email signup', () => {
+      component.isOrgSelectiveCourse = true
+      component.organisationId = 'oid1'
+      component.userRole = 'ASHA'
+      component.channelName = 'Org One'
+      component.state = 'Karnataka'
+      component.createAccountForm.get('district')?.setValue('D1')
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'john@example.com' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSignupService.ssoWithMobileEmailOrgForm).toHaveBeenCalledWith(
+        expect.objectContaining({ organisationId: 'oid1', role: 'ASHA', channelName: 'Org One', state: 'Karnataka', district: 'D1' }),
+      )
+    })
+
+    it('calls ssoWithMobileEmailOrgForm for phone signup', () => {
+      component.isOrgSelectiveCourse = true
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: '9876543210' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSignupService.ssoWithMobileEmailOrgForm).toHaveBeenCalledWith(expect.objectContaining({ phone: '9876543210' }))
+    })
+
+    it('handles an org-selective email signup error', () => {
+      const { throwError } = require('rxjs')
+      component.isOrgSelectiveCourse = true
+      mockSignupService.ssoWithMobileEmailOrgForm = jest.fn().mockReturnValue(throwError(() => ({ error: { msg: 'boom' } })))
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'john@example.com' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+
+    it('handles an org-selective phone signup error', () => {
+      const { throwError } = require('rxjs')
+      component.isOrgSelectiveCourse = true
+      mockSignupService.ssoWithMobileEmailOrgForm = jest.fn().mockReturnValue(throwError(() => ({ error: { message: 'boom' } })))
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: '9876543210' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
+
+  describe('phone signup error path', () => {
+    it('handles a signup error for phone submission', () => {
+      const { throwError } = require('rxjs')
+      mockSignupService.ssoWithMobileEmail = jest.fn().mockReturnValue(throwError(() => ({ error: { msg: 'boom' } })))
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: '9876543210' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+      expect(mockLoader.changeLoad.next).toHaveBeenCalledWith(false)
+    })
+  })
+
+  describe('handleSignupSuccess geolocation polling', () => {
+    it('fires telemetry via the fallback timeout when geolocation never resolves', () => {
+      mockUserAgentSvc.getStoredGeolocation = jest.fn().mockReturnValue(null)
+      ;(component as any).handleSignupSuccess({ message: 'User successfully created', userId: 'u1' }, 'email')
+      jest.advanceTimersByTime(3000)
+      expect(mockTelemetrySvc.registrationInteract).toHaveBeenCalled()
+    })
+
+    it('fires telemetry from the interval once geolocation becomes available', () => {
+      let calls = 0
+      mockUserAgentSvc.getStoredGeolocation = jest.fn(() => {
+        calls += 1
+        return calls > 1 ? { latitude: 1 } : null
+      })
+      ;(component as any).handleSignupSuccess({ message: 'User successfully created', userId: 'u1' }, 'mobile')
+      jest.advanceTimersByTime(300)
+      expect(mockTelemetrySvc.registrationInteract).toHaveBeenCalled()
+    })
+  })
+
+  describe('trackFacebookPixel', () => {
+    it('logs an error when fbq throws', () => {
+      ;(window as any).fbq = jest.fn(() => {
+        throw new Error('pixel failure')
+      })
+      mockUserAgentSvc.getStoredGeolocation = jest.fn().mockReturnValue({ latitude: 1 })
+      ;(component as any).handleSignupSuccess({ message: 'User successfully created', userId: 'u1' }, 'email')
+      expect(mockLogger.error).toHaveBeenCalledWith('Facebook pixel error:', expect.any(Error))
+      delete (window as any).fbq
+    })
+  })
+
+  describe('eventTrigger subscription callbacks', () => {
+    it('logs success when plumb5 calls resolve', () => {
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'test@test.com' })
+      component.eventTrigger('Signup', 'user', component.createAccountForm)
+      expect(mockLogger.log).toHaveBeenCalledWith('Event tracking success:', expect.anything())
+    })
+
+    it('logs an error when plumb5 calls fail', () => {
+      const { throwError } = require('rxjs')
+      mockSignupService.plumb5SendEvent = jest.fn().mockReturnValue(throwError(() => new Error('fail')))
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'test@test.com' })
+      component.eventTrigger('Signup', 'user', component.createAccountForm)
+      expect(mockLogger.error).toHaveBeenCalledWith('Event tracking error:', expect.any(Error))
+    })
+
+    it('catches errors thrown while building the event payload', () => {
+      component.eventTrigger('Signup', 'user', { value: {} } as any)
+      expect(mockLogger.error).toHaveBeenCalledWith('Error in event tracking:', expect.any(Error))
+    })
+  })
 })
