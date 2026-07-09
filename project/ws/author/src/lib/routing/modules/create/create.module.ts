@@ -1,4 +1,3 @@
-import { UploadService } from '@ws/author/src/lib/routing/modules/editor/shared/services/upload.service'
 import { SharedModule } from '@ws/author/src/lib/modules/shared/shared.module'
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
@@ -14,7 +13,7 @@ import { EditorService } from '../editor/services/editor.service'
     SharedModule,
     RouterModule
   ],
-  providers: [UploadService, EditorContentService, EditorService],
+  providers: [EditorContentService, EditorService],
 })
 
 export class CreateModule { }

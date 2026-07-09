@@ -4,7 +4,6 @@ import { DisplayContentTypeModule } from '@ws-widget/collection'
 import { DefaultThumbnailModule, PipeDurationTransformModule } from '@ws-widget/utils'
 import { SharedModule } from '@ws/author/src/lib/modules/shared/shared.module'
 import { DragDropDirective } from './directives/drag-drop.directive'
-import { UploadService } from './services/upload.service'
 
 @NgModule({
     declarations: [
@@ -20,6 +19,6 @@ import { UploadService } from './services/upload.service'
     exports: [
         DragDropDirective,
     ],
-    providers: [UploadService],
+    providers: [],
 })
 export class EditorSharedModule { }
