@@ -88,4 +88,48 @@ describe('SeoService', () => {
     expect(mockDoc.createElement).toHaveBeenCalledWith('link')
     expect(mockDoc.head.appendChild).toHaveBeenCalled()
   })
+
+  const canonicalHrefFrom = (): string => {
+    let canonicalHref = ''
+    mockDoc.createElement.mockImplementation(() => {
+      const el: any = {
+        setAttribute: jest.fn((attr: string, val: string) => {
+          if (attr === 'rel') { el._rel = val }
+          if (attr === 'href' && el._rel === 'canonical') { canonicalHref = val }
+        }),
+        remove: jest.fn(),
+      }
+      return el
+    })
+    service.update()
+    return canonicalHref
+  }
+
+  it('update strips a trailing slash from the canonical URL so /x and /x/ consolidate', () => {
+    mockRouter.url = '/public/home/'
+    expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/public/home')
+  })
+
+  it('update drops the query string from the canonical URL', () => {
+    mockRouter.url = '/public/home?tab=all'
+    expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/public/home')
+  })
+
+  it('update preserves the site root "/" without stripping it to empty', () => {
+    mockRouter.url = '/'
+    expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/')
+  })
+
+  it('update reuses the canonical link element across navigations instead of duplicating it', () => {
+    service.update()
+    const linkCountAfterFirst = mockDoc.createElement.mock.calls
+      .filter((args: any[]) => args[0] === 'link').length
+    mockRouter.url = '/public/about'
+    service.update()
+    const linkCountAfterSecond = mockDoc.createElement.mock.calls
+      .filter((args: any[]) => args[0] === 'link').length
+    // Only the single canonical <link> is created, and it is reused on the second update.
+    expect(linkCountAfterFirst).toBe(1)
+    expect(linkCountAfterSecond).toBe(1)
+  })
 })

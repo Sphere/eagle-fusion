@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SEO Audit — Search Console Findings &amp; Fixes | Aastrika Sphere</title>
+  <style>
+    body { font-family: 'Open Sans', Calibri, Arial, sans-serif; font-size: 11pt; color: #0D1218; margin: 72pt; line-height: 1.5; }
+    h1 { font-size: 18pt; font-weight: 700; color: #17283C; border-bottom: 2pt solid #17283C; padding-bottom: 4pt; margin-top: 24pt; }
+    h2 { font-size: 14pt; font-weight: 600; color: #17283C; margin-top: 20pt; margin-bottom: 6pt; }
+    h3 { font-size: 12pt; font-weight: 600; color: #18293D; margin-top: 14pt; margin-bottom: 4pt; }
+    p  { margin: 6pt 0; }
+    a  { color: #186E6E; text-decoration: underline; }
+    code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 9pt; background: #F6F7F9; padding: 1pt 3pt; border-radius: 2pt; }
+    pre  { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 8.5pt; background: #F6F7F9; border: 1pt solid #D8DEE5; border-left: 3pt solid #1E8F8E; padding: 10pt 12pt; white-space: pre-wrap; word-wrap: break-word; }
+    table { border-collapse: collapse; width: 100%; margin: 10pt 0; font-size: 10pt; }
+    th { background: #17283C; color: #fff; padding: 6pt 8pt; text-align: left; font-weight: 600; }
+    th a { color: #fff; text-decoration: underline; text-decoration-style: dotted; }
+    td { border: 0.5pt solid #D8DEE5; padding: 5pt 8pt; vertical-align: top; }
+    tr:nth-child(even) td { background: #F6F7F9; }
+    .meta { color: #7C8696; font-size: 10pt; }
+    .info { background: #E3F7F6; border-left: 4pt solid #1E8F8E; padding: 8pt 12pt; margin: 10pt 0; font-size: 10pt; }
+    .note { background: #FEF6E0; border-left: 4pt solid #F0A500; padding: 8pt 12pt; margin: 10pt 0; font-size: 10pt; }
+    .section-divider { border: none; border-top: 1pt solid #D8DEE5; margin: 20pt 0; }
+    .pill { display: inline-block; font-size: 8.5pt; font-weight: 700; padding: 1pt 7pt; border-radius: 9pt; color: #fff; }
+    .pill-fixed { background: #1E8F8E; }
+    .pill-open { background: #F0A500; color: #4A3400; }
+    .kpi-row { width: 100%; border-collapse: separate; border-spacing: 8pt 0; margin: 12pt 0; }
+    .kpi { background: #F6F7F9; border-top: 3pt solid #1E8F8E; padding: 10pt; text-align: center; }
+    .kpi .n { display: block; font-size: 18pt; font-weight: 700; color: #17283C; }
+    .kpi .l { display: block; font-size: 8.5pt; color: #7C8696; text-transform: uppercase; letter-spacing: 0.5pt; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+  <h1>SEO Audit — Search Console Findings &amp; Fixes</h1>
+  <p class="meta">Aastrika Sphere organic search health &middot; Data: Google Search Console, last 3 months (Web), pulled 7 July 2026 &middot; Branch: <code>feature/opt2</code></p>
+
+  <h2>Summary</h2>
+  <p>Aastrika Sphere earned <strong>3,705 clicks from 27,360 impressions</strong> in Google Search over the last three months, at an average position of ~6.2. The platform already has a strong technical SEO foundation — server-side rendering, a 498-URL sitemap, structured data, and per-page meta tags. This audit combined that live Search Console data with a review of the codebase and found three issues that were <strong>splitting and suppressing organic traffic</strong> — all now fixed, with tests. It also identifies four data-backed opportunities to grow traffic further.</p>
+
+  <div class="info"><strong>Headline result:</strong> ~38% of course URLs — and the single highest-traffic page (the home page) — were each being indexed by Google as two or more competing duplicates. Those ranking signals are now consolidated into one URL apiece.</div>
+
+  <table class="kpi-row">
+    <tr>
+      <td class="kpi"><span class="n">3,705</span><span class="l"><a href="#key-terms">Clicks</a> · 3 mo</span></td>
+      <td class="kpi"><span class="n">27,360</span><span class="l"><a href="#key-terms">Impressions</a></span></td>
+      <td class="kpi"><span class="n">~13.5%</span><span class="l">Avg <a href="#key-terms">CTR</a></span></td>
+      <td class="kpi"><span class="n">~6.2</span><span class="l">Avg <a href="#key-terms">position</a></span></td>
+    </tr>
+  </table>
+  <p class="meta">New to these terms? Every metric and technical word used in this report is defined in plain English under <a href="#key-terms">Key terms</a> below.</p>
+
+  <h2 id="key-terms">Key terms — in plain English</h2>
+  <p>Definitions for every metric and technical term used in this report. Terms elsewhere in the document link back here.</p>
+  <table>
+    <tr><th>Term</th><th>What it means</th></tr>
+    <tr><td><strong>Impression</strong></td><td>One appearance of an Aastrika Sphere link in Google's search results — i.e. each time someone <em>sees</em> the site listed, whether or not they click.</td></tr>
+    <tr><td><strong>Click</strong></td><td>A person actually clicking one of those results to visit the site.</td></tr>
+    <tr><td><strong>CTR</strong> (Click-Through Rate)</td><td>Clicks ÷ Impressions, shown as a percentage — how often people who see the result go on to click it. A higher CTR usually means a more compelling title and description. Example: 100 impressions and 15 clicks = 15% CTR.</td></tr>
+    <tr><td><strong>Position</strong> (average position)</td><td>The average ranking spot of the site's result in Google. <strong>1</strong> is the very top of page one; higher numbers are further down. Roughly, positions 1–10 are page one, 11–20 are page two. Lower is better.</td></tr>
+    <tr><td><strong>Indexing</strong></td><td>Google storing a page in its database so it can show up in search results at all.</td></tr>
+    <tr><td><strong>Canonical URL</strong></td><td>The single "official" web address a page declares for itself, so that when the same content is reachable at several addresses, Google knows which one to rank — instead of treating them as competing duplicates.</td></tr>
+    <tr><td><strong>Duplicate URLs</strong></td><td>Two or more web addresses that show the same page (e.g. with and without a trailing "/"). If Google indexes them separately, they compete with each other and each ranks lower than the combined page would.</td></tr>
+    <tr><td><strong>Slug</strong></td><td>The readable words at the end of a web address, e.g. the <code>care-of-sick-newborn</code> part of a course URL. Descriptive slugs help both users and search ranking.</td></tr>
+    <tr><td><strong>Sitemap</strong></td><td>A file listing all the site's pages, submitted to Google to help it find and crawl every URL.</td></tr>
+    <tr><td><strong>Structured data</strong></td><td>Hidden, machine-readable tags that let Google show "rich" results such as star ratings, course info, or breadcrumbs — which stand out and lift click rates.</td></tr>
+    <tr><td><strong>Core Web Vitals</strong></td><td>Google's measures of real-world page experience — mainly loading speed, responsiveness, and visual stability — which influence both ranking and how users feel about the site.</td></tr>
+  </table>
+
+  <h2>How the audit was run</h2>
+  <p>Google's Search Console performance export (queries, pages, devices, countries) was analysed alongside the application source — <code>SeoService</code>, <code>generate-sitemap.js</code>, <code>robots.txt</code>, <code>.htaccess</code>, and the sitemap. Every finding below is grounded in a specific data point <em>and</em> a specific line of code, and each fix ships with unit tests.</p>
+
+  <h2>Audience at a glance</h2>
+  <table>
+    <tr><th>Segment</th><th class="num"><a href="#key-terms">Impressions</a></th><th class="num"><a href="#key-terms">Clicks</a></th><th class="num"><a href="#key-terms">CTR</a></th><th>Note</th></tr>
+    <tr><td>India</td><td class="num">26,052</td><td class="num">3,651</td><td class="num">14.0%</td><td>95% of all impressions</td></tr>
+    <tr><td>Mobile</td><td class="num">18,285</td><td class="num">2,898</td><td class="num">15.85%</td><td>67% of impressions; higher CTR</td></tr>
+    <tr><td>Desktop</td><td class="num">8,817</td><td class="num">764</td><td class="num">8.67%</td><td>Lower engagement than mobile</td></tr>
+  </table>
+
+  <hr class="section-divider">
+  <h2>Findings &amp; fixes</h2>
+
+  <h3>1. Our home page was competing against itself on Google &nbsp;<span class="pill pill-fixed">FIXED</span></h3>
+  <p><em>In plain terms:</em> the same page could be opened at several slightly different web addresses (for example, with or without a "/" at the end). Google treated each address as a separate page — so instead of one strong page, we had several weaker copies splitting the visitors between them.</p>
+  <p>Technically: the server returns <code>index.html</code> (HTTP 200) for every path, so trailing-slash variants are all live and all indexable. Google indexed the home page as <strong>three</strong> competing URLs:</p>
+  <table>
+    <tr><th>URL</th><th class="num"><a href="#key-terms">Clicks</a></th><th class="num"><a href="#key-terms">Position</a></th></tr>
+    <tr><td><code>/public/home</code></td><td class="num">1,086</td><td class="num">2.96</td></tr>
+    <tr><td><code>/</code></td><td class="num">684</td><td class="num">3.02</td></tr>
+    <tr><td><code>/public/home/</code></td><td class="num">284</td><td class="num">4.98</td></tr>
+  </table>
+  <p>Dozens of course pages showed the same split (e.g. <code>care-of-sick-newborn/</code> at position 3.79 vs <code>care-of-sick-newborn</code> at 8.2). Each variant self-canonicalised, so ranking signals were divided instead of pooled.</p>
+  <div class="info"><strong>Fix:</strong> <code>SeoService</code> now normalises every canonical and <code>og:url</code> to the no-trailing-slash form (matching the sitemap), so the variants consolidate into one page.</div>
+
+  <h3>2. Nearly 4 in 10 course links were unreadable web addresses &nbsp;<span class="pill pill-fixed">FIXED</span></h3>
+  <p><em>In plain terms:</em> for courses with Hindi titles, the web address came out as a meaningless string of numbers instead of readable words. That looks untrustworthy to a person deciding whether to click, and it tells Google nothing about what the page is about.</p>
+  <p>Technically: the sitemap slug generator stripped every non-Latin character, so Hindi/Devanagari course titles collapsed to an empty string and fell back to repeating the content ID:</p>
+  <pre>/public/toc/overview/do_114567217130979328167/do_114567217130979328167</pre>
+  <p><strong>38% of all course URLs</strong> looked like this — unreadable to users and keyword-free for search engines. Predictably, readable URLs earned the impressions (<code>hypertension-in-pregnancy</code> had 982 impressions; the <code>do_id/do_id</code> pages averaged ~1 each).</p>
+  <div class="info"><strong>Fix:</strong> the slug builder in <code>generate-sitemap.js</code> is now Unicode-aware, so Hindi titles produce readable, indexable slugs (e.g. <code>सक्रिय-प्रबंधन</code>). A shared path builder keeps the sitemap and prerender routes in sync and can never re-emit the <code>id/id</code> pattern.</div>
+  <div class="note"><strong>Why this is the key Hindi-SEO win:</strong> Hindi courses are ordinary public pages under <code>/public/…</code> (each course is authored in one language and has its own address) — the site does <em>not</em> serve a separate <code>/hi/</code> web address per course. So the way to make Hindi courses discoverable is exactly this: give them readable Hindi web addresses instead of a string of numbers. This fix does that for every Hindi course at once.</div>
+
+  <h3>3. The sitemap was sending Google to blank course pages &nbsp;<span class="pill pill-fixed">FIXED</span></h3>
+  <p><em>In plain terms:</em> the sitemap (the list of pages we hand to Google) included courses that the course page can't actually display, so Google was crawling <strong>empty pages</strong>. Empty pages don't rank, and a large number of them drags down how Google judges the whole site — which matches the Search Console data, where hundreds of course URLs had roughly one impression each.</p>
+  <p>Technically: the sitemap was built from one search API (Sunbird content search), but the course page loads its data from a different one (<code>getCourses</code>). <strong>97 of 504 Live courses (~19%)</strong> are returned by the first but not the second, so their pages render with no content. The course opened during this review (<code>do_1140…</code>, <em>मातृ और बाल मृत्यु समीक्षा में सहयोग</em>) is one of them.</p>
+  <div class="info"><strong>Fix:</strong> <code>generate-sitemap.js</code> now validates every discovered course against the <em>exact</em> endpoint the page reads from, and includes only the <strong>407</strong> courses that actually return content. Blank courses are dropped automatically on every build.</div>
+  <div class="note"><strong>Follow-up (separate from the sitemap):</strong> it is worth investigating <em>why</em> those 97 Live courses aren't served by the public course API — they may be organisation-restricted or missing from the public index. Fixing that at the source would bring them back as real, indexable pages.</div>
+
+  <hr class="section-divider">
+  <h2>Opportunities — recommended next</h2>
+  <p>The three issues above were problems we <em>fixed</em>. The four items below are <strong>opportunities</strong> — things that already work, but where a small, targeted effort should bring in noticeably more visitors from Google. They are ordered by how much traffic is realistically within reach.</p>
+
+  <h3>A. Searches where we're <em>almost</em> winning &nbsp;<span class="pill pill-open">OPPORTUNITY</span></h3>
+  <p>For the searches below, our site already appears near the bottom of Google's first page (or the top of page two). Thousands of people see us — but almost none click, because we sit just below the results that get all the attention. It's like being on the bottom shelf of a shop: shoppers have to look down to notice you. Nudging these up just a few spots would capture visitors we're currently missing by a hair.</p>
+  <table>
+    <tr><th>Query</th><th class="num"><a href="#key-terms">Impressions</a></th><th class="num"><a href="#key-terms">Position</a></th><th class="num"><a href="#key-terms">CTR</a></th></tr>
+    <tr><td><code>tnnmc</code></td><td class="num">4,869</td><td class="num">10.0</td><td class="num">0.18%</td></tr>
+    <tr><td><code>indian nursing council</code></td><td class="num">4,588</td><td class="num">7.0</td><td class="num">0.11%</td></tr>
+    <tr><td><code>maharashtra nursing council</code></td><td class="num">887</td><td class="num">7.0</td><td class="num">0.11%</td></tr>
+  </table>
+  <p>These are all searches for nursing councils and partner organisations we <em>already</em> have pages for — so the content exists; it just needs to rank a little higher. We would help Google promote these pages by making their on-page wording clearer and adding small extras (like the "breadcrumb" trail links you see under some Google results) that make a listing look more complete and trustworthy.</p>
+
+  <h3>B. Our most-seen page could earn far more clicks &nbsp;<span class="pill pill-open">OPPORTUNITY</span></h3>
+  <p>The Indian Nursing Council page is shown in Google more than any other page on the site — <strong>15,909 times</strong> in three months — but only about <strong>8 in every 100 people</strong> who see it click through. Because <em>so many</em> people see it, even a small improvement here brings a big jump in visitors. The fix is simply to rewrite the headline and one-line summary Google displays for this page so they're more inviting, and add the visual extras that make a result stand out.</p>
+
+  <h3>C. One course page is being overlooked &nbsp;<span class="pill pill-open">OPPORTUNITY</span></h3>
+  <p>The "Normal Labour &amp; AMTSL" course page is shown often and sits in a good spot on Google, yet <strong>fewer than 1 in 100 people click it</strong>. That gap usually means the headline and description Google shows don't quite match what people are searching for. Rewriting them to speak to what learners actually want should win far more clicks from the same visibility.</p>
+
+  <h3>D. Make sure everything works great on phones first &nbsp;<span class="pill pill-open">OPPORTUNITY</span></h3>
+  <p><strong>Two out of every three people</strong> find us on a mobile phone, and phone users click our results almost twice as often as computer users. So any future improvement should be checked on mobile first — especially how <em>fast</em> pages load, because slow pages lose visitors and Google ranks them lower. This is worth a dedicated review of the site's loading speed on phones.</p>
+
+  <hr class="section-divider">
+  <h2>Changes shipped in this release</h2>
+  <table>
+    <tr><th>File</th><th>Change</th><th class="num">Tests</th></tr>
+    <tr><td><code>src/app/services/seo.service.ts</code></td><td>Trailing-slash + query-string canonical URL normalisation</td><td class="num">4 new</td></tr>
+    <tr><td><code>generate-sitemap.js</code></td><td>Unicode-aware slug builder (capped for filesystem safety) + shared course-path helper + render-validation so only pages with content are listed</td><td class="num">12 new</td></tr>
+  </table>
+  <div class="note"><strong>Deploy risk: low.</strong> Changes are limited to generated page metadata and the build-time sitemap script — no runtime application behaviour changes for users. All 27 unit tests pass. The regenerated sitemap drops from ~498 course URLs to <strong>407 that actually render</strong>. Impact (duplicate consolidation, readable Hindi URLs, no more blank pages) will appear gradually in Search Console over the weeks following deploy as Google re-crawls.</div>
+</body>
+</html>

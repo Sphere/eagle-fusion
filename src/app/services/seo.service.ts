@@ -38,12 +38,13 @@ export class SeoService {
   ) {}
 
   update(config: ISeoConfig = {}) {
+    const path = this.normalizePath(this.router.url)
     const title = config.title || DEFAULT_TITLE
     const description = config.description || DEFAULT_DESCRIPTION
     const ogTitle = config.ogTitle || title
     const ogDescription = config.ogDescription || description
     const ogImage = config.ogImage || DEFAULT_OG_IMAGE
-    const ogUrl = config.ogUrl || `${BASE_URL}${this.router.url.split('?')[0]}`
+    const ogUrl = config.ogUrl || `${BASE_URL}${path}`
     const ogType = config.ogType || 'website'
 
     this.titleSvc.setTitle(title)
@@ -77,6 +78,15 @@ export class SeoService {
     // Canonical and JSON-LD — use injected DOCUMENT so these work during SSR/prerender too
     this.setCanonical(config.canonicalUrl || ogUrl)
     this.setJsonLd(config.jsonLd || null)
+  }
+
+  // Collapse a route to a single canonical form: drop the query string and any trailing slash
+  // (except the site root). The app serves index.html — HTTP 200 — for both `/x` and `/x/`, so
+  // without this the two variants each self-canonicalize and Google indexes them as duplicates,
+  // splitting ranking signals. sitemap.xml uses the no-trailing-slash form, so we match it.
+  private normalizePath(url: string): string {
+    const path = url.split('?')[0].split('#')[0]
+    return path.length > 1 ? path.replace(/\/+$/, '') : path
   }
 
   private setCanonical(url: string) {
