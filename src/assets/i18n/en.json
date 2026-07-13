@@ -985,5 +985,7 @@
   "LEVEL_NOTE": "Note: Complete the level 1 assessment to progress to the next level.",
   "COMPETENCY_ACHIEVED": "Competency Achieved",
   "LEVELS": "Levels:",
-  "FAIL_ASSESSMENT": "Self Assessment not cleared"
+  "FAIL_ASSESSMENT": "Self Assessment not cleared",
+  "RELEVANT_COURSES": "View Relevant Courses",
+  "GO_TO_COMPETENCY": "Go to Competency Dashboard"
 }
