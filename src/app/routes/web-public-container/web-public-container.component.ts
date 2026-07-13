@@ -83,7 +83,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async ngOnInit() {
-    console.log("selectedProgDet ", this.selectedProgDet)
+    this.logger.log('selectedProgDet ', this.selectedProgDet)
 
     this.isLoading.set(true)
     this.handleScrollEvents()

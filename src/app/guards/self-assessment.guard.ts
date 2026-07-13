@@ -5,6 +5,7 @@ import { forkJoin, of } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import { WidgetContentService } from '../../../library/ws-widget/collection/src/lib/_services/widget-content.service'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/lib/services/configurations.service'
+import { LoggerService } from '@ws-widget/utils'
 import { viewerRouteGenerator } from '../../../library/ws-widget/collection/src/lib/_services/viewer-route-util'
 import { TranslateService } from '@ngx-translate/core'
 
@@ -26,7 +27,8 @@ export class SelfAssessmentGuard {
     private contentSvc: WidgetContentService,
     private configSvc: ConfigurationsService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private logger: LoggerService
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot) {
@@ -49,7 +51,7 @@ export class SelfAssessmentGuard {
       this.competencyId = this.eventData.competencyID
       this.language = this.eventData.lang || this.translate.getCurrentLang()
       this.levelsDetaisl = JSON.stringify(this.eventData.levels)
-      console.log("query paramas levels details", this.levelsDetaisl)
+      this.logger.log('query paramas levels details', this.levelsDetaisl)
       this.isAshaCourses = this.eventData.isAsha ? true : false
       this.eventData['mimeType'] = 'application/json'
       const content$ = this.getContent()
@@ -215,7 +217,7 @@ export class SelfAssessmentGuard {
         viewMode: viewMode,
         competency: 'true',
       }
-      console.log("router url", this.resumeDataLink, qParams)
+      this.logger.log('router url', this.resumeDataLink, qParams)
       this.router.navigate([this.resumeDataLink.url], {
         queryParams: qParams,
       })
@@ -230,7 +232,7 @@ export class SelfAssessmentGuard {
         lang: this.language,
         levels: this.levelsDetaisl
       }
-      console.log("router url", this.resumeDataLink, qParams)
+      this.logger.log('router url', this.resumeDataLink, qParams)
       this.router.navigate([this.resumeDataLink.url], {
         queryParams: qParams,
       })

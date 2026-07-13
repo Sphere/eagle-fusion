@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { TranslateService } from '@ngx-translate/core'
 import * as _ from 'lodash-es'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
+import { LoggerService } from '@ws-widget/utils'
 
 @Component({
   standalone: false,
@@ -25,7 +26,8 @@ export class AshaLearningComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private translate: TranslateService,
-    private contentSvc: WidgetContentService
+    private contentSvc: WidgetContentService,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -208,12 +210,12 @@ export class AshaLearningComponent implements OnInit, OnChanges {
   }
 
   getNavigationData(res, levelId) {
-    console.log("Input data:", res) // Debugging the input array
+    this.logger.log('Input data:', res) // Debugging the input array
     let matchedContent = null
 
     // Ensure ashaData and its properties exist
     if (!this.ashaData || !this.ashaData.levels || !this.ashaData.lang) {
-      console.error("ashaData or ashaData properties are undefined.")
+      this.logger.error('ashaData or ashaData properties are undefined.')
     } else {
       // Iterate through each content in res
       matchedContent = res.find(content => {
@@ -225,11 +227,11 @@ export class AshaLearningComponent implements OnInit, OnChanges {
               const courseIdMatches = course.id === content.identifier
               const languageMatches = content.lang === this.ashaData.lang
 
-              console.log("Checking course:", course.id, content.identifier, content.lang, this.ashaData.lang)
+              this.logger.log('Checking course:', course.id, content.identifier, content.lang, this.ashaData.lang)
 
               // First priority: Check if both courseIdMatches and languageMatches are true
               if (courseIdMatches && languageMatches) {
-                console.log("Both matched:", course.id, content.identifier)
+                this.logger.log('Both matched:', course.id, content.identifier)
                 matchedContent = content // Found a match with both conditions
                 return true // Return immediately as we've found the desired match
               }
@@ -243,7 +245,7 @@ export class AshaLearningComponent implements OnInit, OnChanges {
             for (const course of level.course) {
               const courseIdMatches = course.id === content.identifier
               if (courseIdMatches) {
-                console.log("Only courseIdMatches:", course.id, content.identifier)
+                this.logger.log('Only courseIdMatches:', course.id, content.identifier)
                 matchedContent = content // Found a match for courseIdMatches alone
                 return true // Return immediately as we've found the match
               }
@@ -257,9 +259,9 @@ export class AshaLearningComponent implements OnInit, OnChanges {
 
     // Check if a match was found
     if (matchedContent) {
-      console.log("Matched content:", matchedContent)
+      this.logger.log('Matched content:', matchedContent)
     } else {
-      console.log("No match found for levelId:", levelId)
+      this.logger.log('No match found for levelId:', levelId)
     }
 
     return matchedContent

@@ -7,14 +7,11 @@ import { ExternalUrlResolverService } from './guards/external-url-resolver.servi
 import { GeneralGuard } from './guards/general.guard'
 import { LoginGuard } from './guards/login.guard'
 import { EmptyRouteGuard } from './guards/empty-route.guard'
-import { FeaturesComponent } from './routes/features/features.component'
-import { FeaturesModule } from './routes/features/features.module'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
 import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
 import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
-import { PublicCourseBlogComponent } from './routes/public/public-course-blog/public-course-blog.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
@@ -32,7 +29,6 @@ import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.
 
 import { YourLocationComponent as AboutYou } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
-import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
@@ -149,10 +145,6 @@ const routes: Routes = [
     },
   },
   {
-    path: 'app/complete-profile',
-    component: CompleteProfileComponent,
-  },
-  {
     path: 'app/education-list',
     component: EducationListComponent,
   },
@@ -167,11 +159,6 @@ const routes: Routes = [
   {
     path: 'app/bnrc-email-otp',
     component: BnrcLoginOtpComponent,
-  },
-  {
-    path: 'app/features',
-    component: FeaturesComponent,
-    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'app/login',
@@ -203,11 +190,6 @@ const routes: Routes = [
     // assets/configurations/orgmeta.config.json (404) on every navigation, and
     // OrgComponent never read the resolver result — it loads its own data via
     // /assets/orgMeta.json directly in loadOrgData().
-  },
-  {
-    path: 'app/org-selective-course',
-    loadChildren: () =>
-      import('../../project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.module').then(u => u.OrgSelectiveCourseModule),
   },
   {
     path: 'app/personal-detail-edit',
@@ -242,11 +224,6 @@ const routes: Routes = [
       searchPageData: PageResolve,
     },
     canActivate: [EmptyRouteGuard],
-  },
-  {
-    path: 'app/signup',
-    loadChildren: () =>
-      import('./routes/signup/signup.module').then(u => u.SignupModule),
   },
   {
     path: 'app/tnc',
@@ -481,25 +458,6 @@ const routes: Routes = [
     data: { isPublic: true },
   },
   {
-    path: 'public/course-blog/:courseId',
-    component: PublicCourseBlogComponent,
-    data: { isPublic: true },
-  },
-  {
-    path: 'public/contact',
-    // component: PublicContactComponent,
-    loadChildren: () => import('./routes/public/public-contact/public-contact.module').then(u => u.PublicContactModule),
-    data: {
-      title: 'Contact Us - Aastrika Sphere',
-      seoDescription: 'Get in touch with the Aastrika Sphere team for queries about our healthcare training courses, partnerships, or platform support.',
-      pageType: 'feature',
-      pageKey: 'public-faq',
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
-  },
-  {
     path: 'public/tnc',
     component: TncComponent,
     data: {
@@ -572,7 +530,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     PageModule,
-    FeaturesModule,
     ReactiveFormsModule,
     FormsModule,
     CommonModule,

@@ -228,7 +228,7 @@ export class WebCourseCardComponent implements OnInit {
     }
   }
   onProgramClick() {
-    console.log("[1] card clicked, programData:", this.programData)
+    this.logger.log('[1] card clicked, programData:', this.programData)
     this.programClick.emit(this.programData)
   }
 }

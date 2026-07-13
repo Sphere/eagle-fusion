@@ -58,7 +58,11 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     })
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initializeNavLink()
+  }
+
+  private initializeNavLink(): void {
     this.isDark = this.themeService.isDarkMode()
     this.isDark = this.themeService.isDark()
     this.logger.log(" menuItems ", this.menuItems, this.orgData)
@@ -68,7 +72,11 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     this.event.subscribe('notificationCountUpdated', count => {
       this.updateNotificationCount(count)
     })
-    this.userData = await this.signupService.getUserData()
+    this.signupService.getUserData().then((data) => {
+      this.userData = data
+    }).catch((_err) => {
+      this.logger.error('Error fetching user data:', _err)
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {

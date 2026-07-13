@@ -362,7 +362,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     this.valueSvc.updateWidth(window.innerWidth)
   }
-  async ngOnInit() {
+  ngOnInit() {
     this.handleRouterSubscription()
 
     // Initialize downtime configuration

@@ -37,7 +37,7 @@ export class AppPublicNavBarComponent implements OnInit, OnDestroy {
     location.href = '/public/home'
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     const paramsMap = this.activateRoute.snapshot.queryParamMap
     const href = window.location.href
     if (paramsMap.has('ref')) {

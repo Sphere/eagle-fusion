@@ -15,11 +15,13 @@ import { ConfigurationsService } from '@ws-widget/utils'
 describe('ConfigService', () => {
   let service: ConfigService
   let mockConfigSvc: any
+  let mockLogger: any
 
   beforeEach(() => {
     localStorage.clear()
     mockConfigSvc = new ConfigurationsService()
-    service = new ConfigService(mockConfigSvc)
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
+    service = new ConfigService(mockConfigSvc, mockLogger)
   })
 
   afterEach(() => {

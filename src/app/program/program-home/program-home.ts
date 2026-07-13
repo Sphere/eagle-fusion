@@ -2,6 +2,7 @@ import { Component, computed, EventEmitter, Input, Output, signal, OnInit } from
 // import { Router } from '@angular/router'
 import { Subject } from 'rxjs'
 import { ValueService } from '../../../../library/ws-widget/utils/src/lib/services/value.service'
+import { LoggerService } from '@ws-widget/utils'
 import { PlaylistService } from '../../services/playlist.service'
 // import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 
@@ -25,21 +26,30 @@ export class ProgramHome implements OnInit {
   constructor(
     private valueSvc: ValueService,
     private playlistSvc: PlaylistService,
+    private logger: LoggerService
     // private router: Router,
     // private configSvc: ConfigurationsService
   ) {
   }
 
-  async ngOnInit() {
-    console.log("configData ", this.configData)
-    const plyLsData = await this.playlistSvc.getPlaylistConfig()
-    const enrichedPrograms = this.configData?.programs?.map(
-      this.enrichProgramWithCount(plyLsData, 'en')
-    )
+  ngOnInit() {
+    this.initializePrograms()
+  }
 
-    console.log('Section config in program list :', enrichedPrograms)
-    this.programData.set(enrichedPrograms)
-    this.isLoading.set(false)
+  private initializePrograms(): void {
+    this.logger.log('configData ', this.configData)
+    this.playlistSvc.getPlaylistConfig().then((plyLsData) => {
+      const enrichedPrograms = this.configData?.programs?.map(
+        this.enrichProgramWithCount(plyLsData, 'en')
+      )
+
+      this.logger.log('Section config in program list :', enrichedPrograms)
+      this.programData.set(enrichedPrograms)
+      this.isLoading.set(false)
+    }).catch((err) => {
+      this.logger.error('Failed to load playlist config:', err)
+      this.isLoading.set(false)
+    })
   }
 
   enrichProgramWithCount = (playlists: any[], defaultLang: string) => (program: any): any => {

@@ -36,6 +36,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.ts',
+    '!src/**/*.data.ts',
     '!src/app/workers/*',
     '!src/environments/*',
     '!src/**/*.module.ts',

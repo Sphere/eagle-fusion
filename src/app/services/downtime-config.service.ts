@@ -9,7 +9,7 @@ import {
   DowntimeType,
 } from '../models/downtime.model'
 import { API_END_POINTS } from '../constants/apiConstants'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 
 /**
  * DowntimeConfigService
@@ -29,6 +29,7 @@ export class DowntimeConfigService implements OnDestroy {
     private ngZone: NgZone,
     private httpClient: HttpClient,
     private configSvc: ConfigurationsService,
+    private logger: LoggerService,
   ) { }
 
   private downtimeState$ = new BehaviorSubject<DowntimeState>({
@@ -131,7 +132,7 @@ export class DowntimeConfigService implements OnDestroy {
           return this.parseDowntimeConfig(data)
         }),
         catchError(error => {
-          console.error('Failed to fetch downtime config from API:', error)
+          this.logger.error('Failed to fetch downtime config from API:', error)
           return of(this.getDefaultDowntimeState(false))
         }),
       )
@@ -174,7 +175,7 @@ export class DowntimeConfigService implements OnDestroy {
         refreshTimer,
       }
     } catch (error) {
-      console.error('Error parsing downtime configuration:', error)
+      this.logger.error('Error parsing downtime configuration:', error)
       return this.getDefaultDowntimeState(false)
     }
   }
@@ -268,7 +269,7 @@ export class DowntimeConfigService implements OnDestroy {
         this.scheduleAutoRefresh(state)
       },
       error => {
-        console.warn('Auto-refresh failed:', error)
+        this.logger.warn('Auto-refresh failed:', error)
         if (this.currentConfig?.refreshInterval) {
           this.scheduleAutoRefresh(this.getCurrentDowntimeState())
         }
@@ -291,7 +292,7 @@ export class DowntimeConfigService implements OnDestroy {
    */
   private getAppName(): string {
     const hostname = window.location.hostname
-    if (hostname.includes('ekshamata')) {
+    if (hostname.includes('localhost')) {
       return 'ekshamata'
     }
     if (hostname.includes('sphere')) {

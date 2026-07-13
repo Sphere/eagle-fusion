@@ -56,6 +56,7 @@ describe('MyCoursesComponent', () => {
   let mockLangSvc: any
   let mockOrgService: any
   let mockCdr: any
+  let mockLogger: any
   let queryParamsSubject: Subject<any>
 
   beforeEach(() => {
@@ -107,6 +108,8 @@ describe('MyCoursesComponent', () => {
       detectChanges: jest.fn(),
       markForCheck: jest.fn(),
     }
+
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
   })
 
   const createComponent = () =>
@@ -121,6 +124,7 @@ describe('MyCoursesComponent', () => {
       mockLangSvc,
       mockOrgService,
       mockCdr,
+      mockLogger,
     )
 
   afterEach(() => jest.clearAllMocks())

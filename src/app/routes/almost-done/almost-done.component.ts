@@ -68,11 +68,24 @@ export class AlmostDoneComponent implements OnInit {
   ) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initializeAlmostDone()
+  }
+
+  private initializeAlmostDone(): void {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
-    this.result = await this.signupService.fetchStartUpDetails()
-    this.logger.log(this.result)
+    this.signupService.fetchStartUpDetails().then((result) => {
+      this.result = result
+      this.logger.log(this.result)
+      this.setupAlmostDoneForm()
+    }).catch((err) => {
+      this.logger.error('Error fetching startup details:', err)
+      this.setupAlmostDoneForm()
+    })
+  }
+
+  private setupAlmostDoneForm(): void {
     if (this.yourBackground.value.country !== 'India') {
       this.hideAsha = true
     } else {

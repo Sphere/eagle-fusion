@@ -30,7 +30,11 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private userAgentSvc: UserAgentResolverService,
   ) {}
-  async ngOnInit() {
+  ngOnInit() {
+    this.initializeToc()
+  }
+
+  private initializeToc(): void {
     this.userAgentSvc.requestGeolocation()
     // Wait for child route if any
     const childRoute = this.activeRoute.firstChild || this.activeRoute
@@ -39,55 +43,59 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     combineLatest([
       childRoute.params,
       childRoute.queryParams,
-    ]).subscribe(async ([params, queryParams]) => {
-      const courseId = params['courseId'] || queryParams['courseId']
-      const slug = params['slug'] || params['courseId'] || ''
-
-      this.courseid = courseId
-      this.logger.log('this.courseId', this.courseid)
-
-      try {
-        (window as any).fbq('track', 'ViewContent', {
-          contentId: this.courseid,
-          content_category: 'Public TOC',
-        })
-      } catch (e) {
-        this.logger.log("fb pixel error")
-      }
-
-      // User UUID flow
-      if (localStorage.getItem('userUUID')) {
-        this.isLoading = true
-        const id = localStorage.getItem('userUUID') || ''
-
-        this.userProfileSvc.getUserdetailsFromRegistry(id).subscribe(
-          async (_data: any) => {
-            const redirectPath = `/public/toc/overview/${this.courseid}/${slug}`
-
-            // Only redirect if needed (compare against current router URL path)
-            if (this.router.url !== redirectPath) {
-              this.router.navigateByUrl(redirectPath)
-            }
-            Promise.resolve().then(() => { this.isLoading = false; this.cdr.markForCheck() })
-          },
-          err => {
-            this.logger.error(err)
-            Promise.resolve().then(() => { this.isLoading = false; this.cdr.markForCheck() })
-          }
-        )
-      }
-
-      // Load TOC
-      if (localStorage.getItem('tocData')) {
-        localStorage.removeItem('tocData')
-      }
-
-      if (!this.tocData) {
-        await this.seachAPI(this.courseid)
-      }
-
-      this.checkRoute()
+    ]).subscribe(([params, queryParams]) => {
+      this.handleTocRouteParams(params, queryParams)
     })
+  }
+
+  private handleTocRouteParams(params: any, queryParams: any): void {
+    const courseId = params['courseId'] || queryParams['courseId']
+    const slug = params['slug'] || params['courseId'] || ''
+
+    this.courseid = courseId
+    this.logger.log('this.courseId', this.courseid)
+
+    try {
+      (window as any).fbq('track', 'ViewContent', {
+        contentId: this.courseid,
+        content_category: 'Public TOC',
+      })
+    } catch (e) {
+      this.logger.log("fb pixel error")
+    }
+
+    // User UUID flow
+    if (localStorage.getItem('userUUID')) {
+      this.isLoading = true
+      const id = localStorage.getItem('userUUID') || ''
+
+      this.userProfileSvc.getUserdetailsFromRegistry(id).subscribe(
+        (_data: any) => {
+          const redirectPath = `/public/toc/overview/${this.courseid}/${slug}`
+
+          // Only redirect if needed (compare against current router URL path)
+          if (this.router.url !== redirectPath) {
+            this.router.navigateByUrl(redirectPath)
+          }
+          Promise.resolve().then(() => { this.isLoading = false; this.cdr.markForCheck() })
+        },
+        err => {
+          this.logger.error(err)
+          Promise.resolve().then(() => { this.isLoading = false; this.cdr.markForCheck() })
+        }
+      )
+    }
+
+    // Load TOC
+    if (localStorage.getItem('tocData')) {
+      localStorage.removeItem('tocData')
+    }
+
+    if (!this.tocData) {
+      this.seachAPI(this.courseid)
+    } else {
+      this.checkRoute()
+    }
   }
 
 

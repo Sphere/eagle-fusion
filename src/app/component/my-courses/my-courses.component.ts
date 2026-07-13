@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, effect } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService, LoggerService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { PlaylistService } from '../../services/playlist.service'
@@ -45,7 +45,8 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     private playlistSvc: PlaylistService,
     private langSvc: LanguageService,
     private orgService: OrgServiceService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private logger: LoggerService
   ) {
     effect(() => {
       this.isXSmall = this.valueSvc.isMobile() ? true : false
@@ -359,7 +360,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         return processedCourses
       }),
       catchError(err => {
-        console.error("Error fetching recommendation", err)
+        this.logger.error('Error fetching recommendation', err)
         return of([])
       })
     )

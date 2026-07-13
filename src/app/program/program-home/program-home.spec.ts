@@ -18,6 +18,7 @@ describe('ProgramHome', () => {
   let comp: ProgramHome
   let mockValueSvc: any
   let mockPlaylistSvc: any
+  let mockLogger: any
 
   const staticPlaylist = {
     playlistId: 'PL_STATIC',
@@ -37,7 +38,8 @@ describe('ProgramHome', () => {
       selectedProgram: { set: jest.fn() },
       showDetails: { set: jest.fn() },
     }
-    comp = new ProgramHome(mockValueSvc, mockPlaylistSvc)
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
+    comp = new ProgramHome(mockValueSvc, mockPlaylistSvc, mockLogger)
   })
 
   afterEach(() => {

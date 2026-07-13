@@ -10,8 +10,8 @@ import { HtmlComponent } from './routes/html/html.component'
 import { HtmlModule } from './routes/html/html.module'
 import { PdfComponent } from './routes/pdf/pdf.component'
 import { PdfModule } from './routes/pdf/pdf.module'
-import { ChannelComponent } from './routes/channel/channel.component'
-import { ChannelModule } from './routes/channel/channel.module'
+// import { ChannelComponent } from './routes/channel/channel.component'
+// import { ChannelModule } from './routes/channel/channel.module'
 import { VideoComponent } from './routes/video/video.component'
 import { VideoModule } from './routes/video/video.module'
 import { YoutubeComponent } from './routes/youtube/youtube.component'
@@ -48,16 +48,16 @@ const routes: Routes = [
       content: ViewerResolve,
     },
   },
-  {
-    path: 'channel/:resourceId',
-    data: {
-      resourceType: 'channel',
-    },
-    resolve: {
-      content: ViewerResolve,
-    },
-    component: ChannelComponent,
-  },
+  // {
+  //   path: 'channel/:resourceId',
+  //   data: {
+  //     resourceType: 'channel',
+  //   },
+  //   resolve: {
+  //     content: ViewerResolve,
+  //   },
+  //   component: ChannelComponent,
+  // },
   {
     path: 'iap',
     data: {
@@ -150,7 +150,6 @@ const routes: Routes = [
     PdfModule,
     VideoModule,
     YoutubeModule,
-    ChannelModule,
     RouterModule.forChild([
       {
         path: '',

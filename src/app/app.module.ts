@@ -55,7 +55,7 @@ import {
   PipeSafeSanitizerModule,
   LogoutModule,
 } from '@ws-widget/utils'
-import { OrgSelectiveCourseModule, SearchModule } from '@ws/app/src/public-api'
+import { SearchModule } from '@ws/app/src/public-api'
 import { KeycloakAngularModule } from 'keycloak-angular'
 import { AppRoutingModule } from './app-routing.module'
 import { InitService } from './services/init.service'
@@ -85,7 +85,6 @@ import { CreateAccountComponent } from './routes/create-account/create-account.c
 import { YourLocationComponent } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { YourBackgroundComponent } from './routes/your-background/your-background.component'
-import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 
@@ -97,7 +96,6 @@ import { ConfigService } from './routes/discussion-forum/wrapper/service/config.
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
-import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 // @aastrika/comptency modules (EntryModule, SelfAssessmentModule, CompetencyModule)
 // are now lazy-loaded via src/app/routes/competency/competency.module.ts on the
@@ -161,16 +159,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 // Capacitor platform detection — safe in Node.js (Capacitor checks the environment internally)
-if (Capacitor.getPlatform() === 'ios') {
-  // eslint-disable-next-line no-console
-  console.log('iOS!')
-} else if (Capacitor.getPlatform() === 'android') {
-  // eslint-disable-next-line no-console
-  console.log('Android!')
-} else {
-  // eslint-disable-next-line no-console
-  console.log('Web!')
-}
+// Platform detection removed (replaced with LoggerService in init phase)
 
 // All window/localStorage/sessionStorage access guarded — Node.js has no DOM
 if (typeof window !== 'undefined') {
@@ -190,12 +179,8 @@ if (typeof window !== 'undefined') {
       localStorage.setItem('orgValue', orgValue)
       if (orgValue === 'nhsrc') {
         if (url.indexOf('do_') > 0) {
-          // eslint-disable-next-line no-console
-          console.log('app.module', url)
           localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]}` + `/overview`)
         } else {
-          // eslint-disable-next-line no-console
-          console.log('line number 182 else in app module.ts', url)
           window.location.href = `${document.baseURI}organisations/home`
         }
       }
@@ -231,8 +216,8 @@ const dbConfig: DBConfig = {
 }
 
 // Initialize with empty config for AOT compilation - will be replaced at runtime
-export let COMPETENCY_REGISTRATION_CONFIG = {
-  config: {},
+export const COMPETENCY_REGISTRATION_CONFIG = {
+  config: {} as Record<string, unknown>,
   isOnlyPassbook: '',
 }
 
@@ -240,17 +225,12 @@ export let COMPETENCY_REGISTRATION_CONFIG = {
 export function initializeCompetencyConfig(): () => void {
   return () => {
     try {
-      COMPETENCY_REGISTRATION_CONFIG = {
-        config: JSON.parse(localStorage.getItem('competency') || '{}'),
-        isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || '',
-      }
+      COMPETENCY_REGISTRATION_CONFIG.config = JSON.parse(localStorage.getItem('competency') || '{}')
+      COMPETENCY_REGISTRATION_CONFIG.isOnlyPassbook = localStorage.getItem('isOnlyPassbook') || ''
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error initializing competency config:', error)
-      COMPETENCY_REGISTRATION_CONFIG = {
-        config: {},
-        isOnlyPassbook: '',
-      }
+      // Error initializing competency config — fallback to empty config
+      COMPETENCY_REGISTRATION_CONFIG.config = {}
+      COMPETENCY_REGISTRATION_CONFIG.isOnlyPassbook = ''
     }
   }
 }
@@ -297,7 +277,6 @@ export function initTranslate(translate: TranslateService) {
     YourLocationComponent,
     NewTncComponent,
     YourBackgroundComponent,
-    CompleteProfileComponent,
     ScrollDetectorDirective,
     AppNavBarComponent,
     BnrcmodalComponent,
@@ -305,7 +284,6 @@ export function initTranslate(translate: TranslateService) {
     WebPublicComponent,
     AshaLearningCardComponent,
     ProgramHome,
-    // SearchRootComponent
     WebDashboardComponent,
     AppPublicNavBarComponent,
     WebTrustedByPageComponent,
@@ -383,8 +361,7 @@ export function initTranslate(translate: TranslateService) {
     ProfileViewModule,
     MdePopoverModule,
     DowntimeFullComponent,
-    DowntimeBannerComponent,
-    OrgSelectiveCourseModule],
+    DowntimeBannerComponent],
   providers: [
     {
       provide: APP_INITIALIZER,

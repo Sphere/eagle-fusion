@@ -126,48 +126,53 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     this.cdr.detectChanges()
   }
 
-  async ngOnInit() {
-    await this.setUIData()
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.hideCreateButton = false
-    }
-    this.hideSearch = false
-    this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
-    this.router.events.subscribe((e: Event) => {
-      if (e instanceof NavigationEnd) {
-        if ((e.url.includes('/app/setup') && this.configSvc.instanceConfig && !this.configSvc.instanceConfig.showNavBarInSetup)) {
-          this.showAppNavBar = false
-        } else {
-          this.showAppNavBar = true
-          if (e.url.includes('new-tnc')) {
-            this.hideSearch = true
-          }
-          if (e.url.includes('/search/home') || (e.url.includes('/app/new-tnc'))) {
-            this.showSearchIcon = false
+  ngOnInit() {
+    this.initializeComponent()
+  }
+
+  private initializeComponent(): void {
+    this.setUIData().then(() => {
+      if (localStorage.getItem('orgValue') === 'nhsrc') {
+        this.hideCreateButton = false
+      }
+      this.hideSearch = false
+      this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
+      this.router.events.subscribe((e: Event) => {
+        if (e instanceof NavigationEnd) {
+          if ((e.url.includes('/app/setup') && this.configSvc.instanceConfig && !this.configSvc.instanceConfig.showNavBarInSetup)) {
+            this.showAppNavBar = false
           } else {
-            this.navOption.changeNavBarActive('search')
-            this.showSearchIcon = true
+            this.showAppNavBar = true
+            if (e.url.includes('new-tnc')) {
+              this.hideSearch = true
+            }
+            if (e.url.includes('/search/home') || (e.url.includes('/app/new-tnc'))) {
+              this.showSearchIcon = false
+            } else {
+              this.navOption.changeNavBarActive('search')
+              this.showSearchIcon = true
+            }
           }
         }
-      }
-    })
+      })
 
-    if (this.configSvc.instanceConfig) {
-      this.instanceVal = this.configSvc.rootOrg || ''
-      if (this.configSvc.instanceConfig.logos.appBottomNav) {
-        this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.configSvc.instanceConfig.logos.appBottomNav,
-        )
+      if (this.configSvc.instanceConfig) {
+        this.instanceVal = this.configSvc.rootOrg || ''
+        if (this.configSvc.instanceConfig.logos.appBottomNav) {
+          this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+            this.configSvc.instanceConfig.logos.appBottomNav,
+          )
+        }
+        this.primaryNavbarBackground = this.configSvc.primaryNavBar
+        this.pageNavbar = this.configSvc.pageNavBar
+        this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
+        this.cdr.detectChanges()
       }
-      this.primaryNavbarBackground = this.configSvc.primaryNavBar
-      this.pageNavbar = this.configSvc.pageNavBar
-      this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
-      this.cdr.detectChanges()
-    }
-    if (this.configSvc.appsConfig) {
-      this.featureApps = Object.keys(this.configSvc.appsConfig.features)
-    }
-    this.domain = window.location.hostname
+      if (this.configSvc.appsConfig) {
+        this.featureApps = Object.keys(this.configSvc.appsConfig.features)
+      }
+      this.domain = window.location.hostname
+    })
   }
 
   createAcct() {

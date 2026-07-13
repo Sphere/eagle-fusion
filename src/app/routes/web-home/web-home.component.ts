@@ -50,14 +50,27 @@ export class WebHomeComponent implements OnInit, OnDestroy {
     })
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initializeHomeData()
+  }
+
+  private initializeHomeData(): void {
     const res = this.playlsSvc.bodyConfig()
     if (res == '') {
-      const res = await this.playlsSvc.loadPlaylistData()
-      this.config = res?.LAYOUT_BODY[0]
+      this.playlsSvc.loadPlaylistData().then((data) => {
+        this.config = data?.LAYOUT_BODY[0]
+        this.setupUIAfterConfigLoad()
+      }).catch((_err) => {
+        this.config = null
+        this.setupUIAfterConfigLoad()
+      })
     } else {
       this.config = res[0]
+      this.setupUIAfterConfigLoad()
     }
+  }
+
+  private setupUIAfterConfigLoad(): void {
     if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {

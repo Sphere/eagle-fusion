@@ -10,6 +10,7 @@ describe('AshaLearningComponent', () => {
   let mockRouter: any
   let mockTranslate: any
   let mockContentSvc: any
+  let mockLogger: any
 
   const buildData = (progress: any[] = [], overrides: any = {}) => ({
     competencyID: '1',
@@ -40,7 +41,8 @@ describe('AshaLearningComponent', () => {
       setAshaData: jest.fn(),
       getFilteredCourseSearchResults: jest.fn().mockReturnValue(of({ result: { content: [] } })),
     }
-    comp = new AshaLearningComponent(mockRouter, mockTranslate, mockContentSvc)
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
+    comp = new AshaLearningComponent(mockRouter, mockTranslate, mockContentSvc, mockLogger)
     comp.ashaData = buildData()
   })
 

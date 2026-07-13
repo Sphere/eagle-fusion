@@ -10,11 +10,11 @@ import { WidgetContentService } from '@ws-widget/collection/src/lib/_services/wi
 import { ViewerUtilService } from '../../viewer-util.service'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
 @Component({
-    standalone: false,
-    selector: 'viewer-viewer-top-bar',
-    templateUrl: './viewer-top-bar.component.html',
-    styleUrls: ['./viewer-top-bar.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-viewer-top-bar',
+  templateUrl: './viewer-top-bar.component.html',
+  styleUrls: ['./viewer-top-bar.component.scss'],
+
 })
 export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   @Input() frameReference: any
@@ -34,7 +34,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   collectionId = ''
   logo = true
   isPreview = false
-  forChannel = false
+  // forChannel = false
   collection: any
   collectionCard: any
   @Input() screenContent: NsContent.IContent | null = null
@@ -70,9 +70,9 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    if (window.location.href.includes('/channel/')) {
-      this.forChannel = true
-    }
+    // if (window.location.href.includes('/channel/')) {
+    //   this.forChannel = true
+    // }
     if (window.location.href.includes('/author/')) {
       this.isAuthor = true
     }

@@ -124,8 +124,8 @@ export class MobileCourseViewComponent implements OnInit {
       .toLowerCase()
       .trim()
       .replace(/&/g, 'and')
-      .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
-      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
+      .replace(/[^a-z0-9]+/g, '-')       // Replace spaces/symbols with hyphen
+      .replace(/(^-+)|(-+$)/g, '')       // Remove starting/ending hyphens
   }
   redirectPage(course: any) {
     this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course', version: "", rollup: { l1: course.identifier } })
@@ -172,7 +172,7 @@ export class MobileCourseViewComponent implements OnInit {
   }
 
   onProgramClick() {
-    console.log("[1] card clicked, programData:", this.programData)
+    this.logger.log('[1] card clicked, programData:', this.programData)
     this.programClick.emit(this.programData)
   }
 }

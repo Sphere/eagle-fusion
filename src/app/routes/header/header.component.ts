@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
     private logger: LoggerService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.logger.log(this.configSvc)
   }
   homePage() {

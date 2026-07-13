@@ -1,3 +1,4 @@
+import { LoggerService } from '@ws-widget/utils'
 import { ScrollDetectorDirective } from './new-tnc.directive'
 
 function makeScrollEvent(scrollHeight: number, scrollTop: number, clientHeight: number) {
@@ -8,9 +9,11 @@ function makeScrollEvent(scrollHeight: number, scrollTop: number, clientHeight: 
 
 describe('ScrollDetectorDirective', () => {
   let directive: ScrollDetectorDirective
+  let mockLogger: any
 
   beforeEach(() => {
-    directive = new ScrollDetectorDirective()
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
+    directive = new ScrollDetectorDirective(mockLogger)
   })
 
   it('should create', () => {

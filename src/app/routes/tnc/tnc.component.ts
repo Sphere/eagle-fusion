@@ -48,10 +48,18 @@ export class TncComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initializeTnc()
+  }
+
+  private initializeTnc(): void {
     this.logger.log(this.configSvc)
-    this.result = await this.signupService.fetchStartUpDetails()
-    this.logger.log(this.result)
+    this.signupService.fetchStartUpDetails().then((result) => {
+      this.result = result
+      this.logger.log(this.result)
+    }).catch((err) => {
+      this.logger.error('Error fetching startup details:', err)
+    })
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
