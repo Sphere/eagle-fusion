@@ -13,7 +13,8 @@ export class MobileDashboardService {
   getCompetencyInfo(
     competencyHomeData: any[],
     _rootOrgId: string,
-    designation: string
+    designation: string,
+    lang: string
   ): { competencyIds: string[], competencyLevels: any[], isUserDesignationInRoles: boolean } | null {
     const item = competencyHomeData.find(p => p.playlistId === 'COMPETENCY_PLAYLIST')
     if (!item) return null
@@ -40,8 +41,8 @@ export class MobileDashboardService {
           level: l.level,
           levelName: l.name || l.levelName,
           description: l.description,
-          langHiName: l['lang-hi-name'],
-          langHiDescription: l['lang-hi-description'],
+          langHiName: l[`lang-${lang}-name`],
+          langHiDescription: l[`lang-${lang}-description`],
           course: l.course || [],
         }))
       })

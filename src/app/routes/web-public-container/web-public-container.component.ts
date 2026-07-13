@@ -173,7 +173,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
 
     const competencyPlaylist = this.plyLsData?.find(element =>
       element.orgId === rootOrgId &&
-      element.language === this.lang &&
+      element.language === 'en' &&
       element.playlistId === 'COMPETENCY_PLAYLIST' &&
       roleCheck(element.role)
     )
