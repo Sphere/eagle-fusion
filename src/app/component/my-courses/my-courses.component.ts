@@ -164,11 +164,11 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       roles?.some(r => r.toLowerCase() === designation.toLowerCase())
 
     let matchedElements = this.plyLsData?.filter(element =>
-      element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === 'YOUR_PLANS_PLAYLIST' && element.language === this.lang)
+      element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === 'Playlist_Course' && element.language === this.lang)
 
     if (matchedElements.length === 0) {
       matchedElements = this.plyLsData?.filter(element =>
-        element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
+        element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST_V2' || element.playlistId === 'SEARCH_PLAYLIST'))
 
       const listOfEnrolledCourseId = (this.userEnrolledCourse || [])
         .filter(course => course?.content?.identifier && !course?.content?.competency)
@@ -179,7 +179,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       let sourceName: string[] = []
 
       matchedElements?.forEach(element => {
-        if (element.playlistId === 'COMPETENCY_PLAYLIST') {
+        if (element.playlistId === 'COMPETENCY_PLAYLIST_V2') {
           competencySearchArray.push(
             ...this.buildCompetencySearchArray(element?.dataSource?.payload)
           )

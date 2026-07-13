@@ -42,6 +42,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   @Input() isEkshamata: any
   @Input() configData: any
   @Input() programConfig!: any
+  @Input() hascompetency!: any
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
@@ -92,15 +93,16 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     const rootOrgId = this.configSvc?.userProfile?.rootOrgId
     const roleCheck = (roles: string[]) =>
       roles?.some(r => r.toLowerCase() === designationLower)
+
+    // FLOW 1: Program Config Flow - highest priority
     if (this.showbackButton() && !!this.programConfig) {
       this.isCompetencyUser.set(this.selectedProgDet?.type === 'competency')
       if (this.isCompetencyUser()) {
-        // this.handleCompetencyFlow(rootOrgId, roleCheck)
-        this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: 'COMPETENCY_PLAYLIST' }])
+        this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: 'COMPETENCY_PLAYLIST_V2' }])
         this.competencyDesignation = designation
         this.competencyRole = 'learner'
 
-        const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST')
+        const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST_V2')
         this.competencySection = sectionFromConfig || { text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
 
         this.isCompetencyUser.set(true)
@@ -121,7 +123,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
           if (element.orgId !== rootOrgId || element.language !== this.lang) continue
           const { playlistId, dataSource } = element
           if (designation && roleCheck(element.role)) {
-            if (playlistId === 'YOUR_PLANS_PLAYLIST') {
+            if (playlistId === 'Playlist_Course') {
               this.yourPlansCourseIdentifier = dataSource.payload
             }
           }
@@ -137,7 +139,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
     }
-    // Fallback: if playlist API returned empty, read identifiers from form config
+    // Fallback: if playlist API returned empty, read identifiers from configData
     if (!this.topCertifiedCourseIdentifier.length && !this.cneCoursesIdentifier.length && !this.yourPlansCourseIdentifier.length) {
       this.uiConfig().forEach(data => {
         if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
@@ -147,9 +149,8 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
         }
       })
     }
-    // Evaluate competency eligibility first so isCompetencyUser is set correctly even
-    // when standard playlist identifiers also exist (the fallback above can populate them).
-    if (this.handleCompetencyFlow(rootOrgId, roleCheck)) {
+    if (this.hascompetency) {
+      this.handleCompetencyFlow(rootOrgId, roleCheck)
       return
     }
 
@@ -173,8 +174,8 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
 
     const competencyPlaylist = this.plyLsData?.find(element =>
       element.orgId === rootOrgId &&
-      element.language === 'en' &&
-      element.playlistId === 'COMPETENCY_PLAYLIST' &&
+      element.language === this.lang &&
+      element.playlistId === 'COMPETENCY_PLAYLIST_V2' &&
       roleCheck(element.role)
     )
 
@@ -183,12 +184,12 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       return false
     }
 
-    this.competencyPlaylists.set([{ ...competencyPlaylist, playlistId: 'COMPETENCY_PLAYLIST' }])
+    this.competencyPlaylists.set([{ ...competencyPlaylist, playlistId: 'COMPETENCY_PLAYLIST_V2' }])
     this.competencyDesignation = designation
     this.competencyRole = 'learner'
 
-    const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST')
-    this.competencySection = sectionFromConfig || { text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
+    const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST_V2')
+    this.competencySection = sectionFromConfig || { title: 'YOUR LEARNING PLAN', tabCardCount: 4 }
 
     this.isCompetencyUser.set(true)
     this.isLoading.set(false)
@@ -302,7 +303,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
           element.data = incomplete?.filter(item =>
             this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
-        } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
+        } else if (element.playlistConfigId === 'Playlist_Course') {
           const courseList = this.programIdentifiers.length > 0 ? this.programCourses() : this.coursesForYou()
           element.data = courseList.filter(item =>
             !this.userEnrollCourse?.some(bItem => bItem.identifier === item.identifier)

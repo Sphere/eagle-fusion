@@ -186,20 +186,12 @@ export class AshaLearningComponent implements OnInit, OnChanges {
   }
 
   getCourseId(competencyId: string, levelId: string, ashaData: any): string | null {
-    // Extract the language from the ashaData
-    const language = ashaData.lang || this.translate.getCurrentLang()
 
     // Iterate over the levels in the ashaData
     for (const level of ashaData.levels) {
       // Check if the competencyId and levelId match
       if (level.competencyId.toString() == competencyId && level.level == levelId) {
-        // Iterate over the courses in the matched level
-        for (const course of level.course) {
-          // Check if the course language matches the input language (ashaData.lang)
-          if (course.lang == language) {
-            return course.id // Return the matched course ID
-          }
-        }
+        return level.course
       }
     }
 
@@ -220,19 +212,16 @@ export class AshaLearningComponent implements OnInit, OnChanges {
         // Iterate through all levels in ashaData
         for (const level of this.ashaData.levels) {
           if (level.level == levelId) {
-            // Iterate through all courses in the level
-            for (const course of level.course) {
-              const courseIdMatches = course.id === content.identifier
-              const languageMatches = content.lang === this.ashaData.lang
+            const courseIdMatches = level.course === content.identifier
+            const languageMatches = content.lang === this.ashaData.lang
 
-              console.log("Checking course:", course.id, content.identifier, content.lang, this.ashaData.lang)
+            console.log("Checking course:", level.course, content.identifier, content.lang, this.ashaData.lang)
 
-              // First priority: Check if both courseIdMatches and languageMatches are true
-              if (courseIdMatches && languageMatches) {
-                console.log("Both matched:", course.id, content.identifier)
-                matchedContent = content // Found a match with both conditions
-                return true // Return immediately as we've found the desired match
-              }
+            // First priority: Check if both courseIdMatches and languageMatches are true
+            if (courseIdMatches && languageMatches) {
+              console.log("Both matched:", level.course, content.identifier)
+              matchedContent = content // Found a match with both conditions
+              return true // Return immediately as we've found the desired match
             }
           }
         }
@@ -240,13 +229,11 @@ export class AshaLearningComponent implements OnInit, OnChanges {
         // If no match was found, look for courseIdMatches condition alone
         for (const level of this.ashaData.levels) {
           if (level.level == levelId) {
-            for (const course of level.course) {
-              const courseIdMatches = course.id === content.identifier
-              if (courseIdMatches) {
-                console.log("Only courseIdMatches:", course.id, content.identifier)
-                matchedContent = content // Found a match for courseIdMatches alone
-                return true // Return immediately as we've found the match
-              }
+            const courseIdMatches = level.course === content.identifier
+            if (courseIdMatches) {
+              console.log("Only courseIdMatches:", level.course, content.identifier)
+              matchedContent = content // Found a match for courseIdMatches alone
+              return true // Return immediately as we've found the match
             }
           }
         }

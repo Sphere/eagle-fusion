@@ -126,7 +126,7 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
     this.roleCompetencyData = []
     this.competencyLevelsData = []
 
-    const result = this.dashboardSvc.getCompetencyInfo(this.competencyHomeData, rootOrgId, this.designation, this.defaultLang)
+    const result = this.dashboardSvc.getCompetencyInfo(this.competencyHomeData, rootOrgId, this.designation)
     if (!result) return of({ ashaData: [], completedCourses: [], inProgressCourses: [] })
 
     this.competencyRoles = result.isUserDesignationInRoles
