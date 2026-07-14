@@ -7,7 +7,7 @@ import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/s
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 // import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
-import { from } from 'rxjs'
+import { from, Observable, Subscription } from 'rxjs'
 import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap, finalize } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
@@ -21,6 +21,19 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { TranslateService } from '@ngx-translate/core'
 import { ThemeService } from '../../../services/theme.service'
 import { MatSlideToggleChange } from '@angular/material/slide-toggle'
+import {
+  MenuItemConfig,
+  MenuConfiguration,
+  Certificate,
+  CertificateImage,
+  Academic,
+  UserRegistryData,
+  WorkMessage,
+  CertificateData,
+  LeaderboardUser,
+  ActiveUserDetails,
+  OrgDetails,
+} from './mobile-profile-dashboard.model'
 
 @Component({
   standalone: false,
@@ -35,32 +48,32 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   showMobileView = false
   showAcademicElse = false
   userProfileData!: IUserProfileDetailsFromRegistry
-  academicsArray: any[] = []
-  certificates: any = []
-  imgURI: any = []
-  certificateThumbnail: any = []
-  photoUrl: any
+  academicsArray: Academic[] = []
+  certificates: Certificate[] = []
+  imgURI: string[] = []
+  certificateThumbnail: CertificateImage[] = []
+  photoUrl: string | null = null
   loader = true
   showbackButton = false
   showLogOutIcon = false
-  profileData: any
+  profileData: UserRegistryData | null = null
   navigateTohome = true
   selectedIndex = 'personal'
-  showView: any = ''
-  gotData: any
+  showView: WorkMessage | string = ''
+  gotData!: Subscription
   userForm: FormGroup
-  userData: any
+  userData!: UserRegistryData
   hideData = false
-  currentProfession: any
+  currentProfession: string | null = null
   showLogOutBtn = false
-  language: any
-  userInfo: any
+  language: string | null = null
+  userInfo!: UserRegistryData
   isCommonChatEnabled = true
   isEkshamata = false
   domain!: string
-  config: any
-  uiConfig: any
-  menuItems: any[] = []
+  config!: MenuConfiguration
+  uiConfig: MenuItemConfig[] = []
+  menuItems: MenuItemConfig[] = []
   isMobileView = false
   selectedIndexData: any
   rank = 0
@@ -68,34 +81,34 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   points = 0
   displayLeadership = false
   leaderBoardConfig: any
-  leaderboardData: any[] = []
-  currentUser: any
-  selectedIndextitle: string
-  earnedBadges$: any
+  leaderboardData: LeaderboardUser[] = []
+  currentUser!: ActiveUserDetails
+  selectedIndextitle!: string
+  earnedBadges$!: Observable<any>
   count = 3
   isLoading = false
   isDark = this.themeService.isDarkMode
-  orgDet: any
+  orgDet!: OrgDetails
   constructor(
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    public dialog: MatDialog,
-    private userProfileSvc: UserProfileService,
-    private contentSvc: WidgetContentService,
-    private domSanitizer: DomSanitizer,
-    private valueSvc: ValueService,
-    private CompetencyConfiService: CompetencyConfiService,
-    private languageService: LanguageService,
-    @Inject(DOCUMENT) private _document: Document,
-    private telemetrySvc: TelemetryService,
-    private plylsSvc: PlaylistService,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private themeService: ThemeService
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    public readonly dialog: MatDialog,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly domSanitizer: DomSanitizer,
+    private readonly valueSvc: ValueService,
+    private readonly CompetencyConfiService: CompetencyConfiService,
+    private readonly languageService: LanguageService,
+    @Inject(DOCUMENT) private readonly _document: Document,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly plylsSvc: PlaylistService,
+    private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly themeService: ThemeService
   ) {
-    this.gotData = this.contentSvc.workMessage.subscribe((data: any) => {
+    this.gotData = this.contentSvc.workMessage.subscribe((data: WorkMessage) => {
       this.logger.log(data)
       if (data.type === 'work' || data.type === 'academic') {
         if (data.back === true || data.edit === 'save') {
@@ -141,8 +154,8 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     this.earnedBadges$ = this.plylsSvc.earnedBadges$
   }
 
-  async setupMenuItems() {
-    let res
+  async setupMenuItems(): Promise<void> {
+    let res: MenuConfiguration | undefined
     if (this.plylsSvc.getSelectedTab() == 'accountTab') {
       res = this.plylsSvc.selectedTabConfig()
     } else {
@@ -168,10 +181,10 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges()
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setupMenuItems()
     this.domain = window.location.hostname
-    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+    if (this.configSvc.hostedInfo || this.domain.includes('localhost')) {
       this.isEkshamata = true
     }
     if (sessionStorage.getItem('currentWindow')) {
@@ -211,7 +224,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     return hasUserId && hasProfessionalDetails && hasDesignation && hasRootOrgId && hasInstituteName && this.isEkshamata
   }
 
-  changeFunction(item: any): void {
+  changeFunction(item: MenuItemConfig): void {
     if (!item?.name) return
 
     const removeOnListPage = () => {
@@ -253,7 +266,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
         window.scroll(0, 0)
         this.isLoading = true
         this.contentSvc.fetchGeneralAndRcCertificates().pipe(
-          mergeMap((res: any) => this.processCertiFicate(res))
+          mergeMap((res: CertificateData) => this.processCertiFicate(res))
         ).subscribe({
           next: () => {
             this.logger.log('[MobileProfileDashboard] Certificate processing completed')
@@ -277,7 +290,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  showChat() {
+  showChat(): void {
     const el = this._document.getElementById('widget')
     if (el) {
       el.style.display = 'block'
@@ -301,7 +314,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  showSocialChats(event?: Event) {
+  showSocialChats(event?: Event): void {
     try {
       event?.preventDefault()
       event?.stopPropagation()
@@ -311,7 +324,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       this.logger.error('Error showing social chats:', error)
     }
   }
-  backToChatIcon() {
+  backToChatIcon(): void {
     try {
       this.isCommonChatEnabled = true
       const el = this._document.getElementById('widget')
@@ -323,14 +336,14 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       this.logger.log(error)
     }
   }
-  logout() {
+  logout(): void {
     this.telemetrySvc.getTelemetryConfig()
     this.telemetrySvc.interact('clicked', 'logout-clicked', 'profile', {}, { id: this.userInfo.profileDetails.profileReq.id, type: 'user', version: "", rollup: {} })
     this.dialog.open<LogoutComponent>(LogoutComponent, {
       panelClass: 'logout-dialog-container',
     })
   }
-  processCertiFicate(data: any) {
+  processCertiFicate(data: CertificateData): Observable<any> {
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
       return certificate.length > 0
     })), 'identifier')
@@ -367,16 +380,16 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       })
     )
   }
-  formatAllRequest(data: any) {
+  formatAllRequest(data: CertificateData): void {
     this.isLoading = false
     this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))
     this.cdr.detectChanges()
   }
 
-  formateRequest(data: any) {
+  formateRequest(data: CertificateData): Certificate[] {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), (result: any, value) => {
+    })), (result: Certificate[], value: any) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
@@ -386,11 +399,11 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     }, [])
     return issuedCertificates
   }
-  rcCertiface(data: any) {
+  rcCertiface(data: CertificateData): Certificate[] {
     if (data.sunbirdRcCertificates && data.sunbirdRcCertificates.length > 0) {
       return _.reduce(
         data.sunbirdRcCertificates,
-        (result: any[], certificate: any) => {
+        (result: Certificate[], certificate: any) => {
           result.push({
             name: certificate.certificateName,
             downloadUrl: certificate.certificateDownloadUrl,
@@ -421,16 +434,16 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   //     this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
   //   }
   // }
-  assignProfession(data: any) {
+  assignProfession(data: string): void {
     this.currentProfession = data
   }
-  assignUserName(data: any) {
+  assignUserName(data: any): void {
     if (data.firstname)
       this.userProfileData.personalDetails.firstname = data.firstname
     if (data.surname)
       this.userProfileData.personalDetails.surname = data.surname
   }
-  setAcademicDetail(data: any) {
+  setAcademicDetail(data: UserRegistryData): void {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
       if (this.userProfileData?.professionalDetails?.length > 0) {
@@ -451,7 +464,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       this.CompetencyConfiService.setConfig(this.userProfileData, data.profileDetails)
     }
   }
-  storeLanguage(lang: string) {
+  storeLanguage(lang: string): void {
     // Update language using LanguageService
     this.languageService.setLanguage(lang)
 
@@ -496,7 +509,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       },
     )
   }
-  saveLanguage(form: any) {
+  saveLanguage(form: FormGroup): void {
     this.logger.log('Saving language preference:', form.value)
 
     // Update language using LanguageService
@@ -539,10 +552,10 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       },
     )
   }
-  getUserDetails() {
+  getUserDetails(): void {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
+        (data: UserRegistryData) => {
           if (data) {
             this.loader = false
             this.userProfileData = data.profileDetails.profileReq
@@ -586,19 +599,19 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  eductionEdit() {
+  eductionEdit(): void {
     this.navigate(`app/education-list`)
   }
 
-  workInfoEdit() {
+  workInfoEdit(): void {
     this.navigate(`app/workinfo-list`)
   }
 
-  personalDetailEdit() {
+  personalDetailEdit(): void {
     this.navigate('app/personal-detail-edit')
   }
 
-  navigate(navigateUrl: any) {
+  navigate(navigateUrl: string): void {
     if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
       this.router.navigate([navigateUrl])
     } else {
@@ -606,17 +619,17 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  openCompetency(event: any) {
+  openCompetency(event: Event): void {
     this.logger.log(event)
     localStorage.setItem('isOnlyPassbook', 'false')
     this.router.navigate([`app/user/self-assessment`])
   }
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.gotData) {
       this.gotData.unsubscribe()
     }
   }
-  getLeaderBoardList() {
+  getLeaderBoardList(): void {
     this.logger.log('this.configsvc', this.configSvc.unMappedUser)
     const request = {
       userId: this.configSvc.userProfile.userId,
@@ -642,12 +655,12 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  openCompetencyDashboard(event: any) {
+  openCompetencyDashboard(event: Event): void {
     this.logger.log(event)
     localStorage.setItem('isOnlyPassbook', 'false')
     this.router.navigate([`app/user/competency`])
   }
-  async openLeaderboard() {
+  async openLeaderboard(): Promise<void> {
     const isMobileView = window.innerWidth < 768
 
     this.dialog.open(LeadershipDashboardComponent, {
@@ -663,7 +676,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  onToggleChange(event: MatSlideToggleChange) {
+  onToggleChange(event: MatSlideToggleChange): void {
     this.themeService.setTheme(event.checked)
   }
 }

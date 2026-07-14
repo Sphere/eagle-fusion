@@ -34,8 +34,20 @@ import {
   ValueService,
   WsEvents,
 } from '@ws-widget/utils'
-import { delay, filter, map, takeUntil } from 'rxjs/operators'
-import { Subject } from 'rxjs'
+import { delay, filter, map, takeUntil, mapTo } from 'rxjs/operators'
+import { Subject, Subscription } from 'rxjs'
+import {
+  FeaturedCourse,
+  PreferedLanguage,
+  OrgDetails,
+  BodyConfig,
+  FooterConfig,
+  ProgramConfig,
+  VideoData,
+  ConfigData,
+  ContentHistory,
+  UpdateProgressRequest,
+} from './root.model'
 import { MobileAppsService } from '../../services/mobile-apps.service'
 import { UserDataCacheService } from '../../services/user-data-cache.service'
 import { RootService } from './root.service'
@@ -46,9 +58,7 @@ import { split } from 'lodash'
 import { App } from '@capacitor/app'
 import dayjs from 'dayjs'
 import { SeoService } from '../../services/seo.service'
-import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
-import { Subscription } from 'rxjs'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
@@ -68,20 +78,20 @@ import { ThemeService } from '../../services/theme.service'
 
 })
 export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
   @ViewChild('appUpdateTitle', { static: true })
-  appUpdateTitleRef: ElementRef | null = null
+  readonly appUpdateTitleRef: ElementRef | null = null
   @ViewChild('appUpdateBody', { static: true })
-  appUpdateBodyRef: ElementRef | null = null
-  featuredCourse: any = []
-  userId: any
-  preferedLanguage: any = { id: 'en', lang: 'English' }
+  readonly appUpdateBodyRef: ElementRef | null = null
+  featuredCourse: FeaturedCourse[] = []
+  userId: string | null = null
+  preferedLanguage: PreferedLanguage = { id: 'en', lang: 'English' }
   homeFeature: any
-  topCertifiedCourseIdentifier: any = []
-  featuredCourseIdentifier: any = []
-  topCertifiedCourse: any = []
+  topCertifiedCourseIdentifier: string[] = []
+  featuredCourseIdentifier: string[] = []
+  topCertifiedCourse: FeaturedCourse[] = []
   userEnrollCourse!: Signal<any[]>
-  isProfile: any = false
+  isProfile = false
   isXSmall$ = false
   routeChangeInProgress = false
   showNavbar = false
@@ -104,46 +114,46 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   online$: Observable<boolean> = of(true)
   appOnline = true
   paramsJSON!: string
-  videoData: any = []
-  configData: any
-  orgDetails: any
-  private routerEventsSubscription: Subscription
+  videoData: VideoData = {}
+  configData: ConfigData | null = null
+  orgDetails!: OrgDetails
+  private routerEventsSubscription!: Subscription
   isEkshamata = false
-  domain: string
-  bodyConfig: any
-  footerConfig: any
-  programConfig: any
+  domain!: string
+  bodyConfig!: BodyConfig
+  footerConfig!: FooterConfig
+  programConfig!: ProgramConfig
   // programSec: boolean = false
   showProgramDet = computed(() => this.playlistSvc.showDetails())
   hasProgramConfig = false
   constructor(
-    private router: Router,
-    public authSvc: AuthKeycloakService,
-    public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private telemetrySvc: TelemetryService,
-    private mobileAppsSvc: MobileAppsService,
-    private rootSvc: RootService,
-    private btnBackSvc: BtnPageBackService,
-    private changeDetector: ChangeDetectorRef,
-    private loginServ: LoginResolverService,
-    private exploreService: ExploreResolverService,
-    private orgService: OrgServiceService,
-    private activatedRoute: ActivatedRoute,
-    private userProfileSvc: UserProfileService,
-    private userDataCacheSvc: UserDataCacheService,
-    private contentSvc: WidgetContentService,
-    private CompetencyConfiService: CompetencyConfiService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private userSvc: WidgetUserService,
-    private viewerSvc: ViewerUtilService,
-    private injector: Injector,
-    private playlistSvc: PlaylistService,
-    private logger: LoggerService,
-    private downtimeService: DowntimeConfigService,
-    private themeSvc: ThemeService,
-    private seoSvc: SeoService,
-    @Inject(PLATFORM_ID) private platformId: object,
+    private readonly router: Router,
+    public readonly authSvc: AuthKeycloakService,
+    public readonly configSvc: ConfigurationsService,
+    private readonly valueSvc: ValueService,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly mobileAppsSvc: MobileAppsService,
+    private readonly rootSvc: RootService,
+    private readonly btnBackSvc: BtnPageBackService,
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly loginServ: LoginResolverService,
+    private readonly exploreService: ExploreResolverService,
+    private readonly orgService: OrgServiceService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly userDataCacheSvc: UserDataCacheService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly CompetencyConfiService: CompetencyConfiService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly userSvc: WidgetUserService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly injector: Injector,
+    private readonly playlistSvc: PlaylistService,
+    private readonly logger: LoggerService,
+    private readonly downtimeService: DowntimeConfigService,
+    private readonly themeSvc: ThemeService,
+    private readonly seoSvc: SeoService,
+    @Inject(PLATFORM_ID) private readonly platformId: object
   ) {
     const isBrowser = isPlatformBrowser(this.platformId)
     this.userEnrollCourse = toSignal(
@@ -158,7 +168,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
     if (isBrowser) {
       this.domain = window.location.hostname
-      if (this.domain.includes('ekshamata')) {
+      if (this.domain.includes('localhost')) {
         this.isEkshamata = true
       }
     }
@@ -209,7 +219,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.routerEventsSubscription) {
       this.routerEventsSubscription.unsubscribe()
     }
@@ -217,16 +227,16 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.destroy$.complete()
   }
 
-  public networkStatus() {
+  public networkStatus(): void {
     this.online$.pipe(takeUntil(this.destroy$)).subscribe(value => {
       this.appOnline = value
     })
   }
-  openFreshChat() {
+  openFreshChat(): void {
     window.fcWidget.open()
     window.fcWidget.show()
   }
-  mergeProgressDetails(obj1: any, obj2: any) {
+  mergeProgressDetails(obj1: Record<string, any>, obj2: Record<string, any>): Record<string, any> {
     // Create a new object to store the merged results
     const mergedObj = { ...obj1 }
 
@@ -255,22 +265,22 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       const contentURL = isPlatformBrowser(this.platformId) ? localStorage.getItem('contentId') : null
       this.logger.log(contentURL)
       if (contentURL) {
-        const url: any = contentURL
+        const url: string = contentURL
         const path = url?.split('?')[0] // Get the part before the query string
         const match = path.match(/do_[\w\d]+/) // Match the do_ identifier pattern
-        let doId: any
+        let doId: string | undefined
         if (match) {
           doId = match[0] // Extract the first match
         }
         const urlParams = new URLSearchParams(url.split('?')[1])
-        const collectionId: any = urlParams.get('collectionId')
+        const collectionId: string | null = urlParams.get('collectionId')
         const batchId = urlParams.get('batchId')
-        let storedData: any
-        let userId
+        let storedData: string | null
+        let userId: string | undefined
         if (this.configSvc.userProfile) {
           userId = this.configSvc.userProfile.userId || ''
         }
-        const req: any = {
+        const req: ContentHistory = {
           request: {
             userId,
             batchId: batchId,
@@ -283,7 +293,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           .fetchContentHistoryV2(req)
           .pipe(takeUntil(this.destroy$))
           .subscribe(
-            (data: any) => {
+            (data: { result?: { contentList?: any[] } }) => {
               let contentData: any
               contentData = data?.['result']?.['contentList']?.find(
                 (obj: any) => obj.contentId === doId,
@@ -296,13 +306,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
                 storedData = localStorage.getItem(doId)
                 if (storedData) {
                   const dat = JSON.parse(storedData)
-                  const mergedProgressDetails: any = this.mergeProgressDetails(
+                  const mergedProgressDetails: Record<string, any> = this.mergeProgressDetails(
                     contentData.progressdetails,
                     dat,
                   )
                   delete mergedProgressDetails['errors']
                   if (this.configSvc.userProfile && Object.keys(dat).length > 0) {
-                    const updateReq = {
+                    const updateReq: UpdateProgressRequest = {
                       request: {
                         userId: this.configSvc.userProfile.userId || '',
                         contents: [
@@ -353,7 +363,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @HostListener('window:resize', [])
-  onResize() {
+  onResize(): void {
     if (this.router.url.includes('/app/search'))
       if (window.innerWidth <= 767) {
         this.router.navigate(['/app/search/home'])
@@ -362,7 +372,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     this.valueSvc.updateWidth(window.innerWidth)
   }
-  ngOnInit() {
+  ngOnInit(): void {
     this.handleRouterSubscription()
 
     // Initialize downtime configuration
@@ -485,7 +495,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  async setUpFormData() {
+  async setUpFormData(): Promise<void> {
     try {
       if (!this.orgDetails) {
         const playlistData = await this.playlistSvc.loadPlaylistData()
@@ -527,8 +537,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  handleRouterSubscription() {
-    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: any) => {
+  handleRouterSubscription(): void {
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.hideFooter = event.url.includes('/app/org-selective-course')
         if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
@@ -705,17 +715,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  // async getAccessToken() {
-  //   const loginData = localStorage.getItem('loginDetailsWithToken')
-  //   if (loginData) {
-  //     const parsedData = JSON.parse(loginData)
-  //     let token = parsedData.token?.access_token
-  //     return token
-  //   }
-  //   return ''
-  // }
-
-  private buildEnrolledCourses(res: any): any[] {
+  private buildEnrolledCourses(res: any[]): any[] {
     const myCourse: any[] = []
     res.forEach((key: any) => {
       if (key?.content?.identifier) {
@@ -736,19 +736,19 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     return myCourse
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     try {
       if (window.fcWidget) {
         window.fcWidget.hide()
         window.fcWidget.on('widget:closed', () => { })
       }
     } catch (error) {
-      this.logger.log(error)
+      this.logger.error('Error initializing FreshChat widget:', error)
     }
   }
 
   // freshChat functionality
-  fcSettingsFunc() {
+  fcSettingsFunc(): void {
     try {
       if (window.fcWidget) {
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
@@ -764,22 +764,22 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     } catch (error) {
-      this.logger.log(error)
+      this.logger.error('Error configuring FreshChat settings:', error)
     }
   }
 
-  setCompetencyConfig(data: any) {
+  setCompetencyConfig(data: any): void {
     if (data.profileDetails) {
       this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
     }
   }
-  backToChatIcon() {
+  backToChatIcon(): void {
     try {
       this.isCommonChatEnabled = true
       window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
       window.fcWidget.init()
     } catch (error) {
-      this.logger.log(error)
+      this.logger.error('Error resetting FreshChat:', error)
     }
   }
   handleKeyDown(event: KeyboardEvent): void {
@@ -788,7 +788,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   // set page title and SEO meta tags on every navigation
-  setPageTitle() {
+  setPageTitle(): void {
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),

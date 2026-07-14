@@ -152,11 +152,11 @@ export class AshaLearningComponent implements OnInit, OnChanges {
           return
         }
 
-        this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe((res) => {
+        this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe(res => {
           const navigationdata = res.result.content[0]
           const batchId = navigationdata.batches?.[0]?.batchId
 
-          let ashaData = {
+          const ashaData = {
             isAsha: true,
             batchid: batchId,
             contentid: navigationdata.identifier,
@@ -164,7 +164,7 @@ export class AshaLearningComponent implements OnInit, OnChanges {
             completionpercentage: 0,
             progress: "course",
             competencyid: data.competencyID,
-            competencyName: data.title
+            competencyName: data.title,
           }
 
           this.contentSvc.setAshaData(ashaData)

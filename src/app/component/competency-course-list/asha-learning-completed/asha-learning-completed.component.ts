@@ -30,10 +30,10 @@ export class AshaLearningCompletedComponent implements OnInit {
             `${data.competencyID}-2`,
             `${data.competencyID}-3`,
             `${data.competencyID}-4`,
-            `${data.competencyID}-5`
+            `${data.competencyID}-5`,
           ],
           competency: true,
-          redirect: 'page/home'
+          redirect: 'page/home',
         },
         queryParamsHandling: 'merge',
       })

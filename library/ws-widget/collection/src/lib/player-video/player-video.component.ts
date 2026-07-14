@@ -106,13 +106,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     private plylsSvc: PlaylistService
   ) {
     super()
-    // this.logger.log(window.innerWidth)
-    // if (window.innerWidth < 768) {
-    //   screen.orientation.lock('landscape');
-    //   //this.isMobileResolution = true;
-    // } else {
-    //   //this.isMobileResolution = false;
-    // }
   }
 
   ngOnInit() { this.logger.log("videoDatas", this.widgetData, this.contentData) }
@@ -120,8 +113,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
   ngAfterViewInit(): void {
     this.getCurrentTime().then(() => {
-      // this.logger.log("Initial resume point:", this.widgetData.resumePoint)
-
       this.widgetData = {
         ...this.widgetData,
       }
@@ -289,44 +280,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    // const saveCLearning: saveContinueLearningFunction = data => {
-    //   if (this.widgetData.identifier) {
-    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-    //         resourceId: data.resourceId,
-    //         contextType: 'playlist',
-    //         dateAccessed: Date.now(),
-    //         data: JSON.stringify({
-    //           progress: data.progress,
-    //           timestamp: Date.now(),
-    //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-    //         }),
-    //       }
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     } else {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-    //         ...data,
-    //         // resourceId: data.resourceId,
-    //         // dateAccessed: Date.now(),
-    //         // data: data.data,
-    //       }
-    //       // JSON.stringify({
-    //       //   progress: data.progress,
-    //       //   timestamp: Date.now(),
-    //       // }),
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     }
-    //   }
-    // }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
@@ -355,7 +308,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     this.dispose = videoInitializer(
       this.realvideoTag.nativeElement,
       dispatcher,
-      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,
@@ -381,46 +333,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    // const saveCLearning: saveContinueLearningFunction = data => {
-    //   if (this.widgetData.identifier && data) {
-    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-    //       // const continueLearningData = {
-    //       //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-    //       //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-    //       //   resourceId: data.resourceId,
-    //       //   contextType: 'playlist',
-    //       //   dateAccessed: Date.now(),
-    //       //   data: JSON.stringify({
-    //       //     progress: data.progress,
-    //       //     timestamp: Date.now(),
-    //       //     contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-    //       //   }),
-    //       // }
-    //       // this.contentSvc
-    //       //   .saveContinueLearning(continueLearningData)
-    //       //   .toPromise()
-    //       //   .catch()
-    //     } else {
-    //       // const continueLearningData = {
-    //       //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-    //       //     ? this.activatedRoute.snapshot.queryParams.collectionId
-    //       //     : this.widgetData.identifier,
-    //       //   ...data,
-    //       //   // resourceId: data.resourceId,
-    //       //   // dateAccessed: Date.now(),
-    //       //   // data: JSON.stringify({
-    //       //   //   progress: data.progress,
-    //       //   //   timestamp: Date.now(),
-    //       //   // }),
-    //       // }
-    //       // this.contentSvc
-    //       //   .saveContinueLearning(continueLearningData)
-    //       //   .toPromise()
-    //       //   .catch()
-    //     }
-    //   }
-    // }
     const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
       try {
         // Reset tracking state when navigating to a new video in a reused component instance
@@ -504,7 +416,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         autoplay: this.widgetData.autoplay ?? false,
       },
       dispatcher,
-      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,

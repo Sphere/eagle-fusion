@@ -43,7 +43,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   CSS_UNITS = 96 / 72
   totalPages = 0
   currentPage = new UntypedFormControl(1)
-  // zoom = new FormControl(this.DEFAULT_SCALE)
   isSmallViewPort = false
   realTimeProgressRequest = {
     content_type: 'Resource',
@@ -91,16 +90,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     pdfDefaultOptions.assetsFolder = 'bleeding-edge'
   }
 
-  // changeScale(val: 'zoomin' | 'zoomout') {
-  //   const currentZoom = this.zoom.value
-  //   const step = 0.1
-  //   if (val === 'zoomin') {
-  //     this.zoom.setValue(currentZoom + step)
-  //   } else {
-  //     this.zoom.setValue(currentZoom - step)
-  //   }
-  // }
-
   fullScreenState(fsState: any) {
     this.isInFullScreen = fsState.state
     if (fsState) {
@@ -111,14 +100,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       this.pdfHeight = 'calc(100vh - 355px)'
       this.pdfMobileHeight = '200px'
       this.pdfZoom = '28%'
-      // const diplayedPagesCount = fsState.mode.includes('portrait') ? 2 : 1
-      // if (this.currentPage.value + diplayedPagesCount >= this.totalPages) {
-      //   setTimeout(() => {
-      //     this.currentPage.setValue(this.totalPages)
-      //   }, 500)
-      // }
     }
-    // this.renderSubject.next()
   }
 
   ngOnInit() {
@@ -126,19 +108,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // singleton to fully clean up its eventBus before we create a new instance.
     // setTimeout with 0 defers to the next macrotask, which is enough for cleanup.
     this.pdfViewerReady = true
-
-    // this.zoom.disable()
     this.currentPage.disable()
-    // this.valueSvc.isLtMedium$.subscribe(ltMedium => {
-    //   if (ltMedium) {
-    //     this.zoom.setValue(0.5)
-    //   }
-    // })
-    // this.valueSvc.isXSmall$.subscribe(isXSmall => {
-    //   if (isXSmall) {
-    //     this.zoom.setValue(0.4)
-    //   }
-    // })
 
     this.widgetData.disableTelemetry = false
     if (this.widgetData.readValuesQueryParamsKey) {
@@ -240,7 +210,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   }
 
   loadPageNum(pageNum: number) {
-    // this.raiseTelemetry('pageChange')
     // Coerce to a real number: page values arrive as strings from the number
     // input, the (pageChange) event and query params. A string here breaks
     // next/prev arithmetic ("19" + 1 -> "191"), the pdf viewer's
@@ -252,22 +221,12 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       return
     }
     this.currentPage.setValue(page)
-    // if (!this.widgetData.disableTelemetry) {
-    //   this.eventDispatcher(WsEvents.EnumTelemetrySubType.StateChange)
-    // }
     this.telemetrySvc.interact('application/pdf', 'page-change', 'player', {
       id: this.widgetData.identifier,
       type: 'application/pdf',
       version: '',
     })
   }
-  // raiseTelemetry(action: string) {
-  //   if (this.identifier) {
-  //     this.eventSvc.raiseInteractTelemetry(action, 'click', {
-  //       contentId: this.identifier,
-  //     })
-  //   }
-  // }
 
   fireRealTimeProgress(id: string) {
     // Finalize telemetry only - API calls already made on start and last page
@@ -295,29 +254,11 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   }
 
   private async render(): Promise<boolean> {
-    // if (!this.pdfContainer || this.pdfInstance === null) {
-    //   return false
-    // }
-    // this.pdfContainer.nativeElement.innerHTML = ''
-    // const page = await this.pdfInstance.getPage(this.currentPage.value)
-
     const pageNumStr = this.currentPage.value.toString()
     if (!this.current.includes(pageNumStr)) {
       this.current.push(pageNumStr)
     }
-    // const viewport = page.getViewport({ scale: this.zoom.value })
-    // this.pdfContainer.nativeElement.width = viewport.width
-    // this.pdfContainer.nativeElement.height = viewport.height
-    // this.lastRenderTask = new pdfjsViewer.PDFPageView({
-    //   scale: viewport.scale,
-    //   container: this.pdfContainer.nativeElement,
-    //   id: this.currentPage.value,
-    //   defaultViewport: viewport,
-    //   textLayerFactory: new pdfjsViewer.DefaultTextLayerFactory(),
-    //   annotationLayerFactory: new pdfjsViewer.DefaultAnnotationLayerFactory(),
-    // })
     if (this.lastRenderTask) {
-      // this.lastRenderTask.setPdfPage(page)
       this.lastRenderTask.draw()
     }
 
@@ -498,15 +439,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     }
   }
 
-  // refresh() {
-  //   this.renderSubject.next()
-  // }
-
   private async loadDocument() {
-    // const pdf = await PDFJS.getDocument(url).promise
-    // this.pdfInstance = pdf
-    // this.totalPages = this.pdfInstance.numPages
-    // this.zoom.enable()
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
 
     const object = {
@@ -581,18 +514,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     const links = Array.prototype.slice.call(document.getElementsByTagName('a'))
     for (let i = 0; i < links.length; i = i + 1) {
       if (links[i].className.includes('internalLink')) {
-        // links[i].addEventListener('click', async (e: any) => {
-        //   const layer = unescape((new URL(e.toElement.href).hash as string).slice(1))
-        //   const pageIndex: any = JSON.parse(layer)
-        //     ; (this.pdfInstance as any)
-        //       .getPageIndex(pageIndex[0])
-        //       .then((pageNumber: number) => {
-        //         this.currentPage.setValue(pageNumber + 1)
-        //       })
-        //       .catch((ex: any) => {
-        //         this.logger.error(ex)
-        //       })
-        // })
+        // Internal link handling for PDF
       }
     }
   }
