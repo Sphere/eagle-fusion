@@ -64,7 +64,7 @@ export class PlaylistService {
         subtype: 'v1',
         action: 'get',
         framework: 'v2',
-        component: (orgId && window.location.href.includes('localhost')) ? 'ekshamata' : 'web',
+        component: (orgId && window.location.href.includes('ekshamata')) ? 'ekshamata' : 'web',
         rootOrgId: orgId || '*',
       },
     }
