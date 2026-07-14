@@ -298,13 +298,13 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     if (Array.isArray(this.configData)) {
       const completed = this.userEnrollCourse?.filter((item: any) => item.completionPercentage === 100) || []
       const incomplete = this.userEnrollCourse?.filter((item: any) => item.completionPercentage !== 100) || []
+      const courseList = this.programIdentifiers.length > 0 ? this.programCourses() : this.coursesForYou()
       this.configData.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
           element.data = incomplete?.filter(item =>
-            this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
+            courseList?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'Playlist_Course') {
-          const courseList = this.programIdentifiers.length > 0 ? this.programCourses() : this.coursesForYou()
           element.data = courseList.filter(item =>
             !this.userEnrollCourse?.some(bItem => bItem.identifier === item.identifier)
           )
@@ -317,7 +317,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'COMPLETED') {
           element.data = completed.filter(item =>
-            this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
+            courseList?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         }
       })
