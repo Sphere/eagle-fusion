@@ -320,19 +320,16 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     }
     const competencySearchArray: string[] = []
     competencyPayload.forEach(competencyObj => {
-      Object.keys(competencyObj).forEach(key => {
-        const competency = competencyObj[key]
-        const competencyId = competency?.id
-        if (!competencyId) return
+      const competencyId = competencyObj?.id
+      if (!competencyId) return
 
-        const levelDescriptions = competency?.additionalProperties?.competencyLevelDescription || []
+      const levelDescriptions = competencyObj?.levels || []
 
-        levelDescriptions.forEach((levelDesc: any) => {
-          const level = levelDesc?.level
-          if (level) {
-            competencySearchArray.push(`${competencyId}-${level}`)
-          }
-        })
+      levelDescriptions.forEach((levelDesc: any) => {
+        const level = levelDesc?.level
+        if (level) {
+          competencySearchArray.push(`${competencyId}-${level}`)
+        }
       })
     })
     return competencySearchArray
