@@ -84,8 +84,9 @@ export class GeneralGuard {
           language: cachedUserData.profileDetails?.preferences?.language || 'en',
         }
         // Restore roles
-        if (cachedUserData.roles && Array.isArray(cachedUserData.roles)) {
-          this.configSvc.userRoles = new Set((cachedUserData.roles || []).map((v: string) => v.toLowerCase()))
+        const roles = this.userDataCacheSvc.getRolesFromProfile(cachedUserData)
+        if (roles.length) {
+          this.configSvc.userRoles = new Set(roles.map((v: string) => v.toLowerCase()))
         }
       }
     }

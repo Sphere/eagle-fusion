@@ -140,6 +140,32 @@ export class UserDataCacheService implements OnDestroy {
   }
 
   /**
+   * Sunbird Spark's user-read (V3) response omits the top-level `roles` array and only
+   * carries roles nested per-organisation. Old Sunbird's top-level `roles` is a flat array
+   * of role-name strings; Spark's V5 top-level `roles` is an array of raw role records
+   * (`{role, scope, ...}`) instead. Normalize all three shapes down to plain role-name strings.
+   */
+  getRolesFromProfile(userPidProfile: any): string[] {
+    const normalizeRoleEntries = (entries: any[]): string[] =>
+      entries
+        .map((entry: any) => (typeof entry === 'string' ? entry : entry?.role))
+        .filter((role: any): role is string => typeof role === 'string' && role.length > 0)
+
+    if (userPidProfile && Array.isArray(userPidProfile.roles) && userPidProfile.roles.length) {
+      const roles = normalizeRoleEntries(userPidProfile.roles)
+      if (roles.length) {
+        return roles
+      }
+    }
+    const organisations = (userPidProfile && userPidProfile.organisations) || []
+    const roles = new Set<string>()
+    organisations.forEach((org: any) => {
+      (org.roles || []).forEach((role: string) => roles.add(role))
+    })
+    return Array.from(roles)
+  }
+
+  /**
    * Set user data (e.g., after login/registration)
    */
   setUserData(data: any): void {

@@ -158,4 +158,60 @@ describe('UserDataCacheService', () => {
       svc.ngOnDestroy()
     })
   })
+
+  describe('getRolesFromProfile', () => {
+    it('returns the top-level roles array when present (old Sunbird / V5 shape)', () => {
+      const roles = service.getRolesFromProfile({ roles: ['CONTENT_CREATOR', 'PUBLIC'], organisations: [] })
+      expect(roles).toEqual(['CONTENT_CREATOR', 'PUBLIC'])
+    })
+
+    it('flattens organisations[].roles when top-level roles is absent (Sunbird Spark V3 shape)', () => {
+      const roles = service.getRolesFromProfile({
+        organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+      })
+      expect(roles).toEqual(['PUBLIC'])
+    })
+
+    it('dedupes roles across multiple organisations', () => {
+      const roles = service.getRolesFromProfile({
+        organisations: [
+          { organisationId: 'org-1', roles: ['PUBLIC'] },
+          { organisationId: 'org-2', roles: ['PUBLIC', 'ADMIN'] },
+        ],
+      })
+      expect(roles.sort()).toEqual(['ADMIN', 'PUBLIC'])
+    })
+
+    it('returns an empty array when there are no roles anywhere', () => {
+      expect(service.getRolesFromProfile({ organisations: [] })).toEqual([])
+      expect(service.getRolesFromProfile({})).toEqual([])
+      expect(service.getRolesFromProfile(null)).toEqual([])
+    })
+
+    it('ignores an empty top-level roles array and falls back to organisations', () => {
+      const roles = service.getRolesFromProfile({
+        roles: [],
+        organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+      })
+      expect(roles).toEqual(['PUBLIC'])
+    })
+
+    it('normalizes Spark V5-style role records ({role, scope, ...}) into plain role-name strings', () => {
+      const roles = service.getRolesFromProfile({
+        roles: [
+          { role: 'PUBLIC', scope: [{ organisationId: 'org-1' }], createdby: null, createddate: '2026-07-10' },
+          { role: 'CONTENT_CREATOR', scope: [{ organisationId: 'org-1' }], createdby: null, createddate: '2026-07-10' },
+        ],
+      })
+      expect(roles).toEqual(['PUBLIC', 'CONTENT_CREATOR'])
+    })
+
+    it('falls back to organisations when top-level role records have no usable role field', () => {
+      const roles = service.getRolesFromProfile({
+        roles: [{ scope: [{ organisationId: 'org-1' }] }],
+        organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+      })
+      expect(roles).toEqual(['PUBLIC'])
+    })
+  })
 })

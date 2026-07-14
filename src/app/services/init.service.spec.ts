@@ -47,7 +47,28 @@ jest.mock('library/ws-widget/utils/src/lib/services/auth-keycloak.service', () =
 }))
 
 jest.mock('./user-data-cache.service', () => ({
-  UserDataCacheService: class { getCachedUserData = jest.fn(); getUserData = jest.fn() },
+  UserDataCacheService: class {
+    getCachedUserData = jest.fn()
+    getUserData = jest.fn()
+    getRolesFromProfile = jest.fn((userPidProfile: any) => {
+      const normalizeRoleEntries = (entries: any[]): string[] =>
+        entries
+          .map((entry: any) => (typeof entry === 'string' ? entry : entry?.role))
+          .filter((role: any): role is string => typeof role === 'string' && role.length > 0)
+      if (userPidProfile && Array.isArray(userPidProfile.roles) && userPidProfile.roles.length) {
+        const roles = normalizeRoleEntries(userPidProfile.roles)
+        if (roles.length) {
+          return roles
+        }
+      }
+      const organisations = (userPidProfile && userPidProfile.organisations) || []
+      const roles = new Set<string>()
+      organisations.forEach((org: any) => {
+        (org.roles || []).forEach((role: string) => roles.add(role))
+      })
+      return Array.from(roles)
+    })
+  },
 }))
 
 jest.mock('./config-cache.service', () => ({
@@ -73,6 +94,7 @@ function makeService(baseHref = 'en') {
   const mockIconRegistry = { addSvgIcon: jest.fn() }
   const mockDomSanitizer = { bypassSecurityTrustResourceUrl: jest.fn().mockImplementation(url => `safe:${url}`) }
   const mockHttp = { get: jest.fn(), post: jest.fn() }
+  const mockUserDataCacheSvc = new (UserDataCacheService as any)()
 
   const svc = new InitService(
     mockLogger as any,
@@ -85,10 +107,10 @@ function makeService(baseHref = 'en') {
     baseHref,
     mockDomSanitizer as any,
     mockIconRegistry as any,
-    new (UserDataCacheService as any)(),
+    mockUserDataCacheSvc,
     new (ConfigCacheService as any)(),
   )
-  return { svc, mockIconRegistry, mockDomSanitizer, mockConfigSvc }
+  return { svc, mockIconRegistry, mockDomSanitizer, mockConfigSvc, mockUserDataCacheSvc }
 }
 
 describe('InitService', () => {
@@ -168,6 +190,73 @@ describe('InitService', () => {
     it('is case-sensitive — lowercase public does not match', () => {
       const { svc } = makeService()
       expect(svc.hasRole(['public'])).toBe(false)
+    })
+  })
+
+  describe('updateConfigWithUserData (Sunbird Spark response shape)', () => {
+    it('derives userRoles from organisations[].roles when top-level roles is absent', () => {
+      const { svc, mockConfigSvc } = makeService()
+      const userPidProfile = {
+        userId: 'u1',
+        firstName: 'Likhith',
+        organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+      }
+      ;(svc as any).updateConfigWithUserData(userPidProfile)
+      expect(mockConfigSvc.userRoles).toEqual(new Set(['public']))
+      expect(mockConfigSvc.userProfile.userId).toBe('u1')
+    })
+
+    it('prefers top-level roles when present (old Sunbird / V5 shape)', () => {
+      const { svc, mockConfigSvc } = makeService()
+      const userPidProfile = {
+        userId: 'u1',
+        roles: ['CONTENT_CREATOR', 'PUBLIC'],
+        organisations: [{ organisationId: 'org-1', roles: ['CONTENT_CREATOR', 'PUBLIC'] }],
+      }
+      ;(svc as any).updateConfigWithUserData(userPidProfile)
+      expect(mockConfigSvc.userRoles).toEqual(new Set(['content_creator', 'public']))
+    })
+
+    it('does nothing when userPidProfile has no userId', () => {
+      const { svc, mockConfigSvc } = makeService()
+      ;(svc as any).updateConfigWithUserData({ organisations: [{ roles: ['PUBLIC'] }] })
+      expect(mockConfigSvc.userProfile).toBeNull()
+    })
+  })
+
+  describe('fetchStartUpDetails (Sunbird Spark response shape)', () => {
+    it('sets userProfile from a PUBLIC-only user whose roles only exist under organisations[]', async () => {
+      const { svc, mockConfigSvc, mockUserDataCacheSvc } = makeService()
+      mockConfigSvc.instanceConfig = { disablePidCheck: false }
+      const userPidProfile = {
+        userId: 'u1',
+        firstName: 'Likhith',
+        isDeleted: false,
+        organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+      }
+      mockUserDataCacheSvc.getUserData.mockReturnValue({ toPromise: () => Promise.resolve(userPidProfile) })
+
+      const details = await (svc as any).fetchStartUpDetails()
+
+      expect(mockConfigSvc.userProfile).not.toBeNull()
+      expect(mockConfigSvc.unMappedUser).toBe(userPidProfile)
+      expect(details.roles).toEqual(['public'])
+      expect(mockConfigSvc.userRoles).toEqual(new Set(['public']))
+    })
+
+    it('leaves userProfile unset when organisations[] carries no PUBLIC/known role', async () => {
+      const { svc, mockConfigSvc, mockUserDataCacheSvc } = makeService()
+      mockConfigSvc.instanceConfig = { disablePidCheck: false }
+      const userPidProfile = {
+        userId: 'u1',
+        isDeleted: false,
+        organisations: [{ organisationId: 'org-1', roles: ['ADMIN'] }],
+      }
+      mockUserDataCacheSvc.getUserData.mockReturnValue({ toPromise: () => Promise.resolve(userPidProfile) })
+
+      await (svc as any).fetchStartUpDetails()
+
+      expect(mockConfigSvc.userProfile).toBeNull()
     })
   })
 })

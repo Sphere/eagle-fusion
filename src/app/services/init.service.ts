@@ -391,8 +391,9 @@ export class InitService {
       }
 
       // Update roles and groups
-      if (userPidProfile.roles && Array.isArray(userPidProfile.roles)) {
-        this.configSvc.userRoles = new Set((userPidProfile.roles || []).map((v: string) => v.toLowerCase()))
+      const roles = this.userDataCacheSvc.getRolesFromProfile(userPidProfile)
+      if (roles.length) {
+        this.configSvc.userRoles = new Set(roles.map((v: string) => v.toLowerCase()))
       }
       if (userPidProfile.group && Array.isArray(userPidProfile.group)) {
         this.configSvc.userGroups = new Set(userPidProfile.group)
@@ -459,9 +460,10 @@ export class InitService {
       try {
         // Use cached user data service to prevent repeated API calls
         userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
+        const profileRoles = userPidProfile ? this.userDataCacheSvc.getRolesFromProfile(userPidProfile) : []
 
-        if (userPidProfile && userPidProfile.roles && userPidProfile.roles.length > 0 &&
-          this.hasRole(userPidProfile.roles)) {
+        if (userPidProfile && profileRoles.length > 0 &&
+          this.hasRole(profileRoles)) {
           if (localStorage.getItem('telemetrySessionId')) {
             localStorage.removeItem('telemetrySessionId')
           }
@@ -528,7 +530,7 @@ export class InitService {
         const details = {
           group: [],
           profileDetailsStatus: !!get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
-          roles: (userPidProfile.roles || []).map((v: { toLowerCase: () => void }) => v.toLowerCase()),
+          roles: profileRoles.map((v: string) => v.toLowerCase()),
           tncStatus: !(isUndefined(this.configSvc.unMappedUser)),
           isActive: !!!userPidProfile.isDeleted,
         }

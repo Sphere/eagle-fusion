@@ -17,7 +17,27 @@ jest.mock('../../../project/ws/app/src/lib/routes/user-profile/services/user-pro
 }))
 
 jest.mock('../services/user-data-cache.service', () => ({
-  UserDataCacheService: class { getCachedUserData = jest.fn().mockReturnValue(null) },
+  UserDataCacheService: class {
+    getCachedUserData = jest.fn().mockReturnValue(null)
+    getRolesFromProfile = jest.fn((userPidProfile: any) => {
+      const normalizeRoleEntries = (entries: any[]): string[] =>
+        entries
+          .map((entry: any) => (typeof entry === 'string' ? entry : entry?.role))
+          .filter((role: any): role is string => typeof role === 'string' && role.length > 0)
+      if (userPidProfile && Array.isArray(userPidProfile.roles) && userPidProfile.roles.length) {
+        const roles = normalizeRoleEntries(userPidProfile.roles)
+        if (roles.length) {
+          return roles
+        }
+      }
+      const organisations = (userPidProfile && userPidProfile.organisations) || []
+      const roles = new Set<string>()
+      organisations.forEach((org: any) => {
+        (org.roles || []).forEach((role: string) => roles.add(role))
+      })
+      return Array.from(roles)
+    })
+  },
 }))
 
 import { GeneralGuard } from './general.guard'
@@ -165,5 +185,20 @@ describe('GeneralGuard', () => {
     await guard.canActivate(makeRoute())
     expect(mockConfigSvc.userProfile).not.toBeNull()
     expect(mockConfigSvc.userProfile.userId).toBe('cached-1')
+  })
+
+  it('restores roles from organisations[].roles when cached user has no top-level roles (Sunbird Spark shape)', async () => {
+    mockConfigSvc.userProfile = null
+    mockConfigSvc.instanceConfig = { disablePidCheck: true }
+    const cachedUser = {
+      userId: 'cached-2',
+      firstName: 'Test',
+      organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+    }
+    mockUserDataCacheSvc.getCachedUserData.mockReturnValue(cachedUser)
+    mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue({ subscribe: jest.fn() })
+    await guard.canActivate(makeRoute())
+    expect(mockConfigSvc.userProfile.userId).toBe('cached-2')
+    expect(mockConfigSvc.userRoles).toEqual(new Set(['public']))
   })
 })
