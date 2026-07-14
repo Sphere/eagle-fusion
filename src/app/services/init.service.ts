@@ -340,8 +340,8 @@ export class InitService {
     try {
       // First, check if data is already cached in memory from UserDataCacheService
       const cachedData = this.userDataCacheSvc.getCachedUserData()
-      if (cachedData && cachedData.userId) {
-        this.logger.log('[InitService] User data already loaded in cache for userId:', cachedData.userId)
+      if (cachedData && this.userDataCacheSvc.getUserIdFromProfile(cachedData)) {
+        this.logger.log('[InitService] User data already loaded in cache for userId:', this.userDataCacheSvc.getUserIdFromProfile(cachedData))
         this.configSvc.unMappedUser = cachedData
         this.updateConfigWithUserData(cachedData)
         return
@@ -349,8 +349,8 @@ export class InitService {
 
       // If no in-memory cache, try to fetch from API (UserDataCacheService will restore from sessionStorage first)
       const userData = await this.userDataCacheSvc.getUserData().toPromise()
-      if (userData && userData.userId) {
-        this.logger.log('[InitService] Successfully loaded user data from cache/API for userId:', userData.userId)
+      if (userData && this.userDataCacheSvc.getUserIdFromProfile(userData)) {
+        this.logger.log('[InitService] Successfully loaded user data from cache/API for userId:', this.userDataCacheSvc.getUserIdFromProfile(userData))
         this.configSvc.unMappedUser = userData
         this.updateConfigWithUserData(userData)
       } else {
@@ -366,7 +366,8 @@ export class InitService {
    * Update ConfigService with user data
    */
   private updateConfigWithUserData(userPidProfile: any): void {
-    if (!userPidProfile || !userPidProfile.userId) {
+    const userId = this.userDataCacheSvc.getUserIdFromProfile(userPidProfile)
+    if (!userPidProfile || !userId) {
       return
     }
 
@@ -376,7 +377,7 @@ export class InitService {
         country: get(profileV2, 'personalDetails.countryCode') || null,
         email: get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
         givenName: userPidProfile.firstName,
-        userId: userPidProfile.userId,
+        userId,
         firstName: userPidProfile.firstName,
         lastName: userPidProfile.lastName,
         rootOrgId: userPidProfile.rootOrgId,
@@ -470,11 +471,12 @@ export class InitService {
           localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
           const profileV2 = get(userPidProfile, 'profileDetails.profileReq')
+          const userId = this.userDataCacheSvc.getUserIdFromProfile(userPidProfile)
           this.configSvc.userProfile = {
             country: get(profileV2, 'personalDetails.countryCode') || null,
             email: get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
             givenName: userPidProfile.firstName,
-            userId: userPidProfile.userId,
+            userId,
             firstName: userPidProfile.firstName,
             lastName: userPidProfile.lastName,
             rootOrgId: userPidProfile.rootOrgId,
@@ -489,7 +491,7 @@ export class InitService {
             language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
           }
           this.configSvc.userProfileV2 = {
-            userId: get(profileV2, 'userId') || userPidProfile.userId,
+            userId: get(profileV2, 'userId') || userId,
             email: get(profileV2, 'personalDetails.officialEmail') || userPidProfile.email,
             firstName: get(profileV2, 'personalDetails.firstname') || userPidProfile.firstName,
             surName: get(profileV2, 'personalDetails.surname') || userPidProfile.lastName,

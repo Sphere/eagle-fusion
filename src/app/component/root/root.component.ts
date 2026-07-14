@@ -379,7 +379,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.logger.warn('Failed to pre-warm playlist config cache:', err)
       })
       if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
+        localStorage.setItem(`userUUID`, this.userId)
         if (sessionStorage.getItem('cURL')) {
           sessionStorage.removeItem('cURL')
         }

@@ -214,4 +214,46 @@ describe('UserDataCacheService', () => {
       expect(roles).toEqual(['PUBLIC'])
     })
   })
+
+  describe('getUserIdFromProfile', () => {
+    it('prefers userId when present (old Sunbird shape)', () => {
+      expect(service.getUserIdFromProfile({ userId: 'u-1', id: 'id-1', identifier: 'ident-1' })).toBe('u-1')
+    })
+
+    it('falls back to id when userId is absent (Sunbird Spark shape)', () => {
+      expect(service.getUserIdFromProfile({ id: 'id-1', identifier: 'ident-1' })).toBe('id-1')
+    })
+
+    it('falls back to identifier when neither userId nor id is present', () => {
+      expect(service.getUserIdFromProfile({ identifier: 'ident-1' })).toBe('ident-1')
+    })
+
+    it('returns undefined when no identifying field is present', () => {
+      expect(service.getUserIdFromProfile({ name: 'no-id' })).toBeUndefined()
+      expect(service.getUserIdFromProfile(null)).toBeUndefined()
+    })
+  })
+
+  describe('Sunbird Spark shape (id/identifier, no userId) end-to-end', () => {
+    it('caches Spark-shaped data (id only) to sessionStorage', () => {
+      service.setUserData({ id: 'spark-user-1', identifier: 'spark-user-1', name: 'Test' })
+      expect(sessionStorage.getItem('userDataCache')).not.toBeNull()
+      expect(JSON.parse(sessionStorage.getItem('userDataCache') as string).id).toBe('spark-user-1')
+    })
+
+    it('restores Spark-shaped data (id only) from sessionStorage on init', () => {
+      sessionStorage.setItem('userDataCache', JSON.stringify({ id: 'spark-user-1', identifier: 'spark-user-1' }))
+      const svc = new UserDataCacheService(mockHttp, mockLogger)
+      expect(svc.getCachedUserData()).toEqual({ id: 'spark-user-1', identifier: 'spark-user-1' })
+      svc.ngOnDestroy()
+    })
+
+    it('getUserData caches Spark-shaped API response (id only, no userId) to sessionStorage', done => {
+      mockHttp.get = jest.fn().mockReturnValue(of({ result: { response: { id: 'spark-user-2', identifier: 'spark-user-2' } } }))
+      service.getUserData().subscribe(() => {
+        expect(sessionStorage.getItem('userDataCache')).not.toBeNull()
+        done()
+      })
+    })
+  })
 })

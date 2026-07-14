@@ -62,12 +62,13 @@ export class GeneralGuard {
     // This handles the case where user data exists in sessionStorage but hasn't been loaded yet
     if (this.configSvc.userProfile === null) {
       const cachedUserData = this.userDataCacheSvc.getCachedUserData()
-      if (cachedUserData && cachedUserData.userId) {
-        this.logger.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserData.userId)
+      const cachedUserId = cachedUserData && this.userDataCacheSvc.getUserIdFromProfile(cachedUserData)
+      if (cachedUserData && cachedUserId) {
+        this.logger.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserId)
         this.configSvc.unMappedUser = cachedUserData
         // Basic user profile setup from cache
         this.configSvc.userProfile = {
-          userId: cachedUserData.userId,
+          userId: cachedUserId,
           email: cachedUserData.email || cachedUserData.officialEmail,
           givenName: cachedUserData.firstName,
           firstName: cachedUserData.firstName,

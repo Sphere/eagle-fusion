@@ -93,7 +93,7 @@ export class UserDataCacheService implements OnDestroy {
     // If data is already cached, return it
     const cachedData = this.userDataSubject.value
     if (cachedData) {
-      this.logger.log('[UserDataCache] Returning existing cached data for userId:', cachedData.userId)
+      this.logger.log('[UserDataCache] Returning existing cached data for userId:', this.getUserIdFromProfile(cachedData))
       return this.userData$.pipe(take(1))
     }
 
@@ -114,7 +114,7 @@ export class UserDataCacheService implements OnDestroy {
           return res && res.result ? res.result.response : null
         }),
         tap((data: any) => {
-          this.logger.log('[UserDataCache] Caching data with userId:', data?.userId)
+          this.logger.log('[UserDataCache] Caching data with userId:', this.getUserIdFromProfile(data))
           this.userDataSubject.next(data)
           this.cacheToSession(data)
           this.cacheTimestamp = Date.now()
@@ -166,6 +166,18 @@ export class UserDataCacheService implements OnDestroy {
   }
 
   /**
+   * Old Sunbird's user-read response included a redundant top-level `userId` field.
+   * Sunbird Spark's response never sets it (for any read version) — only `id`/`identifier`
+   * are present. Prefer `userId` when present for backward compatibility, else fall back.
+   */
+  getUserIdFromProfile(userPidProfile: any): string | undefined {
+    if (!userPidProfile) {
+      return undefined
+    }
+    return userPidProfile.userId || userPidProfile.id || userPidProfile.identifier
+  }
+
+  /**
    * Set user data (e.g., after login/registration)
    */
   setUserData(data: any): void {
@@ -200,7 +212,7 @@ export class UserDataCacheService implements OnDestroy {
    * Cache user data to session storage for persistence during session
    */
   private cacheToSession(data: any): void {
-    if (data && data.userId) {
+    if (data && this.getUserIdFromProfile(data)) {
       try {
         sessionStorage.setItem('userDataCache', JSON.stringify(data))
         this.logger.log('[UserDataCache] User data cached to session storage')
@@ -219,8 +231,8 @@ export class UserDataCacheService implements OnDestroy {
       if (cached) {
         this.logger.log('[UserDataCache] Found cached data in session storage, attempting to parse...')
         const data = JSON.parse(cached)
-        if (data && data.userId) {
-          this.logger.log('[UserDataCache] Restoring data from session storage for userId:', data.userId)
+        if (data && this.getUserIdFromProfile(data)) {
+          this.logger.log('[UserDataCache] Restoring data from session storage for userId:', this.getUserIdFromProfile(data))
           this.userDataSubject.next(data)
           this.cacheTimestamp = Date.now()
           this.setupCacheExpiration()

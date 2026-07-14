@@ -37,6 +37,12 @@ jest.mock('../services/user-data-cache.service', () => ({
       })
       return Array.from(roles)
     })
+    getUserIdFromProfile = jest.fn((userPidProfile: any) => {
+      if (!userPidProfile) {
+        return undefined
+      }
+      return userPidProfile.userId || userPidProfile.id || userPidProfile.identifier
+    })
   },
 }))
 
@@ -200,5 +206,20 @@ describe('GeneralGuard', () => {
     await guard.canActivate(makeRoute())
     expect(mockConfigSvc.userProfile.userId).toBe('cached-2')
     expect(mockConfigSvc.userRoles).toEqual(new Set(['public']))
+  })
+
+  it('restores userProfile.userId from id when cached user has no top-level userId (real Sunbird Spark shape)', async () => {
+    mockConfigSvc.userProfile = null
+    mockConfigSvc.instanceConfig = { disablePidCheck: true }
+    const cachedUser = {
+      id: 'spark-cached-1',
+      identifier: 'spark-cached-1',
+      firstName: 'Test',
+      organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+    }
+    mockUserDataCacheSvc.getCachedUserData.mockReturnValue(cachedUser)
+    mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue({ subscribe: jest.fn() })
+    await guard.canActivate(makeRoute())
+    expect(mockConfigSvc.userProfile.userId).toBe('spark-cached-1')
   })
 })

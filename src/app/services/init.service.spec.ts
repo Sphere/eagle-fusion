@@ -68,6 +68,12 @@ jest.mock('./user-data-cache.service', () => ({
       })
       return Array.from(roles)
     })
+    getUserIdFromProfile = jest.fn((userPidProfile: any) => {
+      if (!userPidProfile) {
+        return undefined
+      }
+      return userPidProfile.userId || userPidProfile.id || userPidProfile.identifier
+    })
   },
 }))
 
@@ -217,10 +223,22 @@ describe('InitService', () => {
       expect(mockConfigSvc.userRoles).toEqual(new Set(['content_creator', 'public']))
     })
 
-    it('does nothing when userPidProfile has no userId', () => {
+    it('does nothing when userPidProfile has no identifying field at all', () => {
       const { svc, mockConfigSvc } = makeService()
       ;(svc as any).updateConfigWithUserData({ organisations: [{ roles: ['PUBLIC'] }] })
       expect(mockConfigSvc.userProfile).toBeNull()
+    })
+
+    it('falls back to id when userId is absent (Sunbird Spark shape)', () => {
+      const { svc, mockConfigSvc } = makeService()
+      const userPidProfile = {
+        id: 'spark-u1',
+        identifier: 'spark-u1',
+        firstName: 'Likhith',
+        organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+      }
+      ;(svc as any).updateConfigWithUserData(userPidProfile)
+      expect(mockConfigSvc.userProfile.userId).toBe('spark-u1')
     })
   })
 
@@ -255,6 +273,59 @@ describe('InitService', () => {
       mockUserDataCacheSvc.getUserData.mockReturnValue({ toPromise: () => Promise.resolve(userPidProfile) })
 
       await (svc as any).fetchStartUpDetails()
+
+      expect(mockConfigSvc.userProfile).toBeNull()
+    })
+
+    it('sets userProfile.userId from id when userId is absent from the response (real Sunbird Spark shape)', async () => {
+      const { svc, mockConfigSvc, mockUserDataCacheSvc } = makeService()
+      mockConfigSvc.instanceConfig = { disablePidCheck: false }
+      const userPidProfile = {
+        id: 'spark-u1',
+        identifier: 'spark-u1',
+        firstName: 'Likhith',
+        isDeleted: false,
+        organisations: [{ organisationId: 'org-1', roles: ['PUBLIC'] }],
+      }
+      mockUserDataCacheSvc.getUserData.mockReturnValue({ toPromise: () => Promise.resolve(userPidProfile) })
+
+      await (svc as any).fetchStartUpDetails()
+
+      expect(mockConfigSvc.userProfile.userId).toBe('spark-u1')
+      expect(mockConfigSvc.userProfileV2.userId).toBe('spark-u1')
+    })
+  })
+
+  describe('loadUserDataIfAvailable (Sunbird Spark response shape)', () => {
+    it('populates userProfile from in-memory cache using id when userId is absent', async () => {
+      const { svc, mockConfigSvc, mockUserDataCacheSvc } = makeService()
+      const cachedData = { id: 'spark-u1', identifier: 'spark-u1', firstName: 'Likhith' }
+      mockUserDataCacheSvc.getCachedUserData.mockReturnValue(cachedData)
+
+      await (svc as any).loadUserDataIfAvailable()
+
+      expect(mockConfigSvc.unMappedUser).toBe(cachedData)
+      expect(mockConfigSvc.userProfile.userId).toBe('spark-u1')
+    })
+
+    it('falls through to the API when there is no in-memory cache, populating userProfile using id', async () => {
+      const { svc, mockConfigSvc, mockUserDataCacheSvc } = makeService()
+      mockUserDataCacheSvc.getCachedUserData.mockReturnValue(null)
+      const apiData = { id: 'spark-u2', identifier: 'spark-u2', firstName: 'Test' }
+      mockUserDataCacheSvc.getUserData.mockReturnValue({ toPromise: () => Promise.resolve(apiData) })
+
+      await (svc as any).loadUserDataIfAvailable()
+
+      expect(mockConfigSvc.unMappedUser).toBe(apiData)
+      expect(mockConfigSvc.userProfile.userId).toBe('spark-u2')
+    })
+
+    it('does nothing when neither cache nor API has any identifying field', async () => {
+      const { svc, mockConfigSvc, mockUserDataCacheSvc } = makeService()
+      mockUserDataCacheSvc.getCachedUserData.mockReturnValue(null)
+      mockUserDataCacheSvc.getUserData.mockReturnValue({ toPromise: () => Promise.resolve({ name: 'no-id' }) })
+
+      await (svc as any).loadUserDataIfAvailable()
 
       expect(mockConfigSvc.userProfile).toBeNull()
     })
