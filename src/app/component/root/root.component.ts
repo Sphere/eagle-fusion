@@ -560,6 +560,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isNavBarRequired = this.router.url.includes('/page/home') ?? true
         } else {
           this.isHomePage = false
+          if (this.playlistSvc.showDetails()) {
+            this.playlistSvc.showDetails.set(false)
+          }
         }
         if (this.router.url.includes('/public/home')) {
           this.showNavigation = true
