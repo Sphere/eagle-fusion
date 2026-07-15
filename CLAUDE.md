@@ -220,3 +220,8 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 
 ## Branches
 Main branch is **`master`**. Feature work happens on `feature/*` branches and merges back to `master` via PR.
+
+---
+
+## Agent Memory (in-repo)
+Durable working notes for AI-assisted sessions live in **`.claude/memory/`** (one topic per file, markdown with frontmatter). Read them at the start of related work and update them there — do not keep repo knowledge in machine-local memory. Current notes: `.claude/memory/dead-code-cleanup-2026-07.md` (dead-code audit method, baseUrl-import pitfall, verified-alive false positives, backend page-config caveat).

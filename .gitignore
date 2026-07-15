@@ -5,7 +5,7 @@
 !/dist/index.js
 !/dist/server.js
 !/dist/package.json
-
+.scannerwork/
 /tmp
 /out-tsc
 # Only exists if Bazel was run

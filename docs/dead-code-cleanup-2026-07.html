@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dead-Code Cleanup — July 2026</title>
+  <style>
+    body { font-family: 'Open Sans', Calibri, Arial, sans-serif; font-size: 11pt; color: #0D1218; margin: 72pt; line-height: 1.5; }
+    h1 { font-size: 18pt; font-weight: 700; color: #17283C; border-bottom: 2pt solid #17283C; padding-bottom: 4pt; margin-top: 24pt; }
+    h2 { font-size: 14pt; font-weight: 600; color: #17283C; margin-top: 20pt; margin-bottom: 6pt; }
+    h3 { font-size: 12pt; font-weight: 600; color: #18293D; margin-top: 14pt; margin-bottom: 4pt; }
+    p  { margin: 6pt 0; }
+    a  { color: #186E6E; text-decoration: underline; }
+    code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 9pt; background: #F6F7F9; padding: 1pt 3pt; border-radius: 2pt; }
+    pre  { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 8.5pt; background: #F6F7F9; border: 1pt solid #D8DEE5; border-left: 3pt solid #1E8F8E; padding: 10pt 12pt; white-space: pre-wrap; word-wrap: break-word; }
+    table { border-collapse: collapse; width: 100%; margin: 10pt 0; font-size: 10pt; }
+    th { background: #17283C; color: #fff; padding: 6pt 8pt; text-align: left; font-weight: 600; }
+    td { border: 0.5pt solid #D8DEE5; padding: 5pt 8pt; vertical-align: top; }
+    tr:nth-child(even) td { background: #F6F7F9; }
+    .meta { color: #7C8696; font-size: 10pt; }
+    .info { background: #E3F7F6; border-left: 4pt solid #1E8F8E; padding: 8pt 12pt; margin: 10pt 0; font-size: 10pt; }
+    .note { background: #FEF6E0; border-left: 4pt solid #F0A500; padding: 8pt 12pt; margin: 10pt 0; font-size: 10pt; }
+    .section-divider { border: none; border-top: 1pt solid #D8DEE5; margin: 20pt 0; }
+  </style>
+</head>
+<body>
+  <h1>Dead-Code Cleanup — July 2026</h1>
+  <p class="meta">Branch: <code>feature/ProgramCompetency</code> · Dates: 2026-07-03 → 2026-07-06 · Status: verified green (AOT build + full test suite); bulk of deletions pending commit</p>
+
+  <h2>Summary</h2>
+  <p>A repo-wide dead-code audit and cleanup removed roughly <strong>390 files</strong> of unreachable or never-rendered code across <code>library/ws-widget</code>, <code>project/ws</code>, and <code>src/</code>. Every removal was verified by static reachability analysis and confirmed by three gates: TypeScript compilation, the Angular AOT production build, and the Jest test suite (141/141 suites, 2,482 tests passing). The biggest single win: the entire authoring <strong>editor</strong> feature tree (~226 files) was unreachable because every <code>loadChildren</code> in its routing module had been commented out long ago.</p>
+
+  <h2>Verification results</h2>
+  <table>
+    <tr><th>Gate</th><th>Result</th></tr>
+    <tr><td><code>npx tsc -p tsconfig.app.json --noEmit</code></td><td>✅ exit 0 — no dangling imports</td></tr>
+    <tr><td><code>yarn run build:local</code> (AOT production build)</td><td>✅ exit 0, no NG* errors, ~44 s</td></tr>
+    <tr><td><code>yarn test</code> (Jest)</td><td>✅ 141/141 suites, 2,482/2,482 tests</td></tr>
+    <tr><td>Dangling-selector sweep</td><td>✅ zero matches</td></tr>
+  </table>
+
+  <h2>How dead code was identified</h2>
+  <p><strong>1. Import-graph reachability</strong> — BFS from the app entry points (<code>src/main.ts</code>, <code>src/main.server.ts</code>, <code>angular.json</code> fileReplacements) following every static import, <code>export … from</code>, and lazy <code>loadChildren</code> <code>import()</code>, resolving relative paths, tsconfig aliases, <strong>and baseUrl-relative imports</strong> (<code>'src/app/…'</code>, <code>'project/ws/…'</code>). Files not reachable from an entry point cannot be bundled — dead by construction.</p>
+  <p><strong>2. Render-usage analysis</strong> — a reachable component counts as used only if its selector appears in a live template, it is routed, opened dynamically (<code>MatDialog.open</code>, <code>snackBar.openFromComponent</code>, <code>createComponent</code>), or registered as a dynamic widget whose key appears in live code or the page-config JSONs under <code>src/fusion-assets/files/</code>.</p>
+  <p><strong>3. Cascade re-checks</strong> — after each wave, widget keys and selectors were re-evaluated against the shrunken live corpus.</p>
+  <p><strong>4. Gates</strong> — every wave finished with tsc, the AOT production build, and Jest.</p>
+  <div class="note"><strong>Pitfall for future audits:</strong> this repo mixes three import styles — relative, tsconfig alias, and baseUrl-relative (<code>import { IndexedDBService } from 'src/app/services/online-indexed-db.service'</code>). Tooling that misses the third style produces false dead-code positives; this exact bug initially mis-flagged <code>online-indexed-db.service.ts</code> (6 importers) and <code>new-tnc.directive.ts</code>.</div>
+
+  <h2>What was removed</h2>
+
+  <h3>library/ws-widget — ~90 files</h3>
+  <p><strong>Wave 1</strong> (committed, <code>e1448ffa8</code> — 40 files, −1,350 lines): dynamic widgets whose keys appear nowhere.</p>
+  <table>
+    <tr><th>Removed</th><th>Reason</th></tr>
+    <tr><td><code>player-amp/</code> + <code>dynamic-assets-loader.service.ts</code></td><td>key <code>playerAmp</code> never referenced; service had no other consumer</td></tr>
+    <tr><td><code>release-notes/</code></td><td>key <code>userReleaseNotes</code> never referenced</td></tr>
+    <tr><td><code>sliders-mob/</code></td><td>key <code>sliderMobBanners</code> never referenced</td></tr>
+    <tr><td><code>tree/</code>, <code>tree-catalog/</code></td><td>keys <code>tree</code>/<code>treeCatalog</code> never referenced</td></tr>
+    <tr><td><code>content-assign/</code></td><td>model + service only, never injected</td></tr>
+  </table>
+  <p>Also removed around this wave: <code>_common/locale-translator/</code>, <code>_common/user-autocomplete/</code>, <code>_common/profile-image/</code>, <code>_common/content-picker-v2/</code>, <code>_common/display-content-type-icon/</code> (never rendered), an orphaned CSS rule in <code>styles.scss</code>, and ~300 commented-out reference lines for the long-gone BtnContentFeedback / BtnContentFeedbackV2 / PlayerBrief / BtnContentLike / BtnGoals / BtnPlaylist / UserContentRating modules across 22 viewer module files.</p>
+  <p><strong>Wave 2</strong> (staged, 57 files): <code>content-strip-single/</code>, <code>element-html/</code>, <code>embedded-page/</code>, <code>gallery-view/</code>, <code>image-map-responsive/</code>, <code>intranet-selector/</code>, <code>layout-linear/</code>, <code>layout-tab/</code>, <code>picker-content/</code>, <code>selector-responsive/</code>, <code>video-wrapper/</code> — no static key/selector reference in live code or local page configs. <code>registration.config.ts</code>, <code>collection.config.ts</code>, and <code>public-api.ts</code> updated accordingly.</p>
+  <div class="note"><strong>Runtime caveat:</strong> dynamic widgets can also be instantiated from <strong>backend-served page configs</strong> (<code>/apis/…/page/</code>). The removed keys had zero references in the repo (including <code>src/fusion-assets/files/*.json</code>) but were not verifiable against production page JSON. If a server page config still emits one of these keys, that section will silently not render — restore the widget from git history if that happens.</div>
+
+  <h3>project/ws — 287 files</h3>
+  <table>
+    <tr><th>Area</th><th>Files</th><th>What</th></tr>
+    <tr><td><code>author</code></td><td>226</td><td>The entire unreachable <strong>editor</strong> tree: <code>editor-routing.module.ts</code> had every <code>loadChildren</code> commented out, orphaning <code>channel/</code> (page editor incl. all input/view/v2 widgets), <code>collection/</code>, <code>curate/</code>, <code>iap-assessment/</code>, <code>quiz/</code>, <code>web-page/</code>, plus stranded support services/constants and never-rendered shared components (<code>course-rating-dialog</code>, <code>auth-editor-steps</code>). The my-content and create flows remain live.</td></tr>
+    <tr><td><code>viewer</code></td><td>16</td><td>Both <code>html-picker</code> generations, two orphaned <code>html-routing.module.ts</code> files, <code>cache-control.interceptor.ts</code> (documented in CLAUDE.md but registered nowhere), <code>course-hierarchy-cache.service.ts</code>, <code>indexeddb-cache.service.ts</code></td></tr>
+    <tr><td><code>app</code></td><td>45</td><td>Never-loaded <code>org.module</code> + routing + <code>all-courses/</code>; app-toc <code>create-batch-dialog/</code>, analytics model, <code>components/app-toc-overview/</code>, <code>app-toc-discussion/</code>, overview directive + service; app-event <code>card-details/</code>, <code>event-banner/</code>, interface models; person-profile <code>last-learnt/</code>, <code>user-goals/</code>, <code>userdetailall.module.ts</code>; profile <code>course-pending-card/</code>, <code>calendar-module/</code>; search <code>search-input/</code>; user-profile <code>config-resolver.service.ts</code></td></tr>
+  </table>
+
+  <h3>src — 11 files</h3>
+  <p><code>route-org-details.module.ts</code>, <code>competency.service.ts</code>, <code>header-service.service.ts</code>, <code>navigation-history.service.ts</code>, <code>performance.service.ts</code> (+ spec files), <code>discuss.model.ts</code>, <code>sampleData.ts</code> (1,172 lines, removed in <code>dea5c88dd</code>).</p>
+
+  <h3>Reference cleanups</h3>
+  <p>24 files edited to drop imports/providers/declarations of removed code — key ones: <code>viewer.module.ts</code>, <code>viewer-routing.module.ts</code>, <code>app-toc.module.ts</code>, <code>person-profile.module.ts</code>, <code>app-event.module.ts</code>, author <code>create.module.ts</code>/<code>editor.module.ts</code>/shared modules, <code>app-routing.module.ts</code>, <code>registration.config.ts</code>, <code>public-api.ts</code>. Jest specs updated in <code>dea5c88dd</code>.</p>
+
+  <h2>False positives caught &amp; kept alive</h2>
+  <table>
+    <tr><th>File</th><th>Why it looked dead</th><th>Why it is alive</th></tr>
+    <tr><td><code>online-indexed-db.service.ts</code></td><td>baseUrl-import resolver gap</td><td>6 importers (viewer quiz/SCORM/util/toc, app-toc desktop &amp; home-page)</td></tr>
+    <tr><td><code>new-tnc.directive.ts</code></td><td>same</td><td>declared in <code>app.module.ts</code></td></tr>
+    <tr><td><code>competency.config.ts</code></td><td>same</td><td>imported by <code>app.module.ts</code>; relevant to this branch's feature</td></tr>
+    <tr><td><code>viewer plugins/resource-collection/</code> (9 files)</td><td>over-deleted; only its model file was dead</td><td>rendered by the routed resource-collection viewer — see incident</td></tr>
+    <tr><td><code>NotificationComponent</code> (author)</td><td>no selector usage</td><td><code>snackBar.openFromComponent</code></td></tr>
+    <tr><td><code>AppTocHomePageComponent</code></td><td>no selector usage</td><td>created dynamically via <code>app-toc-home.service</code></td></tr>
+    <tr><td><code>AppTocOverviewComponent</code> (routes/)</td><td>no selector usage</td><td>routed at path <code>overview</code></td></tr>
+    <tr><td>Route resolvers + <code>AuthoringErrorHandler</code></td><td>referenced only in <code>*.module.ts</code></td><td>route <code>resolve:</code> blocks / <code>ErrorHandler</code> provider</td></tr>
+  </table>
+  <div class="note"><strong>Incident (resolved):</strong> deleting <code>plugins/resource-collection/</code> wholesale broke the AOT build with <code>NG8001: 'viewer-plugin-resource-collection' is not a known element</code> — tsc stayed green because the module import had been removed by hand while the template still used the element. The folder and module import were restored; build went green. <strong>Lesson: tsc cannot see template-level breakage; always finish a cleanup wave with the AOT production build.</strong></div>
+
+  <h2>Commits</h2>
+  <table>
+    <tr><th>Commit</th><th>Content</th></tr>
+    <tr><td><code>e1448ffa8</code></td><td>Wave-1 library removals (40 files, −1,350 lines)</td></tr>
+    <tr><td><code>ce0a421bf</code></td><td><code>person-profile.component.ts</code> reference cleanup (−43 lines)</td></tr>
+    <tr><td><code>dea5c88dd</code></td><td>Jest spec updates; <code>sampleData.ts</code> removal (14 files)</td></tr>
+    <tr><td><em>(pending)</em></td><td>354 deletions (95 staged + 259 unstaged) + 24 modified files — the project/ws trees and wave-2 library widgets</td></tr>
+  </table>
+
+  <h2>Remaining follow-ups</h2>
+  <table>
+    <tr><th>#</th><th>Action</th></tr>
+    <tr><td>1</td><td>Commit the pending work (354 deletions + 24 modifications in the working tree as of 2026-07-06)</td></tr>
+    <tr><td>2</td><td>Delete <code>UploadService</code> (zero injectors) plus its import + providers entries in <code>create.module.ts</code> and editor <code>shared/shared.module.ts</code></td></tr>
+    <tr><td>3</td><td>Delete orphaned barrel <code>project/ws/viewer/src/public-api.ts</code></td></tr>
+    <tr><td>4</td><td>Delete <code>src/app/workers/performance.worker.ts</code> (consumer removed)</td></tr>
+    <tr><td>5</td><td>Update CLAUDE.md — remove the <code>cache-control.interceptor.ts</code> row from the HTTP-interceptors table</td></tr>
+    <tr><td>6</td><td>After release, spot-check production pages that previously used the removed dynamic widgets</td></tr>
+  </table>
+</body>
+</html>

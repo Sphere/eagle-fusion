@@ -70,7 +70,7 @@ const routes: Routes = [
     path: 'public/home',
     component: PublicHomeComponent,
     data: {
-      title: domain.includes('ekshamata')
+      title: domain.includes('localhost')
         ? 'Ekshamata - Free CNE Courses for Healthcare Professionals'
         : 'Aastrika Sphere - Free CNE Courses | INC Certified | Healthcare Training',
       seoDescription: 'Earn CNE points and INC certification with free online healthcare courses on Aastrika Sphere. Courses on maternal health, newborn care, midwifery, and more — designed for nurses, midwives, and healthcare workers across India.',
