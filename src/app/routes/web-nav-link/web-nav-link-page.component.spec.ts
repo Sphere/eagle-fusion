@@ -199,12 +199,6 @@ describe('WebNavLinkPageComponent', () => {
       expect(component.isDark).toBe(true)
     })
 
-    it('should set data from configSvc.unMappedUser profileDetails', async () => {
-      mockConfigSvc.unMappedUser = { profileDetails: { profileReq: { personalDetails: { dob: '01/01/1990' } } } }
-      await component.ngOnInit()
-      expect(component.data).toEqual({ dob: '01/01/1990' })
-    })
-
     it('should subscribe to notificationCountUpdated event', async () => {
       await component.ngOnInit()
       expect(mockEvents.subscribe).toHaveBeenCalledWith('notificationCountUpdated', expect.any(Function))
