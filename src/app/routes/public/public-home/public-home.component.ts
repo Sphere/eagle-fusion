@@ -15,11 +15,11 @@ import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 import { SeoService } from '../../../services/seo.service'
 import { UserAgentResolverService } from '../../../services/user-agent.service'
 @Component({
-  standalone: false,
-  selector: 'ws-public-home',
-  templateUrl: './public-home.component.html',
-  styleUrls: ['./public-home.component.scss'],
-
+    standalone: false,
+    selector: 'ws-public-home',
+    templateUrl: './public-home.component.html',
+    styleUrls: ['./public-home.component.scss'],
+    
 })
 export class PublicHomeComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {
@@ -74,7 +74,7 @@ export class PublicHomeComponent extends WidgetBaseComponent
 
     this.userAgentSvc.requestGeolocation()
 
-    if (window.location.hostname?.includes('localhost')) {
+    if (window.location.hostname?.includes('ekshamata')) {
       this.isEkshamata = true
     }
 

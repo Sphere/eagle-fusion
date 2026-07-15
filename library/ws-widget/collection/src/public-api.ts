@@ -1,6 +1,7 @@
 // Widget Modules
 export * from './lib/btn-apps/btn-apps.model'
 // modules
+export * from './lib/btn-apps/btn-apps.module'
 export * from './lib/btn-content-share/btn-content-share.module'
 export * from './lib/btn-feature/btn-feature.module'
 export * from './lib/btn-fullscreen/btn-fullscreen.module'
@@ -9,6 +10,7 @@ export * from './lib/btn-page-back/btn-page-back.service'
 export * from './lib/btn-profile/btn-profile.module'
 export * from './lib/btn-settings/btn-settings.module'
 export * from './lib/btn-settings/btn-settings.service'
+export * from './lib/_common/language-selector/language-selector.module'
 export * from './lib/card-content/card-content.module'
 export * from './lib/collection.config'
 export * from './lib/content-strip-multiple/content-strip-multiple.model'

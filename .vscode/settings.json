@@ -155,7 +155,7 @@
   "typescriptHero.imports.insertSemicolons": false,
   "autoimport.useSemiColon": false,
   "javascript.format.semicolons": "remove",
-  "liveServer.settings.port": 5502,
+  "liveServer.settings.port": 5501,
   "git.autofetch": true,
   "tslint.alwaysShowRuleFailuresAsWarnings": false,
   "prettier.trailingComma": "all",

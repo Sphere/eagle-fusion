@@ -1,0 +1,19 @@
+.lang-container{
+  position: relative;
+  height: 100%;
+
+  .next-button{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 32px;
+  }
+}
+
+.height-option{
+  height: 80px !important;
+}
+
+.padding-top{
+  padding-top: 88px;
+}

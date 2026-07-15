@@ -1,5 +1,8 @@
 import { NsWidgetResolver } from '@ws-widget/resolver'
+// Components
+import { BtnAppsComponent } from './btn-apps/btn-apps.component'
 // Modules
+import { BtnAppsModule } from './btn-apps/btn-apps.module'
 import { BtnContentShareComponent } from './btn-content-share/btn-content-share.component'
 import { BtnContentShareModule } from './btn-content-share/btn-content-share.module'
 import { BtnFeatureComponent } from './btn-feature/btn-feature.component'
@@ -37,6 +40,7 @@ import { SlidersComponent } from './sliders/sliders.component'
 import { SlidersModule } from './sliders/sliders.module'
 
 export const WIDGET_REGISTERED_MODULES = [
+  BtnAppsModule,
   BtnContentShareModule,
   BtnFeatureModule,
   BtnFullscreenModule,
@@ -58,6 +62,11 @@ export const WIDGET_REGISTERED_MODULES = [
 ]
 
 export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] = [
+  {
+    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.apps,
+    component: BtnAppsComponent,
+  },
   {
     widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
     widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentShare,
@@ -142,5 +151,5 @@ export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] 
     widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
     widgetSubType: ROOT_WIDGET_CONFIG.actionButton.feature,
     component: BtnFeatureComponent,
-  },
+  }
 ]
