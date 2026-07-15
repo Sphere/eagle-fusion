@@ -158,7 +158,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
     if (isBrowser) {
       this.domain = window.location.hostname
-      if (this.domain.includes('ekshamata')) {
+      if (this.domain.includes('localhost')) {
         this.isEkshamata = true
       }
     }
@@ -720,10 +720,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private buildEnrolledCourses(res: any): any[] {
     const myCourse: any[] = []
+    console.log('[RootComponent] Raw API response sample:', res?.[0])
     res.forEach((key: any) => {
       if (key?.content?.identifier) {
         myCourse.push({
           identifier: key.content.identifier,
+          courseId: key.content.courseId || key.courseId,
+          contentId: key.content.contentId || key.contentId,
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
@@ -736,6 +739,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       }
     })
+    console.log('[RootComponent] Built enrolled courses:', myCourse.length, 'courses')
     return myCourse
   }
 

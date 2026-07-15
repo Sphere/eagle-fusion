@@ -109,7 +109,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         this.configData = this.programConfig?.tabs
         this.uiConfig.set(this.configData)
-        this.programIdentifiers = this.selectedProgDet.payload
+        this.programIdentifiers = this.selectedProgDet.courseIds
       }
     } else if (Array.isArray(this.configData)) {
       this.uiConfig.set(this.configData.slice(1, -1))
