@@ -77,7 +77,7 @@ describe('ProgramHome', () => {
       fetchUserEnrollmentWithProgress: jest.fn().mockReturnValue(of([])),
     }
     mockConfigSvc = {
-      userProfile: null,
+      userProfile: { userId: 'user-1' },
     }
     comp = new ProgramHome(mockValueSvc, mockPlaylistSvc, mockUserSvc, mockConfigSvc)
   })
@@ -104,7 +104,7 @@ describe('ProgramHome', () => {
           { type: 'competency', playlistConfigId: 'PL_COMPETENCY' },
         ],
       }
-      comp.userEnrollCourse = []
+      mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([]))
       await comp.ngOnInit()
       const [course, competency] = comp.programData()
       expect(course.courseCount).toBe(2)
@@ -116,45 +116,46 @@ describe('ProgramHome', () => {
 
     it('marks a program In-Progress when some enrolled courses are incomplete', async () => {
       comp.configData = { programs: [{ type: 'course', playlistConfigId: 'PL_STATIC' }] }
-      comp.userEnrollCourse = [
+      mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([
         { identifier: 'course-1', completionPercentage: 100 },
         { identifier: 'unrelated', completionPercentage: 100 },
-      ]
+      ]))
       await comp.ngOnInit()
       expect(comp.programData()[0].programStatus).toBe('In-Progress')
     })
 
     it('marks a program Completed when every playlist course is finished', async () => {
       comp.configData = { programs: [{ type: 'course', playlistConfigId: 'PL_STATIC' }] }
-      comp.userEnrollCourse = [
+      mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([
         { identifier: 'course-1', completionPercentage: 100 },
         { identifier: 'course-2', completionPercentage: 100 },
-      ]
+      ]))
       await comp.ngOnInit()
       expect(comp.programData()[0].programStatus).toBe('Completed')
     })
 
     it('leaves programStatus empty without enrolled courses', async () => {
       comp.configData = { programs: [{ type: 'course', playlistConfigId: 'PL_STATIC' }] }
+      mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([]))
       await comp.ngOnInit()
       expect(comp.programData()[0].programStatus).toBe('')
     })
 
     it('marks competency programs In-Progress when some courses are enrolled', async () => {
       comp.configData = { programs: [{ type: 'competency', playlistConfigId: 'PL_COMPETENCY' }] }
-      comp.userEnrollCourse = [
+      mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([
         { identifier: 'comp-course-1', completionPercentage: 50 },
-      ]
+      ]))
       await comp.ngOnInit()
       expect(comp.programData()[0].programStatus).toBe('In-Progress')
     })
 
     it('marks competency programs Completed when all courses are finished', async () => {
       comp.configData = { programs: [{ type: 'competency', playlistConfigId: 'PL_COMPETENCY' }] }
-      comp.userEnrollCourse = [
+      mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([
         { identifier: 'comp-course-1', completionPercentage: 100 },
         { identifier: 'comp-course-2', completionPercentage: 100 },
-      ]
+      ]))
       await comp.ngOnInit()
       expect(comp.programData()[0].programStatus).toBe('Completed')
     })

@@ -13,7 +13,6 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/p
 })
 export class ProgramHome implements OnInit {
   @Input() configData: any
-  @Input() userEnrollCourse: any
   @Output() programClick = new EventEmitter()
   isXSmall = computed(() => this.valueSvc.isMobile())
   isLoading = signal(true)
@@ -23,12 +22,12 @@ export class ProgramHome implements OnInit {
   programList: any
   showDetails = signal(false)
   programDisplayConfig: any = {}
+  enrollmentData: any[] = []
   constructor(
     private valueSvc: ValueService,
     private playlistSvc: PlaylistService,
     private userSvc: WidgetUserService,
-    private configSvc: ConfigurationsService,
-    // private router: Router,
+    private configSvc: ConfigurationsService
   ) {
   }
 
@@ -43,27 +42,25 @@ export class ProgramHome implements OnInit {
     }
 
     // Fetch enrollment data with progress info for program status calculation
-    let enrollmentData = this.userEnrollCourse
     const userId = this.configSvc.userProfile?.userId
-    console.log('[ProgramHome] userId:', userId, 'userEnrollCourse:', this.userEnrollCourse?.length)
 
     if (userId) {
       try {
-        enrollmentData = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
-        console.log('[ProgramHome] Fetched enrollment with progress:', enrollmentData?.length, 'courses')
+        this.enrollmentData = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
+        console.log('[ProgramHome] Fetched enrollment with progress:', this.enrollmentData, 'courses')
       } catch (error) {
         console.warn('[ProgramHome] Failed to fetch enrollment with progress, using fallback:', error)
-        enrollmentData = this.userEnrollCourse
+        this.enrollmentData = []
       }
     } else {
       console.log('[ProgramHome] No userId, using fallback enrollment data')
     }
 
-    console.log('[ProgramHome] Final enrollmentData to use:', enrollmentData?.length, 'courses')
+    console.log('[ProgramHome] Final enrollmentData to use:', this.enrollmentData?.length, 'courses')
 
     const enricher = this.enrichProgramWithCount(plyLsData, 'en')
     const enrichedPrograms = this.configData?.programs?.map((program: any) =>
-      enricher(program, enrollmentData)
+      enricher(program, this.enrollmentData)
     )
 
     console.log('[ProgramHome] Enriched programs:', enrichedPrograms)
@@ -97,7 +94,7 @@ export class ProgramHome implements OnInit {
     const courseCount = courseIds.length
 
     // Use provided enrollment data or fall back to input property
-    const enrolledCourses = enrollmentData || this.userEnrollCourse
+    const enrolledCourses = enrollmentData || []
 
     // Calculate program status based on enrolled courses
     const programStatus = this.calculateProgramStatus(
@@ -232,62 +229,6 @@ export class ProgramHome implements OnInit {
       playlist.dataSource.payload.length > 0
     )
 
-  // computeProgramStatus$ = (dashboardService: any, allCourseIds: string[], userId: string, enrichedPrograms: any[], playlists: any[], sections: Section[], defaultLang: string): Observable<any> => {
-  //   return dashboardService.getProgramStatus$(allCourseIds, userId).pipe(
-  //     map(({ completedIds, inProgressIds }: { completedIds: string[]; inProgressIds: string[] }) => {
-  //       const programsWithStatus = enrichedPrograms.map((program) => {
-
-  //         const programCourseIds: string[] = extractCourseIds(
-  //           program,
-  //           playlists,
-  //           defaultLang
-  //         )
-  //         if (!programCourseIds.length) return program
-  //         const completedCount = programCourseIds.filter((id) =>
-  //           completedIds.includes(id)
-  //         ).length
-
-  //         const inProgressCount = programCourseIds.filter((id) =>
-  //           inProgressIds.includes(id)
-  //         ).length
-
-  //         let programStatus = ''
-  //         if (completedCount === programCourseIds.length) {
-  //           programStatus = 'Completed'
-  //         } else if (completedCount > 0 || inProgressCount > 0) {
-  //           programStatus = 'In-Progress'
-  //         }
-
-  //         return { ...program, programStatus }
-  //       })
-
-  //       const updatedSections = sections.map((s) =>
-  //         s.cardComponentType === 'ProgramList'
-  //           ? { ...s, programs: programsWithStatus }
-  //           : s
-  //       )
-
-  //       return {
-  //         sections: updatedSections,
-  //         playlists,
-  //         enrolledData: emptyEnrollData(),
-  //       }
-  //     }),
-  //     catchError((err) => {
-  //       console.warn('[computeProgramStatus] getProgramStatus failed, skipping status:', err)
-  //       const updatedSections = sections.map((s) =>
-  //         s.cardComponentType === 'ProgramList'
-  //           ? { ...s, programs: enrichedPrograms }
-  //           : s
-  //       )
-  //       return of({
-  //         sections: updatedSections,
-  //         playlists,
-  //         enrolledData: emptyEnrollData(),
-  //       })
-  //     })
-  //   )
-  // };
   openProgram(programData: any): void {
     this.programList = programData
     this.playlistSvc?.selectedProgram.set(programData)
