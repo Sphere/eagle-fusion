@@ -13,6 +13,7 @@ import { concatMap, debounceTime, filter, pairwise, startWith, takeUntil } from 
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { MobileDashboardService } from './services/mobile-dashboard.service'
 import { CompetencyUserService } from './services/competency-user.service'
+import { LanguageService } from '../../services/language.service'
 
 @Component({
   standalone: false,
@@ -50,7 +51,8 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private dashboardSvc: MobileDashboardService,
-    private userSvc: CompetencyUserService
+    private userSvc: CompetencyUserService,
+    private langSvc: LanguageService
   ) {
     effect(() => {
       this.isTablet.set(!this.valueSvc.isMobile())
@@ -71,7 +73,7 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
   }
 
   private initializeLanguage(): void {
-    const lang = this.configSvc?.userProfile?.['language'] || 'en'
+    const lang = this.langSvc.getCurrentLanguage() || this.configSvc?.userProfile?.['language'] || 'en'
     this.defaultLang = lang
   }
 
@@ -124,7 +126,7 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
     this.roleCompetencyData = []
     this.competencyLevelsData = []
 
-    const result = this.dashboardSvc.getCompetencyInfo(this.competencyHomeData, rootOrgId, this.designation)
+    const result = this.dashboardSvc.getCompetencyInfo(this.competencyHomeData, rootOrgId, this.designation, this.defaultLang)
     if (!result) return of({ ashaData: [], completedCourses: [], inProgressCourses: [] })
 
     this.competencyRoles = result.isUserDesignationInRoles

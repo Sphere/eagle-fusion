@@ -53,8 +53,8 @@ export class MobileDashboardService {
           level: l.level,
           levelName: l.name || l.levelName,
           description: l.description,
-          langHiName: l['lang-hi-name'],
-          langHiDescription: l['lang-hi-description'],
+          langHiName: l[`lang-${lang}-name`],
+          langHiDescription: l[`lang-${lang}-description`],
           course: l.course || [],
         }))
       })

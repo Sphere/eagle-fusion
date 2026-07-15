@@ -15,6 +15,7 @@ interface AshaLevel {
   templateUrl: './asha-learning-card.component.html',
   styleUrls: ['./asha-learning-card.component.scss'],
 })
+// TODO: Instead of COMPETENCY DASHBOARD, competency data shows as a learning path, in future we can delete
 export class AshaLearningCardComponent implements OnChanges {
   @Input() competency: any
   @Output() expandedChange = new EventEmitter<boolean>()

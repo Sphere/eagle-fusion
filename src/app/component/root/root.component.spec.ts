@@ -226,7 +226,8 @@ function buildMocks(overrides: any = {}) {
     config: jest.fn().mockReturnValue([]),
     footerConfig: jest.fn().mockReturnValue({}),
     programs: jest.fn().mockReturnValue({}),
-    showDetails: { set: jest.fn() },
+    // Callable like the real signal (reads false by default) with a spyable set()
+    showDetails: Object.assign(jest.fn().mockReturnValue(false), { set: jest.fn() }),
   }
   const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
   const mockDowntimeService = overrides.downtimeService || {
@@ -652,6 +653,29 @@ describe('RootComponent', () => {
       mocks.mockRouter.url = '/app/search'
       routerEvents$.next(new NavigationEnd(1, '/app/search', '/app/search'))
       expect(component.isHomePage).toBe(false)
+    })
+
+    it('resets showDetails when leaving home while the program-details view is open (NavigationEnd)', () => {
+      ;(mocks.mockPlaylistSvc.showDetails as jest.Mock).mockReturnValue(true)
+      component.handleRouterSubscription()
+      mocks.mockRouter.url = '/app/toc/do_123/overview'
+      routerEvents$.next(new NavigationEnd(1, '/app/toc/do_123/overview', '/app/toc/do_123/overview'))
+      expect(mocks.mockPlaylistSvc.showDetails.set).toHaveBeenCalledWith(false)
+    })
+
+    it('does not reset showDetails when staying on home with the program-details view open (NavigationEnd)', () => {
+      ;(mocks.mockPlaylistSvc.showDetails as jest.Mock).mockReturnValue(true)
+      component.handleRouterSubscription()
+      mocks.mockRouter.url = '/page/home?lang=hi'
+      routerEvents$.next(new NavigationEnd(1, '/page/home?lang=hi', '/page/home?lang=hi'))
+      expect(mocks.mockPlaylistSvc.showDetails.set).not.toHaveBeenCalled()
+    })
+
+    it('does not touch showDetails on navigation outside the program flow (NavigationEnd)', () => {
+      component.handleRouterSubscription()
+      mocks.mockRouter.url = '/app/search'
+      routerEvents$.next(new NavigationEnd(1, '/app/search', '/app/search'))
+      expect(mocks.mockPlaylistSvc.showDetails.set).not.toHaveBeenCalled()
     })
 
     it('sets showNavigation and hideHeaderFooter for /public/home (NavigationEnd)', () => {
