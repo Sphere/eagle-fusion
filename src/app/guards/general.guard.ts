@@ -90,61 +90,27 @@ export class GeneralGuard {
       }
     }
 
-    // this.logger.log("came here 1")
-    // tslint:disable-next-line: no-non-null-assertion
     if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-      // tslint:disable-next-line: no-non-null-assertion
       this.locale = this.configSvc.userProfile!.language
       if (this.locale === 'en') {
         this.locale = ''
       }
     }
-    // // tslint:disable-next-line: no-non-null-assertion
-    // if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   this.locale = this.configSvc.userProfile!.language
-    //   if (this.locale === 'en') {
-    //     this.locale = ''
-    //   }
-    // }
     if (localStorage.getItem('lang')) {
-      // tslint:disable-next-line: no-non-null-assertion
       this.locale = localStorage.getItem('lang') || ''
       if (this.locale === 'en') {
         this.locale = ''
       }
     }
-    // tslint:disable-next-line: no-non-null-assertion
     if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
-      // tslint:disable-next-line: no-non-null-assertion
       if (this.configSvc.userProfile!.language === 'en') {
-        // this.locale = 'en-US'
+        // Language is English, no prefix needed
       } else {
-        // tslint:disable-next-line: no-non-null-assertion
         this.locale = this.configSvc.userProfile!.language || 'en-US'
       }
     }
-    // tslint:disable-next-line:no-console
     this.logger.log(this.locale)
-    // this.logger.log("came here 2")
 
-    // setTimeout(() => {
-
-    // }, 5000)
-
-    /**
-     * Test IF User is authenticated
-     */
-    // if (!this.configSvc.isAuthenticated) {
-    //   let refAppend = ''
-    //   if (state.url) {
-    //     refAppend = `?ref=${encodeURIComponent(state.url)}`
-    //   }
-    //   this.logger.log(!this.configSvc.isAuthenticated)
-    //   this.logger.log(refAppend)
-
-    //   return this.router.parseUrl(`/login${refAppend}`)
-    // }
     // If invalid user
     if (
       this.configSvc.userProfile === null &&
@@ -153,79 +119,30 @@ export class GeneralGuard {
     ) {
       return this.router.parseUrl(`/public/home`)
     }
-    // this.logger.log("came here 3")
 
-    /**
-     * Test IF User Tnc Is Accepted
-     */
-    // if (!this.configSvc.hasAcceptedTnc) {
-    //   if (
-    //     state.url &&
-    //     !state.url.includes('/app/setup/') &&
-    //     !state.url.includes('/app/tnc') &&
-    //     !state.url.includes('/page/home')
-    //   ) {
-    //     this.configSvc.userUrl = state.url
-    //   }
-    // if (
-    //   this.configSvc.restrictedFeatures &&
-    //   !this.configSvc.restrictedFeatures.has('firstTimeSetupV2')
-    // ) {
-    //   return this.router.parseUrl(`/app/setup/home/lang`)
-    // }
-    // return this.router.parseUrl(`/app/tnc`)
-    // }
-    /**
-       * Test IF User updated the profile details
-       */
-    // if (!this.configSvc.profileDetailsStatus) {
-    // return this.router.parseUrl('/app/user-profile/details')
-    // return this.router.parseUrl('/app/user-profile/chatbot')
-    // }
     if (this.configSvc.unMappedUser) {
-      // this.logger.log("came here 4")
-
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
-          // this.logger.log("came here 5")
           this.logger.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
-          // if (data) {
-          //   const userData = data.profileDetails.personalDetails
-          //   if (userData.dob) {
-          //     this.dobFlag = userData.dob || ''
-          //   }
-          // }
-          // if (this.dobFlag) {
-          //   return this.router.parseUrl('/page/home')
-          // }
-          // if (data.tcStatus && data.tcStatus === 'false') {
-          //   return this.router.navigate(['app', 'new-tnc'])
-          // }
-          // if (data.profileDetails) {
-          //   return this.router.parseUrl(`/page/home`)
-          // }
           this.logger.log(data.profileDetails!.profileReq!.personalDetails)
-          // this.logger.log("came here 6")
 
           if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
-            if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
+            if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === 'true') {
               if (data.profileDetails!.profileReq!.personalDetails!.dob !== undefined) {
                 this.logger.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
               }
             } else {
               if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
-                // this.logger.log('true')
                 this.router.navigate(['app', 'new-tnc'])
               }
             }
           } else {
-            // this.logger.log("afdssssssssssssss")
             localStorage.setItem('datanow', JSON.stringify(data))
             this.router.navigate(['app', 'new-tnc'])
           }
         },
         (_err: any) => {
+          this.logger.error('Error retrieving user details from registry:', _err)
         })
     }
     /**
@@ -240,7 +157,6 @@ export class GeneralGuard {
         return this.router.parseUrl(`/page/home`)
       }
     }
-    // this.logger.log("came here 7")
 
     // check if feature is restricted
     if (requiredFeatures && requiredFeatures.length && this.configSvc.restrictedFeatures) {
@@ -252,7 +168,6 @@ export class GeneralGuard {
         return this.router.parseUrl(`/page/home`)
       }
     }
-    // this.logger.log("came here 8")
 
     return true
   }

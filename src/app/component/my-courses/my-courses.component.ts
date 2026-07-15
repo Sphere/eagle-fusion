@@ -36,17 +36,17 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   displayLimit: number[] = [] // Per-tab display limits for progressive rendering
   private readonly PAGE_SIZE = 10
   constructor(
-    private configSvc: ConfigurationsService,
-    private contentSvc: WidgetContentService,
-    private signupService: SignupService,
-    public router: Router,
-    private valueSvc: ValueService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly signupService: SignupService,
+    public readonly router: Router,
+    private readonly valueSvc: ValueService,
     private readonly route: ActivatedRoute,
-    private playlistSvc: PlaylistService,
-    private langSvc: LanguageService,
-    private orgService: OrgServiceService,
-    private cdr: ChangeDetectorRef,
-    private logger: LoggerService
+    private readonly playlistSvc: PlaylistService,
+    private readonly langSvc: LanguageService,
+    private readonly orgService: OrgServiceService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly logger: LoggerService
   ) {
     effect(() => {
       this.isXSmall = this.valueSvc.isMobile() ? true : false

@@ -12,7 +12,7 @@ export class StepperComponent implements OnInit {
   @Input() completedLevels: number[] = []
   @Input() failedLevels: number[] = []
   @Input() currentLevel!: number
-  constructor(private logger: LoggerService) {
+  constructor(private readonly logger: LoggerService) {
     // Intentionally empty
   }
   ngOnInit() {

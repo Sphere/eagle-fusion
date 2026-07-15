@@ -13,8 +13,8 @@ import { TranslateService } from '@ngx-translate/core'
   providedIn: 'root',
 })
 export class SelfAssessmentGuard {
-  resumeData: any = null;
-  eventData: any = null;
+  resumeData: any = null
+  eventData: any = null
   batchData: any
   resumeDataLink: any
   content: any
@@ -24,11 +24,11 @@ export class SelfAssessmentGuard {
   language: any
   levelsDetaisl: any
   constructor(
-    private contentSvc: WidgetContentService,
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private translate: TranslateService,
-    private logger: LoggerService
+    private readonly contentSvc: WidgetContentService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly translate: TranslateService,
+    private readonly logger: LoggerService
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot) {
@@ -230,7 +230,7 @@ export class SelfAssessmentGuard {
         isAsha: this.isAshaCourses,
         competencyId: this.competencyId,
         lang: this.language,
-        levels: this.levelsDetaisl
+        levels: this.levelsDetaisl,
       }
       this.logger.log('router url', this.resumeDataLink, qParams)
       this.router.navigate([this.resumeDataLink.url], {

@@ -75,11 +75,11 @@ export class AlmostDoneComponent implements OnInit {
   private initializeAlmostDone(): void {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
-    this.signupService.fetchStartUpDetails().then((result) => {
+    this.signupService.fetchStartUpDetails().then(result => {
       this.result = result
       this.logger.log(this.result)
       this.setupAlmostDoneForm()
-    }).catch((err) => {
+    }).catch(err => {
       this.logger.error('Error fetching startup details:', err)
       this.setupAlmostDoneForm()
     })

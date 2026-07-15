@@ -33,7 +33,7 @@ import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service
 export class PlayerPdfComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
   @Input() widgetData!: IWidgetsPlayerPdfData
-  @ViewChild('fullScreenContainer', { static: true }) fullScreenContainer: any
+  @ViewChild('fullScreenContainer', { static: true }) fullScreenContainer!: ElementRef<HTMLElement>
   @ViewChild('input', { static: true }) input: any
   containerSection!: ElementRef<HTMLElement>
 
@@ -75,24 +75,24 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   pdfViewerReady = false  // Start hidden; enabled after delay to let old PDFViewerApplication clean up
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private eventSvc: EventService,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private configSvc: ConfigurationsService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly eventSvc: EventService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly configSvc: ConfigurationsService,
     private readonly utilitySvc: UtilityService,
-    public viewerDataSvc: ViewerDataService,
+    public readonly viewerDataSvc: ViewerDataService,
     private readonly telemetrySvc: TelemetryService,
-    private logger: LoggerService,
+    private readonly logger: LoggerService,
   ) {
     super()
     pdfDefaultOptions.assetsFolder = 'bleeding-edge'
   }
 
-  fullScreenState(fsState: any) {
+  fullScreenState(fsState: { state: boolean }) {
     this.isInFullScreen = fsState.state
-    if (fsState) {
+    if (fsState.state) {
       this.pdfHeight = '100vh'
       this.pdfMobileHeight = 'calc(100vh - 50px)'
       this.pdfZoom = '40%'
@@ -231,7 +231,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   fireRealTimeProgress(id: string) {
     // Finalize telemetry only - API calls already made on start and last page
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
-    const data1: any = {
+    const data1: Record<string, unknown> = {
       "id": this.widgetData.identifier,
       "type": "application/pdf",
       "version": "",
@@ -240,11 +240,11 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         "l2": id,
       },
     }
-    const extras: any = {
+    const extras: Record<string, unknown> = {
       values: [{
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
         contentId: this.widgetData.identifier,
-        name: this.viewerDataSvc.resource?.name || '',  // Add null check
+        name: this.viewerDataSvc.resource?.name || '',
         moduleId: this.viewerDataSvc.resource?.parent ? this.viewerDataSvc.resource.parent : undefined,
       }],
     }
@@ -279,7 +279,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         },
       }
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
-        data => {
+        (data: any) => {
           // Store full response for later messaging to TOC
           this.contentHistoryResponse = data['result']
           // Cache single item contentData
@@ -347,7 +347,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     }
   }
 
-  private makeProgressUpdate(realTimeProgressRequest: any, percent: number, collectionId: string, batchId: string) {
+  private makeProgressUpdate(realTimeProgressRequest: Record<string, unknown>, percent: number, collectionId: string, batchId: string) {
     // realTimeProgressRequest.current already contains [maxPageReached] — use it directly
     const updateRequest = { ...realTimeProgressRequest }
 
@@ -380,10 +380,13 @@ export class PlayerPdfComponent extends WidgetBaseComponent
             },
           }
           this.contentSvc.fetchContentHistoryV2(req).subscribe(
-            data => {
+            (data: any) => {
               // Now we have the full response
               this.contentHistoryResponse = data['result']
               this.sendProgressMessageToTOC(percent, status)
+            },
+            (error: unknown) => {
+              this.logger.error('Error fetching content history for progress update:', error)
             }
           )
         } else {
@@ -442,7 +445,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   private async loadDocument() {
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
 
-    const object = {
+    const object: Record<string, unknown> = {
       "id": this.widgetData.identifier,
       "type": "application/pdf",
       "version": "",
@@ -519,7 +522,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     }
   }
 
-  documentLoded(event: any) {
+  documentLoded(event: { pagesCount: number } | null) {
     if (event) {
       this.totalPages = event.pagesCount
       this.loadDocument()

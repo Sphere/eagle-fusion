@@ -57,10 +57,10 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   private initializeHomeData(): void {
     const res = this.playlsSvc.bodyConfig()
     if (res == '') {
-      this.playlsSvc.loadPlaylistData().then((data) => {
+      this.playlsSvc.loadPlaylistData().then(data => {
         this.config = data?.LAYOUT_BODY[0]
         this.setupUIAfterConfigLoad()
-      }).catch((_err) => {
+      }).catch(_err => {
         this.config = null
         this.setupUIAfterConfigLoad()
       })

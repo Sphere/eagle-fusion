@@ -54,10 +54,10 @@ export class TncComponent implements OnInit, OnDestroy {
 
   private initializeTnc(): void {
     this.logger.log(this.configSvc)
-    this.signupService.fetchStartUpDetails().then((result) => {
+    this.signupService.fetchStartUpDetails().then(result => {
       this.result = result
       this.logger.log(this.result)
-    }).catch((err) => {
+    }).catch(err => {
       this.logger.error('Error fetching startup details:', err)
     })
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {

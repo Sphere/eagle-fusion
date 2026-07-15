@@ -24,9 +24,9 @@ export class ProgramHome implements OnInit {
   programList: any
   showDetails = signal(false)
   constructor(
-    private valueSvc: ValueService,
-    private playlistSvc: PlaylistService,
-    private logger: LoggerService
+    private readonly valueSvc: ValueService,
+    private readonly playlistSvc: PlaylistService,
+    private readonly logger: LoggerService
     // private router: Router,
     // private configSvc: ConfigurationsService
   ) {
@@ -38,7 +38,7 @@ export class ProgramHome implements OnInit {
 
   private initializePrograms(): void {
     this.logger.log('configData ', this.configData)
-    this.playlistSvc.getPlaylistConfig().then((plyLsData) => {
+    this.playlistSvc.getPlaylistConfig().then(plyLsData => {
       const enrichedPrograms = this.configData?.programs?.map(
         this.enrichProgramWithCount(plyLsData, 'en')
       )
@@ -46,7 +46,7 @@ export class ProgramHome implements OnInit {
       this.logger.log('Section config in program list :', enrichedPrograms)
       this.programData.set(enrichedPrograms)
       this.isLoading.set(false)
-    }).catch((err) => {
+    }).catch(err => {
       this.logger.error('Failed to load playlist config:', err)
       this.isLoading.set(false)
     })

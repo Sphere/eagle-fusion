@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { WidgetContentService } from '../../../../collection/src/lib/_services/widget-content.service'
-// import { AuthKeycloakService } from './auth-keycloak.service'
 import { ConfigurationsService } from './configurations.service'
 import { WsEvents } from './event.model'
 import { EventService } from './event.service'
@@ -17,7 +16,6 @@ export class SubapplicationRespondService {
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
-    // private keyCloakSvc: AuthKeycloakService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private eventSvc: EventService,
@@ -41,7 +39,6 @@ export class SubapplicationRespondService {
               this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
             const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
               this.activatedRoute.snapshot.queryParams.viewMode : ''
-            // const token = this.keyCloakSvc.token
             const response = {
               subApplicationName: applicationName,
               requestId: 'LOADED',
@@ -70,7 +67,8 @@ export class SubapplicationRespondService {
                 continueLearning: this.continueLearningData.data,
               } : null,
             }
-            contentWindow.postMessage(response, '*')
+            const targetOrigin = this.getTargetOrigin(contentWindow)
+            contentWindow.postMessage(response, targetOrigin)
             this.contentWindowinfo = contentWindow
             this.loaded = true
             this.subAppname = applicationName
@@ -111,25 +109,22 @@ export class SubapplicationRespondService {
           },
           data: null,
         }
-        contentWindow.postMessage(response, '*')
+        const targetOrigin = this.getTargetOrigin(contentWindow)
+        contentWindow.postMessage(response, targetOrigin)
         this.contentWindowinfo = contentWindow
         this.loaded = true
         this.subAppname = applicationName
       }
     }
   }
-  // continueLearningRespond(id: string, continueLearning: any) {
-  //   this.contentSvc.saveContinueLearning(
-  //     {
-  //       contextPathId: id,
-  //       resourceId: id,
-  //       data: JSON.stringify({ timestamp: Date.now(), data: continueLearning }),
-  //       dateAccessed: Date.now(),
-  //     },
-  //   )
-  //     .toPromise()
-  //     .catch()
-  // }
+
+  private getTargetOrigin(win: Window): string | null {
+    try {
+      return win.location.origin
+    } catch {
+      return null
+    }
+  }
   telemetryEvents(tData: any) {
     if (tData) {
       switch (tData.eventId) {
@@ -205,7 +200,8 @@ export class SubapplicationRespondService {
           heartbeatFrequency: '200',
         },
       }
-      this.contentWindowinfo.postMessage(response, '*')
+      const targetOrigin = this.getTargetOrigin(this.contentWindowinfo)
+      this.contentWindowinfo.postMessage(response, targetOrigin)
     }
   }
 }

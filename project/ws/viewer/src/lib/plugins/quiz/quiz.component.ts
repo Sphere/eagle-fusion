@@ -117,7 +117,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
-  isAsha = false;
+  isAsha = false
   private isAshaSubscription: Subscription
   private isCurrentcardDataSubscribe: Subscription
   constructor(
@@ -354,7 +354,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               collectionId: this.collectionId,
               gating: this.viewerDataSvc.gatingEnabled,
               mimeType: this.viewerDataSvc?.resource?.mimeType,
-              isCorrectAnswerPopUp: this.viewerDataSvc?.resource?.isCorrectAnswerPopUp || undefined
+              isCorrectAnswerPopUp: this.viewerDataSvc?.resource?.isCorrectAnswerPopUp || undefined,
 
             },
             // **CRITICAL**: Pass existing progress data to modal so it doesn't reset completed assessments
@@ -619,19 +619,19 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     console.log("Is ASHA card:", currentData)
 
     if (data.competencyId && data.competencyLevel) {
-      let identifier: any = this.getCourseId(
+      const identifier: any = this.getCourseId(
         data.competencyId,
         data.competencyLevel,
         currentData
       )
 
-      this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe((res) => {
+      this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe(res => {
         console.log(res.result.content[0])
         // navigationdata = this.getNavigationData(res.result.content, data.competencyLevel, data, currentData)
         const navigationdata = res.result.content[0]
-        let batchId = navigationdata.batches[0].batchId
+        const batchId = navigationdata.batches[0].batchId
 
-        let ashaData = {
+        const ashaData = {
           isAsha: true,
           userid: this.configSvc.userProfile.userId || "",
           batchid: batchId,
@@ -640,7 +640,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           completionpercentage: 0,
           progress: "course",
           competencyid: data.competencyId,
-          competencyName: data?.title
+          competencyName: data?.title,
         }
 
         this.contentSvc.setAshaData(ashaData)

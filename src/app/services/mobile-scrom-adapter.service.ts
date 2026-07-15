@@ -111,111 +111,93 @@ export class MobileScromAdapterService {
 
 
   LMSCommit() {
-    this.logger.log("lms commit")
+    this.logger.log('lms commit')
     const data = this.store.getAll()
     this.logger.log(data)
     if (!data) {
       return false
     }
     delete data['errors']
-    if (data["cmi.core.lesson_status"] === 'incomplete') {
-      const paramMap = this.route.snapshot.queryParamMap
-      const params: any = {}
-      paramMap.keys.forEach((key: string) => {
-        const lowerKey = key.toLowerCase()
-        if (lowerKey !== 'authorization' && lowerKey !== 'usertoken') {
-          params[key] = paramMap.get(key)
-        }
-      })
-      const paramsJSON = JSON.stringify(params)
-      const userAgent = this.UserAgentResolverService.getUserAgent()
-      const rollup = { l1: this.getProperty('courseId') || "", l2: this.getProperty('contentId') || '' }
-      const startEparams = {
-        type: 'scorm',
-        mode: 'scorm-start',
-        pageid: 'player',
-        duration: 0,
-      }
-      const user = {
-        id: this.getProperty('userId'),
-      }
-      this.telemetrySvc.
-        paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user, rollup)
+    const lessonStatus = data['cmi.core.lesson_status']
+    const paramsJSON = this.extractQueryParams()
 
-      if (data) {
-        const endEparams = {
-          type: 'scorm',
-          mode: 'scorm-close',
-          pageid: 'player',
-          duration: this.convertDurationToEpoch(data["cmi.core.session_time"]),
-        }
-        this.telemetrySvc.
-          paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user, rollup)
-      }
-    }
-    if (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed') {
-      this.scromSubscription = this.updateScromProgress(data).subscribe(
-        async (response: any) => {
-          this.logger.log(response)
-          const paramMap = this.route.snapshot.queryParamMap
-          const params: any = {}
-          paramMap.keys.forEach((key: string) => {
-            const lowerKey = key.toLowerCase()
-            if (lowerKey !== 'authorization' && lowerKey !== 'usertoken') {
-              params[key] = paramMap.get(key)
-            }
-          })
-          const paramsJSON = JSON.stringify(params)
-          const userAgent = this.UserAgentResolverService.getUserAgent()
-          const rollup = { l1: this.getProperty('courseId') || '', l2: this.getProperty('contentId') || '' }
-          const startEparams = {
-            type: 'scorm',
-            mode: 'scorm-start',
-            pageid: 'player',
-            duration: 0,
-          }
-          const user = {
-            id: this.getProperty('userId'),
-          }
-          this.telemetrySvc.
-            paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user, rollup)
-
-          if (data) {
-            const endEparams = {
-              type: 'scorm',
-              mode: 'scorm-close',
-              pageid: 'player',
-              duration: this.convertDurationToEpoch(data["cmi.core.session_time"]),
-            }
-            this.telemetrySvc.
-              paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user, rollup)
-          }
-          const result = await response.result
-          result["type"] = 'scorm'
-          if (this.getPercentage(data) === 100) {
-            setTimeout(() => {
-              this.LMSFinish()
-            })
-            setTimeout(() => {
-              this.postCordovaMessage(this.getPercentage(data))
-            }, 6000)
-          }
-          return !!response
-        },
-        error => {
-          if (error) {
-            this._setError(101)
-            // this.logger.log(error)
-          }
-        }
-      )
-      return false
+    if (lessonStatus === 'incomplete') {
+      this.triggerTelemetryEvents(data, paramsJSON)
+    } else if (this.isLessonCompleted(lessonStatus)) {
+      this.handleCompletedStatus(data, paramsJSON)
     } else {
       this.updateScromProgress(data).subscribe(res => {
         this.logger.log(res)
       })
     }
     return false
+  }
+
+  private extractQueryParams(): string {
+    const paramMap = this.route.snapshot.queryParamMap
+    const params: any = {}
+    paramMap.keys.forEach((key: string) => {
+      const lowerKey = key.toLowerCase()
+      if (lowerKey !== 'authorization' && lowerKey !== 'usertoken') {
+        params[key] = paramMap.get(key)
+      }
+    })
+    return JSON.stringify(params)
+  }
+
+  private getTelemetryData() {
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const rollup = { l1: this.getProperty('courseId') || '', l2: this.getProperty('contentId') || '' }
+    const user = { id: this.getProperty('userId') }
+    return { userAgent, rollup, user }
+  }
+
+  private triggerTelemetryEvents(data: any, paramsJSON: string): void {
+    const { userAgent, rollup, user } = this.getTelemetryData()
+    const startParams = {
+      type: 'scorm',
+      mode: 'scorm-start',
+      pageid: 'player',
+      duration: 0,
+    }
+    this.telemetrySvc.paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startParams, user, rollup)
+
+    const endParams = {
+      type: 'scorm',
+      mode: 'scorm-close',
+      pageid: 'player',
+      duration: this.convertDurationToEpoch(data['cmi.core.session_time']),
+    }
+    this.telemetrySvc.paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endParams, user, rollup)
+  }
+
+  private isLessonCompleted(status: string): boolean {
+    return status === 'completed' || status === 'passed'
+  }
+
+  private handleCompletedStatus(data: any, paramsJSON: string): void {
+    this.scromSubscription = this.updateScromProgress(data).subscribe({
+      next: async (response: any) => {
+        this.logger.log(response)
+        this.triggerTelemetryEvents(data, paramsJSON)
+        const result = await response.result
+        result['type'] = 'scorm'
+        if (this.getPercentage(data) === 100) {
+          setTimeout(() => {
+            this.LMSFinish()
+          })
+          setTimeout(() => {
+            this.postCordovaMessage(this.getPercentage(data))
+          }, 6000)
+        }
+        return !!response
+      },
+      error: error => {
+        if (error) {
+          this._setError(101)
+        }
+      },
+    })
   }
 
   LMSGetLastError() {

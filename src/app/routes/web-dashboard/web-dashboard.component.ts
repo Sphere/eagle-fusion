@@ -38,21 +38,21 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   isDark: boolean = false
   isXsmall: boolean = false
   constructor(
-    public router: Router,
-    public dialog: MatDialog,
-    public scrollService: ScrollService,
-    public configSvc: ConfigurationsService,
-    public userProfileSvc: UserProfileService,
-    private languageSvc: LanguageService,
-    private plylsSvc: PlaylistService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef,
-    private themeSvc: ThemeService,
-    private valueSvc: ValueService
+    public readonly router: Router,
+    public readonly dialog: MatDialog,
+    public readonly scrollService: ScrollService,
+    public readonly configSvc: ConfigurationsService,
+    public readonly userProfileSvc: UserProfileService,
+    private readonly languageSvc: LanguageService,
+    private readonly plylsSvc: PlaylistService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly themeSvc: ThemeService,
+    private readonly valueSvc: ValueService
   ) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
-      this.isXsmall = this.valueSvc.isMobile() ? true : false
+      this.isXsmall = this.valueSvc.isMobile()
       this.bannerSecondImage = this.isDark && this.isEkshamata ? "/fusion-assets/images/ekshamata-group-dark.svg" : '/fusion-assets/images/ekshamata-group.svg'
     })
     this.firstName = toSignal(

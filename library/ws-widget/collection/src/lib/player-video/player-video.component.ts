@@ -54,7 +54,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   AfterViewInit,
   OnDestroy,
   NsWidgetResolver.IWidgetData<IWidgetsPlayerMediaData> {
-  @Input() widgetData!: any
+  @Input() widgetData!: IWidgetsPlayerMediaData
   @ViewChild('videoTag', { static: false }) videoTag!: ElementRef<HTMLVideoElement>
   @ViewChild('realvideoTag', { static: false }) realvideoTag!: ElementRef<HTMLVideoElement>
   private player: videoJs.Player | null = null
@@ -93,17 +93,17 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   popupTriggered = false
   isResumeStarted = false
   constructor(
-    private eventSvc: EventService,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private activatedRoute: ActivatedRoute,
-    private configSvc: ConfigurationsService,
-    private telemetrySvc: TelemetryService,
-    public viewerDataSvc: ViewerDataService,
+    private readonly eventSvc: EventService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly configSvc: ConfigurationsService,
+    private readonly telemetrySvc: TelemetryService,
+    public readonly viewerDataSvc: ViewerDataService,
     private readonly dialog: MatDialog,
     private readonly valueSvc: ValueService,
-    private logger: LoggerService,
-    private plylsSvc: PlaylistService
+    private readonly logger: LoggerService,
+    private readonly plylsSvc: PlaylistService
   ) {
     super()
   }
@@ -183,7 +183,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
    * Set up video question milestone listeners on an existing videojs player.
    * Separated from addTimeUpdateListener to avoid double-initializing the player.
    */
-  setupVideoQuestionListeners(player: any): void {
+  setupVideoQuestionListeners(player: videoJs.Player): void {
     const videoId = player.id() || 'default'
     this.videoStates[videoId] = {
       popupTriggered: new Set<number>(), // Track triggered milestones
@@ -233,7 +233,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     })
   }
 
-  openFullscreen(player: any): void {
+  openFullscreen(player: videoJs.Player): void {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall)
         if (player.requestFullscreen) {
@@ -246,7 +246,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     })
 
   }
-  openPopup(questions: any, videoElement: any, intervalId: Subscription): void {
+  openPopup(questions: any, videoElement: videoJs.Player, intervalId: Subscription): void {
     const confirmdialog = this.dialog.open(PlayerVideoPopupComponent, {
       width: '600px',
       data: { questions },
@@ -633,7 +633,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   /**
    * Update video progress and send message to TOC
    */
-  private async updateVideoProgress(identifier: string, data: any, percent: number, collectionId: string, batchId: string | undefined): Promise<void> {
+  private async updateVideoProgress(identifier: string, data: Record<string, unknown>, percent: number, collectionId: string, batchId: string | undefined): Promise<void> {
     try {
       // **CRITICAL**: Determine status based on completion percentage
       // Status: 0 = not started, 1 = in progress, 2 = completed

@@ -59,19 +59,19 @@ export class NewTncComponent implements OnInit, OnDestroy {
   userProfileData!: any
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService,
-    private tncProtectedSvc: TncAppResolverService,
-    private tncPublicSvc: TncPublicResolverService,
-    private userProfileSvc: UserProfileService,
-    private http: HttpClient,
-    private signupService: SignupService,
-    private UserAgentResolverService: UserAgentResolverService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly loggerSvc: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly tncProtectedSvc: TncAppResolverService,
+    private readonly tncPublicSvc: TncPublicResolverService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly http: HttpClient,
+    private readonly signupService: SignupService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
     private readonly valueSvc: ValueService,
-    public dialog: MatDialog,
-    private telemetrySvc: TelemetryService
+    public readonly dialog: MatDialog,
+    private readonly telemetrySvc: TelemetryService
   ) {
     effect(() => {
       this.isXSmall$ = this.valueSvc.isMobile() ? true : false

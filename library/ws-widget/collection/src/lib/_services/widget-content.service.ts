@@ -29,13 +29,13 @@ export class WidgetContentService {
   updateValue$ = this._updateValue.asObservable()
   _showConformation: any
 
-  private isAshaSubject = new BehaviorSubject<any>(false);
+  private isAshaSubject = new BehaviorSubject<any>(false)
   // Observable to expose to other components
-  isAsha$ = this.isAshaSubject.asObservable();
+  isAsha$ = this.isAshaSubject.asObservable()
 
-  private currentAshaCardSubject = new BehaviorSubject<any>(false);
+  private currentAshaCardSubject = new BehaviorSubject<any>(false)
   // Observable to expose to other components
-  isCurrentAshaCard$ = this.currentAshaCardSubject.asObservable();
+  isCurrentAshaCard$ = this.currentAshaCardSubject.asObservable()
 
   // Request deduplication cache for progress API
   // private progressRequestCache: Map<string, Observable<any>> = new Map()
@@ -424,7 +424,7 @@ export class WidgetContentService {
       request: {
         filters: {
           primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'],
-          identifier: contentId
+          identifier: contentId,
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }

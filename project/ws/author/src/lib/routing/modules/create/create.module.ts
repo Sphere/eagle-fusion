@@ -11,7 +11,7 @@ import { EditorService } from '../editor/services/editor.service'
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
   ],
   providers: [EditorContentService, EditorService],
 })

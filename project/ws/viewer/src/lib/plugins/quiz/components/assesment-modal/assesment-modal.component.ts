@@ -68,7 +68,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   nextCompetencyLevel = 0
   isShownGrif = false
   courseID: any
-  progress = 40;
+  progress = 40
   public unsubscribe = new Subject<void>()
 
   // Organizations where View Answers should not be shown if isCorrectAnswerPopUp is not present

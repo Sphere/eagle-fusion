@@ -26,10 +26,10 @@ export class DowntimeConfigService implements OnDestroy {
   private updateInfo = signal<any | null>(null)
 
   constructor(
-    private ngZone: NgZone,
-    private httpClient: HttpClient,
-    private configSvc: ConfigurationsService,
-    private logger: LoggerService,
+    private readonly ngZone: NgZone,
+    private readonly httpClient: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly logger: LoggerService,
   ) { }
 
   private downtimeState$ = new BehaviorSubject<DowntimeState>({

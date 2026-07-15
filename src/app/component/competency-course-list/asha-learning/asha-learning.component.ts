@@ -24,10 +24,10 @@ export class AshaLearningComponent implements OnInit, OnChanges {
   currentLevel = 0
   nextLevelInfo: any
   constructor(
-    private router: Router,
-    private translate: TranslateService,
-    private contentSvc: WidgetContentService,
-    private logger: LoggerService
+    private readonly router: Router,
+    private readonly translate: TranslateService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -307,8 +307,6 @@ export class AshaLearningComponent implements OnInit, OnChanges {
   }
 
   getLevelNote() {
-    // const initialLevel = 1
-
     // Check if ashaData and progress exist
     if (!this.ashaData?.progress || !Array.isArray(this.ashaData.progress) || !this.ashaData.progress.length) {
       return this.translate.instant("LEVEL_NOTE")
@@ -316,11 +314,6 @@ export class AshaLearningComponent implements OnInit, OnChanges {
     if (this.isAdminGrantedProgress()) {
       return this.translate.instant("LEVEL_NOTE")
     }
-    // // Check if all levels are completed
-    // if (this.getCompletionPercentage() === 100) {
-    //   return this.translate.instant('YOU_CLEAR_ALL_LEVELS')
-    //   // return 'Note: You have cleared all the levels and you have gained this competency.';
-    // }
     const earnedProgress = this.getEarnedProgress()
     if (!earnedProgress.length) {
       return this.translate.instant('LEVEL_NOTE')

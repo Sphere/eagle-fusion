@@ -22,15 +22,15 @@ declare const gapi: any
 export class MobileLoginComponent implements OnInit, AfterViewInit {
   [x: string]: any
   constructor(
-    private fb: UntypedFormBuilder,
-    private router: Router,
-    private contentSvc: WidgetContentService,
+    private readonly fb: UntypedFormBuilder,
+    private readonly router: Router,
+    private readonly contentSvc: WidgetContentService,
     location: Location,
     loc: PlatformLocation,
-    private snackBar: MatSnackBar,
-    private signupService: SignupService,
-    private configCacheSvc: ConfigCacheService,
-    private activeRoute: ActivatedRoute
+    private readonly snackBar: MatSnackBar,
+    private readonly signupService: SignupService,
+    private readonly configCacheSvc: ConfigCacheService,
+    private readonly activeRoute: ActivatedRoute
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
@@ -59,13 +59,9 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   loginVerification = false
   redirectMsg = 'Please verify your account before logged in !!'
 
-  // private baseUrl = 'assets/configurations'
-  // const errMsgL = 'Sorry ! Account doesnot exist !! Try Signup..'
-
   public isSignedIn = false
   public signinURL = ''
   private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
-  // private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
   private scope = [
     'profile',
     'email',
@@ -97,16 +93,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
-        // tslint:disable-next-line:no-console
-        // this.logger.log(`Token || ` + googleUser.getAuthResponse().id_token)
-        // tslint:disable-next-line:no-console
-        // this.logger.log(`ID: ` + profile.getId())
-        // tslint:disable-next-line:no-console
-        // this.logger.log(`Name: ` + profile.getName())
-        // tslint:disable-next-line:no-console
-        // this.logger.log(`Image URL: ` + profile.getImageUrl())
-        // tslint:disable-next-line:no-console
-        // this.logger.log(`Email: ` + profile.getEmail())
+        this.logger.log('Google user profile loaded:', profile.getEmail())
       },
       (error: any) => {
         // tslint:disable-next-line:no-console
@@ -114,13 +101,6 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       })
   }
   ngOnInit() {
-
-    // const redirectUrl = `${document.baseURI}openid/keycloak`
-    // const state = uuid()
-    // const nonce = uuid()
-    // tslint:disable-next-line:max-line-length
-    // window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
-
     if (this.signUpdata) {
       let phone = this.signUpdata.value.emailOrMobile
       phone = phone.replace(/[^0-9+#]/g, '')
@@ -165,9 +145,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
           }
         },
         (err: any) => {
-          // tslint:disable-next-line:no-console
           this.logger.log(err)
-          // this.errorMessage = err.error
           this.router.navigate(['/app/login'])
         }
       )
@@ -205,22 +183,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   loginUser() {
     let phone = this.loginForm.value.username
-    // const validphone = /^([- ]*)[6-9]\d{9}([- ]*)$/.test(phone)
-    // const alphaNumeric = /^[a-zA-Z0-9 ] +$/i.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
-    // const email = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
-    //   this.loginForm.value.username)
-    // if (!validphone && phone !== '') {
-    //   this.openSnackbar('Enter valid Phone Number')
-    // }
-    // if (!email && !validphone) {
-    //   // this.openSnackbar('Enter valid email address')
-    //   this.errorMessage = 'Enter valid email address'
-    // }
-    // if (phone.length < 10 && phone !== '' && alphaNumeric) {
-    //   // this.openSnackbar('Enter 10 digits Phone Number')
-    //   this.errorMessage = 'Enter 10 digits Phone Number'
-    // }
     // at least 10 in number
     if (phone.length >= 10) {
       this.emailPhoneType = 'phone'
@@ -303,13 +266,11 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
         if (res.message === 'Success') {
-          // this.isMobile = true
+          this.logger.log('OTP generated successfully')
         }
-        // this.openSnackbar(res.message)
       },
       (err: any) => {
         this.openSnackbar(err)
-
       }
     )
   }

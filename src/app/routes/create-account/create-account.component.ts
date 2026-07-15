@@ -134,22 +134,22 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   state!: string
   userRole!: string
   constructor(
-    private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-    private signupService: SignupService,
-    private router: Router,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private route: ActivatedRoute,
-    private http: HttpClient,
-    private languageService: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef,
-    private userAgentSvc: UserAgentResolverService,
-    private telemetrySvc: TelemetryService,
+    private readonly fb: FormBuilder,
+    private readonly snackBar: MatSnackBar,
+    private readonly signupService: SignupService,
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
+    private readonly loader: LoaderService,
+    public readonly configSvc: ConfigurationsService,
+    private readonly valueSvc: ValueService,
+    private readonly route: ActivatedRoute,
+    private readonly http: HttpClient,
+    private readonly languageService: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly userAgentSvc: UserAgentResolverService,
+    private readonly telemetrySvc: TelemetryService,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForms()

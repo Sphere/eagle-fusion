@@ -37,18 +37,18 @@ export class InitService {
 
   domain = ''
   constructor(
-    private logger: LoggerService,
-    private configSvc: ConfigurationsService,
-    private widgetResolverService: WidgetResolverService,
-    private settingsSvc: BtnSettingsService,
-    private userPreference: UserPreferenceService,
-    private http: HttpClient,
+    private readonly logger: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly widgetResolverService: WidgetResolverService,
+    private readonly settingsSvc: BtnSettingsService,
+    private readonly userPreference: UserPreferenceService,
+    private readonly http: HttpClient,
     private readonly authSvc: AuthKeycloakService,
-    @Inject(APP_BASE_HREF) private baseHref: string,
-    domSanitizer: DomSanitizer,
-    iconRegistry: MatIconRegistry,
-    private userDataCacheSvc: UserDataCacheService,
-    private configCacheSvc: ConfigCacheService,
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
+    private readonly domSanitizer: DomSanitizer,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly userDataCacheSvc: UserDataCacheService,
+    private readonly configCacheSvc: ConfigCacheService,
   ) {
     this.configSvc.isProduction = environment.production
 
@@ -95,10 +95,6 @@ export class InitService {
       if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
         await this.loadUserDataIfAvailable()
         await this.fetchStartUpDetails() // detail: depends only on userID
-        // this.domain = window.location.hostname
-        // if (this.domain.includes('ekshamata')) {
-        //   await this.fetchHostedConfig()
-        // }
       }
 
     } catch (e) {
@@ -114,6 +110,9 @@ export class InitService {
       const appsConfigPromise = await this.fetchAppsConfig()
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
       const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
+      // backstop: if an await below throws before these settle, their rejections would otherwise be unhandled
+      instanceConfigPromise.catch(() => undefined)
+      widgetStatusPromise.catch(() => undefined)
       await this.fetchFeaturesStatus() // feature: depends only on details
       /**
        * Wait for the widgets and get the list of restricted widgets
@@ -277,29 +276,6 @@ export class InitService {
       this.logger.log('[InitService] orgHomeRedirectMap loaded:', this.configSvc.orgHomeRedirectMap)
     }
   }
-  // private async fetchHostedConfig(): Promise<any> {
-  //   // use the rootOrg and org to fetch the instance
-  //   const hostConfig = await this.http
-  //     .get<any>(S3_END_POINTS.EKSHAMATA_ORG_CONFIG)
-  //     .toPromise()
-  //   if (hostConfig) {
-  //     if (this.configSvc.userProfile) {
-  //       const rootOrgId = this.configSvc.userProfile.rootOrgId
-  //       this.logger.log("rootOrgId: ", rootOrgId, hostConfig)
-  //       const orgDetails = hostConfig.orgNames
-  //       // Find the matching object
-  //       const result = orgDetails.find(item => item.channelId === rootOrgId)
-
-  //       if (result) {
-  //         this.configSvc.hostedInfo = result
-  //         this.logger.log('Channel found:', result)
-  //       } else {
-  //         this.logger.log('Channel not found')
-  //       }
-  //     }
-  //   }
-  //   this.logger.log("hostConfig", hostConfig)
-  // }
 
   private reloadAccordingToLocale() {
     if (window.location.origin.indexOf('http://localhost:') > -1) {

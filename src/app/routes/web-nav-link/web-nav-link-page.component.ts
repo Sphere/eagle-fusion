@@ -72,9 +72,9 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     this.event.subscribe('notificationCountUpdated', count => {
       this.updateNotificationCount(count)
     })
-    this.signupService.getUserData().then((data) => {
+    this.signupService.getUserData().then(data => {
       this.userData = data
-    }).catch((_err) => {
+    }).catch(_err => {
       this.logger.error('Error fetching user data:', _err)
     })
   }

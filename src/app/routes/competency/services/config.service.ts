@@ -6,8 +6,8 @@ import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 export class ConfigService {
   userProfileData: any
   constructor(
-    public configSvc: ConfigurationsService,
-    private logger: LoggerService,
+    public readonly configSvc: ConfigurationsService,
+    private readonly logger: LoggerService,
   ) {
   }
 

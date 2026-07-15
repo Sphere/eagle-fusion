@@ -11,9 +11,11 @@ export class AshaLearningCompletedComponent implements OnInit {
   @Input() ashaData: any
   @Input() completedCount = 0
 
-  constructor(private router: Router) { }
+  constructor(private readonly router: Router) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // Intentionally empty
+  }
 
   // navigateToCourse(): void {
   //   if (this.ashaData?.contentId) {

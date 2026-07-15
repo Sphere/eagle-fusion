@@ -9,7 +9,7 @@ import { LoggerService } from '@ws-widget/utils'
 export class ScrollDetectorDirective {
   @Output() scrolled = new EventEmitter<boolean>()
 
-  constructor(private logger: LoggerService) { }
+  constructor(private readonly logger: LoggerService) { }
 
   @HostListener('scroll', ['$event'])
   onScroll(event: Event): void {

@@ -16,7 +16,7 @@ import { EditorSharedModule } from './shared/shared.module'
     SharedModule,
   ],
   providers: [
-    EditorService
+    EditorService,
   ],
 })
 export class EditorModule { }

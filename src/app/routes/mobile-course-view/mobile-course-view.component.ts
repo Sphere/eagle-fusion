@@ -124,7 +124,7 @@ export class MobileCourseViewComponent implements OnInit {
       .toLowerCase()
       .trim()
       .replace(/&/g, 'and')
-      .replace(/[^a-z0-9]+/g, '-')       // Replace spaces/symbols with hyphen
+      .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-+)|(-+$)/g, '')       // Remove starting/ending hyphens
   }
   redirectPage(course: any) {

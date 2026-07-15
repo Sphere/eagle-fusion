@@ -2,7 +2,7 @@ import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overl
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
 import { CommonModule } from '@angular/common'
 import {
-  HTTP_INTERCEPTORS, HttpClient, HttpClientModule
+  HTTP_INTERCEPTORS, HttpClient, HttpClientModule,
 } from '@angular/common/http'
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
@@ -227,7 +227,7 @@ export function initializeCompetencyConfig(): () => void {
     try {
       COMPETENCY_REGISTRATION_CONFIG.config = JSON.parse(localStorage.getItem('competency') || '{}')
       COMPETENCY_REGISTRATION_CONFIG.isOnlyPassbook = localStorage.getItem('isOnlyPassbook') || ''
-    } catch (error) {
+    } catch {
       // Error initializing competency config — fallback to empty config
       COMPETENCY_REGISTRATION_CONFIG.config = {}
       COMPETENCY_REGISTRATION_CONFIG.isOnlyPassbook = ''

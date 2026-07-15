@@ -120,3 +120,50 @@ export interface IProfileAcademics {
   nameOfInstitute: string,
   yearOfPassing: string,
 }
+
+export interface IDegreeData {
+  degree: string
+  instituteName: string
+  yop: string
+}
+
+export interface IAcademicsData {
+  X_STANDARD: {
+    schoolName10: string
+    yop10: string
+  }
+  XII_STANDARD: {
+    schoolName12: string
+    yop12: string
+  }
+  degree: IDegreeData[]
+  postDegree: IDegreeData[]
+}
+
+export interface IOrganisationDetails {
+  orgName: string
+  industry: string
+  designation: string
+  location: string
+  responsibilities: string
+  doj: string | Date | null
+  orgDesc: string
+  completePostalAddress: string
+  orgNameOther: string
+  industryOther: string
+  profession: string
+  orgType: string
+  orgOtherSpecify: string
+  professionOtherSpecify: string
+}
+
+export interface ISelectOptionValue<T> {
+  option: {
+    value: T
+  }
+}
+
+export interface IUserContextData {
+  lang?: string
+  id?: string
+}

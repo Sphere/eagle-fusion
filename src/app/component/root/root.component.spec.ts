@@ -525,7 +525,7 @@ describe('RootComponent', () => {
       const orig = (window as any).fcWidget.hide
       ;(window as any).fcWidget.hide = jest.fn(() => { throw new Error('hide failed') })
       component.ngAfterViewInit()
-      expect(mocks.mockLogger.log).toHaveBeenCalledWith(expect.any(Error))
+      expect(mocks.mockLogger.error).toHaveBeenCalledWith(expect.any(String), expect.any(Error))
       ;(window as any).fcWidget.hide = orig
     })
   })
@@ -559,7 +559,7 @@ describe('RootComponent', () => {
       const orig = (window as any).fcWidget.setConfig
       ;(window as any).fcWidget.setConfig = jest.fn(() => { throw new Error('setConfig failed') })
       component.fcSettingsFunc()
-      expect(mocks.mockLogger.log).toHaveBeenCalledWith(expect.any(Error))
+      expect(mocks.mockLogger.error).toHaveBeenCalledWith(expect.any(String), expect.any(Error))
       ;(window as any).fcWidget.setConfig = orig
     })
   })
