@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, Input, OnDestroy, QueryList, ViewChildren, OnChanges, SimpleChanges, signal, computed } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import { uniqBy } from 'lodash'
+import { uniqBy } from 'lodash-es'
 import { MatDialog } from '@angular/material/dialog'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
@@ -297,13 +297,13 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     if (Array.isArray(this.configData)) {
       const completed = this.userEnrollCourse?.filter((item: any) => item.completionPercentage === 100) || []
       const incomplete = this.userEnrollCourse?.filter((item: any) => item.completionPercentage !== 100) || []
+      const courseList = this.programIdentifiers.length > 0 ? this.programCourses() : this.coursesForYou()
       this.configData.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
           element.data = incomplete?.filter(item =>
-            this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
+            courseList?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
-          const courseList = this.programIdentifiers.length > 0 ? this.programCourses() : this.coursesForYou()
           element.data = courseList.filter(item =>
             !this.userEnrollCourse?.some(bItem => bItem.identifier === item.identifier)
           )
@@ -316,7 +316,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'COMPLETED') {
           element.data = completed.filter(item =>
-            this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
+            courseList?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         }
       })
