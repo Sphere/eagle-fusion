@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, BehaviorSubject, of } from 'rxjs'
-import { map, retry, tap } from 'rxjs/operators'
+import { map, retry, tap, catchError } from 'rxjs/operators'
 import { UserDataCacheService } from 'src/app/services/user-data-cache.service'
 import {
   IUserProfileDetails,
@@ -11,6 +11,14 @@ import {
 } from '../models/user-profile.model'
 import { LoggerService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
+import {
+  IUpdateProfileRequest,
+  IApprovalRequest,
+  ILeaderboardRequest,
+  IProfileRequest,
+  IProfileProfessionalDetails,
+  IUserDetailsCache,
+} from './user-profile.service.model'
 
 
 @Injectable()
@@ -23,83 +31,142 @@ export class UserProfileService {
   private userDetailsCache = new Map<string, any>()
 
   constructor(
-    private http: HttpClient,
-    private userDataCacheSvc: UserDataCacheService,
-    private logger: LoggerService
+    private readonly http: HttpClient,
+    private readonly userDataCacheSvc: UserDataCacheService,
+    private readonly logger: LoggerService
   ) {
   }
 
-  updateProfileDetails(data: any) {
+  updateProfileDetails(data: IUpdateProfileRequest): Observable<any> {
     return this.http.post<any>(API_END_POINTS.updateProfileWithSourceDetails, data).pipe(
       tap((response: any) => {
         this.logger.log('[UserProfileService] Profile updated, clearing all user caches', response)
-        // Clear all user caches since profile was updated
         this.userDetailsCache.clear()
         this.userDataCacheSvc.clearUserData()
-        // Emit update event - components listening to this can refresh global caches
         this._updateuser.next(response)
+      }),
+      catchError(error => {
+        this.logger.error('[UserProfileService] Error updating profile', error)
+        throw error
       })
     )
   }
   getUserdetails(email: string | undefined): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_END_POINTS.getUserdetails, { email })
   }
-  bnrcRegistration(value: any): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.bnrcRegistration, { value })
+  bnrcRegistration(value: IUpdateProfileRequest): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.bnrcRegistration, { value }).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] BNRC registration error', error)
+        throw error
+      })
+    )
   }
 
-  // bnrcSendOtp(value: any): Observable<[IUserProfileDetails]> {
-  //   return this.http.post<[IUserProfileDetails]>(API_END_POINTS.bnrcSendOtpRegistration, { value })
-  // }
-  bnrcSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.bnrcSendOtpRegistration, phone)
+  bnrcSendOtp(phone: { phone: string }): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.bnrcSendOtpRegistration, phone).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] BNRC send OTP error', error)
+        throw error
+      })
+    )
   }
   bnrcResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_END_POINTS.bnrcReSendOtpRegistration, phone)
   }
 
-  bnrcValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.bnrcValidateOtpRegistration, value)
+  bnrcValidateOtp(value: { phone: string; otp: string }): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.bnrcValidateOtpRegistration, value).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] BNRC validate OTP error', error)
+        throw error
+      })
+    )
   }
-  upsmfRegistration(value: any): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.upsmfRegistration, { value })
+  upsmfRegistration(value: IUpdateProfileRequest): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.upsmfRegistration, { value }).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] UPSMF registration error', error)
+        throw error
+      })
+    )
   }
-  upsmfSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.upsmfSendOtpRegistration, phone)
+  upsmfSendOtp(phone: { phone: string }): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.upsmfSendOtpRegistration, phone).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] UPSMF send OTP error', error)
+        throw error
+      })
+    )
   }
-  upsmfResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.upsmfReSendOtpRegistration, phone)
+  upsmfResendOtp(phone: { phone: string }): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.upsmfReSendOtpRegistration, phone).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] UPSMF resend OTP error', error)
+        throw error
+      })
+    )
   }
 
-  mpValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.mpValidateOtpRegistration, value)
+  mpValidateOtp(value: { phone: string; otp: string }): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.mpValidateOtpRegistration, value).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] MP validate OTP error', error)
+        throw error
+      })
+    )
   }
-  mpRegistration(value: any): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.mpRegistration, { value })
+  mpRegistration(value: IUpdateProfileRequest): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.mpRegistration, { value }).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] MP registration error', error)
+        throw error
+      })
+    )
   }
-  mpSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.mpSendOtpRegistration, phone)
+  mpSendOtp(phone: { phone: string }): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.mpSendOtpRegistration, phone).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] MP send OTP error', error)
+        throw error
+      })
+    )
   }
-  mpResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.mpReSendOtpRegistration, phone)
+  mpResendOtp(phone: { phone: string }): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.mpReSendOtpRegistration, phone).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] MP resend OTP error', error)
+        throw error
+      })
+    )
   }
 
-  upsmfValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.upsmfValidateOtpRegistration, value)
+  upsmfValidateOtp(value: { phone: string; otp: string }): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.upsmfValidateOtpRegistration, value).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] UPSMF validate OTP error', error)
+        throw error
+      })
+    )
   }
   getMasterLanguages(): Observable<ILanguagesApiData> {
-    return this.http.get<ILanguagesApiData>(API_END_POINTS.getMasterLanguages)
+    return this.http.get<ILanguagesApiData>(API_END_POINTS.getMasterLanguages).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] Error fetching languages', error)
+        throw error
+      })
+    )
   }
   getMasterNationlity(): Observable<INationalityApiData> {
-    return this.http.get<INationalityApiData>(API_END_POINTS.getMasterNationlity)
+    return this.http.get<INationalityApiData>(API_END_POINTS.getMasterNationlity).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] Error fetching nationality data', error)
+        throw error
+      })
+    )
   }
-  // getProfilePageMeta(): Observable<IProfileMetaApiData> {
-  //   return this.http.get<IProfileMetaApiData>(API_END_POINTS.getProfilePageMeta)
-  // }
-  // getUserdetailsFromRegistry(): Observable<[IUserProfileDetailsFromRegistry]> {
-  //   return this.http.get<[IUserProfileDetailsFromRegistry]>(API_END_POINTS.getUserdetailsFromRegistry)
-  // }
-  getUserdetailsFromRegistry(wid: string): Observable<[IUserProfileDetailsFromRegistry]> {
+
+  getUserdetailsFromRegistry(wid: string): Observable<any> {
     // Check if data is already cached for this user (in-memory)
     if (this.userDetailsCache.has(wid)) {
       const cachedData = this.userDetailsCache.get(wid)
@@ -116,38 +183,67 @@ export class UserProfileService {
     }
 
     // If not cached, fetch from API and cache the result
-    return this.http.get<[IUserProfileDetailsFromRegistry]>(`${API_END_POINTS.getUserdetailsFromRegistry}/${wid}`)
+    return this.http.get<{ result: { response: IUserProfileDetailsFromRegistry } }>(`${API_END_POINTS.getUserdetailsFromRegistry}/${wid}`)
       .pipe(
         retry(1),
-        map((res: any) => res.result.response),
-        tap((data: any) => {
-          // Cache the result in-memory for fast access
+        map((res: { result: { response: IUserProfileDetailsFromRegistry } }) => {
+          if (!res.result || !res.result.response) {
+            throw new Error('Invalid API response format')
+          }
+          return res.result.response as any
+        }),
+        tap((data: IUserProfileDetailsFromRegistry) => {
           this.userDetailsCache.set(wid, data)
-          // Also cache globally using UserDataCacheService (which handles session storage and 6-hour expiration)
           this.userDataCacheSvc.setUserData(data)
           this.logger.log(`[UserProfileService] Cached user details for ${wid} in global cache`)
         }),
+        catchError(error => {
+          this.logger.error(`[UserProfileService] Error fetching user details for ${wid}`, error)
+          throw error
+        })
       )
   }
-  getAllDepartments() {
-    return this.http.get<INationalityApiData>(API_END_POINTS.getAllDepartments)
+  getAllDepartments(): Observable<any> {
+    return this.http.get<any>(API_END_POINTS.getAllDepartments).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] Error fetching departments', error)
+        throw error
+      })
+    )
   }
-  approveRequest(data: any) {
-    return this.http.post(API_END_POINTS.approveRequest, data)
+  approveRequest(data: IApprovalRequest): Observable<any> {
+    return this.http.post(API_END_POINTS.approveRequest, data).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] Error approving request', error)
+        throw error
+      })
+    )
   }
-  listApprovalPendingFields() {
+
+  listApprovalPendingFields(): Observable<any> {
     return this.http.post<any>(API_END_POINTS.getPendingFields, {
       serviceName: 'profile',
       applicationStatus: 'SEND_FOR_APPROVAL',
-    })
+    }).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] Error fetching pending fields', error)
+        throw error
+      })
+    )
   }
-  getLeaderBoardData(request): Observable<any> {
+  getLeaderBoardData(request: ILeaderboardRequest): Observable<any> {
     const options = {
       url: API_END_POINTS.getLeaderBoardData,
       payload: request,
     }
-    return this.http.post(options.url, options.payload)
+    return this.http.post(options.url, options.payload).pipe(
+      catchError(error => {
+        this.logger.error('[UserProfileService] Error fetching leaderboard data', error)
+        throw error
+      })
+    )
   }
+
   isBackgroundDetailsFilled(profileReq: any): boolean {
     let isFilled = true
     if (
@@ -157,7 +253,7 @@ export class UserProfileService {
       profileReq.professionalDetails[0]
     ) {
       const personalDetails = profileReq.personalDetails
-      const professionalDetails = profileReq.professionalDetails[0]
+      const professionalDetails: IProfileProfessionalDetails = profileReq.professionalDetails[0]
       if (
         !(personalDetails.dob && personalDetails.postalAddress && professionalDetails.profession)
       ) {
@@ -206,12 +302,9 @@ export class UserProfileService {
    * Force refresh of global user data cache
    * This should be called after updating profile to ensure cached data is refreshed
    */
-  refreshGlobalUserDataCache(userDataCacheSvc: any): void {
-    if (userDataCacheSvc) {
-      this.logger.log('[UserProfileService] Refreshing global user data cache')
-      userDataCacheSvc.clearUserData()
-      // Clear per-user cache as well
-      this.userDetailsCache.clear()
-    }
+  refreshGlobalUserDataCache(): void {
+    this.logger.log('[UserProfileService] Refreshing global user data cache')
+    this.userDataCacheSvc.clearUserData()
+    this.userDetailsCache.clear()
   }
 }

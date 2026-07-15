@@ -17,11 +17,6 @@ export class AshaLearningCompletedComponent implements OnInit {
     // Intentionally empty
   }
 
-  // navigateToCourse(): void {
-  //   if (this.ashaData?.contentId) {
-  //     this.router.navigate([`/app/toc/${this.ashaData.contentId}/overview`])
-  //   }
-  // }
 
   viewCourses(data) {
     if (data.competencyID) {

@@ -18,13 +18,13 @@ import {
   INationality,
   ILanguages,
   IChipItems,
-  // IGovtOrgMeta,
-  // IIndustriesMeta,
   IProfileAcademics,
   INation,
   IdegreesMeta,
-  // IdesignationsMeta,
-  // IUserProfileFields2,
+  INationalityApiData,
+  ILanguagesApiData,
+  IStatesMeta,
+  IOrganisationDetails,
 } from '../../models/user-profile.model'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
@@ -133,18 +133,18 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   preferedLanguage: any
 
   constructor(
-    private snackBar: MatSnackBar,
-    private userProfileSvc: UserProfileService,
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private fb: UntypedFormBuilder,
-    private cd: ChangeDetectorRef,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    private btnservice: BtnProfileService,
-    private http: HttpClient,
-    private UserAgentResolverService: UserAgentResolverService
+    readonly snackBar: MatSnackBar,
+    readonly userProfileSvc: UserProfileService,
+    readonly configSvc: ConfigurationsService,
+    readonly router: Router,
+    readonly route: ActivatedRoute,
+    readonly fb: UntypedFormBuilder,
+    readonly cd: ChangeDetectorRef,
+    readonly dialog: MatDialog,
+    readonly loader: LoaderService,
+    readonly btnservice: BtnProfileService,
+    readonly http: HttpClient,
+    readonly UserAgentResolverService: UserAgentResolverService
   ) {
     this.approvalConfig = this.route.snapshot.data.pageData.data
     this.isForcedUpdate = !!this.route.snapshot.paramMap.get('isForcedUpdate')
@@ -212,13 +212,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.unseenCtrlSub = this.createUserForm.valueChanges.subscribe(value => {
-    //   this.logger.log('ngOnInit - value', value);
-    // })
-    // const approvalData = lodash.compact(lodash.map(this.approvalConfig, (v, k) => {
-    //   return v.approvalRequired ? { [k]: v } : null
-    // }))
-
     this.getUserDetails()
     this.fetchMeta()
     this.assignPrimaryEmailType(this.isOfficialEmail)
@@ -233,7 +226,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  professionalChange(value: any) {
+  professionalChange(value: string) {
     if (value === 'Healthcare Worker') {
       this.professionOtherField = false
     } else if (value === 'Healthcare Volunteer') {
@@ -245,7 +238,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  orgTypeSelect(option: any) {
+  orgTypeSelect(option: string) {
     if (option !== 'null') {
       this.createUserForm.controls.orgType.setValue(option)
     } else {
@@ -272,10 +265,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   fetchMeta() {
     this.userProfileSvc.getMasterNationlity().subscribe(
-      data => {
+      (data: INationalityApiData) => {
         data.nationalities.map((item: INationality) => {
           this.masterNationalities.push({ name: item.name })
-          // this.countries.push({ name: item.name })
           this.countryCodes.push(item.countryCode)
         })
         this.createUserForm.patchValue({
@@ -283,32 +275,25 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         })
         this.onChangesNationality()
       },
-      (_err: any) => {
+      (error: any) => {
+        console.error('Error loading nationalities', error)
       })
 
     this.userProfileSvc.getMasterLanguages().subscribe(
-      data => {
+      (data: ILanguagesApiData) => {
         this.masterLanguagesEntries = data.languages
         this.onChangesLanuage()
         this.onChangesKnownLanuage()
       },
-      (_err: any) => {
+      (error: any) => {
+        console.error('Error loading languages', error)
       })
-    // this.userProfileSvc.getProfilePageMeta().subscribe(
-    //   data => {
-    //     // this.states = data.states
-    //     this.govtOrgMeta = data.govtOrg
-    //     this.industriesMeta = data.industries
-    //     this.degreesMeta = data.degrees
-    //     this.designationsMeta = data.designations
-    //   },
-    //   (_err: any) => {
-    //   })
-    this.http.get(this.degreeUrl).subscribe((data: any) => {
+
+    this.http.get<IdegreesMeta>(this.degreeUrl).subscribe((data: IdegreesMeta) => {
       this.degreesMeta = data.postGraduations
     })
 
-    this.http.get(this.stateUrl).subscribe((data: any) => {
+    this.http.get<IStatesMeta>(this.stateUrl).subscribe((data: IStatesMeta) => {
       this.states = data.states
     })
 
@@ -320,13 +305,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       )
   }
 
-  private councilFilter(value: string): any {
+  private councilFilter(value: string): string[] {
     if (value) {
       const filterValue = value.toLowerCase()
 
       return this.nursingCouncilNames.filter(option =>
         option.toLowerCase().includes(filterValue))
     }
+    return this.nursingCouncilNames
   }
 
   createDegree(): UntypedFormGroup {
@@ -349,11 +335,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       return !!!(this.unApprovedField.indexOf(name) >= 0)
     } return true
   }
-  createDegreeWithValues(degree: any): UntypedFormGroup {
+  createDegreeWithValues(degree: IProfileAcademics): UntypedFormGroup {
     return this.fb.group({
-      degree: new UntypedFormControl(degree.degree, []),
-      instituteName: new UntypedFormControl(degree.instituteName, []),
-      yop: new UntypedFormControl(degree.yop, [Validators.pattern(this.yearPattern)]),
+      degree: new UntypedFormControl(degree.nameOfQualification, []),
+      instituteName: new UntypedFormControl(degree.nameOfInstitute, []),
+      yop: new UntypedFormControl(degree.yearOfPassing, [Validators.pattern(this.yearPattern)]),
     })
   }
 
@@ -362,7 +348,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.degrees.push(this.createDegree())
   }
 
-  public addDegreeValues(degree: any) {
+  public addDegreeValues(degree: IProfileAcademics) {
     this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
     this.degrees.push(this.createDegreeWithValues(degree))
   }
@@ -381,14 +367,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.postDegrees.push(this.createDegree())
   }
 
-  public addPostDegreeValues(degree: any) {
+  public addPostDegreeValues(degree: IProfileAcademics) {
     this.postDegrees = this.createUserForm.get('postDegrees') as UntypedFormArray
     this.postDegrees.push(this.createDegreeWithValues(degree))
   }
 
   get postDegreesControls() {
-    const deg = this.createUserForm.get('postDegrees')
-    return (<any>deg)['controls']
+    const deg = this.createUserForm.get('postDegrees') as UntypedFormArray | null
+    return deg ? deg.controls : []
   }
 
   public removePostDegrees(i: number) {
@@ -478,17 +464,15 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public selectKnowLanguage(data: any) {
+  public selectKnowLanguage(data: { option: { value: ILanguages } }) {
     const value: ILanguages = data.option.value
     if (!this.selectedKnowLangs.includes(value)) {
       this.selectedKnowLangs.push(data.option.value)
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
-    if (this.createUserForm.get('knownLanguages')) {
-    }
   }
 
-  public removeKnowLanguage(lang: any) {
+  public removeKnowLanguage(lang: ILanguages) {
     const index = this.selectedKnowLangs.indexOf(lang)
 
     if (index >= 0) {
@@ -549,7 +533,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  removePersonalInterests(interest: any) {
+  removePersonalInterests(interest: IChipItems) {
     const index = this.personalInterests.indexOf(interest)
 
     if (index >= 0) {
@@ -557,7 +541,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  removeHobbies(interest: any) {
+  removeHobbies(interest: IChipItems) {
     const index = this.selectedHobbies.indexOf(interest)
 
     if (index >= 0) {
@@ -584,7 +568,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           })
         }
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-          (data: any) => {
+          (data: Record<string, any>) => {
             const userData = data.profileDetails.profileReq
             if (data && userData) {
               this.isEditable = true
@@ -607,10 +591,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.router.navigate(['app/user-profile/chatbot'])
               }
             }
-
-            // this.handleFormData(data[0])
           },
-          (_err: any) => {
+          (error: any) => {
+            console.error('Error loading user details from registry', error)
           })
       }
     } else {
@@ -638,8 +621,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private populateOrganisationDetails(data: any) {
-    let org = {
+  private populateOrganisationDetails(data: Record<string, any>) {
+    let org: IOrganisationDetails = {
       orgName: '',
       industry: '',
       designation: '',
@@ -678,7 +661,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     return org
   }
 
-  private populateAcademics(data: any) {
+  private populateAcademics(data: Record<string, any>) {
     const academics: NsUserProfileDetails.IAcademics = {
       X_STANDARD: {
         schoolName10: '',
@@ -692,7 +675,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       postDegree: [],
     }
     if (data.academics && Array.isArray(data.academics)) {
-      data.academics.map((item: any) => {
+      data.academics.map((item: IProfileAcademics) => {
         switch (item.type) {
           case 'X_STANDARD': academics.X_STANDARD.schoolName10 = item.nameOfInstitute
             academics.X_STANDARD.yop10 = item.yearOfPassing
@@ -718,32 +701,24 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     return academics
   }
 
-  private populateChips(data: any) {
-    if (data.personalDetails.knownLanguages && data.personalDetails.knownLanguages.length) {
-      data.personalDetails.knownLanguages.map((lang: ILanguages) => {
+  private populateChips(data: Record<string, any>) {
+    if (data.personalDetails?.knownLanguages && data.personalDetails.knownLanguages.length) {
+      data.personalDetails.knownLanguages.forEach((lang: ILanguages) => {
         if (lang) {
           this.selectedKnowLangs.push(lang)
         }
       })
     }
-    if (data.interests && data.interests.professional && data.interests.professional.length) {
-      // data.interests.professional.map((interest: IChipItems) => {
-      //   if (interest) {
+    if (data.interests?.professional && data.interests.professional.length) {
       this.personalInterests.push(data.interests.professional)
-      // }
-      // })
     }
-    if (data.interests && data.interests.hobbies && data.interests.hobbies.length) {
-      // data.interests.hobbies.map((interest: IChipItems) => {
-      //   if (interest) {
+    if (data.interests?.hobbies && data.interests.hobbies.length) {
       this.selectedHobbies.push(data.interests.hobbies)
-      //   }
-      // })
     }
   }
 
-  private filterPrimaryEmailType(data: any) {
-    if (data.personalDetails.officialEmail) {
+  private filterPrimaryEmailType(data: Record<string, any>) {
+    if (data.personalDetails?.officialEmail) {
       this.isOfficialEmail = true
     } else {
       this.isOfficialEmail = false

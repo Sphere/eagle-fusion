@@ -761,33 +761,6 @@ export class TelemetryService {
   }
 
   addPlayerListener() {
-  //       filter(
-  //         event =>
-  //           event &&
-  //           event.eventType === WsEvents.WsEventType.Telemetry &&
-  //           event.data.type === WsEvents.WsTimeSpentType.Page &&
-  //           event.data.mode &&
-  //           event.data,
-  //       ),
-  //     )
-  //     .subscribe(event => {
-  //       if (event.data.state === WsEvents.EnumTelemetrySubType.Loaded) {
-  //         this.start(
-  //           event.data.type || WsEvents.WsTimeSpentType.Page,
-  //           event.data.mode || WsEvents.WsTimeSpentMode.View,
-  //           event.data.pageId,
-  //         )
-  //       }
-  //       if (event.data.state === WsEvents.EnumTelemetrySubType.Unloaded) {
-  //         this.end(
-  //           event.data.type || WsEvents.WsTimeSpentType.Page,
-  //           event.data.mode || WsEvents.WsTimeSpentMode.View,
-  //           event.data.pageId,
-  //         )
-  //       }
-  //     })
-  // }
-  addPlayerListener() {
     this.eventsSvc.events$
       .pipe(
         filter(

@@ -80,7 +80,7 @@ export interface ProfileDetailsResponse {
 }
 
 export interface UserRegistryData {
-  id: string
+  userId: string
   identifier: string
   profileDetails: ProfileDetailsResponse
 }

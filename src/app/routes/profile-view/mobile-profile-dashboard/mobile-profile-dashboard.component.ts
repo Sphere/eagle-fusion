@@ -162,9 +162,9 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       res = this.plylsSvc.bodyConfig()?.accountTab
     }
 
-    if (res == '' || res == undefined) {
-      res = await this.plylsSvc.loadPlaylistData()
-      this.config = res?.LAYOUT_BODY?.sections?.accountTab
+    if (!res || (typeof res === 'object' && Object.keys(res).length === 0)) {
+      const playlistData = await this.plylsSvc.loadPlaylistData()
+      this.config = playlistData?.LAYOUT_BODY?.sections?.accountTab
     } else {
       this.config = res
     }
@@ -296,8 +296,8 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       el.style.display = 'block'
       this.logger.log("this.userData", this.profileData)
       el.setAttribute('userId', this.profileData.userId)
-      el.setAttribute('firstName', this.profileData.personalDetails.firstname)
-      el.setAttribute('lastName', this.profileData.personalDetails.surname)
+      el.setAttribute('firstName', this.profileData?.personalDetails?.firstname)
+      el.setAttribute('lastName', this.profileData?.personalDetails?.surname)
 
       setTimeout(() => {
         const btn = el.querySelector('button') as HTMLElement
@@ -405,6 +405,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
         data.sunbirdRcCertificates,
         (result: Certificate[], certificate: any) => {
           result.push({
+            identifier: certificate.certificateName || `cert-${Date.now()}`,
             name: certificate.certificateName,
             downloadUrl: certificate.certificateDownloadUrl,
             image: certificate.thumbnail,
@@ -453,9 +454,9 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       }
       //this.currentProfession = this.userProfileData.professionalDetails[0].profession
       if (_.get(this.userProfileData, 'personalDetails')) {
-        this.photoUrl = this.userProfileData?.personalDetails?.photo
+        this.photoUrl = this.userProfileData?.personalDetails?.photo || null
       } else {
-        this.photoUrl = this.userProfileData.photo
+        this.photoUrl = null
       }
 
       if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
