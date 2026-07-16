@@ -168,7 +168,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
     if (isBrowser) {
       this.domain = window.location.hostname
-      if (this.domain.includes('localhost')) {
+      if (this.domain.includes('ekshamata')) {
         this.isEkshamata = true
       }
     }
