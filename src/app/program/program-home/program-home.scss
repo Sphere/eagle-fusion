@@ -39,6 +39,7 @@
   flex-direction: column;
   gap: 24px;
   padding: 16px;
+  background-color: var(--theme-bg);
 }
 
 .line-label {
@@ -61,7 +62,7 @@
   transform: translateX(-50%);
   width: 112%;
   height: 1px; /* Adjust thickness as needed */
-  background-color: #000; /* Adjust color as needed */
+  background-color: #93DAE7; /* Adjust color as needed */
 }
 
 .bg-green::after{
