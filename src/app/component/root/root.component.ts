@@ -563,6 +563,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isNavBarRequired = this.router.url.includes('/page/home') ?? true
         } else {
           this.isHomePage = false
+          if (this.playlistSvc.showDetails()) {
+            this.playlistSvc.showDetails.set(false)
+          }
         }
         if (this.router.url.includes('/public/home')) {
           this.showNavigation = true
@@ -720,10 +723,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private buildEnrolledCourses(res: any): any[] {
     const myCourse: any[] = []
+    console.log('[RootComponent] Raw API response sample:', res?.[0])
     res.forEach((key: any) => {
       if (key?.content?.identifier) {
         myCourse.push({
           identifier: key.content.identifier,
+          courseId: key.content.courseId || key.courseId,
+          contentId: key.content.contentId || key.contentId,
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
@@ -736,6 +742,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       }
     })
+    console.log('[RootComponent] Built enrolled courses:', myCourse.length, 'courses')
     return myCourse
   }
 

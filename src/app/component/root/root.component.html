@@ -81,7 +81,7 @@
     <!-- Feature Programs -->
     <section *ngIf="isHomePage && isLoggedIn && hasProgramConfig"
       [ngStyle]="{ 'margin-bottom': isXSmall$ ? '4rem' : '' }">
-      <ws-program-home *ngIf="!showProgramDet()" [configData]="programConfig" [userEnrollCourse]="userEnrollCourse()">
+      <ws-program-home *ngIf="!showProgramDet()" [configData]="programConfig">
       </ws-program-home>
       <ws-web-public-container *ngIf="showProgramDet()" [isEkshamata]="isEkshamata" [configData]="bodyConfig"
         [programConfig]="programConfig" [userEnrollCourse]="userEnrollCourse()">

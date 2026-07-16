@@ -1,14 +1,15 @@
 import { Component, OnInit, ElementRef, Input, OnDestroy, QueryList, ViewChildren, OnChanges, SimpleChanges, signal, computed } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import { uniqBy } from 'lodash'
+import { uniqBy } from 'lodash-es'
 import { MatDialog } from '@angular/material/dialog'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
-import { forkJoin } from 'rxjs'
+import { forkJoin, firstValueFrom } from 'rxjs'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 import { Subject } from 'rxjs'
+import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
   standalone: false,
@@ -79,6 +80,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     private langSvc: LanguageService,
     private valueSvc: ValueService,
     private logger: LoggerService,
+    private userSvc: WidgetUserService,
   ) {
     this.lang = this.langSvc.getCurrentLanguage()
   }
@@ -96,6 +98,11 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
 
     // FLOW 1: Program Config Flow - highest priority
     if (this.showbackButton() && !!this.programConfig) {
+      // Program config detail view: refresh enrollment/progress data instead of relying on
+      // the @Input snapshot (which is captured once at app bootstrap in RootComponent and
+      // never re-fires), so completed/in-progress status reflects the latest API response.
+      await this.refreshUserEnrollCourse()
+
       this.isCompetencyUser.set(this.selectedProgDet?.type === 'competency')
       if (this.isCompetencyUser()) {
         this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: 'COMPETENCY_PLAYLIST_V2' }])
@@ -111,7 +118,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         this.configData = this.programConfig?.tabs
         this.uiConfig.set(this.configData)
-        this.programIdentifiers = this.selectedProgDet.payload
+        this.programIdentifiers = this.selectedProgDet.courseIds
       }
     } else if (Array.isArray(this.configData)) {
       this.uiConfig.set(this.configData.slice(1, -1))
@@ -167,6 +174,55 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     if ((changes['userEnrollCourse'] || changes['configData']) && !this.isLoading()) {
       this.updateCourseData()
     }
+  }
+
+  /**
+   * Fetches fresh enrollment/progress data and replaces the @Input userEnrollCourse
+   * snapshot with it. Falls back to the existing @Input value on failure or when
+   * there's no logged-in user, so callers can keep using this.userEnrollCourse as-is.
+   */
+  private async refreshUserEnrollCourse(): Promise<void> {
+    const userId = this.configSvc?.userProfile?.userId
+    if (!userId) {
+      return
+    }
+    try {
+      const rawCourses = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
+      this.userEnrollCourse = this.buildEnrolledCourses(rawCourses)
+      this.logger.log('[WebPublicContainer] Refreshed userEnrollCourse with progress:', this.userEnrollCourse?.length, 'courses')
+    } catch (error) {
+      this.logger.warn('[WebPublicContainer] Failed to fetch enrollment with progress, using fallback:', error)
+    }
+  }
+
+  /**
+   * Normalizes the raw enrollment API response (nested `content.identifier`, top-level
+   * `courseId`/`contentId`) into the flat shape { identifier, completionPercentage, ... }
+   * that updateCourseData()/matching logic in this component expects.
+   */
+  private buildEnrolledCourses(res: any): any[] {
+    const myCourse: any[] = []
+    if (!Array.isArray(res)) {
+      return myCourse
+    }
+    res.forEach((key: any) => {
+      const identifier = key?.content?.identifier || key?.courseId || key?.contentId
+      if (identifier) {
+        myCourse.push({
+          identifier,
+          appIcon: key.content?.appIcon,
+          thumbnail: key.content?.thumbnail,
+          name: key.content?.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content?.sourceName,
+          issueCertification: key.content?.issueCertification,
+          averageRating: key.content?.averageRating,
+          posterImage: key.content?.posterImage,
+        })
+      }
+    })
+    return myCourse
   }
 
   private handleCompetencyFlow(rootOrgId: string, roleCheck: (roles: string[]) => boolean): boolean {

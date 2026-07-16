@@ -62,4 +62,14 @@ export class WidgetUserService {
     }
     return this.batchList$
   }
+
+  fetchUserEnrollmentWithProgress(userId: string | undefined): Observable<NsContent.ICourse[]> {
+    const path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_PROGRESS(userId)
+    return this.http
+      .get(path)
+      .pipe(
+        catchError(this.handleError),
+        map((data: any) => data.result.courses),
+      )
+  }
 }
