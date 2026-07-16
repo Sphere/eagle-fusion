@@ -68,7 +68,7 @@
   line-height: 40px;
   letter-spacing: -0.02em;
   text-align: center;
-  color: var(--theme-success);
+  color: rgba(107, 150, 71, 1);
 }
 
 .fail-title {
@@ -95,7 +95,7 @@
   line-height: 24px;
   text-align: center;
   letter-spacing: -0.02em;
-  color: var(--theme-accent);
+  color: var(--theme-primary);
 }
 
 .proficiceny-level-fail {
@@ -650,11 +650,15 @@ mat-progress-bar {
 }
 
 .asha-btn-retake{
-  background-color: var(--theme-primary) !important;
+  background-color: var(--theme-accent) !important;
   width: 30%;
   height: 35px;
   color: var(--theme-bg) !important;
   border-radius: 30px;
+}
+
+.home-icon {
+  filter: (--theme-icon-filter);
 }
 
 .achieved-score{
