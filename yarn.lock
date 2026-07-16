@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@aastrika_npmjs/comptency@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@aastrika_npmjs/comptency/-/comptency-2.0.0.tgz#16224b1cfa5dc90a74a9624bb13bfd51b94f17c4"
-  integrity sha512-1f5YdJiOgdPLOrsbrpwC3GWP4FKBS2Zei6YSPVDSZ+UM7vkykhG/uX6Qmf+cDX4PMOSL32EgeJfZ+gZZg5Qxsw==
+"@aastrika_npmjs/comptency@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@aastrika_npmjs/comptency/-/comptency-2.1.0.tgz#f79566b5090f009f5bc2eb3fa0ea6cba22af8a85"
+  integrity sha512-ul9i6tGUaTHsVAPdJNhuUkdrlTHBZgb2KsNon2ejTRGEcowSbiM829D8ZjPmkhewilrJ85ARFrQ0x3vkrtElAg==
   dependencies:
     tslib "^2.3.0"
 
@@ -474,10 +474,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/platform-server@21":
-  version "21.2.13"
-  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-21.2.13.tgz#d2f1aa50dfa076c7e5bbbafc467fce9558457a13"
-  integrity sha512-DVY3URcQFfax5AQZE0DRNjLqH1m3JRBFvN3Kl3JI7YAL6zvPnUfX2L+vZIBc5Z6a1jKtKTc37MGVTtxCz96f1w==
+"@angular/platform-server@^21.2.14":
+  version "21.2.18"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-21.2.18.tgz#4bd3f2f66b66eb2dd60152205608be3373c69e71"
+  integrity sha512-xtnMoL24Oqc8gD1jW2CU2whps9Hwbem8szFJoFbPIKIOY63mKd235bcyOMpioLmPPIeSE3AQil+yDh9Y6qn/mQ==
   dependencies:
     tslib "^2.3.0"
     xhr2 "^0.2.0"
@@ -7702,11 +7702,6 @@ hyperdyperid@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/hyperdyperid/-/hyperdyperid-1.2.0.tgz"
   integrity sha512-Y93lCzHYgGWdrJ66yIktxiaGULYc6oGiABxhcO5AufBeOyoIdZF7bIfLaOrbM0iGIOXQQgxxRrFEnb+Y6w1n4A==
-
-i@^0.3.7:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/i/-/i-0.3.7.tgz#2a7437a923d59c14b17243dc63a549af24d85799"
-  integrity sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==
 
 iconv-lite@0.6.3, iconv-lite@^0.6.3:
   version "0.6.3"
