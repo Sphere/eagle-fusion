@@ -32,15 +32,14 @@
         <ws-utils-horizontal-scroller *ngIf="!isXSmall()" class="flex" [loadStatus]="'done'">
           <div *ngFor="let course of programData()">
             <ws-web-course-card [programData]="course" [enableConfig]="enableConfig" [showProgress]="showProgress"
-              [displayConfig]="configData.cardDisplayConfig" [courseData]="course"
+              [displayConfig]="programDisplayConfig" [courseData]="course"
               (programClick)="openProgram($event)"></ws-web-course-card>
           </div>
         </ws-utils-horizontal-scroller>
         <ng-container *ngIf="isXSmall()">
           <div *ngFor="let course of programData()">
             <ws-mobile-course-view [courseData]="course" [programData]="course" [enableConfig]="enableConfig"
-              [showProgress]="showProgress" [displayConfig]="configData.cardDisplayConfig"
-              (programClick)="openProgram($event)">
+              [showProgress]="showProgress" [displayConfig]="programDisplayConfig" (programClick)="openProgram($event)">
             </ws-mobile-course-view>
           </div>
         </ng-container>

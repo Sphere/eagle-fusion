@@ -1,10 +1,9 @@
 import { Component, computed, EventEmitter, Input, Output, signal, OnInit } from '@angular/core'
-// import { Router } from '@angular/router'
-import { Subject } from 'rxjs'
+import { Subject, firstValueFrom } from 'rxjs'
 import { ValueService } from '../../../../library/ws-widget/utils/src/lib/services/value.service'
-import { LoggerService } from '@ws-widget/utils'
 import { PlaylistService } from '../../services/playlist.service'
-// import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
+import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
+import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-program-home',
@@ -14,7 +13,6 @@ import { PlaylistService } from '../../services/playlist.service'
 })
 export class ProgramHome implements OnInit {
   @Input() configData: any
-  @Input() userEnrollCourse: any
   @Output() programClick = new EventEmitter()
   isXSmall = computed(() => this.valueSvc.isMobile())
   isLoading = signal(true)
@@ -23,74 +21,184 @@ export class ProgramHome implements OnInit {
   public unsubscribe = new Subject<void>()
   programList: any
   showDetails = signal(false)
+  programDisplayConfig: any = {}
+  enrollmentData: any[] = []
   constructor(
-    private readonly valueSvc: ValueService,
-    private readonly playlistSvc: PlaylistService,
-    private readonly logger: LoggerService
-    // private router: Router,
-    // private configSvc: ConfigurationsService
+    private valueSvc: ValueService,
+    private playlistSvc: PlaylistService,
+    private userSvc: WidgetUserService,
+    private configSvc: ConfigurationsService
   ) {
   }
 
-  ngOnInit() {
-    this.initializePrograms()
+  async ngOnInit() {
+    console.log("[ProgramHome] Init started with configData:", this.configData)
+    const plyLsData = await this.playlistSvc.getPlaylistConfig()
+
+    // Set display config for program cards (shows programStatus)
+    this.programDisplayConfig = {
+      ...this.configData?.cardDisplayConfig,
+      displayType: 'card-program',
+    }
+
+    // Fetch enrollment data with progress info for program status calculation
+    const userId = this.configSvc.userProfile?.userId
+
+    if (userId) {
+      try {
+        this.enrollmentData = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
+        console.log('[ProgramHome] Fetched enrollment with progress:', this.enrollmentData, 'courses')
+      } catch (error) {
+        console.warn('[ProgramHome] Failed to fetch enrollment with progress, using fallback:', error)
+        this.enrollmentData = []
+      }
+    } else {
+      console.log('[ProgramHome] No userId, using fallback enrollment data')
+    }
+
+    console.log('[ProgramHome] Final enrollmentData to use:', this.enrollmentData?.length, 'courses')
+
+    const enricher = this.enrichProgramWithCount(plyLsData, 'en')
+    const enrichedPrograms = this.configData?.programs?.map((program: any) =>
+      enricher(program, this.enrollmentData)
+    )
+
+    console.log('[ProgramHome] Enriched programs:', enrichedPrograms)
+    this.programData.set(enrichedPrograms)
+    this.isLoading.set(false)
   }
 
-  private initializePrograms(): void {
-    this.logger.log('configData ', this.configData)
-    this.playlistSvc.getPlaylistConfig().then(plyLsData => {
-      const enrichedPrograms = this.configData?.programs?.map(
-        this.enrichProgramWithCount(plyLsData, 'en')
-      )
-
-      this.logger.log('Section config in program list :', enrichedPrograms)
-      this.programData.set(enrichedPrograms)
-      this.isLoading.set(false)
-    }).catch(err => {
-      this.logger.error('Failed to load playlist config:', err)
-      this.isLoading.set(false)
-    })
-  }
-
-  enrichProgramWithCount = (playlists: any[], defaultLang: string) => (program: any): any => {
+  enrichProgramWithCount = (playlists: any[], defaultLang: string) => (program: any, enrollmentData: any = null): any => {
     let playlist = null
+    let courseIds: string[] = []
+
     if (program.type === 'course') {
       playlist = this.getStaticPlaylistForLang(playlists, program.playlistConfigId, defaultLang)
+      courseIds = playlist?.dataSource?.payload ?? []
+      console.log(`[ProgramHome] Course program "${program.title}":`, {
+        playlistConfigId: program.playlistConfigId,
+        playlistFound: !!playlist,
+        courseIds,
+      })
     } else if (program.type === 'competency') {
       playlist = this.getCompetencyPlaylistForLang(playlists, program.playlistConfigId)
+      // Extract course IDs from competency levels
+      courseIds = this.extractCourseIdsFromCompetency(playlist)
+      console.log(`[ProgramHome] Competency program "${program.title}":`, {
+        playlistConfigId: program.playlistConfigId,
+        playlistFound: !!playlist,
+        courseIds,
+      })
     }
 
-    const payload = playlist?.dataSource?.payload ?? []
-    const courseCount = payload?.length
+    const courseCount = courseIds.length
 
-    // Filter enrolled courses matching payload ids
-    const matchedCourses = this.userEnrollCourse?.filter(
-      (course: any) => payload.includes(course.identifier)
-    ) || []
+    // Use provided enrollment data or fall back to input property
+    const enrolledCourses = enrollmentData || []
 
-    // Completed courses
-    const completedCourses = matchedCourses.filter(
-      (course: any) => course.completionPercentage === 100
+    // Calculate program status based on enrolled courses
+    const programStatus = this.calculateProgramStatus(
+      courseIds,
+      enrolledCourses
     )
-    let programStatus = ''
 
-    if (matchedCourses.length > 0) {
-      if (
-        completedCourses.length === payload.length &&
-        payload.length > 0
-      ) {
-        programStatus = 'Completed'
-      } else {
-        programStatus = 'In-Progress'
-      }
-    }
+    console.log(`[ProgramHome] Program "${program.title}" enriched:`, {
+      type: program.type,
+      courseCount,
+      programStatus,
+    })
 
     return {
       ...program,
       courseCount,
-      payload,
+      courseIds,
       programStatus,
     }
+  }
+
+  private calculateProgramStatus(
+    courseIds: string[],
+    enrolledCourses: any[] = []
+  ): string {
+    if (!courseIds.length || !enrolledCourses?.length) {
+      console.log('[ProgramHome] No courseIds or enrolledCourses', {
+        courseIdsLength: courseIds.length,
+        enrolledCoursesLength: enrolledCourses?.length,
+      })
+      return ''
+    }
+
+    console.log('[ProgramHome] Calculating status:', {
+      courseIds,
+      enrolledCourses: enrolledCourses.map((c: any) => ({
+        identifier: c.identifier,
+        courseId: c.courseId,
+        contentId: c.contentId,
+        completionPercentage: c.completionPercentage,
+      })),
+    })
+
+    // Match enrolled courses with program course IDs
+    const matchedCourses = enrolledCourses.filter(
+      (course: any) => courseIds.includes(course.courseId || course.contentId)
+    )
+
+    console.log('[ProgramHome] Matched courses:', matchedCourses.length, matchedCourses)
+
+    if (!matchedCourses.length) {
+      console.log('[ProgramHome] No matched courses found')
+      return ''
+    }
+
+    // Count completed and in-progress courses
+    const completedCount = matchedCourses.filter(
+      (course: any) => course.completionPercentage === 100
+    ).length
+
+    const inProgressCount = matchedCourses.filter(
+      (course: any) => course.completionPercentage == 0 && course.completionPercentage < 100
+    ).length
+
+    console.log('[ProgramHome] Counts:', { completedCount, inProgressCount, total: courseIds.length })
+
+    // Determine status
+    if (completedCount === courseIds.length && courseIds.length > 0) {
+      return 'Completed'
+    } else if (completedCount > 0 || inProgressCount > 0) {
+      return 'In-Progress'
+    }
+
+    return ''
+  }
+
+  private extractCourseIdsFromCompetency(playlist: any): string[] {
+    const courseIds: string[] = []
+
+    if (!playlist?.dataSource?.payload || !Array.isArray(playlist.dataSource.payload)) {
+      return courseIds
+    }
+
+    // Extract course IDs from competency structure
+    playlist.dataSource.payload.forEach((competencyObj: any) => {
+      // Each competency object is {COMPETENCY_NAME: {...}}
+      const competency = Object.values(competencyObj)[0] as any
+
+      if (competency?.additionalProperties?.competencyLevelDescription) {
+        competency.additionalProperties.competencyLevelDescription.forEach(
+          (level: any) => {
+            if (Array.isArray(level.course)) {
+              level.course.forEach((course: any) => {
+                if (course.id && !courseIds.includes(course.id)) {
+                  courseIds.push(course.id)
+                }
+              })
+            }
+          }
+        )
+      }
+    })
+
+    return courseIds
   }
 
 
@@ -121,62 +229,6 @@ export class ProgramHome implements OnInit {
       playlist.dataSource.payload.length > 0
     )
 
-  // computeProgramStatus$ = (dashboardService: any, allCourseIds: string[], userId: string, enrichedPrograms: any[], playlists: any[], sections: Section[], defaultLang: string): Observable<any> => {
-  //   return dashboardService.getProgramStatus$(allCourseIds, userId).pipe(
-  //     map(({ completedIds, inProgressIds }: { completedIds: string[]; inProgressIds: string[] }) => {
-  //       const programsWithStatus = enrichedPrograms.map((program) => {
-
-  //         const programCourseIds: string[] = extractCourseIds(
-  //           program,
-  //           playlists,
-  //           defaultLang
-  //         )
-  //         if (!programCourseIds.length) return program
-  //         const completedCount = programCourseIds.filter((id) =>
-  //           completedIds.includes(id)
-  //         ).length
-
-  //         const inProgressCount = programCourseIds.filter((id) =>
-  //           inProgressIds.includes(id)
-  //         ).length
-
-  //         let programStatus = ''
-  //         if (completedCount === programCourseIds.length) {
-  //           programStatus = 'Completed'
-  //         } else if (completedCount > 0 || inProgressCount > 0) {
-  //           programStatus = 'In-Progress'
-  //         }
-
-  //         return { ...program, programStatus }
-  //       })
-
-  //       const updatedSections = sections.map((s) =>
-  //         s.cardComponentType === 'ProgramList'
-  //           ? { ...s, programs: programsWithStatus }
-  //           : s
-  //       )
-
-  //       return {
-  //         sections: updatedSections,
-  //         playlists,
-  //         enrolledData: emptyEnrollData(),
-  //       }
-  //     }),
-  //     catchError((err) => {
-  //       console.warn('[computeProgramStatus] getProgramStatus failed, skipping status:', err)
-  //       const updatedSections = sections.map((s) =>
-  //         s.cardComponentType === 'ProgramList'
-  //           ? { ...s, programs: enrichedPrograms }
-  //           : s
-  //       )
-  //       return of({
-  //         sections: updatedSections,
-  //         playlists,
-  //         enrolledData: emptyEnrollData(),
-  //       })
-  //     })
-  //   )
-  // };
   openProgram(programData: any): void {
     this.programList = programData
     this.playlistSvc?.selectedProgram.set(programData)
