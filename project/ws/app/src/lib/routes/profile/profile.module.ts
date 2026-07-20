@@ -13,7 +13,6 @@ import { LogoutModule } from '@ws-widget/utils'
 import { ProfileRoutingModule } from './profile-routing.module'
 // comps
 import { ProfileComponent } from './profile.component'
-import { DashboardModule } from './routes/dashboard/dashboard.module'
 import { SettingsModule } from './routes/settings/settings.module'
 
 @NgModule({
@@ -21,7 +20,6 @@ import { SettingsModule } from './routes/settings/settings.module'
   imports: [
     CommonModule,
     ProfileRoutingModule,
-    DashboardModule,
     SettingsModule,
     BtnPageBackModule,
     LogoutModule,

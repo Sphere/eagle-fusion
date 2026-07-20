@@ -352,7 +352,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     const updateRequest = { ...realTimeProgressRequest }
 
     const highestPage = this.maxPageReached
-    const status = this.viewerSvc.getStatus(highestPage, updateRequest.max_size, updateRequest.mime_type)
+    const status = this.viewerSvc.getStatus(highestPage, updateRequest.max_size as number, updateRequest.mime_type as string)
 
     this.viewerSvc.realTimeProgressUpdateV3(this.identifier || '', updateRequest, collectionId, batchId).subscribe(
       () => {

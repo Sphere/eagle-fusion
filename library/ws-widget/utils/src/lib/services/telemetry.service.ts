@@ -12,16 +12,9 @@ import { ConfigCacheService } from 'src/app/services/config-cache.service'
 import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 import {
   ITelemetryEventData,
-  ITelemetryConfig,
   IPageDetails,
   IExternalAppConfig,
-  ITelemetryAuditData,
-  ITelemetryActor,
-  IUserContext,
-  IRegistrationEdata,
-  ITelemetryObject,
   IPublicTelemetryEvent,
-  ITelemetryImpressionData,
   IExternalImpressionData,
 } from './telemetry.model'
 
@@ -373,9 +366,9 @@ export class TelemetryService {
         timestamp: Date.now(),
         cookie,
       }
-      param = JSON.parse(param)
+      const parsedParam = JSON.parse(param)
       edata = {
-        ...edata, ...param,
+        ...edata, ...parsedParam,
       }
       const finalObject = {
         id: 'ekstep.telemetry',
@@ -457,9 +450,9 @@ export class TelemetryService {
         pageid: eparams.pageid,
         duration: eparams.duration,
       }
-      param = JSON.parse(param)
+      const parsedParam = JSON.parse(param)
       edata = {
-        ...edata, ...param,
+        ...edata, ...parsedParam,
       }
       const finalObject = {
         id: 'ekstep.telemetry',
@@ -517,9 +510,9 @@ export class TelemetryService {
         pageid: eparams.pageid,
         duration: eparams.duration,
       }
-      param = JSON.parse(param)
+      const parsedParam = JSON.parse(param)
       edata = {
-        ...edata, ...param,
+        ...edata, ...parsedParam,
       }
       const finalObject = {
         id: 'ekstep.telemetry',
@@ -693,9 +686,9 @@ export class TelemetryService {
         timestamp: Date.now(),
         cookie,
       }
-      param = JSON.parse(param)
+      const parsedParam = JSON.parse(param)
       edata = {
-        ...edata, ...param,
+        ...edata, ...parsedParam,
       }
 
       if (page.objectId) {

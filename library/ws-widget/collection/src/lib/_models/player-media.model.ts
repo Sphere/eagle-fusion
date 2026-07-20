@@ -19,4 +19,5 @@ export interface IWidgetsPlayerMediaData {
   platform?: any
   mimeType?: any
   continueLearning?: boolean
+  videoQuestions?: any[]
 }

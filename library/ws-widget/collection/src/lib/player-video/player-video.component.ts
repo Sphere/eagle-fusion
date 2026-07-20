@@ -238,10 +238,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       if (isXSmall)
         if (player.requestFullscreen) {
           player.requestFullscreen()
-        } else if (player.webkitRequestFullscreen) { // Safari
-          player.webkitRequestFullscreen()
-        } else if ((player).msRequestFullscreen) { // IE/Edge
-          player.msRequestFullscreen()
+        } else if ((player as any).webkitRequestFullscreen) { // Safari
+          (player as any).webkitRequestFullscreen()
+        } else if ((player as any).msRequestFullscreen) { // IE/Edge
+          (player as any).msRequestFullscreen()
         }
     })
 
@@ -650,7 +650,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       this.viewerSvc.realTimeProgressUpdateV3(identifier, dataWithCompletion, collectionId, batchId).subscribe(
         async (response: any) => {
           try {
-            this.logger.log('Video progress update successful:', { identifier, percent, status, calcPercent: (data.current / data.max_size * 100).toFixed(2) })
+            this.logger.log('Video progress update successful:', { identifier, percent, status, calcPercent: ((data.current as number) / (data.max_size as number) * 100).toFixed(2) })
             this.logger.log("message passed", response)
             // Priority 1: Use cached contentHistoryResponse if available (most reliable)
             if (this.contentHistoryResponse && this.contentHistoryResponse.contentList && this.contentHistoryResponse.contentList.length > 0) {

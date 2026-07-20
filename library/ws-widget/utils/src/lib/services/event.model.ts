@@ -94,7 +94,7 @@ export namespace WsEvents {
     type: string
     subType?: string
     query?: string
-    filters?: string
+    filters?: Record<string, any>
     size?: number
     locale?: any
   }
