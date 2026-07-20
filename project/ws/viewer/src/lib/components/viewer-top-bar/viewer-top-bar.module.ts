@@ -8,13 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { ViewerTopBarComponent } from './viewer-top-bar.component'
 import {
   BtnFullscreenModule, BtnPageBackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
-  // BtnContentFeedbackModule,
-  // DisplayContentTypeIconModule,
-  // BtnContentFeedbackV2Module
 } from '@ws-widget/collection'
 import { RouterModule } from '@angular/router'
 import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
@@ -30,12 +24,7 @@ import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
     MatTooltipModule,
     RouterModule,
     PipePartialContentModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
-    // BtnContentFeedbackModule,
-    // BtnContentFeedbackV2Module,
   ],
   exports: [ViewerTopBarComponent],
   providers: [ValueService],

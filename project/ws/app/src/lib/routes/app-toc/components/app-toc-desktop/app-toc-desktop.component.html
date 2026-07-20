@@ -19,26 +19,6 @@
         class="blue-link cursor-pointer" (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</span>
     </div>
 
-    <!-- <div class="subtitle">{{ content?.subTitle }}</div>
-    <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
-      <span i18n>Duration </span>:
-      {{ content?.duration | pipeDurationTransform: 'hms' }}
-    </div>
-    <div class="details" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
-      <span i18n>Last updated on</span> : {{ content?.lastUpdatedOn | date }}
-    </div>
-    <div class="details cursor-pointer" (click)="showOrgprofile(content?.sourceName)"><span i18n>Source</span> :
-      {{content?.sourceName}}</div> -->
-
-    <!-- <div class="details" *ngIf="content?.creatorDetails">Curators:
-      <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
-        {{curator.name}}
-        <ng-container *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
-        </ng-container>
-      </span>
-    </div> -->
-    <!-- <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
-      View License Terms</div> -->
     <div class="rating-block mb-2">
       <span class="average-rating">{{averageRating}}</span>
       <ng-container *ngIf="averageRating>0">
@@ -51,9 +31,12 @@
           matTooltip="Edit Rating">edit</mat-icon>
       </div>
     </div>
-    <div *ngIf="optmisticPercentage !== null && content !== undefined">
-      <!-- Content goes here -->
-      <div *ngIf="(optmisticPercentage < 100 && finishedPercentage !== undefined); else elseBlock" class="progress-section">
+    <div *ngIf="(optmisticPercentage || content?.completionPercentage) && content !== undefined">
+      <!-- Only render the progress block when the course actually has progress/completion;
+           a brand-new course (optmisticPercentage 0/undefined, no completionPercentage)
+           shows no progress bar. -->
+      <div *ngIf="(optmisticPercentage < 100 && finishedPercentage !== undefined); else elseBlock"
+        class="progress-section">
         <mat-progress-bar [mode]="'determinate'" [value]="optmisticPercentage" class="new-w desktop"
           [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === null || optmisticPercentage === 0, 'thick': optmisticPercentage}"
@@ -80,9 +63,6 @@
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
       </div>
     </ng-template>
-    <!-- <ws-widget-content-progress [isDesktop]='true' *ngIf="content?.identifier" [forPreview]="forPreview"
-      [contentId]="content?.identifier" [className]="'thick'" [progress]="content?.completionPercentage">
-    </ws-widget-content-progress> -->
     <div class="toc-actions flex flex-col gap-4">
       <div class="flex flex-row gap-3">
         <div class="toc-icon-action">
@@ -115,7 +95,6 @@
             </button>
             <span class="btn-tittle" *ngIf="content?.issueCertification === true">{{ 'Certificate' | translate }}</span>
           </ng-container>
-          <!-- (click)="downloadCertificate(content, tocConfig)" -->
           <ng-template #download>
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" class="button-border" data-toggle="modal"
@@ -175,67 +154,8 @@
             </ng-container>
           </a>
         </ng-template>
-
-        <!-- <button id="start-btn" class="banner-btn cursor-pointer" (click)="giveRating(batchData.content)" i18n>
-          Rating
-        </button> -->
-        <!-- #if cetification ininrollment api -->
-        <!-- <ng-container *ngIf="issueCertificate === true; else download ">
-          <button *ngIf="content?.issueCertification === true" (click)="sendApi()"
-            class="banner-btn-active cursor-pointer" data-toggle="modal">
-            <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
-          </button>
-        </ng-container>
-        <ng-template #download>
-          <button *ngIf="content?.issueCertification === true" (click)="downloadCertificate(content)"
-            class="banner-btn-active cursor-pointer" data-toggle="modal">
-            <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
-          </button>
-        </ng-template> -->
       </div>
-
-
     </div>
-    <!-- <div class="header-actions"> -->
-    <!-- <ng-container>
-        <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
-          (click)="enrollUser(batchData.content)" i18n>
-          Start
-        </button>
-        (click)="resumeBtn()"
-        <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
-          [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
-          [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')" class="banner-btn resumeButton">
-          <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
-            {{resumeData?"Resume":"Resume"}}
-          </ng-container>
-        </a>
-        #if cetification ininrollment api
-        <ng-container *ngIf="issueCertificate === true; else download ">
-          <button *ngIf="content?.issueCertification === true" (click)="sendApi()"
-            class="banner-btn-active cursor-pointer" data-toggle="modal">
-            <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
-          </button>
-        </ng-container>
-        <ng-template #download>
-          <button *ngIf="content?.issueCertification === true" (click)="downloadCertificate(content)"
-            class="banner-btn-active cursor-pointer" data-toggle="modal">
-            <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
-          </button>
-        </ng-template>
-        <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
-        </ws-widget-btn-content-share>
-      </ng-container> -->
-    <!-- <button class="btn " mat-raised-button (click)="nextQuestion()">Resume</button>
-      <button class=" btn-active" mat-raised-button (click)="previousQuestion()">Certificate</button>
-      <div class="share-img img1">
-        <img src="./fusion-assets/icons/share-icon.png">
-      </div> -->
-
-    <!-- </div> -->
     <canvas id="certCanvas"></canvas>
   </div>
 </div>
-<!-- <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
-  [className]="'thick'" [progress]="content?.completionPercentage">
-</ws-widget-content-progress> -->

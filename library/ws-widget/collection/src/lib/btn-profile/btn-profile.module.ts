@@ -13,7 +13,6 @@ import { LogoutModule } from '@ws-widget/utils'
 import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { AvatarPhotoModule } from '../_common/avatar-photo/avatar-photo.module'
 
-// import { TreeCatalogModule } from '../tree-catalog/tree-catalog.module'
 
 @NgModule({
     declarations: [BtnProfileComponent],

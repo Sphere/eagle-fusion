@@ -11,18 +11,10 @@ import { MatChipsModule } from '@angular/material/chips'
 
 
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
   BtnPageBackModule,
-  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -52,22 +44,14 @@ import { SharedModule } from '../../../../../author/src/lib/modules/shared/share
     MatChipsModule,
     MatIconModule,
     MatSnackBarModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,
     WidgetResolverModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
     BtnPageBackModule,
-    //PlayerBriefModule,
     SharedModule,
   ],
   exports: [

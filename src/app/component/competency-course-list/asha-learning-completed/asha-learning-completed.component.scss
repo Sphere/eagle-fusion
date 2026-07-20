@@ -1,0 +1,85 @@
+@use 'ws-mixins';
+
+:host {
+  display: block;
+}
+
+.completed-card {
+  background-color: #E8F4F2 !important;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 20px;
+  margin-inline: 24%;
+  box-shadow: 0 0 8px #0f172a14;
+
+  @include ws-mixins.breakpoint-s {
+    margin-inline: 10%;
+  }
+
+  @include ws-mixins.breakpoint-xs {
+    margin-inline: 1rem;
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  &__label {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--theme-text-soft, #6b7280);
+  }
+
+  &__title {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #111827;
+    margin: 0 0 16px 0;
+    line-height: 1.3;
+    word-break: break-word;
+
+    @include ws-mixins.breakpoint-xs {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+  }
+}
+
+.completed-check-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  color: var(--theme-progress, #4a8f7f);
+}
+
+.view-courses-btn {
+  width: 100%;
+  border-radius: 30px !important;
+  background-color: var(--theme-accent) !important;
+  color: var(--theme-on-accent, #fff) !important;
+  height: 44px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 44px;
+}
+
+::ng-deep .dark-theme {
+  .completed-card {
+    background-color: #B9DFD8 !important;
+  }
+  .view-courses-btn {
+    color: var(--theme-text) !important;
+  }
+  .completed-card__label {
+    color: var(--theme-text-disabled, #6b7280) !important;
+  }
+}

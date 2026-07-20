@@ -1,0 +1,62 @@
+<div class="asha-card" [class.collapsed]="!expanded" [class.expanded]="expanded" (click)="toggleExpand()">
+  <div class="asha-card-header">
+    <div class="asha-card-title">
+      <span class="asha-chip">{{ cardHeaderLabel | translate }}</span>
+      <h3>{{ title }}</h3>
+    </div>
+    <div class="asha-progress-badge" *ngIf="!expanded && progressPercentage > 0 && progressPercentage < 100">
+      <span class="progress-text">{{ 'COMPLETED' | translate }} {{ progressPercentage }}%</span>
+    </div>
+    <button class="expand-toggle" type="button" (click)="$event.stopPropagation(); toggleExpand()">
+      <mat-icon>{{ expanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+    </button>
+  </div>
+  <!-- Collapsed compact view: only header/title (no stepper) -->
+  <div class="asha-collapsed" *ngIf="!expanded">
+    <!-- intentionally empty: header shows chip and title; keep compact -->
+  </div>
+
+  <!-- Expanded full view -->
+  <div *ngIf="expanded" class="asha-expanded">
+    <!-- <div class="asha-progress-bar">
+      <span class="progress-label">{{ 'COMPLETED' | translate }} {{ progressPercentage }}%</span>
+      <div class="progress-track">
+        <div class="progress-fill" [style.width.%]="progressPercentage"></div>
+      </div>
+    </div> -->
+
+    <div class="levels-label">{{ 'LEVELS' | translate }}</div>
+    <div class="stepper-container" *ngIf="levels && levels.length > 0">
+      <div *ngFor="let level of levels; let i = index" class="step-wrapper">
+        <div class="step-circle" [ngClass]="{
+               'current': level.level === currentLevel,
+               'completed': completedLevels.includes(level.level)
+             }">
+          <span>{{ level.level }}</span>
+        </div>
+        <!-- <div *ngIf="i < levels.length - 1" class="step-line" [ngClass]="{
+               'completed': completedLevels.includes(level.level) && completedLevels.includes(levels[i + 1].level)
+             }"></div> -->
+      </div>
+    </div>
+
+    <div class="asha-note">
+      <p>{{ noteLabel | translate }}</p>
+    </div>
+
+    <button class="asha-action start-btn" type="button" (click)="$event.stopPropagation(); onActionClick()">
+      {{ ctaLabel | translate }}
+    </button>
+
+    <!-- <div class="asha-detail">
+      <div *ngFor="let level of levels" class="asha-detail-item">
+        <div class="detail-heading">
+          <span>{{ 'Level ' + level.level }}:</span>
+          <span>{{ level.levelName }}</span>
+        </div>
+        <p *ngIf="level.description">{{ level.description }}</p>
+        <p *ngIf="!level.description" class="detail-empty">{{ 'No details available' | translate }}</p>
+      </div>
+    </div> -->
+  </div>
+</div>

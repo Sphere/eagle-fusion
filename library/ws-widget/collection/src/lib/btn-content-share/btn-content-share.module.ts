@@ -8,10 +8,6 @@ import { MatChipsModule } from '@angular/material/chips'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatInputModule } from '@angular/material/input'
-
-
-import { UserAutocompleteModule } from '../_common/user-autocomplete/user-autocomplete.module'
-
 import { BtnContentShareComponent } from './btn-content-share.component'
 import { BtnContentShareDialogComponent } from './btn-content-share-dialog/btn-content-share-dialog.component'
 import { BtnLinkedinShareModule } from '../btn-linkedin-share/btn-linkedin-share.module'
@@ -32,7 +28,6 @@ import { BtnWhatsappShareModule } from '../btn-whatsapp-share/btn-whatsapp-share
         MatChipsModule,
         MatDialogModule,
         MatProgressSpinnerModule,
-        UserAutocompleteModule,
         BtnLinkedinShareModule,
         BtnFacebookShareModule,
         BtnTwitterShareModule,

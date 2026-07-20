@@ -1,15 +1,11 @@
 <ng-container *ngIf="content&&!references">
   <ng-container *ngIf="isCollection">
     <div class="card-collection">
-      <!-- <img loading="lazy" class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-        [wsUtilsDefaultThumbnail]="defaultThumbnail" /> -->
       <div class="width-expand">
         <div class="ml-2 text-truncate cursor-pointer 1">
           <h2 class="margin-remove text-truncate card-title">{{ content?.name }}</h2>
           <div class="flex flex-between items-center">
-            <!-- <span class="mat-body-strong">{{ resourceContentType }}</span> -->
             <span class="duration">
-              <!-- <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container> -->
               {{ content?.duration | pipeDurationTransform: 'hms' }}
             </span>
             <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
@@ -24,88 +20,7 @@
               </ng-container>
             </button>
           </div>
-          <!-- old design iteams  -->
-          <!-- <div *ngIf="hasContentStructure" class="child-meta-container">
-            <div class="child-structure">
-              <mat-icon class="structure-icon">import_contacts</mat-icon>
-              <span *ngIf="contentStructure?.course > 0">
-                <ng-container>{{ contentStructure?.course }}</ng-container>
-                <ng-container *ngIf="contentStructure?.course === 1" i18n> Course</ng-container>
-                <ng-container *ngIf="contentStructure?.course > 1" i18n> Courses</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.learningModule > 0">
-                <ng-container> {{ contentStructure?.learningModule }}</ng-container>
-                <ng-container *ngIf="contentStructure?.learningModule === 1" i18n> Module</ng-container>
-                <ng-container *ngIf="contentStructure?.learningModule > 1" i18n> Modules</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.video > 0">
-                <ng-container> {{ contentStructure?.video }}</ng-container>
-                <ng-container *ngIf="contentStructure?.video === 1" i18n> Video</ng-container>
-                <ng-container *ngIf="contentStructure?.video > 1" i18n> Videos</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.interactiveVideo > 0">
-                <ng-container> {{ contentStructure?.interactiveVideo }}</ng-container>
-                <ng-container *ngIf="contentStructure?.interactiveVideo === 1" i18n>
-                  Interactive Video</ng-container>
-                <ng-container *ngIf="contentStructure?.interactiveVideo > 1" i18n>
-                  Interactive Videos</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.youtube > 0">
-                <ng-container> {{ contentStructure?.youtube }}</ng-container>
-                <ng-container *ngIf="contentStructure?.youtube === 1" i18n> Youtube Video</ng-container>
-                <ng-container *ngIf="contentStructure?.youtube > 1" i18n> Youtube Videos</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.pdf > 0">
-                <ng-container> {{ contentStructure?.pdf }}</ng-container>
-                <ng-container *ngIf="contentStructure?.pdf === 1" i18n> PDF</ng-container>
-                <ng-container *ngIf="contentStructure?.pdf > 1" i18n> PDFs</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.podcast > 0">
-                <ng-container> {{ contentStructure?.podcast }}</ng-container>
-                <ng-container *ngIf="contentStructure?.podcast === 1" i18n> Podcast</ng-container>
-                <ng-container *ngIf="contentStructure?.podcast > 1" i18n> Podcasts</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.webModule > 0">
-                <ng-container> {{ contentStructure?.webModule }}</ng-container>
-                <ng-container *ngIf="contentStructure?.webModule === 1" i18n> Web Module</ng-container>
-                <ng-container *ngIf="contentStructure?.webModule > 1" i18n> Web Modules</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.webPage > 0">
-                <ng-container> {{ contentStructure?.webPage }}</ng-container>
-                <ng-container *ngIf="contentStructure?.webPage === 1" i18n> Web Page</ng-container>
-                <ng-container *ngIf="contentStructure?.webPage > 1" i18n> Web Pages</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.quiz > 0">
-                <ng-container *ngIf="contentStructure?.webPage > 0">, </ng-container>
-                <ng-container>{{ contentStructure?.quiz }}</ng-container>
-                <ng-container *ngIf="contentStructure?.quiz === 1" i18n> Quiz</ng-container>
-                <ng-container *ngIf="contentStructure?.quiz > 1" i18n> Quizzes</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.assessment > 0">
-                <ng-container> {{ contentStructure?.assessment }}</ng-container>
-                <ng-container *ngIf="contentStructure?.assessment === 1" i18n> Assessment</ng-container>
-                <ng-container *ngIf="contentStructure?.assessment > 1" i18n> Assessments</ng-container>
-              </span>
-              <span *ngIf="contentStructure?.other > 0">
-                <ng-container>{{ contentStructure?.other }}</ng-container>
-                <ng-container *ngIf="contentStructure?.other === 1" i18n> Other item</ng-container>
-                <ng-container *ngIf="contentStructure?.other > 1" i18n> Other Items</ng-container>
-              </span>
-            </div>
-
-          </div> -->
-
         </div>
-
-        <!-- <span class="content-top"
-          *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseChapterPercentage">
-          <img [src]="greenTickIcon" class="image" />
-        </span>
-        <ng-template #elseChapterPercentage>
-          <img [src]="redTickIcon" class="image" />
-        </ng-template> -->
-
-
       </div>
 
     </div>
@@ -118,8 +33,6 @@
 
   </ng-container>
   <div *ngIf="isResource" class="resource-container">
-    <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="content?.displayContentType">
-    </ws-widget-display-content-type-icon> -->
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
       <a style="width: 100%" class="block no-underline"
@@ -134,7 +47,6 @@
       <div class="align-rt progrss-box">
         <span class="content-check"
           *ngIf="content?.completionPercentage===100 && content?.completionStatus == 2; else elseAssesmentPercentage">
-          <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
           <mat-icon>check</mat-icon>
         </span>
         <ng-template #elseAssesmentPercentage>
@@ -157,13 +69,7 @@
         </ng-template>
       </div>
     </ng-container>
-    <!-- <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
-      loading="lazy"
-      src="{{content.posterImage ? content.posterImage : content.thumbnail? content.thumbnail : content.appIcon}}"
-      alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
-      [wsUtilsDefaultThumbnail]="defaultThumbnail" /> -->
     <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
-      <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->
       <div class="ml-2 text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
         <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock">
           <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams"
@@ -201,10 +107,6 @@
             <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
           </a>
         </ng-template>
-        <!-- <ng-template #elseRouterLock>
-
-          <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
-        </ng-template> -->
         <div class="flex flex-between items-center ">
           <div class="flex items-center">
             <ng-container *ngIf="resourceContentType">
@@ -224,7 +126,6 @@
                 <div *ngSwitchDefault>{{resourceContentType}}</div>
               </div>
             </ng-container>
-            <!-- <span class="mat-body-strong" id="video">{{ resourceContentType }}</span> -->
 
             <span class="pt-1 text-gray-500">
               <ng-container *ngIf="content?.mimeType"></ng-container>
@@ -234,7 +135,6 @@
           <div class="align-rt progrss-box">
             <span class="content-check"
               *ngIf="content?.completionPercentage===100 && content?.completionStatus == 2; else elseResourcePercentage">
-              <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
               <mat-icon>check</mat-icon>
 
             </span>
@@ -250,7 +150,6 @@
                 </circle-progress>
               </ng-container>
 
-              <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
             </ng-template>
             <ng-template #elseResourcePercentage>
               <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
@@ -264,7 +163,6 @@
                 </circle-progress>
               </ng-container>
 
-              <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
             </ng-template>
             <ng-template #elseResourseLock>
               <ng-container *ngIf="disabledNode && !content?.hideLocIcon">
@@ -276,55 +174,7 @@
         </div>
 
       </div>
-
-
-
-      <!-- <ng-container *ngIf="content?.identifier && content?.completionPercentage">
-        <ng-container *ngIf="content?.completionStatus == 2"> -->
-      <!-- <circle-progress title="Completion Percentage : {{content?.completionPercentage}}%"
-            class="flex items-center progress" [percent]="content?.completionPercentage" [radius]="12"
-            [outerStrokeWidth]="3" [innerStrokeWidth]="3" [space]="-3"
-            [outerStrokeColor]="progressColor(content?.completionPercentage)" [innerStrokeColor]="'rgba(0,0,0,.16)'"
-            [animation]="false" [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
-            [showInnerStroke]="true" [clockwise]="true" [backgroundOpacity]="0" [backgroundGradient]="false"
-            [backgroundStrokeWidth]="3" [showZeroOuterStroke]=false [backgroundPadding]="-9" [startFromZero]="false"
-            [backgroundPadding]="0" [imageHeight]="24" [imageWidth]="24" [showBackground]="false"
-            [outerStrokeLinecap]="'butt'">
-          </circle-progress> -->
-      <!-- <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview"
-                [contentId]="content?.identifier" class="progress-bar-thin" [progress]="100"
-                [progressType]="'percentage'">
-              </ws-widget-content-progress> -->
-      <!-- </ng-container>
-        <ng-container *ngIf="content?.completionStatus < 2"> -->
-      <!-- <circle-progress title="{{content?.completionPercentage}}%" class="flex items-center progress"
-            [percent]="content?.completionPercentage" [radius]="12" [outerStrokeWidth]="3" [innerStrokeWidth]="3"
-            [space]="-3" [outerStrokeColor]="progressColor(content?.completionPercentage)"
-            [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false" [animationDuration]="300" [showTitle]="false"
-            [showUnits]="false" [showSubtitle]="false" [showInnerStroke]="true" [clockwise]="true"
-            [backgroundOpacity]="0" [backgroundGradient]="false" [backgroundStrokeWidth]="3" [showZeroOuterStroke]=false
-            [backgroundPadding]="-9" [startFromZero]="false" [backgroundPadding]="0" [imageHeight]="24"
-            [imageWidth]="24" [showBackground]="false" [outerStrokeLinecap]="'butt'">
-          </circle-progress> -->
-      <!-- <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview"
-              [contentId]="content?.identifier" class="progress-bar-thin" [progress]="content?.completionPercentage"
-              [progressType]="'percentage'">
-            </ws-widget-content-progress> -->
-      <!-- </ng-container>
-      </ng-container> -->
     </div>
-    <!-- <div class="resource-meta width-expand">
-      <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
-        <h3 *ngIf="content?.displayContentType !== enumContentTypes.ASSESSMENT" class="margin-remove text-truncate">
-          {{ content?.name }}
-        </h3>
-        <h1 *ngIf="content?.displayContentType === enumContentTypes.ASSESSMENT" class="margin-remove text-truncate">
-          {{ content?.name }}
-        </h1>
-      </a>
-      <span class="mat-body-strong margin-left-xs">{{ content?.duration | pipeDurationTransform: 'time24' }}
-      </span>
-    </div> -->
   </div>
 </ng-container>
 <ng-container *ngIf="content&&references">

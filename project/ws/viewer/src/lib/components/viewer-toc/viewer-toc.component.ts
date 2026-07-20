@@ -24,8 +24,8 @@ import { of, Subscription } from 'rxjs'
 import { catchError, delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
+import { isNull, isEmpty } from 'lodash-es'
 import { PlayerStateService, buildPlayerStateForResource } from '../../player-state.service'
-import { isNull, isEmpty } from 'lodash'
 import { saveAs } from 'file-saver'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 interface IViewerTocCard {
@@ -46,6 +46,7 @@ import { HttpClient } from '@angular/common/http'
 import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { QuizService } from '../../plugins/quiz/quiz.service'
 import { CongratulationsPopupComponent } from '../../plugins/quiz/components/congratulations-popup/congratulations-popup.component'
+import { CompleteCoursesModalComponent } from '../../plugins/quiz/components/complete-courses-modal/complete-courses-modal.component'
 export type TCollectionCardType = 'content' | 'playlist' | 'goals'
 
 interface ICollectionCard {
@@ -82,6 +83,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   disabledNode: boolean
   currentContentType: any = ''
   heirarchy: any
+  isAsha = false
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -153,6 +155,15 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
       this.collectionId = params.get('collectionId')
+      // isAsha isn't always propagated onto the viewer route, so also fall back to the ASHA
+      // context on contentSvc (set when an ASHA course is launched). Validate that context
+      // against the CURRENT course (contentid === collectionId) — otherwise a stale ASHA
+      // context from a previous session would wrongly treat a normal course as ASHA and
+      // pop the CompleteCoursesModalComponent. The ASHA modal is strictly ASHA-only.
+      const ashaContext = this.contentSvc.getAshaData()
+      const ashaContextMatchesCourse = !!(ashaContext && ashaContext.isAsha &&
+        String(ashaContext.contentid) === String(this.collectionId))
+      this.isAsha = params.get('isAsha') === 'true' || ashaContextMatchesCourse
 
       if (this.collectionId) {
         localStorage.setItem('collectionId', this.collectionId)
@@ -240,6 +251,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
                 this.playerStateService.trigger$.complete()
 
+              } else if (this.isAsha) {
+                this.completeCourseNavigation()
               } else {
                 alert('No more resources to play')
                 this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -946,13 +959,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       if (confirmdialog) {
                         confirmdialog.afterClosed().subscribe((res: any) => {
                           if (res && res.event === 'CONFIRMED') {
-                            this.dialog.closeAll()
-                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                              queryParams: {
-                                primaryCategory: 'Course',
-                                batchId: this.batchId,
-                              },
-                            })
+                            this.completeCourseNavigation()
                           }
                         })
                       }
@@ -1006,13 +1013,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       if (confirmdialog) {
                         confirmdialog.afterClosed().subscribe((res: any) => {
                           if (res && res.event === 'CONFIRMED') {
-                            this.dialog.closeAll()
-                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                              queryParams: {
-                                primaryCategory: 'Course',
-                                batchId: this.batchId,
-                              },
-                            })
+                            this.completeCourseNavigation()
                           }
                         })
                       }
@@ -1021,24 +1022,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 }, delay)
               }
               if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.batchId,
-                  },
-                })
+                this.completeCourseNavigation()
               }
 
             }
           } else {
             this.logger.log(rating, optmisticPercentage)
             if (optmisticPercentage === 100) {
-              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                queryParams: {
-                  primaryCategory: 'Course',
-                  batchId: this.batchId,
-                },
-              })
+              this.completeCourseNavigation()
             }
           }
         } else {
@@ -1089,13 +1080,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       if (confirmdialog) {
                         confirmdialog.afterClosed().subscribe((res: any) => {
                           if (res && res.event === 'CONFIRMED') {
-                            this.dialog.closeAll()
-                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                              queryParams: {
-                                primaryCategory: 'Course',
-                                batchId: this.batchId,
-                              },
-                            })
+                            this.completeCourseNavigation()
                           }
                         })
                       }
@@ -1104,12 +1089,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 }, delay)
               } else {
                 if (optmisticPercentage === 100) {
-                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    queryParams: {
-                      primaryCategory: 'Course',
-                      batchId: this.batchId,
-                    },
-                  })
+                  this.completeCourseNavigation()
                 }
               }
             } else {
@@ -1349,6 +1329,150 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     const result = await dialogRef.afterClosed().toPromise()
     return !!result?.completed
+  }
+
+  /**
+   * After a course is completed and the congratulations flow is confirmed, either route to
+   * the course overview (normal courses) or, for ASHA courses, open the complete-courses
+   * modal so the learner can move to the next competency level's course.
+   */
+  private completeCourseNavigation() {
+    // ASHA is the only case that diverges: close the completion dialogs and show the
+    // complete-courses modal in the viewer. Every other (non-ASHA) case behaves exactly as
+    // before — route straight to the course overview.
+    if (this.isAsha) {
+      this.dialog.closeAll()
+      this.openAshaModal()
+      return
+    }
+    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+      queryParams: {
+        primaryCategory: 'Course',
+        batchId: this.batchId,
+      },
+    })
+  }
+
+  /**
+   * Web equivalent of the mobile app's openAshaModal: works out whether a distinct next
+   * level course exists and opens the complete-courses modal accordingly. On "start next
+   * course" it routes into that course; on "close" it returns to the ASHA home.
+   */
+  openAshaModal() {
+    const currentAshaCardData = this.contentSvc.getAshaCardData()
+    const currentAshaData = this.contentSvc.getAshaData()
+    // Without the ASHA card/progress context we can't resolve the next level — go home.
+    if (!currentAshaCardData || !currentAshaData || !currentAshaCardData.levels) {
+      this.router.navigate(['page/home'])
+      return
+    }
+    const currentLevel = Number(currentAshaData.competencylevel)
+    const currentCourse = JSON.stringify(
+      currentAshaCardData.levels.find((l: any) => Number(l.level) === currentLevel)?.course
+    )
+    // Walk forward to the next level whose course differs from the current one.
+    let nextLevel = currentLevel + 1
+    let nextData = false
+    while (nextLevel <= 5) {
+      const nextLevelData = currentAshaCardData.levels.find((l: any) => Number(l.level) === nextLevel)
+      if (!nextLevelData) {
+        break
+      }
+      if (JSON.stringify(nextLevelData.course) !== currentCourse) {
+        nextData = true
+        break
+      }
+      nextLevel++
+    }
+    const assessmentModelOpen = this.dialog.getDialogById('assessmentModel')
+    const openDilogRef = this.dialog.getDialogById('confirmModal')
+    const openCompleteCoursesModalRef = this.dialog.getDialogById('completeCoursesModal')
+    if (assessmentModelOpen) {
+      assessmentModelOpen.close()
+    }
+    if (openDilogRef) {
+      openDilogRef.close()
+    }
+    if (!openCompleteCoursesModalRef) {
+      const ashaCourses = this.dialog.open(CompleteCoursesModalComponent, {
+        id: 'completeCoursesModal',
+        width: '542px',
+        panelClass: 'assesment-modal',
+        disableClose: true,
+        data: {
+          navigateNextCourse: nextData,
+          competencyId: currentAshaData.competencyid,
+          competencyLevel: currentAshaData.competencylevel,
+          currentAshaCardData,
+          nextLevelId: nextLevel,
+        },
+      })
+      ashaCourses.afterClosed().subscribe((res: any) => {
+        if (res && res.event === 'CLOSE') {
+          this.dialog.closeAll()
+          this.router.navigate(['page/home'])
+        }
+        if (res && res.event === 'STARTNEXTCOURSE') {
+          this.navigateToNextAshaCourses(currentAshaCardData, res)
+        }
+      })
+    }
+  }
+
+  /**
+   * Resolve the next level's course id (matching competency, level and language), fetch its
+   * live batch, seed the ASHA context and navigate into that course's overview.
+   */
+  navigateToNextAshaCourses(currentAshaCardData: any, data: any) {
+    let nextCourseId: any
+    // Compare as strings — competency ids may be UUIDs, so Number() would coerce to NaN
+    // and the level lookup (and therefore the whole "start next level" navigation) fails.
+    const competencyId = data.competencyId
+    const nextLevelId = Number(data.nextLevelId)
+    const currentLang = currentAshaCardData.lang
+    if (competencyId && nextLevelId) {
+      const nextLevel = (currentAshaCardData.levels || []).find(
+        (level: any) => String(level.competencyId) === String(competencyId) && Number(level.level) === nextLevelId
+      )
+      if (nextLevel) {
+        const course = (nextLevel.course || []).find((c: any) => c.lang === currentLang)
+        // Fall back to the first course for the level if there's no exact language match.
+        nextCourseId = course ? course.id : (nextLevel.course && nextLevel.course[0] ? nextLevel.course[0].id : null)
+      }
+    }
+    if (!nextCourseId) {
+      this.router.navigate(['page/home'])
+      return
+    }
+    this.contentSvc.getFilteredCourseSearchResults(nextCourseId).subscribe((res: any) => {
+      const navigationdata = res && res.result && res.result.content ? res.result.content[0] : null
+      const batchId = navigationdata && navigationdata.batches ? navigationdata.batches[0]?.batchId : undefined
+      if (!navigationdata) {
+        this.router.navigate(['page/home'])
+        return
+      }
+      const ashaData = {
+        isAsha: true,
+        userid: this.configSvc.userProfile?.userId || '',
+        batchid: batchId,
+        contentid: navigationdata.identifier,
+        competencylevel: nextLevelId,
+        completionpercentage: 0,
+        progress: 'course',
+        competencyid: competencyId,
+      }
+      this.contentSvc.setAshaData(ashaData)
+      this.router.navigate([`/app/toc/${navigationdata.identifier}/overview`], {
+        queryParams: {
+          primaryCategory: 'course',
+          batchId,
+          competencyid: competencyId,
+          levelId: nextLevelId,
+          courseid: navigationdata.identifier,
+          isAsha: true,
+        },
+      })
+    })
   }
   /**
    * Seed playerState with the CURRENT resource's own known completion the moment we

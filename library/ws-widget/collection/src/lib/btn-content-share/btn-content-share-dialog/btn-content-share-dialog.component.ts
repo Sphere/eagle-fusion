@@ -3,23 +3,20 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
-import { NsAutoComplete } from '../../_common/user-autocomplete/user-autocomplete.model'
 import { WidgetContentShareService } from '../../_services/widget-content-share.service'
 import { NsContent } from '../../_services/widget-content.model'
-import { NsShare } from '../../_services/widget-share.model'
 import { ICommon } from '../../_models/common.model'
 import * as htmlToImage from 'html-to-image'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-btn-content-share-dialog',
-    templateUrl: './btn-content-share-dialog.component.html',
-    styleUrls: ['./btn-content-share-dialog.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-btn-content-share-dialog',
+  templateUrl: './btn-content-share-dialog.component.html',
+  styleUrls: ['./btn-content-share-dialog.component.scss'],
+
 })
 export class BtnContentShareDialogComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA, SEMICOLON]
-  users: NsAutoComplete.IUserAutoComplete[] = []
   errorType: 'NoDomain' | 'InvalidDomain' | 'None' = 'None'
   sendInProgress = false
   message = ''
@@ -70,79 +67,6 @@ export class BtnContentShareDialogComponent implements OnInit {
         link.href = dataUrl
         link.click()
       })
-  }
-
-  updateUsers(users: NsAutoComplete.IUserAutoComplete[]) {
-    if (Array.isArray(users)) {
-      this.users = users
-    }
-  }
-
-  share(txtBody: string, successToast: string) {
-    this.sendInProgress = true
-    const emails: any = []
-    for (let i = 0; i < this.users.length; i += 1) {
-      emails.push({
-        email: this.users[i].email,
-      })
-    }
-    this.shareSvc.shareContent(this.data.content, emails, txtBody).subscribe(
-      data => {
-        this.sendInProgress = false
-        if (!data.invalidIds || data.invalidIds.length === 0) {
-          this.snackBar.open(successToast)
-          this.dialogRef.close()
-        }
-        if (Array.isArray(data.invalidIds) && data.invalidIds.length > 0) {
-          const invalidMailSet = new Set(data.invalidIds)
-          if (data.response.toLowerCase() !== 'success') {
-            this.sendStatus = 'ANY'
-          }
-          if (this.users.length === invalidMailSet.size) {
-            this.sendStatus = 'INVALID_IDS_ALL'
-          } else {
-            this.sendStatus = 'INVALID_ID_SOME'
-            this.snackBar.open(successToast)
-          }
-        }
-      },
-      () => {
-        this.sendStatus = 'ANY'
-        this.sendInProgress = false
-      },
-    )
-  }
-
-  contentShare(txtBody: string, successToast: string) {
-    this.sendInProgress = true
-    this.raiseTelemetry()
-    const req: NsShare.IShareRequest = {
-      'event-id': 'share_content',
-      'tag-value-pair': {
-        '#contentTitle': this.data.content.name,
-        '#contentType': this.data.content.contentType,
-        '#message': txtBody,
-        '#targetUrl': this.detailUrl,
-      },
-      'target-data': {
-        identifier: this.data.content.identifier,
-      },
-      recipients: {
-        sharedBy: [(this.configSvc.userProfile && this.configSvc.userProfile.userId) || ''],
-        sharedWith: this.users.map(user => user.wid),
-      },
-    }
-    this.shareSvc.contentShareNew(req).subscribe(
-      _ => {
-        this.snackBar.open(successToast)
-        this.sendInProgress = false
-        this.dialogRef.close()
-      },
-      _ => {
-        this.sendStatus = 'ANY'
-        this.sendInProgress = false
-      },
-    )
   }
 
   get detailUrl() {

@@ -20,11 +20,13 @@ export interface OrgThemeColors {
   textonAccent?: string
   suceess?: string
   progress?: string
+  inprogress?: string
   danger?: string
   border?: string
   shadow?: string
   warning?: string
-  black?: string,
+  fail?: string
+  black?: string
   ellipse?: string
 }
 export interface OrgThemeConfig {
@@ -48,10 +50,12 @@ const CSS_VAR_MAP: Record<keyof OrgThemeColors, CssVarEntry> = {
   textonAccent: { cssVar: '--theme-on-accent' },
   suceess: { cssVar: '--theme-success' },
   progress: { cssVar: '--theme-progress' },
+  inprogress: { cssVar: '--theme-inprogress' },
   danger: { cssVar: '--theme-error' },
   border: { cssVar: '--theme-border' },
   shadow: { cssVar: '--theme-shadow' },
   warning: { cssVar: '--theme-warning' },
+  fail: { cssVar: '--theme-fail' },
   black: { cssVar: '--theme-black' },
   ellipse: { cssVar: '--theme-ellipse' },
 }
@@ -85,10 +89,12 @@ export class ThemeService {
     "textonAccent": "#ffffff",
     "suceess": "#89c575",
     "progress": "#469788",
+    "inprogress": "#F9F487",
     "danger": "#951c1c",
     "border": "#1c5d951f",
     "shadow": "#0f172a14",
     "warning": "#E0BE80",
+    "fail": "#ce9a39",
     "black": "#000000",
     "ellipse": "#E7F2FA",
   }

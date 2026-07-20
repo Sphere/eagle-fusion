@@ -64,6 +64,8 @@ const mockConfigSvc: Partial<ConfigurationsService> = {
 
 const mockPlaylistSvc: Partial<PlaylistService> = {
   getPlaylistConfig: jest.fn().mockResolvedValue([]),
+  showDetails: signal(false),
+  selectedProgram: signal<any | null>({}),
 }
 
 const mockLangSvc: Partial<LanguageService> = {
@@ -110,6 +112,8 @@ describe('WebPublicComponent', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     isMobileSignal.set(false)
+    mockPlaylistSvc.showDetails!.set(false)
+    mockPlaylistSvc.selectedProgram!.set({})
     ;(mockPlaylistSvc.getPlaylistConfig as jest.Mock).mockResolvedValue([])
     component = createComponent()
     component.sections = { find: jest.fn().mockReturnValue(null) } as any
@@ -142,248 +146,103 @@ describe('WebPublicComponent', () => {
     })
   })
 
-  // ─── buildCompetencySearchArray ────────────────────────────────────────────
+  // ─── normalizeCompetencyPayload ────────────────────────────────────────────
 
-  describe('buildCompetencySearchArray', () => {
-    it('should return [] for null input', () => {
-      expect(component.buildCompetencySearchArray(null as any)).toEqual([])
+  describe('normalizeCompetencyPayload', () => {
+    it('should return [] for null or undefined input', () => {
+      expect(component.normalizeCompetencyPayload(null)).toEqual([])
+      expect(component.normalizeCompetencyPayload(undefined)).toEqual([])
     })
 
-    it('should return [] for undefined input', () => {
-      expect(component.buildCompetencySearchArray(undefined as any)).toEqual([])
+    it('should return an already normalized array unchanged', () => {
+      const payload = [{ id: 'C1', levels: [{ level: 1 }] }]
+      expect(component.normalizeCompetencyPayload(payload)).toBe(payload)
     })
 
-    it('should return [] for empty array', () => {
-      expect(component.buildCompetencySearchArray([])).toEqual([])
+    it('should keep normalized items inside a mixed array', () => {
+      const normalized = { id: 'C1', levels: [] }
+      const payload = [{ notNormalized: true }, normalized]
+      const result = component.normalizeCompetencyPayload(payload)
+      expect(result).toContainEqual(expect.objectContaining({ id: 'C1' }))
     })
 
-    it('should return [] when competency has no id', () => {
-      const payload = [{ comp1: { additionalProperties: { competencyLevelDescription: [{ level: 1 }] } } }]
-      expect(component.buildCompetencySearchArray(payload)).toEqual([])
-    })
-
-    it('should return [] when there are no levelDescriptions', () => {
-      const payload = [{ comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [] } } }]
-      expect(component.buildCompetencySearchArray(payload)).toEqual([])
-    })
-
-    it('should return "id-level" strings for each level', () => {
+    it('should map keyed competency objects inside an array', () => {
       const payload = [{
         comp1: {
           id: 'C1',
-          additionalProperties: {
-            competencyLevelDescription: [{ level: 1 }, { level: 2 }],
-          },
+          name: 'Communication',
+          additionalProperties: { competencyLevelDescription: [{ level: 1 }] },
+          learnerPathProgress: [{ levelId: 1 }],
         },
       }]
-      expect(component.buildCompetencySearchArray(payload)).toEqual(['C1-1', 'C1-2'])
+      expect(component.normalizeCompetencyPayload(payload)).toEqual([{
+        id: 'C1',
+        title: 'Communication',
+        levels: [{ level: 1 }],
+        progress: [{ levelId: 1 }],
+      }])
     })
 
-    it('should aggregate across multiple competency objects in the array', () => {
-      const payload = [
-        {
-          comp1: {
-            id: 'C1',
-            additionalProperties: { competencyLevelDescription: [{ level: 1 }] },
-          },
-        },
-        {
-          comp2: {
-            id: 'C2',
-            additionalProperties: { competencyLevelDescription: [{ level: 3 }] },
-          },
-        },
-      ]
-      expect(component.buildCompetencySearchArray(payload)).toEqual(['C1-1', 'C2-3'])
+    it('should fall back to the object key when the competency has no id', () => {
+      const payload = [{ comp1: { name: 'No Id' } }]
+      const result = component.normalizeCompetencyPayload(payload)
+      expect(result[0].id).toBe('comp1')
+      expect(result[0].levels).toEqual([])
     })
 
-    it('should skip level entries that have no level value', () => {
-      const payload = [{
-        comp1: {
-          id: 'C1',
-          additionalProperties: {
-            competencyLevelDescription: [{ level: 0 }, { level: 2 }],
-          },
-        },
-      }]
-      // level 0 is falsy → skipped
-      expect(component.buildCompetencySearchArray(payload)).toEqual(['C1-2'])
+    it('should skip non-object array items', () => {
+      expect(component.normalizeCompetencyPayload([null, 'text'])).toEqual([])
     })
 
-    it('should handle missing additionalProperties gracefully', () => {
-      const payload = [{ comp1: { id: 'C1' } }]
-      expect(component.buildCompetencySearchArray(payload)).toEqual([])
+    it('should map a plain keyed object payload', () => {
+      const payload = {
+        comp1: { competencyId: 'C9', competencyName: 'Nutrition', levels: [{ level: 2 }] },
+      }
+      expect(component.normalizeCompetencyPayload(payload)).toEqual([{
+        id: 'C9',
+        title: 'Nutrition',
+        levels: [{ level: 2 }],
+        progress: undefined,
+      }])
+    })
+
+    it('should return [] for non-object primitives', () => {
+      expect(component.normalizeCompetencyPayload('text')).toEqual([])
+      expect(component.normalizeCompetencyPayload(42)).toEqual([])
     })
   })
 
-  // ─── recommendedCourse ─────────────────────────────────────────────────────
+  // ─── ngOnInit program details view ─────────────────────────────────────────
 
-  describe('recommendedCourse', () => {
-    it('should return [] for empty input', () => {
-      expect(component.recommendedCourse([])).toEqual([])
-    })
-
-    it('should filter out items without identifier', () => {
-      const data = [{ name: 'No ID' }, { identifier: 'id1', name: 'Course 1', appIcon: 'icon', posterImage: 'poster', sourceName: 'src', issueCertification: false, averageRating: 4, competency: [] }]
-      const result = component.recommendedCourse(data)
-      expect(result).toHaveLength(1)
-      expect(result[0].identifier).toBe('id1')
-    })
-
-    it('should prefer posterImage over thumbnail', () => {
-      const data = [{ identifier: 'id1', posterImage: 'poster.png', thumbnail: 'thumb.png' }]
-      const result = component.recommendedCourse(data)
-      expect(result[0].thumbnail).toBe('poster.png')
-    })
-
-    it('should fall back to thumbnail when posterImage is absent', () => {
-      const data = [{ identifier: 'id1', thumbnail: 'thumb.png' }]
-      const result = component.recommendedCourse(data)
-      expect(result[0].thumbnail).toBe('thumb.png')
-    })
-
-    it('should map all required fields', () => {
-      const data = [{
-        identifier: 'id1',
-        appIcon: 'icon.png',
-        posterImage: 'poster.png',
-        name: 'Test Course',
-        sourceName: 'Source',
-        issueCertification: true,
-        averageRating: 4.5,
-        competency: ['comp1'],
-      }]
-      const result = component.recommendedCourse(data)
-      expect(result[0]).toEqual({
-        identifier: 'id1',
-        appIcon: 'icon.png',
-        thumbnail: 'poster.png',
-        name: 'Test Course',
-        sourceName: 'Source',
-        issueCertification: true,
-        averageRating: 4.5,
-        competency: ['comp1'],
-      })
-    })
-  })
-
-  // ─── processRecommendedCourses ─────────────────────────────────────────────
-
-  describe('processRecommendedCourses', () => {
-    const makeCourse = (id: string, src: string) => ({
-      identifier: id,
-      name: `Course ${id}`,
-      sourceName: src,
-      appIcon: '',
-      posterImage: '',
-      issueCertification: false,
-      averageRating: 0,
-      competency: [],
-    })
-
-    it('should return [] for empty course list', () => {
-      expect(component.processRecommendedCourses([], ['Src'], [])).toEqual([])
-    })
-
-    it('should filter out enrolled courses', () => {
-      const courses = [makeCourse('c1', 'Src'), makeCourse('c2', 'Src')]
-      const result = component.processRecommendedCourses(courses, ['Src'], ['c1'])
-      expect(result.map(r => r.identifier)).toEqual(['c2'])
-    })
-
-    it('should filter out courses not in requiredSourceName', () => {
-      const courses = [makeCourse('c1', 'OtherSrc'), makeCourse('c2', 'AllowedSrc')]
-      const result = component.processRecommendedCourses(courses, ['AllowedSrc'], [])
-      expect(result.map(r => r.identifier)).toEqual(['c2'])
-    })
-
-    it('should deduplicate by identifier', () => {
-      const courses = [makeCourse('c1', 'Src'), makeCourse('c1', 'Src')]
-      const result = component.processRecommendedCourses(courses, ['Src'], [])
-      expect(result).toHaveLength(1)
-    })
-
-    it('should return [] when no sourceNames match', () => {
-      const courses = [makeCourse('c1', 'Src')]
-      expect(component.processRecommendedCourses(courses, [], [])).toEqual([])
-    })
-
-    it('should pass all filters and return matching courses', () => {
-      const courses = [makeCourse('c1', 'Src'), makeCourse('c2', 'Src'), makeCourse('c3', 'Other')]
-      const result = component.processRecommendedCourses(courses, ['Src'], ['c1'])
-      expect(result.map(r => r.identifier)).toEqual(['c2'])
-    })
-  })
-
-  // ─── searchContentByCompetencies$ ─────────────────────────────────────────
-
-  describe('searchContentByCompetencies$', () => {
-    it('should return of([]) when competencySearchArray is empty', done => {
-      component.searchContentByCompetencies$({}, [], [], []).subscribe(result => {
-        expect(result).toEqual([])
-        done()
-      })
-    })
-
-    it('should return of([]) when competencySearchArray is not an array', done => {
-      component.searchContentByCompetencies$({}, null as any, [], []).subscribe(result => {
-        expect(result).toEqual([])
-        done()
-      })
-    })
-
-    it('should call contentSvc.getCouseByContentSearch with correct args', done => {
-      const fakeContent = [{ identifier: 'c1', sourceName: 'Src' }]
-      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(
-        of({ result: { content: fakeContent } })
+  describe('ngOnInit selected program view', () => {
+    it('short-circuits into the competency view for a competency program', async () => {
+      mockPlaylistSvc.showDetails!.set(true)
+      mockPlaylistSvc.selectedProgram!.set({ type: 'competency', payload: ['c1'] })
+      const localComponent = createComponent()
+      localComponent.sections = { find: jest.fn().mockReturnValue(null) } as any
+      localComponent.programConfig = { tabs: [] }
+      await localComponent.ngOnInit()
+      expect(localComponent.isCompetencyUser()).toBe(true)
+      expect(localComponent.competencyPlaylists()[0]).toEqual(
+        expect.objectContaining({ playlistId: 'COMPETENCY_PLAYLIST', type: 'competency' })
       )
-      const searchArray = ['C1-1']
-      const baseQuery = { request: { filters: { sourceName: ['Src'] } } }
-
-      component.searchContentByCompetencies$(baseQuery, searchArray, ['Src'], []).subscribe(() => {
-        expect(mockContentSvc.getCouseByContentSearch).toHaveBeenCalledWith(
-          searchArray,
-          true,
-          expect.objectContaining({
-            request: expect.objectContaining({
-              filters: expect.objectContaining({ competencySearch: searchArray }),
-            }),
-          })
-        )
-        done()
-      })
+      expect(localComponent.competencySection).toEqual({ text: 'YOUR LEARNING PLAN', tabCardCount: 4 })
+      expect(localComponent.isLoading()).toBe(false)
     })
 
-    it('should map content through processRecommendedCourses', done => {
-      const fakeContent = [{ identifier: 'c1', sourceName: 'Src' }]
-      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(
-        of({ result: { content: fakeContent } })
-      )
-      jest.spyOn(component, 'processRecommendedCourses').mockReturnValue([{ identifier: 'c1' }] as any)
-
-      component.searchContentByCompetencies$({}, ['C1-1'], ['Src'], []).subscribe(result => {
-        expect(component.processRecommendedCourses).toHaveBeenCalled()
-        expect(result).toEqual([{ identifier: 'c1' }])
-        done()
-      })
-    })
-
-    it('should return [] and not throw on API error', done => {
-      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(
-        throwError(() => new Error('Network error'))
-      )
-      component.searchContentByCompetencies$({}, ['C1-1'], ['Src'], []).subscribe(result => {
-        expect(result).toEqual([])
-        done()
-      })
-    })
-
-    it('should handle missing result.content gracefully', done => {
-      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: {} }))
-      component.searchContentByCompetencies$({}, ['C1-1'], ['Src'], []).subscribe(result => {
-        expect(result).toEqual([])
-        done()
-      })
+    it('loads program tabs and identifiers for a non-competency program', async () => {
+      mockPlaylistSvc.showDetails!.set(true)
+      mockPlaylistSvc.selectedProgram!.set({ type: 'course', payload: ['p1'] })
+      const localComponent = createComponent()
+      localComponent.sections = { find: jest.fn().mockReturnValue(null) } as any
+      localComponent.programConfig = { tabs: [{ playlistConfigId: 'X' }] }
+      const fetchSpy = jest
+        .spyOn(localComponent as any, 'fetchEnvironmentConfigurations')
+        .mockImplementation(() => {})
+      await localComponent.ngOnInit()
+      expect(localComponent.uiConfig()).toEqual([{ playlistConfigId: 'X' }])
+      expect(localComponent.programIdentifiers).toEqual(['p1'])
+      expect(fetchSpy).toHaveBeenCalled()
     })
   })
 
@@ -673,9 +532,10 @@ describe('WebPublicComponent', () => {
       expect(mockPlaylistSvc.getPlaylistConfig).not.toHaveBeenCalled()
     })
 
-    it('should fetch playlist config when userProfile is present', async () => {
+    it('should fetch playlist config when userProfile is present and configData is an array', async () => {
       ;(mockConfigSvc as any).userProfile = { rootOrgId: 'org1' }
       ;(mockPlaylistSvc.getPlaylistConfig as jest.Mock).mockResolvedValue([])
+      component.configData = [{}, {}, {}]
       jest.spyOn(component as any, 'handleCompetencyFlow').mockImplementation(() => {})
 
       await component.ngOnInit()
@@ -827,6 +687,8 @@ describe('WebPublicComponent', () => {
     beforeEach(() => {
       jest.useFakeTimers()
       ;(mockConfigSvc as any).userProfile = { rootOrgId: 'org1' }
+      // The playlist loop only runs when configData is an array (slice(1, -1) drops the edges)
+      component.configData = [{}, {}, {}]
     })
 
     afterEach(() => {
@@ -891,97 +753,68 @@ describe('WebPublicComponent', () => {
   // ─── handleCompetencyFlow internals ───────────────────────────────────────
 
   describe('handleCompetencyFlow', () => {
-    beforeEach(() => {
-      jest.useFakeTimers()
-    })
+    const competencyPlaylist = {
+      orgId: 'org1',
+      language: 'en',
+      role: ['doctor'],
+      playlistId: 'COMPETENCY_PLAYLIST',
+      dataSource: { payload: [{ comp1: { id: 'C1' } }] },
+    }
+    const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
 
-    afterEach(() => {
-      jest.useRealTimers()
-    })
-
-    it('should set isLoading false and return when no competency array', () => {
+    it('returns false and leaves the flow untouched when no competency playlist matches', () => {
       component['plyLsData'] = []
-      ;(component as any).handleCompetencyFlow('org1', () => false)
+      const result = (component as any).handleCompetencyFlow('org1', () => false)
+      expect(result).toBe(false)
+      expect(component.isCompetencyUser()).toBe(false)
+    })
+
+    it('returns false when the playlist matches but the role check fails', () => {
+      component['plyLsData'] = [competencyPlaylist]
+      const result = (component as any).handleCompetencyFlow('org1', () => false)
+      expect(result).toBe(false)
+    })
+
+    it('returns false when the playlist is for another org', () => {
+      component['plyLsData'] = [{ ...competencyPlaylist, orgId: 'other-org' }]
+      expect((component as any).handleCompetencyFlow('org1', roleCheck)).toBe(false)
+    })
+
+    it('matches regardless of playlist language (language condition removed for competency flow)', () => {
+      component['plyLsData'] = [{ ...competencyPlaylist, language: 'hi' }]
+      expect((component as any).handleCompetencyFlow('org1', roleCheck)).toBe(true)
+    })
+
+    it('activates the competency view when a playlist matches org, language, and role', () => {
+      ;(mockConfigSvc as any).unMappedUser = {
+        profileDetails: { profileReq: { professionalDetails: [{ designation: 'Doctor' }] } },
+      }
+      component['plyLsData'] = [competencyPlaylist]
+      const result = (component as any).handleCompetencyFlow('org1', roleCheck)
+      expect(result).toBe(true)
+      expect(component.isCompetencyUser()).toBe(true)
+      expect(component.competencyPlaylists()[0]).toEqual(
+        expect.objectContaining({ playlistId: 'COMPETENCY_PLAYLIST' })
+      )
+      expect(component.competencyDesignation).toBe('Doctor')
+      expect(component.competencyRole).toBe('learner')
       expect(component.isLoading()).toBe(false)
+      ;(mockConfigSvc as any).unMappedUser = null
     })
 
-    it('should process COMPETENCY_PLAYLIST and build search array', () => {
-      const competencyPayload = [{
-        comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
-      }]
-      component['plyLsData'] = [{
-        orgId: 'org1', role: ['doctor'],
-        playlistId: 'COMPETENCY_PLAYLIST',
-        dataSource: { payload: competencyPayload },
-      }]
-      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
-      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
-      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
+    it('prefers the COMPETENCY_PLAYLIST section from uiConfig over the default', () => {
+      const section = { playlistConfigId: 'COMPETENCY_PLAYLIST', text: 'Custom', tabCardCount: 6 }
+      component.uiConfig.set([section])
+      component['plyLsData'] = [competencyPlaylist]
       ;(component as any).handleCompetencyFlow('org1', roleCheck)
-      expect(mockContentSvc.getCouseByContentSearch).toHaveBeenCalled()
+      expect(component.competencySection).toBe(section)
     })
 
-    it('should process SEARCH_PLAYLIST and set base query', () => {
-      component['plyLsData'] = [{
-        orgId: 'org1', role: ['doctor'],
-        playlistId: 'SEARCH_PLAYLIST',
-        dataSource: { payload: { request: { filters: { sourceName: ['Src'] } } } },
-      }, {
-        orgId: 'org1', role: ['doctor'],
-        playlistId: 'COMPETENCY_PLAYLIST',
-        dataSource: { payload: [{
-          comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
-        }] },
-      }]
-      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
-      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
-      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
+    it('falls back to the default section when uiConfig has none', () => {
+      component.uiConfig.set([])
+      component['plyLsData'] = [competencyPlaylist]
       ;(component as any).handleCompetencyFlow('org1', roleCheck)
-      expect(mockContentSvc.getCouseByContentSearch).toHaveBeenCalled()
-    })
-
-    it('should run filter callback on userEnrollCourse items (lines 141-142)', () => {
-      component.userEnrollCourse = [
-        { content: { identifier: 'c1', competency: null } },
-        { content: { identifier: 'c2', competency: ['comp'] } },
-        { content: {} },
-      ]
-      component['plyLsData'] = []
-      ;(component as any).handleCompetencyFlow('org1', () => false)
-      expect(component.isLoading()).toBe(false)
-    })
-
-    it('should set coursesForYou and call updateCourseData after subscribe', () => {
-      const competencyPayload = [{
-        comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
-      }]
-      component['plyLsData'] = [{
-        orgId: 'org1', role: ['doctor'],
-        playlistId: 'COMPETENCY_PLAYLIST',
-        dataSource: { payload: competencyPayload },
-      }]
-      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: { content: [] } }))
-      const updateSpy = jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
-      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
-      ;(component as any).handleCompetencyFlow('org1', roleCheck)
-      expect(updateSpy).toHaveBeenCalled()
-    })
-
-    it('covers filter and map callbacks on line 177 when coursesForYou is non-empty', () => {
-      const competencyPayload = [{
-        comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } },
-      }]
-      component['plyLsData'] = [{
-        orgId: 'org1', role: ['doctor'],
-        playlistId: 'COMPETENCY_PLAYLIST',
-        dataSource: { payload: competencyPayload },
-      }]
-      ;(mockContentSvc.getCouseByContentSearch as jest.Mock).mockReturnValue(of({ result: { content: [{ identifier: 'c1' }] } }))
-      jest.spyOn(component, 'processRecommendedCourses').mockReturnValue([{ identifier: 'c1' }] as any)
-      jest.spyOn(component, 'updateCourseData').mockImplementation(() => {})
-      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === 'doctor')
-      ;(component as any).handleCompetencyFlow('org1', roleCheck)
-      expect(component.yourPlansCourseIdentifier).toEqual(['c1'])
+      expect(component.competencySection).toEqual({ text: 'YOUR LEARNING PLAN', tabCardCount: 4 })
     })
   })
 
@@ -1037,6 +870,23 @@ describe('WebPublicComponent', () => {
         expect.arrayContaining(['top1', 'plan1']),
         'en',
       )
+    })
+  })
+
+  describe('program details view', () => {
+    it('showbackButton mirrors the playlist showDetails signal', () => {
+      component = createComponent()
+      mockPlaylistSvc.showDetails!.set(true)
+      expect(component.showbackButton()).toBe(true)
+      mockPlaylistSvc.showDetails!.set(false)
+      expect(component.showbackButton()).toBe(false)
+    })
+
+    it('backScreen resets the playlist showDetails signal', () => {
+      component = createComponent()
+      mockPlaylistSvc.showDetails!.set(true)
+      component.backScreen()
+      expect(mockPlaylistSvc.showDetails!()).toBe(false)
     })
   })
 })

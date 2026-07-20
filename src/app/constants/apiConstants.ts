@@ -98,11 +98,15 @@ export const API_END_POINTS = {
   LOGIN_USER: `${PUBLIC_SLAG_V8}/emailMobile/auth`,
   FETCH_USER_ENROLLMENT_LIST_COMP: (userId: string | undefined) =>
     `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+  FETCH_USER_ENROLLMENT_LIST_PROGRESS: (userId: string | undefined) =>
+    // eslint-disable-next-line max-len
+    `apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license,sourceName,cneName,competency,averageRating&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates,competency&v=${Date.now()}`,
+  // `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license,sourceName,cneName,competency,averageRating&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates,competency`,
+
   FETCH_GENERAL_RC_CERTIFICATE: () =>
-    // tslint:disable-next-line: max-line-length
     `${PROTECTED_SLAG_V8}/rcCert/user/enrollment/list/adhocCertificates?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  // CONTENT_READ: (id: string) => `${PROXY_SLAG_V8}/action/content/v3/read/${id}`,
-  // CONTENT_HIERARCHY: (contentId: string, type: string) => `${PROXY_SLAG_V8}/action/content/v3/hierarchy/${contentId}?hierarchyType=${type}`,
+  GET_ASHA_PROGRESS: (userId: string) => `${PROTECTED_SLAG_V8}/learnerpath?userId=${userId}`,
+  UPDATE_ASHA_PROGRESS: `${PROTECTED_SLAG_V8}/learnerpath`,
   BATCH_CERT_ISSUE: `${PROXY_SLAG_V8}/course/batch/cert/v1/issue/`,
   DOWNLOAD_CERTIFICATE: (certificateId: string) => `${PROXY_SLAG_V8}/certreg/v2/certs/download/${certificateId}`,
   FETCH_USER_ENROLLMENT_LIST_CERT: (userId: string | undefined) =>

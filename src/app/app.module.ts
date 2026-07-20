@@ -2,8 +2,7 @@ import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overl
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
 import { CommonModule } from '@angular/common'
 import {
-  HTTP_INTERCEPTORS, HttpClient, HttpClientModule,
-  // provideHttpClient, withInterceptorsFromDi, withJsonpSupport
+  HTTP_INTERCEPTORS, HttpClient, HttpClientModule
 } from '@angular/common/http'
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
@@ -107,6 +106,7 @@ import { AppCallBackComponent } from './component/app-call-back/app-call-back.co
 import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
 import { UserAgentResolverService } from './services/user-agent.service'
 import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
+import { AshaLearningCardComponent } from './routes/asha-learning/asha-learning-card.component'
 import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.component'
 import { AppPublicNavBarComponent } from './component/app-public-nav-bar/app-public-nav-bar.component'
 import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trusted-by-page.component'
@@ -140,6 +140,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
 import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
 import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
 import { RouterModule } from '@angular/router'
+import { CompetencyCourseListModule } from './component/competency-course-list/competency-course-list.module'
+import { ProgramHome } from './program/program-home/program-home'
 
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
   try {
@@ -301,6 +303,9 @@ export function initTranslate(translate: TranslateService) {
     BnrcmodalComponent,
     WebNavLinkPageComponent,
     WebPublicComponent,
+    AshaLearningCardComponent,
+    ProgramHome,
+    // SearchRootComponent
     WebDashboardComponent,
     AppPublicNavBarComponent,
     WebTrustedByPageComponent,
@@ -353,6 +358,7 @@ export function initTranslate(translate: TranslateService) {
     MatTooltipModule,
     SearchModule,
     BtnFeatureModule,
+    CompetencyCourseListModule,
     PublicHomeModule,
     PublicBlogModule,
     PipeSafeSanitizerModule,

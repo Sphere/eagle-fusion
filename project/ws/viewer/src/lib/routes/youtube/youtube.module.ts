@@ -9,16 +9,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
 } from '@ws-widget/collection'
 
 import {
@@ -37,12 +30,7 @@ import { YoutubeModule as YoutubeViewContainerModule } from '../../route-view-co
   declarations: [YoutubeComponent],
   imports: [
     RouterModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     CommonModule,
     DisplayContentTypeModule,
     MatCardModule,
@@ -54,8 +42,6 @@ import { YoutubeModule as YoutubeViewContainerModule } from '../../route-view-co
     PipePartialContentModule,
     UserImageModule,
     WidgetResolverModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
     YoutubeViewContainerModule,
   ],
 })

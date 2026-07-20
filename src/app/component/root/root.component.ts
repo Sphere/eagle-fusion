@@ -10,6 +10,7 @@ import {
   effect,
   HostListener,
   Signal,
+  computed,
   Inject,
   PLATFORM_ID,
 } from '@angular/core'
@@ -111,6 +112,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   domain: string
   bodyConfig: any
   footerConfig: any
+  programConfig: any
+  // programSec: boolean = false
+  showProgramDet = computed(() => this.playlistSvc.showDetails())
+  hasProgramConfig = false
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -494,8 +499,14 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
       const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
+      this.programConfig = this.playlistSvc.programs()
+      this.hasProgramConfig = !!this.programConfig && Object.keys(this.programConfig).length > 0
+      // Reset details page only when program config exists
+      if (this.hasProgramConfig) {
+        this.playlistSvc?.showDetails.set(false)
+      }
       this.configData = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
-      this.bodyConfig = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
+      this.bodyConfig = this.configData
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
       this.showNavbar = true
       this.videoData = this.configData?.[this.configData?.length - 1]
@@ -549,6 +560,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isNavBarRequired = this.router.url.includes('/page/home') ?? true
         } else {
           this.isHomePage = false
+          if (this.playlistSvc.showDetails()) {
+            this.playlistSvc.showDetails.set(false)
+          }
         }
         if (this.router.url.includes('/public/home')) {
           this.showNavigation = true
@@ -706,10 +720,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private buildEnrolledCourses(res: any): any[] {
     const myCourse: any[] = []
+    console.log('[RootComponent] Raw API response sample:', res?.[0])
     res.forEach((key: any) => {
       if (key?.content?.identifier) {
         myCourse.push({
           identifier: key.content.identifier,
+          courseId: key.content.courseId || key.courseId,
+          contentId: key.content.contentId || key.contentId,
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
@@ -722,6 +739,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       }
     })
+    console.log('[RootComponent] Built enrolled courses:', myCourse.length, 'courses')
     return myCourse
   }
 

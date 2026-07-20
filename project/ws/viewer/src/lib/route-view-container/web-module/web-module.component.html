@@ -42,36 +42,8 @@
       <div class="vidoe-title margin-top-m" *ngIf="webmoduleData">
         <mat-card *ngIf="isSmall" class="unit-meta-item">
           <div class="flex">
-            <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
-                                                                        webmoduleData
-                                                                          | pipePartialContent
-                                                                            : [
-                                                                                'identifier',
-                                                                                'contentType',
-                                                                                'resourceType',
-                                                                                'mimeType',
-                                                                                'downloadUrl',
-                                                                                'isExternal',
-                                                                          'artifactUrl'
-                                                                              ]
-                                                                      "></ws-widget-btn-content-download> -->
-            <!-- <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="{ identifier: collectionIdentifier} ">
-            </ws-widget-btn-content-like> -->
             <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="webmoduleData">
             </ws-widget-btn-content-share>
-            <!-- <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
-            <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
-                                                                      contentId: webmoduleData?.identifier,
-                                                                      contentName: webmoduleData?.name,
-                                                                      contentType: 'Course',
-                                                                      mode: 'dialog',
-                                                                      isDisabled: isPreview
-                                                                    }"></ws-widget-btn-playlist>
-            <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview" [widgetData]="{
-                                                                          identifier: webmoduleData?.identifier,
-                                                                          name: webmoduleData?.name,
-                                                                          isDisabled: isPreview
-                                                                        }"></ws-widget-btn-content-feedback-v2> -->
           </div>
         </mat-card>
       </div>

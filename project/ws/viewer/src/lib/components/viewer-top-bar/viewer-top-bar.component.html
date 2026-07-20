@@ -3,73 +3,12 @@
     <a [routerLink]="'/app'+'/toc/' + collectionId + '/chapters'" class="d-flex justify-content-end text-black ">
       <mat-icon class="">chevron_left</mat-icon>
     </a>
-    <!-- <a *ngIf="logo" href="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper ">
-    <img *ngIf="appIcon" src="/fusion-assets/icons/logo.png" alt="Application Logo" id="app-logo"
-      class="viewer-app-logo" />
-  </a> -->
-    <!-- <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
-      url: isTypeOfCollection
-        ? collectionType === 'Playlist'
-          ? '/app/playlist/me/' + collectionId
-          : (forPreview ? '/author' : '/app') + '/toc/' + collectionId + '/overview'
-        : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview',
-      titles: [],
-      queryParams : isTypeOfCollection
-      ? collectionType === 'Playlist'
-        ? {}
-        : {}
-      : {primaryCategory: resourcePrimaryCategory}
-    }" [playerScreen]='true'></ws-widget-btn-page-back> -->
-    <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
-  <ws-widget-btn-page-back *ngIf="!forChannel" [widgetData]="{
-      url: isTypeOfCollection
-        ? collectionType === 'Playlist'
-          ? '/app/playlist/me/' + collectionId
-          : (forPreview ? '/author' : '/app') + '/toc/' + collectionId + '/overview'
-        : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview'
-    }"></ws-widget-btn-page-back>
-  <mat-icon style="cursor: pointer;" (click)="back()" *ngIf="forChannel">arrow_back</mat-icon> -->
 
-    <!-- <img *ngIf="!isAuthor && collection?.appIcon" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo"
-    id="banner-logo" /> -->
     <span *ngIf="logo" class="top-title text-left width-1-8 text-truncate">
       {{ collection?.name }}
     </span>
     <span class="header-spacer"></span>
     <div class="flex justify-center mt-0" style="position: absolute;right: 51px;top: 16px;">
-      <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
-      pdfData
-        | pipePartialContent
-          : [
-              'identifier',
-              'contentType',
-              'resourceType',
-              'mimeType',
-              'downloadUrl',
-              'isExternal',
-      'artifactUrl'
-            ]
-    "></ws-widget-btn-content-download> -->
-      <!-- screenContent ==>{{ obj| json}} -->
-      <!-- <ws-widget-btn-content-like [forPreview]="forPreview" *ngIf="collection" [widgetData]="{
-      identifier: collectionIdentifier,
-      isDisabled: isPreview
-    }"></ws-widget-btn-content-like> -->
-      <!-- <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="collection" [isDisabled]="isPreview">
-      </ws-widget-btn-content-share> -->
-      <!-- <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
-    <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
-      contentId: collection?.identifier,
-      contentName: collection?.name,
-      contentType: 'Course',
-      mode: 'dialog',
-      isDisabled: isPreview
-    }"></ws-widget-btn-playlist>
-    <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview" [widgetData]="{
-      identifier: collection?.identifier,
-      name: collection?.name,
-      isDisabled: isPreview
-    }"></ws-widget-btn-content-feedback-v2> -->
 
       <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
         [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)"></ws-widget-btn-fullscreen>
@@ -83,11 +22,6 @@
           <mat-icon class="">chevron_left</mat-icon>
         </a>
         <div class="" style="position: absolute;right: 51px;top: 16px;">
-          <!-- <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="collection" [isDisabled]="isPreview"> -->
-          <!-- </ws-widget-btn-content-share> -->
-          <!-- <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
-            [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)">
-          </ws-widget-btn-fullscreen> -->
         </div>
       </div>
 
@@ -96,11 +30,5 @@
       </h3>
     </div>
 
-
-    <!-- <span class="header-spacer"></span> -->
-
   </ng-container>
-  <!--<a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" (click)="toggleSideBar()" accesskey="M">
-    <mat-icon [ngClass]="logo ? 'hidden' : 'xsmall'">menu</mat-icon>
-  </a>-->
 </mat-toolbar>

@@ -1,0 +1,404 @@
+// ── PROGRAMS section label with teal divider ─────────────────────────────────
+@use 'ws-mixins';
+.px-4 { padding: 0 16px; }
+
+.line-label {
+  position: relative;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.line-label::before,
+.line-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(147, 218, 231, 1);
+}
+
+.line-label span {
+  position: relative;
+  display: inline-block;
+  padding: 0 15px;
+  background: rgba(220, 250, 255, 1);
+  z-index: 9;
+  color: #4b4b4b;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 28.8px;
+  font-family: 'Roboto';
+  text-transform: uppercase;
+}
+
+// ── Program cards container ───────────────────────────────────────────────────
+.program-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+  background-color: var(--theme-bg);
+}
+
+.line-label {
+  position: relative;
+  text-align: center;
+  margin: 16px 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.line-label span {
+  display: inline; /* or inline-block */
+}
+
+.line-label::after {
+  content: '';
+  position: absolute;
+  bottom:50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 112%;
+  height: 1px; /* Adjust thickness as needed */
+  background-color: #93DAE7; /* Adjust color as needed */
+}
+
+.bg-green::after{
+  background: #A4DFCA;
+}
+.orange::after{
+  background: #CBC9B5
+}
+.line-label span {
+  position: relative;
+
+    z-index: 9;
+    color: #4B4B4B;
+    font-family: Roboto, sans-serif;
+font-size: 18px;
+font-weight: 500;
+line-height: 28.8px;
+letter-spacing: 0.02em;
+
+
+}
+
+.top-course-container {
+  margin-bottom: 45px !important;
+}
+
+.cne-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.curated-text {
+  color: #000;
+  margin-top: 5px;
+  /* Body */
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  /* 150% */
+  letter-spacing: -0.32px;
+}
+
+.view-all-course {
+  z-index: 9;
+  cursor: pointer;
+    display: inline-flex;
+    padding: 3px 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 50px;
+    color: var(--theme-primary);
+    text-decoration: underline;
+    background: var(--theme-app-background);
+    border: none;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18.75px;
+    text-align: left;
+}
+
+/* Highlight on hover */
+.view-all-course:hover {
+  // background-color: #2980b9;
+  color: #141d60;
+  border-color: #141d60;
+}
+
+.scroller-container {
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+}
+.right-arrow{
+  width: 15px;
+  height: 15px;
+  top: 14.5px;
+  left: 1px;
+  gap: 0px;
+  filter: var(--theme-icon-filter, brightness(1) invert(1));
+}
+
+.header1 {
+  color: #4B4B4B;
+font-family: Roboto, sans-serif;
+font-size: 24px;
+font-weight: 500;
+line-height: 28.8px;
+letter-spacing: 0.02em;
+text-align: left;
+text-transform: uppercase;
+height: 42px;
+  // margin-bottom: 10px !important;
+  background-color: #F6F3D9 !important;
+  border-radius: 4px !important;
+  padding: 8px !important;
+}
+.header0{
+    background-color: #C2E3DD !important;
+
+  color:#4B4B4B !important;
+}
+.view-all-course-container {
+  padding: 0px 85px;
+}
+
+.featuredCourse-section {
+  padding: 0px 157px;
+
+}
+
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+  .view-all-course-container {
+    padding: 0px 50px;
+  }
+
+  .featuredCourse-section {
+    padding: 0px 50px;
+  }
+
+  .top-course-container {
+    margin-bottom: 30px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .horizontal-shimmer {
+    flex-direction: column;
+  }
+  .shimmer-card {
+    width: 100% !important;
+  }
+  .view-all-course {
+    width: 100%;
+    background: transparent;
+    img {
+      width: 15px;
+      height: 15px;
+    }
+  }
+  .view-all-course-container {
+    padding: 0px 24px;
+  }
+
+  .featuredCourse-section {
+    padding: 0px 24px;
+  }
+
+  .top-course-container {
+    margin-bottom: 30px !important;
+  }
+
+  .line-label {
+    justify-content: center;
+    font-size: 14px;
+    span {
+      display: block;
+      font-size: 14px;
+    }
+  }
+
+  .line-label::after {
+    width: 100%;
+    height: 2px;
+  }
+
+  .scroller-container {
+    margin-bottom: 32px;
+    justify-content: center !important;
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  bottom: 56%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000 !important;
+  // background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(2px);
+}
+
+.relative-content {
+  position: relative;
+  top: 7px;
+  left: 10px;
+  font-weight: 800;
+  color: white;
+}
+
+.loader-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loader-ripple {
+  display: inline-block;
+  position: relative;
+  width: 84px;
+  height: 84px;
+}
+
+.loader-ripple div {
+  position: absolute;
+  border: 4px solid #000;
+  opacity: 1;
+  border-radius: 50%;
+  animation: loader-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.loader-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+
+@keyframes loader-ripple {
+  0% {
+    top: 38px;
+    left: 38px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+
+  100% {
+    top: -1px;
+    left: -1px;
+    width: 78px;
+    height: 78px;
+    opacity: 0;
+  }
+}
+
+/* ── Shimmer animation ───────────────────────────────────── */
+@keyframes shimmerSlide {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+/* ── Base shimmer (apply everywhere) ─────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
+  background-size: 600px 100%;
+  animation: shimmerSlide 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+/* ── Layout fixes ────────────────────────────────────────── */
+.horizontal-shimmer {
+  display: flex;
+  gap: 16px;
+}
+
+/* ── Header row ─────────────────────────────────────────── */
+.line-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ── Lines ─────────────────────────────────────────────── */
+.shimmer-line {
+  display: block;
+  height: 12px;
+  border-radius: 4px;
+}
+
+/* ── Variants ───────────────────────────────────────────── */
+.shimmer-header {
+  width: 14%;
+  height: 16px;
+}
+
+.shimmer-title {
+  width: 60%;
+  height: 14px;
+}
+
+.shimmer-subtitle {
+  width: 40%;
+  height: 12px;
+}
+
+/* ── Button ─────────────────────────────────────────────── */
+.shimmer-button {
+  width: 80px;
+  height: 20px;
+  border-radius: 20px;
+  border: none;
+  background: #eeeaea;
+}
+
+/* ── Card ──────────────────────────────────────────────── */
+.shimmer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 30%;
+}
+
+/* ── Image ─────────────────────────────────────────────── */
+.shimmer-image {
+  height: 120px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* ── Body ──────────────────────────────────────────────── */
+.shimmer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+:host-context(.dark-theme) {
+
+  .view-all-course:hover {
+    color: var(--theme-text, #ecf3f8);
+    border-color: var(--theme-accent, #78b7ff);
+  }
+
+  .shimmer,
+  .shimmer-button {
+    background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
+    background-size: 600px 100%;
+  }
+
+  h3 {
+    color: var(--theme-text);
+  }
+}

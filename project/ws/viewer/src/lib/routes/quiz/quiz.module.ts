@@ -10,16 +10,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
   BtnPageBackModule,
 } from '@ws-widget/collection'
 
@@ -48,20 +41,13 @@ import { QuizModule as QuizViewContainerModule } from '../../route-view-containe
     MatToolbarModule,
     MatIconModule,
     MatSnackBarModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,
     WidgetResolverModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
     BtnPageBackModule,
   ],
 })
