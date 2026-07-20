@@ -26,7 +26,8 @@ export class MobileDashboardService {
   getCompetencyInfo(
     competencyHomeData: Role[],
     _rootOrgId: string,
-    designation: string
+    designation: string,
+    lang: string
   ): CompetencyInfo | null {
     const item = competencyHomeData.find(p => p.playlistId === 'COMPETENCY_PLAYLIST')
     if (!item) return null
@@ -180,6 +181,7 @@ export class MobileDashboardService {
           competencyID,
           levels,
           lang: course.lang || course.language,
+          isAsha: 'true',
         }
       })
       .filter(Boolean)

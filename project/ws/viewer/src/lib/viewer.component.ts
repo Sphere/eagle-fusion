@@ -8,6 +8,13 @@ import { RootService } from '../../../../../src/app/component/root/root.service'
 import { TStatus, ViewerDataService } from './viewer-data.service'
 import { ViewerUtilService } from './viewer-util.service'
 import { DiscussConfigResolve } from '../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
+import {
+  ILicenseConfig,
+  ILicenseMetadata,
+  ITocConfig,
+  IDiscussionConfigData,
+  ContentEventData,
+} from './viewer.model'
 export enum ErrorType {
   accessForbidden = 'accessForbidden',
   notFound = 'notFound',
@@ -29,7 +36,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   isXSmall$: boolean = false
   fullScreenContainer: HTMLElement | null = null
   content: NsContent.IContent | null = null
-  contentData: any
+  contentData: NsContent.IContent | null = null
   errorType = ErrorType
   private isLtMedium$ = this.valueSvc.isLtMedium$
   sideNavBarOpened = false
@@ -49,28 +56,27 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   private screenSizeSubscription: Subscription | null = null
   private resourceChangeSubscription: Subscription | null = null
-  tocConfig: any
+  tocConfig: ITocConfig | null = null
   contentTypes = NsContent.EContentTypes
   discussionForumWidget: NsWidgetResolver.IRenderConfigWithTypedData<
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   private viewerDataSubscription: Subscription | null = null
   htmlData: NsContent.IContent | null = null
-  currentLicense: any
+  currentLicense: ILicenseConfig[] | null = null
   currentLicenseName = ''
-  discussionConfig: any = {}
+  discussionConfig: IDiscussionConfigData = {}
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private valueSvc: ValueService,
-    private dataSvc: ViewerDataService,
-    private rootSvc: RootService,
-    // private utilitySvc: UtilityService,
-    private changeDetector: ChangeDetectorRef,
-    public configSvc: ConfigurationsService,
-    private widgetContentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private discussiConfig: DiscussConfigResolve
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly valueSvc: ValueService,
+    private readonly dataSvc: ViewerDataService,
+    private readonly rootSvc: RootService,
+    private readonly changeDetector: ChangeDetectorRef,
+    public readonly configSvc: ConfigurationsService,
+    private readonly widgetContentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly discussiConfig: DiscussConfigResolve
   ) {
     this.rootSvc.showNavbarDisplay$.next(false)
     this.discussiConfig.setConfig()
@@ -86,46 +92,34 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   }
 
-  getContentData(e: any) {
+  getContentData(e: ContentEventData): void {
     e.activatedRoute.data.subscribe((data: { content: { data: NsContent.IContent } }) => {
       if (data.content && data.content.data) {
-
-        // CHecking for JSON DATA
-        // if (this.checkJson(data.content.data.creatorContacts)) {
-        //   /* tslint:disable */
-        //   data.content.data.creatorContacts = JSON.parse(data.content.data.creatorContacts)
-        // }
-
-        // if (this.checkJson(data.content.data.creatorDetails)) {
-        //   /* tslint:disable */
-        //   data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
-        // }
-
         if (this.checkJson(data.content.data.reviewer)) {
           data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
         }
 
         this.content = data.content.data
         this.formDiscussionForumWidget(this.content)
-        // if (this.discussionForumWidget) {
-        //   this.discussionForumWidget.widgetData.isDisabled = true
-        // }
         this.currentLicenseName = this.content.learningObjective || 'CC BY'
         this.getLicenseConfig()
       }
     })
   }
-  getCourseContentData() {
+  getCourseContentData(): void {
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     try {
-      this.widgetContentSvc.fetchContent(collectionId).subscribe((data: any) => {
-        this.contentData = data.result.content
+      this.widgetContentSvc.fetchContent(collectionId).subscribe((data: NsContent.IContent) => {
+        this.contentData = data
       })
     } catch (e) {
-      // this.logger.log(e)
+      // Error in fetching course content data
     }
   }
-  checkJson(str: any) {
+  checkJson(str: string | null | undefined): boolean {
+    if (!str) {
+      return false
+    }
     try {
       JSON.parse(str)
     } catch (e) {
@@ -187,25 +181,25 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     // this.getDiscussionConfig()
   }
-  getLicenseConfig() {
+  getLicenseConfig(): void {
     const licenseurl = '/fusion-assets/files/license.meta.json'
-    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
-      const licenseData = data
-      if (licenseData) {
-        this.currentLicense = licenseData.licenses.filter((license: any) => license.licenseName === this.currentLicenseName)
-      }
-
-    },
-      err => {
-        if (err.status === 404) {
+    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(
+      (data: ILicenseMetadata) => {
+        if (data && data.licenses) {
+          this.currentLicense = data.licenses.filter(license => license.licenseName === this.currentLicenseName)
+        }
+      },
+      (err: any) => {
+        if (err && err.status === 404) {
           this.getLicenseConfig()
         }
-      })
+      }
+    )
   }
-  getDiscussionConfig() {
+  getDiscussionConfig(): void {
     this.viewerDataSubscription = this.viewerSvc
       .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
-      .subscribe(data => {
+      .subscribe((data: NsContent.IContent) => {
         this.htmlData = data
         this.formDiscussionForumWidget(this.htmlData)
         if (this.discussionForumWidget) {
@@ -214,14 +208,13 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       })
   }
 
-  fullScreenState(isFullScreen: any) {
-    // this.fsClass = isFullScreen
+  fullScreenState(isFullScreen: boolean): void {
     this.dataSvc.changeFullScreen(isFullScreen)
   }
 
-  getTocConfig() {
+  getTocConfig(): void {
     const url = `fusion-assets/files/toc.json`
-    this.widgetContentSvc.fetchConfig(url).subscribe(data => {
+    this.widgetContentSvc.fetchConfig(url).subscribe((data: ITocConfig) => {
       this.tocConfig = data
     })
   }
@@ -236,8 +229,11 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  formDiscussionForumWidget(content: NsContent.IContent) {
-    this.discussionConfig.contextIdArr = content ? [content.identifier] : []
+  formDiscussionForumWidget(content: NsContent.IContent | null): void {
+    if (!content) {
+      return
+    }
+    this.discussionConfig.contextIdArr = [content.identifier]
     if (this.content) {
       this.discussionConfig.categoryObj = {
         category: {
@@ -269,23 +265,20 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  toggleSideBar() {
+  toggleSideBar(): void {
     this.sideNavBarOpened = !this.sideNavBarOpened
   }
 
-  minimizeBar() {
+  minimizeBar(): void {
     this.sideNavBarOpened = !this.sideNavBarOpened
-    // if (this.utilitySvc.isMobile) {
-    //   this.sideNavBarOpened = true
-    // }
   }
 
-  public parseJsonData(s: string) {
+  public parseJsonData(s: string): any {
     try {
       const parsedString = JSON.parse(s)
       return parsedString
     } catch {
-      return []
+      return {}
     }
   }
 

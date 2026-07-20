@@ -2,6 +2,8 @@
  * Search Service Data Models
  */
 
+import { ISuggestedFilters } from '../models/search.model'
+
 export interface IProgressHash {
   [id: string]: number
 }
@@ -16,6 +18,7 @@ export interface ISearchConfig {
     visibleFiltersV2?: Record<string, any>
     excludeSourceFields?: string[]
     defaultsearch?: any
+    suggestedFilters?: ISuggestedFilters[]
   }
   [key: string]: any
 }

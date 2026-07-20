@@ -290,7 +290,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       })
 
     this.http.get<IdegreesMeta>(this.degreeUrl).subscribe((data: IdegreesMeta) => {
-      this.degreesMeta = data.postGraduations
+      this.degreesMeta = data
     })
 
     this.http.get<IStatesMeta>(this.stateUrl).subscribe((data: IStatesMeta) => {
@@ -833,13 +833,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private setDegreeValuesArray(academics: any) {
     this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
     this.degrees.removeAt(0)
-    academics.degree.map((degree: any) => { this.addDegreeValues(degree as UntypedFormArray) })
+    academics.degree.map((degree: any) => { this.addDegreeValues(degree) })
   }
 
   private setPostDegreeValuesArray(academics: any) {
     this.postDegrees = this.createUserForm.get('postDegrees') as UntypedFormArray
     this.postDegrees.removeAt(0)
-    academics.postDegree.map((degree: any) => { this.addPostDegreeValues(degree as UntypedFormArray) })
+    academics.postDegree.map((degree: any) => { this.addPostDegreeValues(degree) })
   }
 
   private constructReq(form: any) {

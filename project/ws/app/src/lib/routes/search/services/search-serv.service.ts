@@ -72,7 +72,7 @@ export class SearchServService {
   searchV7Wrapper(request: ISearchRequestV3): Observable<NSSearch.ISearchV6ApiResultV3> {
     // publicSearch/getCourses (Sunbird content/v1/search) requires a request.filters object —
     // unlike the old recommendation endpoint, a bare { query } is rejected ("Error while public search").
-    const v7Request: Record<string, any> = {
+    const v7Request: any = {
       request: {
         query: request.query || '',
         filters: {
@@ -92,7 +92,7 @@ export class SearchServService {
   searchV6Wrapper(request: ISearchRequestV2): Observable<NSSearch.ISearchV6ApiResultV2> {
     this.logger.log(request.request)
     request.request.filters['status'] = ['Live']
-    const v6Request: Record<string, any> = {
+    const v6Request: any = {
       request: {
         query: request.request.query,
         filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'], lang: request.request.filters.lang ? request.request.filters.lang : undefined } : request.request.filters,

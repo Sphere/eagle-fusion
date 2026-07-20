@@ -91,7 +91,7 @@
     <section *ngIf="isHomePage && isLoggedIn && !hasProgramConfig && bodyConfig"
       [ngStyle]="{'margin-bottom': isXSmall$ ? '4rem' : ''}">
       <ws-web-public-container [isEkshamata]="isEkshamata" [configData]="bodyConfig"
-        [userEnrollCourse]="userEnrollCourse()"></ws-web-public-container>
+        [userEnrollCourse]="userEnrollCourse()" [hascompetency]="hasCompetencyConfig"></ws-web-public-container>
     </section>
     <!-- Desktop Footer -->
     <ws-app-footer [isEkshamata]="isEkshamata" class="app-footer hide-in-mobile"

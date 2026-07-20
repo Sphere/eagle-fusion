@@ -513,7 +513,7 @@ export class LearningComponent implements OnInit, OnDestroy {
 
   private prepareNewSearch(withQuotes?: boolean) {
     this.prepareSearchRequest(withQuotes, true)
-    this.searchServ.raiseSearchEvent(this.newSearchRequestObject.query, '', '')
+    this.searchServ.raiseSearchEvent(this.newSearchRequestObject.query, {}, '')
   }
 
   private prepareSearchRequest(withQuotes: boolean | undefined, useNewRequest: boolean) {

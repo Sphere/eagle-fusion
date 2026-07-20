@@ -253,7 +253,7 @@ export interface ISuggestedFilters {
 
 export interface ISearchRequestV2 {
   request: {
-    filters: {},
+    filters: Record<string, any>,
     query: string,
     sort_by: { lastUpdatedOn: string },
     fields: [

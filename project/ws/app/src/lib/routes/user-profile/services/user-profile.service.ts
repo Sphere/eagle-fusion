@@ -15,9 +15,7 @@ import {
   IUpdateProfileRequest,
   IApprovalRequest,
   ILeaderboardRequest,
-  IProfileRequest,
   IProfileProfessionalDetails,
-  IUserDetailsCache,
 } from './user-profile.service.model'
 
 

@@ -45,8 +45,8 @@ export class InitService {
     private readonly http: HttpClient,
     private readonly authSvc: AuthKeycloakService,
     @Inject(APP_BASE_HREF) private readonly baseHref: string,
-    private readonly domSanitizer: DomSanitizer,
-    private readonly iconRegistry: MatIconRegistry,
+    domSanitizer: DomSanitizer,
+    iconRegistry: MatIconRegistry,
     private readonly userDataCacheSvc: UserDataCacheService,
     private readonly configCacheSvc: ConfigCacheService,
   ) {

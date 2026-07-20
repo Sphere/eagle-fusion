@@ -293,7 +293,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           .fetchContentHistoryV2(req)
           .pipe(takeUntil(this.destroy$))
           .subscribe(
-            (data: { result?: { contentList?: any[] } }) => {
+            (data: any) => {
               let contentData: any
               contentData = data?.['result']?.['contentList']?.find(
                 (obj: any) => obj.contentId === doId,

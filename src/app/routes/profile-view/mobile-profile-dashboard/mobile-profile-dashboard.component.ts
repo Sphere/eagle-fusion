@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
-import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 // import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
@@ -33,6 +32,7 @@ import {
   LeaderboardUser,
   ActiveUserDetails,
   OrgDetails,
+  UserProfileRequest,
 } from './mobile-profile-dashboard.model'
 
 @Component({
@@ -47,7 +47,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   lastName!: string
   showMobileView = false
   showAcademicElse = false
-  userProfileData!: IUserProfileDetailsFromRegistry
+  userProfileData!: UserProfileRequest
   academicsArray: Academic[] = []
   certificates: Certificate[] = []
   imgURI: string[] = []
@@ -296,8 +296,8 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       el.style.display = 'block'
       this.logger.log("this.userData", this.profileData)
       el.setAttribute('userId', this.profileData.userId)
-      el.setAttribute('firstName', this.profileData?.personalDetails?.firstname)
-      el.setAttribute('lastName', this.profileData?.personalDetails?.surname)
+      el.setAttribute('firstName', this.profileData?.profileDetails?.profileReq?.personalDetails?.firstname)
+      el.setAttribute('lastName', this.profileData?.profileDetails?.profileReq?.personalDetails?.surname)
 
       setTimeout(() => {
         const btn = el.querySelector('button') as HTMLElement
