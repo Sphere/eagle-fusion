@@ -172,37 +172,6 @@ export class ProgramHome implements OnInit {
     return ''
   }
 
-  // private extractCourseIdsFromCompetency(playlist: any): string[] {
-  //   const payload: string[] = []
-
-  //   if (!playlist?.dataSource?.payload || !Array.isArray(playlist.dataSource.payload)) {
-  //     return payload
-  //   }
-
-  //   // Extract course IDs from competency structure
-  //   playlist.dataSource.payload.forEach((competencyObj: any) => {
-  //     // Each competency object is {COMPETENCY_NAME: {...}}
-  //     const competency = Object.values(competencyObj)[0] as any
-
-  //     if (competency?.additionalProperties?.competencyLevelDescription) {
-  //       competency.additionalProperties.competencyLevelDescription.forEach(
-  //         (level: any) => {
-  //           if (Array.isArray(level.course)) {
-  //             level.course.forEach((course: any) => {
-  //               if (course.id && !payload.includes(course.id)) {
-  //                 payload.push(course.id)
-  //               }
-  //             })
-  //           }
-  //         }
-  //       )
-  //     }
-  //   })
-
-  //   return payload
-  // }
-
-
   getStaticPlaylistForLang = (playlists: any[], playlistConfigId: string, defaultLang: string): any | null => {
     const playlist = playlists.find(
       p =>

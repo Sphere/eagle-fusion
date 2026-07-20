@@ -79,7 +79,7 @@ describe('MobileDashboardService', () => {
     })
 
     it('extracts competencyIds and flattened levels with mapped fields', () => {
-      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'ASHA')!
+      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'ASHA', 'hi')!
       expect(result.competencyIds).toEqual([1])
       expect(result.competencyLevels).toHaveLength(2)
       expect(result.competencyLevels[0]).toEqual({
