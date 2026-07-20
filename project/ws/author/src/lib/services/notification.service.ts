@@ -36,22 +36,6 @@ export class NotificationService {
     if (approved) {
       // Removing the below code as publish mail will be trigger from backend itself
 
-      // Condition for single stage publish
-      // if (
-      //   workFlow.indexOf(nextAction) === workFlow.length - 1 &&
-      //   (workFlow.indexOf(content.status) === 0 ||
-      //     workFlow.indexOf(content.status) === workFlow.length - 1)
-      // ) {
-      //   // Condition to check if email trigger is required
-      //   if (
-      //     content.creatorContacts.length > 1 ||
-      //     !content.creatorContacts.find(v => v.id === this.accessService.userId)
-      //   ) {
-      //     return this.getApi(this.publishContent(content, comment, []))
-      //   }
-      //   // Returning empty response if notification is not required
-      //   return of({})
-      // }
       // Condition if the author sends the content to review
       if (
         (workFlow.indexOf(content.status) === 0 ||
@@ -97,22 +81,6 @@ export class NotificationService {
         )
       }
       // Removing the below code as publish mail will be trigger from backend itself
-
-      // Condition if the publisher publishes the content
-      // if (
-      //   workFlow.indexOf(content.status) > 0 &&
-      //   workFlow.indexOf(nextAction) === workFlow.length - 1
-      // ) {
-      //   // Condition if the author action nextStateOwner exists
-      //   if (content.creatorContacts && content.creatorContacts.length) {
-      //     const currentOwnerList = ((content as any)[currentOwner as string] || []).map(
-      //       (v: { id: string }) => v.id,
-      //     )
-      //     return this.getApi(this.publishContent(content, comment, currentOwnerList))
-      //   }
-      //   // Returning empty response if notification is not required
-      //   return of({})
-      // }
     } else {
       // Condition if the content is rejected
       return this.getApi(

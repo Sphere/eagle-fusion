@@ -51,7 +51,6 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     private widgetContentSvc: WidgetContentService,
     private cdr: ChangeDetectorRef
   ) {
-    // this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
   }
 
   ngOnInit() {

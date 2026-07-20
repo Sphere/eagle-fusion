@@ -9,7 +9,6 @@ import { ViewerDataService } from './viewer-data.service'
 import { MobileAppsService } from '../../../../../src/app/services/mobile-apps.service'
 import { Platform } from '@angular/cdk/platform'
 
-// const ADDITIONAL_FIELDS_IN_CONTENT = ['creatorContacts', 'source', 'exclusiveContent', 'body']
 @Injectable()
 export class ViewerResolve {
   constructor(
@@ -234,19 +233,7 @@ export class ViewerResolve {
     // Update current node if it exists in progress map
     if (progressMap.hasOwnProperty(node.identifier)) {
       const newPercentage = progressMap[node.identifier]
-      // this.logger.log('Updating node completion percentage:', {
-      //   identifier: node.identifier,
-      //   name: node.name,
-      //   oldPercentage: node.completionPercentage,
-      //   newPercentage: newPercentage
-      // })
       node.completionPercentage = newPercentage
-    } else {
-      // this.logger.log('No progress data found for node:', {
-      //   identifier: node.identifier,
-      //   name: node.name,
-      //   currentPercentage: node.completionPercentage
-      // })
     }
 
     // Recursively update children
@@ -572,83 +559,6 @@ export class ViewerResolve {
       return `Resource incomplete (${completion}% < 100%)`
     }
   }
-
-  // resolve(route: ActivatedRouteSnapshot): Observable<IResolveResponse<NsContent.IContent>> | null {
-  //   const resourceType = route.data.resourceType
-  //   // this.viewerDataSvc.reset(route.paramMap.get('resourceId'))
-  //   this.viewerDataSvc.reset(route.paramMap.get('resourceId'), 'none', route.queryParams['primaryCategory'])
-  //   if (!this.viewerDataSvc.resourceId) {
-  //     return null
-  //   }
-  //   if (
-  //     route.queryParamMap.get('preview') === 'true' &&
-  //     !this.accessControlSvc.authoringConfig.newDesign
-  //   ) {
-  //     return null
-  //   }
-  //   this.logger.log('99999999', this.viewerDataSvc.primaryCategory, 'llllll')
-  //   const forPreview = window.location.href.includes('/author/')
-  //   return (forPreview
-  //     ? this.contentSvc.fetchAuthoringContent(this.viewerDataSvc.resourceId)
-  //     : this.contentSvc.fetchContent(
-  //       this.viewerDataSvc.resourceId,
-  //       'detail',
-  //       ADDITIONAL_FIELDS_IN_CONTENT,
-  //       this.viewerDataSvc.primaryCategory,
-  //     )
-  //   ).pipe(
-  //     tap(content => {
-  //       this.logger.log('viewr resolver===')
-  //       if (content.status === 'Deleted' || content.status === 'Expired') {
-  //         this.router.navigate([
-  //           // `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview`,
-  //           `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview?primaryCategory = ${content.primaryCategory}`,
-
-  //         ])
-  //       }
-  //       if (content.ssoEnabled) {
-  //         this.msAuthSvc.loginForSSOEnabledEmbed(
-  //           (this.configSvc.userProfile && this.configSvc.userProfile.email) || '',
-  //         )
-  //       }
-
-  //       if (resourceType === 'unknown') {
-  //         this.router.navigate([
-  //           `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(content.mimeType)}/${content.identifier
-  //           }`,
-  //         ])
-  //       } else if (resourceType === VIEWER_ROUTE_FROM_MIME(content.mimeType)) {
-  //         this.viewerDataSvc.updateResource(content, null)
-  //       } else {
-  //         this.viewerDataSvc.updateResource(null, {
-  //           errorType: 'mimeTypeMismatch',
-  //           mimeType: content.mimeType,
-  //           probableUrl: `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
-  //             content.mimeType,
-  //           )}/${content.identifier}`,
-  //         })
-  //       }
-  //     }),
-  //     map(data => {
-  //       data = data.result.content
-  //       if (resourceType === 'unknown') {
-  //         this.router.navigate([
-  //           `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(data.mimeType)}/${data.identifier
-  //           }`,
-  //         ])
-  //       } else if (resourceType === VIEWER_ROUTE_FROM_MIME(data.mimeType)) {
-  //         data.platform = this.platform
-  //         this.mobileAppsSvc.sendViewerData(data)
-  //         return { data, error: null }
-  //       }
-  //       return { data: null, error: 'mimeTypeMismatch' }
-  //     }),
-  //     catchError(error => {
-  //       this.viewerDataSvc.updateResource(null, error)
-  //       return of({ error, data: null })
-  //     }),
-  //   )
-  // }
 
   resolve(route: ActivatedRouteSnapshot): Observable<IResolveResponse<NsContent.IContent>> | null {
     const resourceType = route.data.resourceType

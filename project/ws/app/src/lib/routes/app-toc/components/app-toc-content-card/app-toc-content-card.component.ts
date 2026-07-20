@@ -177,7 +177,6 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     return { url: '', queryParams: {} }
   }
   private evaluateImmediateChildrenStructure() {
-    // if (this.content && this.content.children.length) {
     if (this.content && this.content.children && this.content.children.length) {
       this.content.children.forEach((child: NsContent.IContent) => {
         if (child.contentType === NsContent.EContentTypes.COURSE) {

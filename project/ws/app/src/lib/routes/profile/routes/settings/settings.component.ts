@@ -47,7 +47,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   contentLangForm: UntypedFormControl = new UntypedFormControl()
   showContentLang = false
   intranetContentForm = new UntypedFormControl(false)
-  // darkModeForm = new UntypedFormControl(false)
   activeThemeKey = ''
   activeFontClass = ''
   activeLocaleClass = ''
@@ -62,7 +61,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isIntranetAllowed = true
   showIntranetSettings = false
   isLanguageEnabled = true
-  // showProfileSettings = false
 
   constructor(
     // todo mobile settings removed
@@ -83,15 +81,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     if (this.configSvc.restrictedFeatures) {
       this.showIntranetSettings =
         this.utilitySvc.isMobile && !this.configSvc.restrictedFeatures.has('showIntranetMobile')
-      // this.showProfileSettings = !this.configSvc.restrictedFeatures.has('personProfile')
     }
     switch (tab) {
       case 'notifications':
         this.selectedIndex = 1
         break
-      /*  case 'profile':
-         this.selectedIndex = 2
-         break */
       default:
         this.selectedIndex = 0
         break
@@ -129,16 +123,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
         },
         {},
       )
-      // Set the initial value for Themes
-      // this.darkModeForm.setValue(this.configSvc.isDarkMode)
       this.intranetContentForm.setValue(this.isIntranetAllowed)
       this.updateActiveStatus()
-      // Events Subscription
-      // this.modeChangeSubs = this.darkModeForm.valueChanges
-      //   .pipe(distinctUntilChanged(), debounceTime(150))
-      //   .subscribe((isDark: boolean) => {
-      //     // this.btnSettingsSvc.applyThemeMode(isDark)
-      //   })
       this.modeChangeSubs = this.intranetContentForm.valueChanges
         .pipe(distinctUntilChanged(), debounceTime(150))
         .subscribe((isIntranet: boolean) => {
@@ -162,7 +148,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   isLocaleAvailable(langPath: string): boolean {
-    // this.loggerSvc.log('Locale', this.allowedLangCode[langPath].isAvailable)
     return this.allowedLangCode[langPath] && this.allowedLangCode[langPath].isAvailable
   }
   isLocaleEnabled(langPath: string): boolean {
@@ -195,19 +180,14 @@ export class SettingsComponent implements OnInit, OnDestroy {
     return 'not_interested'
   }
 
-  // change font
   changeFont(fontClass: string) {
-    // this.loggerSvc.log('Font', fontClass)
     this.btnSettingsSvc.changeFont(fontClass)
   }
-  // Change theme
   changeTheme(themeKey: string) {
-    // this.loggerSvc.log('theme', themeKey)
     this.btnSettingsSvc.changeTheme(themeKey)
   }
 
   private updateActiveStatus() {
-    // this.darkModeForm.setValue(this.configSvc.isDarkMode)
     this.intranetContentForm.setValue(this.configSvc.isIntranetAllowed)
     if (this.configSvc.activeThemeObject) {
       this.activeThemeKey = this.configSvc.activeThemeObject.themeClass
@@ -291,9 +271,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
       case 1:
         tab = 'notifications'
         break
-      /*  case 2:
-         tab = 'profile'
-         break */
     }
     this.router.navigate([], { queryParams: { tab } })
   }

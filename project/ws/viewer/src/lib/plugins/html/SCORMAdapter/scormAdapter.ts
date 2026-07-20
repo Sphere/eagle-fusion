@@ -28,7 +28,6 @@ export class SCORMAdapterService implements OnDestroy {
     handler: HttpBackend,
     private activatedRoute: ActivatedRoute,
     private configSvc: ConfigurationsService,
-    //private viewerDataSvc: ViewerDataService,
     private router: Router,
     private contentSvc: WidgetContentService,
     private telemetrySvc: TelemetryService,
@@ -65,21 +64,6 @@ export class SCORMAdapterService implements OnDestroy {
   LMSInitialize() {
     this.store.contentKey = this.contentId
     this.loadDataV2()
-    // this.loadDataAsync().subscribe((response) => {
-    //   const data = response.result.data
-    //   const loadDatas: IScromData = {
-    //     "cmi.core.exit": data["cmi.core.exit"],
-    //     "cmi.core.lesson_status": data["cmi.core.lesson_status"],
-    //     "cmi.core.session_time": data["cmi.core.session_time"],
-    //     "cmi.suspend_data": data["cmi.suspend_data"],
-    //     Initialized: true,
-    //   }
-    //   this.store.setAll(loadDatas)
-    // }, (error) => {
-    //   if (error) {
-    //     this._setError(101)
-    //   }
-    // })
     this.store.setItem('Initialized', true)
     return true
   }
@@ -89,15 +73,6 @@ export class SCORMAdapterService implements OnDestroy {
       this._setError(301)
       return false
     }
-    // this.viewerDataSvc.scromChangeSubject.next(
-    //   {
-    //     'completed': true,
-    //     'batchId':
-    //       this.activatedRoute.snapshot.queryParamMap.get('batchId'),
-    //     'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
-    //     , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
-    //   }
-    // )
     const _return = this.LMSCommit()
     this.store.setItem('Initialized', false)
     this.store.clearAll()
@@ -223,9 +198,6 @@ export class SCORMAdapterService implements OnDestroy {
       `${API_END_POINTS.SCROM_FETCH_PROGRESS}/${req.request.courseId}`, req
     ).subscribe(
       data => {
-        // let loadDatas: IScromData = {}
-        // tslint:disable-next-line: no-console
-
         if (data && data.result && data.result.contentList.length) {
           const listOfContent = data.result.contentList
           this.logger.log(listOfContent)
@@ -235,7 +207,6 @@ export class SCORMAdapterService implements OnDestroy {
               return item
             }
           })
-          //  let loadDatas: IScromData = {}
           this.logger.log('PD', progressDetails)
           if (progressDetails.length > 0) {
             const data = progressDetails[0]
@@ -250,27 +221,11 @@ export class SCORMAdapterService implements OnDestroy {
                 "cmi.suspend_data": data.progressdetails["cmi.suspend_data"],
                 Initialized: data.progressdetails["Initialized"],
               }
-              // this.logger.log(loadDatas)
               this.store.setAll(loadDatas)
             }
           } else {
             this.logger.log('No initial data found')
           }
-
-          //   }
-          // for (const content of data.result.contentList) {
-
-          //   if (content.contentId === this.contentId && content.progressdetails) {
-          //     const data = content.progressdetails
-          //     this.logger.log(data)
-          //     if (data.hasOwnProperty('cmi.suspend_data')) {
-          //       loadDatas["cmi.suspend_data"] = data['cmi.suspend_data']
-          //     }
-
-          //     this.logger.log('progress data',loadDatas)
-          //     this.store.setAll(loadDatas)
-          //   }
-          // }
         }
       },
     )
@@ -285,12 +240,10 @@ export class SCORMAdapterService implements OnDestroy {
         "cmi.core.session_time": data["cmi.core.session_time"],
         "cmi.suspend_data": data["cmi.suspend_data"],
         Initialized: data["Initialized"],
-        // errors: data["errors"]
       }
       this.store.setAll(loadDatas)
     }, error => {
       if (error) {
-        // this.logger.log(error)
         this._setError(101)
       }
     })

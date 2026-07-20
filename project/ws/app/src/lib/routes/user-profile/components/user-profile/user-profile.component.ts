@@ -87,10 +87,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   invalidDob = false
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
-  // govtOrgMeta!: IGovtOrgMeta
-  // industriesMeta!: IIndustriesMeta
   degreesMeta!: IdegreesMeta
-  // designationsMeta!: IdesignationsMeta
   public degrees!: UntypedFormArray
   public postDegrees!: UntypedFormArray
   public degreeInstitutes = []
@@ -148,7 +145,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.approvalConfig = this.route.snapshot.data.pageData.data
     this.isForcedUpdate = !!this.route.snapshot.paramMap.get('isForcedUpdate')
-    // this.fetchPendingFields()
     this.createUserForm = new UntypedFormGroup({
       firstname: new UntypedFormControl('', [Validators.required]),
       middlename: new UntypedFormControl('', []),
@@ -259,7 +255,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private goToNextTabIndex(tabGroup: MatTabGroup, index: number | null) {
     if (!tabGroup || !(tabGroup instanceof MatTabGroup)) { return }
 
-    // const tabCount = tabGroup._tabs.length;
     tabGroup.selectedIndex = index
   }
 
@@ -449,7 +444,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (name) {
       const filterValue = name.map(n => n.toLowerCase())
       return this.masterLanguagesEntries.filter(option => {
-        // option.name.toLowerCase().includes(filterValue))
         filterValue.map(f => {
           return option.name.toLowerCase().includes(f)
         })
@@ -508,7 +502,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       input.value = ''
     }
 
-    // this.knownLanguagesInputRef.nativeElement.value = ''
     if (this.createUserForm.get('interests')) {
       // tslint:disable-next-line: no-non-null-assertion
       this.createUserForm.get('interests')!.setValue(null)
@@ -560,8 +553,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (this.configSvc.userProfile.email) {
           this.mobileNumberLogin = true
-          // this.createUserForm.controls.mobile.disable()
-          // this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
@@ -600,8 +591,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
         if (this.configSvc.userProfile.email.endsWith('yopmail.com')) {
           this.mobileNumberLogin = true
-          // this.createUserForm.controls.mobile.disable()
-          // this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
@@ -723,10 +712,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isOfficialEmail = false
     }
-    // this.cd.detectChanges()
     return this.ePrimaryEmailType.OFFICIAL
-    // this.assignPrimaryEmailTypeCheckBox(this.ePrimaryEmailType.PERSONAL)
-    // return this.ePrimaryEmailType.PERSONAL
   }
 
   private constructFormFromRegistry(data: any, academics: NsUserProfileDetails.IAcademics, organisation: any) {
@@ -781,7 +767,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       industryOther: organisation.industryOther,
       profession: organisation.profession,
       professionOtherSpecify: organisation.professionOtherSpecify,
-      // orgName: _.get(data, 'employmentDetails.departmentName') || '',
       service: _.get(data, 'employmentDetails.service') || '',
       cadre: _.get(data, 'employmentDetails.cadre') || '',
       allotmentYear: this.checkvalue(_.get(data, 'employmentDetails.allotmentYearOfService') || ''),
@@ -911,117 +896,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     profileReq.personalDetails.personalEmail = form.value.secondaryEmail
 
-    // let approvalData
-    // _.forOwn(this.approvalConfig, (v, k) => {
-    //   if (!v.approvalRequired) {
-    //     _.set(profileReq, k, this.getDataforK(k, form))
-    //   } else {
-    //     _.set(profileReq, k, this.getDataforKRemove(k, v.approvalFiels, form))
-    //     approvalData = this.getDataforKAdd(k, v.approvalFiels, form)
-    //   }
-    // })
     return { profileReq }
   }
-
-  // private getDataforK(k: string, form: any) {
-  //   switch (k) {
-  //     case 'personalDetails':
-  //       let officeEmail = ''
-  //       let personalEmail = ''
-  //       if (form.value.primaryEmailType === this.ePrimaryEmailType.OFFICIAL) {
-  //         officeEmail = form.value.primaryEmail
-  //       } else {
-  //         officeEmail = ''
-  //       }
-  //       personalEmail = form.value.secondaryEmail
-  //       return {
-  //         personalEmail,
-  //         firstname: form.value.firstname,
-  //         middlename: form.value.middlename,
-  //         surname: form.value.surname,
-  //         dob: form.value.dob,
-  //         nationality: form.value.nationality,
-  //         domicileMedium: form.value.domicileMedium,
-  //         gender: form.value.gender,
-  //         maritalStatus: form.value.maritalStatus,
-  //         category: form.value.category,
-  //         knownLanguages: form.value.knownLanguages,
-  //         countryCode: form.value.countryCode,
-  //         mobile: form.value.mobile,
-  //         telephone: `${form.value.telephone}` || '',
-  //         primaryEmail: form.value.primaryEmail,
-  //         officialEmail: officeEmail,
-  //         postalAddress: form.value.residenceAddress,
-  //         pincode: form.value.pincode,
-  //         osid: _.get(this.userProfileData, 'personalDetails.osid') || undefined,
-  //       }
-  //     case 'academics':
-  //       return this.getAcademics(form)
-  //     case 'employmentDetails':
-  //       return {
-  //         service: form.value.service,
-  //         cadre: form.value.cadre,
-  //         allotmentYearOfService: form.value.allotmentYear,
-  //         dojOfService: form.value.otherDetailsDoj || undefined,
-  //         payType: form.value.payType,
-  //         civilListNo: form.value.civilListNo,
-  //         employeeCode: form.value.employeeCode,
-  //         officialPostalAddress: form.value.otherDetailsOfficeAddress,
-  //         pinCode: form.value.otherDetailsOfficePinCode,
-  //         departmentName: form.value.orgName || form.value.orgNameOther || '',
-  //         osid: _.get(this.userProfileData, 'employmentDetails.osid') || undefined,
-  //       }
-  //     case 'professionalDetails':
-  //       return [
-  //         ...this.getOrganisationsHistory(form),
-  //       ]
-  //     case 'skills':
-  //       return {
-  //         additionalSkills: form.value.skillAquiredDesc,
-  //         certificateDetails: form.value.certificationDesc,
-  //       }
-  //     case 'interests':
-  //       return {
-  //         professional: form.value.interests,
-  //         hobbies: form.value.hobbies,
-  //       }
-  //     default:
-  //       return undefined
-  //   }
-  // }
-  // private getDataforKRemove(k: string, fields: string[], form: any) {
-  //   const datak = this.getDataforK(k, form)
-  //   _.each(datak, (dk, idx) => {
-  //     for (let i = 0; i <= fields.length && dk; i += 1) {
-  //       const oldVal = _.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
-  //       const newVal = _.get(dk, `${fields[i]}`)
-  //       if (oldVal !== newVal) {
-  //         _.set(dk, fields[i], oldVal)
-  //       }
-  //     }
-  //   })
-  //   return datak
-  // }
-  // private getDataforKAdd(k: string, fields: string[], form: any) {
-  //   const datak = this.getDataforK(k, form)
-  //   const lst: any = []
-  //   // tslint: disable-next-line
-  //   _.each(datak, (dk: any, idx: any) => {
-  //     for (let i = 0; i <= fields.length && dk; i += 1) {
-  //       const oldVal = _.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
-  //       const newVal = _.get(dk, `${fields[i]}`)
-  //       if ((oldVal !== newVal) && dk && _.get(dk, fields[i]) && typeof (_.get(dk, fields[i])) !== 'object') {
-  //         lst.push({
-  //           fieldKey: k,
-  //           fromValue: { [fields[i]]: oldVal || '' },
-  //           toValue: { [fields[i]]: newVal || '' },
-  //           osid: _.get(this.userProfileData, `${k}[${idx}].osid`),
-  //         })
-  //       }
-  //     }
-  //   })
-  //   return lst
-  // }
 
   private getOrganisationsHistory(form: any) {
     const organisations: any = []
@@ -1144,75 +1020,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.configSvc.userProfile) {
           this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
             () => {
-              // const dat = data.profileDetails.profileReq
-              // if (dat) {
-              //   const academics = this.populateAcademics(dat.academics)
-              //   this.setDegreeValuesArray(academics)
-              //   this.setPostDegreeValuesArray(academics)
-              //   const organisations = this.populateOrganisationDetails(dat)
-              //   this.constructFormFromRegistry(dat, academics, organisations)
-              //   this.populateChips(dat)
-              //   this.userProfileData = dat
-              //   let deptNameValue = ''
-              //   if (this.userProfileData && this.userProfileData.professionalDetails
-              //     && this.userProfileData.professionalDetails.length > 0) {
-              //     deptNameValue = form.value.orgName || form.value.orgNameOther || ''
-              //   }
-              //   // const profDetails = {
-              //   //   state: 'INITIATE',
-              //   //   action: 'INITIATE',
-              //   //   userId: this.userProfileData.userId,
-              //   //   applicationId: this.userProfileData.userId,
-              //   //   actorUserId: this.userProfileData.userId,
-              //   //   serviceName: 'profile',
-              //   //   comment: '',
-              //   //   wfId: '',
-              //   //   deptName: deptNameValue,
-              //   //   // updateFieldValues: profileRequest.approvalData,
-              //   // }
-              //   if (deptNameValue && (profDetails.updateFieldValues || []).length > 0) {
-              //     this.userProfileSvc.approveRequest(profDetails).subscribe(() => {
-              //       form.reset()
-              //       this.uploadSaveData = false
-              //       this.configSvc.profileDetailsStatus = true
-              //       this.openSnackbar(this.toastSuccess.nativeElement.value)
-              //       if (!this.isForcedUpdate && this.userProfileData) {
-              //         this.router.navigate(['app', 'profile', 'dashboard'])
-              //       } else {
-              //         this.router.navigate(['page', 'home'])
-              //       }
-              //     }
-              //       ,
-              //       // tslint:disable-next-line:align
-              //       () => {
-              //         this.openSnackbar(this.toastError.nativeElement.value)
-              //         this.uploadSaveData = false
-              //       })
-              //   } else {
-              //     this.uploadSaveData = false
-              //     this.configSvc.profileDetailsStatus = true
-              //     this.openSnackbar(this.toastSuccess.nativeElement.value)
-              //     if (!this.isForcedUpdate && this.userProfileData) {
-              //       // const organisations = this.populateOrganisationDetails(data[0])
-              //       // this.constructFormFromRegistry(data[0], academics, organisations)
-              //       this.router.navigate(['app', 'profile', 'dashboard'])
-              //     } else {
-              //       this.router.navigate(['page', 'home'])
-              //     }
-              //   }
-              // } else {
-              //   form.reset()
-              //   this.uploadSaveData = false
-              //   this.configSvc.profileDetailsStatus = true
-              //   this.openSnackbar(this.toastSuccess.nativeElement.value)
-              //   if (!this.isForcedUpdate && this.userProfileData) {
-              //     this.router.navigate(['app', 'profile', 'dashboard'])
-              //   } else {
-              //     this.router.navigate(['page', 'home'])
-              //   }
-              // }
-              // this.handleFormData(data[0])
-
               this.updateBtnProfileName(profileRequest.profileReq.personalDetails.firstname)
               form.reset()
               this.uploadSaveData = false
@@ -1233,14 +1040,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             (_err: any) => {
             })
         }
-
-        // const selectedCourse = localStorage.getItem('selectedCourse')
-        // if (selectedCourse) {
-        //   this.router.navigateByUrl(selectedCourse)
-        // } else {
-        //   this.router.navigate(['app', 'profile', 'dashboard'])
-        // }
-
       },
       () => {
         this.openSnackbar(this.toastError.nativeElement.value)
@@ -1292,7 +1091,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isOfficialEmail = false
     }
-    // this.assignPrimaryEmailType(this.isOfficialEmail)
   }
 
   private getDateFromText(dateString: string): any {
@@ -1420,10 +1218,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             browserName: userAgent.browserName,
             userCookie,
             userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
-            // personalDetails: user['profileDetails'].personalDetails || {},
           }
           const userdata = Object.assign(user['profileDetails'], obj)
-          // this.chosenLanguage = path.value
           const reqUpdate = {
             request: {
               userId: userid,
@@ -1433,11 +1229,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
             () => {
               if (result.id === 'en') {
-                // this.chosenLanguage = ''
                 window.location.assign(`${location.origin}/page/home`)
-                // window.location.reload(true)
               } else {
-                // window.location.reload(true)
                 window.location.assign(`${location.origin}/${result.id}/page/home`)
               }
             },

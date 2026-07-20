@@ -114,7 +114,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
       this.discussionConfig = {
-        // menuOptions: [{ route: 'categories', enable: true }],
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
@@ -129,10 +128,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
     if (this.route) {
       this.routeSubscription = this.route.data.subscribe((data: Data) => {
-
-        // adding mock data
-        // data.content.error = null
-        // data.content.data = this.courseMockData.result.content
 
         // Checking for JSON DATA
         if (data.content.data) {
@@ -248,7 +243,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
 
   private getUserEnrollmentList() {
     if (this.content && this.content.identifier && this.content.primaryCategory !== 'Course') {
-      // const collectionId = this.isResource ? '' : this.content.identifier
       return this.getContinueLearningData(this.content.identifier)
     }
     this.userEnrollmentList = null
@@ -256,10 +250,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    // this.route.data.subscribe(data => {
-    //   userId = data.profileData.data.userId
-    //   }
-    // )
     this.userSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
         let enrolledCourse: NsContent.ICourse | undefined
@@ -276,7 +266,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
 
           // If current course is present in the list of user enrolled course
           if (enrolledCourse && enrolledCourse.batchId) {
-            // const collectionId = this.isResource ? '' : this.content.identifier
             this.content.completionPercentage = enrolledCourse.completionPercentage || 0
             this.content.completionStatus = enrolledCourse.status || 0
             this.getContinueLearningData(this.content.identifier, enrolledCourse.batchId)
@@ -349,7 +338,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
           filters: {
             courseId: this.content.identifier,
             status: ['0', '1', '2'],
-            // createdBy: 'fca2925f-1eee-4654-9177-fece3fd6afc9',
           },
           sort_by: { createdDate: 'desc' },
         },
@@ -367,7 +355,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
                 [],
                 {
                   relativeTo: this.route,
-                  // queryParams: { batchId: this.getBatchId() },
                   queryParamsHandling: 'merge',
                 })
             }
@@ -386,9 +373,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    // this.route.data.subscribe(data => {
-    //   userId = data.profileData.data.userId
-    // })
     const req: NsContent.IContinueLearningDataReq = {
       request: {
         batchId,
@@ -426,10 +410,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               })
             }
           }
-          // const percentage = _.toInteger((_.sum(progress) / progress.length))
-          // if (this.content) {
-          //   _.set(this.content, 'completionPercentage', percentage)
-          // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
           this.resumeData = null

@@ -138,7 +138,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
 
   openOverviewDialog() {
     let overviewData: any = {}
-    // this.viewerSvc.competencyAsessment.next(false)
     overviewData = {
       learningObjective: this.learningObjective,
       complexityLevel: this.complexityLevel,
@@ -177,7 +176,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
                     batchId: this.route.snapshot.queryParams.batchId,
                   },
                 })
-                // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
               } else {
                 if (isNull(data.prevResource)) {
                   if (this.viewerDataSvc.gatingEnabled) {
@@ -212,14 +210,12 @@ export class QuizComponent implements OnChanges, OnDestroy {
                   } else {
                     this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                   }
-                  // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
                 }
               }
               return
             })
           }
         } else {
-          // this.startQuiz()
           if (get(this.quizJson, 'isAssessment')) {
             this.openAssesmentDialog()
           } else {
@@ -227,7 +223,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
           }
 
         }
-        // this.dialogOverview = null
       })
     }
   }
@@ -502,7 +497,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
 
         if (result.event === "VIEW_ASHA_COURSES") {
           this.navigateToAshaCourses(result)
-          // this.viewCompetencyCourses(result)
         }
 
         if (result.event === "CLOSE") {
@@ -624,7 +618,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
 
       this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe(res => {
         console.log(res.result.content[0])
-        // navigationdata = this.getNavigationData(res.result.content, data.competencyLevel, data, currentData)
         const navigationdata = res.result.content[0]
         const batchId = navigationdata.batches[0].batchId
 
@@ -692,36 +685,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
     this.viewState = 'answer'
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (isNull(data.nextResource)) {
-        // tslint:disable-next-line
-        // if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
-        //   && this.contentSvc.showConformation) {
-        //   const isDialogOpen = this.dialog.openDialogs.length > 0
-        //   if (!isDialogOpen) {
-        //     const data = {
-        //       courseId: this.collectionId,
-        //     }
-        //     this.openCongratulationPopup().then(isCompleted => {
-        //       if (isCompleted) {
-        //         const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-        //           width: '300px',
-        //           height: '420px',
-        //           panelClass: 'overview-modal',
-        //           disableClose: true,
-        //           data: { request: data, message: 'Congratulations!, you have completed the course' },
-        //         })
-
-        //         confirmdialog.afterClosed().subscribe((res: any) => {
-        //           if (res.event === 'CONFIRMED') {
-        //             this.router.navigate([`/app/user/competency`])
-        //           }
-        //         })
-        //       }
-        //     })
-        //   }
-
-        // } else {
         this.router.navigate([`/app/user/competency`])
-        // }
 
       } else {
         // Just navigate. The route container resets isFetchingDataComplete, so the next
@@ -746,44 +710,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
         },
         queryParamsHandling: 'merge',
       })
-      // let reqBody = {
-      //   "request": {
-      //     "filters": {
-      //       "competencySearch": [
-      //         `${data.competencyId}-${data.competencyLevel}`,
-      //       ],
-      //       "primaryCategory": [
-      //         "Course"
-      //       ],
-      //       "contentType": [
-      //         "Course"
-      //       ],
-      //       "status": [
-      //         "Live"
-      //       ]
-      //     },
-      //     "sort_by": {
-      //       "lastUpdatedOn": "desc"
-      //     }
-      //   },
-      //   "sort": [
-      //     {
-      //       "lastUpdatedOn": "desc"
-      //     }
-      //   ]
-      // }
-
-      // this.searchSvc.getSearchCompetencyCourses(reqBody).subscribe(
-      //   res => {
-
-      //     // this.router.navigate([`/app/toc/${res.result.content[0].identifier}/overview`], {
-      //     //   queryParams: {
-      //     //     primaryCategory: 'Course',
-      //     //     batchId: res.result.content[0].batches[0].batchId
-      //     //   },
-      //     // })
-      //   }
-      // )
     }
   }
 
@@ -861,7 +787,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
         }
 
         if (result.event === 'RETAKE_QUIZ') {
-          // this.openOverviewDialog(result.event)
           this.closeQuizBtnDialog(result.event)
         } else if (result.event === 'DONE' || result.event === 'DONE_ASHA') {
 
@@ -961,21 +886,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
                       }
 
                     }
-                    // else {
-                    //   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    //     queryParams: {
-                    //       primaryCategory: 'Course',
-                    //       batchId: this.route.snapshot.queryParams.batchId,
-                    //     },
-                    //   })
-                    // }
-                    // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    //   queryParams: {
-                    //     primaryCategory: 'Course',
-                    //     batchId: this.route.snapshot.queryParams.batchId,
-                    //   },
-                    // })
-                    // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
                   } else {
                     this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                   }
@@ -1059,7 +969,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
     if (event === 'start') {
       this.startQuiz()
     } else if (event === 'skip') {
-      // alert('skip quiz TBI')
     }
   }
 
@@ -1188,7 +1097,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
         this.numUnanswered = res.blank
         this.passPercentage = this.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
-        //if (this.result >= this.passPercentage) {
         if (this.result >= 0) {
           this.isCompleted = true
           const Id = this.identifier
@@ -1226,31 +1134,11 @@ export class QuizComponent implements OnChanges, OnDestroy {
             error => { this.loggerSvc.warn('Progress update failed:', error) }
           )
         }
-
-        // const result = {
-        //   result: (this.numCorrectAnswers * 100.0) / this.processedContent.quiz.questions.length,
-        //   total: this.processedContent.quiz.questions.length,
-        //   blank: res.blank,
-        //   correct: res.correct,
-        //   inCorrect: res.inCorrect,
-        //   passPercentage: res.passPercent,
-        // }
-        // this.quizSvc.firePlayerTelemetryEvent(
-        //   this.processedContent.content.identifier,
-        //   this.collectionId,
-        //   MIME_TYPE.quiz,
-        //   result,
-        //   this.isCompleted,
-        //   'DONE',
-        //   this.isIdeal,
-        //   true,
-        // )
       },
       (_error: any) => {
         this.fetchingResultsStatus = 'error'
       },
     )
-    // this.fetchingResultsStatus = 'done'
   }
 
   showAnswers() {
@@ -1294,7 +1182,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
         }
       },
     )
-    // logger.log(correctAnswers);
     this.numCorrectAnswers = 0
     this.numIncorrectAnswers = 0
     correctAnswers.forEach(answer => {
@@ -1342,8 +1229,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
           correctFlag = false
         }
         if (selectedOptions && selectedOptions[0]) {
-          // logger.log(selectedOptions)
-          // logger.log(correctOptions)
           (selectedOptions[0] as any[]).forEach(element => {
             const b = element.sourceId
             if (correctMtfOptions) {

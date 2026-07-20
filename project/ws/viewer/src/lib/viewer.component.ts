@@ -138,7 +138,6 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     )
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.screenSizeSubscription = this.isLtMedium$.subscribe(isSmall => {
-      // this.sideNavBarOpened = !isSmall
       this.sideNavBarOpened = isSmall ? false : true
       this.mode = isSmall ? 'over' : 'side'
     })
@@ -178,8 +177,6 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.error && this.error.errorType === this.errorType.previewUnAuthorised) {
       }
     })
-
-    // this.getDiscussionConfig()
   }
   getLicenseConfig(): void {
     const licenseurl = '/fusion-assets/files/license.meta.json'

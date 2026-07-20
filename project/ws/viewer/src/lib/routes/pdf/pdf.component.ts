@@ -77,9 +77,6 @@ export class PdfComponent implements OnInit, OnDestroy {
         async data => {
           this.isFetchingDataComplete = false
           this.pdfData = data.content.data
-          // if (this.alreadyRaised && this.oldData) {
-          //   this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-          // }
           if (this.pdfData) {
             this.formDiscussionForumWidget(this.pdfData)
           }
@@ -106,11 +103,6 @@ export class PdfComponent implements OnInit, OnDestroy {
           this.widgetResolverPdfData.widgetData.identifier = this.pdfData && this.pdfData.identifier
 
           this.widgetResolverPdfData = JSON.parse(JSON.stringify(this.widgetResolverPdfData))
-          // if (this.pdfData) {
-          //   this.oldData = this.pdfData
-          //   this.alreadyRaised = true
-          //   this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.pdfData)
-          // }
           this.isFetchingDataComplete = true
           this.cdr.detectChanges()
         },
@@ -158,43 +150,13 @@ export class PdfComponent implements OnInit, OnDestroy {
     this.eventSvc.dispatchEvent(event)
   }
 
-  // async fetchContinueLearning(collectionId: string, pdfId: string): Promise<boolean> {
-  //   return new Promise(resolve => {
-  //     this.contentSvc.fetchContentHistory(collectionId).subscribe(
-  //       data => {
-  //         if (data) {
-  //           if (data.identifier === pdfId && data.continueData && data.continueData.progress) {
-  //             this.widgetResolverPdfData.widgetData.resumePage = Number(data.continueData.progress)
-  //           }
-  //         }
-  //         resolve(true)
-  //       },
-  //       () => resolve(true),
-  //     )
-  //   })
-  // }
-
   async fetchContinueLearning(collectionId: string, pdfId: string): Promise<boolean> {
     return new Promise(resolve => {
-      // this.contentSvc.fetchContentHistory(collectionId).subscribe(
-      //   data => {
-      //     if (data) {
-      //       if (data.identifier === pdfId && data.continueData && data.continueData.progress) {
-      //         this.widgetResolverPdfData.widgetData.resumePage = Number(data.continueData.progress)
-      //       }
-      //     }
-      //     resolve(true)
-      //   },
-      //   () => resolve(true),
-      // )
       let userId
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
       }
 
-      // this.activatedRoute.data.subscribe(data => {
-      //   userId = data.profileData.data.userId
-      // })
       const req: NsContent.IContinueLearningDataReq = {
         request: {
           userId,

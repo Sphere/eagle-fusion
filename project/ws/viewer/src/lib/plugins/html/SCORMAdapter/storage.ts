@@ -1,6 +1,5 @@
 /* tslint:disable */
 import { Injectable } from '@angular/core'
-// import _ from 'lodash'
 @Injectable({
   providedIn: 'root',
 })
@@ -29,10 +28,7 @@ export class Storage {
     if (getItem) {
       const itemParsed = JSON.parse(getItem)
       if (itemParsed) {
-        // itemParsed[element] = JSON.parse(value)
         itemParsed[element] = value
-        // _.set(itemParsed,'element',value);
-        // console.log("return Item=> stringfy", JSON.stringify(itemParsed))
         window.localStorage.setItem(this.contentKey, JSON.stringify(itemParsed))
       }
     }
@@ -59,7 +55,6 @@ export class Storage {
       return null
     }
     const newItem = JSON.parse(item)
-    // console.log("GET ALL", item)
     return newItem || null
   }
 

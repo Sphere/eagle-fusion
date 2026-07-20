@@ -57,10 +57,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
-    // this.activatedRoute.data.subscribe(data => {
-    //   this.uuid = data.profileData.data.userId
-    // })
     this.uuid = this.configSvc.userProfile ? this.configSvc.userProfile.userId : ''
     this.isNotEmbed = !(
       window.location.href.includes('/embed/') ||
@@ -108,7 +104,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
           if (this.alreadyRaised && this.oldData) {
             this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
             if (!this.hasFiredRealTimeProgress) {
-              // this.fireRealTimeProgress()
               if (this.realTimeProgressTimer) {
                 clearTimeout(this.realTimeProgressTimer)
               }
@@ -152,12 +147,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
                         this.subApp = true
                       }
                       break
-                    // case 'CONTINUE_LEARNING':
-                    //   await this.respondSvc.continueLearningRespond(
-                    //     this.htmlData.identifier,
-                    //     event.data.data.continueLearning,
-                    //   )
-                    //   break
                     case 'TELEMETRY':
                       await this.respondSvc.telemetryEvents(event.data)
                       break
@@ -174,71 +163,7 @@ export class HtmlComponent implements OnInit, OnDestroy {
     }
   }
 
-  // async saveContinueLearning(content: NsContent.IContent | null) {
-  //   return new Promise(async resolve => {
-  //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-  //       content &&
-  //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-  //       const reqBody = {
-  //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-  //           ? this.activatedRoute.snapshot.queryParams.collectionId
-  //           : content
-  //             ? content.identifier
-  //             : '',
-  //         resourceId: content.identifier,
-  //         data: JSON.stringify({
-  //           timestamp: Date.now(),
-  //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, content.identifier],
-  //         }),
-  //         dateAccessed: Date.now(),
-  //         contextType: 'playlist',
-  //       }
-  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-  //         resolve(true)
-  //       }
-  //       )
-  //     } else {
-  //       const reqBody = {
-  //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-  //           ? this.activatedRoute.snapshot.queryParams.collectionId
-  //           : content
-  //             ? content.identifier
-  //             : '',
-  //         resourceId: content ? content.identifier : '',
-  //         data: JSON.stringify({ timestamp: Date.now() }),
-  //         dateAccessed: Date.now(),
-  //       }
-  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-  //         resolve(true)
-  //       }
-  //       )
-  //     }
-  //   })
-  // }
-
-  // generateUrl(oldUrl: string) {
-  //   const chunk = oldUrl.split('/')
-  //   const newChunk = environment.azureHost.split('/')
-  //   const newLink = []
-  //   for (let i = 0; i < chunk.length; i += 1) {
-  //     if (i === 2) {
-  //       newLink.push(newChunk[i])
-  //     } else if (i === 3) {
-  //       newLink.push(environment.azureBucket)
-  //     } else {
-  //       newLink.push(chunk[i])
-  //     }
-  //   }
-  //   const newUrl = newLink.join('/')
-  //   return newUrl
-  // }
-
   async ngOnDestroy() {
-    // if (this.htmlData) {
-    //   if (!this.subApp || this.activatedRoute.snapshot.queryParams.collectionId) {
-    //     await this.saveContinueLearning(this.htmlData)
-    //   }
-    // }
     if (this.htmlData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.htmlData)
     }
@@ -252,12 +177,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
     if (this.viewerDataSubscription) {
       this.viewerDataSubscription.unsubscribe()
     }
-    // if (!this.hasFiredRealTimeProgress && !this.forPreview) {
-    //   this.fireRealTimeProgress()
-    //   if (this.realTimeProgressTimer) {
-    //     clearTimeout(this.realTimeProgressTimer)
-    //   }
-    // }
   }
 
   formDiscussionForumWidget(content: NsContent.IContent) {
@@ -280,7 +199,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }
@@ -359,16 +277,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
       }
     }
     this.realTimeProgressRequest.content_type = this.htmlData ? this.htmlData.contentType : ''
-    // const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-    //           this.activatedRoute.snapshot.queryParams.collectionId : ''
-    //   const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-    //           this.activatedRoute.snapshot.queryParams.batchId : ''
-    // this.viewerSvc.realTimeProgressUpdate(
-    //   this.htmlData ? this.htmlData.identifier : '',
-    //   this.realTimeProgressRequest,
-    //   collectionId,
-    //   batchId
-    // )
     return
   }
 }

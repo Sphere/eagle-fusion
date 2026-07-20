@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-// import { HttpClient } from '@angular/common/http'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
@@ -23,8 +22,6 @@ import { PlayerStateService } from '../../../../player-state.service'
 import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 import { TranslateService } from '@ngx-translate/core'
-// import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
-// declare var Telemetry: any
 @Component({
   standalone: false,
   selector: 'viewer-assesment-modal',
@@ -71,9 +68,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   progress = 40
   public unsubscribe = new Subject<void>()
 
-  // Organizations where View Answers should not be shown if isCorrectAnswerPopUp is not present
-  // Fetched from S3 configuration
-  // private restrictedOrgIds: string[] = []
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -89,7 +83,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private contentSvc: WidgetContentService,
     private events: EventService,
     private dialog: MatDialog,
-    // private http: HttpClient,
     private logger: LoggerService,
     private plylsSvc: PlaylistService,
     private translate: TranslateService,
@@ -107,13 +100,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.timer(this.timeLeft)
     this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
-    // this.progressbarValue = this.totalQuestion
     this.progressbarValue += 100 / this.totalQuestion
     this.proficiencyLevel = this.assesmentdata.generalData.name
       .replace('Proficency', 'Proficiency').split('Proficiency')[1]
     this.isCompetency = this.route.snapshot.queryParams.competency
     this.isAshaHome = this.route.snapshot.queryParams.isAsha
-    // this.fetchRestrictedOrgIds()
     // **CRITICAL**: Check current progress before sending update to avoid resetting completed assessments
     this.updateProgress()
   }
@@ -203,25 +194,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   /**
-   * Fetch restricted organization names from S3 configuration file
-   */
-  // private fetchRestrictedOrgIds(): void {
-  //   const s3ConfigUrl = S3_END_POINTS.QUIZ_CONFIG
-
-  //   this.http.get<any>(s3ConfigUrl).subscribe(
-  //     (config: any) => {
-  //       if (config && Array.isArray(config.restrictedOrgIds)) {
-  //         this.restrictedOrgIds = config.restrictedOrgIds
-  //         this.logger.log('Restricted org names loaded from S3:', this.restrictedOrgIds)
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.logger.warn('Failed to load restricted org names from S3:', error)
-  //     }
-  //   )
-  // }
-
-  /**
    * Check if View Answers button should be shown based on resource property and organization
    *
    * Logic:
@@ -260,7 +232,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   closePopup() {
-    // console.log("close competenct", this.isCompetency)
     if (this.isCompetency) {
       if (this.isAshaHome) {
         this.dialogRef.close({
@@ -886,14 +857,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       })
     })
     // tslint:disable-next-line: max-line-length
-    // if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
-    //   const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-    //   let userAnswer: any = {}
-    //   userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
-    //   this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
-    // }
-
-    // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
       this.updateQuestionType(true)
     } else {
@@ -915,13 +878,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       return
     }
 
-    // if (
-    //   this.quizService.questionState.active_slide_index
-    //   === (this.quizService.questionState.slides.length - 1)) {
-    //   this.diablePrevious = false
-    //   this.showSubmit = false
-    //   this.proceedToSubmit()
-    // }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()

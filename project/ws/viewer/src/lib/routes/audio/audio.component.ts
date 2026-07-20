@@ -72,7 +72,6 @@ export class AudioComponent implements OnInit, OnDestroy {
           this.widgetResolverAudioData.widgetData.disableTelemetry = true
           this.isFetchingDataComplete = true
         })
-      // this.htmlData = this.viewerDataSvc.resource
     } else {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
         async data => {
@@ -183,26 +182,6 @@ export class AudioComponent implements OnInit, OnDestroy {
       })
 
     }, 50)
-    // return new Promise(resolve => {
-    //   this.contentSvc.fetchContentHistory(collectionId).subscribe(
-    //     data => {
-    //       if (data) {
-    //         if (
-    //           data.identifier === audioId &&
-    //           data.continueData &&
-    //           data.continueData.progress &&
-    //           this.widgetResolverAudioData
-    //         ) {
-    //           this.widgetResolverAudioData.widgetData.resumePoint = Number(
-    //             data.continueData.progress,
-    //           )
-    //         }
-    //       }
-    //       resolve(true)
-    //     },
-    //     () => resolve(true),
-    //   )
-    // })
   }
 
   private async setS3Cookie(contentId: string) {
@@ -210,7 +189,6 @@ export class AudioComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }

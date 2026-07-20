@@ -29,13 +29,9 @@ export class HtmlComponent implements OnInit, OnChanges {
   isLtMedium = false
   isScormContent = false
   isRestricted = false
-  // prevResourceUrl: string | null = null
-  // nextResourceUrl: string | null = null
   currentCompletionPercentage: number | null = null
   collectionType: any
   viewerDataServiceSubscription: any
-  // prevTitle: string | null | undefined
-  // nextTitle: string | null | undefined
   collectionIdentifier: any
 
   constructor(
@@ -51,19 +47,10 @@ export class HtmlComponent implements OnInit, OnChanges {
   ) {
 
   }
-  // async setcookies() {
-  //   if (this.htmlData && this.htmlData.artifactUrl && (this.htmlData.artifactUrl.indexOf('/content-store/') > -1)) {
-  //     return await this.contentSvc.setS3Cookie(this.htmlData.identifier || '').toPromise()
-  //   }
-  // }
   ngOnInit() {
-    // this.setcookies().then(() => {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
-      // this.prevTitle = data.previousTitle
-      // this.nextTitle = data.nextResTitlenavigatetoOverview
-      // this.prevResourceUrl = data.prevResourceprevTitle
       this.currentCompletionPercentage = data.currentCompletionPercentage
     })
     if (this.configSvc.restrictedFeatures) {
@@ -73,9 +60,6 @@ export class HtmlComponent implements OnInit, OnChanges {
     this.valueSvc.isLtMedium$.subscribe(isLtMd => {
       this.isLtMedium = isLtMd
     })
-    // }).catch((ex) => {
-    //   this.logger.warn("Please refresh Page", ex)
-    // })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
     this.isProgressCheck()
@@ -110,13 +94,4 @@ export class HtmlComponent implements OnInit, OnChanges {
     }
     return true
   }
-  // stopPropagation() {
-  //   return
-  // }
-
-  // navigatetoOverview() {
-  //   if (!this.nextResourceUrl) {
-  //     this.router.navigate([`/app/toc/${this.collectionIdentifier}/overview`])
-  //   }
-  // }
 }

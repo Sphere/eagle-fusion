@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, AfterViewInit, HostListener } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { SafeResourceUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService, EventService, LoggerService, TelemetryService } from '@ws-widget/utils'
+import { ConfigurationsService, EventService, LoggerService, SafeResourceUrlService, TelemetryService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
@@ -19,7 +19,6 @@ import { Subscription } from 'rxjs'
 })
 export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 
-  // private mobileOpenInNewTab!: any
   @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
   @ViewChild('mobileOpenInNewTab', { read: ElementRef, static: false }) mobileOpenInNewTab !: ElementRef<HTMLAnchorElement>
   @Input() htmlContent: NsContent.IContent | null = null
@@ -102,15 +101,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         this.telemetrySvc.end('youtube', 'youtube-close', 'player', data1, extras)
       }
-      // this.contentSvc.changeMessage('youtube')
     }
   }
 
   constructor(
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     public mobAppSvc: MobileAppsService,
     private scormAdapterService: SCORMAdapterService,
-    // private http: HttpClient,
     private router: Router,
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
@@ -123,18 +120,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     private cdr: ChangeDetectorRef
   ) {
     (window as any).API = this.scormAdapterService
-    // if (window.addEventListener) {
     window.addEventListener('message', this.boundReceiveMessage)
   }
 
   ngOnInit() {
-    // this.mobAppSvc.simulateMobile()
-    // if (this.htmlContent && this.htmlContent.identifier) {
-    //   this.logger.log(this.htmlContent.identifier)
-    //   this.scormAdapterService.contentId = this.htmlContent.identifier
-    //   // this.scormAdapterService.loadData()
-    //   this.scormAdapterService.loadDataV2()
-    // }
 
   }
   ngAfterViewInit() {
@@ -214,7 +203,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         this.telemetrySvc.end('docs.google', 'docs.google-close', 'player', data1, extras)
       }
 
-      // this.contentSvc.changeMessage('docs.google')
     }
   }
 
@@ -286,8 +274,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             if (this.currentProcessingContentId === this.htmlContent!.identifier && this.htmlContent && data) {
               this.logger.log(this.htmlContent.identifier)
               this.contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-              //this.logger.log(this.contentData, this.contentData.completionPercentage, 'wee')
-              //this.ent = true
               if ((this.contentData && this.contentData.completionPercentage === 100 && this.htmlContent.mimeType !== 'application/vnd.ekstep.html-archive' && this.htmlContent.mimeType !== 'text/x-url')) {
                 const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
                   this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
@@ -528,7 +514,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   url = url + res['result']['content']['entryPoint']
 
                 }
-                this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url)
+                this.iframeUrl = this.safeResourceUrlSvc.trust(url)
               })
               .catch((err: any) => {
                 /* tslint:disable-next-line */
@@ -562,38 +548,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             const entryPoint = this.htmlContent.entryPoint || ''
             const newUrl = `/apis/proxies/v8/getContents${streamingUrl}${entryPoint}`
             this.logger.log('[SCORM] Using proxy URL:', newUrl, { streamingUrl, entryPoint })
-            this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(newUrl)
-            // let artifactUrl = this.htmlContent.streamingUrl.substring(51)
-            // this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
-            //   .then((res: string) => {
-            //     /* tslint:disable-next-line */
-            //     this.logger.log(res)
-            //     this.logger.log(res['result']['content']['streamingUrl'].substring(51))
-            //     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${this.htmlContent.artifactUrl}`)
-            //   })
-            //   .catch((err: any) => {
-            //     /* tslint:disable-next-line */
-            //     this.logger.log(err)
-            //   })
-            // this.contentSvc
-            //   .fetchHierarchyContent(this.htmlContent.identifier)
-            //   .toPromise()
-            //   .then((res: any) => {
-            //     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
-            //   })
-            //   .catch((err: any) => {
-            //     /* tslint:disable-next-line */
-            //     this.logger.log(err)
-            //   })
+            this.iframeUrl = this.safeResourceUrlSvc.trust(newUrl)
           }
         }
 
         if (this.htmlContent.entryPoint && this.htmlContent.entryPoint.includes('lms') === false) {
-          // const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-          //   this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
-          // const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-          //   this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
-
           this.telemetrySvc.start('html/lms', 'html/lms-start', 'player')
 
           const data1 = {
@@ -603,16 +562,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
           this.logger.log('timeout', this.contentData, data1)
           setTimeout(() => {
-            if (this.htmlContent) {
-              // this.viewerSvc
-              //   .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-              //     this.logger.log(data.result.contentList)
-              //     const result = data.result
-              //     result['type'] = 'html'
-              //     this.contentSvc.changeMessage(result)
-              //   })
-              // this.contentSvc.changeMessage('html')
-            }
           }, 50)
 
           const courseID = this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -642,7 +591,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
       } else {
         this.mimeType = this.htmlContent.mimeType
-        this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+        this.iframeUrl = this.safeResourceUrlSvc.trust(
           this.htmlContent.artifactUrl)
       }
 
@@ -655,12 +604,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     }
     this.cdr.detectChanges()
   }
-
-  // backToDetailsPage() {
-  //   this.router.navigate([
-  //     `/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`,
-  //   ])
-  // }
 
   backToDetailsPage() {
     this.router.navigate(
@@ -681,8 +624,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     }
   }
   receiveMessage(msg: any) {
-    // /* tslint:disable-next-line */
-    // this.logger.log("msg=>", msg)
     if (msg.data) {
       this.raiseTelemetry(msg.data)
     } else {
@@ -759,7 +700,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         this.telemetrySvc.end('html/open-in-newtab', 'html/open-in-newtab-close', 'player', data2, extras)
       }
       if (this.mobAppSvc && this.mobAppSvc.isMobile) {
-        // window.open(this.htmlContent.artifactUrl)
         setTimeout(
           () => {
             this.mobileOpenInNewTab.nativeElement.click()

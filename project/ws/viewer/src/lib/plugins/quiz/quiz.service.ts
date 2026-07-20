@@ -71,7 +71,6 @@ export class QuizService {
     } else {
       url = `${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     }
-    // this.logger.log(url)
     return this.http.post<NSQuiz.IQuizSubmitResponse>(url, req)
   }
 

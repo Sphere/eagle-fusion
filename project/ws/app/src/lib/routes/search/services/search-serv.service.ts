@@ -115,13 +115,6 @@ export class SearchServService {
     return this.searchApi.getSearchResults(req)
   }
 
-  // fetchSearchDataDocs(request: ISearchObjForSearch): Observable<IKhubViewResultDocs> {
-  //   return this.khubApiSvc.fetchSearchDataDocs(request)
-  // }
-  // fetchSearchDataProjects(request: ISearchObjForSearch): Observable<IKhubViewResultProject> {
-  //   return this.khubApiSvc.fetchSearchDataProject(request)
-  // }
-
   updateSelectedFiltersSet(filters: { [key: string]: string[] }): IFilterSet {
     const valuesForSet: string[] = []
     let filtersResetAble = false

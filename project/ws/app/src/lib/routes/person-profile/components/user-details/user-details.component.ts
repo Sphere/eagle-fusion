@@ -42,7 +42,6 @@ export class UserDetailsComponent implements OnInit, OnChanges {
 
   constructor(
     private configSvc: ConfigurationsService
-    // private personprofileSvc: PersonProfileService
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -59,7 +58,6 @@ export class UserDetailsComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.isInitialized = true
     this.checkingDetails()
-    // this.isBlogsEnabled = (this.configSvc.restrictedFeatures && this.configSvc.restrictedFeatures.has('social')) || false
   }
 
   checkingDetails() {

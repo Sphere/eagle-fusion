@@ -127,7 +127,6 @@ export class VideoComponent implements OnInit, OnDestroy {
                         },
                       }
                       this.logger.log(req)
-                      //this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
                       this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                         this.logger.log(data)
                         const result = data.result
@@ -155,7 +154,6 @@ export class VideoComponent implements OnInit, OnDestroy {
                         },
                       }
                       this.logger.log(req)
-                      //this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
                       this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                         this.logger.log(data)
                         const result = data.result
@@ -292,29 +290,6 @@ export class VideoComponent implements OnInit, OnDestroy {
       widgetType: 'discussionForum',
     }
   }
-  // async fetchContinueLearning(collectionId: string, videoId: string): Promise<boolean> {
-  //   return new Promise(resolve => {
-  //     this.contentSvc.fetchContentHistory(collectionId).subscribe(
-  //       data => {
-  //         if (data) {
-  //           if (
-  //             data.identifier === videoId &&
-  //             data.continueData &&
-  //             data.continueData.progress &&
-  //             this.widgetResolverVideoData
-  //           ) {
-  //             this.widgetResolverVideoData.widgetData.resumePoint = Number(
-  //               data.continueData.progress,
-  //             )
-  //           }
-  //         }
-  //         resolve(true)
-  //       },
-  //       () => resolve(true),
-  //     )
-  //   })
-  // }
-
   async fetchContinueLearning(collectionId: string, videoId: string): Promise<boolean> {
     return new Promise(resolve => {
       let userId

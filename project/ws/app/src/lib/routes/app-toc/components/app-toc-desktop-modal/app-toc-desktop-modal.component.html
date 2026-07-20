@@ -6,10 +6,6 @@
     <div class="details mb-1" *ngIf="content?.content.creator"><span>{{'Author' | translate}}</span>:
       {{content?.content?.creatorDetails[0]?.name }}
     </div>
-    <!-- <div *ngIf="content?.content.sourceName" class="mb-1">
-      <span>Source</span>: <a class="blue-link cursor-pointer"
-        (click)="showOrgprofile(content?.content.sourceName)">{{content?.content.sourceName}}</a>
-    </div> -->
     <div class="details-date"
       *ngIf="content?.tocConfig.atAGlance?.lastUpdatedOn?.enabled && content?.content.lastUpdatedOn">
       <span>{{'Last updated on' | translate}}</span>: {{ content?.content.lastUpdatedOn | date }}

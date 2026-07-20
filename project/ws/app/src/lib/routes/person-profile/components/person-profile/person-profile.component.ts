@@ -82,7 +82,6 @@ export class PersonProfileComponent implements OnInit {
       }
 
     })
-    // this.fetchUserDetails(this.emailId)
     if (this.configSvc.userProfile) {
       if (this.emailId === this.configSvc.userProfile.email) {
         this.isFollowButtonEnabled = false
@@ -122,7 +121,6 @@ export class PersonProfileComponent implements OnInit {
             this.fetchInterest()
             this.fetchFollowers()
             this.fetchFollowing()
-            // this.fetchDetails()
           } else {
             this.statusFollowed = 'ERROR'
             this.openSnackBar('Error while fetching user details')

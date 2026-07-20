@@ -14,7 +14,6 @@ import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { NsContent } from '@ws-widget/collection'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-// import { ActivatedRoute } from '@angular/router'
 @Component({
     standalone: false,
     selector: 'viewer-plugin-web-module',
@@ -63,10 +62,8 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     private events: EventService,
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
-    // private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private configurationSvc: ConfigurationsService,
-    // private activatedRoute: ActivatedRoute,
   ) {
     this.iframeElem = {} as ElementRef
   }
@@ -90,7 +87,6 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
       if (prop === 'widgetData') {
         if (this.widgetData.identifier !== this.oldIdentifier) {
           if (this.current.length > 0) {
-            // this.saveContinueLearning(this.oldIdentifier)
             this.fireRealTimeProgress(this.oldIdentifier)
           }
         }
@@ -112,42 +108,11 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
       clearInterval(this.scrollTimeInterval)
       this.scrollTimeInterval = null
     }
-    // this.saveContinueLearning(this.widgetData.identifier)
     if (this.widgetData && this.widgetData.identifier) {
       this.fireRealTimeProgress(this.widgetData.identifier)
     }
   }
 
-  // saveContinueLearning(id: string) {
-  //   if (this.widgetData.mimeType === (NsContent.EMimeTypes.WEB_MODULE || NsContent.EMimeTypes.WEB_MODULE_EXERCISE)) {
-  //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-  //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-  //       const reqBody = {
-  //         contextPathId: this.collectionId ? this.collectionId : id,
-  //         resourceId: id,
-  //         dateAccessed: Date.now(),
-  //         contextType: 'playlist',
-  //         data: JSON.stringify({
-  //           progress: this.currentSlideNumber,
-  //           timestamp: Date.now(),
-  //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, id],
-  //         }),
-  //       }
-  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch()
-  //     } else {
-  //       const reqBody = {
-  //         contextPathId: this.collectionId ? this.collectionId : id,
-  //         resourceId: id,
-  //         dateAccessed: Date.now(),
-  //         data: JSON.stringify({
-  //           progress: this.currentSlideNumber,
-  //           timestamp: Date.now(),
-  //         }),
-  //       }
-  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch()
-  //     }
-  //   }
-  // }
   fireRealTimeProgress(id: string) {
     if (this.widgetData.mimeType === (NsContent.EMimeTypes.WEB_MODULE || NsContent.EMimeTypes.WEB_MODULE_EXERCISE)) {
       if (this.current.length > 0 && this.slides.length > 0) {

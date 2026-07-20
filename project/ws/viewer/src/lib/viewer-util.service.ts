@@ -2,7 +2,6 @@ import { ConfigurationsService, EventService, LoggerService } from '@ws-widget/u
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import {
-  // noop,
   Observable, BehaviorSubject,
 } from 'rxjs'
 import dayjs from 'dayjs'
@@ -50,7 +49,6 @@ export class ViewerUtilService {
 
   calculatePercent(current: any, max: number, mimeType?: string): number {
     try {
-      // const temp = [...current]
       const temp = current
       if (temp && max) {
         if (
@@ -61,13 +59,6 @@ export class ViewerUtilService {
         ) {
           const percent = (current / max) * 100
           return Math.ceil(percent)
-          // if (percent <= 5) {
-          //   // if percentage is less than 5% make it 0
-          //   percent = 0
-          // } else if (percent >= 95) {
-          //   // if percentage is greater than 95% make it 100
-          //   percent = 100
-          // }
         } if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'application/json') {
           return 100
         } if (mimeType === NsContent.EMimeTypes.ZIP) {
@@ -118,15 +109,6 @@ export class ViewerUtilService {
           return 2
         }
       } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'application/json') {
-        // if (current === 1) {
-        //   return 0
-        // }
-        // if (current === 5) {
-        //   return 1
-        // }
-        // if (current === 10) {
-        //   return 2
-        // }
         return 2
       } else if (mimeType === NsContent.EMimeTypes.PDF) {
         if (percentage <= 25) {
@@ -433,9 +415,6 @@ export class ViewerUtilService {
       req = {}
     }
     this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '201')
-    // this.http
-    //   .patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}/${contentId}`, req)
-    //   .subscribe(noop, noop)
     return this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req)
   }
 

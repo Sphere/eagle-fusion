@@ -63,7 +63,6 @@ export class AudioNativeComponent implements OnInit, OnDestroy {
         if (this.audioData && this.audioData.artifactUrl.indexOf('content-store') >= 0) {
           await this.setS3Cookie(this.audioData.identifier)
         }
-        // this.saveContinueLearning(this.audioData)
         this.isFetchingDataComplete = true
       },
       () => { },
@@ -81,18 +80,6 @@ export class AudioNativeComponent implements OnInit, OnDestroy {
       this.viewerDataSubscription.unsubscribe()
     }
   }
-
-  // saveContinueLearning(content: NsContent.IContent | null) {
-  //   this.contentSvc
-  //     .saveContinueLearning({
-  //       contextPathId: content ? content.identifier : '',
-  //       resourceId: content ? content.identifier : '',
-  //       data: JSON.stringify({ timestamp: Date.now() }),
-  //       dateAccessed: Date.now(),
-  //     })
-  //     .toPromise()
-  //     .catch()
-  // }
 
   formDiscussionForumWidget(content: NsContent.IContent) {
     this.discussionForumWidget = {
@@ -114,7 +101,6 @@ export class AudioNativeComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }

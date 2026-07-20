@@ -44,8 +44,6 @@ export class AccessControlService {
   }
 
   get locale(): string {
-    // return this.configService.userPreference && this.configService.userPreference.selectedLocale ?
-    //   this.configService.userPreference.selectedLocale : 'en'
     return this.baseHref && this.baseHref.replace(/\//g, '')
       ? this.baseHref.replace(/\//g, '').split('-')[0]
       : 'en'

@@ -74,16 +74,6 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   async ngOnDestroy() {
-    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
-    //   this.activatedRoute.snapshot.queryParams.collectionType
-    //   && this.quizData) {
-    //   await this.contentSvc.continueLearning(this.quizData.identifier,
-    //     this.activatedRoute.snapshot.queryParams.collectionId,
-    //     this.activatedRoute.snapshot.queryParams.collectionType,
-    //   )
-    // } else if (this.quizData) {
-    //   await this.contentSvc.continueLearning(this.quizData.identifier)
-    // }
     if (this.quizData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.quizData)
     }
@@ -124,12 +114,10 @@ export class QuizComponent implements OnInit, OnDestroy {
       if (window.location.origin.indexOf('http://localhost:') === -1) {
         artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
       }
-      // this.logger.log(artifactUrl)
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()
         .catch((_err: any) => {
-          // throw new DataResponseError('MANIFEST_FETCH_FAILED');
         })
       if (this.forPreview && quizJSON) {
         quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
@@ -153,7 +141,6 @@ export class QuizComponent implements OnInit, OnDestroy {
         .get<any>(artifactUrl || '')
         .toPromise()
         .catch((_err: any) => {
-          // throw new DataResponseError('MANIFEST_FETCH_FAILED');
         })
       if (this.forPreview && quizJSON) {
         quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
@@ -176,7 +163,6 @@ export class QuizComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }

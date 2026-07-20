@@ -8,14 +8,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
-  // ContentProgressService,
   NsContent,
   VIEWER_ROUTE_FROM_MIME,
   WidgetContentService,
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import {
-  // LoggerService,
   ConfigurationsService,
   LoggerService,
   UtilityService,
@@ -94,7 +92,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     private viewerDataSvc: ViewerDataService,
     private viewSvc: ViewerUtilService,
     private configSvc: ConfigurationsService,
-    // private contentProgressSvc: ContentProgressService,
     private playerStateService: PlayerStateService,
     public router: Router,
     public dialog: MatDialog,
@@ -237,12 +234,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
       this.logger.log(data, '188')
       if (data) {
-        //
-        // this.logger.log(this.playerStateService.trigger$.getValue())
         if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === 'not-triggered') {
           this.scromUpdateCheck(data)
 
-          // this.logger.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
 
@@ -291,13 +285,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         collectionType.toLowerCase() ===
         NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
       ) {
-        // this.collection = await this.getPlaylistContent(collectionId, collectionType)
       } else if (
         collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
         collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
         collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
       ) {
-        // this.collection = await this.getCollection(collectionId, collectionType)
       } else {
         this.isErrorOccurred = true
       }
@@ -422,26 +414,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.checkIndexOfResource()
     }, 300)
   }
-  // updateSearchModel(value) {
-  //   this.searchModel = value
-  //   // this.searchModelChange.emit(this.searchModel)
-  // }
   sendStatus(content: any) {
     content['openOverviewDialog'] = content.type === 'Assessment'
     this.viewSvc.editResourceData(content)
   }
 
-  // private getContentProgressHash() {
-  //   this.contentProgressSvc.getProgressHash().subscribe(progressHash => {
-  //     this.contentProgressHash = progressHash
-  //   })
-  // }
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: any) {
-  //   if (event.target.innerWidth < 600) {
-  //     this.minimizenav()
-  //   }
-  // }
   ngOnDestroy() {
     if (this.paramSubscription) {
       this.paramSubscription.unsubscribe()
@@ -455,15 +432,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     if (this.progresSub) {
       this.progresSub.unsubscribe()
     }
-    // if(this.subscription) {
-    //   this.subscription.unsubscribe();
-    // }
 
   }
   changeTocMode() {
     if (this.tocMode === 'FLAT') {
       this.tocMode = 'TREE'
-      // this.processCollectionForTree()
     } else {
       this.tocMode = 'FLAT'
     }
@@ -754,7 +727,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const urlParams = targetUrl.split('/')
     const courseId = urlParams[3]
     const userID = this.configSvc.userProfile!.userId
-    //let cId = this.activatedRoute.snapshot.queryParams.contentId
 
     arr2.forEach((obj2: any) => {
       const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
@@ -1305,7 +1277,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.nestedDataSource.data = this.collection.children
         this.pathSet = new Set()
         this.cdr.markForCheck()
-        // if (this.resourceId && this.tocMode === 'TREE') {
         if (this.resourceId) {
           of(true)
             .pipe(delay(200))

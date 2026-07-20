@@ -72,16 +72,6 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
   }
 
   async ngOnDestroy() {
-    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
-    //   this.activatedRoute.snapshot.queryParams.collectionType
-    //   && this.resourceCollectionData) {
-    //   await this.contentSvc.continueLearning(this.resourceCollectionData.identifier,
-    //                                          this.activatedRoute.snapshot.queryParams.collectionId,
-    //                                          this.activatedRoute.snapshot.queryParams.collectionType,
-    //   )
-    // } else if (this.resourceCollectionData) {
-    //   await this.contentSvc.continueLearning(this.resourceCollectionData.identifier)
-    // }
     if (this.resourceCollectionData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.resourceCollectionData)
     }
@@ -149,7 +139,6 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }

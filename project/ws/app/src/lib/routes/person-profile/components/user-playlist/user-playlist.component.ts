@@ -1,9 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter, OnChanges } from '@angular/core'
-// import { NsPlaylist } from '@ws-widget/collection'
 import { Subscription } from 'rxjs'
 import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils/src/public-api'
-// import { MatDialog, MatSnackBar } from '@angular/material'
-// import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
     standalone: false,
@@ -17,8 +14,6 @@ export class UserPlaylistComponent implements OnInit, OnChanges {
   @Input() name = ''
   @Output() fetching = new EventEmitter<boolean>()
 
-  // playlists: NsPlaylist.IPlaylist[] | null = null
-  // type: NsPlaylist.EPlaylistTypes = NsPlaylist.EPlaylistTypes.ME
   playlistsSubscription: Subscription | null = null
   suggestionsLimit = 4
   defaultThumbnail = ''
@@ -27,9 +22,6 @@ export class UserPlaylistComponent implements OnInit, OnChanges {
 
   constructor(
     public configSvc: ConfigurationsService,
-    // private personProfileSvc: PersonProfileService,
-    // public dialog: MatDialog,
-    // private matSnackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -42,39 +34,11 @@ export class UserPlaylistComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if ((changes.wid.currentValue !== changes.wid.previousValue) && (this.isInitialized)) {
       this.wid = changes.wid.currentValue
-      // this.playlists = []
       this.fetchPlaylists()
     }
   }
 
   fetchPlaylists() {
     this.playlistFetchStatus = 'fetching'
-    // this.playlistsSubscription = this.personProfileSvc.getPlaylists(this.wid).subscribe(
-    //   playlists => {
-    //     this.playlists = playlists.user
-    //     this.playlistFetchStatus = 'done'
-    //     this.fetching.emit(true)
-    //   },
-    //   () => {
-    //     this.playlistFetchStatus = 'error'
-    //     this.openSnackBar('Error while fetching knowledge boards.')
-    //     this.fetching.emit(true)
-    //   })
   }
-
-  // private openSnackBar(message: string) {
-  //   this.matSnackBar.open(message)
-  // }
-
-  // viewAllPlaylists() {
-  //   this.dialog.open(UserdetailallComponent, {
-  //     width: '70%',
-  //     data: {
-  //       tag: 'Playlists',
-  //       content: this.playlists,
-  //       name: 'Playlists',
-  //     },
-  //   })
-
-  // }
 }

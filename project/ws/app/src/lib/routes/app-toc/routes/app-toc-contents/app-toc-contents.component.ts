@@ -31,10 +31,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   contextId!: string
   contextPath!: string
   loadContent = true
-  // viewChildren = false
-  /*
-* to unsubscribe the observable
-*/
   public unsubscribe = new Subject<void>()
   constructor(
     private route: ActivatedRoute,
@@ -114,7 +110,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         this.contextId = this.content.identifier
         this.contextPath = this.content.contentType
       }
-      // this.fetchContentParents(this.content.identifier)
       this.populateContentPlayWidget(this.content)
     }
     if (this.content && this.content.gatingEnabled && this.content.children) {
@@ -166,11 +161,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     this.contentSvc.showConformation = percentage
   }
 
-  // private fetchContentParents(contentId: string) {
-  //   this.tocSvc.fetchContentParents(contentId).subscribe(contents => {
-  //     this.contentParents = contents || []
-  //   })
-  // }
   private populateContentPlayWidget(content: NsContent.IContent) {
     if (
       content.contentType === NsContent.EContentTypes.RESOURCE ||
@@ -240,10 +230,5 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         return true
     }
   }
-
-  // ExpandViewChild(data: any) {
-  //   this.viewChildren = !this.viewChildren
-  //   this.logger.log(data, this.viewChildren)
-  // }
 
 }

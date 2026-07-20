@@ -1,4 +1,3 @@
-// import { IContent } from './../../../../../../../../web-services/src/models/content.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
@@ -34,11 +33,9 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   collectionId = ''
   logo = true
   isPreview = false
-  // forChannel = false
   collection: any
   collectionCard: any
   @Input() screenContent: NsContent.IContent | null = null
-  // @Input() enableFullScreen: any
   public isInFullScreen = false
   obj: NsContent.IContent | null = null
   isAuthor = false
@@ -57,7 +54,6 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     private viewerSvc: ViewerUtilService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      // this.logo = !isXSmall
       this.isSmall = isXSmall
     })
   }
@@ -70,28 +66,16 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    // if (window.location.href.includes('/channel/')) {
-    //   this.forChannel = true
-    // }
     if (window.location.href.includes('/author/')) {
       this.isAuthor = true
     }
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
-    // if (this.configSvc.rootOrg === EInstance.INSTANCE) {
-    // this.logo = false
-    // }
 
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
     const collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     if (collectionId && collectionType) {
-      // if (
-      //   collectionType.toLowerCase() ===
-      //   NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
-      // )
-      //  {
-      // this.collection = this.getPlaylistContent(collectionId, collectionType)
       this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
         this.collectionId = params.get('collectionId') as string
         this.isPreview = params.get('preview') === 'true' ? true : false
@@ -128,18 +112,6 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
 
-    // this.viewerDataSubscription = this.viewerSvc
-    // .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
-    // .subscribe(data => {
-    //   this.pdfData = data
-    //   // if (this.pdfData) {
-    //   //   this.formDiscussionForumWidget(this.pdfData)
-    //   //   if (this.discussionForumWidget) {
-    //   //     this.discussionForumWidget.widgetData.isDisabled = true
-    //   //   }
-    //   // }
-    // }
-
   }
 
   fullScreenState(state: boolean) {
@@ -159,9 +131,6 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  //   print(collection1:any){
-  //  //TODO   this.logger.log(collection1)
-  //   }
   toggleSideBar() {
     this.toggle.emit()
   }

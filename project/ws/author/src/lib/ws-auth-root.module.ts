@@ -11,7 +11,6 @@ import { AuthRootComponent } from './components/root/root.component'
 import { SharedModule } from './modules/shared/shared.module'
 import { AuthNavigationComponent } from './components/auth-navigation/auth-navigation.component'
 import { ContentTOCResolver } from './services/content-resolve.service'
-// import { TocComponent } from './routing/components/toc/toc.component'
 import { CreateModule } from './routing/modules/create/create.module'
 import { AuthoringErrorHandler } from './services/error-handler.service'
 import { ViewerComponent } from './routing/components/viewer/viewer.component'
@@ -38,12 +37,9 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
 }
 
 @NgModule({
-  declarations: [AuthRootComponent, AuthNavigationComponent, // TocComponent,
+  declarations: [AuthRootComponent, AuthNavigationComponent,
     ViewerComponent],
   imports: [
-    // ReactiveFormsModule,
-    // FormsModule,
-    // RouterModule,
     CommonModule,
     SharedModule,
     CreateModule,

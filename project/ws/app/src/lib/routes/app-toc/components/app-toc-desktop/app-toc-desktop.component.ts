@@ -531,7 +531,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         // check if certificate is already generated
         this.contentSvc.fetchUserBatchList(userId).subscribe(
           (courses: NsContent.ICourse[]) => {
-            // let enrolledCourse: NsContent.ICourse | undefined
             if (this.content && this.content.identifier && !this.forPreview) {
 
               if (courses && courses.length) {
@@ -607,7 +606,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        // let enrolledCourse: NsContent.ICourse | undefined
         if (this.content && this.content.identifier && !this.forPreview) {
           // tslint:disable-next-line:no-this-assignment
           if (courses && courses.length) {
@@ -695,10 +693,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        // let enrolledCourse: NsContent.ICourse | undefined
         if (this.content && this.content.identifier && !this.forPreview) {
           // tslint:disable-next-line:no-this-assignment
-          // const self = this
           if (courses && courses.length) {
             this.enrolledCourse = courses.find(course => {
               const identifier = this.content && this.content.identifier || ''

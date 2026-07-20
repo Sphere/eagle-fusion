@@ -26,8 +26,6 @@ export class QuizComponent implements OnInit {
   stateChange = false
   isTypeOfCollection = false
   collectionId: string | null = null
-  // prevResourceUrl: string | null = null
-  // nextResourceUrl: string | null = null
   collectionType: any
   viewerDataServiceSubscription: any
   prevTitle: string | null | undefined
@@ -52,8 +50,6 @@ export class QuizComponent implements OnInit {
     this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
-      // this.prevResourceUrl = data.prevResource
-      // this.nextResourceUrl = data.nextResource
     })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId

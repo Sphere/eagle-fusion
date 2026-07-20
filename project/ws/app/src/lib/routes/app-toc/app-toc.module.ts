@@ -33,7 +33,6 @@ import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-conte
 import { AppTocReferencesComponent } from './routes/app-toc-references/app-toc-references.component'
 import { AppTocHomeComponent } from './components/app-toc-home/app-toc-home.component'
 import { AppTocHomeComponent as AppTocHomeRootComponent } from './routes/app-toc-home/app-toc-home.component'
-import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
 import { AppTocContentCardComponent } from './components/app-toc-content-card/app-toc-content-card.component'
 
 // services
@@ -84,7 +83,6 @@ import { TranslateModule } from '@ngx-translate/core'
     AppTocContentsComponent,
     AppTocReferencesComponent,
     AppTocHomeComponent,
-    AppTocCohortsComponent,
     AppTocContentCardComponent,
     AppTocOverviewRootComponent,
     AppTocHomeDirective,
@@ -163,7 +161,7 @@ import { TranslateModule } from '@ngx-translate/core'
       deps: [[new Optional(), new SkipSelf(), DiscussionService]],
     },
   ],
-  exports: [AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
+  exports: [AssessmentDetailComponent, AllDiscussionWidgetComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppTocModule { }

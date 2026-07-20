@@ -30,7 +30,6 @@ export class FollowingListComponent implements OnInit, OnChanges {
   ngOnInit() {
     if (this.wid) {
       this.fetchFollowing()
-      // if (this.type === 'followers') { this.fetchFollowers() } else { this.fetchFollowing() }
     }
     this.isInitialized = true
 

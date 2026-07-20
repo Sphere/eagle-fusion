@@ -388,7 +388,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           }
           // If current course is present in the list of user enrolled course
           if (this.enrolledCourse && this.enrolledCourse.batchId) {
-            // const collectionId = this.isResource ? '' : this.content.identifier
             this.content.completionPercentage = this.enrolledCourse.completionPercentage || 0
             this.content.completionStatus = this.enrolledCourse.status || 0
             this.getContinueLearningData(this.content.identifier, this.enrolledCourse?.batchId)
@@ -471,7 +470,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           filters: {
             courseId: this.content.identifier,
             status: ['0', '1', '2'],
-            // createdBy: 'fca2925f-1eee-4654-9177-fece3fd6afc9',
           },
           sort_by: { createdDate: 'desc' },
         },
@@ -489,7 +487,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
                 [],
                 {
                   relativeTo: this.route,
-                  // queryParams: { batchId: this.getBatchId() },
                   queryParamsHandling: 'merge',
                 })
             }
@@ -511,9 +508,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
     const courseId = urlParams[3]
-    // this.route.data.subscribe(data => {
-    //   userId = data.profileData.data.userId
-    // })
     const req: NsContent.IContinueLearningDataReq = {
       request: {
         batchId,
@@ -595,10 +589,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             }
           }
 
-          // const percentage = toInteger((sum(progress) / progress.length))
-          // if (this.content) {
-          //   set(this.content, 'completionPercentage', percentage)
-          // }
           this.tocSvc.updateResumaData(this.resumeData)
           this.cdr.detectChanges()
         } else {
@@ -618,7 +608,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     const urlParams = targetUrl.split('/')
     const courseId = urlParams[3]
     const userID = this.configSvc.userProfile!.userId
-    //let cId = this.activatedRoute.snapshot.queryParams.contentId
 
     arr2.forEach((obj2: any) => {
       const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
@@ -689,7 +678,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
               queryParams: { batchId: batchData.content[0].batchId },
               queryParamsHandling: 'merge',
             })
-          // this.openSnackbar('Enrolled Successfully!')
           setTimeout(() => {
             const query = this.generateQuery('RESUME')
             if (this.resumeDataLink) {
@@ -698,8 +686,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
           }, 500)
 
-        } else {
-          // this.openSnackbar('Something went wrong, please try again later!')
         }
       })
         .catch((err: any) => {
