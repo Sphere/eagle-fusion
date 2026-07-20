@@ -1,9 +1,3 @@
-<!-- <mat-toolbar [color]="pageNavbar?.color" [ngStyle]="pageNavbar?.styles">
-  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'About',url:'none'}] }"></ws-widget-btn-page-back> -->
-<!-- <span class="margin-left-xs text-truncate">
-    <span title: about" class="margin-left-xs">About</span>
-  </span> -->
-<!-- </mat-toolbar> -->
 <section class="about-content leading-relaxed" *ngIf="aboutPage">
   <div class="about-info" *ngIf="aboutPage?.banner" [style.backgroundImage]="headerBanner">
     <div class="about-info-bg header-synopsis" align="center">
@@ -61,16 +55,6 @@
         {{ aboutPage?.section3?.title }}
       </h1>
 
-      <!-- <div class="overview-intro ws-mat-primary-lite-background">
-          <iframe
-            [src]="videoLink"
-            title="about-video"
-            allow="fullscreen"
-            class="about-video"
-            width="100%"
-          ></iframe>
-        </div> -->
-
       <div class="learning-world" *ngIf="aboutPage?.section3">
         <p *ngFor="let content of aboutPage?.section3?.rightParas">
           {{ content }}
@@ -90,68 +74,8 @@
           <br />
 
         </div>
-
-
       </div>
     </section>
-    <!-- <section class="m-4" *ngIf="aboutPage?.features">
-      <h1 class="mat-heading">
-        {{ aboutPage?.features?.title }}
-      </h1>
-      <p class="text-justify">
-        {{ aboutPage?.features?.description }}
-      </p>
-      <mat-accordion *ngIf="aboutPage?.features?.list.length>0">
-        <mat-expansion-panel class="text-justify" *ngFor="let key of objectKeys(aboutPage?.features?.list)">
-          <mat-expansion-panel-header>
-            <mat-panel-title>{{ key }}</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div [innerHTML]="(aboutPage?.features?.list)[key] | pipeSafeSanitizer: 'html'"></div>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </section> -->
     <mat-divider></mat-divider>
   </section>
-  <!-- <section class="container-margin" *ngIf="aboutPage?.section4">
-    <div class="about-info-footer ws-primary-tinted-50" [style.backgroundImage]="footerBanner">
-      <h1 class="mat-heading">
-        {{ aboutPage?.section4.title }}
-      </h1>
-
-      <ws-utils-horizontal-scroller class="padding-s" [loadStatus]="'done'">
-        <mat-card class="benefit-card" *ngFor="let card of aboutPage?.section4.cards">
-          <mat-card-title class="flex p-6 pb-0">
-            <mat-icon class="assessment-icon">{{ card.icon }}</mat-icon>
-
-            <h3 class="mat-title font-bold title-text pl-4">
-              {{ card.title }}
-            </h3>
-          </mat-card-title>
-
-          <mat-card-content>
-            <p class="text-justify" *ngFor="let content of card.para">
-              {{ content }}
-            </p>
-          </mat-card-content>
-        </mat-card>
-      </ws-utils-horizontal-scroller>
-    </div>
-    <section>
-      <div
-        *ngIf="aboutPage?.section5"
-        class="about-section-full text-justify ws-mat-primary-background mat-toolbar mat-primary"
-      >
-        <h1 class="mat-heading">
-          {{ aboutPage?.section5?.title }}
-        </h1>
-
-        <p class="text-justify">
-          {{ aboutPage?.section5?.subtitle }}
-        </p>
-        <p>
-          {{ aboutPage?.section5?.para }}
-        </p>
-      </div>
-    </section>
-  </section> -->
 </section>

@@ -324,10 +324,10 @@
     .ekshamta-banner-container {
       flex: 5%;
     }
-    .heading {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+    // .heading {
+    //   flex-direction: column;
+    //   align-items: flex-start;
+    // }
 
     .badge-container {
       img {
@@ -386,5 +386,14 @@
     &.active {
       background: var(--theme-progress, #469788);
     }
+  }
+}
+
+.isXsmall.isEkshamata{
+  background: none
+}
+.isXsmall{
+  .ekshamta-banner-container {
+    display: none;
   }
 }

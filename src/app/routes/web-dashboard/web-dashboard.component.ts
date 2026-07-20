@@ -9,7 +9,7 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 import { LanguageService } from 'src/app/services/language.service'
 import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
-import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
 @Component({
   standalone: false,
@@ -36,6 +36,7 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   playListIds: any[] = []
   noOfBadges = 0
   isDark: boolean = false
+  isXsmall: boolean = false
   constructor(
     public router: Router,
     public dialog: MatDialog,
@@ -46,10 +47,12 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     private plylsSvc: PlaylistService,
     private logger: LoggerService,
     private cdr: ChangeDetectorRef,
-    private themeSvc: ThemeService
+    private themeSvc: ThemeService,
+    private valueSvc: ValueService
   ) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
+      this.isXsmall = this.valueSvc.isMobile() ? true : false
       this.bannerSecondImage = this.isDark && this.isEkshamata ? "/fusion-assets/images/ekshamata-group-dark.svg" : '/fusion-assets/images/ekshamata-group.svg'
     })
     this.firstName = toSignal(

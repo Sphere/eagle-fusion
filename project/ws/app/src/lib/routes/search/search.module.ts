@@ -26,7 +26,6 @@ import {
   BtnPageBackModule,
   DisplayContentTypeModule,
   PipeContentRouteModule,
-  UserAutocompleteModule,
 } from '@ws-widget/collection'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
@@ -35,7 +34,6 @@ import {
 } from '@ws-widget/utils/src/public-api'
 import { FilterDisplayComponent } from './components/filter-display/filter-display.component'
 import { LearningCardComponent } from './components/learning-card/learning-card.component'
-import { SearchInputComponent } from './components/search-input/search-input.component'
 import { HomeComponent } from './routes/home/home.component'
 import { LearningComponent } from './routes/learning/learning.component'
 import { ViewAllComponent } from './routes/view-all/view-all.component'
@@ -48,7 +46,6 @@ import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
   declarations: [
     SearchRootComponent,
-    SearchInputComponent,
     SearchInputHomeComponent,
     LearningComponent,
     ViewAllComponent,
@@ -90,12 +87,11 @@ import { TranslateModule } from '@ngx-translate/core'
     DisplayContentTypeModule,
     WidgetResolverModule,
     MatDividerModule,
-    UserAutocompleteModule,
     PublicHomeModule,
     TranslateModule,
   ],
   exports: [
-    SearchInputComponent, SearchInputHomeComponent],
+    SearchInputHomeComponent],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

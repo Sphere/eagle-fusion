@@ -1,0 +1,105 @@
+@use 'ws-mixins';
+
+.stepper-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .step-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex: 1;
+
+    &:last-child {
+      flex: 0;
+    }
+  }
+
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--theme-ellipse);
+    color: var(--theme-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+
+    @include ws-mixins.breakpoint-xs {
+      width: 28px;
+      height: 28px;
+      font-size: 13px;
+    }
+
+    &.completed {
+      background-color: var(--theme-progress);
+      color: var(--theme-text);
+    }
+    &.current {
+      background-color: var(--theme-ellipse);
+      color: var(--theme-text);
+    }
+    &.completed.current {
+      background-color: var(--theme-progress); // keep completed green
+      color: var(--theme-text);
+    }
+
+    &.failed {
+      background-color: var(--theme-danger);
+      color: var(--theme-text);
+    }
+  }
+
+  .step-line {
+    height: 8px;
+    background-color: var(--theme-ellipse);
+    flex-grow: 1;
+    margin: 0 0px;
+    z-index: 1;
+
+    @include ws-mixins.breakpoint-xs {
+      height: 6px;
+    }
+
+    &.completed {
+      background-color: var(--theme-progress);
+    }
+  }
+
+::ng-deep .dark-theme {
+  .step-line {
+    background-color: var(--theme-text) !important;
+    &.completed {
+      background-color: var(--theme-progress) !important;
+    }
+  }
+
+  .step-circle {
+    background-color: var(--theme-text) !important;
+    color: var(--theme-black) !important;
+
+    &.completed {
+      background-color: var(--theme-progress) !important;
+      color: var(--theme-text) !important;
+    }
+    // &.current {
+    //   background-color: var(--theme-ellipse);
+    //   color: var(--theme-text);
+    // }
+    // &.completed.current {
+    //   background-color: var(--theme-progress); // keep completed green
+    //   color: var(--theme-text);
+    // }
+
+    // &.failed {
+    //   background-color: var(--theme-danger);
+    //   color: var(--theme-text);
+    // }
+  }
+}

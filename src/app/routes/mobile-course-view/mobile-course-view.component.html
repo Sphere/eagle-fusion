@@ -2,6 +2,7 @@
   <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardLarge"></ng-container>
   <ng-container *ngSwitchCase="'card-mini'" [ngTemplateOutlet]="cardMini"></ng-container>
   <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardLarge"></ng-container>
+  <ng-container *ngSwitchCase="'card-program'" [ngTemplateOutlet]="cardProgram"></ng-container>
 </ng-container>
 
 <ng-template #cardLarge>
@@ -124,6 +125,42 @@
         </div>
       </div>
     </a>
+  </section>
+</ng-template>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+Added  new template for the program card
+──────────────────────────────────────────────────────────────────────────── -->
+
+<ng-template #cardProgram>
+  <section class="course-container-program">
+    <div class="program-card" (click)="onProgramClick()">
+
+      <!-- Program title -->
+      <div class="title">{{ programData?.title }}</div>
+
+      <!-- Image wrapper: badge top-left, thumbnail, status chip bottom-right -->
+      <div class="image-wrapper">
+
+        <!-- Top-left badge: courseCount + type -->
+        <div class="badge" *ngIf="programData?.courseCount">
+          {{ programData.courseCount }}
+          {{ programData.type === 'competency' ? 'Competency' : 'Course' }}
+        </div>
+
+        <!-- S3 thumbnail -->
+        <img [src]="programData?.thumbnail" [alt]="programData?.title" />
+
+        <!-- Status chip — only shown if program has activity -->
+        <div *ngIf="programData?.programStatus" class="status" [ngClass]="{
+          'completed':   programData.programStatus === 'Completed',
+          'in-progress': programData.programStatus === 'In-Progress'
+        }">
+          {{ programData.programStatus }}
+        </div>
+
+      </div>
+    </div>
   </section>
 </ng-template>
 

@@ -1,0 +1,15 @@
+<div class="stepper-container" *ngIf="levels && levels.length > 0">
+  <div *ngFor="let level of levels; let i = index" class="step-wrapper">
+    <div class="step-circle" [ngClass]="{
+           'current': i === currentLevel - 1,
+           'completed': completedLevels.includes(level)
+         }">
+      {{ i + 1 }}
+    </div>
+    <div *ngIf="i < levels.length - 1" class="step-line" [ngClass]="{
+           'completed': completedLevels.includes(levels[i]) && completedLevels.includes(levels[i + 1])
+         }">
+    </div>
+
+  </div>
+</div>

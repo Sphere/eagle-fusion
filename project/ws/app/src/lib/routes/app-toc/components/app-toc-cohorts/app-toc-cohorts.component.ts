@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { NsContent, NsAutoComplete } from '@ws-widget/collection'
+import { NsContent } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-import { Router, ActivatedRoute } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-toc-cohorts',
-    templateUrl: './app-toc-cohorts.component.html',
-    styleUrls: ['./app-toc-cohorts.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-toc-cohorts',
+  templateUrl: './app-toc-cohorts.component.html',
+  styleUrls: ['./app-toc-cohorts.component.scss'],
+
 })
 export class AppTocCohortsComponent implements OnInit {
   @Input() content!: NsContent.IContent
@@ -24,7 +24,6 @@ export class AppTocCohortsComponent implements OnInit {
   constructor(
     private tocSvc: AppTocService,
     private configSvc: ConfigurationsService,
-    private router: Router,
     private route: ActivatedRoute
   ) { }
 
@@ -50,12 +49,6 @@ export class AppTocCohortsComponent implements OnInit {
       return !this.configSvc.restrictedFeatures.has('peopleSearch')
     }
     return false
-  }
-
-  goToUserProfile(user: NsAutoComplete.IUserAutoComplete) {
-    if (this.enablePeopleSearch) {
-      this.router.navigate(['/app/person-profile'], { queryParams: { userId: user.user_id } })
-    }
   }
 
   fetchCohorts(cohortType: NsCohorts.ECohortTypes) {

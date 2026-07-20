@@ -1,0 +1,53 @@
+<div class="paddingView">
+  <ng-container *ngIf="isLoading()">
+    <div class="top-course-container content" *ngFor="let i of [1, 2, 3]">
+      <section class="mt-4 view-all-course-container">
+        <!-- Header -->
+        <div class="line-label flex scroller-container">
+          <span class="shimmer shimmer-line shimmer-header"></span>
+          <button *ngIf="!isXSmall()" class="view-all-course shimmer-button shimmer">
+            <span class="shimmer shimmer-line"></span>
+          </button>
+        </div>
+
+        <!-- Cards -->
+        <div class="horizontal-shimmer">
+          <div class="shimmer-card" *ngFor="let j of [1, 2, 3, 4]">
+            <div class="shimmer shimmer-image">
+              <div class="shimmer-body">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoading()">
+    <div class="top-course-container content" *ngIf="!showDetails()">
+      <section class="mt-4 view-all-course-container" *ngIf="!!configData">
+        <div class="line-label flex scroller-container">
+          <span>{{ configData?.text | translate }}</span>
+        </div>
+        <ws-utils-horizontal-scroller *ngIf="!isXSmall()" class="flex" [loadStatus]="'done'">
+          <div *ngFor="let course of programData()">
+            <ws-web-course-card [programData]="course" [enableConfig]="enableConfig" [showProgress]="showProgress"
+              [displayConfig]="programDisplayConfig" [courseData]="course"
+              (programClick)="openProgram($event)"></ws-web-course-card>
+          </div>
+        </ws-utils-horizontal-scroller>
+        <ng-container *ngIf="isXSmall()">
+          <div *ngFor="let course of programData()">
+            <ws-mobile-course-view [courseData]="course" [programData]="course" [enableConfig]="enableConfig"
+              [showProgress]="showProgress" [displayConfig]="programDisplayConfig" (programClick)="openProgram($event)">
+            </ws-mobile-course-view>
+          </div>
+        </ng-container>
+      </section>
+    </div>
+
+    <!-- <div *ngIf="showDetails()">
+      <ws-web-public-container [configData]="configData"></ws-web-public-container>
+    </div> -->
+  </ng-container>
+</div>

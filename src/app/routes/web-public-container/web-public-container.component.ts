@@ -1,16 +1,15 @@
 import { Component, OnInit, ElementRef, Input, OnDestroy, QueryList, ViewChildren, OnChanges, SimpleChanges, signal, computed } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import { uniqBy } from 'lodash'
+import { uniqBy } from 'lodash-es'
 import { MatDialog } from '@angular/material/dialog'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
-import { forkJoin, Observable, of } from 'rxjs'
+import { forkJoin, firstValueFrom } from 'rxjs'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 import { Subject } from 'rxjs'
-import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
-import { catchError, map } from 'rxjs/operators'
+import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
   standalone: false,
@@ -28,6 +27,8 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   cneCourse = signal<any[]>([])
   coursesForYou = signal<any[]>([])
   coursesForEK = signal<any[]>([])
+  programCourses = signal<any[]>([])
+  ashaLearningItems = signal<any[]>([])
   videoData: any
   homeFeatureData: any
   homeFeature: any
@@ -36,10 +37,12 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   topCertifiedCourseIdentifier: any = []
   cneCoursesIdentifier: any = []
   yourPlansCourseIdentifier: any = []
+  programIdentifiers: any = []
   featuredCourseIdentifier: any = []
   @Input() userEnrollCourse: any
   @Input() isEkshamata: any
   @Input() configData: any
+  @Input() programConfig!: any
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
@@ -52,12 +55,20 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   uiConfig = signal<any[]>([])
   lang = ''
   isXSmall = computed(() => this.valueSvc.isMobile())
+  expandedCardId: string | null = null
+
+  isCompetencyUser = signal(false)
+  competencyPlaylists = signal<any[]>([])
+  competencyDesignation = ''
+  competencyRole = ''
+  competencySection: any
 
   currentOffset = 0
   pageLimit = 500
   initialPageLimit = 10
   plyLsData: any[] = []
-
+  showbackButton = computed(() => this.playlistSvc.showDetails())
+  selectedProgDet = computed(() => this.playlistSvc.selectedProgram())()
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -68,12 +79,14 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     private langSvc: LanguageService,
     private valueSvc: ValueService,
     private logger: LoggerService,
-    private contentSvc: WidgetContentService,
+    private userSvc: WidgetUserService,
   ) {
     this.lang = this.langSvc.getCurrentLanguage()
   }
 
   async ngOnInit() {
+    console.log("selectedProgDet ", this.selectedProgDet)
+
     this.isLoading.set(true)
     this.handleScrollEvents()
     const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
@@ -81,30 +94,53 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     const rootOrgId = this.configSvc?.userProfile?.rootOrgId
     const roleCheck = (roles: string[]) =>
       roles?.some(r => r.toLowerCase() === designationLower)
-    if (Array.isArray(this.configData)) {
+    if (this.showbackButton() && !!this.programConfig) {
+      // Program config detail view: refresh enrollment/progress data instead of relying on
+      // the @Input snapshot (which is captured once at app bootstrap in RootComponent and
+      // never re-fires), so completed/in-progress status reflects the latest API response.
+      await this.refreshUserEnrollCourse()
+
+      this.isCompetencyUser.set(this.selectedProgDet?.type === 'competency')
+      if (this.isCompetencyUser()) {
+        // this.handleCompetencyFlow(rootOrgId, roleCheck)
+        this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: 'COMPETENCY_PLAYLIST' }])
+        this.competencyDesignation = designation
+        this.competencyRole = 'learner'
+
+        const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST')
+        this.competencySection = sectionFromConfig || { text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
+
+        this.isCompetencyUser.set(true)
+        this.isLoading.set(false)
+        return
+      } else {
+        this.configData = this.programConfig?.tabs
+        this.uiConfig.set(this.configData)
+        this.programIdentifiers = this.selectedProgDet.payload
+      }
+    } else if (Array.isArray(this.configData)) {
       this.uiConfig.set(this.configData.slice(1, -1))
-    }
-    if (this.configSvc?.userProfile) {
-      this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-      this.logger.log('plyLsData', this.plyLsData)
+      if (this.configSvc?.userProfile) {
+        this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+        this.logger.log('plyLsData', this.plyLsData)
 
-      for (const element of this.plyLsData) {
-        if (element.orgId !== rootOrgId || element.language !== this.lang) continue
-        const { playlistId, dataSource } = element
-
-        if (designation && roleCheck(element.role)) {
-          if (playlistId === 'YOUR_PLANS_PLAYLIST') {
-            this.yourPlansCourseIdentifier = dataSource.payload
+        for (const element of this.plyLsData) {
+          if (element.orgId !== rootOrgId || element.language !== this.lang) continue
+          const { playlistId, dataSource } = element
+          if (designation && roleCheck(element.role)) {
+            if (playlistId === 'YOUR_PLANS_PLAYLIST') {
+              this.yourPlansCourseIdentifier = dataSource.payload
+            }
           }
-        }
-        if (playlistId === 'TOP_COURSE_PLAYLIST') {
-          this.topCertifiedCourseIdentifier = dataSource.payload
-        }
-        if (playlistId === 'CNE_COURSE_PLAYLIST') {
-          this.cneCoursesIdentifier = dataSource.payload
-        }
-        if (this.isEkshamata && playlistId === 'FEATURED_COURSE_PLAYLIST') {
-          this.featuredCourseIdentifier = dataSource.payload
+          if (playlistId === 'TOP_COURSE_PLAYLIST') {
+            this.topCertifiedCourseIdentifier = dataSource.payload
+          }
+          if (playlistId === 'CNE_COURSE_PLAYLIST') {
+            this.cneCoursesIdentifier = dataSource.payload
+          }
+          if (this.isEkshamata && playlistId === 'FEATURED_COURSE_PLAYLIST') {
+            this.featuredCourseIdentifier = dataSource.payload
+          }
         }
       }
     }
@@ -118,12 +154,18 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
         }
       })
     }
-    // Main flow
-    if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0) {
+    // Evaluate competency eligibility first so isCompetencyUser is set correctly even
+    // when standard playlist identifiers also exist (the fallback above can populate them).
+    if (this.handleCompetencyFlow(rootOrgId, roleCheck)) {
+      return
+    }
+
+    // Main flow (non-competency users)
+    if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0 || this.programIdentifiers.length > 0) {
       this.fetchEnvironmentConfigurations()
       return
     } else {
-      this.handleCompetencyFlow(rootOrgId, roleCheck)
+      this.isLoading.set(false)
     }
   }
 
@@ -133,127 +175,124 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private handleCompetencyFlow(rootOrgId: string, roleCheck: (roles: string[]) => boolean) {
-    const matchedElements = this.plyLsData?.filter(element =>
-      element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
-
-    const listOfEnrolledCourseId = (this.userEnrollCourse || [])
-      .filter(course => course?.content?.identifier && !course?.content?.competency)
-      .map(course => course.content.identifier)
-
-    const competencySearchArray: string[] = []
-    let baseQuery: any = {}
-    let sourceName: string[] = []
-
-    for (const element of matchedElements || []) {
-      const { playlistId, dataSource } = element
-
-      if (playlistId === 'COMPETENCY_PLAYLIST') {
-        competencySearchArray.push(
-          ...this.buildCompetencySearchArray(dataSource?.payload)
-        )
-      }
-      if (playlistId === 'SEARCH_PLAYLIST') {
-        baseQuery = dataSource?.payload || {}
-
-        baseQuery.request = baseQuery.request || {}
-        baseQuery.request.filters = baseQuery.request.filters || {}
-
-        baseQuery.request.offset = this.currentOffset
-        baseQuery.request.limit = this.pageLimit
-
-        sourceName = baseQuery.request.filters.sourceName || []
-      }
-    }
-    this.currentOffset += this.initialPageLimit
-    this.pageLimit += this.initialPageLimit
-    if (!competencySearchArray.length) {
-      this.isLoading.set(false)
+  /**
+   * Fetches fresh enrollment/progress data and replaces the @Input userEnrollCourse
+   * snapshot with it. Falls back to the existing @Input value on failure or when
+   * there's no logged-in user, so callers can keep using this.userEnrollCourse as-is.
+   */
+  private async refreshUserEnrollCourse(): Promise<void> {
+    const userId = this.configSvc?.userProfile?.userId
+    if (!userId) {
       return
     }
-
-    this.searchContentByCompetencies$(baseQuery, competencySearchArray, sourceName, listOfEnrolledCourseId).subscribe((res: any) => {
-      this.coursesForYou.set(res || [])
-      this.yourPlansCourseIdentifier = this.coursesForYou().filter(item => item?.identifier).map(item => item.identifier)
-      this.updateCourseData()
-    })
+    try {
+      const rawCourses = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
+      this.userEnrollCourse = this.buildEnrolledCourses(rawCourses)
+      this.logger.log('[WebPublicContainer] Refreshed userEnrollCourse with progress:', this.userEnrollCourse?.length, 'courses')
+    } catch (error) {
+      this.logger.warn('[WebPublicContainer] Failed to fetch enrollment with progress, using fallback:', error)
+    }
   }
 
-  buildCompetencySearchArray = (competencyPayload: any[]): string[] => {
-    if (!Array.isArray(competencyPayload) || competencyPayload?.length === 0) {
+  /**
+   * Normalizes the raw enrollment API response (nested `content.identifier`, top-level
+   * `courseId`/`contentId`) into the flat shape { identifier, completionPercentage, ... }
+   * that updateCourseData()/matching logic in this component expects.
+   */
+  private buildEnrolledCourses(res: any): any[] {
+    const myCourse: any[] = []
+    if (!Array.isArray(res)) {
+      return myCourse
+    }
+    res.forEach((key: any) => {
+      const identifier = key?.content?.identifier || key?.courseId || key?.contentId
+      if (identifier) {
+        myCourse.push({
+          identifier,
+          appIcon: key.content?.appIcon,
+          thumbnail: key.content?.thumbnail,
+          name: key.content?.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content?.sourceName,
+          issueCertification: key.content?.issueCertification,
+          averageRating: key.content?.averageRating,
+          posterImage: key.content?.posterImage,
+        })
+      }
+    })
+    return myCourse
+  }
+
+  private handleCompetencyFlow(rootOrgId: string, roleCheck: (roles: string[]) => boolean): boolean {
+    const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
+
+    const competencyPlaylist = this.plyLsData?.find(element =>
+      element.orgId === rootOrgId &&
+      element.playlistId === 'COMPETENCY_PLAYLIST' &&
+      roleCheck(element.role)
+    )
+
+    if (!competencyPlaylist) {
+      // Not a competency user — let the caller fall through to the standard flow.
+      return false
+    }
+
+    this.competencyPlaylists.set([{ ...competencyPlaylist, playlistId: 'COMPETENCY_PLAYLIST' }])
+    this.competencyDesignation = designation
+    this.competencyRole = 'learner'
+
+    const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST')
+    this.competencySection = sectionFromConfig || { text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
+
+    this.isCompetencyUser.set(true)
+    this.isLoading.set(false)
+    return true
+  }
+
+  normalizeCompetencyPayload(payload: any): any[] {
+    if (!payload) {
       return []
     }
-    const competencySearchArray: string[] = []
-    competencyPayload.forEach(competencyObj => {
-      Object.keys(competencyObj).forEach(key => {
-        const competency = competencyObj[key]
-        const competencyId = competency?.id
-        if (!competencyId) return
 
-        const levelDescriptions = competency?.additionalProperties?.competencyLevelDescription || []
-
-        levelDescriptions.forEach((levelDesc: any) => {
-          const level = levelDesc?.level
-          if (level) {
-            competencySearchArray.push(`${competencyId}-${level}`)
-          }
-        })
-      })
-    })
-    return competencySearchArray
-  }
-
-  searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
-    if (!Array.isArray(competencySearchArray) || competencySearchArray.length === 0) {
-      return of([])
+    if (Array.isArray(payload) && payload.length > 0 && payload[0]?.id && Array.isArray(payload[0]?.levels)) {
+      return payload
     }
 
-    const requestBody = typeof structuredClone === 'function'
-      ? structuredClone(baseQuery)
-      : JSON.parse(JSON.stringify(baseQuery))
+    if (Array.isArray(payload)) {
+      return payload.flatMap((item: any) => {
+        if (item?.id && Array.isArray(item.levels)) {
+          return [item]
+        }
 
-    requestBody.request = requestBody.request || {}
-    requestBody.request.filters = requestBody.request.filters || {}
-    requestBody.request.filters.competencySearch = competencySearchArray
-
-    return this.contentSvc.getCouseByContentSearch(competencySearchArray, true, requestBody).pipe(
-      map((res: any) => {
-        const content = res?.result?.content ?? []
-        return this.processRecommendedCourses(content, requiredSourceName, listOfEnrolledCourseId)
-      }),
-      catchError(err => {
-        console.error('Error fetching recommendation', err)
-        return of([])
+        if (item && typeof item === 'object') {
+          return Object.keys(item).map(key => {
+            const competency = item[key]
+            return {
+              id: competency?.id || competency?.competencyId || key,
+              title: competency?.title || competency?.name || competency?.competencyName,
+              levels: competency?.levels || competency?.additionalProperties?.competencyLevelDescription || [],
+              progress: competency?.progress || competency?.learnerPathProgress,
+            }
+          })
+        }
+        return []
       })
-    )
-  }
+    }
 
-  recommendedCourse = (data: any[]) =>
-    (data || [])
-      .filter(item => item && item.identifier)
-      .map(item => ({
-        identifier: item.identifier,
-        appIcon: item.appIcon,
-        thumbnail: item.posterImage || item.thumbnail,
-        name: item.name,
-        sourceName: item.sourceName,
-        issueCertification: item.issueCertification,
-        averageRating: item.averageRating,
-        competency: item.competency,
-      }))
+    if (typeof payload === 'object') {
+      return Object.keys(payload).map(key => {
+        const competency = payload[key]
+        return {
+          id: competency?.id || competency?.competencyId || key,
+          title: competency?.title || competency?.name || competency?.competencyName,
+          levels: competency?.levels || competency?.additionalProperties?.competencyLevelDescription || [],
+          progress: competency?.progress || competency?.learnerPathProgress,
+        }
+      })
+    }
 
-  processRecommendedCourses = (courseList: any[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): any[] => {
-    const seen = new Set()
-    const enrolledSet = new Set(listOfEnrolledCourseId || [])
-    const sourceSet = new Set(requiredSourceName || [])
-
-    return this.recommendedCourse(courseList).filter(item => {
-      const id = item?.identifier
-      if (!id || seen.has(id) || enrolledSet.has(id)) return false
-      if (!sourceSet.has(item.sourceName)) return false
-      seen.add(id)
-      return true
-    })
+    return []
   }
 
   private handleScrollEvents() {
@@ -277,9 +316,12 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       ...this.yourPlansCourseIdentifier,
       ...this.featuredCourseIdentifier,
     ]
+    const programIds = [
+      ...this.programIdentifiers,
+    ]
 
     const requests = !this.configSvc?.unMappedUser ? [this.orgService.getTopLiveSearchResults(defaultIds, 'en')] :
-      [this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers], this.lang)]
+      [this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers, ...programIds], this.lang)]
 
     return forkJoin(requests).subscribe((responses: any[]) => {
       const content = responses.flatMap(res => res?.result?.content || [])
@@ -295,12 +337,13 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       const topCertifiedSet = new Set(this.topCertifiedCourseIdentifier)
       const yourPlansSet = new Set(this.yourPlansCourseIdentifier)
       const featureSet = new Set(this.featuredCourseIdentifier)
+      const programSet = new Set(this.programIdentifiers)
 
       this.cneCourse.set(uniqBy(content.filter(item => cneSet.has(item.identifier)), 'identifier'))
       this.topCertifiedCourse.set(uniqBy(content.filter(item => topCertifiedSet.has(item.identifier)), 'identifier'))
       this.coursesForYou.set(uniqBy(content.filter(item => yourPlansSet.has(item.identifier)), 'identifier'))
       this.coursesForEK.set(uniqBy(content.filter(item => featureSet.has(item.identifier)), 'identifier'))
-
+      this.programCourses.set(uniqBy(content.filter(item => programSet.has(item.identifier)), 'identifier'))
       this.updateCourseData()
     })
   }
@@ -309,13 +352,14 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     if (Array.isArray(this.configData)) {
       const completed = this.userEnrollCourse?.filter((item: any) => item.completionPercentage === 100) || []
       const incomplete = this.userEnrollCourse?.filter((item: any) => item.completionPercentage !== 100) || []
+      const courseList = this.programIdentifiers.length > 0 ? this.programCourses() : this.coursesForYou()
       this.configData.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
           element.data = incomplete?.filter(item =>
-            this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
+            courseList?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
-          element.data = this.coursesForYou().filter(item =>
+          element.data = courseList.filter(item =>
             !this.userEnrollCourse?.some(bItem => bItem.identifier === item.identifier)
           )
           element.displayData = element?.data?.slice(0, element.limit)
@@ -327,7 +371,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
           element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'COMPLETED') {
           element.data = completed.filter(item =>
-            this.coursesForYou()?.some(bItem => bItem.identifier === item.identifier))
+            courseList?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
         }
       })
@@ -337,6 +381,11 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     setTimeout(() => {
       this.isLoading.set(false)
     })
+  }
+
+  onCardExpanded(id: string | undefined, expanded: boolean) {
+    if (!id) return
+    this.expandedCardId = expanded ? id : (this.expandedCardId === id ? null : this.expandedCardId)
   }
 
   // For opening Course Page
@@ -394,4 +443,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     this.destroy$.complete()
   }
 
+  backScreen() {
+    this.playlistSvc.showDetails.set(false)
+  }
 }

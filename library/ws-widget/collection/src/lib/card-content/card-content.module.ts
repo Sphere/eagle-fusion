@@ -13,7 +13,6 @@ import { DefaultThumbnailModule, PipeCountTransformModule, PipeDurationTransform
 import { ContentProgressModule } from '../_common/content-progress/content-progress.module'
 import { DisplayContentTypeModule } from '../_common/display-content-type/display-content-type.module'
 import { PipeContentRouteModule } from '../_common/pipe-content-route/pipe-content-route.module'
-import { ProfileImageModule } from '../_common/profile-image/profile-image.module'
 import { UserImageModule } from '../_common/user-image/user-image.module'
 import { CardContentComponent } from './card-content.component'
 import { BtnContentShareModule } from '../btn-content-share/btn-content-share.module'
@@ -40,8 +39,7 @@ import { BtnContentShareModule } from '../btn-content-share/btn-content-share.mo
         PipeHtmlTagRemovalModule,
         ContentProgressModule,
         BtnContentShareModule,
-        UserImageModule,
-        ProfileImageModule,
+        UserImageModule
     ],
     exports: [CardContentComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

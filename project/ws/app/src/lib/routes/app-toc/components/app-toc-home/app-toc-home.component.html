@@ -1,36 +1,8 @@
-<!-- <div class="appicon-image"> -->
-<!-- <mat-toolbar role="navigation" i18n-aria-label aria-label="Toolbar" *ngIf="isAuthor && !forPreview" class="detailBar"
-    [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles"> -->
-
-
 <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Details',url:'none'}] }">
 </ws-widget-btn-page-back>
-<!-- <span class="margin-left-xs text-truncate">
-      <span i18n>Details</span>
-    </span> -->
 
-<!-- <span class="spacer"></span>
-    <a *ngIf="isAuthor && !forPreview" [routerLink]="'/author/editor/' + content?.identifier" mat-button>
-      <mat-icon>create</mat-icon>
-      <span i18n class="ml-2">Edit</span>
-    </a> -->
-
-<!-- <ng-container *ngIf="isAuthor" [wsResolverWidget]="authorBtnWidget"></ng-container> -->
-<!-- </mat-toolbar> -->
-
-<!-- <ws-app-toc-banner role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
-  [analytics]="analytics" [resumeData]="resumeData" [batchData]="batchData">
-</ws-app-toc-banner> -->
 <ws-app-app-toc-desktop role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
   [resumeData]="resumeData" [batchData]="batchData"></ws-app-app-toc-desktop>
-
-<!-- </div> -->
-
-
-<!-- <ws-app-toc-banner role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
-  [analytics]="analytics" [resumeData]="resumeData">
-</ws-app-toc-banner> -->
-
 
 <ng-container>
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">
@@ -48,12 +20,6 @@
         [routerLink]="'./contents'" [queryParams]="{batchId: batchId ,contentId: content.identifier}"
         [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'contents'}" id="content-link"
         wsAppRetainScroll>{{"Contents" | translate}}</a>
-      <!-- <a *ngIf="enableAnalytics" [disabled]="forPreview" mat-tab-link [routerLink]="'./analytics'"
-        routerLinkActive="ws-mat-primary-text link-active" i18n>Analytics</a> -->
-      <!-- <a mat-tab-link [routerLink]="'./discussion'" routerLinkActive="ws-mat-primary-text link-active"
-        i18n>Discussions</a> -->
-      <!--<a mat-tab-link [routerLink]="'./details'" [queryParams]="{id: content.identifier}"
-        routerLinkActive="ws-mat-primary-text link-active" i18n>Cohorts</a> -->
 
       <a mat-tab-link (click)="toggleComponent('license')" [routerLink]="'./license'" [queryParams]="{license: license}"
         [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll>{{'License' |
@@ -72,11 +38,6 @@
     </ng-container>
   </div>
 </ng-container>
-
-
-
-
-
 
 <ng-template #tocError>
   <div [wsResolverWidget]="errorWidgetData"></div>

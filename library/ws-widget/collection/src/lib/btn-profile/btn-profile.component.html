@@ -22,9 +22,6 @@
   </span>
 
 </a>
-<!-- <ws-widget-tree-catalog-menu #rootMenu [rootTrigger]="rootTrigger" [catalogItems]="catalogItems | slice: 0:10"
-  [fetchStatus]="catalogFetchStatus" isRoot="true">
-</ws-widget-tree-catalog-menu> -->
 <mat-menu #settingsMenu="matMenu" xPosition="after">
   <section *ngIf="pinnedApps?.length && isPinFeatureAvailable" class="p-4 md:p-4 sm:p-2">
     <div class="flex justify-between">
@@ -73,17 +70,10 @@
 
   <section class="padding-xs">
     <a mat-menu-item role="link" routerLink="/app/profile/settings" class="all-features">
-      <!-- <mat-icon>settings</mat-icon> -->
       <span i18n>Settings</span>
     </a>
 
-    <!-- <a mat-menu-item role="link" routerLink="/app/features" class="all-features flex-wrap">
-        <mat-icon>apps</mat-icon>
-        <span i18n>Explore all features</span>
-      </a> -->
-
     <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
-      <!-- <mat-icon>power_settings_new</mat-icon>&nbsp; -->
       <span i18n>Sign-out</span>
     </a>
   </section>

@@ -1,0 +1,37 @@
+<ng-container *ngIf="ashaData">
+
+  <div class="asha-card" (click)="toggleExpand()">
+    <div class="asha-header flex flex-col">
+      <div class="flex justify-between">
+        <p class="asha-title mb-0">{{ 'COMPETENCY' | translate }}</p>
+        <div class="progress-container" *ngIf="getCompletionPercentage() > 0 &&  getCompletionPercentage() !== 100 ">
+          <span class="progress-text">{{ 'COMPLETED' | translate }} {{ getCompletionPercentage() }}% </span>
+        </div>
+      </div>
+      <div class="flex justify-between  gap-4">
+        <div class="asha-m-title mb-0">{{ashaData.title}}</div>
+        <span class="btn-expand" ion-button icon-only>
+          <img src="../../../fusion-assets/icons/Arrow_2.png" alt="">
+        </span>
+      </div>
+
+    </div>
+
+    <ng-container *ngIf="isExpanded">
+      <div class="mt-1">
+        <p class="levels-title mb-0">{{ 'LEVELS' | translate }}</p>
+        <app-stepper [levels]="levels" [completedLevels]="completedLevels" [failedLevels]="failedLevels"
+          [currentLevel]="currentLevel">
+        </app-stepper>
+        <p class="note">{{ getLevelNote() }}</p>
+      </div>
+
+      <!-- <div>{{getCompletionPercentage()}}</div> -->
+      <!-- <ng-container *ngIf="showBtn"> -->
+      <button class="start-btn" [ngClass]="{ 'd-block': showBtn, 'd-none': !showBtn }"
+        (click)="startSelfAssesment(ashaData, $event)">{{ nextLevelInfo?.label | translate }}</button>
+      <!-- </ng-container> -->
+
+    </ng-container>
+  </div>
+</ng-container>

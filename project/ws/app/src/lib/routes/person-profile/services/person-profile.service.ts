@@ -3,8 +3,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable, BehaviorSubject } from 'rxjs'
 import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import {
-  // NsPlaylist,
-  // NsGoal,
   NsDiscussionForum,
 } from '../../../../../../../../library/ws-widget/collection/src/public-api'
 import { IFollowDetails } from '../person-profile.model'
@@ -79,17 +77,9 @@ export class PersonProfileService {
       url = `${API_END_POINTS.getFollowing}?wid=${wid}`
     }
 
-    // const url = `${API_END_POINTS.getFollowing + (type ? `?type=` : `?wid=${wid}`)}`
     return this.http.get<any>(url)
   }
 
-  // getPlaylists(wid: string) {
-  //   return this.http.get<NsPlaylist.IPlaylistResponse>(`${API_END_POINTS.getAllPlaylists}?wid=${wid}`)
-  // }
-
-  // getUserGoals(type: NsGoal.EGoalTypes, sourceFields: string = '', wid: string) {
-  //   return this.http.get<NsGoal.IUserGoals>(API_END_POINTS.getUserGoals(type, sourceFields, wid))
-  // }
   fetchTimelineDataProfile(wid: string, request: NsDiscussionForum.ITimelineRequest): Observable<NsDiscussionForum.ITimeline> {
     return this.http.post<NsDiscussionForum.ITimeline>(`${API_END_POINTS.SOCIAL_TIMELINE}?wid=${wid}`, request)
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core'
 import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { of } from 'rxjs'
@@ -10,11 +10,11 @@ import { Title } from '@angular/platform-browser'
 import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-    standalone: false,
-    selector: 'ws-web-course-card',
-    templateUrl: './web-course-card.component.html',
-    styleUrls: ['./web-course-card.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-web-course-card',
+  templateUrl: './web-course-card.component.html',
+  styleUrls: ['./web-course-card.component.scss'],
+
 })
 export class WebCourseCardComponent implements OnInit {
   isUserLoggedIn = false
@@ -37,6 +37,8 @@ export class WebCourseCardComponent implements OnInit {
   }
   displayStyle = 'none'
   isLoggedIn = false
+  @Input() programData: any
+  @Output() programClick = new EventEmitter()
 
   // Helper to get language prefix - DEPRECATED: ngx-translate should be used instead
   // Do NOT use URL-based language prefixes with ngx-translate
@@ -224,5 +226,9 @@ export class WebCourseCardComponent implements OnInit {
           })
       }
     }
+  }
+  onProgramClick() {
+    console.log("[1] card clicked, programData:", this.programData)
+    this.programClick.emit(this.programData)
   }
 }

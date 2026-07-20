@@ -2,6 +2,7 @@
   <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardLarge"></ng-container>
   <ng-container *ngSwitchCase="'card-mini'" [ngTemplateOutlet]="cardMini"></ng-container>
   <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardLarge"></ng-container>
+  <ng-container *ngSwitchCase="'card-program'" [ngTemplateOutlet]="cardProgram"></ng-container>
 </ng-container>
 
 
@@ -10,7 +11,6 @@
     <a href="javascript:void(0)" (click)="redirectPage(courseData)" role="button" tabindex="0">
       <div class="box">
         <div class="text-over">
-          <!-- <img alt="" class="appIcon fitsize" [src]="courseData?.thumbnail ? courseData.thumbnail : courseData.appIcon"> -->
           <div class="img-shimmer-wrapper">
             <div class="img-shimmer" [class.img-shimmer-hide]="imgLoaded"></div>
             <img alt="" class="appIcon fitsize"
@@ -71,51 +71,6 @@
     </a>
   </section>
 </ng-template>
-<!-- <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
-  <mat-card class="popover-card xs-hidden">
-    <mat-card-content>
-      <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
-        {{ courseData.name }}
-      </div>
-      <div class="description-text ws-mat-text-block-fade-gradient mb-2" title="Sub title">
-        {{ courseData.subTitle }}
-      </div>
-            <div class="mb-2" *ngIf="courseData?.lastPublishedOn"><span class="fw-500">{{ 'Published On' | translate }}</span>:
-        {{courseData?.lastPublishedOn | date }}</div>
-      <div *ngIf="courseData.duration" class="duration mb-2" title="Duration">
-        <span class="mr-1 orange-text">{{ 'Duration' | translate }}</span>:
-        <mat-icon>access_time</mat-icon>
-        <span class="time-text fs-13">{{ courseData.duration| pipeDurationTransform: 'hms' }}</span>
-
-      </div>
-      <p *ngIf="courseData?.completionPercentage"><span class="fw-500">{{ 'Progress' | translate }}</span>: {{
-        courseData?.completionPercentage}} %</p>
-      <p *ngIf="courseData?.creator"><span class="fw-500">{{ 'Author' | translate }}</span>: {{
-        courseData?.creator}}
-      </p>
-      <p *ngIf="courseData?.creatorContacts"><span class="fw-500">{{ 'Author' | translate }}</span>: {{
-        courseData?.creatorContacts[0]?.name}}</p>
-
-      <p *ngIf="courseData?.uniqueUsersCount"><span class="fw-500">{{ 'Users enrolled' | translate }}</span>:
-        {{courseData?.uniqueUsersCount}}</p>
-      <p *ngIf="courseData?.sourceName"><span class="fw-500">{{ 'Source' | translate }}</span>:
-        {{courseData.sourceName}}
-      </p>
-
-      <div class="mt-0 flex">
-        <button *ngIf="isUserLoggedIn === true" mat-raised-button
-          class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
-          {{ 'View Course' | translate }}</button>
-        <button *ngIf="isUserLoggedIn === false" mat-raised-button
-          class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
-          {{ 'View Course' | translate }}</button>
-        <div class="flex">
-          <ws-widget-btn-content-share [widgetData]="courseData"></ws-widget-btn-content-share>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</mde-popover> -->
 <ng-template #cardMini>
   <section class="mini-card-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
     <a (click)="redirectPage(courseData)" class="card-block">
@@ -194,11 +149,46 @@
             </div>
 
           </div>
-          <!-- *ngIf="showProgress && courseData?.completionPercentage !== undefined" -->
 
         </div>
       </div>
     </a>
+  </section>
+</ng-template>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+Added  new template for the program card
+──────────────────────────────────────────────────────────────────────────── -->
+
+<ng-template #cardProgram>
+  <section class="course-container-program">
+    <div class="program-card" (click)="onProgramClick()">
+
+      <!-- Program title -->
+      <div class="title">{{ programData?.title }}</div>
+
+      <!-- Image wrapper: badge top-left, thumbnail, status chip bottom-right -->
+      <div class="image-wrapper">
+
+        <!-- Top-left badge: courseCount + type -->
+        <div class="badge" *ngIf="programData?.courseCount">
+          {{ programData.courseCount }}
+          {{ programData.type === 'competency' ? 'Competency' : 'Course' }}
+        </div>
+
+        <!-- S3 thumbnail -->
+        <img [src]="programData?.thumbnail" [alt]="programData?.title" />
+
+        <!-- Status chip — only shown if program has activity -->
+        <div *ngIf="programData?.programStatus" class="status" [ngClass]="{
+          'completed':   programData.programStatus === 'Completed',
+          'in-progress': programData.programStatus === 'In-Progress'
+        }">
+          {{ programData.programStatus }}
+        </div>
+
+      </div>
+    </div>
   </section>
 </ng-template>
 
@@ -211,7 +201,6 @@
 
       <!-- Modal Header -->
       <div class="">
-        <!--<h4 class="modal-title">Modal Heading</h4> -->
         <button type="button" class="close" data-dismiss="modal" (click)="closePopup()"
           style="padding-top: 10px;padding-right: 10px;">&times;</button>
       </div>
@@ -242,7 +231,6 @@
             <img src="/fusion-assets/icons/Frame-150.svg">
           </div>
         </div>
-        <!-- <button [innerHTML]="'Close' | translate"></button> -->
       </div>
 
     </div>

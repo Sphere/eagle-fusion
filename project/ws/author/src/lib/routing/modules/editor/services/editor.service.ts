@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { NsAutoComplete, UserAutocompleteService } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import {
   AUTHORING_CONTENT_BASE,
@@ -33,7 +32,6 @@ export class EditorService {
   constructor(
     private apiService: ApiService,
     private accessService: AccessControlService,
-    private userAutoComplete: UserAutocompleteService,
     private configSvc: ConfigurationsService,
   ) { }
 
@@ -105,22 +103,6 @@ export class EditorService {
     return this.apiService.post<null>(
       `${CONTENT_SAVE_V2}${this.accessService.orgRootOrgAsQuery}`,
       meta,
-    )
-  }
-
-  fetchEmployeeList(data: string): Observable<any[]> {
-    return this.userAutoComplete.fetchAutoComplete(data).pipe(
-      map((v: NsAutoComplete.IUserAutoComplete[]) => {
-        return v.map(user => {
-          return {
-            displayName: `${user.first_name || ''} ${user.last_name || ''}`,
-            id: user.wid,
-            mail: user.email,
-            department: user.department_name,
-          }
-        })
-      }),
-      catchError(_ => of([])),
     )
   }
 

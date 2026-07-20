@@ -8,20 +8,10 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatButtonModule } from '@angular/material/button'
-
-
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  // UserContentRatingModule,
-  // BtnContentFeedbackV2Module,
-  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -38,12 +28,7 @@ import { YoutubeComponent } from './youtube.component'
   declarations: [YoutubeComponent],
   imports: [
     RouterModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     CommonModule,
     DisplayContentTypeModule,
     MatCardModule,
@@ -57,9 +42,6 @@ import { YoutubeComponent } from './youtube.component'
     PipePartialContentModule,
     UserImageModule,
     WidgetResolverModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
-    // PlayerBriefModule,
   ],
   exports: [
     YoutubeComponent,

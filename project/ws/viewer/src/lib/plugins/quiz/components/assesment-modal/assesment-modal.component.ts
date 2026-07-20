@@ -63,6 +63,12 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   competencyLevelId = ''
   proficiencyLevel = ''
   competencyId = ''
+  // ASHA-home self-assessment flow (extra flow on top of the existing competency flow)
+  isAshaHome: any = false
+  nextCompetencyLevel = 0
+  isShownGrif = false
+  courseID: any
+  progress = 40;
   public unsubscribe = new Subject<void>()
 
   // Organizations where View Answers should not be shown if isCorrectAnswerPopUp is not present
@@ -106,6 +112,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.proficiencyLevel = this.assesmentdata.generalData.name
       .replace('Proficency', 'Proficiency').split('Proficiency')[1]
     this.isCompetency = this.route.snapshot.queryParams.competency
+    this.isAshaHome = this.route.snapshot.queryParams.isAsha
     // this.fetchRestrictedOrgIds()
     // **CRITICAL**: Check current progress before sending update to avoid resetting completed assessments
     this.updateProgress()
@@ -253,39 +260,53 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   closePopup() {
+    // console.log("close competenct", this.isCompetency)
     if (this.isCompetency) {
-      this.dialogRef.close({
-        event: 'CLOSE',
-        competency: this.route.snapshot.queryParams.competency,
-      })
+      if (this.isAshaHome) {
+        this.dialogRef.close({
+          event: 'CLOSE',
+          asha: this.route.snapshot.queryParams.isAsha,
+        })
+      } else {
+        this.dialogRef.close({
+          event: 'CLOSE',
+          competency: this.route.snapshot.queryParams.competency,
+        })
+      }
     } else {
-
-      this.dialogRef.close({ event: 'CLOSE' })
+      if (this.isCompleted && this.progress >= this.passPercentage) {
+        this.dialogRef.close({ event: 'DONE' })
+      } else {
+        this.dialogRef.close({ event: 'CLOSE' })
+      }
     }
     const data: any = {
-      id: this.assesmentdata.generalData.identifier,
-      type: "application/json",
-      version: "",
-      "rollup": {
-        "l1": this.assesmentdata.generalData.collectionId,
-        "l2": this.assesmentdata.generalData.identifier,
-      },
+      courseID: this.assesmentdata.generalData.collectionId,
+      contentId: this.assesmentdata.generalData.identifier,
+      name: this.assesmentdata.generalData.name,
+      moduleId: this.viewerDataSvc.resource!.parent
+        ? this.viewerDataSvc.resource!.parent
+        : undefined,
     }
-    const extras: any = {
-      values: [{
-        courseID: this.assesmentdata.generalData.collectionId,
-        contentId: this.assesmentdata.generalData.identifier,
-        name: this.assesmentdata.generalData.name,
-        moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
 
-      }],
-    }
-    this.telemetrySvc.interact('application/json', 'assessment-close-start', 'player', data, extras)
-    this.telemetrySvc.interact('application/json', 'assessment-close-end', 'player', data, extras)
+    this.telemetrySvc.start(
+      'assessment',
+      'assessment-close-start',
+      this.assesmentdata.generalData.identifier
+    )
+    this.telemetrySvc.end(
+      'assessment',
+      'assessment-close-end',
+      this.assesmentdata.generalData.identifier,
+      data
+    )
   }
 
   closeDone() {
-    this.dialogRef.close({ event: 'DONE', result: this.result, passPercentage: this.passPercentage })
+    this.dialogRef.close({
+      event: this.route.snapshot.queryParams.isAsha ? 'DONE_ASHA' : 'DONE',
+      asha: this.route.snapshot.queryParams.isAsha || this.isAshaHome,
+    })
   }
 
   async retakeQuiz() {
@@ -323,6 +344,29 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       event: 'NEXT_COMPETENCY',
       competency: this.route.snapshot.queryParams.competency,
     })
+  }
+  // ── ASHA-home extra flow navigation ──────────────────────────────────────────
+  goToAshaHome() {
+    this.dialogRef.close({
+      event: 'FAILED_ASHA',
+      asha: this.route.snapshot.queryParams.isAsha,
+    })
+  }
+  viewAshaCourses() {
+    this.dialogRef.close({
+      event: 'VIEW_ASHA_COURSES',
+      asha: this.route.snapshot.queryParams.isAsha,
+      competencyId: this.competencyId,
+      competencyLevel: this.competencyLevelId,
+      courseid: this.courseID,
+      lang: this.route.snapshot.queryParams.lang,
+    })
+  }
+  getConicGradient(value: number): string {
+    return `
+      radial-gradient(closest-side, white 79%, transparent 80% 100%),
+      conic-gradient(rgba(206, 154, 57, 1) ${value}%, rgba(247, 238, 221, 1) 0)
+    `
   }
 
   timer(data: any) {
@@ -554,10 +598,16 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
           this.isCompetencyComplted = true
+          this.isShownGrif = true
+          setTimeout(() => {
+            this.isShownGrif = false
+            this.cdr.detectChanges()
+          }, 4000)
         } else {
           this.disableNext = true
         }
         this.isCompetency = this.route.snapshot.queryParams.competency
+        this.isAshaHome = this.route.snapshot.queryParams.isAsha
         if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
           this.disableContinue = true
         }
@@ -607,6 +657,26 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           })
           this.updateNextResourses()
         }
+        // ASHA-home extra flow: record the self-assessment result (pass or fail) against
+        // the learner path so the ASHA home progress (level highlight / next action)
+        // reflects this attempt. Runs for ASHA users regardless of pass/fail.
+        if (this.isAshaHome) {
+          this.courseID = sanitizedRequestData.courseId
+          const ashaReq = {
+            userid: userId,
+            courseid: sanitizedRequestData.courseId,
+            batchid: sanitizedRequestData.batchId,
+            contentid: sanitizedRequestData.contentId,
+            competencylevel: this.competencyLevelId,
+            completionpercentage: this.result >= this.passPercentage ? 100 : 0,
+            contentType: 'selfAssessment',
+            competencyid: this.competencyId,
+          }
+          this.quizService.updateAshaAssessment(ashaReq).subscribe(
+            (ashaRes: any) => { this.logger.log('asha assessment updated', ashaRes) },
+            (err: any) => { this.logger.warn('asha assessment update failed', err) },
+          )
+        }
       },
       (_error: any) => {
         this.openSnackbar(this.translate.instant("SUBMIT_ERR"))
@@ -620,6 +690,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     forEach(data, (item: any) => {
       if (item.identifier === this.assesmentdata.generalData.identifier) {
         id = item.competencyId.toString()
+        this.nextCompetencyLevel = item.competencyId + 1
       }
     })
     return id
@@ -883,5 +954,21 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.startTime = 0
     this.timeLeft = 0
   }
+
+  getCorrectAnswerPopUp(): boolean {
+    const config = JSON.parse(localStorage.getItem('private') || '{}')
+    const isDisplayAnswer = config?.orgData?.assessmentConfig?.isCorrectAnswerPopUp ?? false
+
+    const generalConfig = this.assesmentdata?.generalData?.isCorrectAnswerPopUp
+    const shouldCheckPopup = generalConfig !== undefined ? generalConfig : isDisplayAnswer
+    if (!shouldCheckPopup) {
+      return false
+    }
+    if (this.result === 100 || this.result < this.passPercentage) {
+      return false
+    }
+    return true
+  }
+
 
 }

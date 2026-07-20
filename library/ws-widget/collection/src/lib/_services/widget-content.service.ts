@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
 import { Observable, of, throwError, Subject, BehaviorSubject } from 'rxjs'
-import { catchError, retry, map, shareReplay } from 'rxjs/operators'
+import { catchError, retry, map } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
 import { NSSearch } from './widget-search.model'
@@ -29,8 +29,16 @@ export class WidgetContentService {
   updateValue$ = this._updateValue.asObservable()
   _showConformation: any
 
+  private isAshaSubject = new BehaviorSubject<any>(false);
+  // Observable to expose to other components
+  isAsha$ = this.isAshaSubject.asObservable();
+
+  private currentAshaCardSubject = new BehaviorSubject<any>(false);
+  // Observable to expose to other components
+  isCurrentAshaCard$ = this.currentAshaCardSubject.asObservable();
+
   // Request deduplication cache for progress API
-  private progressRequestCache: Map<string, Observable<any>> = new Map()
+  // private progressRequestCache: Map<string, Observable<any>> = new Map()
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService,
@@ -206,37 +214,7 @@ export class WidgetContentService {
   fetchContentHistoryV2(req: NsContent.IContinueLearningDataReq): Observable<NsContent.IContinueLearningData> {
     req.request.fields = ['progressdetails']
     const courseId = req.request.courseId
-    const cacheKey = `progress-${courseId}`
-
-    // Check if we already have a pending request for this course (request deduplication)
-    if (this.progressRequestCache.has(cacheKey)) {
-      console.log(`[Progress] Deduplication: Using cached request for ${courseId}`)
-      return this.progressRequestCache.get(cacheKey)!
-    }
-
-    // Make API call and cache the observable (prevents duplicate simultaneous requests)
-    const request$ = this.http.post<NsContent.IContinueLearningData>(
-      `${API_END_POINTS.CONTENT_HISTORYV2}/${courseId}`, req
-    ).pipe(
-      shareReplay(1),  // Share result among multiple subscribers + keep cached for 1 more subscription
-      catchError(error => {
-        console.error(`[Progress] API Error for ${courseId}:`, error)
-        this.progressRequestCache.delete(cacheKey)  // Remove from cache on error
-        return throwError(() => error)
-      }),
-      // Auto cleanup cache after response (allows time for more subscribers to attach)
-      // 500ms - enough for multiple simultaneous subscriptions to use the cached result
-    )
-
-    this.progressRequestCache.set(cacheKey, request$)
-    console.log(`[Progress] API Call: ${courseId}`)
-
-    // Auto-cleanup after 500ms to prevent memory buildup
-    setTimeout(() => {
-      this.progressRequestCache.delete(cacheKey)
-    }, 500)
-
-    return request$
+    return this.http.post<NsContent.IContinueLearningData>(`${API_END_POINTS.CONTENT_HISTORYV2}/${courseId}`, req)
   }
   // async continueLearning(id: string, collectionId?: string, collectionType?: string): Promise<any> {
   //   return new Promise(async resolve => {
@@ -439,5 +417,37 @@ export class WidgetContentService {
       ? `${API_END_POINTS.CONTENT_SEARCH}?rating=true`
       : API_END_POINTS.CONTENT_SEARCH
     return this.http.post<any>(url, req).pipe(catchError(this.handleError))
+  }
+
+  getFilteredCourseSearchResults(contentId: string): Observable<any> {
+    const req = {
+      request: {
+        filters: {
+          primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'],
+          identifier: contentId
+        },
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
+    }
+
+    return this.http.post(API_END_POINTS.SEARCH_V7PUBLIC, req)
+  }
+
+
+  // Method to update the isAsha value
+  setAshaData(data) {
+    console.log('set data', data)
+    this.isAshaSubject.next(data)
+  }
+
+  getAshaData() {
+    return this.isAshaSubject.getValue()
+  }
+
+  setAshaCardData(data) {
+    this.currentAshaCardSubject.next(data)
+  }
+
+  getAshaCardData() {
+    return this.currentAshaCardSubject.getValue()
   }
 }

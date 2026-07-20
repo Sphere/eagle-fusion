@@ -9,17 +9,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 
 import {
-  // BtnContentDownloadModule,
-  // BtnContentFeedbackModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
   BtnFullscreenModule,
-  // BtnGoalsModule,
-  // BtnPlaylistModule,
   DisplayContentTypeModule,
-  //  UserContentRatingModule,
   UserImageModule,
-  // BtnContentFeedbackV2Module,
 } from '@ws-widget/collection'
 
 import {
@@ -45,21 +38,14 @@ import { AccessControlService } from '@ws/author'
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,
-    // BtnContentDownloadModule,
-    // BtnContentFeedbackModule,
-    // BtnContentLikeModule,
     BtnContentShareModule,
     BtnFullscreenModule,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     MatCardModule,
     MatDividerModule,
     MatButtonModule,
     MatSnackBarModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
   ],
   providers: [AccessControlService],
 })
