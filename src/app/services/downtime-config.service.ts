@@ -292,7 +292,7 @@ export class DowntimeConfigService implements OnDestroy {
    */
   private getAppName(): string {
     const hostname = window.location.hostname
-    if (hostname.includes('localhost')) {
+    if (hostname.includes('ekshamata')) {
       return 'ekshamata'
     }
     if (hostname.includes('sphere')) {

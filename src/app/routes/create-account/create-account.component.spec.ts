@@ -628,17 +628,17 @@ describe('CreateAccountComponent', () => {
     it('updates validation images to ticks when a strong password is typed', () => {
       component.ngOnInit()
       component.createAccountWithPasswordForm.get('password')?.setValue('Abcdef1@')
-      expect(component.passwordValidation.length).toContain('pwd-tick')
-      expect(component.passwordValidation.uppercase).toContain('pwd-tick')
-      expect(component.passwordValidation.number).toContain('pwd-tick')
-      expect(component.passwordValidation.specialChar).toContain('pwd-tick')
+      expect(component.passwordValidation.length).toContain('tick-icon')
+      expect(component.passwordValidation.uppercase).toContain('tick-icon')
+      expect(component.passwordValidation.number).toContain('tick-icon')
+      expect(component.passwordValidation.specialChar).toContain('tick-icon')
     })
 
     it('resets validation images to gray dots when the password is cleared', () => {
       component.ngOnInit()
       component.createAccountWithPasswordForm.get('password')?.setValue('Abcdef1@')
       component.createAccountWithPasswordForm.get('password')?.setValue('')
-      expect(component.passwordValidation.length).toContain('gray_dot')
+      expect(component.passwordValidation.length).toContain('gray-dot')
     })
   })
 

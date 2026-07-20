@@ -21,9 +21,9 @@ import { v4 as uuid } from 'uuid'
 // Constants
 const ASSET_PATHS = {
   languageIcon: '../../../fusion-assets/images/lang-icon.png',
-  grayDot: '../../../fusion-assets/icons/gray_dot.pwd.png',
-  pwdTick: '../../../fusion-assets/icons/pwd-tick.png',
-  pwdCross: '../../../fusion-assets/icons/pwd-cross.png',
+  grayDot: '../../../fusion-assets/icons/gray-dot.png',
+  tickIcon: '../../../fusion-assets/icons/tick-icon.png',
+  crossIcon: '../../../fusion-assets/icons/cross-icon.png',
 } as const
 
 const REGEX_PATTERNS = {
@@ -324,10 +324,10 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     }
 
     this.passwordValidation = {
-      length: password.length >= 8 ? ASSET_PATHS.pwdTick : ASSET_PATHS.pwdCross,
-      uppercase: /[A-Z]/.test(password) ? ASSET_PATHS.pwdTick : ASSET_PATHS.pwdCross,
-      number: /\d/.test(password) ? ASSET_PATHS.pwdTick : ASSET_PATHS.pwdCross,
-      specialChar: /[\W_]/.test(password) ? ASSET_PATHS.pwdTick : ASSET_PATHS.pwdCross,
+      length: password.length >= 8 ? ASSET_PATHS.tickIcon : ASSET_PATHS.crossIcon,
+      uppercase: /[A-Z]/.test(password) ? ASSET_PATHS.tickIcon : ASSET_PATHS.crossIcon,
+      number: /\d/.test(password) ? ASSET_PATHS.tickIcon : ASSET_PATHS.crossIcon,
+      specialChar: /[\W_]/.test(password) ? ASSET_PATHS.tickIcon : ASSET_PATHS.crossIcon,
     }
   }
 
