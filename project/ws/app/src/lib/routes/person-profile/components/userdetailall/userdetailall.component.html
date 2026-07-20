@@ -2,12 +2,12 @@
   <div class="userdetails">
     <div class="flex flex-between flex-middle w-full">
       <div class="flex flex-middle">
-        <img src="/assets/images/profile/enablement.jpg" class="object-cover smallimage" />
-        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" >{{name}}</h1>
-        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" >by</h1>
-        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" >{{userName}}</h1>
+        <img src="/assets/images/profile/enablement.jpg" class="object-cover smallimage" alt="Profile" />
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family">{{name}}</h1>
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family">by</h1>
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family">{{userName}}</h1>
       </div>
-      <mat-icon class="float-right flex-end cursor-pointer" (click)="close()" >close</mat-icon>
+      <mat-icon class="float-right flex-end cursor-pointer" (click)="close()">close</mat-icon>
     </div>
     <mat-divider></mat-divider>
     <ng-container>
@@ -18,12 +18,6 @@
           <ng-container *ngSwitchCase="'Playlists'" [ngTemplateOutlet]="Playlists">
           </ng-container>
         </div>
-        <!-- <ng-container *ngSwitchCase="displayType.cardMini" [ngTemplateOutlet]="Skills" [ngTemplateOutletContext]="data">
-        </ng-container>
-        <ng-container *ngSwitchCase="displayType.cardSmall" [ngTemplateOutlet]="Knowledgeboard"
-          [ngTemplateOutletContext]="data"></ng-container>
-        <ng-container *ngSwitchCase="displayType.externalLinkButton" [ngTemplateOutlet]="Playlists"
-          [ngTemplateOutletContext]="data"></ng-container> -->
       </ng-container>
     </ng-container>
 
@@ -75,7 +69,7 @@
                 <span class="mat-caption">{{ playlist.visibility | uppercase }}</span>
               </div>
               <span *ngIf="playlists?.sharedBy" class="mat-body">
-                <ng-container >shared by </ng-container>
+                <ng-container>shared by </ng-container>
                 <span class="mat-body-strong margin-remove-bottom">{{ playlist.sharedByDisplayName }}</span>
               </span>
             </a>

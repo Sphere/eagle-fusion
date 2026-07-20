@@ -67,7 +67,7 @@
         </button>
         <span [matTooltip]="locale" class="flex items-center">
           <img class="img" (error)="changeToGlobalSymbol($event)"
-            [src]="'/assets/common/flags/' +content.locale+'.png'">
+            [src]="'/assets/common/flags/' +content.locale+'.png'" [alt]="content.locale">
           <span>{{content.locale | uppercase}}</span>
         </span>
         <button [matTooltip]="'More Actions'" *ngIf="allowedActions.length" mat-icon-button
@@ -118,7 +118,7 @@
     <a mat-menu-item *ngFor="let item of translationArray"
       [routerLink]="'/author/toc/' + item.identifier + '/overview'">
       <span class="flex items-center">
-        <img class="img" (error)="changeToGlobalSymbol($event)" [src]="'/assets/common/flags/' +item.locale+'.png'">
+        <img class="img" (error)="changeToGlobalSymbol($event)" [src]="'/assets/common/flags/' +item.locale+'.png'" [alt]="item.locale">
         <span>{{item.locale | uppercase}}</span>
       </span>
     </a>
@@ -131,7 +131,7 @@
 <mat-menu #ordinalsLangMenu="matMenu">
   <a mat-menu-item *ngFor="let lang of languages">
     <span [matTooltip]="lang.label" class="flex items-center">
-      <img class="img" (error)="changeToGlobalSymbol($event)" [src]="'/assets/common/flags/' +lang.srclang+'.png'">
+      <img class="img" (error)="changeToGlobalSymbol($event)" [src]="'/assets/common/flags/' +lang.srclang+'.png'" [alt]="lang.srclang">
       <span>{{lang.srclang | uppercase}}</span>
     </span>
   </a>

@@ -6,6 +6,8 @@
 !/dist/server.js
 !/dist/package.json
 .scannerwork/
+/docs/*
+/SONAR_ANALYSIS/*
 /tmp
 /out-tsc
 # Only exists if Bazel was run

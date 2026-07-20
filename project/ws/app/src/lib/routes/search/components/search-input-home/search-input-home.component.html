@@ -33,11 +33,11 @@
         <span class="flex items-center w-full">
           <span class="mr-2 flex items-center">
             <img *ngIf="lang.split(',').length > 1" [ngStyle]="{ height: '17px' ,width :'17px'}"
-              src="/assets/common/flags/pref.png">
+              src="/assets/common/flags/pref.png" alt="Preferred languages">
             <img *ngIf="lang.split(',').length === 1" [ngStyle]="{
             height: lang === 'all' ? '17px': '14px',
              width: lang === 'all' ? '17px': '20px'
-          }" src="/assets/common/flags/{{lang}}.png">
+          }" src="/assets/common/flags/{{lang}}.png" [alt]="lang">
           </span>
           <span>{{ lang }}</span>
           <mat-icon class="ml-2" *ngIf="lang === searchLocale">check</mat-icon>

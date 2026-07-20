@@ -1,6 +1,6 @@
 <div class="profile-select-shell">
   <div>
-    <img class="cursor-pointer close-icon" src="../../../../fusion-assets/icons/close-vector.png" (click)="closeDialog()">
+    <img class="cursor-pointer close-icon" src="../../../../fusion-assets/icons/close-vector.png" (click)="closeDialog()" alt="Close">
   </div>
   <p class="profile-title">{{'Profile Picture' | translate}}</p>
   <p class="pick-text">{{'Pick from the following' | translate}}</p>
@@ -8,7 +8,7 @@
   <div class="py-2 pl-0 row">
     <div *ngFor="let img of imgJson">
       <div class="col-xs-4 p-2 img" (click)="selectProfile(img.url)">
-        <img [src]="img.url">
+        <img [src]="img.url" alt="Profile picture option">
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
       <div class="camera-bg p-2" (click)="uploadProfilePic.click(); $event.stopPropagation()"
         (keydown.enter)="uploadProfilePic.click(); $event.stopPropagation()">
 
-        <img class="camer-icon cursor-pointer" src="../../../../fusion-assets/images/camera.png">
+        <img class="camer-icon cursor-pointer" src="../../../../fusion-assets/images/camera.png" alt="Upload photo">
 
         <input id="uploadProfile" name="uploadProfileName" type="file" #uploadProfilePic class="hidden"
           (change)="uploadProfileImg($event.target.files[0]); uploadProfilePic.value = null" style="display: none;"

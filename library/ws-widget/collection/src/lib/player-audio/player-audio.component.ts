@@ -1,7 +1,6 @@
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
   Component,
-  OnInit,
   Input,
   ElementRef,
   ViewChild,
@@ -16,7 +15,6 @@ import { EventService } from '@ws-widget/utils'
 import {
   videoJsInitializer,
   telemetryEventDispatcherFunction,
-  // saveContinueLearningFunction,
   fireRealTimeProgressFunction,
 } from '../_services/videojs-util'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
@@ -43,14 +41,14 @@ const videoJsOptions: videoJs.PlayerOptions = {
 }
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-player-audio',
-    templateUrl: './player-audio.component.html',
-    styleUrls: ['./player-audio.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-player-audio',
+  templateUrl: './player-audio.component.html',
+  styleUrls: ['./player-audio.component.scss'],
+
 })
 export class PlayerAudioComponent extends WidgetBaseComponent
-  implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
+  implements AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
   @Input() widgetData!: IWidgetsPlayerMediaData
   @ViewChild('audioTag', { static: true }) audioTag!: ElementRef<HTMLAudioElement>
   private player: videoJs.Player | null = null
@@ -65,8 +63,6 @@ export class PlayerAudioComponent extends WidgetBaseComponent
     super()
   }
 
-  ngOnInit() {
-  }
   ngAfterViewInit() {
     this.widgetData = {
       ...this.widgetData,

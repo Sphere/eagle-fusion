@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { LogoutComponent, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -7,13 +7,13 @@ import { LoggerService } from '@ws-widget/utils'
 import { Observable } from 'rxjs'
 
 @Component({
-    standalone: false,
-    selector: 'ws-mobile-profile-nav',
-    templateUrl: './mobile-profile-nav.component.html',
-    styleUrls: ['./mobile-profile-nav.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-mobile-profile-nav',
+  templateUrl: './mobile-profile-nav.component.html',
+  styleUrls: ['./mobile-profile-nav.component.scss'],
+
 })
-export class MobileProfileNavComponent implements OnInit {
+export class MobileProfileNavComponent {
   @Input() showbackButton?: boolean
   @Input() showLogOutIcon?: boolean
   @Input() trigerrNavigation?: boolean = false
@@ -33,9 +33,6 @@ export class MobileProfileNavComponent implements OnInit {
       }
     })
 
-  }
-
-  ngOnInit() {
   }
 
   logout() {

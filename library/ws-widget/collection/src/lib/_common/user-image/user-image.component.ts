@@ -1,16 +1,13 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core'
+import { Component, Input, OnChanges } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils'
-// import { UserMiniProfileService } from '../../mini-profile/user-mini-profile.service'
-// import { NsMiniProfile } from '../../mini-profile/mini-profile.model'
-
 @Component({
-    standalone: false,
-    selector: 'ws-widget-user-image',
-    templateUrl: './user-image.component.html',
-    styleUrls: ['./user-image.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-user-image',
+  templateUrl: './user-image.component.html',
+  styleUrls: ['./user-image.component.scss'],
+
 })
-export class UserImageComponent implements OnInit, OnChanges {
+export class UserImageComponent implements OnChanges {
   @Input() email = ''
   @Input() userId: string | null = null
   @Input() userName = ''
@@ -20,8 +17,6 @@ export class UserImageComponent implements OnInit, OnChanges {
   shortName = ''
   imageUrl: string | null = null
   constructor(private configSvc: ConfigurationsService) { }
-
-  ngOnInit() { }
 
   ngOnChanges() {
     if (

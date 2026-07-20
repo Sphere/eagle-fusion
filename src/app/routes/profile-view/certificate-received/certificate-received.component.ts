@@ -1,19 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import * as FileSaver from 'file-saver'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 @Component({
-    standalone: false,
-    selector: 'ws-certificate-received',
-    templateUrl: './certificate-received.component.html',
-    styleUrls: ['./certificate-received.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-certificate-received',
+  templateUrl: './certificate-received.component.html',
+  styleUrls: ['./certificate-received.component.scss'],
+
 })
-export class CertificateReceivedComponent implements OnInit {
+export class CertificateReceivedComponent {
   @Input() certificateData?: any
   constructor(private logger: LoggerService) { }
 
-  ngOnInit() {
-  }
   convertToJpeg(imgVal: any) {
     if (imgVal.rcCerticate) {
       const fileName = imgVal.name.replace(/\s+/g, '') + '_certificate.jpg'

@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 @Component({
-    standalone: false,
-    selector: 'ws-self-assessment',
-    templateUrl: './self-assessment.component.html',
-    styleUrls: ['./self-assessment.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-self-assessment',
+  templateUrl: './self-assessment.component.html',
+  styleUrls: ['./self-assessment.component.scss'],
+
 })
-export class SelfAssessmentComponent implements OnInit {
+export class SelfAssessmentComponent {
   constructor(
   ) {
   }
 
-  ngOnInit() {
-  }
 }

@@ -6,21 +6,9 @@ button:focus {
   padding: 0px;
 }
 
-/*.action-icons {
-    width: 28px;
-}
-@media (min-width: 600px) {
-  .action-icons {
-    width: 38px;
-    margin-top: 5px;
-  }
-}*/
-
 .action-button-toc {
   border: 1px solid var(--theme-accent);
   border-radius: 50%;
-  // padding: 9px 12px 0px;
-  // margin-left: 10px;
   display: flex;
   justify-content: center;
   align-items: center;

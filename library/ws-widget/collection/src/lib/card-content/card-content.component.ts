@@ -13,11 +13,11 @@ import { Title } from '@angular/platform-browser'
 import { get, forEach } from 'lodash'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-card-content',
-    templateUrl: './card-content.component.html',
-    styleUrls: ['./card-content.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-card-content',
+  templateUrl: './card-content.component.html',
+  styleUrls: ['./card-content.component.scss'],
+
 })
 export class CardContentComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsCardContent.ICard> {
@@ -57,9 +57,6 @@ export class CardContentComponent extends WidgetBaseComponent
 
   ngOnInit() {
     const url = window.location.href
-    // if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 && !this.authSvc.isAuthenticated) {
-    //   this.showLoggedInCard = true
-    // }
     if (url.indexOf('/public/home') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
@@ -221,15 +218,6 @@ export class CardContentComponent extends WidgetBaseComponent
     this.offSetYValue = -340
   }
 
-  // private get defaultRedirectUrl(): string {
-  //   try {
-  //     const baseUrl = document.baseURI
-  //     return baseUrl || location.origin
-  //   } catch (error) {
-  //     return location.origin
-  //   }
-  // }
-
   get checkDisplayName(): string {
     if (this.widgetData.content.creatorDetails && this.widgetData.content.creatorDetails.length) {
       if (
@@ -301,28 +289,6 @@ export class CardContentComponent extends WidgetBaseComponent
     this.widgetData.content.averageRating = this.widgetData.content.averageRating || 0
   }
 
-  // private assignThumbnail() {
-  //   const thumbnailElement = document.getElementById(`card_${this.widgetData.content.identifier}`) as HTMLImageElement
-  //   if (thumbnailElement) {
-  //     try {
-  //       const observer = new IntersectionObserver(
-  //         entries => {
-  //           entries.forEach(entry => {
-  //             const { isIntersecting } = entry
-  //             if (isIntersecting) {
-  //               thumbnailElement.src = this.widgetData.content.appIcon
-  //               observer.disconnect()
-  //             }
-  //           })
-  //         },
-  //       )
-  //       observer.observe(thumbnailElement)
-  //     } catch (e) {
-  //       thumbnailElement.src = this.widgetData.content.appIcon
-  //     }
-  //   }
-  // }
-
   get isKnowledgeBoard() {
     return (
       (this.widgetData.content && this.widgetData.content.contentType) ===
@@ -336,11 +302,6 @@ export class CardContentComponent extends WidgetBaseComponent
         return of(data)
       })).subscribe((userDetails: any) => {
         if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
-          // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-          //   contentId: this.widgetData.content.identifier,
-          //   contentType: this.widgetData.content.contentType,
-          //   context: this.widgetData.context,
-          // })
           this.router.navigateByUrl(`/app/toc/${this.widgetData.content.identifier}/overview?primaryCategory=Course`)
         } else {
           const url = `/app/toc/${this.widgetData.content.identifier}/overview`
@@ -413,5 +374,4 @@ export class CardContentComponent extends WidgetBaseComponent
     return false
   }
 
-  openComment() { }
 }

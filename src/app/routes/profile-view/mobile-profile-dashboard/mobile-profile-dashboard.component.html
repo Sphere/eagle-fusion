@@ -17,7 +17,7 @@
       </span>
     </div>
     <div class="badge-container mob-view" *ngIf="earnedBadges$ | async as count">
-      <img src="fusion-assets/icons/badges.png" />
+      <img src="fusion-assets/icons/badges.png" alt="Badges" />
       <span class="label">
         {{ count > 1
         ? ('BADGES_EARNED' | translate:{ count: count })
@@ -72,7 +72,7 @@
       <div *ngIf="orgDet?.themeConfig?.isDark"
         style="display:flex; justify-content: space-between; margin-left: 0.5rem">
         <div>
-          <img class="themeIcon" src="/fusion-assets/images/dark_mode.png">
+          <img class="themeIcon" src="/fusion-assets/images/dark_mode.png" alt="Dark mode">
           <label style="margin-left: 1rem;">{{"DARK_MODE" | translate}}</label>
         </div>
         <mat-slide-toggle labelPosition="before" [checked]="isDark()" [color]="'primary'"
@@ -120,7 +120,7 @@
       </p>
     </div>
     <div class="badge-container" *ngIf="earnedBadges$ | async as count">
-      <img src="fusion-assets/icons/badges.png" />
+      <img src="fusion-assets/icons/badges.png" alt="Badges" />
       <span class="label">
         {{ count > 1
         ? ('BADGES_EARNED' | translate:{ count: count })

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { WidgetBaseComponent } from '../widget-base.component'
 @Component({
@@ -9,12 +9,11 @@ import { WidgetBaseComponent } from '../widget-base.component'
 
 })
 export class InvalidPermissionComponent extends WidgetBaseComponent
-  implements OnInit, NsWidgetResolver.IWidgetData<any> {
+  implements NsWidgetResolver.IWidgetData<any> {
   @Input() widgetType!: string
   @Input() widgetSubType!: string
   @Input() widgetInstanceId?: string
   @Input() widgetData!: any
   showData = true
 
-  ngOnInit() { }
 }

@@ -1,8 +1,6 @@
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 import {
   Component,
-  OnInit,
-  OnDestroy,
   ViewChild,
   ElementRef,
   AfterViewInit,
@@ -19,13 +17,13 @@ export interface IPreviewDevice {
 }
 
 @Component({
-    standalone: false,
-    selector: 'ws-auth-viewer',
-    templateUrl: './viewer.component.html',
-    styleUrls: ['./viewer.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-auth-viewer',
+  templateUrl: './viewer.component.html',
+  styleUrls: ['./viewer.component.scss'],
+
 })
-export class ViewerComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+export class ViewerComponent implements AfterViewInit, OnChanges {
   @ViewChild('mobile', { static: true }) mobile: ElementRef<any> | null = null
   @ViewChild('tab', { static: true }) tab: ElementRef<any> | null = null
   @ViewChild('desktop', { static: true }) desktop: ElementRef<any> | null = null
@@ -57,17 +55,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewInit, OnChan
     },
   ]
   selected: IPreviewDevice = this.previewDevices[2]
-  // = {
-  //   value: 'desktop',
-  //   viewValue: this.desktop
-  //     ? this.desktop.nativeElement.value ? this.desktop.nativeElement.value : 'Desktop'
-  //     : 'Desktop',
-  //   height: '950px',
-  //   width: '1280px',
-  // }
-  constructor(private accessControlSvc: AccessControlService) {}
-
-  ngOnInit() {}
+  constructor(private accessControlSvc: AccessControlService) { }
 
   ngOnChanges() {
     if (this.accessControlSvc.authoringConfig.newDesign) {
@@ -107,15 +95,6 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewInit, OnChan
       },
     ]
     this.selected = this.previewDevices[2]
-    // = {
-    //   value: 'desktop',
-    //   viewValue: this.desktop
-    //     ? this.desktop.nativeElement.value ? this.desktop.nativeElement.value : 'Desktop'
-    //     : 'Desktop',
-    //   height: '950px',
-    //   width: '1280px',
-    // }
   }
 
-  ngOnDestroy() {}
 }

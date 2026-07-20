@@ -64,13 +64,13 @@
     <div class="banner-container" *ngIf="currentOrgData?.headerStyle !== 'inc'">
       <div class="banner-image-section">
         <div class="default-banner" *ngIf="!currentOrgData.bgImage">
-          <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" />
+          <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" alt="" />
         </div>
         <!-- Custom banner: shimmer overlay sits on top until the image fires (load) -->
         <ng-container *ngIf="currentOrgData.bgImage">
           <div class="shimmer org-shimmer-banner-img" *ngIf="!bannerLoaded"></div>
           <img [src]="currentOrgData.bgImage" class="banner" [class.org-img-hidden]="!bannerLoaded"
-            (load)="bannerLoaded = true" />
+            (load)="bannerLoaded = true" alt="Organisation banner" />
         </ng-container>
         <!-- Floating circular org logo: shimmer until logo image fires (load) -->
         <div class="banner-logo-wrap" *ngIf="currentOrgData.logo">
@@ -170,7 +170,7 @@
                   </ng-container>
                   <div *ngIf="course.cneName" class="flex cne-container">
                     <div class="flex cne-block mr-1">
-                      <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
+                      <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="">
                       <p class="cne-content mb-0">{{course.cneName}} CNE</p>
                     </div>
                     <p *ngIf="course.issueCertification" class="certified-text">{{'Certified' | translate}}</p>
@@ -179,7 +179,7 @@
                     <hr class="border-content">
                   </div>
                   <div class="competency-block" *ngIf="course.competencies_v1?.length > 0">
-                    <img src="/fusion-assets/icons/ph_medal.svg">
+                    <img src="/fusion-assets/icons/ph_medal.svg" alt="Medal">
                     <div>
                       <ng-container *ngFor="let competency of competencyData; let last = last;">
                         <span *ngIf="competency.identifier === course.identifier">{{competency.name}}, </span>

@@ -16,11 +16,11 @@ interface ILanguageBar {
 }
 
 @Component({
-    standalone: false,
-    selector: 'ws-auth-content-card-v2',
-    templateUrl: './content-card-v2.component.html',
-    styleUrls: ['./content-card-v2.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-auth-content-card-v2',
+  templateUrl: './content-card-v2.component.html',
+  styleUrls: ['./content-card-v2.component.scss'],
+
 })
 export class ContentCardV2Component implements OnInit {
   languages: ILanguageBar[] = []
@@ -197,14 +197,6 @@ export class ContentCardV2Component implements OnInit {
         this.onClick('edit')
       }
     })
-  }
-
-  moveToDraft() {
-
-  }
-
-  extendOrExpiry() {
-
   }
 
   changeToGlobalSymbol($event: any) {

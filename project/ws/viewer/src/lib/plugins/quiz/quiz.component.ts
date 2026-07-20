@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
-  OnChanges, OnDestroy, OnInit,
+  OnChanges, OnDestroy,
   QueryList,
   SimpleChanges,
   ViewChild, ViewChildren,
@@ -41,7 +41,6 @@ import {
 } from '@ws-widget/utils'
 import moment from 'moment'
 import _ from 'lodash'
-// import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
   standalone: false,
   selector: 'viewer-plugin-quiz',
@@ -49,7 +48,7 @@ import _ from 'lodash'
   styleUrls: ['./quiz.component.scss'],
 
 })
-export class QuizComponent implements OnInit, OnChanges, OnDestroy {
+export class QuizComponent implements OnChanges, OnDestroy {
   [x: string]: any
 
   @Input() identifier = ''
@@ -137,8 +136,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
   }
 
-  ngOnInit() {
-  }
   openOverviewDialog() {
     let overviewData: any = {}
     // this.viewerSvc.competencyAsessment.next(false)

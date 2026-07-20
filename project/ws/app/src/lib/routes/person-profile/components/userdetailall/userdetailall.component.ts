@@ -1,15 +1,15 @@
-import { Component, OnInit, Inject } from '@angular/core'
+import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-userdetailall',
-    templateUrl: './userdetailall.component.html',
-    styleUrls: ['./userdetailall.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-userdetailall',
+  templateUrl: './userdetailall.component.html',
+  styleUrls: ['./userdetailall.component.scss'],
+
 })
 
-export class UserdetailallComponent implements OnInit {
+export class UserdetailallComponent {
   content: any
   tag = ''
   name = ''
@@ -34,8 +34,6 @@ export class UserdetailallComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-  }
   close() {
     this.dialogRef.close()
   }

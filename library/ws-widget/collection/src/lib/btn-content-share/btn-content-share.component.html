@@ -1,7 +1,7 @@
 <button name="content-share-button" mat-icon-button matTooltip="Share Content"
   *ngIf="!isTocBanner && isShareEnabled && widgetData && !showText && showBtn" (click)="shareContent()"
   [disabled]="isDisabled" class="action-button" id="share-icon">
-  <img loading="lazy" src="/fusion-assets/icons/share.png" class="action-icons" />
+  <img loading="lazy" src="/fusion-assets/icons/share.png" class="action-icons" alt="Share" />
 </button>
 <button name="content-share-button" mat-icon-button matTooltip="Share Content"
   *ngIf="isTocBanner && isShareEnabled && widgetData && !showText && showBtn" (click)="shareContent()"

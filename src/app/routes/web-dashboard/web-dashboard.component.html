@@ -8,7 +8,7 @@
         <div class="banner-heading"><span>{{ firstName() || '' | translate }}</span></div>
       </div>
       <div *ngIf="shouldShowBadges" class="badge-container">
-        <img src="fusion-assets/icons/trophy.png" />
+        <img src="fusion-assets/icons/trophy.png" alt="Trophy" />
         <span class="label">{{noOfBadges > 1 ? ('BADGES_EARNED' | translate : {count: noOfBadges}) :
           ('BADGE_EARNED' | translate)}}</span>
       </div>

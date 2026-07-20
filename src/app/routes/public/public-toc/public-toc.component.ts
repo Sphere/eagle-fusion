@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { find, includes } from 'lodash'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -9,13 +9,13 @@ import { SeoService } from '../../../services/seo.service'
 import { UserAgentResolverService } from '../../../services/user-agent.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-public-toc',
-    templateUrl: './public-toc.component.html',
-    styleUrls: ['./public-toc.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-public-toc',
+  templateUrl: './public-toc.component.html',
+  styleUrls: ['./public-toc.component.scss'],
+
 })
-export class PublicTocComponent implements OnInit, OnDestroy {
+export class PublicTocComponent implements OnInit {
   tocData: any
   routelinK = 'overview'
   courseid: any
@@ -29,7 +29,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private logger: LoggerService,
     private cdr: ChangeDetectorRef,
     private userAgentSvc: UserAgentResolverService,
-  ) {}
+  ) { }
   ngOnInit() {
     this.initializeToc()
   }
@@ -196,8 +196,5 @@ export class PublicTocComponent implements OnInit, OnDestroy {
       this.logger.error(e)
     }
     return this.tocData
-  }
-  ngOnDestroy() {
-
   }
 }

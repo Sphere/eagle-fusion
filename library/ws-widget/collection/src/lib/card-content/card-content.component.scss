@@ -157,7 +157,6 @@ a {
   }
 
   mat-card-content {
-    // margin: 0 -0.25 * $card-padding;
     margin: 10 * $card-padding;
   }
 
@@ -263,10 +262,7 @@ a {
     display: block;
     width: calc(100% + #{2 * $card-padding} + 2px);
     margin-left: -#{$card-padding};
-    // margin-top: -$card-padding;
     display: flex;
-    // width: calc(100% + 30px);
-    // margin-left: -15px;
     margin-top: 66px;
     background: bisque;
   }
@@ -291,8 +287,6 @@ a {
 
     .source-icon {
       border-radius: 8px;
-      margin-right: auto;
-      margin-left: auto;
       display: block;
       margin: auto;
       max-width: 72px;
@@ -307,12 +301,8 @@ a {
   .card-img {
     min-width: 276px;
     max-width: 276px;
-    /* max-height: 148px; */
     display: block;
     object-fit: contain;
-    /* border-top: 1px solid red; */
-    // border-top-left-radius: 8px;
-    // border-top-right-radius: 8px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     border-top: solid 1px #ddd;
@@ -323,9 +313,6 @@ a {
 
   a.rounded-t .card-img.no-prog {
     margin-top: -32px !important;
-  }
-  a.rounded-t:hover .card-img.no-prog {
-    // margin-top: -16px !important;
   }
 
   .complexity {
@@ -553,23 +540,6 @@ $title-line-count: 2;
   @include ws-mixins.breakpoint-xs {
     display: none;
   }
-}
-
-span.img-overlay {
-  // background: rgba(0, 0, 0, 0.2);
-  // height: 157px;
-  // width: 278px;
-  // z-index: 9;
-  // position: relative;
-  // margin-bottom: -157px;
-  // top: -15px;
-  // left: -15px;
-  // transition: all ease 0.5s;
-}
-
-a.rounded-t:hover span.img-overlay {
-  // display: block;
-  // transition: all ease 0.5s;
 }
 
 ::ng-deep .light-theme .mdc-linear-progress__buffer {

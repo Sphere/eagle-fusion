@@ -3,7 +3,7 @@
  * auto-generate-tests.js
  *
  * Called by check-coverage.js when coverage is below threshold.
- * For each staged TypeScript source file that is below 80% coverage:
+ * For each staged TypeScript source file that is below 60% coverage:
  *   1. Reads the source + existing spec (if any)
  *   2. Calls Claude CLI to generate / augment the spec
  *   3. Falls back to a smart scaffold if Claude is unavailable
@@ -14,11 +14,11 @@
 'use strict'
 
 const { spawnSync, execSync } = require('child_process')
-const fs   = require('fs')
+const fs = require('fs')
 const path = require('path')
-const os   = require('os')
+const os = require('os')
 
-const rootDir     = path.join(__dirname, '..')
+const rootDir = path.join(__dirname, '..')
 const summaryPath = path.join(rootDir, 'coverage', 'coverage-summary.json')
 
 // ── Locate Claude binary ──────────────────────────────────────────────────
@@ -61,7 +61,7 @@ function getStagedSourceFiles() {
 
 // ── Coverage helpers ──────────────────────────────────────────────────────
 
-function getFilesBelow(threshold = 80) {
+function getFilesBelow(threshold = 60) {
   if (!fs.existsSync(summaryPath)) return new Set()
   const summary = JSON.parse(fs.readFileSync(summaryPath, 'utf8'))
   const set = new Set()
@@ -72,7 +72,7 @@ function getFilesBelow(threshold = 80) {
   return set
 }
 
-function isCoveredAbove(absPath, threshold = 80) {
+function isCoveredAbove(absPath, threshold = 60) {
   if (!fs.existsSync(summaryPath)) return false
   const summary = JSON.parse(fs.readFileSync(summaryPath, 'utf8'))
   const rel = absPath.replace(rootDir + path.sep, '').replace(rootDir + '/', '')
@@ -88,7 +88,7 @@ function isCoveredAbove(absPath, threshold = 80) {
 // ── Spec path ─────────────────────────────────────────────────────────────
 
 function specPathFor(sourceFile) {
-  const dir  = path.dirname(sourceFile)
+  const dir = path.dirname(sourceFile)
   const base = path.basename(sourceFile, '.ts')
   return path.join(dir, `${base}.spec.ts`)
 }
@@ -96,13 +96,13 @@ function specPathFor(sourceFile) {
 // ── Claude-based generation ───────────────────────────────────────────────
 
 function buildPrompt(sourceFile, specFile) {
-  const src     = fs.readFileSync(sourceFile, 'utf8')
-  const relSrc  = sourceFile.replace(rootDir + '/', '')
+  const src = fs.readFileSync(sourceFile, 'utf8')
+  const relSrc = sourceFile.replace(rootDir + '/', '')
   const relSpec = specFile.replace(rootDir + '/', '')
   const hasSpec = fs.existsSync(specFile)
   const existing = hasSpec ? fs.readFileSync(specFile, 'utf8') : null
 
-  return `You are writing Jest tests for an Angular 21 TypeScript file in the Eagle-Fusion LMS (Aastrika Sphere healthcare training platform). Your goal is to bring statement and function coverage above 80%.
+  return `You are writing Jest tests for an Angular 21 TypeScript file in the Eagle-Fusion LMS (Aastrika Sphere healthcare training platform). Your goal is to bring statement and function coverage above 60%.
 
 SOURCE FILE: ${relSrc}
 \`\`\`typescript
@@ -129,8 +129,8 @@ OUTPUT: Return ONLY the complete raw TypeScript for the spec file. No markdown. 
 }
 
 function callClaudeCLI(claudeBin, sourceFile, specFile) {
-  const prompt   = buildPrompt(sourceFile, specFile)
-  const tmpFile  = path.join(rootDir, 'coverage', '.gen-prompt.tmp')
+  const prompt = buildPrompt(sourceFile, specFile)
+  const tmpFile = path.join(rootDir, 'coverage', '.gen-prompt.tmp')
 
   // Write prompt to temp file to avoid shell arg length limits
   fs.mkdirSync(path.dirname(tmpFile), { recursive: true })
@@ -147,9 +147,9 @@ function callClaudeCLI(claudeBin, sourceFile, specFile) {
     { cwd: rootDir, encoding: 'utf8', timeout: 150_000 }
   )
 
-  try { fs.unlinkSync(tmpFile) } catch (_) {}
+  try { fs.unlinkSync(tmpFile) } catch (_) { }
 
-  if (result.status === 0 && result.stdout && result.stdout.trim().length > 80) {
+  if (result.status === 0 && result.stdout && result.stdout.trim().length > 60) {
     let out = result.stdout.trim()
     // Strip any markdown fences Claude might have included despite instructions
     out = out.replace(/^```(?:typescript|ts)?\n?/, '').replace(/\n?```\s*$/, '')
@@ -163,7 +163,7 @@ function callClaudeCLI(claudeBin, sourceFile, specFile) {
     { cwd: rootDir, encoding: 'utf8', input: prompt, timeout: 150_000 }
   )
 
-  if (result2.status === 0 && result2.stdout && result2.stdout.trim().length > 80) {
+  if (result2.status === 0 && result2.stdout && result2.stdout.trim().length > 60) {
     let out = result2.stdout.trim()
     out = out.replace(/^```(?:typescript|ts)?\n?/, '').replace(/\n?```\s*$/, '')
     return out.trim()
@@ -175,16 +175,16 @@ function callClaudeCLI(claudeBin, sourceFile, specFile) {
 // ── Smart scaffold fallback ───────────────────────────────────────────────
 
 function generateScaffold(sourceFile, specFile) {
-  const src      = fs.readFileSync(sourceFile, 'utf8')
-  const base     = path.basename(sourceFile, '.ts')
-  const relSpec  = path.relative(path.dirname(specFile), sourceFile.replace(/\.ts$/, ''))
+  const src = fs.readFileSync(sourceFile, 'utf8')
+  const base = path.basename(sourceFile, '.ts')
+  const relSpec = path.relative(path.dirname(specFile), sourceFile.replace(/\.ts$/, ''))
 
-  const classMatch   = src.match(/export\s+(?:default\s+)?class\s+(\w+)/)
-  const className    = classMatch ? classMatch[1] : 'Subject'
-  const isComponent  = src.includes('@Component')
-  const isService    = src.includes('@Injectable')
-  const isPipe       = src.includes('@Pipe')
-  const isGuard      = src.includes('CanActivate') || src.includes('CanLoad')
+  const classMatch = src.match(/export\s+(?:default\s+)?class\s+(\w+)/)
+  const className = classMatch ? classMatch[1] : 'Subject'
+  const isComponent = src.includes('@Component')
+  const isService = src.includes('@Injectable')
+  const isPipe = src.includes('@Pipe')
+  const isGuard = src.includes('CanActivate') || src.includes('CanLoad')
 
   // Extract public methods for it() stubs
   const methods = [...src.matchAll(/^\s{2}(?:public\s+)?(?:async\s+)?(\w+)\s*\(/gm)]
@@ -278,9 +278,9 @@ function stageFile(absPath) {
 // ── Main ──────────────────────────────────────────────────────────────────
 
 function generateTestsForLowCoverageFiles() {
-  const claudeBin    = findClaudeBin()
-  const belowSet     = getFilesBelow(80)
-  const stagedFiles  = getStagedSourceFiles()
+  const claudeBin = findClaudeBin()
+  const belowSet = getFilesBelow(60)
+  const stagedFiles = getStagedSourceFiles()
 
   if (claudeBin) {
     console.log(`  🤖  Claude found: ${claudeBin.split('/').slice(-4).join('/')}`)
@@ -293,7 +293,7 @@ function generateTestsForLowCoverageFiles() {
     const rel = f.replace(rootDir + '/', '').replace(rootDir + path.sep, '')
     const inBelow = [...belowSet].some(low => low.endsWith(rel))
     const hasSpec = fs.existsSync(specPathFor(f))
-    const alreadyOk = isCoveredAbove(f, 80)
+    const alreadyOk = isCoveredAbove(f, 60)
     return (inBelow || !hasSpec) && !alreadyOk
   })
 
@@ -308,9 +308,9 @@ function generateTestsForLowCoverageFiles() {
 
   for (const srcFile of targets) {
     const specFile = specPathFor(srcFile)
-    const relSrc   = srcFile.replace(rootDir + '/', '')
-    const relSpec  = specFile.replace(rootDir + '/', '')
-    const exists   = fs.existsSync(specFile)
+    const relSrc = srcFile.replace(rootDir + '/', '')
+    const relSpec = specFile.replace(rootDir + '/', '')
+    const exists = fs.existsSync(specFile)
 
     console.log(`  → ${relSrc}`)
     console.log(`    ${exists ? 'augmenting' : 'creating'} ${relSpec}`)

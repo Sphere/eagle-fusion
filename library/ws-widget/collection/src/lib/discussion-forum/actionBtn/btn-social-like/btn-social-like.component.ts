@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatDialog } from '@angular/material/dialog'
@@ -7,13 +7,13 @@ import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-btn-social-like',
-    templateUrl: './btn-social-like.component.html',
-    styleUrls: ['./btn-social-like.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-btn-social-like',
+  templateUrl: './btn-social-like.component.html',
+  styleUrls: ['./btn-social-like.component.scss'],
+
 })
-export class BtnSocialLikeComponent implements OnInit {
+export class BtnSocialLikeComponent {
   @Input() postId = ''
   @Input() postCreatorId = ''
   @Input() activity: NsDiscussionForum.IPostActivity | null = null
@@ -29,8 +29,6 @@ export class BtnSocialLikeComponent implements OnInit {
       this.userId = this.configSvc.userProfile.userId || ''
     }
   }
-
-  ngOnInit() { }
 
   updateLike(invalidUserMsg: string) {
     if (this.postCreatorId === this.userId) {

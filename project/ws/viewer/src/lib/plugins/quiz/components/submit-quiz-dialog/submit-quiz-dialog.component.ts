@@ -1,22 +1,18 @@
-import { Component, OnInit, Inject } from '@angular/core'
+import { Component, Inject } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { NSQuiz } from '../../quiz.model'
 
 @Component({
-    standalone: false,
-    selector: 'viewer-submit-quiz-dialog',
-    templateUrl: './submit-quiz-dialog.component.html',
-    styleUrls: ['./submit-quiz-dialog.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-submit-quiz-dialog',
+  templateUrl: './submit-quiz-dialog.component.html',
+  styleUrls: ['./submit-quiz-dialog.component.scss'],
+
 })
-export class SubmitQuizDialogComponent implements OnInit {
+export class SubmitQuizDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SubmitQuizDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public submissionState: NSQuiz.TQuizSubmissionState,
   ) { }
-
-  ngOnInit() {
-  }
-
 }

@@ -7,10 +7,6 @@
   </ng-container>
 </div>
 <div class="assesment-container mt-3 mb-3">
-  <!-- <div class="gif-wrapper" *ngIf="isShownGrif && isCompetencyComplted">
-    <img src="fusion-assets/icons/celebration-top.gif" class="gif-top" />
-    <img src="fusion-assets/icons/celebration-bottom.gif" class="gif-bottom" />
-  </div> -->
   <ng-container *ngIf="(isXSmall$ | async) === false">
     <button type="button" class="close" (click)="closePopup()">&times;</button>
   </ng-container>
