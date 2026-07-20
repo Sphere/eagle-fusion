@@ -23,6 +23,7 @@ describe('CompetencyCourseListComponent', () => {
   let mockConfigSvc: any
   let mockValueSvc: any
   let mockDashboardSvc: any
+  let mockLangSvc: any
   let userSvc: CompetencyUserService
 
   const ashaResult = {
@@ -43,7 +44,10 @@ describe('CompetencyCourseListComponent', () => {
       getAshaData: jest.fn().mockReturnValue(of(ashaResult)),
     }
     userSvc = new CompetencyUserService()
-    comp = new CompetencyCourseListComponent(mockConfigSvc, mockValueSvc, mockDashboardSvc, userSvc)
+    mockLangSvc = {
+      getCurrentLanguage: jest.fn().mockReturnValue(''),
+    }
+    comp = new CompetencyCourseListComponent(mockConfigSvc, mockValueSvc, mockDashboardSvc, userSvc, mockLangSvc)
     comp.playlists = [{ playlistId: 'COMPETENCY_PLAYLIST' }]
     comp.designation = 'ASHA'
   })
@@ -119,7 +123,7 @@ describe('CompetencyCourseListComponent', () => {
   describe('initData', () => {
     it('populates the signals from the dashboard service', () => {
       comp.ngOnInit()
-      expect(mockDashboardSvc.getCompetencyInfo).toHaveBeenCalledWith(comp.playlists, 'org1', 'ASHA')
+      expect(mockDashboardSvc.getCompetencyInfo).toHaveBeenCalledWith(comp.playlists, 'org1', 'ASHA', 'hi')
       expect(mockDashboardSvc.getAshaData).toHaveBeenCalledWith('hi', [{ competencyId: 1, level: 1 }], ['1'], 'u1')
       expect(comp.ashaData()).toEqual(ashaResult.ashaData)
       expect(comp.completedCourses()).toEqual(ashaResult.completedCourses)
@@ -141,7 +145,7 @@ describe('CompetencyCourseListComponent', () => {
       comp.playlists = []
       comp.ngOnInit()
       expect(comp.showanmHome).toBe(false)
-      expect(mockDashboardSvc.getCompetencyInfo).toHaveBeenCalledWith([], 'org1', 'ASHA')
+      expect(mockDashboardSvc.getCompetencyInfo).toHaveBeenCalledWith([], 'org1', 'ASHA', 'hi')
       expect(comp.ashaData()).toEqual([])
     })
 

@@ -775,11 +775,14 @@ describe('WebPublicComponent', () => {
       expect(result).toBe(false)
     })
 
-    it('returns false when the playlist is for another org or language', () => {
+    it('returns false when the playlist is for another org', () => {
       component['plyLsData'] = [{ ...competencyPlaylist, orgId: 'other-org' }]
       expect((component as any).handleCompetencyFlow('org1', roleCheck)).toBe(false)
+    })
+
+    it('matches regardless of playlist language (language condition removed for competency flow)', () => {
       component['plyLsData'] = [{ ...competencyPlaylist, language: 'hi' }]
-      expect((component as any).handleCompetencyFlow('org1', roleCheck)).toBe(false)
+      expect((component as any).handleCompetencyFlow('org1', roleCheck)).toBe(true)
     })
 
     it('activates the competency view when a playlist matches org, language, and role', () => {
