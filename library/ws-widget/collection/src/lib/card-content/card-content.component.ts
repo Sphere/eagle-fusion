@@ -79,9 +79,6 @@ export class CardContentComponent extends WidgetBaseComponent
     }
 
     if (this.widgetData) {
-      // this.cometencyData = JSON.parse(get(this.widgetData, 'content.competencies_v1', ''))
-      // this.logger.log("this.widgetData", this.widgetData, get(this.widgetData, 'content.competencies_v1'))
-
       if (this.widgetData.content.competencies_v1 && Object.keys(this.widgetData.content.competencies_v1).length > 0) {
         forEach(JSON.parse(get(this.widgetData, 'content.competencies_v1')), (value: any) => {
           if (value.level) {
@@ -117,8 +114,6 @@ export class CardContentComponent extends WidgetBaseComponent
       if (this.target) {
         this.target!.targetOffsetX = event.clientX + 1
       }
-    } else {
-      // this.logger.log('this.showEndPopup', this.showEndPopup)
     }
   }
   clickToRedirect(data: any) {

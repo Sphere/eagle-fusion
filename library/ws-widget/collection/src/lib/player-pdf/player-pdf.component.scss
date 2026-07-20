@@ -33,7 +33,6 @@
 }
 
 .pdf-page-container {
-  // width: calc(100% - 80px);
   flex: 1;
   text-align: center;
   overflow: auto;
@@ -75,11 +74,6 @@
 .custom-scroll-small {
   overflow-y: auto;
 }
-
-// .pdf-scroll {
-//   overflow-y: scroll;
-//   height: 650px;
-// }
 
 .mat-toolbar-single-row {
   padding: 0;

@@ -42,7 +42,6 @@ export class ImageResponsiveDirective implements OnChanges, OnDestroy {
       ])
       .pipe(distinctUntilChanged())
       .subscribe(data => {
-        // //this.logger.log('data >',  data)
         if (data.breakpoints[customBreakPoints.xxl]) {
           this.currentSize = 'xxl'
         } else if (data.breakpoints[customBreakPoints.xl]) {

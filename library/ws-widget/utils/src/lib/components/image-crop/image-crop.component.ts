@@ -137,7 +137,6 @@ export class ImageCropComponent implements OnInit {
     // extract content type and base64 payload from original string
 
     const pos = str.indexOf(';base64,')
-    // var type = str.substring(5, pos);
     const b64 = str.substr(pos + 8)
     // decode base64
     const imageContent = atob(b64)

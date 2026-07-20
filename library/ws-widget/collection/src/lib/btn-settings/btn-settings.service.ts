@@ -1,6 +1,5 @@
 import {
   Injectable,
-  //  LOCALE_ID, Inject
 } from '@angular/core'
 import { ConfigurationsService, NsInstanceConfig, UserPreferenceService } from '@ws-widget/utils'
 
@@ -9,14 +8,12 @@ import { ConfigurationsService, NsInstanceConfig, UserPreferenceService } from '
 })
 export class BtnSettingsService {
   private readonly htmlElem: HTMLElement = document.documentElement
-  // private themeElem: HTMLLinkElement | HTMLScriptElement | null = null
   private fallbackTheme: NsInstanceConfig.ITheme | undefined | null = null
   private fallbackFont: NsInstanceConfig.IFontSize | undefined | null = null
   public useLinkForThemeInjection: boolean | null = null
   private loadedThemeStyles = new Set<string>()
   private notifyOnChange = true
   constructor(
-    // @Inject(LOCALE_ID) private locale: string,
     private configurationsSvc: ConfigurationsService,
     private userPrefSvc: UserPreferenceService,
   ) { }
@@ -26,20 +23,8 @@ export class BtnSettingsService {
     this.useLinkForThemeInjection = isProductionBuild
     this.fallbackTheme = this.computeFallbackTheme()
     this.fallbackFont = this.computeFallbackFont()
-    // initialize theme
     this.changeTheme()
-    // initialize fonts
     this.changeFont()
-    // initialize theme mode
-    // let isDarkMode = this.configurationsSvc.isDarkMode
-    // if (this.configurationsSvc.userPreference && 'isDarkMode' in this.configurationsSvc.userPreference) {
-    //   isDarkMode = this.configurationsSvc.userPreference.isDarkMode
-    // }
-    // else {
-    //   this.configurationsSvc.instanceConfig && this.configurationsSvc.instanceConfig.
-    // }
-    // this.applyThemeMode(isDarkMode || false)
-    // setup current locale Setting
     this.setLocaleSetting()
     if (this.configurationsSvc.userPreference) {
       this.configurationsSvc.completedTour = (this.configurationsSvc.userPreference.completedTour as boolean)
@@ -165,16 +150,6 @@ export class BtnSettingsService {
     }
   }
 
-  // applyThemeMode(toDarkMode = true) {
-  //   const [toRemove, toAdd] = toDarkMode ? ['day-mode', 'night-mode'] : ['night-mode', 'day-mode']
-  //   this.htmlElem.classList.remove(toRemove)
-  //   this.htmlElem.classList.add(toAdd)
-  //   this.configurationsSvc.isDarkMode = toDarkMode
-  //   if (this.notifyOnChange) {
-  //     this.configurationsSvc.prefChangeNotifier.next({ isDarkMode: toDarkMode })
-  //   }
-  // }
-
   intranetContentMode(internetAllowed = true) {
     this.configurationsSvc.isIntranetAllowed = internetAllowed
     if (this.notifyOnChange) {
@@ -185,18 +160,7 @@ export class BtnSettingsService {
   private applyTheme(theme: NsInstanceConfig.ITheme) {
     if (!this.loadedThemeStyles.has(theme.themeClass)) {
       if (this.useLinkForThemeInjection) {
-        // const elem = document.createElement('link')
-        // elem.rel = 'stylesheet'
-        // elem.type = 'text/css'
-        // elem.href = `/assets/${theme.themeFile}.css`
-        // document.head.appendChild(elem)
       } else {
-        // const elem = document.createElement('script')
-        /* Below field is Deprecated */
-        // elem.charset = 'utf-8'
-        // elem.type = 'text/javascript'
-        // elem.src = `/${theme.themeFile}.js`
-        // document.head.appendChild(elem)
       }
     }
     this.configurationsSvc.activeThemeObject = theme

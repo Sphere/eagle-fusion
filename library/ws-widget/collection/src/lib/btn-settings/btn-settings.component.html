@@ -4,15 +4,6 @@
 </button>
 
 <mat-menu #settingsMenu="matMenu" name="settingsOptionsListContainerHomePage" xPosition="before">
-  <!-- <mat-slide-toggle color="primary" [formControl]="isRTLForm" labelPosition="before">
-  </mat-slide-toggle> -->
-  <!-- <div mat-menu-item (click)="toggleRTL()">
-    <mat-icon>{{
-      isRTLForm ? 'format_textdirection_r_to_l' : 'format_textdirection_l_to_r'
-    }}</mat-icon>
-    <span  *ngIf="isRTLForm.value">Change to left-to-right</span>
-    <span  *ngIf="!isRTLForm.value">Change to right-to-left</span>
-  </div> -->
   <button mat-menu-item [matMenuTriggerFor]="languagesMenu" *ngIf="isLanguageEnabled">
     <mat-icon>translate</mat-icon>
     <span>Languages</span>
@@ -26,10 +17,6 @@
     <span>Themes</span>
   </button>
 
-  <!-- <button mat-menu-item>
-    <mat-icon>keyboard</mat-icon>
-    <span >Keyboard Shortcuts</span>
-  </button> -->
   <a mat-menu-item routerLink="/app/profile/settings">
     <mat-icon>expand_more</mat-icon>
     <span>All Settings</span>

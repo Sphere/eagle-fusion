@@ -7,13 +7,5 @@
     matBadgeSize="small">favorite</mat-icon>
   <mat-icon *ngIf="isUpdating">hourglass_empty</mat-icon>
 </button>
-<!-- <span
-  [hidden]="!postId"
-  (click)="openLikesDialog()"
-class="like-count mat-primary-text"
-  role="button"
-  *ngIf="activity?.activityData?.like"
-  >{{ activity?.activityData.like }}</span
-> -->
 
 <input type="hidden" value="You cannot like your own post" #invalidUser />

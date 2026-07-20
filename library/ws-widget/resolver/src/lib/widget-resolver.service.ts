@@ -9,7 +9,6 @@ import {
   WIDGET_RESOLVER_GLOBAL_CONFIG,
   WIDGET_RESOLVER_SCOPED_CONFIG,
 } from './widget-resolver.constant'
-// import { LoggerService } from '@ws-widget/utils'
 import { NsWidgetResolver } from './widget-resolver.model'
 import { hasPermissions } from './widget-resolver.permissions'
 import { RestrictedComponent } from './restricted/restricted.component'
@@ -27,8 +26,7 @@ export class WidgetResolverService {
   private restrictedFeatures: Set<string> | null = null
   isInitialized = false
   constructor(
-    private domSanitizer: DomSanitizer,
-    // private loggerSvc: LoggerService,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     @Inject(WIDGET_RESOLVER_GLOBAL_CONFIG)
     private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
     @Inject(WIDGET_RESOLVER_SCOPED_CONFIG)

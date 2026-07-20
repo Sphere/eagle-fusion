@@ -83,16 +83,12 @@ function generateEventDispatcherHelper(
   dispatcher: any,
   widgetSubType: string,
 ) {
-  // let activityStartedAt: Date | null = null
   return (
     eventType: WsEvents.EnumTelemetrySubType,
     widgetData: IWidgetsPlayerMediaData,
     playerState: WsEvents.EnumTelemetryMediaActivity,
     mimeType: NsContent.EMimeTypes,
   ) => {
-    // if (eventType === WsEvents.EnumTelemetrySubType.Loaded) {
-    //   activityStartedAt = new Date()
-    // }
     eventDispatchHelper(
       passThroughData,
       dispatcher,
@@ -104,21 +100,6 @@ function generateEventDispatcherHelper(
     )
   }
 }
-// function saveContinueLearning(
-//   widgetData: IWidgetsPlayerMediaData,
-//   // saveCLearning: saveContinueLearningFunction,
-//   currentTime: any,
-// ) {
-//   const data = {
-//     resourceId: widgetData.identifier,
-//     dateAccessed: Date.now(),
-//     data: JSON.stringify({
-//       progress: currentTime,
-//       timestamp: Date.now(),
-//     }),
-//   }
-//   // saveCLearning(data)
-// }
 function fireRealTimeProgress(
   mimeT: string,
   widgetData: IWidgetsPlayerMediaData,
@@ -142,7 +123,6 @@ export function videoJsInitializer(
   elem: HTMLVideoElement | HTMLAudioElement,
   config: videoJs.PlayerOptions,
   dispatcher: telemetryEventDispatcherFunction,
-  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -453,7 +433,6 @@ export function videoJsInitializer(
     })
   }
   const dispose = () => {
-    // saveContinueLearning(widgetData, currTime)
     if (heartBeatSubscription) {
       heartBeatSubscription.unsubscribe()
     }
@@ -472,7 +451,6 @@ export function videoJsInitializer(
 export function videoInitializer(
   elem: HTMLVideoElement,
   dispatcher: telemetryEventDispatcherFunction,
-  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -537,7 +515,6 @@ export function videoInitializer(
     })
   }
   const dispose = () => {
-    // saveContinueLearning(widgetData, saveCLearning, currTime)
     if (heartBeatSubscription) {
       heartBeatSubscription.unsubscribe()
     }
@@ -567,7 +544,6 @@ export function youtubeInitializer(
   elem: HTMLElement,
   youtubeId: string,
   dispatcher: telemetryEventDispatcherFunction,
-  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -642,7 +618,6 @@ export function youtubeInitializer(
     }
   }
   const dispose = () => {
-    // saveContinueLearning(widgetData, saveCLearning, currTime)
     if (heartBeatSubscription) {
       heartBeatSubscription.unsubscribe()
     }

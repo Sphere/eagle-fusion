@@ -241,7 +241,6 @@ export class TelemetryService {
           id,
           '1.0',
           {
-            // id,
             type,
             mode,
             pageid: id,
@@ -301,7 +300,6 @@ export class TelemetryService {
         {
           type,
           props,
-          // data,
           state: data, // Optional. Current State
           prevstate: '', // Optional. Previous State
           duration: '', // Optional.
@@ -325,7 +323,6 @@ export class TelemetryService {
     try {
       $t.heartbeat({
         id,
-        // mode,
         type,
       })
     } catch (e) {
@@ -341,12 +338,10 @@ export class TelemetryService {
       pdata: {
         ...this.telemetryConfig.pdata,
         pid: navigator.userAgent,
-        // id: `${environment.name}.${this.telemetryConfig.pdata.id}`,
       },
       channel: this.rootOrgId || this.telemetryConfig.channel,
       uid: this.configSvc.userProfile && this.configSvc.userProfile.userId,
       sid: this.getTelemetrySessionId,
-      // authtoken: this.authSvc.token,
     }
     this.pData = instanceConfig.telemetryConfig.pdata
   }
@@ -407,31 +402,9 @@ export class TelemetryService {
         ],
       }
       if (page.objectId) {
-        // const config = {
-        //   context: {
-        //     pdata: {
-        //       ...this.pData,
-        //       id: this.pData.id,
-        //     },
-        //   },
-        //   object: {
-        //     id: page.objectId,
-        //   },
-        // }
         this.postPublicTelemetry(finalObject)
-
-        // $t.impression(edata, config)
       } else {
         this.postPublicTelemetry(finalObject)
-
-        // $t.impression(edata, {
-        //   context: {
-        //     pdata: {
-        //       ...this.pData,
-        //       id: this.pData.id,
-        //     },
-        //   },
-        // })
       }
       this.previousUrl = page.pageUrl
     } catch (e) {
@@ -766,9 +739,7 @@ export class TelemetryService {
         ),
       )
       .subscribe(event => {
-        // event.data.content['isIframeSupported'] = 'Yes'
         event.data['isIframeSupported'] = 'Yes'
-        // const content: NsContent.IContent | null = event.data.content
         const content: NsContent.IContent | null = event.data
         if (
           event.data.state === WsEvents.EnumTelemetrySubType.Loaded &&
@@ -833,10 +804,8 @@ export class TelemetryService {
               {
                 type: event.data.type,
                 mode: event.data.subType,
-                // object: event.data.object,
                 pageid: event.data.pageid || page.pageid,
                 extras: event.data.extras,
-                // target: { page },
               },
               {
                 context: {
@@ -888,10 +857,7 @@ export class TelemetryService {
             $t.heartbeat(
               {
                 type: event.data.type,
-                // mode: event.data.eventSubType,
                 identifier: event.data.identifier,
-                // mimeType: event.data.mimeType,
-                // mode: event.data.mode,
               },
               {
                 context: {

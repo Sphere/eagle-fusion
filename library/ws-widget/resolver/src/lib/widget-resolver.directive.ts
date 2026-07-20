@@ -13,21 +13,11 @@ export class WidgetResolverDirective implements OnChanges {
   constructor(
     private viewContainerRef: ViewContainerRef,
     private widgetResolverSvc: WidgetResolverService,
-    // private logger: LoggerService,
     private configSvc: ConfigurationsService,
   ) { }
 
   ngOnChanges() {
     const url = window.location.href
-    // if (url.indexOf('login') < 0 && url.indexOf('explore') < 0) {
-    //   if (!this.widgetResolverSvc.isInitialized) {
-    //     this.logger.error(
-    //       'Widgets Registration Not Done. Used Before Initialization.',
-    //       this.wsResolverWidget,
-    //     )
-    //     return
-    //   }
-    // }
     if (url.indexOf('/public/home') > 0) {
       if (!this.widgetResolverSvc.isInitialized) {
         this.widgetResolverSvc.initialize(this.configSvc.restrictedWidgets,

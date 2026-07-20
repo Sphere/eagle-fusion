@@ -54,9 +54,6 @@
 
   </div>
   <div *ngIf="editMode" class="margin-top-s padding-s mat-primary-border">
-    <!-- [minLength]="'10'" -->
-    <!-- <ws-widget-editor-quill [htmlText]="reply.postContent.body" (textData)="onReplyTextChange($event)">
-    </ws-widget-editor-quill> -->
     <div class="text-right">
       <button name="discussion-reply-update-button" type="button" class="margin-top-s" [disabled]="!replyPostEnabled"
         mat-raised-button color="primary" (click)="editReply(editFailMsg.value)">
@@ -70,12 +67,6 @@
   </div>
 
 </div>
-
-<!-- <mat-menu #editMenu="matMenu">
-  <ng-template matMenuContent>
-
-  </ng-template>
-</mat-menu> -->
 
 <input type="hidden" i8n-value value="Something went wrong! Unable to delete." #deleteFailMsg />
 <input type="hidden" i8n-value value="Something went wrong! Unable to post." #editFailMsg />

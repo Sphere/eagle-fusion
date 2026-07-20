@@ -13,10 +13,8 @@ import {
 } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
-// import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
 import { get } from 'lodash'
 import { WidgetUserService } from '../_services/widget-user.service'
-// import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
 interface IStripUnitContentData {
   key: string
@@ -75,9 +73,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     private eventSvc: EventService,
     private configSvc: ConfigurationsService,
     protected utilitySvc: UtilityService,
-    // private searchServSvc: SearchServService,
     private userSvc: WidgetUserService,
-    // private tocSvc: AppTocService
   ) {
     super()
   }
@@ -197,7 +193,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     const stripData = this.widgetData.strips.find(strip => strip.key === key)
     if (stripData) {
       this.fetchStripFromRequestDataforLogin(stripData, calculateParentStatus)
-      // this.fetchFromSearch(strip, calculateParentStatus)
     }
   }
 
@@ -240,9 +235,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
                 f:
                   strip.request && strip.request.searchV6 && strip.request.searchV6.filters
                     ? JSON.stringify(
-                      // this.searchServSvc.transformSearchV6Filters(
-                      strip.request.searchV6.filters
-                      // ),
+                      strip.request.searchV6.filters,
                     )
                     : {},
               },
@@ -269,7 +262,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             })
           }
           if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
-            // this.tocSvc.setcontentForWidget(contentNew)
             this.processStrip(
               strip,
               this.transformContentsToWidgets(contentNew, strip),
@@ -278,7 +270,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
               viewMoreUrl,
             )
           } else {
-            // this.tocSvc.setcontentForWidget(content)
             this.processStrip(
               strip,
               this.transformContentsToWidgets(content, strip),
@@ -316,12 +307,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
     // setting initial values
     this.processStrip(strip, [], 'fetching', false, null)
-    // this.fetchFromApi(strip, calculateParentStatus)
-    // this.fetchFromSearch(strip, calculateParentStatus)
-    // this.fetchFromSearchRegionRecommendation(strip, calculateParentStatus)
     this.fetchFromPublicSearch(strip, calculateParentStatus)
-    // his.fetchFromIds(strip, calculateParentStatus)
-    // this.fetchFromEnrollmentList(strip, calculateParentStatus)
   }
 
   private fetchStripFromRequestData(
@@ -479,13 +465,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
   fetchFromSearchV6(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.searchV6 && Object.keys(strip.request.searchV6).length) {
-      // if (!(strip.request.searchV6.locale && strip.request.searchV6.locale.length > 0)) {
-      //   if (this.configSvc.activeLocale) {
-      //     strip.request.searchV6.locale = [this.configSvc.activeLocale.locals[0]]
-      //   } else {
-      //     strip.request.searchV6.locale = ['en']
-      //   }
-      // }
       let originalFilters: any = []
       if (strip.request &&
         strip.request.searchV6 &&
@@ -539,13 +518,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
   fetchFromPublicSearch(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.searchV6 && Object.keys(strip.request.searchV6).length) {
-      // if (!(strip.request.searchV6.locale && strip.request.searchV6.locale.length > 0)) {
-      //   if (this.configSvc.activeLocale) {
-      //     strip.request.searchV6.locale = [this.configSvc.activeLocale.locals[0]]
-      //   } else {
-      //     strip.request.searchV6.locale = ['en']
-      //   }
-      // }
       let originalFilters: any = []
       if (strip.request &&
         strip.request.searchV6 &&
@@ -715,7 +687,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     viewMoreUrl: any,
     // calculateParentStatus is used so that parents' status is not re-calculated if the API is called again coz of filters, etc.
   ) {
-    // this.stripsResultDataMap[strip.key]
     if (results.length && strip.fetchLikes) {
       await this.processContentLikes(results)
     }
@@ -753,7 +724,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       showOnLoader: Boolean(strip.loader && fetchStatus === 'fetching'),
       showOnError: Boolean(strip.errorWidget && fetchStatus === 'error'),
     }
-    // const stripData = this.stripsResultDataMap[strip.key]
     this.stripsResultDataMap = {
       ...this.stripsResultDataMap,
       [strip.key]: stripData,

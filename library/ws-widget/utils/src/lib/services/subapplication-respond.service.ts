@@ -57,7 +57,6 @@ export class SubapplicationRespondService {
                 user: {
                   firstName,
                   lastName,
-                  // token,
                   userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
                   roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
                 },
@@ -82,7 +81,6 @@ export class SubapplicationRespondService {
           this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
         const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
           this.activatedRoute.snapshot.queryParams.viewMode : ''
-        // const token = this.keyCloakSvc.token
         const response = {
           subApplicationName: applicationName,
           requestId: 'LOADED',
@@ -101,7 +99,6 @@ export class SubapplicationRespondService {
             user: {
               firstName,
               lastName,
-              // token,
               userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
               roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
             },
@@ -174,7 +171,6 @@ export class SubapplicationRespondService {
         this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
       const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
         this.activatedRoute.snapshot.queryParams.viewMode : ''
-      // const token = this.keyCloakSvc.token
       const response = {
         subApplicationName: this.subAppname,
         requestId: 'CONTEXT_CHANGE',
@@ -193,7 +189,6 @@ export class SubapplicationRespondService {
           user: {
             firstName,
             lastName,
-            // token,
             userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
             roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
           },

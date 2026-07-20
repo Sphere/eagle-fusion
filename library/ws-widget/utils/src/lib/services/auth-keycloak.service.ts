@@ -110,11 +110,7 @@ export class AuthKeycloakService {
           realm: instanceConfig.keycloak.realm,
           clientId: instanceConfig.keycloak.clientId,
         },
-        initOptions: {
-          // ...this.getSavedKcConfig(),
-          // onLoad: instanceConfig.keycloak.onLoad || 'check-sso',
-          // checkLoginIframe: false,
-        },
+        initOptions: {},
         enableBearerInterceptor: true,
         loadUserProfileAtStartUp: false,
         bearerExcludedUrls: instanceConfig.keycloak.bearerExcludedUrls,
@@ -180,12 +176,8 @@ export class AuthKeycloakService {
           break
         case KeycloakEventTypeLegacy.OnReady:
           this.loginChangeSubject.next(event?.args as any)
-          if (event.args) {
-            //   this.saveKeycloakConfig()
-          }
           break
         case KeycloakEventTypeLegacy.OnTokenExpired:
-          //  this.keycloakSvc.updateToken(60)
           break
       }
     })

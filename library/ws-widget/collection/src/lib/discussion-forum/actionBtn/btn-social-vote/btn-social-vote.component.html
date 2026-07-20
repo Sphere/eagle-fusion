@@ -8,14 +8,6 @@
     </button>
     <mat-icon *ngIf="iconType === 'triangle'" class="vote-triangle" role="button" (click)="downVote(invalidUser.value)"
       [ngClass]="{ highlight: activity.userActivity.downVote }">arrow_drop_down</mat-icon>
-    <!-- <span
-      role="button"
-      *ngIf="activity?.activityData.downVote && iconType === 'thumbs'"
-          (click)="openVotesDialog('downvote')"
-        class="ws-mat-primary-text vote-count"
-    >
-      {{ activity?.activityData.downVote }}
-    </span> -->
   </ng-container>
   <ng-container *ngIf="voteType === 'upVote'">
     <button name="discussion-forum-upvote-button" *ngIf="iconType === 'thumbs'" [disabled]="isUpdating"
@@ -26,13 +18,6 @@
     </button>
     <mat-icon *ngIf="iconType === 'triangle'" class="vote-triangle" role="button" (click)="upVote(invalidUser.value)"
       [ngClass]="{ highlight: activity.userActivity.upVote }">arrow_drop_up</mat-icon>
-    <!-- <span
-      role="button"
-      *ngIf="activity?.activityData.upVote && iconType === 'thumbs'"
-      (click)="openVotesDialog('upvote')"
-      class="ws-mat-primary-text vote-count"
-      >{{ activity?.activityData.upVote }}
-    </span> -->
   </ng-container>
 </ng-container>
 

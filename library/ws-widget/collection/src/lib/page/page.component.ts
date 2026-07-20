@@ -59,7 +59,6 @@ export class PageComponent extends WidgetBaseComponent
     }
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
-      // this.links = this.getNavLinks()
     })
   }
   ngOnInit() {
@@ -70,8 +69,6 @@ export class PageComponent extends WidgetBaseComponent
 
     if (!this.authenticated && !this.exploreResolverSvc.isInitialized) {
       this.logger.info('Not Authenticated')
-      // this.loginResolverSvc.initialize()
-
     }
     if (!this.exploreResolverSvc.isInitialized) {
       this.exploreResolverSvc.initialize()
@@ -93,7 +90,6 @@ export class PageComponent extends WidgetBaseComponent
         !this.configSvc.restrictedFeatures.has('tourGuide')
       ) {
         this.isTourGuideAvailable = canShow
-        // this.createTour()
       }
     })
     this.activateRoute.data.subscribe(routeData => {
@@ -187,7 +183,6 @@ export class PageComponent extends WidgetBaseComponent
     }
     if (this.pageData && this.pageData.tourGuide) {
       this.configSvc.tourGuideNotifier.next(true)
-      // this.tour.data = this.pageData.tourGuide
     }
   }
 
@@ -255,7 +250,6 @@ export class PageComponent extends WidgetBaseComponent
     }
   }
   startTour() {
-    // this.tour.startTour()
     if (this.responseSubscription) {
       this.respondSvc.unsubscribeResponse()
       this.responseSubscription.unsubscribe()

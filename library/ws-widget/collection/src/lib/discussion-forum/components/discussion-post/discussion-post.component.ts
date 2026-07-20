@@ -1,6 +1,5 @@
 import {
   Component, OnInit, Input, Output,
-  // ViewChild,
   EventEmitter,
 } from '@angular/core'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
@@ -8,7 +7,6 @@ import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
-// import { EditorQuillComponent } from './../../editor-quill/component/editor-quill/editor-quill.component'
 import { DialogSocialDeletePostComponent } from '../../dialog/dialog-social-delete-post/dialog-social-delete-post.component'
 
 @Component({
@@ -22,7 +20,6 @@ export class DiscussionPostComponent implements OnInit {
 
   @Input() post!: NsDiscussionForum.ITimelineResult
   @Output() deleteSuccess = new EventEmitter<boolean>()
-  // @ViewChild('discussionReplyEditor', { static: true }) discussionReplyEditor: EditorQuillComponent | null = null
   editMode = false
   postPublishEnabled = false
   updatedBody: undefined | string
@@ -131,9 +128,6 @@ export class DiscussionPostComponent implements OnInit {
         this.fetchPostReplies(true)
         this.isPostingReply = false
         this.replyPlaceholderToggler = !this.replyPlaceholderToggler
-        // if (this.discussionReplyEditor) {
-        //   this.discussionReplyEditor.resetEditor()
-        // }
         this.isValidReply = false
         this.replyBody = undefined
       },
@@ -186,9 +180,6 @@ export class DiscussionPostComponent implements OnInit {
 
   cancelReply() {
     this.replyPlaceholderToggler = !this.replyPlaceholderToggler
-    // if (this.discussionReplyEditor) {
-    //   this.discussionReplyEditor.resetEditor()
-    // }
   }
   toggleReplies() {
     this.showReplies = !this.showReplies

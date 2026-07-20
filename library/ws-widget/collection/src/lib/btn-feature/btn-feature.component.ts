@@ -43,9 +43,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   @Input() showFixedLength = false
   profileImage!: string | null
   givenName: any
-  // @Input()
-  // @HostBinding('id')
-  // public id!: string
   readonly displayType = typeMap
   badgeCount = ''
   defaultIconSize = 24
@@ -66,7 +63,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private router: Router,
     private mobileSvc: MobileAppsService,
     private configSvc: ConfigurationsService,
-    // private tour: CustomTourService,
     private searchApi: SearchApiService,
     private signupService: SignupService,
     public navOption: appNavBarService,
@@ -224,7 +220,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       if (this.widgetData.actionBtn && this.widgetData.actionBtn.badgeEndpoint) {
         this.navigationSubs = this.router.events.subscribe((e: Event) => {
           if (e instanceof NavigationEnd) {
-            // this.updateBadge()
           }
         })
       }
@@ -318,6 +313,5 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   }
 
   startTour() {
-    // this.tour.startTour()
   }
 }

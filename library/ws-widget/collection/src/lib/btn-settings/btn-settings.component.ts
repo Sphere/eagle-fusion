@@ -48,18 +48,7 @@ export class BtnSettingsComponent extends WidgetBaseComponent
         },
         {},
       )
-      // Set the initial value for Themes
-      // this.darkModeForm.setValue(this.configSvc.isDarkMode)
       this.updateActiveStatus()
-      // Events Subscription
-      // this.modeChangeSubs = this.darkModeForm.valueChanges
-      //   .pipe(
-      //     distinctUntilChanged(),
-      //     debounceTime(150),
-      //   )
-      //   .subscribe((isDark: boolean) => {
-      //     this.settingsSvc.applyThemeMode(isDark)
-      //   })
 
       this.dirChangeSubs = this.isRTLForm.valueChanges
         .pipe(
@@ -137,7 +126,6 @@ export class BtnSettingsComponent extends WidgetBaseComponent
   }
 
   private updateActiveStatus() {
-    // this.darkModeForm.setValue(this.configSvc.isDarkMode)
     this.isRTLForm.setValue(this.configSvc.isRTL)
     if (this.configSvc.activeThemeObject) {
       this.activeThemeClass = this.configSvc.activeThemeObject.themeClass
