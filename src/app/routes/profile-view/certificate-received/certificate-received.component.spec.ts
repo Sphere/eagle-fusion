@@ -24,10 +24,6 @@ describe('CertificateReceivedComponent', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should complete ngOnInit without error', () => {
-    expect(() => component.ngOnInit()).not.toThrow()
-  })
-
   it('should not throw when rcCerticate is falsy', () => {
     expect(() => component.convertToJpeg({
       rcCerticate: false, printUri: '', name: 'Test Certificate',

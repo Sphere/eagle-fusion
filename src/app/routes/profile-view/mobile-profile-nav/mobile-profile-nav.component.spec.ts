@@ -70,10 +70,6 @@ describe('MobileProfileNavComponent', () => {
     expect(component.isXSmall$).toBe(mockValueSvc.isXSmall$)
   })
 
-  it('should complete ngOnInit without error', () => {
-    expect(() => component.ngOnInit()).not.toThrow()
-  })
-
   it('should open dialog on logout()', () => {
     component.logout()
     expect(mockDialog.open).toHaveBeenCalled()

@@ -9,7 +9,7 @@ import { CommonModule, APP_BASE_HREF, PlatformLocation } from '@angular/common'
 import { WsAuthorRootRoutingModule } from './ws-auth-root-routing.module'
 import { AuthRootComponent } from './components/root/root.component'
 import { SharedModule } from './modules/shared/shared.module'
-import { AuthNavigationComponent } from './components/auth-navigation/auth-navigation.component'
+// import { AuthNavigationComponent } from './components/auth-navigation/auth-navigation.component'
 import { ContentTOCResolver } from './services/content-resolve.service'
 import { CreateModule } from './routing/modules/create/create.module'
 import { AuthoringErrorHandler } from './services/error-handler.service'
@@ -37,8 +37,10 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
 }
 
 @NgModule({
-  declarations: [AuthRootComponent, AuthNavigationComponent,
-    ViewerComponent],
+  declarations: [AuthRootComponent,
+    // AuthNavigationComponent,
+    ViewerComponent
+    ],
   imports: [
     CommonModule,
     SharedModule,

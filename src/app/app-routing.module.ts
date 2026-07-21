@@ -196,12 +196,6 @@ const routes: Routes = [
     component: PersonalDetailEditComponent,
   },
   {
-    path: 'app/person-profile',
-    loadChildren: () =>
-      import('./routes/route-person-profile.module').then(u => u.RoutePersonProfileModule),
-    canActivate: [GeneralGuard, EmptyRouteGuard],
-  },
-  {
     path: 'app/profile',
     loadChildren: () =>
       import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
@@ -431,7 +425,6 @@ const routes: Routes = [
   },
   {
     path: 'public/about',
-    // component: PublicAboutComponent,
     loadChildren: () => import('./routes/public/public-about/public-about.module').then(u => u.PublicAboutModule),
     data: {
       title: 'About Us - Aastrika Sphere',

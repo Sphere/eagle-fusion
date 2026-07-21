@@ -10,8 +10,6 @@ import { BtnPageBackComponent } from './btn-page-back/btn-page-back.component'
 import { BtnPageBackModule } from './btn-page-back/btn-page-back.module'
 import { BtnProfileComponent } from './btn-profile/btn-profile.component'
 import { BtnProfileModule } from './btn-profile/btn-profile.module'
-import { BtnSettingsComponent } from './btn-settings/btn-settings.component'
-import { BtnSettingsModule } from './btn-settings/btn-settings.module'
 import { CardContentComponent } from './card-content/card-content.component'
 import { CardContentModule } from './card-content/card-content.module'
 import { ROOT_WIDGET_CONFIG } from './collection.config'
@@ -42,7 +40,6 @@ export const WIDGET_REGISTERED_MODULES = [
   BtnFullscreenModule,
   BtnPageBackModule,
   BtnProfileModule,
-  BtnSettingsModule,
   CardContentModule,
   ContentStripMultipleModule,
   PlayerAudioModule,
@@ -77,11 +74,6 @@ export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] 
     widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
     widgetSubType: ROOT_WIDGET_CONFIG.actionButton.newProfile,
     component: BtnProfileComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.setting,
-    component: BtnSettingsComponent,
   },
   {
     widgetType: ROOT_WIDGET_CONFIG.card._type,

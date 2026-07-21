@@ -263,13 +263,19 @@ describe('WebDashboardComponent', () => {
     expect(component.bannerSecondImage).toBe('/fusion-assets/images/ekshamata-group-dark.svg')
   })
 
-  it('ngOnInit should set ekshamata logo via localhost branch when hostedInfo is absent', async () => {
+  it('ngOnInit should set ekshamata logo via domain branch when hostedInfo is absent', async () => {
     const configSvc = TestBed.inject(ConfigurationsService) as any
     configSvc.hostedInfo = undefined
     component.isEkshamata = true
     component.configData = null
+    const originalLocation = window.location
+    Object.defineProperty(window, 'location', {
+      value: { ...originalLocation, hostname: 'app.ekshamata.example.com' },
+      configurable: true,
+    })
     await component.ngOnInit()
     expect(component.bannerFirstImage).toBe('/fusion-assets/images/ekshamata-logo.svg')
+    Object.defineProperty(window, 'location', { value: originalLocation, configurable: true })
   })
 
   it('ngOnInit should set Hindi preferred language when current language is hi', async () => {

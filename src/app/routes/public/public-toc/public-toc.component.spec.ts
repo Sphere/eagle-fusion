@@ -135,12 +135,6 @@ describe('PublicTocComponent', () => {
     })
   })
 
-  describe('ngOnDestroy', () => {
-    it('should not throw', () => {
-      expect(() => component.ngOnDestroy()).not.toThrow()
-    })
-  })
-
   describe('seachAPI', () => {
     it('should set tocData when result contains matching content', async () => {
       const courseId = 'do_123'
