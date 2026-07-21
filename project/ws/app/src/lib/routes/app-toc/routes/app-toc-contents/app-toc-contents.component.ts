@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Data } from '@angular/router'
 import { Subject, Subscription } from 'rxjs'
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
+import { SafeStyle } from '@angular/platform-browser'
 import { NsContent, viewerRouteGenerator, ROOT_WIDGET_CONFIG, WidgetContentService } from '@ws-widget/collection'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { takeUntil } from 'rxjs/operators'
 import { get, last } from 'lodash'
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-contents',
-    templateUrl: './app-toc-contents.component.html',
-    styleUrls: ['./app-toc-contents.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-contents',
+  templateUrl: './app-toc-contents.component.html',
+  styleUrls: ['./app-toc-contents.component.scss'],
+
 })
 export class AppTocContentsComponent implements OnInit, OnDestroy {
   content: NsContent.IContent | null = null
@@ -34,7 +34,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   public unsubscribe = new Subject<void>()
   constructor(
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer,
+    private sanitizer: SafeResourceUrlService,
     private tocSvc: AppTocService,
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService
@@ -211,7 +211,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     this.isPlayable = true
   }
   sanitizedBackgroundImage(url: string): SafeStyle {
-    return this.sanitizer.bypassSecurityTrustStyle(`url(${url})`)
+    return this.sanitizer.trustStyle(`url(${url})`)
   }
   resourceLink(resource: NsContent.IContent): { url: string; queryParams: { [key: string]: any } } {
     return viewerRouteGenerator(resource.identifier, resource.mimeType)

@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { IBtnAppsConfig } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, LoggerService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
+import {
+  ConfigurationsService, LoggerService, NsInstanceConfig, NsPage, SafeResourceUrlService, ValueService,
+} from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
@@ -58,7 +60,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   config: any
   isDark: boolean = false
   constructor(
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     public configSvc: ConfigurationsService,
     private router: Router,
     private accessService: AccessControlService,
@@ -159,7 +161,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       if (this.configSvc.instanceConfig) {
         this.instanceVal = this.configSvc.rootOrg || ''
         if (this.configSvc.instanceConfig.logos.appBottomNav) {
-          this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+          this.appBottomIcon = this.safeResourceUrlSvc.trust(
             this.configSvc.instanceConfig.logos.appBottomNav,
           )
         }

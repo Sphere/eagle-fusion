@@ -1,13 +1,14 @@
 import { Component, OnInit, Inject, effect, ChangeDetectorRef, OnDestroy } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
-import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
+import {
+  ConfigurationsService, ValueService, LogoutComponent, TelemetryService, LoggerService, SafeResourceUrlService,
+} from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 // import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
 import { from, Observable, Subscription } from 'rxjs'
-import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap, finalize } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
@@ -95,7 +96,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     public readonly dialog: MatDialog,
     private readonly userProfileSvc: UserProfileService,
     private readonly contentSvc: WidgetContentService,
-    private readonly domSanitizer: DomSanitizer,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     private readonly valueSvc: ValueService,
     private readonly CompetencyConfiService: CompetencyConfiService,
     private readonly languageService: LanguageService,
@@ -369,7 +370,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
             if (res) {
               _.forEach(this.certificates, cvalue => {
                 if (res[cvalue.identifier]) {
-                  cvalue['image'] = this.domSanitizer.bypassSecurityTrustUrl(res[cvalue.identifier])
+                  cvalue['image'] = this.safeResourceUrlSvc.trustUrl(res[cvalue.identifier])
                   cvalue['printUri'] = res[cvalue.identifier]
                 }
               })

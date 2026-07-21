@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core'
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
@@ -24,7 +24,7 @@ export class AuthRootComponent implements OnInit, OnDestroy {
   isWidthMessageShown = false
   router: any
   constructor(
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private configSvc: ConfigurationsService,
     private loader: LoaderService,
     private changeDetector: ChangeDetectorRef,
@@ -53,7 +53,7 @@ export class AuthRootComponent implements OnInit, OnDestroy {
     )
     const instanceConfig = await this.configSvc.instanceConfig
     if (instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      this.appIcon = this.safeResourceUrlSvc.trust(
         instanceConfig.logos.app,
       )
     }

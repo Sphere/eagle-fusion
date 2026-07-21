@@ -10,9 +10,9 @@ import {
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { MobileAppsService } from '../../services/mobile-apps.service'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { ILoginDescriptiveFooterConfig, IWSPublicLoginConfig } from './login.model'
-import { ConfigurationsService, NsPage, AuthKeycloakService } from '@ws-widget/utils'
+import { ConfigurationsService, NsPage, AuthKeycloakService, SafeResourceUrlService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -64,14 +64,14 @@ implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> 
     private activateRoute: ActivatedRoute,
     private authSvc: AuthKeycloakService,
     private configSvc: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private mobileAppsSvc: MobileAppsService,
   ) {
     super()
     this.mobileAppsSvc.init()
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      this.appIcon = this.safeResourceUrlSvc.trust(
         instanceConfig.logos.appTransparent,
       )
       this.productLogo = instanceConfig.logos.company

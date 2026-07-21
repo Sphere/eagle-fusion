@@ -79,7 +79,7 @@ function makeService(baseHref = 'en') {
   const mockConfigSvc = new ConfigurationsService() as any
   const mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn(), info: jest.fn() }
   const mockIconRegistry = { addSvgIcon: jest.fn() }
-  const mockDomSanitizer = { bypassSecurityTrustResourceUrl: jest.fn().mockImplementation(url => `safe:${url}`) }
+  const mockSafeResourceUrlSvc = { trust: jest.fn().mockImplementation(url => `safe:${url}`) }
   const mockHttp = { get: jest.fn(), post: jest.fn() }
   const mockWidgetResolver = new (WidgetResolverService as any)()
   const mockSettingsSvc = new (BtnSettingsService as any)()
@@ -92,12 +92,11 @@ function makeService(baseHref = 'en') {
     mockLogger as any,
     mockConfigSvc as any,
     mockWidgetResolver,
-    mockSettingsSvc,
     mockUserPreference,
     mockHttp as any,
     mockAuthSvc,
     baseHref,
-    mockDomSanitizer as any,
+    mockSafeResourceUrlSvc as any,
     mockIconRegistry as any,
     mockUserDataCacheSvc,
     mockConfigCacheSvc,
@@ -105,7 +104,7 @@ function makeService(baseHref = 'en') {
   return {
     svc,
     mockIconRegistry,
-    mockDomSanitizer,
+    mockSafeResourceUrlSvc,
     mockConfigSvc,
     mockLogger,
     mockHttp,
@@ -261,10 +260,10 @@ describe('InitService', () => {
     expect(mockIconRegistry.addSvgIcon).toHaveBeenCalledWith('twitter', expect.anything())
   })
 
-  it('bypassSecurityTrustResourceUrl is called for each icon asset', () => {
-    const { mockDomSanitizer } = makeService()
-    expect(mockDomSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('fusion-assets/icons/pin.svg')
-    expect(mockDomSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('fusion-assets/icons/facebook.svg')
+  it('safeResourceUrlSvc.trust is called for each icon asset', () => {
+    const { mockSafeResourceUrlSvc } = makeService()
+    expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith('fusion-assets/icons/pin.svg')
+    expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith('fusion-assets/icons/facebook.svg')
   })
 
   describe('locale getter', () => {
@@ -358,7 +357,6 @@ describe('InitService', () => {
       expect(ctx.mockConfigSvc.primaryNavBarConfig).toEqual({ hamburger: true })
       expect(ctx.mockConfigSvc.bannerStats).toEqual({ learners: 10 })
 
-      expect(ctx.mockSettingsSvc.initializePrefChanges).toHaveBeenCalledWith(false)
       expect(ctx.mockUserPreference.initialize).toHaveBeenCalled()
     })
 
@@ -399,7 +397,6 @@ describe('InitService', () => {
         'Initialization process encountered some error. Application may not work as expected',
         expect.anything(),
       )
-      expect(ctx.mockSettingsSvc.initializePrefChanges).toHaveBeenCalled()
     })
 
     it('does not load user data or startup details on /public routes', async () => {
@@ -425,7 +422,6 @@ describe('InitService', () => {
       const result = await ctx.svc.init()
       expect(result).toBe(false)
       expect(ctx.mockLogger.info).toHaveBeenCalledWith('Not Authenticated')
-      expect(ctx.mockSettingsSvc.initializePrefChanges).toHaveBeenCalledWith(false)
       expect(ctx.mockUserPreference.initialize).not.toHaveBeenCalled()
     })
 

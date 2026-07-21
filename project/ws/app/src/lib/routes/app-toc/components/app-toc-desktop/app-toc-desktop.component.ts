@@ -1,14 +1,14 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject, ChangeDetectorRef, effect } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
+import { SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
   NsContent,
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
-import { ConfigurationsService, TelemetryService, TFetchStatus, LoggerService } from '@ws-widget/utils'
+import { ConfigurationsService, TelemetryService, TFetchStatus, LoggerService, SafeResourceUrlService } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
 import { Subscription } from 'rxjs'
 import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
@@ -91,7 +91,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   isDark: boolean
 
   constructor(
-    private sanitizer: DomSanitizer,
+    private sanitizer: SafeResourceUrlService,
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
@@ -847,18 +847,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   private updateBannerUrl() {
     if (this.banners) {
-      this.bannerUrl = this.sanitizer.bypassSecurityTrustStyle(
+      this.bannerUrl = this.sanitizer.trustStyle(
         `url(${this.banners[this.routePath]})`,
       )
     }
   }
 
-  get sanitizedIntroductoryVideoIcon() {
-    if (this.content && this.content.introductoryVideoIcon) {
-      return this.sanitizer.bypassSecurityTrustStyle(`url(${this.content.introductoryVideoIcon})`)
-    }
-    return null
-  }
   private fetchExternalContentAccess() {
     if (this.content && this.content.registrationUrl) {
       if (!this.forPreview) {

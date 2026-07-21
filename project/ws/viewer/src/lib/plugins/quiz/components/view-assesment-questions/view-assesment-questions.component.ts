@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
 import { isUndefined, toLower } from 'lodash'
+import { SafeResourceUrlService } from '@ws-widget/utils'
 
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
@@ -42,7 +43,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
   typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']
   public unsubscribe = new Subject<void>()
   constructor(
-    private domSanitizer: DomSanitizer,
+    private domSanitizer: SafeResourceUrlService,
     private elementRef: ElementRef,
     public quizService: QuizService) {
 
@@ -63,7 +64,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
           border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
         )
       }
-      this.safeQuestion = this.domSanitizer.bypassSecurityTrustHtml(this.question.question)
+      this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
     }
     if (this.question.questionType === 'mtf') {
       this.question.options.map(option => (option.matchForView = option.match))
@@ -111,7 +112,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
           border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
         )
       }
-      this.safeQuestion = this.domSanitizer.bypassSecurityTrustHtml(this.question.question)
+      this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
       for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
         this.elementRef.nativeElement
           .querySelector(`#${this.question.questionId}${i}`)

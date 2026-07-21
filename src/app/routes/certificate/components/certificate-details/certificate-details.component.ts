@@ -4,10 +4,10 @@ import { trim, get, upperCase } from 'lodash'
 import moment from 'moment'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { ApiService } from '@ws/author/src/public-api'
 import { CertificateService } from '../../services/certificate.service'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 // import { IImpressionEventInput,  } from '@project-sunbird/telemetry-sdk'
 
 @Component({
@@ -53,7 +53,7 @@ export class CertificateDetailsComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public certificateService: CertificateService,
     public configService: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     public apiService: ApiService,
     public router: Router,
     private cdr: ChangeDetectorRef,
@@ -61,7 +61,7 @@ export class CertificateDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.instance = upperCase(this.configService.rootOrg || 'aastrika')
-    this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+    this.appIcon = this.safeResourceUrlSvc.trust(
       'fusion-assets/images/Sphere_Logo_4.svg',
     )
   }

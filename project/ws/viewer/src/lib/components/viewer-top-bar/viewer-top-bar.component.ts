@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges } from '@angular/core'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
-import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, NsPage, SafeResourceUrlService, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { ViewerDataService } from '../../viewer-data.service'
 import { PlayerStateService } from '../../player-state.service'
@@ -44,8 +44,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   collectionIdentifier: any
   constructor(
     private activatedRoute: ActivatedRoute,
-    private domSanitizer: DomSanitizer,
-    // private logger: LoggerService,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private configSvc: ConfigurationsService,
     private viewerDataSvc: ViewerDataService,
     private playerStateSvc: PlayerStateService,
@@ -85,7 +84,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
           .fetchContent(collectionId).subscribe((data: any) => {
             this.collection = data.result.content
             if (this.configSvc.instanceConfig) {
-              this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+              this.appIcon = this.safeResourceUrlSvc.trust(
                 this.configSvc.instanceConfig.logos.appBottomNav,
               )
             }

@@ -2,11 +2,11 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, HostListener, ElementR
 import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, NsPage, SafeResourceUrlService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
@@ -121,7 +121,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private tocSvc: AppTocService,
     private loggerSvc: LoggerService,
     private configSvc: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private authAccessControlSvc: AccessControlService,
     private discussiConfig: DiscussConfigResolve,
     private onlineIndexedDbService: IndexedDBService,
@@ -355,7 +355,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     this.discussionConfig.contextType = 'course'
     this.matspinner = false
     this.getUserEnrollmentList()
-    this.body = this.domSanitizer.bypassSecurityTrustHtml(
+    this.body = this.safeResourceUrlSvc.trustHtml(
       this.content && this.content.body
         ? this.forPreview
           ? this.authAccessControlSvc.proxyToAuthoringUrl(this.content.body)

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { DomSanitizer } from '@angular/platform-browser'
-import { ConfigurationsService } from '../../../../../utils/src/public-api'
+import { ConfigurationsService, SafeResourceUrlService } from '../../../../../utils/src/public-api'
 
 @Component({
     standalone: false,
@@ -12,7 +11,7 @@ import { ConfigurationsService } from '../../../../../utils/src/public-api'
 export class BtnFacebookShareComponent implements OnInit {
   @Input() url = location.href
   isSocialMediaFacebookShareEnabled = false
-  constructor(private sanitizer: DomSanitizer, private configSvc: ConfigurationsService) {}
+  constructor(private safeResourceUrlSvc: SafeResourceUrlService, private configSvc: ConfigurationsService) {}
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
@@ -23,8 +22,8 @@ export class BtnFacebookShareComponent implements OnInit {
   }
 
   get sanitizeFbUrl() {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.facebook.com/plugins/share_button.php?href=${this.url}&layout=button&size=large`,
+    return this.safeResourceUrlSvc.trust(
+      `https://www.facebook.com/plugins/share_button.php?href=${encodeURIComponent(this.url)}&layout=button&size=large`,
     )
   }
 }

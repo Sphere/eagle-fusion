@@ -51,7 +51,7 @@ describe('CertificateDetailsComponent', () => {
     mockCertSvc = { validateCertificate: jest.fn().mockReturnValue(of({})) }
     mockConfigSvc = { rootOrg: 'aastrika' }
     mockSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockImplementation(url => ({ safe: url })),
+      trust: jest.fn().mockImplementation(url => ({ safe: url })),
     }
     mockApiService = { get: jest.fn().mockReturnValue(of({})) }
     mockRouter = { navigate: jest.fn() }
@@ -95,7 +95,7 @@ describe('CertificateDetailsComponent', () => {
 
   it('should set appIcon on ngOnInit', () => {
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
+    expect(mockSanitizer.trust).toHaveBeenCalledWith(
       'fusion-assets/images/Sphere_Logo_4.svg',
     )
     expect(component.appIcon).toBeTruthy()

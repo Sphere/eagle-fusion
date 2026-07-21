@@ -5,7 +5,7 @@ import {
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
   NsContent,
@@ -16,6 +16,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import {
   ConfigurationsService,
   LoggerService,
+  SafeResourceUrlService,
   UtilityService,
 } from '@ws-widget/utils'
 import { of, Subscription } from 'rxjs'
@@ -85,8 +86,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
-    private domSanitizer: DomSanitizer,
-    // private logger: LoggerService,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private contentSvc: WidgetContentService,
     private utilitySvc: UtilityService,
     private viewerDataSvc: ViewerDataService,
@@ -144,7 +144,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     this.isLoading = true
     if (this.configSvc.instanceConfig) {
-      this.defaultThumbnail = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      this.defaultThumbnail = this.safeResourceUrlSvc.trust(
         this.configSvc.instanceConfig.logos.defaultContent,
       )
     }

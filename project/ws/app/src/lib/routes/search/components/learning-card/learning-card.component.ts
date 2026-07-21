@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { NsContent } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
-import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
+import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
+import { SafeHtml } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
 import { NsCardContent } from '../../../../../../../../../library/ws-widget/collection/src/lib/card-content/card-content.model'
@@ -34,7 +34,7 @@ export class LearningCardComponent extends WidgetBaseComponent
   cometencyData: { name: any; levels: string }[] = []
   constructor(
     private configSvc: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private router: Router,
     private userProfileSvc: UserProfileService,
     private authSvc: AuthKeycloakService
@@ -67,7 +67,7 @@ export class LearningCardComponent extends WidgetBaseComponent
     // Handle description updates (existing logic)
     if (changes['content'] && this.content.description) {
       this.content.description = this.content.description.replace(/<br>/g, '')
-      this.description = this.domSanitizer.bypassSecurityTrustHtml(this.content.description)
+      this.description = this.safeResourceUrlSvc.trustHtml(this.content.description)
     }
   }
 

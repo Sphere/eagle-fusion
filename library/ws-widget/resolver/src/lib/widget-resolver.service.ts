@@ -15,7 +15,7 @@ import { RestrictedComponent } from './restricted/restricted.component'
 import { InvalidRegistrationComponent } from './invalid-registration/invalid-registration.component'
 import { InvalidPermissionComponent } from './invalid-permission/invalid-permission.component'
 import { UnresolvedComponent } from './unresolved/unresolved.component'
-import { DomSanitizer } from '@angular/platform-browser'
+import { SafeResourceUrlService } from '@ws-widget/utils'
 
 @Injectable({
   providedIn: 'root',
@@ -125,7 +125,7 @@ export class WidgetResolverService {
     compRef.instance.widgetData = compData.widgetData
     if (compRef.instance.updateBaseComponent) {
       const widgetSafeStyle = compData.widgetHostStyle
-        ? this.domSanitizer.bypassSecurityTrustStyle(
+        ? this.safeResourceUrlSvc.trustStyle(
           Object.entries(compData.widgetHostStyle).reduce((s, [k, v]) => `${s}${k}:${v};`, ''),
         )
         : undefined

@@ -2,14 +2,13 @@ import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { WidgetContentService } from '@ws-widget/collection'
 import * as FileSaver from 'file-saver'
-import { DomSanitizer } from '@angular/platform-browser'
-import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, SafeResourceUrlService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-certificate-modal',
-    templateUrl: './app-toc-certificate-modal.component.html',
-    styleUrls: ['./app-toc-certificate-modal.component.scss'],
+  standalone: false,
+  selector: 'ws-app-app-toc-certificate-modal',
+  templateUrl: './app-toc-certificate-modal.component.html',
+  styleUrls: ['./app-toc-certificate-modal.component.scss'],
 
 })
 export class AppTocCertificateModalComponent implements OnInit {
@@ -19,7 +18,7 @@ export class AppTocCertificateModalComponent implements OnInit {
     public dialogRef: MatDialogRef<AppTocCertificateModalComponent>,
     @Inject(MAT_DIALOG_DATA) public content: any,
     private contentSvc: WidgetContentService,
-    private sanitizer: DomSanitizer,
+    private sanitizer: SafeResourceUrlService,
     private logger: LoggerService,
     private cdr: ChangeDetectorRef
   ) { }
@@ -29,7 +28,7 @@ export class AppTocCertificateModalComponent implements OnInit {
     this.contentSvc.downloadCertificateAPI(this.content.content).toPromise().then(async (response: any) => {
       if (response.responseCode) {
         const url = await response.result.printUri
-        this.img = this.sanitizer.bypassSecurityTrustUrl(url)
+        this.img = this.sanitizer.trustUrl(url)
         this.isLoading = false
         this.cdr.detectChanges()
       }

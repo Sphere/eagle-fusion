@@ -55,7 +55,11 @@ module.exports = {
     '!src/server.polyfills.ts',
     '!src/test-import.ts',
     '!project/**/*.spec.ts',
+    '!project/**/*.model.ts',
+    '!project/**/*.module.ts',
     '!library/**/*.spec.ts',
+    '!library/**/*.model.ts',
+    '!library/**/*.module.ts',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',

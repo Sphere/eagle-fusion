@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef, effect } from '@angular/core'
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { SafeResourceUrl } from '@angular/platform-browser'
 import { ScrollService } from '../../services/scroll.service'
 import { VideoPopupComponent } from '../how-does-it-works-popup/how-does-it-works-popup.component'
 import { MatDialog } from '@angular/material/dialog'
-import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { SafeResourceUrlService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
     standalone: false,
@@ -22,7 +22,7 @@ export class WebHowDoesWorkComponent implements OnInit {
     private scrollService: ScrollService,
     private elementRef: ElementRef,
     public dialog: MatDialog,
-    private sanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private valueSvc: ValueService
   ) {
     effect(() => {
@@ -47,8 +47,10 @@ export class WebHowDoesWorkComponent implements OnInit {
     })
   }
 
+  private static readonly ALLOWED_VIDEO_HOSTS = ['www.youtube.com', 'youtube.com', 'www.youtube-nocookie.com']
+
   sanitizeUrl(url?: string): SafeResourceUrl | null {
-    return url ? this.sanitizer.bypassSecurityTrustResourceUrl(url) : null
+    return this.safeResourceUrlSvc.trustFromAllowlist(url, WebHowDoesWorkComponent.ALLOWED_VIDEO_HOSTS)
   }
   openVideoPopup(url: string) {
     this.dialog.open(VideoPopupComponent, {

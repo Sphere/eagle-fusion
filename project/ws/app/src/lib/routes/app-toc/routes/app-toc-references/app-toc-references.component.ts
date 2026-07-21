@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Data } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { AppTocService } from '../../services/app-toc.service'
@@ -10,7 +10,7 @@ import { AppTocService } from '../../services/app-toc.service'
   styleUrls: ['./app-toc-references.component.scss'],
 
 })
-export class AppTocReferencesComponent implements OnInit {
+export class AppTocReferencesComponent implements OnInit, OnDestroy {
   content: any = null
   references!: any
   routeSubscription: Subscription | null = null
@@ -32,6 +32,12 @@ export class AppTocReferencesComponent implements OnInit {
     this.content = initData.content
     if (this.content && this.content.references) {
       this.references = JSON.parse(this.content.references)
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe()
     }
   }
 }

@@ -2,9 +2,9 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute, Router } from '@angular/router'
-import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe'
-import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, SafeResourceUrlService, ValueService } from '@ws-widget/utils'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
     standalone: false,
@@ -36,8 +36,7 @@ export class HtmlComponent implements OnInit, OnChanges {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private domSanitizer: DomSanitizer,
-    // private contentSvc: WidgetContentService,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private pipeLimitTo: PipeLimitToPipe,
     private valueSvc: ValueService,
     private configSvc: ConfigurationsService,
@@ -74,13 +73,13 @@ export class HtmlComponent implements OnInit, OnChanges {
           this.isScormContent = false
         }
         if (this.htmlData && this.htmlData.learningObjective) {
-          this.learningObjective = this.domSanitizer.bypassSecurityTrustHtml(
+          this.learningObjective = this.safeResourceUrlSvc.trustHtml(
             this.htmlData.learningObjective,
           )
         }
         if (this.htmlData && this.htmlData.description) {
           const description = this.pipeLimitTo.transform(this.htmlData.description, 450)
-          this.description = this.domSanitizer.bypassSecurityTrustHtml(description)
+          this.description = this.safeResourceUrlSvc.trustHtml(description)
         }
 
       }

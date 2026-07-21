@@ -9,8 +9,8 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { Subscription, fromEvent } from 'rxjs'
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser'
-import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { SafeResourceUrl, SafeUrl } from '@angular/platform-browser'
+import { ValueService, ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { NsContent } from '@ws-widget/collection'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
@@ -60,7 +60,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private events: EventService,
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private valueSvc: ValueService,
     private viewerSvc: ViewerUtilService,
     private configurationSvc: ConfigurationsService,
@@ -132,12 +132,12 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     if (this.webModuleManifest.resources) {
       this.slides = this.webModuleManifest.resources.map((u: { artifactUrl: string }) => ({
         ...u,
-        safeUrl: this.domSanitizer.bypassSecurityTrustResourceUrl(this.urlPrefix + u.artifactUrl),
+        safeUrl: this.safeResourceUrlSvc.trust(this.urlPrefix + u.artifactUrl),
       }))
     } else {
       this.slides = this.webModuleManifest.map((u: { URL: string }) => ({
         ...u,
-        safeUrl: this.domSanitizer.bypassSecurityTrustResourceUrl(this.urlPrefix + u.URL),
+        safeUrl: this.safeResourceUrlSvc.trust(this.urlPrefix + u.URL),
       }))
     }
     this.setPage(this.widgetData.resumePage ?? 1)
@@ -158,7 +158,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.iframeLoadingInProgress = true
     } else if (this.iframeUrl === null) {
-      this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      this.iframeUrl = this.safeResourceUrlSvc.trust(
         this.urlPrefix + this.slides[0].URL,
       )
       if (this.slides[this.currentSlideNumber - 1].audio) {
@@ -180,7 +180,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
 
   setAudio(audios: { URL: string }[]) {
     if (Array.isArray(audios) && audios.length && audios[0].URL) {
-      this.slideAudioUrl = this.domSanitizer.bypassSecurityTrustUrl(this.urlPrefix + audios[0].URL)
+      this.slideAudioUrl = this.safeResourceUrlSvc.trustUrl(this.urlPrefix + audios[0].URL)
     } else {
       this.slideAudioUrl = (null as unknown) as SafeResourceUrl
     }

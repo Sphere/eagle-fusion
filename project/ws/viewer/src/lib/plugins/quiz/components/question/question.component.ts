@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
+import { SafeResourceUrlService } from '@ws-widget/utils'
 
 @Component({
     standalone: false,
@@ -42,7 +43,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   matchHintDisplay: NSQuiz.IOption[] = []
 
   constructor(
-    private domSanitizer: DomSanitizer,
+    private domSanitizer: SafeResourceUrlService,
     private elementRef: ElementRef,
   ) { }
 
@@ -73,7 +74,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
           border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
         )
       }
-      this.safeQuestion = this.domSanitizer.bypassSecurityTrustHtml(this.question.question)
+      this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
     }
     if (this.question.questionType === 'mtf') {
       this.question.options.map(option => (option.matchForView = option.match))
@@ -285,7 +286,6 @@ export class QuestionComponent implements OnInit, AfterViewInit {
       element.setPaintStyle({
         stroke: 'rgba(0,0,0,0.5)',
       })
-      // this.setBorderColor(element, '')
     })
   }
 

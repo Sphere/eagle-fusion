@@ -3,10 +3,9 @@ import {
   //AfterViewInit,
   OnDestroy, ViewChild, ElementRef,
 } from '@angular/core'
-import { DomSanitizer } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapter.service'
-import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, SafeResourceUrlService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
     standalone: false,
@@ -23,7 +22,7 @@ export class ScromPlayerComponent implements OnInit,
   @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
   constructor(
     public route: ActivatedRoute,
-    private domSanitizer: DomSanitizer,
+    private safeResourceUrlSvc: SafeResourceUrlService,
     private scormAdapterService: MobileScromAdapterService,
     private logger: LoggerService
   ) {
@@ -72,7 +71,12 @@ export class ScromPlayerComponent implements OnInit,
 
   createIframeUrl(scormUrl: any) {
     this.logger.log(scormUrl)
-    this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(scormUrl)
+    const safeUrl = this.safeResourceUrlSvc.trust(typeof scormUrl === 'string' ? scormUrl : undefined)
+    if (!safeUrl) {
+      this.logger.log('Blocked unsafe scormUrl', scormUrl)
+      return
+    }
+    this.iframeUrl = safeUrl
   }
 
   receiveMessage(msg: any) {

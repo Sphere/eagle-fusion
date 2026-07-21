@@ -2,8 +2,7 @@ import { APP_BASE_HREF } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { MatIconRegistry } from '@angular/material/icon'
-import { DomSanitizer } from '@angular/platform-browser'
-import { BtnSettingsService } from '@ws-widget/collection'
+// import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
@@ -15,6 +14,7 @@ import {
   LoggerService,
   NsAppsConfig,
   NsInstanceConfig,
+  SafeResourceUrlService,
   UserPreferenceService,
 } from '@ws-widget/utils'
 import { environment } from '../../environments/environment'
@@ -40,12 +40,12 @@ export class InitService {
     private readonly logger: LoggerService,
     private readonly configSvc: ConfigurationsService,
     private readonly widgetResolverService: WidgetResolverService,
-    private readonly settingsSvc: BtnSettingsService,
+    // private readonly settingsSvc: BtnSettingsService,
     private readonly userPreference: UserPreferenceService,
     private readonly http: HttpClient,
     private readonly authSvc: AuthKeycloakService,
     @Inject(APP_BASE_HREF) private readonly baseHref: string,
-    domSanitizer: DomSanitizer,
+    safeResourceUrlSvc: SafeResourceUrlService,
     iconRegistry: MatIconRegistry,
     private readonly userDataCacheSvc: UserDataCacheService,
     private readonly configCacheSvc: ConfigCacheService,
@@ -56,19 +56,19 @@ export class InitService {
     // Usage: <mat-icon svgIcon="pin"></mat-icon>
     iconRegistry.addSvgIcon(
       'pin',
-      domSanitizer.bypassSecurityTrustResourceUrl('fusion-assets/icons/pin.svg'),
+      safeResourceUrlSvc.trust('fusion-assets/icons/pin.svg')!,
     )
     iconRegistry.addSvgIcon(
       'facebook',
-      domSanitizer.bypassSecurityTrustResourceUrl('fusion-assets/icons/facebook.svg'),
+      safeResourceUrlSvc.trust('fusion-assets/icons/facebook.svg')!,
     )
     iconRegistry.addSvgIcon(
       'linked-in',
-      domSanitizer.bypassSecurityTrustResourceUrl('fusion-assets/icons/linked-in.svg'),
+      safeResourceUrlSvc.trust('fusion-assets/icons/linked-in.svg')!,
     )
     iconRegistry.addSvgIcon(
       'twitter',
-      domSanitizer.bypassSecurityTrustResourceUrl('fusion-assets/icons/twitter.svg'),
+      safeResourceUrlSvc.trust('fusion-assets/icons/twitter.svg')!,
     )
   }
 
@@ -98,7 +98,7 @@ export class InitService {
       }
 
     } catch (e) {
-      this.settingsSvc.initializePrefChanges(environment.production)
+      // this.settingsSvc.initializePrefChanges(environment.production)
       this.updateNavConfig()
       this.logger.info('Not Authenticated')
       // window.location.reload() // can do this
@@ -141,7 +141,7 @@ export class InitService {
       }
 
       // Apply the settings using settingsService
-      this.settingsSvc.initializePrefChanges(environment.production)
+      // this.settingsSvc.initializePrefChanges(environment.production)
       this.userPreference.initialize()
 
     } catch (e) {
@@ -149,7 +149,7 @@ export class InitService {
         'Initialization process encountered some error. Application may not work as expected',
         e,
       )
-      this.settingsSvc.initializePrefChanges(environment.production)
+      // this.settingsSvc.initializePrefChanges(environment.production)
     }
 
 

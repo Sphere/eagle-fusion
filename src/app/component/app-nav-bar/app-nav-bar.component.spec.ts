@@ -37,7 +37,7 @@ import { SimpleChanges } from '@angular/core'
 describe('AppNavBarComponent', () => {
   let component: AppNavBarComponent
   let routerEventsSubject: Subject<any>
-  let mockDomSanitizer: any
+  let mockSafeResourceUrlSvc: any
   let mockConfigSvc: any
   let mockRouter: any
   let mockAccessService: any
@@ -53,8 +53,8 @@ describe('AppNavBarComponent', () => {
   beforeEach(() => {
     routerEventsSubject = new Subject<any>()
 
-    mockDomSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockReturnValue('safe-url'),
+    mockSafeResourceUrlSvc = {
+      trust: jest.fn().mockReturnValue('safe-url'),
     }
 
     mockConfigSvc = {
@@ -125,7 +125,7 @@ describe('AppNavBarComponent', () => {
 
   const createComponent = () =>
     new AppNavBarComponent(
-      mockDomSanitizer,
+      mockSafeResourceUrlSvc,
       mockConfigSvc,
       mockRouter,
       mockAccessService,

@@ -103,7 +103,7 @@ describe('MobileProfileDashboardComponent', () => {
   let mockDialog: any
   let mockUserProfileSvc: any
   let mockContentSvc: any
-  let mockDomSanitizer: any
+  let mockSafeResourceUrlSvc: any
   let mockValueSvc: any
   let mockCompetencyConfigSvc: any
   let mockLanguageService: any
@@ -134,7 +134,7 @@ describe('MobileProfileDashboardComponent', () => {
       getCertificateAPI: jest.fn().mockReturnValue(of({})),
       updateValue$: { subscribe: jest.fn() },
     }
-    mockDomSanitizer = { bypassSecurityTrustUrl: jest.fn().mockReturnValue('safe-url') }
+    mockSafeResourceUrlSvc = { trustUrl: jest.fn().mockReturnValue('safe-url') }
     mockValueSvc = { isMobile: jest.fn().mockReturnValue(false) }
     mockCompetencyConfigSvc = { getCompetencyConfig: jest.fn() }
     mockLanguageService = { getCurrentLanguage: jest.fn().mockReturnValue('en') }
@@ -165,7 +165,7 @@ describe('MobileProfileDashboardComponent', () => {
       mockDialog,
       mockUserProfileSvc,
       mockContentSvc,
-      mockDomSanitizer,
+      mockSafeResourceUrlSvc,
       mockValueSvc,
       mockCompetencyConfigSvc,
       mockLanguageService,
@@ -205,7 +205,7 @@ describe('MobileProfileDashboardComponent', () => {
     mockValueSvc.isMobile.mockReturnValue(true)
     component = new MobileProfileDashboardComponent(
       mockConfigSvc, mockRouter, mockDialog, mockUserProfileSvc, mockContentSvc,
-      mockDomSanitizer, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
+      mockSafeResourceUrlSvc, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
       mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
       mockLogger, mockTranslate, mockThemeService,
     )
@@ -469,7 +469,7 @@ describe('MobileProfileDashboardComponent', () => {
       })
       component = new MobileProfileDashboardComponent(
         mockConfigSvc, mockRouter, mockDialog, mockUserProfileSvc, mockContentSvc,
-        mockDomSanitizer, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
+        mockSafeResourceUrlSvc, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )
@@ -485,7 +485,7 @@ describe('MobileProfileDashboardComponent', () => {
       })
       component = new MobileProfileDashboardComponent(
         mockConfigSvc, mockRouter, mockDialog, mockUserProfileSvc, mockContentSvc,
-        mockDomSanitizer, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
+        mockSafeResourceUrlSvc, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )
@@ -502,7 +502,7 @@ describe('MobileProfileDashboardComponent', () => {
       mockValueSvc.isMobile.mockReturnValue(true)
       component = new MobileProfileDashboardComponent(
         mockConfigSvc, mockRouter, mockDialog, mockUserProfileSvc, mockContentSvc,
-        mockDomSanitizer, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
+        mockSafeResourceUrlSvc, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )

@@ -1,3 +1,6 @@
+jest.mock('@ws-widget/collection', () => ({
+  NsContent: {},
+}))
 jest.mock('./components/view-submission/view-submission.component', () => ({
   ViewSubmissionComponent: class {},
 }))
