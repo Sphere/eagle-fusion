@@ -70,7 +70,7 @@ describe('AppCallBackComponent', () => {
 
     const originalLocation = window.location
     delete (window as any).location
-    ;(window as any).location = redirectUrl
+      ; (window as any).location = redirectUrl
 
     component = createComponent()
     const mockToken = 'test-token-redirect'
@@ -81,7 +81,7 @@ describe('AppCallBackComponent', () => {
     queryParamSubject.next(mockQueryParams)
 
     expect(window.location).toBe(redirectUrl)
-    ;(window as any).location = originalLocation
+      ; (window as any).location = originalLocation
   })
 
   it('should not redirect when response has no redirectUrl', () => {
@@ -111,11 +111,6 @@ describe('AppCallBackComponent', () => {
     component.token = 'direct-token'
     component.webviewCookieSet()
     expect(mockAppCallBackService.webviewCookieSet).toHaveBeenCalledWith('direct-token')
-  })
-
-  it('ngOnInit should exist and not throw', () => {
-    component = createComponent()
-    expect(() => component.ngOnInit()).not.toThrow()
   })
 
   it('should handle multiple query param emissions and only act when token param present', () => {

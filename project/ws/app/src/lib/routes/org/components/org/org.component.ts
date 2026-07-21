@@ -159,108 +159,109 @@ export class OrgComponent implements OnInit, OnDestroy {
       forkJoin([
         allCourseIds.length ? this.orgService.getSearchResultsV7ById(allCourseIds) : of(null),
         needsUserData && userId ? this.userSvc.fetchUserBatchList(userId) : of([]),
-      ]).subscribe({ next: ([courseResult, userBatchList]: any[]) => {
-        const fetchedCourses: any[] = courseResult?.result?.content ?? []
-        const courseMap = new Map(fetchedCourses.map((c: any) => [c.identifier, c]))
+      ]).subscribe({
+        next: ([courseResult, userBatchList]: any[]) => {
+          const fetchedCourses: any[] = courseResult?.result?.content ?? []
+          const courseMap = new Map(fetchedCourses.map((c: any) => [c.identifier, c]))
 
-        const inProgressCourses: any[] = []
-        const completedCourses: any[] = []
-        const startedOrCompletedIds = new Set<string>()
+          const inProgressCourses: any[] = []
+          const completedCourses: any[] = []
+          const startedOrCompletedIds = new Set<string>()
 
-        ;(userBatchList ?? []).forEach((item: any) => {
-          const id = item?.content?.identifier ?? item?.courseId
-          if (id && allCourseIds.includes(id)) {
-            const pct = item.completionPercentage ?? 0
-            const normalized = this.normalizeBatchItem(item)
-            if (pct === 100) {
-              completedCourses.push(normalized)
-              startedOrCompletedIds.add(id)
-            } else {
-              inProgressCourses.push(normalized)
-              startedOrCompletedIds.add(id)
-            }
-          }
-        })
-
-        this.orgSections = sections
-          .filter((s: any) => s.show !== false)
-          .filter((s: any) => s.sectionType !== 'tagSearch')
-          .map((sectionConfig: any) => {
-            let courses: any[] = []
-            switch (sectionConfig.sectionType) {
-              case 'continueLearning':
-                courses = inProgressCourses
-                break
-              case 'completed':
-                courses = completedCourses
-                break
-              case 'courseGroup':
-              case 'courseList': {
-                const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
-                courses = (sectionConfig.courseIds ?? [])
-                  .filter((id: string) => !startedOrCompletedIds.has(id) && !hideCourseIds.has(id))
-                  .map((id: string) => courseMap.get(id))
-                  .filter(Boolean)
-                break
+            ; (userBatchList ?? []).forEach((item: any) => {
+              const id = item?.content?.identifier ?? item?.courseId
+              if (id && allCourseIds.includes(id)) {
+                const pct = item.completionPercentage ?? 0
+                const normalized = this.normalizeBatchItem(item)
+                if (pct === 100) {
+                  completedCourses.push(normalized)
+                  startedOrCompletedIds.add(id)
+                } else {
+                  inProgressCourses.push(normalized)
+                  startedOrCompletedIds.add(id)
+                }
               }
-            }
-            return { config: sectionConfig, courses, showAll: false }
-          })
+            })
 
-        if (fetchedCourses.length > 0) {
-          this.competencyData = this.groupCompetenciesById(fetchedCourses)
-          this.competency_offered = new Set(this.competencyData.map((c: any) => c.competencyId)).size
-        }
+          this.orgSections = sections
+            .filter((s: any) => s.show !== false)
+            .filter((s: any) => s.sectionType !== 'tagSearch')
+            .map((sectionConfig: any) => {
+              let courses: any[] = []
+              switch (sectionConfig.sectionType) {
+                case 'continueLearning':
+                  courses = inProgressCourses
+                  break
+                case 'completed':
+                  courses = completedCourses
+                  break
+                case 'courseGroup':
+                case 'courseList': {
+                  const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
+                  courses = (sectionConfig.courseIds ?? [])
+                    .filter((id: string) => !startedOrCompletedIds.has(id) && !hideCourseIds.has(id))
+                    .map((id: string) => courseMap.get(id))
+                    .filter(Boolean)
+                  break
+                }
+              }
+              return { config: sectionConfig, courses, showAll: false }
+            })
 
-        // Pre-populate tagSearch slots with empty courses so they are in the DOM before
-        // isLoading = false — prevents layout shift when search results arrive later.
-        sections
-          .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
-          .forEach((sectionConfig: any) => {
-            const existing = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)
-            if (!existing) {
-              this.orgSections.push({ config: sectionConfig, courses: [], showAll: false })
-            }
-          })
+          if (fetchedCourses.length > 0) {
+            this.competencyData = this.groupCompetenciesById(fetchedCourses)
+            this.competency_offered = new Set(this.competencyData.map((c: any) => c.competencyId)).size
+          }
 
-        // All synchronous sections are ready — dismiss the shimmer now to avoid CLS
-        this.isLoading = false
-        this.detectViewChanges()
+          // Pre-populate tagSearch slots with empty courses so they are in the DOM before
+          // isLoading = false — prevents layout shift when search results arrive later.
+          sections
+            .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
+            .forEach((sectionConfig: any) => {
+              const existing = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)
+              if (!existing) {
+                this.orgSections.push({ config: sectionConfig, courses: [], showAll: false })
+              }
+            })
 
-        // tagSearch sections fire individual search calls and merge courses into the pre-existing slots
-        sections
-          .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
-          .forEach((sectionConfig: any) => {
-            const target = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)!
+          // All synchronous sections are ready — dismiss the shimmer now to avoid CLS
+          this.isLoading = false
+          this.detectViewChanges()
 
-            // Build a deduplicated array of sourceNames: org's own name + taggedSourceName
-            const sourceNames = [...new Set([
-              this.orgName,
-              ...(sectionConfig.taggedSourceName ? [sectionConfig.taggedSourceName] : []),
-            ])]
+          // tagSearch sections fire individual search calls and merge courses into the pre-existing slots
+          sections
+            .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
+            .forEach((sectionConfig: any) => {
+              const target = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)!
 
-            const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
+              // Build a deduplicated array of sourceNames: org's own name + taggedSourceName
+              const sourceNames = [...new Set([
+                this.orgName,
+                ...(sectionConfig.taggedSourceName ? [sectionConfig.taggedSourceName] : []),
+              ])]
 
-            this.orgService.getSearchV7Results(sourceNames)
-              .subscribe((result: any) => {
-                const incoming = (result?.result?.content ?? [])
-                  .filter((c: any) => sourceNames.includes(c.sourceName) && !hideCourseIds.has(c.identifier))
-                const existingIds = new Set(target.courses.map((c: any) => c.identifier))
-                const newCourses = incoming.filter((c: any) => !existingIds.has(c.identifier))
-                target.courses = [...target.courses, ...newCourses]
-                // Extend competencyData with tagSearch courses not already present
-                const existingCompIds = new Set(this.competencyData.map((c: any) => c.identifier))
-                const newCompetencies = this.groupCompetenciesById(newCourses.filter((c: any) => !existingCompIds.has(c.identifier)))
-                this.competencyData = [...this.competencyData, ...newCompetencies]
-                this.detectViewChanges()
-              })
-          })
-      },
-      error: () => {
-        this.isLoading = false
-        this.detectViewChanges()
-      },
-    })
+              const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
+
+              this.orgService.getSearchV7Results(sourceNames)
+                .subscribe((result: any) => {
+                  const incoming = (result?.result?.content ?? [])
+                    .filter((c: any) => sourceNames.includes(c.sourceName) && !hideCourseIds.has(c.identifier))
+                  const existingIds = new Set(target.courses.map((c: any) => c.identifier))
+                  const newCourses = incoming.filter((c: any) => !existingIds.has(c.identifier))
+                  target.courses = [...target.courses, ...newCourses]
+                  // Extend competencyData with tagSearch courses not already present
+                  const existingCompIds = new Set(this.competencyData.map((c: any) => c.identifier))
+                  const newCompetencies = this.groupCompetenciesById(newCourses.filter((c: any) => !existingCompIds.has(c.identifier)))
+                  this.competencyData = [...this.competencyData, ...newCompetencies]
+                  this.detectViewChanges()
+                })
+            })
+        },
+        error: () => {
+          this.isLoading = false
+          this.detectViewChanges()
+        },
+      })
 
     } catch (e) {
       this.isLoading = false
@@ -351,10 +352,6 @@ export class OrgComponent implements OnInit, OnDestroy {
 
   showMoreCourses() {
     this.router.navigate(['/app/org-details/all-courses'], { queryParams: { orgId: this.orgName } })
-  }
-
-  goToProfile(id: string) {
-    this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
   }
 
   goToLink(a: string) {

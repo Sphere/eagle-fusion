@@ -35,36 +35,36 @@ import { MatStepperModule } from '@angular/material/stepper'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTreeModule } from '@angular/material/tree'
-import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component'
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
-import { ErrorParserComponent } from './components/error-parser/error-parser.component'
+// import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component'
+// import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
+// import { ErrorParserComponent } from './components/error-parser/error-parser.component'
 import { NotificationComponent } from './components/notification/notification.component'
-import { RelativeUrlPipe } from './pipes/relative-url.pipe'
+// import { RelativeUrlPipe } from './pipes/relative-url.pipe'
 import { AccessControlService } from './services/access-control.service'
 import { ApiService } from './services/api.service'
-import { StatusDisplayComponent } from './components/status-display/status-display.component'
-import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component'
-import { RestoreDialogComponent } from './components/restore-dialog/restore-dialog.component'
-import { UnpublishDialogComponent } from './components/unpublish-dialog/unpublish-dialog.component'
-import { ShowHideToolTipDirective } from './directives/show-hide-tool-tip.directive'
-import { StatusTrackComponent } from './components/status-track/status-track.component'
+// import { StatusDisplayComponent } from './components/status-display/status-display.component'
+// import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component'
+// import { RestoreDialogComponent } from './components/restore-dialog/restore-dialog.component'
+// import { UnpublishDialogComponent } from './components/unpublish-dialog/unpublish-dialog.component'
+// import { ShowHideToolTipDirective } from './directives/show-hide-tool-tip.directive'
+// import { StatusTrackComponent } from './components/status-track/status-track.component'
 import { PlayerNavigationWidgetComponent } from '../../../../../../../library/ws-widget/collection/src/lib/player-navigation-widget/player-navigation-widget.component'
 import { RouterModule } from '@angular/router'
 import { TextFieldModule } from '@angular/cdk/text-field'
 
 @NgModule({
     declarations: [
-        RelativeUrlPipe,
+        // RelativeUrlPipe,
         NotificationComponent,
-        CommentsDialogComponent,
-        ConfirmDialogComponent,
-        ErrorParserComponent,
-        StatusDisplayComponent,
-        DeleteDialogComponent,
-        RestoreDialogComponent,
-        UnpublishDialogComponent,
-        ShowHideToolTipDirective,
-        StatusTrackComponent,
+        // CommentsDialogComponent,
+        // ConfirmDialogComponent,
+        // ErrorParserComponent,
+        // StatusDisplayComponent,
+        // DeleteDialogComponent,
+        // RestoreDialogComponent,
+        // UnpublishDialogComponent,
+        // ShowHideToolTipDirective,
+        // StatusTrackComponent,
         PlayerNavigationWidgetComponent,
     ],
     imports: [
@@ -117,7 +117,7 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         MatTabsModule,
         MatButtonModule,
         MatButtonToggleModule,
-        RelativeUrlPipe,
+        // RelativeUrlPipe,
         MatTooltipModule,
         MatAutocompleteModule,
         MatDialogModule,
@@ -130,8 +130,8 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         MatListModule,
         MatSnackBarModule,
         NotificationComponent,
-        CommentsDialogComponent,
-        ConfirmDialogComponent,
+        // CommentsDialogComponent,
+        // ConfirmDialogComponent,
         MatSelectModule,
         MatChipsModule,
         MatDialogModule,
@@ -142,14 +142,14 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         MatTreeModule,
         MatRadioModule,
         MatProgressBarModule,
-        ErrorParserComponent,
+        // ErrorParserComponent,
         PipeContentRouteModule,
-        StatusDisplayComponent,
-        DeleteDialogComponent,
-        RestoreDialogComponent,
-        UnpublishDialogComponent,
-        ShowHideToolTipDirective,
-        StatusTrackComponent,
+        // StatusDisplayComponent,
+        // DeleteDialogComponent,
+        // RestoreDialogComponent,
+        // UnpublishDialogComponent,
+        // ShowHideToolTipDirective,
+        // StatusTrackComponent,
         PlayerNavigationWidgetComponent,
         TextFieldModule,
         TranslateModule,

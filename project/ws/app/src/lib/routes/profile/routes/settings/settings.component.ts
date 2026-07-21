@@ -14,8 +14,7 @@ import {
   UserPreferenceService,
   UtilityService,
 } from '@ws-widget/utils'
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
-import { BtnSettingsService } from '@ws-widget/collection'
+import { debounceTime } from 'rxjs/operators'
 import { UntypedFormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
@@ -27,11 +26,11 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
+
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   @ViewChild('successToast', { static: true }) successToast!: ElementRef<any>
@@ -63,10 +62,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isLanguageEnabled = true
 
   constructor(
-    // todo mobile settings removed
     private router: Router,
     private configSvc: ConfigurationsService,
-    private btnSettingsSvc: BtnSettingsService,
     private userPrefSvc: UserPreferenceService,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
@@ -125,11 +122,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
       )
       this.intranetContentForm.setValue(this.isIntranetAllowed)
       this.updateActiveStatus()
-      this.modeChangeSubs = this.intranetContentForm.valueChanges
-        .pipe(distinctUntilChanged(), debounceTime(150))
-        .subscribe((isIntranet: boolean) => {
-          this.btnSettingsSvc.intranetContentMode(isIntranet)
-        })
+      // this.modeChangeSubs = this.intranetContentForm.valueChanges
+      //   .pipe(distinctUntilChanged(), debounceTime(150))
+      // .subscribe((isIntranet: boolean) => {
+      // this.btnSettingsSvc.intranetContentMode(isIntranet)
+      // })
       this.prefChangeSubs = this.configSvc.prefChangeNotifier
         .pipe(debounceTime(100))
         .subscribe(() => {
@@ -180,12 +177,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     return 'not_interested'
   }
 
-  changeFont(fontClass: string) {
-    this.btnSettingsSvc.changeFont(fontClass)
-  }
-  changeTheme(themeKey: string) {
-    this.btnSettingsSvc.changeTheme(themeKey)
-  }
+  // changeFont(fontClass: string) {
+  //   this.btnSettingsSvc.changeFont(fontClass)
+  // }
+  // changeTheme(themeKey: string) {
+  //   this.btnSettingsSvc.changeTheme(themeKey)
+  // }
 
   private updateActiveStatus() {
     this.intranetContentForm.setValue(this.configSvc.isIntranetAllowed)

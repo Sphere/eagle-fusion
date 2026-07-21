@@ -1,7 +1,7 @@
-import { ZipJSResolverService } from './services/zip-js-resolve.service'
+// import { ZipJSResolverService } from './services/zip-js-resolve.service'
 import { AuthInitService } from './services/init.service'
-import { ContentAndDataReadMultiLangTOCResolver } from './services/content-and-data-read-multi-lang.service'
-import { InitResolver } from './services/init-resolve.service'
+// import { ContentAndDataReadMultiLangTOCResolver } from './services/content-and-data-read-multi-lang.service'
+// import { InitResolver } from './services/init-resolve.service'
 import { LoaderService } from './services/loader.service'
 import { NgModule, ErrorHandler } from '@angular/core'
 import { CommonModule, APP_BASE_HREF, PlatformLocation } from '@angular/common'
@@ -11,9 +11,9 @@ import { AuthRootComponent } from './components/root/root.component'
 import { SharedModule } from './modules/shared/shared.module'
 // import { AuthNavigationComponent } from './components/auth-navigation/auth-navigation.component'
 import { ContentTOCResolver } from './services/content-resolve.service'
-import { CreateModule } from './routing/modules/create/create.module'
+// import { CreateModule } from './routing/modules/create/create.module'
 import { AuthoringErrorHandler } from './services/error-handler.service'
-import { ViewerComponent } from './routing/components/viewer/viewer.component'
+// import { ViewerComponent } from './routing/components/viewer/viewer.component'
 import { PipeSafeSanitizerModule } from '@ws-widget/utils/src/public-api'
 import { BtnPageBackModule } from '@ws-widget/collection'
 import { ApiService } from './modules/shared/services/api.service'
@@ -37,14 +37,11 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
 }
 
 @NgModule({
-  declarations: [AuthRootComponent,
-    // AuthNavigationComponent,
-    ViewerComponent
-    ],
+  declarations: [AuthRootComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,
-    CreateModule,
     WsAuthorRootRoutingModule,
     PipeSafeSanitizerModule,
     BtnPageBackModule,
@@ -52,12 +49,9 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
   providers: [
     AuthInitService,
     CKEditorResolverService,
-    ZipJSResolverService,
     ContentTOCResolver,
     ApiService,
-    ContentAndDataReadMultiLangTOCResolver,
     LoaderService,
-    InitResolver,
     WorkFlowService,
     { provide: ErrorHandler, useClass: AuthoringErrorHandler },
     {

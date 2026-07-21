@@ -16,8 +16,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatInputModule } from '@angular/material/input'
 import { MatDialogModule } from '@angular/material/dialog'
-
-
 import { ViewerRoutingModule } from './viewer-routing.module'
 
 import {

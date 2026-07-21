@@ -65,7 +65,6 @@ import {
 } from '@ws-widget/collection'
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
 import { AppTocHomeDirective } from './routes/app-toc-home/app-toc-home.directive'
-import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
 import { ApiService, AccessControlService } from '../../../../../author/src/public-api'
 import { LicenseComponent } from './components/license/license.component'
 import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.directive'
@@ -151,7 +150,6 @@ import { TranslateModule } from '@ngx-translate/core'
     AppTocResolverService,
     AppTocService,
     PipeContentRoutePipe,
-    EditorService,
     ApiService,
     AccessControlService,
     ProfileResolverService,

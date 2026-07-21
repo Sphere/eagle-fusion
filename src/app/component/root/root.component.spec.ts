@@ -161,7 +161,7 @@ import { of, Subject, throwError } from 'rxjs'
 import { RootComponent } from './root.component'
 
 beforeAll(() => {
-  ;(window as any).fcWidget = {
+  ; (window as any).fcWidget = {
     open: jest.fn(), show: jest.fn(), hide: jest.fn(), init: jest.fn(),
     on: jest.fn(), setConfig: jest.fn(),
     user: { setFirstName: jest.fn(), setLastName: jest.fn(), setPhone: jest.fn(), setMeta: jest.fn() },
@@ -410,9 +410,9 @@ describe('RootComponent', () => {
 
     it('does not throw when fcWidget is undefined', () => {
       const orig = (window as any).fcWidget
-      ;(window as any).fcWidget = undefined
+        ; (window as any).fcWidget = undefined
       expect(() => component.backToChatIcon()).not.toThrow()
-      ;(window as any).fcWidget = orig
+        ; (window as any).fcWidget = orig
     })
   })
 
@@ -510,33 +510,33 @@ describe('RootComponent', () => {
 
     it('covers the empty widget:closed arrow callback', () => {
       let closedCb: any
-      ;(window as any).fcWidget.on = jest.fn((_: string, cb: any) => { closedCb = cb })
+        ; (window as any).fcWidget.on = jest.fn((_: string, cb: any) => { closedCb = cb })
       component.ngAfterViewInit()
       expect(() => closedCb()).not.toThrow()
     })
 
     it('does not throw when fcWidget is undefined', () => {
       const orig = (window as any).fcWidget
-      ;(window as any).fcWidget = undefined
+        ; (window as any).fcWidget = undefined
       expect(() => component.ngAfterViewInit()).not.toThrow()
-      ;(window as any).fcWidget = orig
+        ; (window as any).fcWidget = orig
     })
 
     it('covers catch block (line 735) when fcWidget.hide throws', () => {
       const orig = (window as any).fcWidget.hide
-      ;(window as any).fcWidget.hide = jest.fn(() => { throw new Error('hide failed') })
+        ; (window as any).fcWidget.hide = jest.fn(() => { throw new Error('hide failed') })
       component.ngAfterViewInit()
       expect(mocks.mockLogger.error).toHaveBeenCalledWith(expect.any(String), expect.any(Error))
-      ;(window as any).fcWidget.hide = orig
+        ; (window as any).fcWidget.hide = orig
     })
   })
 
   describe('fcSettingsFunc', () => {
     it('does not throw when fcWidget is undefined', () => {
       const orig = (window as any).fcWidget
-      ;(window as any).fcWidget = undefined
+        ; (window as any).fcWidget = undefined
       expect(() => component.fcSettingsFunc()).not.toThrow()
-      ;(window as any).fcWidget = orig
+        ; (window as any).fcWidget = orig
     })
 
     it('calls fcWidget.setConfig and init', () => {
@@ -558,10 +558,10 @@ describe('RootComponent', () => {
 
     it('covers catch block (line 756) when fcWidget.setConfig throws', () => {
       const orig = (window as any).fcWidget.setConfig
-      ;(window as any).fcWidget.setConfig = jest.fn(() => { throw new Error('setConfig failed') })
+        ; (window as any).fcWidget.setConfig = jest.fn(() => { throw new Error('setConfig failed') })
       component.fcSettingsFunc()
       expect(mocks.mockLogger.error).toHaveBeenCalledWith(expect.any(String), expect.any(Error))
-      ;(window as any).fcWidget.setConfig = orig
+        ; (window as any).fcWidget.setConfig = orig
     })
   })
 
@@ -656,7 +656,7 @@ describe('RootComponent', () => {
     })
 
     it('resets showDetails when leaving home while the program-details view is open (NavigationEnd)', () => {
-      ;(mocks.mockPlaylistSvc.showDetails as jest.Mock).mockReturnValue(true)
+      ; (mocks.mockPlaylistSvc.showDetails as jest.Mock).mockReturnValue(true)
       component.handleRouterSubscription()
       mocks.mockRouter.url = '/app/toc/do_123/overview'
       routerEvents$.next(new NavigationEnd(1, '/app/toc/do_123/overview', '/app/toc/do_123/overview'))
@@ -664,7 +664,7 @@ describe('RootComponent', () => {
     })
 
     it('does not reset showDetails when staying on home with the program-details view open (NavigationEnd)', () => {
-      ;(mocks.mockPlaylistSvc.showDetails as jest.Mock).mockReturnValue(true)
+      ; (mocks.mockPlaylistSvc.showDetails as jest.Mock).mockReturnValue(true)
       component.handleRouterSubscription()
       mocks.mockRouter.url = '/page/home?lang=hi'
       routerEvents$.next(new NavigationEnd(1, '/page/home?lang=hi', '/page/home?lang=hi'))
@@ -811,11 +811,11 @@ describe('RootComponent', () => {
       localStorage.setItem('url_before_login', '/app/home')
       const origLocation = (global as any).location
       delete (global as any).location
-      ;(global as any).location = { href: '' }
+        ; (global as any).location = { href: '' }
       component.handleRouterSubscription()
       routerEvents$.next(new NavigationStart(1, '/login'))
       expect((global as any).location.href).toBe('/app/home')
-      ;(global as any).location = origLocation
+        ; (global as any).location = origLocation
     })
 
     it('handles page/home: sets mobileView true (NavigationStart)', () => {
@@ -928,13 +928,13 @@ describe('RootComponent', () => {
     it('covers line 524: redirects to public/home when on /page/home with no unMappedUser (NavigationEnd)', () => {
       const origLocation = (global as any).location
       delete (global as any).location
-      ;(global as any).location = { href: '' }
+        ; (global as any).location = { href: '' }
       component['configSvc'].unMappedUser = null
       mocks.mockRouter.url = '/page/home'
       component.handleRouterSubscription()
       routerEvents$.next(new NavigationEnd(1, '/page/home', '/page/home'))
       expect((global as any).location.href).toBe('public/home')
-      ;(global as any).location = origLocation
+        ; (global as any).location = origLocation
     })
 
     it('covers line 617-618: redirects to /page/home when login url and unMappedUser set (NavigationStart)', () => {
@@ -942,12 +942,12 @@ describe('RootComponent', () => {
       component['configSvc'].unMappedUser = { userId: 'u1' } as any
       const origLocation = (global as any).location
       delete (global as any).location
-      ;(global as any).location = { href: '' }
-      ;(global as any).window = { location: (global as any).location }
+        ; (global as any).location = { href: '' }
+        ; (global as any).window = { location: (global as any).location }
       component.handleRouterSubscription()
       routerEvents$.next(new NavigationStart(1, '/login'))
       expect((global as any).location.href).toBe('/page/home')
-      ;(global as any).location = origLocation
+        ; (global as any).location = origLocation
     })
   })
 
@@ -1047,17 +1047,17 @@ describe('RootComponent', () => {
     })
 
     it('covers NavigationStart branch inside navigationInterceptor (direct call)', () => {
-      ;(component as any).navigationInterceptor(new NavigationStart(1, '/page/home'))
+      ; (component as any).navigationInterceptor(new NavigationStart(1, '/page/home'))
       expect(mocks.mockLogger.log).toHaveBeenCalledWith('Navigation started to URL:', '/page/home')
     })
 
     it('covers NavigationCancel branch inside navigationInterceptor (direct call)', () => {
-      ;(component as any).navigationInterceptor(new NavigationCancel(1, '/page/home', ''))
+      ; (component as any).navigationInterceptor(new NavigationCancel(1, '/page/home', ''))
       expect(mocks.mockLogger.log).toHaveBeenCalledWith('Navigation canceled to URL:', '/page/home')
     })
 
     it('covers NavigationError branch inside navigationInterceptor (direct call)', () => {
-      ;(component as any).navigationInterceptor(new NavigationError(1, '/page/home', new Error('e')))
+      ; (component as any).navigationInterceptor(new NavigationError(1, '/page/home', new Error('e')))
       expect(mocks.mockLogger.log).toHaveBeenCalledWith('Navigation error to URL:', '/page/home')
     })
   })
@@ -1324,7 +1324,7 @@ describe('RootComponent', () => {
         },
       })
       // Make loadPlaylistData never resolve so setUpFormData hangs
-      m.mockPlaylistSvc.loadPlaylistData = jest.fn().mockReturnValue(new Promise(() => {}))
+      m.mockPlaylistSvc.loadPlaylistData = jest.fn().mockReturnValue(new Promise(() => { }))
       m.comp['playlistSvc'] = m.mockPlaylistSvc
       const initPromise = m.comp.ngOnInit()
       // Advance time past 5s timeout to trigger the race reject
