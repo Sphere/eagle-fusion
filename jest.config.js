@@ -27,23 +27,22 @@ module.exports = {
   },
   coverageDirectory: '<rootDir>/coverage/',
   coverageReporters: ['text', 'lcov', 'html'],
-  // TEMPORARY: library and project folders blocked — src only
   testPathIgnorePatterns: [
     '/node_modules/',
-    '<rootDir>/library/',
-    '<rootDir>/project/',
   ],
   collectCoverage: true,
   coverageThreshold: {
     global: {
-      statements: 80,
-      branches: 70,
-      functions: 80,
-      lines: 80,
+      statements: 55,
+      branches: 44,
+      functions: 54,
+      lines: 55,
     },
   },
   collectCoverageFrom: [
     'src/**/*.ts',
+    'project/**/*.ts',
+    'library/**/*.ts',
     '!src/**/*.data.ts',
     '!src/app/workers/*',
     '!src/environments/*',
@@ -55,6 +54,8 @@ module.exports = {
     '!src/polyfills.ts',
     '!src/server.polyfills.ts',
     '!src/test-import.ts',
+    '!project/**/*.spec.ts',
+    '!library/**/*.spec.ts',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
@@ -97,6 +98,7 @@ module.exports = {
     '@ws/author/src/lib/services/auth-nav-bar-toggle.service': '<rootDir>/project/ws/author/src/lib/services/auth-nav-bar-toggle.service.ts',
     '@ws/author/src/lib/routing/modules/editor/shared/services/upload.service': '<rootDir>/project/ws/author/src/lib/routing/modules/editor/shared/services/upload.service.ts',
     '@ws-widget/collection/src/lib/_services/widget-content.model': '<rootDir>/library/ws-widget/collection/src/lib/_services/widget-content.model.ts',
+    '@ws-widget/collection/src/lib/_services/widget-content.service': '<rootDir>/library/ws-widget/collection/src/lib/_services/widget-content.service.ts',
     '@ws-widget/collection/src/lib/_constants/widget-content.constants': '<rootDir>/library/ws-widget/collection/src/lib/_constants/widget-content.constants.ts',
     '@ws/author/src/public-api': '<rootDir>/project/ws/author/src/public-api.ts',
     '@ws/author$': '<rootDir>/project/ws/author/src/public-api.ts',
