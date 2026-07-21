@@ -259,7 +259,6 @@ a {
   box-shadow: transparent 0 0 !important;
 
   .progress-bar {
-    display: block;
     width: calc(100% + #{2 * $card-padding} + 2px);
     margin-left: -#{$card-padding};
     display: flex;

@@ -61,7 +61,7 @@
 }
 
 .congrats-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
@@ -72,7 +72,7 @@
 }
 
 .fail-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
@@ -88,7 +88,7 @@
 }
 
 .proficiceny-level {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -99,7 +99,7 @@
 }
 
 .proficiceny-level-fail {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -149,7 +149,7 @@
 }
 
 ::ng-deep .mat-tab-label-content {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -355,7 +355,7 @@
 }
 
 .result-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -365,7 +365,7 @@
 }
 
 .result-score {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 500 !important;
   font-size: 59px !important;
@@ -380,7 +380,7 @@
 }
 
 .result-score-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400 !important;
   font-size: 20px !important;
@@ -451,7 +451,7 @@
   --mat-tab-header-inactive-ripple-color: grey !important;
   font-weight: 500 !important;
   .mat-mdc-tab .mdc-tab__text-label {
-    font-family: 'Roboto' !important;
+    font-family: 'Roboto', sans-serif !important;
     font-weight: 500 !important;
   }
 }
@@ -465,7 +465,6 @@ mat-progress-bar {
 }
 .text-green-600 {
   --text-opacity: 1;
-  color: #38a169;
   color: rgba(56, 161, 105, var(--text-opacity));
 }
 .progress-summary{
@@ -662,7 +661,7 @@ mat-progress-bar {
 }
 
 .achieved-score{
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;

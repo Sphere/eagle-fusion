@@ -132,6 +132,11 @@ describe('PublicHomeComponent', () => {
     it('should set isEkshamata true and clear stored keys in browser', () => {
       const commonMock = jest.requireMock('@angular/common')
       commonMock.isPlatformBrowser.mockReturnValue(true)
+      const originalLocation = window.location
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: { ...originalLocation, hostname: 'ekshamata.example.com' },
+      })
       localStorage.setItem('preferedLanguage', 'hi')
       localStorage.setItem('url_before_login', '/x')
       component.ngOnInit()
@@ -140,6 +145,10 @@ describe('PublicHomeComponent', () => {
       expect(mockUserAgentSvc.requestGeolocation).toHaveBeenCalled()
       expect(localStorage.getItem('preferedLanguage')).toBeNull()
       expect(localStorage.getItem('url_before_login')).toBeNull()
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: originalLocation,
+      })
     })
   })
 
