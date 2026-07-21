@@ -84,22 +84,22 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   heirarchy: any
   isAsha = false
   constructor(
-    private http: HttpClient,
-    private activatedRoute: ActivatedRoute,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private contentSvc: WidgetContentService,
-    private utilitySvc: UtilityService,
-    private viewerDataSvc: ViewerDataService,
-    private viewSvc: ViewerUtilService,
-    private configSvc: ConfigurationsService,
-    private playerStateService: PlayerStateService,
+    private readonly http: HttpClient,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly utilitySvc: UtilityService,
+    private readonly viewerDataSvc: ViewerDataService,
+    private readonly viewSvc: ViewerUtilService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly playerStateService: PlayerStateService,
     public router: Router,
     public dialog: MatDialog,
-    private onlineIndexedDbService: IndexedDBService,
+    private readonly onlineIndexedDbService: IndexedDBService,
     public quizService: QuizService,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
-    private logger: LoggerService
+    private readonly cdr: ChangeDetectorRef,
+    private readonly ngZone: NgZone,
+    private readonly logger: LoggerService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -136,7 +136,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   // tslint:disable-next-line
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
-  private _getChildren = (node: IViewerTocCard) => {
+  private readonly _getChildren = (node: IViewerTocCard) => {
     return node && node.children ? node.children : []
   }
 

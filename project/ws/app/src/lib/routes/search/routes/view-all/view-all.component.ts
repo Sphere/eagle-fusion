@@ -28,9 +28,9 @@ export class ViewAllComponent implements OnInit {
     private readonly valueSvc: ValueService,
     private readonly route: ActivatedRoute,
     private readonly configSvc: ConfigurationsService,
-    private playlistSvc: PlaylistService,
-    private langSvc: LanguageService,
-    private logger: LoggerService,
+    private readonly playlistSvc: PlaylistService,
+    private readonly langSvc: LanguageService,
+    private readonly logger: LoggerService,
   ) {
     effect(() => {
       this.isXSmall$.set(this.valueSvc.isMobile())

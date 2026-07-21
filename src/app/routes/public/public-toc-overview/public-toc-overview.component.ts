@@ -31,11 +31,11 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
   licenseName: any
   license = 'CC BY'
   constructor(
-    private http: HttpClient,
-    private route: ActivatedRoute,
-    private widgetContentSvc: WidgetContentService,
-    private cdr: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformId: object,
+    private readonly http: HttpClient,
+    private readonly route: ActivatedRoute,
+    private readonly widgetContentSvc: WidgetContentService,
+    private readonly cdr: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
   ) { }
 
   ngOnInit() {

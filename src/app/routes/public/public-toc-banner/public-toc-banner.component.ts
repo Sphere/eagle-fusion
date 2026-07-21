@@ -15,9 +15,9 @@ export class PublicTocBannerComponent implements OnInit {
   routelinK = 'license'
   displayStyle = 'none'
   constructor(
-    private http: HttpClient,
-    private signUpSvc: SignupService,
-    private router: Router,
+    private readonly http: HttpClient,
+    private readonly signUpSvc: SignupService,
+    private readonly router: Router,
   ) {
   }
 

@@ -23,14 +23,13 @@ import { constructReq } from '../profile-view/request-util'
 import { API_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
-    standalone: false,
-    selector: 'ws-new-tnc',
-    templateUrl: './new-tnc.component.html',
-    styleUrls: ['./new-tnc.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-new-tnc',
+  templateUrl: './new-tnc.component.html',
+  styleUrls: ['./new-tnc.component.scss'],
+
 })
 export class NewTncComponent implements OnInit, OnDestroy {
-  //@ViewChild('scrollContainer') scrollContainer: ElementRef
   tncData: NsTnc.ITnc | null = null
   routeSubscription: Subscription | null = null
   isAcceptInProgress = false
@@ -257,50 +256,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
       localStorage.removeItem('url_before_login')
       localStorage.removeItem('tocData')
       localStorage.removeItem(`userUUID`)
-    } catch (error) { }
+    } catch (error) { /* ignore storage clear failure */ }
   }
 
-  // private constructReq(form: any) {
-  //   debugger
-  //   const userObject = form.value
-  //   Object.keys(userObject).forEach(key => {
-  //     if (userObject[key] === '') {
-  //       delete userObject[key]
-  //     }
-  //   })
-
-  //   if (this.configSvc.userProfile) {
-  //     this.userId = this.configSvc.userProfile.userId
-  //   }
-
-  //   const profileReq = {
-  //     profileReq: {
-  //       //id: this.userId,
-  //       //userId: this.userId,
-  //       id: this.result.userId,
-  //       userId: this.result.userId,
-  //       personalDetails: userObject,
-  //     },
-  //   }
-  //   profileReq.profileReq.personalDetails['postalAddress'] = 'India, Tamil nadu, Chennai'
-  //   if (this.configSvc.orgSelectiveCourseConfig && this.configSvc.orgSelectiveCourseConfig.orgId === this.configSvc.userProfile?.rootOrgId) {
-  //     let professionalDetails = this.configSvc.professionalDetails
-  //     // let professionalDetails = [
-  //     //   {
-  //     //     designation: 'TNNMC-Student',
-  //     //     name: 'Tamil nadu nurses and midwives council - pre service',
-  //     //     orgType: 'Public/Government Sector',
-  //     //     profession: 'Healthcare Worker',
-  //     //   }
-  //     // ]
-
-  //     this.loggerSvc.log("professionalDetails", professionalDetails)
-  //     if (professionalDetails && professionalDetails.length > 0) {
-  //       profileReq.profileReq['professionalDetails'] = professionalDetails
-  //     }
-  //   }
-  //   return profileReq
-  // }
   homePage() {
     if (this.result.userId) {
       location.href = '/page/home'

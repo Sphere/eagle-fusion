@@ -43,8 +43,8 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   matchHintDisplay: NSQuiz.IOption[] = []
 
   constructor(
-    private domSanitizer: SafeResourceUrlService,
-    private elementRef: ElementRef,
+    private readonly domSanitizer: SafeResourceUrlService,
+    private readonly elementRef: ElementRef,
   ) { }
 
   ngOnInit() {

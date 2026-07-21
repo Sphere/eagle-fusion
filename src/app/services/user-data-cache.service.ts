@@ -9,14 +9,14 @@ import { API_END_POINTS } from '../constants/apiConstants'
   providedIn: 'root',
 })
 export class UserDataCacheService implements OnDestroy {
-  private userDataSubject = new BehaviorSubject<any>(null)
+  private readonly userDataSubject = new BehaviorSubject<any>(null)
   public userData$ = this.userDataSubject.asObservable()
   private apiCall$: Observable<any> | null = null
   private cacheExpirationTimeout: any = null
   private cacheTimestamp: number | null = null
   private readonly CACHE_EXPIRATION_TIME = 6 * 60 * 60 * 1000 // 6 hours in milliseconds
 
-  constructor(private http: HttpClient, private logger: LoggerService) {
+  constructor(private readonly http: HttpClient, private readonly logger: LoggerService) {
     // Try to restore from session storage on service initialization
     this.restoreFromCache();
 

@@ -17,10 +17,10 @@ export class QuizService {
   public updateMtf = new BehaviorSubject<any>(undefined)
   public updateMtf$ = this.updateMtf.asObservable()
   constructor(
-    private http: HttpClient,
-    private configservice: ConfigurationsService,
-    private onlineIndexedDbService: IndexedDBService,
-    private logger: LoggerService
+    private readonly http: HttpClient,
+    private readonly configservice: ConfigurationsService,
+    private readonly onlineIndexedDbService: IndexedDBService,
+    private readonly logger: LoggerService
   ) {
 
   }
@@ -40,9 +40,7 @@ export class QuizService {
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
             async (dat: any) => {
               this.logger.log('Data inserted successfully2', dat)
-              const msg = await dat
-              if (msg) {
-              }
+              await dat
             },
             (error: any) => { // 'error' callback for insertProgressData
               this.logger.error('Error inserting progress data:', error)

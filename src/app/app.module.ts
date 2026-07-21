@@ -413,7 +413,7 @@ export function initTranslate(translate: TranslateService) {
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {
-  constructor(private translate: TranslateService) {
+  constructor(private readonly translate: TranslateService) {
     this.translate.setDefaultLang('en')
     this.translate.use('en')
   }

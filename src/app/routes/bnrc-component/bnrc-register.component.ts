@@ -105,11 +105,11 @@ export class BnrcRegisterComponent implements OnInit {
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private formBuilder: UntypedFormBuilder,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    private route: ActivatedRoute,
-    private logger: LoggerService
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly dialog: MatDialog,
+    private readonly loader: LoaderService,
+    private readonly route: ActivatedRoute,
+    private readonly logger: LoggerService
   ) {
     this.bnrcDetailForm = this.formBuilder.group({
       firstName: new UntypedFormControl('', [Validators.required]),

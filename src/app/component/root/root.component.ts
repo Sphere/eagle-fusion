@@ -117,7 +117,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   videoData: VideoData = {}
   configData: ConfigData | null = null
   orgDetails!: OrgDetails
-  private routerEventsSubscription!: Subscription
+  private readonly routerEventsSubscription!: Subscription
   isEkshamata = false
   domain!: string
   bodyConfig!: BodyConfig

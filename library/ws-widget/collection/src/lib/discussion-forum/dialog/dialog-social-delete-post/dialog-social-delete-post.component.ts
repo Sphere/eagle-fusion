@@ -17,8 +17,8 @@ export class DialogSocialDeletePostComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogSocialDeletePostComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },
-    private socialSvc: WsDiscussionForumService,
-    private configSvc: ConfigurationsService,
+    private readonly socialSvc: WsDiscussionForumService,
+    private readonly configSvc: ConfigurationsService,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''

@@ -24,10 +24,10 @@ export class ProgramHome implements OnInit {
   programDisplayConfig: any = {}
   enrollmentData: any[] = []
   constructor(
-    private valueSvc: ValueService,
-    private playlistSvc: PlaylistService,
-    private userSvc: WidgetUserService,
-    private configSvc: ConfigurationsService
+    private readonly valueSvc: ValueService,
+    private readonly playlistSvc: PlaylistService,
+    private readonly userSvc: WidgetUserService,
+    private readonly configSvc: ConfigurationsService
   ) {
   }
 

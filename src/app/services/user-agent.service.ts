@@ -7,7 +7,7 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 export class UserAgentResolverService {
 
   constructor(
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) { }
 
   getUserAgent(): any {
@@ -193,6 +193,11 @@ export class UserAgentResolverService {
    * Silently requests GPS permission and stores coordinates in sessionStorage.
    * Safe to call multiple times — skips if already collected or denied this session.
    * City/state resolution is done server-side from the lat/lng in the telemetry payload.
+   *
+   * Geolocation use is intentional and scoped: analytics telemetry only (no location-gated
+   * features depend on it), called from a handful of public entry pages, gated on the
+   * browser's own permission state so a denial is never re-prompted, and cached per session
+   * so consent is asked at most once. Reviewed as necessary/safe for Sonar rule S5726.
    */
   requestGeolocation(): void {
     const existing = sessionStorage.getItem(this.GEO_KEY)

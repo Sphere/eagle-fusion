@@ -11,9 +11,9 @@ import { WidgetResolverService } from './widget-resolver.service'
 export class WidgetResolverDirective implements OnChanges {
   @Input() wsResolverWidget: NsWidgetResolver.IRenderConfigWithAnyData | null = null
   constructor(
-    private viewContainerRef: ViewContainerRef,
-    private widgetResolverSvc: WidgetResolverService,
-    private configSvc: ConfigurationsService,
+    private readonly viewContainerRef: ViewContainerRef,
+    private readonly widgetResolverSvc: WidgetResolverService,
+    private readonly configSvc: ConfigurationsService,
   ) { }
 
   ngOnChanges() {

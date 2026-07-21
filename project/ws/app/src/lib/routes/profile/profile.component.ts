@@ -23,11 +23,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   enabledTabs = this.activatedRoute.snapshot.data.pageData.data.enabledTabs
 
   constructor(
-    private dialog: MatDialog,
-    private valueSvc: ValueService,
-    private configSvc: ConfigurationsService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private readonly dialog: MatDialog,
+    private readonly valueSvc: ValueService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
   ) { }
 
   ngOnInit() {

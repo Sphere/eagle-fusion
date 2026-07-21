@@ -38,7 +38,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   content: NsContent.IContent | null = null
   contentData: NsContent.IContent | null = null
   errorType = ErrorType
-  private isLtMedium$ = this.valueSvc.isLtMedium$
+  private readonly isLtMedium$ = this.valueSvc.isLtMedium$
   sideNavBarOpened = false
   mode: 'over' | 'side' = 'side'
   forPreview = window.location.href.includes('/author/')
@@ -173,8 +173,6 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.router.navigate([this.error.probableUrl])
           // tslint:disable-next-line: align
         }, 3000)
-      }
-      if (this.error && this.error.errorType === this.errorType.previewUnAuthorised) {
       }
     })
   }

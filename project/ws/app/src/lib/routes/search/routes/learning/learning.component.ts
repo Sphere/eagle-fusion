@@ -103,15 +103,15 @@ export class LearningComponent implements OnInit, OnDestroy {
     },
   }
   constructor(
-    private activated: ActivatedRoute,
-    private router: Router,
-    private valueSvc: ValueService,
-    private searchServ: SearchServService,
-    private configSvc: ConfigurationsService,
-    private utilitySvc: UtilityService,
-    private searchSvc: SearchApiService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef,
+    private readonly activated: ActivatedRoute,
+    private readonly router: Router,
+    private readonly valueSvc: ValueService,
+    private readonly searchServ: SearchServService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly utilitySvc: UtilityService,
+    private readonly searchSvc: SearchApiService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
     effect(() => {
       this.isXSmall = this.valueSvc.isMobile()

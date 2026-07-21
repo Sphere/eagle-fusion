@@ -8,7 +8,7 @@ import { API_END_POINTS } from '../../../../../../../../../src/app/constants/api
 export class SettingsService {
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
   ) { }
 
   fetchNotificationSettings(): Observable<NsSettings.INotificationGroup[]> {

@@ -45,14 +45,14 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
   defaultLang = 'en'
 
   private userId = ''
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
 
   constructor(
-    private configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private dashboardSvc: MobileDashboardService,
-    private userSvc: CompetencyUserService,
-    private langSvc: LanguageService
+    private readonly configSvc: ConfigurationsService,
+    private readonly valueSvc: ValueService,
+    private readonly dashboardSvc: MobileDashboardService,
+    private readonly userSvc: CompetencyUserService,
+    private readonly langSvc: LanguageService
   ) {
     effect(() => {
       this.isTablet.set(!this.valueSvc.isMobile())

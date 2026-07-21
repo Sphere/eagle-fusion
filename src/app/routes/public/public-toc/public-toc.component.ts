@@ -21,14 +21,14 @@ export class PublicTocComponent implements OnInit {
   courseid: any
   isLoading = false
   constructor(
-    private router: Router,
-    private orgService: OrgServiceService,
-    private activeRoute: ActivatedRoute,
-    private userProfileSvc: UserProfileService,
-    private seoSvc: SeoService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef,
-    private userAgentSvc: UserAgentResolverService,
+    private readonly router: Router,
+    private readonly orgService: OrgServiceService,
+    private readonly activeRoute: ActivatedRoute,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly seoSvc: SeoService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly userAgentSvc: UserAgentResolverService,
   ) { }
   ngOnInit() {
     this.initializeToc()

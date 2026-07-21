@@ -55,12 +55,12 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public quizService: QuizService,
     public route: ActivatedRoute,
-    private valueSvc: ValueService,
-    private snackBar: MatSnackBar,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef,
+    private readonly valueSvc: ValueService,
+    private readonly snackBar: MatSnackBar,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly ngZone: NgZone,
+    private readonly cdr: ChangeDetectorRef,
   ) {
 
   }

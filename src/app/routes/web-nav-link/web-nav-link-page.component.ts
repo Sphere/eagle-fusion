@@ -36,18 +36,18 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   userData: any
   isDark = false
   constructor(
-    private dialog: MatDialog,
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private signupService: SignupService,
+    private readonly dialog: MatDialog,
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly signupService: SignupService,
     public location: Location,
     public navOption: appNavBarService,
     public storage: LocalStorageService,
     private readonly event: Events,
-    private playlistSvc: PlaylistService,
-    private cd: ChangeDetectorRef,
-    private logger: LoggerService,
-    private themeService: ThemeService
+    private readonly playlistSvc: PlaylistService,
+    private readonly cd: ChangeDetectorRef,
+    private readonly logger: LoggerService,
+    private readonly themeService: ThemeService
   ) {
     this.subscribeNavbarChanges()
     this.router.events.subscribe(event => {

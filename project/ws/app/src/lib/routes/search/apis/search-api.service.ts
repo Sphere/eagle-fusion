@@ -12,7 +12,7 @@ import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiCon
   providedIn: 'root',
 })
 export class SearchApiService {
-  constructor(private http: HttpClient, private keycloakSvc: KeycloakService, private logger: LoggerService) { }
+  constructor(private readonly http: HttpClient, private readonly keycloakSvc: KeycloakService, private readonly logger: LoggerService) { }
 
   get userId(): string | undefined {
     const kc = this.keycloakSvc.getKeycloakInstance()
@@ -21,7 +21,7 @@ export class SearchApiService {
     }
     return (kc.tokenParsed && kc.tokenParsed.sub) || (kc.idTokenParsed && kc.idTokenParsed.sub)
   }
-  private messageSource = new Subject<any>()
+  private readonly messageSource = new Subject<any>()
   public currentMessage = this.messageSource.asObservable()
   getSearchResults(request: ISocialSearchRequest): Observable<ISocialSearchResult> {
     return this.http.post<ISocialSearchResult>(API_END_POINTS.SOCIAL_VIEW_SEARCH_RESULT, request)

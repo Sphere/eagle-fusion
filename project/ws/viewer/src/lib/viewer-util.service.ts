@@ -17,13 +17,13 @@ export class ViewerUtilService {
   authoringBase = '/apis/authContent/'
   competencyAsessment = new BehaviorSubject<any>(false)
   competencyAsessment$ = this.competencyAsessment.asObservable()
-  constructor(private http: HttpClient, private configservice: ConfigurationsService,
-    private onlineIndexedDbService: IndexedDBService,
-    private events: EventService,
-    private logger: LoggerService
+  constructor(private readonly http: HttpClient, private readonly configservice: ConfigurationsService,
+    private readonly onlineIndexedDbService: IndexedDBService,
+    private readonly events: EventService,
+    private readonly logger: LoggerService
   ) { }
 
-  private currentResource = new BehaviorSubject<NsContent.IContent | null>(null)
+  private readonly currentResource = new BehaviorSubject<NsContent.IContent | null>(null)
   castResource = this.currentResource.asObservable()
 
   editResourceData(newResource: any) {
@@ -150,9 +150,6 @@ export class ViewerUtilService {
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe({
         next: next => {
           this.logger.log('Record deleted successfully', next)
-          if (next) {
-
-          }
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', cUrl, req.request).subscribe(
             (dat: any) => {
               this.logger.log('Data inserted successfully2', dat)
@@ -257,10 +254,7 @@ export class ViewerUtilService {
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
             async (dat: any) => {
               this.logger.log('Data inserted successfully2', dat)
-              const msg = await dat
-              if (msg) {
-
-              }
+              await dat
             },
             (error: any) => { // 'error' callback for insertProgressData
               this.logger.error('Error inserting progress data:', error)
@@ -367,10 +361,7 @@ export class ViewerUtilService {
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
             async (dat: any) => {
               this.logger.log('Data inserted successfully2', dat)
-              const msg = await dat
-              if (msg) {
-
-              }
+              await dat
             },
             (error: any) => { // 'error' callback for insertProgressData
               this.logger.error('Error inserting progress data:', error)

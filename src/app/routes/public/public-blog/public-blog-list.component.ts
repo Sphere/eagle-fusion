@@ -12,7 +12,7 @@ import { BLOG_ARTICLES, IBlogArticle } from './blog-articles.data'
 export class PublicBlogListComponent implements OnInit {
   articles: IBlogArticle[] = BLOG_ARTICLES
 
-  constructor(private seoSvc: SeoService, private router: Router) {}
+  constructor(private readonly seoSvc: SeoService, private readonly router: Router) {}
 
   ngOnInit() {
     this.seoSvc.update({

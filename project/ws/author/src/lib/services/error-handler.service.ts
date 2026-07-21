@@ -6,8 +6,8 @@ import { LoaderService } from './loader.service'
 export class AuthoringErrorHandler implements ErrorHandler {
 
   constructor(
-    private loaderService: LoaderService,
-    private loggerService: LoggerService,
+    private readonly loaderService: LoaderService,
+    private readonly loggerService: LoggerService,
   ) { }
 
   handleError(error: any) {

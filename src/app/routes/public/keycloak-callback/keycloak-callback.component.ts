@@ -14,11 +14,11 @@ import { LoggerService } from '../../../../../library/ws-widget/utils/src/public
 })
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
-  constructor(private orgService: OrgServiceService,
-    private snackBarSvc: MatSnackBar,
-    private signupService: SignupService,
-    private authSvc: AuthKeycloakService,
-    private logger: LoggerService
+  constructor(private readonly orgService: OrgServiceService,
+    private readonly snackBarSvc: MatSnackBar,
+    private readonly signupService: SignupService,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly logger: LoggerService
     //private configSvc: ConfigurationsService,
   ) { }
 

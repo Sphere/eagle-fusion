@@ -54,11 +54,11 @@ export class PlayerAudioComponent extends WidgetBaseComponent
   private player: videoJs.Player | null = null
   private dispose: null | (() => void) = null
   constructor(
-    private eventSvc: EventService,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private activatedRoute: ActivatedRoute,
-    private plylsSvc: PlaylistService
+    private readonly eventSvc: EventService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly plylsSvc: PlaylistService
   ) {
     super()
   }

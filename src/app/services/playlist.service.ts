@@ -6,8 +6,8 @@ import { API_END_POINTS } from '../constants/apiConstants'
 
 @Injectable({ providedIn: 'root' })
 export class PlaylistService {
-  private playlistData = signal<any | null>(null)
-  private selectedTab = signal<string>(
+  private readonly playlistData = signal<any | null>(null)
+  private readonly selectedTab = signal<string>(
     localStorage.getItem('selectedTab') || 'homeTab'
   )
   orgDetails = computed(() => this.playlistData()?.orgData ?? '')
@@ -30,16 +30,16 @@ export class PlaylistService {
     return sections[tab] || sections.homeTab || ''
   })
 
-  private playlistConfigCache = signal<any[] | null>(null)
+  private readonly playlistConfigCache = signal<any[] | null>(null)
 
-  private earnedBadgesSubject = new BehaviorSubject<number>(0)
+  private readonly earnedBadgesSubject = new BehaviorSubject<number>(0)
   earnedBadges$ = this.earnedBadgesSubject.asObservable()
   showDetails = signal(false)
   selectedProgram = signal<any | null>({})
   constructor(
-    private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private logger: LoggerService
+    private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly logger: LoggerService
   ) { }
   setSelectedTab(tabId: string) {
     if (!tabId) return

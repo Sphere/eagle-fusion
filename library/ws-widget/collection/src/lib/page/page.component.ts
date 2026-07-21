@@ -41,17 +41,17 @@ export class PageComponent extends WidgetBaseComponent
   isForbiddenError = false
   isClientError = false
   constructor(
-    private activateRoute: ActivatedRoute,
-    private logger: LoggerService,
-    private configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private eventSvc: EventService,
-    private domSanitizer: DomSanitizer,
-    private respondSvc: SubapplicationRespondService,
-    private dialog: MatDialog,
-    private exploreResolverSvc: ExploreResolverService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly logger: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly valueSvc: ValueService,
+    private readonly eventSvc: EventService,
+    private readonly domSanitizer: DomSanitizer,
+    private readonly respondSvc: SubapplicationRespondService,
+    private readonly dialog: MatDialog,
+    private readonly exploreResolverSvc: ExploreResolverService,
     public router: Router,
-    private meta: Meta
+    private readonly meta: Meta
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {

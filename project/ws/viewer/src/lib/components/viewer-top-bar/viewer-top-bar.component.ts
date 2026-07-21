@@ -43,14 +43,14 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   isSmall = false
   collectionIdentifier: any
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private configSvc: ConfigurationsService,
-    private viewerDataSvc: ViewerDataService,
-    private playerStateSvc: PlayerStateService,
-    private valueSvc: ValueService,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly viewerDataSvc: ViewerDataService,
+    private readonly playerStateSvc: PlayerStateService,
+    private readonly valueSvc: ValueService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall

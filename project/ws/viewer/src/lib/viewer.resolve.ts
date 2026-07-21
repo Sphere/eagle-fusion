@@ -12,15 +12,15 @@ import { Platform } from '@angular/cdk/platform'
 @Injectable()
 export class ViewerResolve {
   constructor(
-    private contentSvc: WidgetContentService,
-    private viewerDataSvc: ViewerDataService,
-    private mobileAppsSvc: MobileAppsService,
-    private router: Router,
-    private accessControlSvc: AccessControlService,
-    private msAuthSvc: AuthMicrosoftService,
-    private configSvc: ConfigurationsService,
-    private platform: Platform,
-    private logger: LoggerService
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerDataSvc: ViewerDataService,
+    private readonly mobileAppsSvc: MobileAppsService,
+    private readonly router: Router,
+    private readonly accessControlSvc: AccessControlService,
+    private readonly msAuthSvc: AuthMicrosoftService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly platform: Platform,
+    private readonly logger: LoggerService
   ) { }
 
   private async validateGatedResourceAccess(

@@ -16,7 +16,7 @@ export class AppTocReferencesComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription | null = null
 
   loadContent = true
-  constructor(public route: ActivatedRoute, private tocSharedSvc: AppTocService,
+  constructor(public route: ActivatedRoute, private readonly tocSharedSvc: AppTocService,
 
   ) { }
 

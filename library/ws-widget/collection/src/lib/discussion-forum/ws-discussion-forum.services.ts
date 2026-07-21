@@ -16,7 +16,7 @@ import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants
   providedIn: 'root',
 })
 export class WsDiscussionForumService {
-  constructor(private http: HttpClient, private apiService: ApiService, private accessService: AccessControlService) { }
+  constructor(private readonly http: HttpClient, private readonly apiService: ApiService, private readonly accessService: AccessControlService) { }
 
   deletePost(postId: string, userId: string) {
     const req: NsDiscussionForum.IPostDeleteRequest = {

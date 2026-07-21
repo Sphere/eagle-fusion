@@ -59,11 +59,11 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
   scrollTimeInterval: any
 
   constructor(
-    private events: EventService,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private valueSvc: ValueService,
-    private viewerSvc: ViewerUtilService,
-    private configurationSvc: ConfigurationsService,
+    private readonly events: EventService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly valueSvc: ValueService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly configurationSvc: ConfigurationsService,
   ) {
     this.iframeElem = {} as ElementRef
   }

@@ -60,9 +60,9 @@ export class DialogSocialActivityUserComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogSocialActivityUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: NsDiscussionForum.IDialogActivityUsers,
-    private socialSvc: WsDiscussionForumService,
-    private configSvc: ConfigurationsService,
-    private userSvc: WsDiscussionForumUserService,
+    private readonly socialSvc: WsDiscussionForumService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userSvc: WsDiscussionForumUserService,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''

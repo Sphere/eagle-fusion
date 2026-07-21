@@ -27,7 +27,7 @@ export class DropdownDobComponent implements OnInit {
   ]
   yearsValue: number[] = []
 
-  constructor(public cdr: ChangeDetectorRef, private logger: LoggerService) {
+  constructor(public cdr: ChangeDetectorRef, private readonly logger: LoggerService) {
     this.dobForm = new FormGroup({
       dateField: new FormControl('', Validators.required),
       monthField: new FormControl('', Validators.required),

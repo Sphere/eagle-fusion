@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators'
 export class ValueService {
   width = signal(window.innerWidth)
   constructor(
-    private breakpointObserver: BreakpointObserver,
+    private readonly breakpointObserver: BreakpointObserver,
   ) {
     window.addEventListener('resize', () => {
       this.width.set(window.innerWidth)

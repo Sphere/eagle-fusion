@@ -117,21 +117,21 @@ export class QuizComponent implements OnChanges, OnDestroy {
 */
   public unsubscribe = new Subject<void>()
   isAsha = false
-  private isAshaSubscription: Subscription
-  private isCurrentcardDataSubscribe: Subscription
+  private readonly isAshaSubscription: Subscription
+  private readonly isCurrentcardDataSubscribe: Subscription
   constructor(
-    private events: EventService,
+    private readonly events: EventService,
     public dialog: MatDialog,
-    private quizSvc: QuizService,
-    private viewerSvc: ViewerUtilService,
+    private readonly quizSvc: QuizService,
+    private readonly viewerSvc: ViewerUtilService,
     public route: ActivatedRoute,
     public location: Location,
     public viewerDataSvc: ViewerDataService,
     public playerStateService: PlayerStateService,
     public router: Router,
-    private contentSvc: WidgetContentService,
-    private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService
+    private readonly contentSvc: WidgetContentService,
+    private readonly loggerSvc: LoggerService,
+    private readonly configSvc: ConfigurationsService
   ) {
 
   }

@@ -35,12 +35,12 @@ export class HtmlComponent implements OnInit, OnChanges {
   collectionIdentifier: any
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private pipeLimitTo: PipeLimitToPipe,
-    private valueSvc: ValueService,
-    private configSvc: ConfigurationsService,
-    private viewerDataSvc: PlayerStateService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly pipeLimitTo: PipeLimitToPipe,
+    private readonly valueSvc: ValueService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly viewerDataSvc: PlayerStateService,
     public router: Router
 
   ) {

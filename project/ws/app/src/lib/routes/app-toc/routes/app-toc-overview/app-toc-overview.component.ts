@@ -44,12 +44,12 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
 */
   public unsubscribe = new Subject<void>()
   constructor(
-    private route: ActivatedRoute,
-    private tocSharedSvc: AppTocService,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private authAccessControlSvc: AccessControlService,
-    private widgetContentSvc: WidgetContentService,
-    private cdr: ChangeDetectorRef
+    private readonly route: ActivatedRoute,
+    private readonly tocSharedSvc: AppTocService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly authAccessControlSvc: AccessControlService,
+    private readonly widgetContentSvc: WidgetContentService,
+    private readonly cdr: ChangeDetectorRef
   ) {
   }
 

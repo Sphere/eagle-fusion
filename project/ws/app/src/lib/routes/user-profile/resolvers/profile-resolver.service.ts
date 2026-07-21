@@ -6,7 +6,7 @@ import { NsUser, ConfigurationsService, IResolveResponse } from '@ws-widget/util
 @Injectable()
 export class ProfileResolverService  {
 
-  constructor(private configSvc: ConfigurationsService) { }
+  constructor(private readonly configSvc: ConfigurationsService) { }
 
   resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<any> {
 

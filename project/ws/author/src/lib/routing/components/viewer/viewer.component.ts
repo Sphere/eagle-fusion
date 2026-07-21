@@ -38,7 +38,7 @@ export class ViewerComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
   selected: IPreviewDevice = this.previewDevices[2]
   isXSmall = false
 
-  constructor(private valueSvc: ValueService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private readonly valueSvc: ValueService, private readonly activatedRoute: ActivatedRoute, private readonly router: Router) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })

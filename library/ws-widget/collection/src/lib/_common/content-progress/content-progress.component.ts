@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit, OnChanges, OnDestroy } from '@angular/core'
+import { Component, HostBinding, Input } from '@angular/core'
 
 @Component({
     standalone: false,
@@ -17,7 +17,7 @@ import { Component, HostBinding, Input, OnInit, OnChanges, OnDestroy } from '@an
     },
     
 })
-export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
+export class ContentProgressComponent {
   @Input()
   contentId = ''
 
@@ -39,12 +39,4 @@ export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnInit() {
-  }
-
-  ngOnDestroy() {
-  }
-
-  ngOnChanges() {
-  }
 }

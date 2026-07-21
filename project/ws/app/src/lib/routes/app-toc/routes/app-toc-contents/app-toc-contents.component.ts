@@ -33,11 +33,11 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   loadContent = true
   public unsubscribe = new Subject<void>()
   constructor(
-    private route: ActivatedRoute,
-    private sanitizer: SafeResourceUrlService,
-    private tocSvc: AppTocService,
-    private configSvc: ConfigurationsService,
-    private contentSvc: WidgetContentService
+    private readonly route: ActivatedRoute,
+    private readonly sanitizer: SafeResourceUrlService,
+    private readonly tocSvc: AppTocService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly contentSvc: WidgetContentService
   ) { }
 
   ngOnInit() {

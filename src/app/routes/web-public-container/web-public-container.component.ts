@@ -20,8 +20,8 @@ import { WidgetUserService } from '../../../../library/ws-widget/collection/src/
 export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   myCourse: any
 
-  private destroy$ = new Subject<void>()
-  private courseRecommendationTimeout: any
+  private readonly destroy$ = new Subject<void>()
+  private readonly courseRecommendationTimeout: any
 
   topCertifiedCourse = signal<any[]>([])
   cneCourse = signal<any[]>([])
@@ -70,16 +70,16 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   showbackButton = computed(() => this.playlistSvc.showDetails())
   selectedProgDet = computed(() => this.playlistSvc.selectedProgram())()
   constructor(
-    private router: Router,
+    private readonly router: Router,
     public dialog: MatDialog,
-    private orgService: OrgServiceService,
+    private readonly orgService: OrgServiceService,
     public scrollService: ScrollService,
-    private configSvc: ConfigurationsService,
-    private playlistSvc: PlaylistService,
-    private langSvc: LanguageService,
-    private valueSvc: ValueService,
-    private logger: LoggerService,
-    private userSvc: WidgetUserService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly playlistSvc: PlaylistService,
+    private readonly langSvc: LanguageService,
+    private readonly valueSvc: ValueService,
+    private readonly logger: LoggerService,
+    private readonly userSvc: WidgetUserService,
   ) {
     this.lang = this.langSvc.getCurrentLanguage()
   }

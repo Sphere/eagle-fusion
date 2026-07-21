@@ -32,9 +32,9 @@ export class SearchRootComponent implements OnInit {
   selectedIndex = 0
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   constructor(
-    private router: Router,
-    private activated: ActivatedRoute,
-    private configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly activated: ActivatedRoute,
+    private readonly configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {

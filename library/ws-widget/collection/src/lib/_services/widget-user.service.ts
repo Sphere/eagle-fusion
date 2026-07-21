@@ -12,7 +12,7 @@ import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants
 export class WidgetUserService {
   private batchList$: Observable<NsContent.ICourse[]> | null = null
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   handleError(error: ErrorEvent) {
     let errorMessage = ''

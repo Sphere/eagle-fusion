@@ -91,25 +91,25 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   isDark: boolean
 
   constructor(
-    private sanitizer: SafeResourceUrlService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private tocSvc: AppTocService,
-    private configSvc: ConfigurationsService,
-    private contentSvc: WidgetContentService,
-    private utilitySvc: UtilityService,
-    private mobileAppsSvc: MobileAppsService,
-    private snackBar: MatSnackBar,
+    private readonly sanitizer: SafeResourceUrlService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly dialog: MatDialog,
+    private readonly tocSvc: AppTocService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly utilitySvc: UtilityService,
+    private readonly mobileAppsSvc: MobileAppsService,
+    private readonly snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
-    private loader: LoaderService,
-    private onlineIndexedDbService: IndexedDBService,
+    private readonly loader: LoaderService,
+    private readonly onlineIndexedDbService: IndexedDBService,
     @Inject(DOCUMENT) public document: Document,
-    private telemetrySvc: TelemetryService,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef,
-    private themeSvc: ThemeService
+    private readonly telemetrySvc: TelemetryService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly themeSvc: ThemeService
   ) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()

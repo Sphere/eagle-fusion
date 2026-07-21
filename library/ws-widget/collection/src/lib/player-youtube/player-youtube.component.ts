@@ -60,10 +60,10 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
   private player: videoJs.Player | null = null
   private dispose: (() => void) | null = null
   constructor(
-    private eventSvc: EventService,
-    private viewerSvc: ViewerUtilService,
-    private activatedRoute: ActivatedRoute,
-    private valueSvc: ValueService,
+    private readonly eventSvc: EventService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly valueSvc: ValueService,
   ) {
     super()
   }

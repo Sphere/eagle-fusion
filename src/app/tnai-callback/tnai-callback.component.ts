@@ -12,9 +12,9 @@ import { LoggerService } from '@ws-widget/utils'
 export class TnaiCallbackComponent implements OnInit {
   isLoading = false
   constructor(
-    private orgService: OrgServiceService,
-    private authSvc: AuthKeycloakService,
-    private logger: LoggerService,
+    private readonly orgService: OrgServiceService,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly logger: LoggerService,
   ) { }
 
   ngOnInit() {

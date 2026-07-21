@@ -31,16 +31,16 @@ export class EducationEditComponent implements OnInit {
   isEditableForSphere = false
   @Input() data: any
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private valueSvc: ValueService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private contentSvc: WidgetContentService,
-    private langSvc: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
+    private readonly valueSvc: ValueService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly langSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService
   ) {
     this.educationForm = new UntypedFormGroup({
       courseDegree: new UntypedFormControl('', [Validators.required]),

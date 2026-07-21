@@ -19,11 +19,11 @@ export class EducationListComponent implements OnInit {
   @Input() isEkshamata = false
   @Input() data: any
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private valueSvc: ValueService,
-    private contentSvc: WidgetContentService,
-    private cdr: ChangeDetectorRef
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly valueSvc: ValueService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {

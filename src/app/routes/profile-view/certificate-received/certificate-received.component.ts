@@ -10,7 +10,7 @@ import { LoggerService } from '../../../../../library/ws-widget/utils/src/public
 })
 export class CertificateReceivedComponent {
   @Input() certificateData?: any
-  constructor(private logger: LoggerService) { }
+  constructor(private readonly logger: LoggerService) { }
 
   convertToJpeg(imgVal: any) {
     if (imgVal.rcCerticate) {

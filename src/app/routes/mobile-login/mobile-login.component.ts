@@ -61,8 +61,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public isSignedIn = false
   public signinURL = ''
-  private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
-  private scope = [
+  private readonly clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
+  private readonly scope = [
     'profile',
     'email',
     'https://www.googleapis.com/auth/plus.me',

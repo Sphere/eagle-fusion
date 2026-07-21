@@ -26,17 +26,17 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   isXsmall = false
   isDark: boolean
   constructor(
-    @Inject(PLATFORM_ID) private platformId: object,
-    private router: Router,
-    private valueSvc: ValueService,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
+    private readonly router: Router,
+    private readonly valueSvc: ValueService,
     public configSvc: ConfigurationsService,
-    private scrollService: ScrollService,
-    private elementRef: ElementRef,
-    private languageSvc: LanguageService,
-    private playlsSvc: PlaylistService,
-    private logger: LoggerService,
-    private themeSvc: ThemeService,
-    private cdr: ChangeDetectorRef
+    private readonly scrollService: ScrollService,
+    private readonly elementRef: ElementRef,
+    private readonly languageSvc: LanguageService,
+    private readonly playlsSvc: PlaylistService,
+    private readonly logger: LoggerService,
+    private readonly themeSvc: ThemeService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {

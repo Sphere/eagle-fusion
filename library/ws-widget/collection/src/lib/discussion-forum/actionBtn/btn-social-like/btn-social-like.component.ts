@@ -20,9 +20,9 @@ export class BtnSocialLikeComponent {
   isUpdating = false
   userId = ''
   constructor(
-    private configSvc: ConfigurationsService,
-    private socialSvc: WsDiscussionForumService,
-    private snackBar: MatSnackBar,
+    private readonly configSvc: ConfigurationsService,
+    private readonly socialSvc: WsDiscussionForumService,
+    private readonly snackBar: MatSnackBar,
     public dialog: MatDialog,
   ) {
     if (this.configSvc.userProfile) {

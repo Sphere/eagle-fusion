@@ -17,8 +17,8 @@ export class BtnPageBackComponent extends WidgetBaseComponent
   presentUrl = ''
   showBackIcon = false
   constructor(
-    private btnBackSvc: BtnPageBackService,
-    private router: Router,
+    private readonly btnBackSvc: BtnPageBackService,
+    private readonly router: Router,
   ) {
     super()
   }

@@ -22,9 +22,9 @@ export class ScromPlayerComponent implements OnInit,
   @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
   constructor(
     public route: ActivatedRoute,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private scormAdapterService: MobileScromAdapterService,
-    private logger: LoggerService
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly scormAdapterService: MobileScromAdapterService,
+    private readonly logger: LoggerService
   ) {
     (window as any).API = this.scormAdapterService
     window.addEventListener('message', this.receiveMessage.bind(this))

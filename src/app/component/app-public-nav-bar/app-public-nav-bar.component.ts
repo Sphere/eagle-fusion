@@ -13,18 +13,18 @@ import { ThemeService } from '../../services/theme.service'
 })
 export class AppPublicNavBarComponent implements OnInit, OnDestroy {
   @Input() orgConfig: any
-  private subscriptionLogin: Subscription | null = null
+  private readonly subscriptionLogin: Subscription | null = null
   redirectUrl = ''
   isXSmall$: boolean
   isDark: boolean = false
   constructor(
     public configSvc: ConfigurationsService,
-    private router: Router,
-    private activateRoute: ActivatedRoute,
-    private valueSvc: ValueService,
-    private authSvc: AuthKeycloakService,
-    private logger: LoggerService,
-    private themeSvc: ThemeService) {
+    private readonly router: Router,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly valueSvc: ValueService,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly logger: LoggerService,
+    private readonly themeSvc: ThemeService) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
       this.isXSmall$ = this.valueSvc.isMobile() ? true : false

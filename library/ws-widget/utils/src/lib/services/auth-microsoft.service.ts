@@ -31,7 +31,7 @@ export class AuthMicrosoftService {
     tokenType: '',
   }
 
-  constructor(private loggerSvc: LoggerService, private http: HttpClient) { }
+  constructor(private readonly loggerSvc: LoggerService, private readonly http: HttpClient) { }
 
   get isLogoutRequired(): boolean {
     return Boolean(this.msConfig.isConfigured && this.msConfig.clientId && this.emailUsed)
@@ -122,7 +122,7 @@ export class AuthMicrosoftService {
           this.emailUsed = this.msConfig.defaultEmailId
           return this.msToken.accessToken
         }
-      } catch (error) { }
+      } catch (error) { /* fall through to error below */ }
     }
     throw new Error('UNABLE TO FETCH MS AUTH TOKEN')
   }
@@ -134,7 +134,7 @@ export class AuthMicrosoftService {
     let msPrevTS = 0
     try {
       msPrevTS = parseInt(storage.getItem(storageKey) || '0', 10)
-    } catch (error) { }
+    } catch (error) { /* ignore malformed stored timestamp, msPrevTS stays 0 */ }
     if (!msPrevTS || (msPrevTS && (Date.now() - msPrevTS) / 1000 > msTokenExpiryDuration)) {
       this.loggerSvc.info(
         `last login exceeded ${msTokenExpiryDuration} duration. Redirecting to O365 login`,

@@ -28,9 +28,9 @@ export class ViewSubmissionComponent implements OnInit {
   submissionAnswerText: string[] = []
 
   constructor(
-    private dialogRef: MatDialogRef<ViewSubmissionComponent>,
-    private resourceSvc: ResourceCollectionService,
-    private snackBar: MatSnackBar,
+    private readonly dialogRef: MatDialogRef<ViewSubmissionComponent>,
+    private readonly resourceSvc: ResourceCollectionService,
+    private readonly snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) data: { url: string, type: string },
   ) {
     if (data.url) {

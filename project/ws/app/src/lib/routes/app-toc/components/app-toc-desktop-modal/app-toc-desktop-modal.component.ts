@@ -14,9 +14,9 @@ export class AppTocDesktopModalComponent implements OnInit {
   cometencyData: { name: any; levels: string }[] = []
   constructor(
     public dialogRef: MatDialogRef<AppTocDesktopModalComponent>,
-    private router: Router,
+    private readonly router: Router,
     @Inject(MAT_DIALOG_DATA) public content: any,
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) { }
 
   ngOnInit() {

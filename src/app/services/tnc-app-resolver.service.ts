@@ -11,8 +11,8 @@ import { API_END_POINTS } from '../constants/apiConstants'
 export class TncAppResolverService {
 
   constructor(
-    private http: HttpClient,
-    private configSvc: ConfigurationsService
+    private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService
   ) { }
 
   resolve(): Observable<IResolveResponse<NsTnc.ITnc>> {

@@ -33,8 +33,8 @@ export class QuizComponent implements OnInit {
   isSmall = false
   collectionIdentifier: any
 
-  constructor(private activatedRoute: ActivatedRoute, private viewerDataSvc: PlayerStateService,
-    private valueSvc: ValueService) {
+  constructor(private readonly activatedRoute: ActivatedRoute, private readonly viewerDataSvc: PlayerStateService,
+    private readonly valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })

@@ -30,7 +30,7 @@ export class BtnContentShareDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { content: NsContent.IContent },
     public shareSvc: WidgetContentShareService,
     public configSvc: ConfigurationsService,
-    private cdr: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {

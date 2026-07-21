@@ -40,12 +40,12 @@ export class AssessmentDetailComponent implements OnInit {
     passPercentage: 60,
   }
 
-  constructor(private viewSvc: ViewerUtilService,
-    private http: HttpClient,
-    private contentSvc: WidgetContentService,
-    private activatedRoute: ActivatedRoute,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef) {
+  constructor(private readonly viewSvc: ViewerUtilService,
+    private readonly http: HttpClient,
+    private readonly contentSvc: WidgetContentService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef) {
   }
 
   async ngOnInit() {

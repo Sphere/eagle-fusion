@@ -18,9 +18,9 @@ export class NotificationSettingsComponent implements OnInit {
   notificationsUpdateStatus: TFetchStatus = 'none'
   userRoles: Set<string> = new Set()
   constructor(
-    private snackBar: MatSnackBar,
-    private settingsSvc: SettingsService,
-    private configSvc: ConfigurationsService,
+    private readonly snackBar: MatSnackBar,
+    private readonly settingsSvc: SettingsService,
+    private readonly configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {

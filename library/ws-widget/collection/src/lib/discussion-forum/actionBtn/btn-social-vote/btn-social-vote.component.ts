@@ -26,10 +26,10 @@ export class BtnSocialVoteComponent {
   userId = ''
   isUpdating = false
   constructor(
-    private configSvc: ConfigurationsService,
-    private socialSvc: WsDiscussionForumService,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog,
+    private readonly configSvc: ConfigurationsService,
+    private readonly socialSvc: WsDiscussionForumService,
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''

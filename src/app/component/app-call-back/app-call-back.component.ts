@@ -17,7 +17,7 @@ export class AppCallBackComponent {
 
   constructor(
     public activated: ActivatedRoute,
-    private appCallBackService: AppCallBackService
+    private readonly appCallBackService: AppCallBackService
   ) {
     this.activated.queryParamMap.subscribe(queryParams => {
       if (get(queryParams, 'params.x-authenticated-user-token')) {

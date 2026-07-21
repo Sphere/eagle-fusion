@@ -34,12 +34,12 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   hide2 = true
 
   constructor(
-    private snackBar: MatSnackBar,
-    private fb: UntypedFormBuilder,
-    private router: Router,
-    private tncService: TncPublicResolverService,
-    private authSvc: AuthKeycloakService,
-    private logger: LoggerService,
+    private readonly snackBar: MatSnackBar,
+    private readonly fb: UntypedFormBuilder,
+    private readonly router: Router,
+    private readonly tncService: TncPublicResolverService,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly logger: LoggerService,
   ) {
     this.signupForm = this.fb.group({
       firstName: new UntypedFormControl('', [Validators.required]),

@@ -18,7 +18,7 @@ export class AssesmentOverviewComponent implements OnInit {
     public dialogRef: MatDialogRef<AssesmentOverviewComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public route: ActivatedRoute,
-    private events: EventService
+    private readonly events: EventService
   ) { }
 
   ngOnInit() {

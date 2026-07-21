@@ -42,13 +42,13 @@ export class CardContentComponent extends WidgetBaseComponent
   userDetails: any
   cometencyData: { name: any; levels: string }[] = []
   constructor(
-    private configSvc: ConfigurationsService,
-    private utilitySvc: UtilityService,
-    private snackBar: MatSnackBar,
-    private authSvc: AuthKeycloakService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private titleService: Title
+    private readonly configSvc: ConfigurationsService,
+    private readonly utilitySvc: UtilityService,
+    private readonly snackBar: MatSnackBar,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly router: Router,
+    private readonly titleService: Title
   ) {
     super()
     this.offSetXValue = 290

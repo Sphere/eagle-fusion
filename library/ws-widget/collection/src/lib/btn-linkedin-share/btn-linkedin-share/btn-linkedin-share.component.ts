@@ -12,7 +12,7 @@ export class BtnLinkedinShareComponent implements OnInit, AfterViewInit {
   @Input() url = location.href
   @ViewChild('element', { static: true }) element: ElementRef | null = null
   isSocialMediaLinkedinShareEnabled = false
-  constructor(private configSvc: ConfigurationsService) {
+  constructor(private readonly configSvc: ConfigurationsService) {
     // load twitter sdk if required
     const url = 'https://platform.linkedin.com/in.js'
     if (!document.querySelector(`script[src='${url}']`)) {

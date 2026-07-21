@@ -9,8 +9,8 @@ import { MobileAppsService } from '../../../../../../src/app/services/mobile-app
 })
 export class WidgetUrlResolverDirective {
   constructor(
-    private router: Router,
-    private mobileAppsSvc: MobileAppsService,
+    private readonly router: Router,
+    private readonly mobileAppsSvc: MobileAppsService,
   ) { }
 
   @Input() wsWidgetUrlResolver!: boolean

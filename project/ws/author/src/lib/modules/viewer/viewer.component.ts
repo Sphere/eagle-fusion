@@ -55,7 +55,7 @@ export class ViewerComponent implements AfterViewInit, OnChanges {
     },
   ]
   selected: IPreviewDevice = this.previewDevices[2]
-  constructor(private accessControlSvc: AccessControlService) { }
+  constructor(private readonly accessControlSvc: AccessControlService) { }
 
   ngOnChanges() {
     if (this.accessControlSvc.authoringConfig.newDesign) {

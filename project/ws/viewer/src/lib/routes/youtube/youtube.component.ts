@@ -22,7 +22,7 @@ import { ViewerDataService } from './../../viewer-data.service'
 export class YoutubeComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
   private screenSizeSubscription: Subscription | null = null
-  private viewerDataSubscription: Subscription | null = null
+  private readonly viewerDataSubscription: Subscription | null = null
   forPreview = window.location.href.includes('/author/')
   isScreenSizeSmall = false
   isFetchingDataComplete = false
@@ -37,12 +37,12 @@ export class YoutubeComponent implements OnInit, OnDestroy {
   fs: boolean | undefined
   batchId = this.activatedRoute.snapshot.queryParamMap.get('batchId')
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private valueSvc: ValueService,
-    private contentSvc: WidgetContentService,
-    private platform: Platform,
-    private dataSvc: ViewerDataService,
-    private configSvc: ConfigurationsService
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly valueSvc: ValueService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly platform: Platform,
+    private readonly dataSvc: ViewerDataService,
+    private readonly configSvc: ConfigurationsService
   ) { }
 
   ngOnInit() {

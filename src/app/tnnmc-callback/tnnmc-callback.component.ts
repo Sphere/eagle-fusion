@@ -15,11 +15,11 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 export class TnnmcCallbackComponent implements OnInit {
   isLoading = false
   constructor(
-    private orgService: OrgServiceService,
+    private readonly orgService: OrgServiceService,
     //private authSvc: AuthKeycloakService,
-    private dialog: MatDialog,
-    private router: Router,
-    private logger: LoggerService
+    private readonly dialog: MatDialog,
+    private readonly router: Router,
+    private readonly logger: LoggerService
   ) { }
 
   ngOnInit() {

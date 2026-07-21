@@ -14,9 +14,9 @@ export class PublicBlogArticleComponent implements OnInit {
   notFound = false
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private seoSvc: SeoService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly seoSvc: SeoService,
   ) {}
 
   ngOnInit() {

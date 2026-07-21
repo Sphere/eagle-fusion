@@ -85,14 +85,14 @@ export class ChatbotComponent implements OnInit {
   userId = ''
   govtOrgMeta!: IGovtOrgMeta
 
-  constructor(private http: HttpClient,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private fb: UntypedFormBuilder,
-    private configSvc: ConfigurationsService,
-    private btnservice: BtnProfileService,
-    private UserAgentResolverService: UserAgentResolverService) {
+  constructor(private readonly http: HttpClient,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly fb: UntypedFormBuilder,
+    private readonly configSvc: ConfigurationsService,
+    private readonly btnservice: BtnProfileService,
+    private readonly UserAgentResolverService: UserAgentResolverService) {
 
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {

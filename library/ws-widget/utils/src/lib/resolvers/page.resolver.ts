@@ -14,11 +14,11 @@ import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants
   providedIn: 'root',
 })
 export class PageResolve {
-  private baseUrl = this.configSvc.sitePath
-  private localBaseUrl = this.configSvc.localSitePath
+  private readonly baseUrl = this.configSvc.sitePath
+  private readonly localBaseUrl = this.configSvc.localSitePath
   constructor(
-    private configSvc: ConfigurationsService,
-    private http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   resolve(

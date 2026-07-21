@@ -62,15 +62,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isLanguageEnabled = true
 
   constructor(
-    private router: Router,
-    private configSvc: ConfigurationsService,
-    private userPrefSvc: UserPreferenceService,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private utilitySvc: UtilityService,
-    private userProfileSvc: UserProfileService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private languageSvc: LanguageService,
+    private readonly router: Router,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userPrefSvc: UserPreferenceService,
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
+    private readonly utilitySvc: UtilityService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly languageSvc: LanguageService,
   ) { }
 
   ngOnInit() {

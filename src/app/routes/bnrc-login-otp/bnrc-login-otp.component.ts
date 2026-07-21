@@ -26,11 +26,11 @@ export class BnrcLoginOtpComponent implements OnInit {
   disableSubmit = false
   constructor(
     public router: Router,
-    private fb: UntypedFormBuilder,
-    private snackBar: MatSnackBar,
-    private userProfileSvc: UserProfileService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly fb: UntypedFormBuilder,
+    private readonly snackBar: MatSnackBar,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.loginOtpForm = this.fb.group({
       code: new UntypedFormControl('', [Validators.required]),

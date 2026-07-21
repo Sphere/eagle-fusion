@@ -19,7 +19,7 @@ export class SlidersComponent extends WidgetBaseComponent
   currentIndex = 0
   slideInterval: Subscription | null = null
 
-  constructor(private events: EventService, private router: Router) {
+  constructor(private readonly events: EventService, private readonly router: Router) {
     super()
   }
 

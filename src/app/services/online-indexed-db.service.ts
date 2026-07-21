@@ -9,7 +9,7 @@ import { LoggerService } from '@ws-widget/utils'
 export class IndexedDBService {
   private readonly dbName = 'optimistic-ui-online-store'
   private readonly dbVersion = 1
-  private db: IDBDatabase | undefined
+  private readonly db: IDBDatabase | undefined
 
   constructor(private readonly logger: LoggerService) { }
 

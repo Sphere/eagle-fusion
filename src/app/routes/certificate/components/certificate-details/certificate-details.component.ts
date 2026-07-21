@@ -53,10 +53,10 @@ export class CertificateDetailsComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public certificateService: CertificateService,
     public configService: ConfigurationsService,
-    private safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     public apiService: ApiService,
     public router: Router,
-    private cdr: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {

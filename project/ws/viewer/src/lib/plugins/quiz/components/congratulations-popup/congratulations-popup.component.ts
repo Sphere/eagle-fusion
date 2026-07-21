@@ -17,12 +17,12 @@ export class CongratulationsPopupComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private configSvc: ConfigurationsService,
-    private languageSvc: LanguageService,
-    private playlsSvc: PlaylistService,
-    private dialogRef: MatDialogRef<CongratulationsPopupComponent>,
-    private telemetrySvc: TelemetryService,
-    private logger: LoggerService
+    private readonly configSvc: ConfigurationsService,
+    private readonly languageSvc: LanguageService,
+    private readonly playlsSvc: PlaylistService,
+    private readonly dialogRef: MatDialogRef<CongratulationsPopupComponent>,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly logger: LoggerService
   ) { }
 
   async ngOnInit() {

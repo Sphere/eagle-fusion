@@ -16,7 +16,7 @@ import { ViewerUtilService } from '../../viewer-util.service'
 })
 export class WebModuleComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
-  private telemetryIntervalSubscription: Subscription | null = null
+  private readonly telemetryIntervalSubscription: Subscription | null = null
   forPreview = window.location.href.includes('/author/') || window.location.href.includes('?preview=true')
   isFetchingDataComplete = false
   isErrorOccured = false
@@ -28,11 +28,11 @@ export class WebModuleComponent implements OnInit, OnDestroy {
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private http: HttpClient,
-    private eventSvc: EventService,
-    private viewSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly http: HttpClient,
+    private readonly eventSvc: EventService,
+    private readonly viewSvc: ViewerUtilService,
   ) { }
 
   ngOnInit() {

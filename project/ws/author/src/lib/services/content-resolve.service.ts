@@ -11,9 +11,9 @@ import { catchError } from 'rxjs/operators'
 export class ContentTOCResolver  {
 
   constructor(
-    private apiService: ApiService,
-    private accessService: AccessControlService,
-    private router: Router,
+    private readonly apiService: ApiService,
+    private readonly accessService: AccessControlService,
+    private readonly router: Router,
   ) {
   }
 

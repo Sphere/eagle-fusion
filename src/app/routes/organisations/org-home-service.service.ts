@@ -13,7 +13,7 @@ export class OrgServiceService {
   hideHeaderFooter = new BehaviorSubject<boolean>(false)
   sitePath = `assets/configurations/`
 
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private readonly http: HttpClient, private readonly configSvc: ConfigurationsService) { }
 
   resolve(): Observable<any> {
     return this.getOrgMetadata().pipe(

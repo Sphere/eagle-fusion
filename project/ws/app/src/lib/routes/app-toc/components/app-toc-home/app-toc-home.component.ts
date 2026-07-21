@@ -100,16 +100,16 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private contentSvc: WidgetContentService,
-    private userSvc: WidgetUserService,
-    private tocSvc: AppTocService,
-    private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private authAccessControlSvc: AccessControlService,
-    private discussiConfig: DiscussConfigResolve
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly contentSvc: WidgetContentService,
+    private readonly userSvc: WidgetUserService,
+    private readonly tocSvc: AppTocService,
+    private readonly loggerSvc: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly authAccessControlSvc: AccessControlService,
+    private readonly discussiConfig: DiscussConfigResolve
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {

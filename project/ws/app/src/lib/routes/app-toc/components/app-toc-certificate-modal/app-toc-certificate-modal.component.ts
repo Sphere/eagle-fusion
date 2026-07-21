@@ -17,10 +17,10 @@ export class AppTocCertificateModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AppTocCertificateModalComponent>,
     @Inject(MAT_DIALOG_DATA) public content: any,
-    private contentSvc: WidgetContentService,
-    private sanitizer: SafeResourceUrlService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly contentSvc: WidgetContentService,
+    private readonly sanitizer: SafeResourceUrlService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {

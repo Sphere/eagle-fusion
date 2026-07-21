@@ -42,9 +42,9 @@ export class ResourceCollectionComponent implements OnInit {
   }
 
   constructor(
-    private snackBar: MatSnackBar,
-    private resourceSvc: ResourceCollectionService,
-    private dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly resourceSvc: ResourceCollectionService,
+    private readonly dialog: MatDialog,
   ) {
     this.answerControl = new UntypedFormControl('')
   }

@@ -60,18 +60,18 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   config: any
   isDark: boolean = false
   constructor(
-    private safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     public configSvc: ConfigurationsService,
-    private router: Router,
-    private accessService: AccessControlService,
-    private valueSvc: ValueService,
+    private readonly router: Router,
+    private readonly accessService: AccessControlService,
+    private readonly valueSvc: ValueService,
     public dialog: MatDialog,
     public navOption: appNavBarService,
-    private playlistSvc: PlaylistService,
-    private languageSvc: LanguageService,
-    private cdr: ChangeDetectorRef,
-    private logger: LoggerService,
-    private themeSvc: ThemeService
+    private readonly playlistSvc: PlaylistService,
+    private readonly languageSvc: LanguageService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly logger: LoggerService,
+    private readonly themeSvc: ThemeService
   ) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {

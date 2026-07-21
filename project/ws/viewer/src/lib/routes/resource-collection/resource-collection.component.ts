@@ -27,11 +27,11 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private http: HttpClient,
-    private eventSvc: EventService,
-    private viewSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly http: HttpClient,
+    private readonly eventSvc: EventService,
+    private readonly viewSvc: ViewerUtilService,
   ) { }
 
   ngOnInit() {

@@ -24,7 +24,7 @@ export class TncRendererComponent implements OnInit, OnChanges {
 
   // UI Vars
   currentPanel: 'tnc' | 'dp' = 'tnc'
-  constructor(private configSvc: ConfigurationsService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {
+  constructor(private readonly configSvc: ConfigurationsService, private readonly route: ActivatedRoute, private readonly cdr: ChangeDetectorRef) {
     if (this.configSvc.restrictedFeatures) {
       if (this.configSvc.restrictedFeatures.has('termsOfUser')) {
         this.termsOfUser = false

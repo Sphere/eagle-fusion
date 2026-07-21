@@ -20,11 +20,11 @@ export class MobileProfileNavComponent {
   @Input() navigateTohome?: boolean = false
   isXSmall$: Observable<boolean>
   constructor(
-    private dialog: MatDialog,
+    private readonly dialog: MatDialog,
     public router: Router,
-    private contentSvc: WidgetContentService,
-    private logger: LoggerService,
-    private valueSvc: ValueService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly logger: LoggerService,
+    private readonly valueSvc: ValueService,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.contentSvc.backMessage.subscribe((data: any) => {
@@ -81,12 +81,8 @@ export class MobileProfileNavComponent {
         }
       }
     }
-    this.contentSvc.workMessage.subscribe(async (data: any) => {
+    this.contentSvc.workMessage.subscribe((data: any) => {
       this.logger.log(data, 'back')
-      if (data === undefined) {
-
-      }
-      // this.showView = await data
     })
 
     if (this.trigerrNavigation) {

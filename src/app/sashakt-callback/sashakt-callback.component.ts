@@ -12,9 +12,9 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 export class SashaktCallbackComponent implements OnInit {
   isLoading = false
   constructor(
-    private orgService: OrgServiceService,
-    private authSvc: AuthKeycloakService,
-    private logger: LoggerService
+    private readonly orgService: OrgServiceService,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly logger: LoggerService
   ) { }
 
   ngOnInit() {

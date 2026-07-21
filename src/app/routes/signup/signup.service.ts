@@ -17,11 +17,11 @@ import { API_END_POINTS, S3_END_POINTS } from '../../constants/apiConstants'
 export class SignupService {
   someDataObservable!: Observable<any>
 
-  constructor(private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private userDataCacheSvc: UserDataCacheService,
-    private logger: LoggerService,
-    private router: Router,
+  constructor(private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userDataCacheSvc: UserDataCacheService,
+    private readonly logger: LoggerService,
+    private readonly router: Router,
   ) { }
 
   ssoValidateOTP(data: any): Observable<any> {

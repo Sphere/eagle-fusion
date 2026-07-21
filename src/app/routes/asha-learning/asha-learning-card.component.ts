@@ -32,7 +32,7 @@ export class AshaLearningCardComponent implements OnChanges {
   competencyId = ''
   cardHeaderLabel = 'COMPETENCY'
 
-  constructor(private router: Router) { }
+  constructor(private readonly router: Router) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.competency) {

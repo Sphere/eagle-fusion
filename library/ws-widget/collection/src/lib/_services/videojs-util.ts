@@ -290,7 +290,7 @@ export function videoJsInitializer(
           player.currentTime(start)
         }
       }
-    } catch (err) { }
+    } catch (err) { /* ignore resume-point seek failure, playback continues from start */ }
   }
 
   player.on(videojsEventNames.loadeddata, applyResume)

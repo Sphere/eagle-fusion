@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core'
 
 })
 export class WorkInfoListComponent implements OnInit, OnDestroy {
-  private mobileSubscription: Subscription | null = null
+  private readonly mobileSubscription: Subscription | null = null
 
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
@@ -68,10 +68,10 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private languageSvc: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef
+    private readonly languageSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.personalDetailForm = new UntypedFormGroup({
       profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),

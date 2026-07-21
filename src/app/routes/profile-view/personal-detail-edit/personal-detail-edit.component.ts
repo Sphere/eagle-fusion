@@ -34,7 +34,7 @@ import { TranslateService } from '@ngx-translate/core'
 
 })
 export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   invalidDob = false
@@ -82,19 +82,19 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   formConfig: any
   address = ''
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly router: Router,
+    private readonly matSnackBar: MatSnackBar,
     public dialog: MatDialog,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private UserAgentResolverService: UserAgentResolverService,
-    private http: HttpClient,
-    private fb: FormBuilder,
-    private langSvc: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly http: HttpClient,
+    private readonly fb: FormBuilder,
+    private readonly langSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService
   ) {
     this.initializeForm()
   }

@@ -16,7 +16,7 @@ export class UserImageComponent implements OnChanges {
   verifiedMicrosoftEmail = ''
   shortName = ''
   imageUrl: string | null = null
-  constructor(private configSvc: ConfigurationsService) { }
+  constructor(private readonly configSvc: ConfigurationsService) { }
 
   ngOnChanges() {
     if (

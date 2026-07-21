@@ -45,10 +45,10 @@ export class DiscussionPostComponent implements OnInit {
   isNewRepliesAvailable = false
   showReplies = false
   constructor(
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private configSvc: ConfigurationsService,
-    private discussionSvc: WsDiscussionForumService,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly configSvc: ConfigurationsService,
+    private readonly discussionSvc: WsDiscussionForumService,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''

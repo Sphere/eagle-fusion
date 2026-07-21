@@ -59,9 +59,9 @@ export class DiscussionForumComponent extends WidgetBaseComponent
   userId = ''
   userName = ''
   constructor(
-    private snackBar: MatSnackBar,
-    private discussionSvc: WsDiscussionForumService,
-    private configSvc: ConfigurationsService,
+    private readonly snackBar: MatSnackBar,
+    private readonly discussionSvc: WsDiscussionForumService,
+    private readonly configSvc: ConfigurationsService,
   ) {
     super()
     if (this.configSvc.userProfile) {

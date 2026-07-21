@@ -15,7 +15,7 @@ export class ProfileService {
     }),
   }
   baseUrl = this.configSvc.sitePath
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private readonly http: HttpClient, private readonly configSvc: ConfigurationsService) { }
 
   fetchConfigFile(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/feature/profile.json`).pipe()

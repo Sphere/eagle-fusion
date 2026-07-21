@@ -26,7 +26,7 @@ export class UserProfileService {
   updateuser$ = this._updateuser.asObservable()
 
   // Cache to store user details by user ID to prevent repeated API calls
-  private userDetailsCache = new Map<string, any>()
+  private readonly userDetailsCache = new Map<string, any>()
 
   constructor(
     private readonly http: HttpClient,

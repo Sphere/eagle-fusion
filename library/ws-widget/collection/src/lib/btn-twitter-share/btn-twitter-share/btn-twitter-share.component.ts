@@ -13,7 +13,7 @@ export class BtnTwitterShareComponent implements OnInit {
   @Input() url: SafeResourceUrl | null = null
   @Input() message = ''
   isSocialMediaTwitterShareEnabled = false
-  constructor(private safeResourceUrlSvc: SafeResourceUrlService, private configSvc: ConfigurationsService) {}
+  constructor(private readonly safeResourceUrlSvc: SafeResourceUrlService, private readonly configSvc: ConfigurationsService) {}
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {

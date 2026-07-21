@@ -16,7 +16,7 @@ export class VideoPopupComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<VideoPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
   ) { }
 
   private static readonly ALLOWED_VIDEO_HOSTS = ['www.youtube.com', 'youtube.com', 'www.youtube-nocookie.com']

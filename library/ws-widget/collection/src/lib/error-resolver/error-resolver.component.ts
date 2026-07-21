@@ -26,9 +26,9 @@ export class ErrorResolverComponent extends WidgetBaseComponent
     somethingsWrong: 'somethingsWrong',
   }
   constructor(
-    private configService: ConfigurationsService,
-    private errorResolverSvc: ErrorResolverService,
-    private activateRoute: ActivatedRoute,
+    private readonly configService: ConfigurationsService,
+    private readonly errorResolverSvc: ErrorResolverService,
+    private readonly activateRoute: ActivatedRoute,
   ) {
     super()
   }

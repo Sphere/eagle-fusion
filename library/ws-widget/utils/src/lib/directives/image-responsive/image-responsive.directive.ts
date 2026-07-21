@@ -29,7 +29,7 @@ export class ImageResponsiveDirective implements OnChanges, OnDestroy {
   currentSize = ''
   breakpointSubscription: Subscription | null = null
   constructor(
-    private breakpointObserver: BreakpointObserver,
+    private readonly breakpointObserver: BreakpointObserver,
   ) {
     this.breakpointSubscription = this.breakpointObserver
       .observe([

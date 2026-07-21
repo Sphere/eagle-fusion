@@ -10,7 +10,7 @@ export class RetainScrollDirective {
   currentPosition = 0
   isXSmall = false
 
-  constructor(private valueSvc: ValueService) {
+  constructor(private readonly valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })

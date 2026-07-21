@@ -30,12 +30,12 @@ export class ConfirmmodalComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<ConfirmmodalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: UntypedFormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public contentSvc: WidgetContentService,
-    private logger: LoggerService,
-    private translate: TranslateService
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService
   ) {
 
     dialogRef.disableClose = true

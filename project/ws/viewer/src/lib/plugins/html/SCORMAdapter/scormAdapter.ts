@@ -23,16 +23,16 @@ export class SCORMAdapterService implements OnDestroy {
   scormData: any
   contentKey: any
   constructor(
-    private store: Storage,
-    private http: HttpClient,
+    private readonly store: Storage,
+    private readonly http: HttpClient,
     handler: HttpBackend,
-    private activatedRoute: ActivatedRoute,
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private contentSvc: WidgetContentService,
-    private telemetrySvc: TelemetryService,
-    private onlineIndexedDbService: IndexedDBService,
-    private logger: LoggerService
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly contentSvc: WidgetContentService,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly onlineIndexedDbService: IndexedDBService,
+    private readonly logger: LoggerService
   ) {
     this.http = new HttpClient(handler)
   }

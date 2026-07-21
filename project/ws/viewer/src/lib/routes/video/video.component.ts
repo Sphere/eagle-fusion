@@ -38,15 +38,15 @@ export class VideoComponent implements OnInit, OnDestroy {
   > | null = null
   batchId = this.activatedRoute.snapshot.queryParamMap.get('batchId')
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private valueSvc: ValueService,
-    private viewerSvc: ViewerUtilService,
-    private contentSvc: WidgetContentService,
-    private platform: Platform,
-    private accessControlSvc: AccessControlService,
-    private configSvc: ConfigurationsService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly valueSvc: ValueService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly platform: Platform,
+    private readonly accessControlSvc: AccessControlService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {

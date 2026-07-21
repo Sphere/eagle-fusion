@@ -8,7 +8,7 @@ jest.mock('@angular/common', () => ({
 }))
 
 jest.mock('@ws-widget/resolver', () => ({
-  WidgetBaseComponent: class {},
+  WidgetBaseComponent: class { },
   NsWidgetResolver: {},
 }))
 

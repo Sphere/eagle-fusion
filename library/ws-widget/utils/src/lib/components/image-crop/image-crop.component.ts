@@ -39,11 +39,11 @@ export class ImageCropComponent implements OnInit {
   isThumbnail = true
 
   constructor(
-    private dialogRef: MatDialogRef<ImageCropComponent>,
-    private configSvc: ConfigurationsService,
-    private snackBar: MatSnackBar,
-    private valueSvc: ValueService,
-    private translate: TranslateService,
+    private readonly dialogRef: MatDialogRef<ImageCropComponent>,
+    private readonly configSvc: ConfigurationsService,
+    private readonly snackBar: MatSnackBar,
+    private readonly valueSvc: ValueService,
+    private readonly translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) data: {
       isRoundCrop: boolean,
       imageFile: File,

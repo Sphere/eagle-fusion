@@ -32,7 +32,7 @@ declare let window: IWindowMobileAppModified
 export class MobileAppsService {
   constructor(
     // private authSvc: AuthKeycloakService,
-    private navigateSvc: NavigationExternalService,
+    private readonly navigateSvc: NavigationExternalService,
   ) { }
 
   init() {

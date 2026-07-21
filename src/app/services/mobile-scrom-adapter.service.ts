@@ -35,12 +35,12 @@ export class MobileScromAdapterService {
       userToken: '',
     }
   constructor(
-    private http: HttpClient,
-    private store: Storage,
-    private telemetrySvc: TelemetryService,
+    private readonly http: HttpClient,
+    private readonly store: Storage,
+    private readonly telemetrySvc: TelemetryService,
     public route: ActivatedRoute,
-    private UserAgentResolverService: UserAgentResolverService,
-    private logger: LoggerService
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly logger: LoggerService
   ) { }
   set contentId(id: string) {
     this.store.key = id

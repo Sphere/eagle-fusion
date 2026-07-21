@@ -24,8 +24,8 @@ export class PublicLicenseComponent implements OnInit {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
-  constructor(private valueSvc: ValueService,
-    private tocSvc: AppTocService
+  constructor(private readonly valueSvc: ValueService,
+    private readonly tocSvc: AppTocService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall

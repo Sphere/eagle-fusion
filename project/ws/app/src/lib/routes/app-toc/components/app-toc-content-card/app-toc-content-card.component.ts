@@ -53,12 +53,12 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
   redTickIcon = '/fusion-assets/images/red-tick.svg'
   constructor(
-    private configSvc: ConfigurationsService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private tocSvc: AppTocService,
-    private contentSvc: WidgetContentService,
-    private logger: LoggerService
+    private readonly configSvc: ConfigurationsService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly tocSvc: AppTocService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly logger: LoggerService
   ) {
   }
 

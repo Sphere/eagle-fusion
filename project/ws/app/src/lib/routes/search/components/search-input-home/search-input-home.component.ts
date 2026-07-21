@@ -34,11 +34,11 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
   lang = ''
 
   constructor(
-    private activated: ActivatedRoute,
-    private router: Router,
-    private searchServSvc: SearchServService,
-    private configSvc: ConfigurationsService,
-    private route: ActivatedRoute
+    private readonly activated: ActivatedRoute,
+    private readonly router: Router,
+    private readonly searchServSvc: SearchServService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly route: ActivatedRoute
   ) {
   }
   autoFilter() {

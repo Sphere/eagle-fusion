@@ -11,8 +11,8 @@ import { NSContent } from '@ws/author/src/lib/interface/content'
 export class AccessControlService {
   downloadRegex = new RegExp(`(https://.*?/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
   constructor(
-    private configService: ConfigurationsService,
-    @Inject(APP_BASE_HREF) private baseHref: string,
+    private readonly configService: ConfigurationsService,
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
   ) { }
 
   hasRole(role: string[]): boolean {

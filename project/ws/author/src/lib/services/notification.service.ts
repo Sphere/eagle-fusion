@@ -10,10 +10,10 @@ import { NOTIFICATION } from '../constants/apiEndpoints'
 @Injectable()
 export class NotificationService {
   constructor(
-    private apiService: ApiService,
-    private workFlowService: WorkFlowService,
-    private accessService: AccessControlService,
-    private initService: AuthInitService,
+    private readonly apiService: ApiService,
+    private readonly workFlowService: WorkFlowService,
+    private readonly accessService: AccessControlService,
+    private readonly initService: AuthInitService,
   ) { }
 
   triggerPushPullNotification(

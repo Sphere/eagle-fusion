@@ -13,8 +13,8 @@ export class WebTrustedByPageComponent {
   isXsmall = false
   isDark: boolean
   constructor(
-    private valueSvc: ValueService,
-    private themeSvc: ThemeService
+    private readonly valueSvc: ValueService,
+    private readonly themeSvc: ThemeService
   ) {
     effect(() => {
       this.isXsmall = this.valueSvc.isMobile() ? true : false

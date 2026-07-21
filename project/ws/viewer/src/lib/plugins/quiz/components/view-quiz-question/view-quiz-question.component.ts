@@ -44,8 +44,8 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']
   public unsubscribe = new Subject<void>()
   constructor(
-    private domSanitizer: SafeResourceUrlService,
-    private elementRef: ElementRef,
+    private readonly domSanitizer: SafeResourceUrlService,
+    private readonly elementRef: ElementRef,
     public quizService: QuizService) {
 
   }

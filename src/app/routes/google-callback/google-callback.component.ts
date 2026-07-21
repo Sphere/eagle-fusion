@@ -14,10 +14,10 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 export class GoogleCallbackComponent implements OnInit {
 
   constructor(
-    private router: Router,
-    private contentSvc: WidgetContentService,
-    private signupService: SignupService,
-    private snackBar: MatSnackBar
+    private readonly router: Router,
+    private readonly contentSvc: WidgetContentService,
+    private readonly signupService: SignupService,
+    private readonly snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {

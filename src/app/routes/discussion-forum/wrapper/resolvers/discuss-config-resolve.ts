@@ -7,7 +7,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 @Injectable({ providedIn: 'root' })
 export class DiscussConfigResolve {
   constructor(
-    private discussUtilitySvc: DiscussUtilsService,
+    private readonly discussUtilitySvc: DiscussUtilsService,
     public configSvc: ConfigurationsService) {
     this.setConfig()
 

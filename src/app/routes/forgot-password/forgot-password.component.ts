@@ -29,8 +29,8 @@ export class ForgotPasswordComponent implements OnInit {
   maxResendTry = 4
   isEkshamtaLogin: any
 
-  constructor(private readonly router: Router, private signupService: SignupService,
-    private readonly fb: UntypedFormBuilder, private snackBar: MatSnackBar,
+  constructor(private readonly router: Router, private readonly signupService: SignupService,
+    private readonly fb: UntypedFormBuilder, private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
     private readonly translate: TranslateService,
     private readonly cdr: ChangeDetectorRef,

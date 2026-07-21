@@ -47,13 +47,13 @@ export class HtmlComponent implements OnInit, OnDestroy {
   hasFiredRealTimeProgress = false
   isPreviewMode = false
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private respondSvc: SubapplicationRespondService,
-    private eventSvc: EventService,
-    private accessControlSvc: AccessControlService,
-    private configSvc: ConfigurationsService
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly respondSvc: SubapplicationRespondService,
+    private readonly eventSvc: EventService,
+    private readonly accessControlSvc: AccessControlService,
+    private readonly configSvc: ConfigurationsService
   ) { }
 
   ngOnInit() {

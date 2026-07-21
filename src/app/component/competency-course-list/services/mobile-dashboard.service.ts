@@ -21,7 +21,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class MobileDashboardService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getCompetencyInfo(
     competencyHomeData: Role[],

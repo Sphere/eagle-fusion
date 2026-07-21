@@ -56,15 +56,15 @@ export class AlmostDoneComponent implements OnInit {
   result: any
   constructor(
     public configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
+    private readonly userProfileSvc: UserProfileService,
     public snackBar: MatSnackBar,
-    private fb: UntypedFormBuilder,
-    private activateRoute: ActivatedRoute,
-    private http: HttpClient,
+    private readonly fb: UntypedFormBuilder,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly http: HttpClient,
     public UserAgentResolverService: UserAgentResolverService,
-    private signupService: SignupService,
-    private logger: LoggerService,
-    private translate: TranslateService
+    private readonly signupService: SignupService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService
   ) {
   }
 

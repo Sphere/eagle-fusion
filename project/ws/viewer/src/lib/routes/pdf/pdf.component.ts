@@ -18,7 +18,7 @@ import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConsta
 export class PdfComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
   private viewerDataSubscription: Subscription | null = null
-  private telemetryIntervalSubscription: Subscription | null = null
+  private readonly telemetryIntervalSubscription: Subscription | null = null
   isFetchingDataComplete = false
   pdfData: NsContent.IContent | null = null
   oldData: NsContent.IContent | null = null
@@ -40,13 +40,13 @@ export class PdfComponent implements OnInit, OnDestroy {
   > | null = null
   batchId = this.activatedRoute.snapshot.queryParamMap.get('batchId')
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private eventSvc: EventService,
-    private accessControlSvc: AccessControlService,
-    private configSvc: ConfigurationsService,
-    private cdr: ChangeDetectorRef,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly eventSvc: EventService,
+    private readonly accessControlSvc: AccessControlService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {

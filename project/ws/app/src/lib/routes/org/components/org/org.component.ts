@@ -38,7 +38,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   totalRatings: any = ''
   orgUserCourseEnrolled: any = 0
   isMobile = false
-  private mobileSubscription!: Subscription
+  private readonly mobileSubscription!: Subscription
   private isDestroyed = false
   isLoading = false
   bannerLoaded = false
@@ -49,16 +49,16 @@ export class OrgComponent implements OnInit, OnDestroy {
   orgSections: { config: any, courses: any[], showAll: boolean }[] = []
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private orgService: OrgServiceService,
-    private router: Router,
-    private configSvc: ConfigurationsService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly orgService: OrgServiceService,
+    private readonly router: Router,
+    private readonly configSvc: ConfigurationsService,
     private readonly userSvc: WidgetUserService,
-    private valueSvc: ValueService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef,
-    private seoSvc: SeoService,
-    private userAgentSvc: UserAgentResolverService,
+    private readonly valueSvc: ValueService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly seoSvc: SeoService,
+    private readonly userAgentSvc: UserAgentResolverService,
   ) {
     this.mobileSubscription = this.valueSvc.isLtMedium$.subscribe(mobile => {
       this.isMobile = mobile

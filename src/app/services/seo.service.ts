@@ -31,10 +31,10 @@ export class SeoService {
   private jsonLdEl: HTMLScriptElement | null = null
 
   constructor(
-    @Inject(DOCUMENT) private doc: Document,
-    private titleSvc: Title,
-    private metaSvc: Meta,
-    private router: Router,
+    @Inject(DOCUMENT) private readonly doc: Document,
+    private readonly titleSvc: Title,
+    private readonly metaSvc: Meta,
+    private readonly router: Router,
   ) {}
 
   update(config: ISeoConfig = {}) {

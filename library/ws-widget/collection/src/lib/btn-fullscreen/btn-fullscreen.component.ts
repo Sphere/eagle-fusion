@@ -21,7 +21,7 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   @Input() widgetData!: { fsContainer: HTMLElement | null }
   @Output() fsState: EventEmitter<boolean> = new EventEmitter()
   containsQuizAssessment = false
-  constructor(private router: Router, private logger: LoggerService) {
+  constructor(private readonly router: Router, private readonly logger: LoggerService) {
     super()
     this.logger.log(this.router.url.includes('quiz'))
     this.containsQuizAssessment = this.router.url.includes('quiz')

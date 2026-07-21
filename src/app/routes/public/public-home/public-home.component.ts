@@ -15,11 +15,11 @@ import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 import { SeoService } from '../../../services/seo.service'
 import { UserAgentResolverService } from '../../../services/user-agent.service'
 @Component({
-    standalone: false,
-    selector: 'ws-public-home',
-    templateUrl: './public-home.component.html',
-    styleUrls: ['./public-home.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-public-home',
+  templateUrl: './public-home.component.html',
+  styleUrls: ['./public-home.component.scss'],
+
 })
 export class PublicHomeComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {
@@ -29,13 +29,13 @@ export class PublicHomeComponent extends WidgetBaseComponent
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
   isEkshamata = false
   constructor(
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private valueSvc: ValueService,
-    private snackBar: MatSnackBar,
-    private seoSvc: SeoService,
-    private userAgentSvc: UserAgentResolverService,
-    @Inject(PLATFORM_ID) private platformId: object,
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly valueSvc: ValueService,
+    private readonly snackBar: MatSnackBar,
+    private readonly seoSvc: SeoService,
+    private readonly userAgentSvc: UserAgentResolverService,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
   ) {
     super()
     if (isPlatformBrowser(this.platformId) && localStorage.getItem('orgValue') === 'nhsrc') {

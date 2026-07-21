@@ -20,7 +20,7 @@ export class ErrorFeatureUnavailableComponent implements OnInit, OnDestroy {
 
   private routeChangeSubs: Subscription | null = null
   private prefChangeSubs: Subscription | null = null
-  constructor(private route: ActivatedRoute, private configurationsSvc: ConfigurationsService) {}
+  constructor(private readonly route: ActivatedRoute, private readonly configurationsSvc: ConfigurationsService) {}
 
   ngOnInit() {
     if (!this.errorData) {

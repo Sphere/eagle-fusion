@@ -6,7 +6,7 @@ import { Observable } from 'rxjs'
 @Injectable()
 export class ApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   public base64(url: string, body: any): any {
     if (url.startsWith(AUTHORING_BASE)) {

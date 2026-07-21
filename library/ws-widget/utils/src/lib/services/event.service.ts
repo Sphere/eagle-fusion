@@ -5,7 +5,7 @@ import { WsEvents } from './event.model'
   providedIn: 'root',
 })
 export class EventService {
-  private eventsSubject = new Subject<WsEvents.IWsEvents<any>>()
+  private readonly eventsSubject = new Subject<WsEvents.IWsEvents<any>>()
   public events$ = this.eventsSubject.asObservable()
 
   constructor() { }

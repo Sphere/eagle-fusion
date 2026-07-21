@@ -61,11 +61,11 @@ implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> 
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private authSvc: AuthKeycloakService,
-    private configSvc: ConfigurationsService,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private mobileAppsSvc: MobileAppsService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly mobileAppsSvc: MobileAppsService,
   ) {
     super()
     this.mobileAppsSvc.init()

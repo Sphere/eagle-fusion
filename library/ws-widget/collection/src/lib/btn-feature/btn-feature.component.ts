@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { Event, NavigationEnd, Router } from '@angular/router'
+import { Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, EventService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
@@ -53,23 +53,22 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   isSashakth = false
   local = 'en'
   private pinnedAppsChangeSubs?: Subscription
-  private navigationSubs?: Subscription
   currentText = ''
   numberOfNotification: any
   constructor(
-    private events: EventService,
-    private configurationsSvc: ConfigurationsService,
-    private btnFeatureSvc: BtnFeatureService,
-    private router: Router,
-    private mobileSvc: MobileAppsService,
-    private configSvc: ConfigurationsService,
-    private searchApi: SearchApiService,
-    private signupService: SignupService,
+    private readonly events: EventService,
+    private readonly configurationsSvc: ConfigurationsService,
+    private readonly btnFeatureSvc: BtnFeatureService,
+    private readonly router: Router,
+    private readonly mobileSvc: MobileAppsService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly searchApi: SearchApiService,
+    private readonly signupService: SignupService,
     public navOption: appNavBarService,
     public storage: LocalStorageService,
     private readonly event: Events,
-    private languageSvc: LanguageService,
-    private logger: LoggerService
+    private readonly languageSvc: LanguageService,
+    private readonly logger: LoggerService
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -217,13 +216,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     ) {
       this.widgetData.actionBtn = this.configurationsSvc.appsConfig.features[this.widgetData.actionBtnId]
 
-      if (this.widgetData.actionBtn && this.widgetData.actionBtn.badgeEndpoint) {
-        this.navigationSubs = this.router.events.subscribe((e: Event) => {
-          if (e instanceof NavigationEnd) {
-          }
-        })
-      }
-
       const sashakt_token = sessionStorage.getItem('sashakt_token') || null
       const sashakt_moduleId = sessionStorage.getItem('sashakt_moduleId') || null
 
@@ -252,9 +244,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   ngOnDestroy() {
     if (this.pinnedAppsChangeSubs) {
       this.pinnedAppsChangeSubs.unsubscribe()
-    }
-    if (this.navigationSubs) {
-      this.navigationSubs.unsubscribe()
     }
   }
 
@@ -310,8 +299,5 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       })
       this.configurationsSvc.pinnedApps.next(newPinnedApps)
     })
-  }
-
-  startTour() {
   }
 }

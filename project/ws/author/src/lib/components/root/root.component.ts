@@ -24,11 +24,11 @@ export class AuthRootComponent implements OnInit, OnDestroy {
   isWidthMessageShown = false
   router: any
   constructor(
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private configSvc: ConfigurationsService,
-    private loader: LoaderService,
-    private changeDetector: ChangeDetectorRef,
-    private snackBar: MatSnackBar,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly loader: LoaderService,
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly snackBar: MatSnackBar,
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')

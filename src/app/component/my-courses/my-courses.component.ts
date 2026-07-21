@@ -17,7 +17,7 @@ import { catchError, map, takeUntil } from 'rxjs/operators'
 
 })
 export class MyCoursesComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
   startedCourse: any[] = []
   completedCourse: any[] = []
   coursesForYou: any[] = []

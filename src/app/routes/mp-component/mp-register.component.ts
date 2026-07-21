@@ -45,11 +45,11 @@ export class MpRegisterComponent implements OnInit {
     public userProfileSvc: UserProfileService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly formBuilder: FormBuilder,
+    private readonly dialog: MatDialog,
+    private readonly loader: LoaderService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.anmRegistrationForm = this.createFormGroup()
   }

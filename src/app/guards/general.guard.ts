@@ -16,11 +16,11 @@ export class GeneralGuard {
   isXSmall = false
   locale = ''
   constructor(
-    private router: Router,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private userDataCacheSvc: UserDataCacheService,
-    private logger: LoggerService,
+    private readonly router: Router,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly userDataCacheSvc: UserDataCacheService,
+    private readonly logger: LoggerService,
   ) { }
 
   async canActivate(

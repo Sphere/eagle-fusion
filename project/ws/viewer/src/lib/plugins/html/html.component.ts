@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, AfterViewInit, HostListener } from '@angular/core'
+import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, ViewChild, AfterViewInit, HostListener } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SafeResourceUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs'
     styleUrls: ['./html.component.scss'],
     
 })
-export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+export class HtmlComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
   @ViewChild('mobileOpenInNewTab', { read: ElementRef, static: false }) mobileOpenInNewTab !: ElementRef<HTMLAnchorElement>
@@ -105,27 +105,24 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
 
   constructor(
-    private safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     public mobAppSvc: MobileAppsService,
-    private scormAdapterService: SCORMAdapterService,
-    private router: Router,
-    private configSvc: ConfigurationsService,
-    private snackBar: MatSnackBar,
-    private events: EventService,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private activatedRoute: ActivatedRoute,
-    private telemetrySvc: TelemetryService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly scormAdapterService: SCORMAdapterService,
+    private readonly router: Router,
+    private readonly configSvc: ConfigurationsService,
+    private readonly snackBar: MatSnackBar,
+    private readonly events: EventService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     (window as any).API = this.scormAdapterService
     window.addEventListener('message', this.boundReceiveMessage)
   }
 
-  ngOnInit() {
-
-  }
   ngAfterViewInit() {
 
     this.scormAdapterService.contentId = this.htmlContent!.identifier

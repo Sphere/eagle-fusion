@@ -12,8 +12,8 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 export class MaternityCallbackComponent implements OnInit {
   isLoading = false
   constructor(
-    private orgService: OrgServiceService,
-    private logger: LoggerService
+    private readonly orgService: OrgServiceService,
+    private readonly logger: LoggerService
     //private authSvc: AuthKeycloakService,
   ) { }
 

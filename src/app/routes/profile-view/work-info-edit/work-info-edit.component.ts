@@ -36,17 +36,17 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private valueSvc: ValueService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private contentSvc: WidgetContentService,
-    private languageSvc: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
+    private readonly valueSvc: ValueService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly languageSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService
   ) {
     this.workInfoForm = new UntypedFormGroup({
       organizationName: new UntypedFormControl('', [Validators.required]),

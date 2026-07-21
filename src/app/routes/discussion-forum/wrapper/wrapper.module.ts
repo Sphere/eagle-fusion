@@ -13,7 +13,7 @@ import { DiscussionEventsService, DiscussionUiModule } from '@aastrika_npmjs/dis
 })
 export class WrapperModule {
     // processed: any
-    constructor(private discussionEventsService: DiscussionEventsService,
+    constructor(private readonly discussionEventsService: DiscussionEventsService,
         // private teleSvc: TelemetryService,
         // private eventsSvc: EventService,
 

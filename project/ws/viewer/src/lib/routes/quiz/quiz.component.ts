@@ -28,12 +28,12 @@ export class QuizComponent implements OnInit, OnDestroy {
     isAssessment: false,
   }
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private http: HttpClient,
-    private contentSvc: WidgetContentService,
-    private eventSvc: EventService,
-    private viewSvc: ViewerUtilService,
-    private cdr: ChangeDetectorRef,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly http: HttpClient,
+    private readonly contentSvc: WidgetContentService,
+    private readonly eventSvc: EventService,
+    private readonly viewSvc: ViewerUtilService,
+    private readonly cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {

@@ -37,13 +37,13 @@ export class MobileCourseViewComponent implements OnInit {
   imgLoaded = false
   @Input() programData: any
   @Output() programClick = new EventEmitter()
-  constructor(private router: Router,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private signUpSvc: SignupService,
-    private titleService: Title,
-    private telemetrySvc: TelemetryService,
-    private logger: LoggerService
+  constructor(private readonly router: Router,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly signUpSvc: SignupService,
+    private readonly titleService: Title,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly logger: LoggerService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {

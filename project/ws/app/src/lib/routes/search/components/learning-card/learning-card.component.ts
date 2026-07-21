@@ -33,11 +33,11 @@ export class LearningCardComponent extends WidgetBaseComponent
   redirectUrl = ''
   cometencyData: { name: any; levels: string }[] = []
   constructor(
-    private configSvc: ConfigurationsService,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private router: Router,
-    private userProfileSvc: UserProfileService,
-    private authSvc: AuthKeycloakService
+    private readonly configSvc: ConfigurationsService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly router: Router,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly authSvc: AuthKeycloakService
   ) { super() }
 
   ngOnInit() {

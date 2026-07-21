@@ -30,7 +30,7 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, AfterView
   private scrollObserver: Subscription | null = null
   private mutationObserver: MutationObserver | null = null
 
-  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) { }
+  constructor(private readonly ngZone: NgZone, private readonly cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     if (this.horizontalScrollElem) {

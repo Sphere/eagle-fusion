@@ -24,10 +24,10 @@ export class FilterDisplayComponent implements OnInit {
       filters: {},
     }
   constructor(
-    private activated: ActivatedRoute,
-    private router: Router,
-    private searchServ: SearchServService,
-    private configSvc: ConfigurationsService,
+    private readonly activated: ActivatedRoute,
+    private readonly router: Router,
+    private readonly searchServ: SearchServService,
+    private readonly configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {

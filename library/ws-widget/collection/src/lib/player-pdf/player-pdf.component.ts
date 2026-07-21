@@ -55,17 +55,17 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   identifier: string | null = null
   enableTelemetry = false
   private activityStartedAt: Date | null = null
-  private renderSubject = new Subject()
-  private lastRenderTask: any | null = null
+  private readonly renderSubject = new Subject()
+  private readonly lastRenderTask: any | null = null
   private lastSentPage = -1  // Track last page we sent progress for
   private maxPageReached = 0  // Highest page ever viewed — progress never goes below this
   private contentDataFetched = false  // Track if we've already fetched contentData
   private contentHistoryResponse: any = null  // Store full progress response for messaging
   // Subscriptions
-  private contextMenuSubs: Subscription | null = null
+  private readonly contextMenuSubs: Subscription | null = null
   private renderSubscriptions: Subscription | null = null
   private runnerSubs: Subscription | null = null
-  private routerSubs: Subscription | null = null
+  private readonly routerSubs: Subscription | null = null
   public isInFullScreen = false
   contentData: any
   pdfHeight = 'calc(100vh - 355px)'

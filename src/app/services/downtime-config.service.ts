@@ -23,7 +23,7 @@ import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
   providedIn: 'root',
 })
 export class DowntimeConfigService implements OnDestroy {
-  private updateInfo = signal<any | null>(null)
+  private readonly updateInfo = signal<any | null>(null)
 
   constructor(
     private readonly ngZone: NgZone,
@@ -32,7 +32,7 @@ export class DowntimeConfigService implements OnDestroy {
     private readonly logger: LoggerService,
   ) { }
 
-  private downtimeState$ = new BehaviorSubject<DowntimeState>({
+  private readonly downtimeState$ = new BehaviorSubject<DowntimeState>({
     isDowntime: false,
     type: 'full',
     content: {

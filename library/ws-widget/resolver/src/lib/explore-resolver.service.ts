@@ -20,11 +20,11 @@ export class ExploreResolverService {
   private availableRegisteredWidgets: Map<string, NsWidgetResolver.IRegistrationConfig> | null = null
 
   constructor(
-    private safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     @Inject(WIDGET_RESOLVER_GLOBAL_CONFIG)
-    private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
+    private readonly globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
     @Inject(WIDGET_RESOLVER_SCOPED_CONFIG)
-    private scopedConfig: null | NsWidgetResolver.IRegistrationConfig[]) { }
+    private readonly scopedConfig: null | NsWidgetResolver.IRegistrationConfig[]) { }
   static getWidgetKey(config: NsWidgetResolver.IBaseConfig) {
     return `widget:${config.widgetType}::${config.widgetSubType}`
   }

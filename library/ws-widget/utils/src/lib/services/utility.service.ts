@@ -19,8 +19,8 @@ interface IRecursiveData {
 })
 export class UtilityService {
   constructor(
-    private http: HttpClient,
-    private platform: Platform,
+    private readonly http: HttpClient,
+    private readonly platform: Platform,
   ) { }
 
   get randomId() {

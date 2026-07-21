@@ -67,13 +67,13 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
   explorePage = false
 
   constructor(
-    private contentStripSvc: ContentStripMultipleService,
-    private contentSvc: WidgetContentService,
-    private loggerSvc: LoggerService,
-    private eventSvc: EventService,
-    private configSvc: ConfigurationsService,
+    private readonly contentStripSvc: ContentStripMultipleService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly loggerSvc: LoggerService,
+    private readonly eventSvc: EventService,
+    private readonly configSvc: ConfigurationsService,
     protected utilitySvc: UtilityService,
-    private userSvc: WidgetUserService,
+    private readonly userSvc: WidgetUserService,
   ) {
     super()
   }

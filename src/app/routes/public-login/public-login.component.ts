@@ -41,7 +41,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
   isLoginLoading = false
   telemetrySessionId = ''
   constructor(
-    private spherFormBuilder: FormBuilder,
+    private readonly spherFormBuilder: FormBuilder,
     public signupService: SignupService,
     public snackBar: MatSnackBar,
     private readonly valueSvc: ValueService,
@@ -49,12 +49,12 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     public configSvc: ConfigurationsService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private seoSvc: SeoService,
-    private telemetrySvc: TelemetryService,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private readonly seoSvc: SeoService,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly ngZone: NgZone
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({

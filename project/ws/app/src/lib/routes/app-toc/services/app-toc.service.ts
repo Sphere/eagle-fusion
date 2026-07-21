@@ -21,7 +21,7 @@ export class AppTocService {
   resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
   resumeDataSubscription: Subscription | null = null
   gatingEnabled = false
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService, private logger: LoggerService) { }
+  constructor(private readonly http: HttpClient, private readonly configSvc: ConfigurationsService, private readonly logger: LoggerService) { }
   private data: any
 
   getcontentForWidget() {

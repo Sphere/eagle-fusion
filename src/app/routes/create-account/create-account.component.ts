@@ -127,7 +127,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   isOrgSelectiveCourse = false
 
   // Cleanup
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
   private dialogRef?: MatDialogRef<any>
   organisationId = '0132317968766894088'
   channelName!: string

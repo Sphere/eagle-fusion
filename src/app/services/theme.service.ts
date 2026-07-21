@@ -67,7 +67,7 @@ export class ThemeService {
   private readonly STORAGE_KEY = 'theme'
 
   // ✅ Signal instead of BehaviorSubject
-  private darkMode = signal<boolean>(false)
+  private readonly darkMode = signal<boolean>(false)
 
   // Optional readonly exposure
   readonly isDarkMode = this.darkMode.asReadonly()

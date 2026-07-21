@@ -37,14 +37,14 @@ export class TncComponent implements OnInit, OnDestroy {
     },
   }
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private tncProtectedSvc: TncAppResolverService,
-    private tncPublicSvc: TncPublicResolverService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly tncProtectedSvc: TncAppResolverService,
+    private readonly tncPublicSvc: TncPublicResolverService,
     public configSvc: ConfigurationsService,
-    private signupService: SignupService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly signupService: SignupService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) {
   }
 

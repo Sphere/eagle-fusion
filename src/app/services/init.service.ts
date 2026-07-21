@@ -33,7 +33,7 @@ interface IFeaturePermissionConfigs {
   providedIn: 'root',
 })
 export class InitService {
-  private orgSelectiveConfig: any | null = null
+  private readonly orgSelectiveConfig: any | null = null
 
   domain = ''
   constructor(

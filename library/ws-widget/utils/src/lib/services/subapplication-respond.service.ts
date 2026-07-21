@@ -14,12 +14,12 @@ export class SubapplicationRespondService {
   contentWindowinfo: any
   loaded = false
   constructor(
-    private configSvc: ConfigurationsService,
-    private contentSvc: WidgetContentService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private eventSvc: EventService,
-    private teleSvc: TelemetryService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly eventSvc: EventService,
+    private readonly teleSvc: TelemetryService,
   ) {
     this.changeContextrespond()
     this.configSvc.prefChangeNotifier.subscribe(() => {

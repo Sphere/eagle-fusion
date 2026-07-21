@@ -37,15 +37,15 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
   langDialog: any
 
   constructor(
-    private fb: UntypedFormBuilder,
-    private snackBar: MatSnackBar,
+    private readonly fb: UntypedFormBuilder,
+    private readonly snackBar: MatSnackBar,
     public signupService: SignupService,
     private readonly valueSvc: ValueService,
     public dialog: MatDialog,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly ngZone: NgZone
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForm()

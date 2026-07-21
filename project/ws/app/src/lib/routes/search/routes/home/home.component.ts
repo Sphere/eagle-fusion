@@ -31,13 +31,13 @@ export class HomeComponent implements OnInit {
   suggestedFilters: ISuggestedFilters[] = []
   contact = ''
   constructor(
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private searchSvc: SearchServService,
-    private searchApi: SearchApiService,
-    private languageSvc: LanguageService,
-    private logger: LoggerService
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly searchSvc: SearchServService,
+    private readonly searchApi: SearchApiService,
+    private readonly languageSvc: LanguageService,
+    private readonly logger: LoggerService
   ) {
     const isAutoCompleteAllowed = this.route.snapshot.data.pageData.data.search.isAutoCompleteAllowed
     if (typeof isAutoCompleteAllowed === 'undefined' ||

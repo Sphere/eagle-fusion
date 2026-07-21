@@ -15,13 +15,13 @@ import { CourseHierarchyCacheService } from './course-hierarchy-cache.service'
   providedIn: 'root',
 })
 export class WidgetContentService {
-  private messageSource = new Subject<any>()
+  private readonly messageSource = new Subject<any>()
   public currentMessage = this.messageSource.asObservable()
 
-  private backSource = new Subject<any>()
+  private readonly backSource = new Subject<any>()
   public backMessage = this.backSource.asObservable()
 
-  private workSource = new Subject<any>()
+  private readonly workSource = new Subject<any>()
   public workMessage = this.workSource.asObservable()
 
   public _updateValue = new BehaviorSubject<any>(undefined)
@@ -29,20 +29,20 @@ export class WidgetContentService {
   updateValue$ = this._updateValue.asObservable()
   _showConformation: any
 
-  private isAshaSubject = new BehaviorSubject<any>(false)
+  private readonly isAshaSubject = new BehaviorSubject<any>(false)
   // Observable to expose to other components
   isAsha$ = this.isAshaSubject.asObservable()
 
-  private currentAshaCardSubject = new BehaviorSubject<any>(false)
+  private readonly currentAshaCardSubject = new BehaviorSubject<any>(false)
   // Observable to expose to other components
   isCurrentAshaCard$ = this.currentAshaCardSubject.asObservable()
 
   constructor(
-    private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private languageSvc: LanguageService,
-    private logger: LoggerService,
-    private cacheService: CourseHierarchyCacheService
+    private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly languageSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly cacheService: CourseHierarchyCacheService
   ) { }
 
   fetchMarkAsCompleteMeta(identifier: string): Promise<any> {

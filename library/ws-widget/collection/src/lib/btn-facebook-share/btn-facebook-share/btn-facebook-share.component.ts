@@ -11,7 +11,7 @@ import { ConfigurationsService, SafeResourceUrlService } from '../../../../../ut
 export class BtnFacebookShareComponent implements OnInit {
   @Input() url = location.href
   isSocialMediaFacebookShareEnabled = false
-  constructor(private safeResourceUrlSvc: SafeResourceUrlService, private configSvc: ConfigurationsService) {}
+  constructor(private readonly safeResourceUrlSvc: SafeResourceUrlService, private readonly configSvc: ConfigurationsService) {}
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {

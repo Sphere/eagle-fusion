@@ -19,11 +19,11 @@ export class WebHowDoesWorkComponent implements OnInit {
   videoData: any[] = []
   isXSmall$ = false
   constructor(
-    private scrollService: ScrollService,
-    private elementRef: ElementRef,
+    private readonly scrollService: ScrollService,
+    private readonly elementRef: ElementRef,
     public dialog: MatDialog,
-    private safeResourceUrlSvc: SafeResourceUrlService,
-    private valueSvc: ValueService
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly valueSvc: ValueService
   ) {
     effect(() => {
       this.isXSmall$ = this.valueSvc?.isMobile() ? true : false

@@ -22,15 +22,15 @@ const storageKey = 'kc'
   providedIn: 'root',
 })
 export class AuthKeycloakService {
-  private loginChangeSubject = new ReplaySubject<boolean>(1)
+  private readonly loginChangeSubject = new ReplaySubject<boolean>(1)
 
   constructor(
-    private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private keycloakSvc: KeycloakService,
-    private msAuthSvc: AuthMicrosoftService,
-    private logger: LoggerService,
-    private themeSvc: ThemeService
+    private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly keycloakSvc: KeycloakService,
+    private readonly msAuthSvc: AuthMicrosoftService,
+    private readonly logger: LoggerService,
+    private readonly themeSvc: ThemeService
   ) {
     this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
       this.configSvc.isAuthenticated = isLoggedIn
@@ -156,7 +156,7 @@ export class AuthKeycloakService {
       const redirectUrl = `${url}public/home`
       window.location.href = redirectUrl
       await this.http.get(API_END_POINTS.LOGOUT_USER).toPromise()
-    } catch (error) { }
+    } catch (error) { /* ignore logout-call failure, redirect already in progress */ }
   }
   private addKeycloakEventListener() {
     this.keycloakSvc.keycloakEvents$.subscribe((event: KeycloakEventLegacy) => {

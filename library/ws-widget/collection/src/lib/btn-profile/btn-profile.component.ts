@@ -34,14 +34,14 @@ export class BtnProfileComponent extends WidgetBaseComponent
   isXSmall$ = this.valueSvc.isXSmall$
   userData: any
   constructor(
-    private configSvc: ConfigurationsService,
-    private dialog: MatDialog,
-    private accessService: AccessControlService,
-    private valueSvc: ValueService,
-    private router: Router,
+    private readonly configSvc: ConfigurationsService,
+    private readonly dialog: MatDialog,
+    private readonly accessService: AccessControlService,
+    private readonly valueSvc: ValueService,
+    private readonly router: Router,
     location: Location,
-    private userProfileSvc: UserProfileService,
-    private logger: LoggerService
+    private readonly userProfileSvc: UserProfileService,
+    private readonly logger: LoggerService
   ) {
     super()
     this.route = location.path()
