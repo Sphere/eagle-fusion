@@ -65,14 +65,7 @@ export class QuizService {
     return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.ASSESSMENT_SUBMIT_V2, req)
   }
   competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
-    let url = ''
-    if (window.location.origin.indexOf('http://localhost:') === -1) {
-      url = `${window['env']['azureHost']}${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
-    } else {
-      url = `${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
-    }
-    // this.logger.log(url)
-    return this.http.post<NSQuiz.IQuizSubmitResponse>(url, req)
+    return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2, req)
   }
 
   updatePassbook(passbookBody: any) {
