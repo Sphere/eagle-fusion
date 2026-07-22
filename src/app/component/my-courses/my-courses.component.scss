@@ -185,6 +185,9 @@ h3 {
     // margin: 10px auto;
     // display: table;
      margin: 20px 15px 10px 15px !important;
+     box-sizing: border-box;
+     width: calc(100% - 30px);
+     min-height: 200px;
   }
 
   .hideLower {
@@ -219,6 +222,11 @@ h3 {
 }
 
 @media (min-width: 768px) and (max-width: 1279px) {
+  .responsiveDiv {
+    width: 40%;
+    min-height: 240px;
+  }
+
   .paddingView {
     padding: 10px 100px 10px 60px;
   }
@@ -236,6 +244,11 @@ h3 {
 }
 
 @media (min-width: 1280px) {
+  .responsiveDiv {
+    width: 30%;
+    min-height: 280px;
+  }
+
   .paddingView {
     padding: 10px 315px 10px 60px;
   }
@@ -256,10 +269,15 @@ h3 {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 767px) {
   .responsiveDiv {
+    box-sizing: border-box;
     float: left;
     margin: 20px 20px 10px 6px;
+  }
+
+  .show-more-container {
+    clear: both;
   }
 
   #recommendHeading {
@@ -615,9 +633,4 @@ h3 {
   to {
     transform: rotate(360deg);
   }
-}
-
-.responsiveDiv {
-  width: 30%;
-  height: 20%;
 }
