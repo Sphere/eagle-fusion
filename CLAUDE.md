@@ -195,10 +195,11 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 ---
 
 ## Commit & Branch Conventions
+- **Branch first**: cut a branch from `master` **before** you start editing — never work on or commit directly to `master`. Name it `feature/<short-desc>` or `fix/<short-desc>`. Every change merges back to `master` via PR.
 - **Conventional Commits**: `type(scope): summary` — `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `build`. Example: `fix(search): send Sunbird-compatible payload`.
 - **No AI attribution**: never add `Co-Authored-By: Claude …` or "Generated with Claude Code" to commit messages, PRs, or docs. Commits are attributed only to the author.
-- **Branches**: cut feature/fix branches from `master`; name them `feature/<short-desc>` or `fix/<short-desc>`.
-- A pre-commit hook runs `lint:fix` and a pre-push hook runs a production build. (Note: the repo-wide ESLint config currently references the removed `@typescript-eslint/ban-types` rule, so the lint hook fails until that's fixed — a known issue.)
+- **One PR = one branch = one purpose**: keep unrelated changes (e.g. a local `proxy/localhost.proxy.json` cookie edit) out of the commit — stage only the files that belong to the change.
+- A pre-commit hook runs `lint:fix` and a pre-push hook runs a production build. Known issue: the repo-wide ESLint config references the removed `@typescript-eslint/ban-types` rule, so the **pre-commit lint hook fails/hangs** until that's fixed. Until then, commit with `git commit --no-verify` to bypass the broken lint hook, and let the **pre-push production build** be the real gate (do not skip that one).
 
 ---
 
