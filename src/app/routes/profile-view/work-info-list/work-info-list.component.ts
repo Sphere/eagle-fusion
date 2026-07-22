@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core'
 
 })
 export class WorkInfoListComponent implements OnInit, OnDestroy {
-  private readonly mobileSubscription: Subscription | null = null
+  private mobileSubscription: Subscription | null = null
 
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
@@ -91,13 +91,13 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
       selectBackground: new UntypedFormControl(),
       nameOther: new UntypedFormControl(),
     })
+  }
+
+  ngOnInit() {
     this.mobileSubscription = this.valueSvc.isXSmall$.subscribe(isSmall => {
       this.showbackButton = isSmall
       this.showLogOutIcon = false
     })
-  }
-
-  ngOnInit() {
     this.logger.log(this.data)
     this.getUserDetails()
     if (this.isEkshamata) {

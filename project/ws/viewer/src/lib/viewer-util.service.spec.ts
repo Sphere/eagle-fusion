@@ -218,6 +218,100 @@ describe('ViewerUtilService', () => {
       service.realTimeProgressUpdate('content-1', request, 'course-1', 'batch-1')
       expect(mockIndexedDbSvc.insertProgressData).toHaveBeenCalled()
     })
+
+    it('reads collectionId from localStorage when not provided', () => {
+      jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('stored-collection')
+      const request = { current: ['10'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdate('content-1', request)
+      expect(mockHttp.patch).toHaveBeenCalled()
+      jest.restoreAllMocks()
+    })
+
+    it('reads batchId from query params when not provided', () => {
+      const originalLocation = window.location
+      // @ts-ignore
+      delete window.location
+      // @ts-ignore
+      window.location = { ...originalLocation, search: '?batchId=qp-batch', href: 'http://x/y/z/course-1/w' }
+      const request = { current: ['10'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdate('content-1', request, 'course-1')
+      expect(mockHttp.patch).toHaveBeenCalled()
+      window.location = originalLocation
+    })
+
+    it('sets checkCollectionId when contentId equals collectionId and localStorage has a value', () => {
+      jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('stored-collection')
+      const request = { current: ['10'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdate('same-id', request, 'same-id', 'batch-1')
+      expect(mockEvents.raiseInteractTelemetry).toHaveBeenCalled()
+      jest.restoreAllMocks()
+    })
+
+    it('handles error callback on deleteRecordByKey', () => {
+      mockIndexedDbSvc.deleteRecordByKey.mockReturnValue(throwError(() => new Error('delete error')))
+      const request = { current: ['10'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdate('content-1', request, 'course-1', 'batch-1')
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+
+    it('handles error callback on insertProgressData after successful delete', () => {
+      mockIndexedDbSvc.deleteRecordByKey.mockReturnValue(of(true))
+      mockIndexedDbSvc.insertProgressData.mockReturnValue(throwError(() => new Error('insert error')))
+      const request = { current: ['10'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdate('content-1', request, 'course-1', 'batch-1')
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+  })
+
+  describe('realTimeProgressUpdateV3', () => {
+    it('builds a progress request, raises telemetry and patches when userProfile exists', () => {
+      const request = { current: ['50'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdateV3('content-1', request, 'course-1', 'batch-1')
+      expect(mockEvents.raiseInteractTelemetry).toHaveBeenCalled()
+      expect(mockHttp.patch).toHaveBeenCalled()
+    })
+
+    it('caps percentage to 100 when calculated/explicit percentage exceeds 95', () => {
+      const request = { current: [99], max_size: 100, mime_type: NsContent.EMimeTypes.MP4, completionPercentage: 99 }
+      service.realTimeProgressUpdateV3('content-1', request, 'course-1', 'batch-1')
+      expect(mockHttp.patch).toHaveBeenCalled()
+    })
+
+    it('reads collectionId from localStorage and batchId from query params when not provided', () => {
+      jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('stored-collection')
+      const originalLocation = window.location
+      // @ts-ignore
+      delete window.location
+      // @ts-ignore
+      window.location = { ...originalLocation, search: '?batchId=qp-batch', href: 'http://x/y/z/course-1/w' }
+      const request = { current: ['10'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdateV3('content-1', request)
+      expect(mockHttp.patch).toHaveBeenCalled()
+      window.location = originalLocation
+      jest.restoreAllMocks()
+    })
+
+    it('handles indexed-db getRecordFromTable error branch by inserting progress data directly', () => {
+      mockIndexedDbSvc.getRecordFromTable.mockReturnValue(throwError(() => new Error('db error')))
+      const request = { current: [10], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdateV3('content-1', request, 'course-1', 'batch-1')
+      expect(mockIndexedDbSvc.insertProgressData).toHaveBeenCalled()
+    })
+
+    it('handles error callback on deleteRecordByKey', () => {
+      mockIndexedDbSvc.deleteRecordByKey.mockReturnValue(throwError(() => new Error('delete error')))
+      const request = { current: ['10'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdateV3('content-1', request, 'course-1', 'batch-1')
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+
+    it('handles error callback on insertProgressData after successful delete', () => {
+      mockIndexedDbSvc.deleteRecordByKey.mockReturnValue(of(true))
+      mockIndexedDbSvc.insertProgressData.mockReturnValue(throwError(() => new Error('insert error')))
+      const request = { current: ['10'], max_size: 100, mime_type: NsContent.EMimeTypes.MP4 }
+      service.realTimeProgressUpdateV3('content-1', request, 'course-1', 'batch-1')
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
   })
 
   describe('initUpdate', () => {
@@ -242,6 +336,17 @@ describe('ViewerUtilService', () => {
       }
       service.initUpdate(req)
       expect(mockIndexedDbSvc.insertProgressData).toHaveBeenCalled()
+    })
+
+    it('handles error callback on deleteRecordByKey', () => {
+      mockIndexedDbSvc.deleteRecordByKey.mockReturnValue(throwError(() => new Error('delete error')))
+      const req: any = {
+        request: {
+          contents: [{ status: 1, completionPercentage: 50, courseId: 'course-1', contentId: 'content-1' }],
+        },
+      }
+      service.initUpdate(req)
+      expect(mockLogger.error).toHaveBeenCalled()
     })
   })
 

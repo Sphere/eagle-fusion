@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { LogoutComponent, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs'
   styleUrls: ['./mobile-profile-nav.component.scss'],
 
 })
-export class MobileProfileNavComponent {
+export class MobileProfileNavComponent implements OnInit {
   @Input() showbackButton?: boolean
   @Input() showLogOutIcon?: boolean
   @Input() trigerrNavigation?: boolean = false
@@ -27,12 +27,14 @@ export class MobileProfileNavComponent {
     private readonly valueSvc: ValueService,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
+  }
+
+  ngOnInit() {
     this.contentSvc.backMessage.subscribe((data: any) => {
       if (data) {
         sessionStorage.setItem('clickedUrl', data)
       }
     })
-
   }
 
   logout() {

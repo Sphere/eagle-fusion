@@ -223,6 +223,8 @@ describe('AppNavBarComponent', () => {
   describe('constructor — router events subscription', () => {
     it('should call cancelTour on NavigationStart', () => {
       component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      component.ngOnInit()
       jest.spyOn(component, 'cancelTour')
       routerEventsSubject.next(new NavigationStart(1, '/app/home'))
       expect(component.cancelTour).toHaveBeenCalled()
@@ -230,6 +232,8 @@ describe('AppNavBarComponent', () => {
 
     it('should call cancelTour on NavigationEnd', () => {
       component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      component.ngOnInit()
       jest.spyOn(component, 'cancelTour')
       routerEventsSubject.next(new NavigationEnd(1, '/app/home', '/app/home'))
       expect(component.cancelTour).toHaveBeenCalled()

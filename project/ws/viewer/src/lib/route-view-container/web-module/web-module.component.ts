@@ -35,12 +35,12 @@ export class WebModuleComponent implements OnInit {
 
   constructor(private readonly activatedRoute: ActivatedRoute, private readonly configSvc: ConfigurationsService,
               private readonly viewerDataSvc: PlayerStateService, private readonly valueSvc: ValueService) {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isSmall = isXSmall
-    })
   }
 
   ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isSmall = isXSmall
+    })
     if (this.configSvc.restrictedFeatures) {
       this.isRestricted =
         !this.configSvc.restrictedFeatures.has('disscussionForum')

@@ -68,6 +68,13 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     this.OTPForm = this.spherFormBuilder.group({
       OTPcode: new FormControl('', [Validators.required]),
     })
+    if (localStorage.getItem('isOrgSelectiveCourse') === 'true') {
+      this.isOrgSelectiveCourse = true
+    }
+    this.initializeForm()
+  }
+
+  ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params['ekshamtaLogin']) {
         this.isEkshamtaLogin = true
@@ -76,13 +83,6 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
         this.routerLink = '/public/home'
       }
     })
-    if (localStorage.getItem('isOrgSelectiveCourse') === 'true') {
-      this.isOrgSelectiveCourse = true
-    }
-    this.initializeForm()
-  }
-
-  ngOnInit() {
     // Initialize telemetry session ID if not present
     this.telemetrySessionId = this.getOrCreateSessionId()
 

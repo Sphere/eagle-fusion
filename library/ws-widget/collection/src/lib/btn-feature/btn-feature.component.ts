@@ -76,16 +76,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
     const isHindi = this.languageSvc.isHindi()
 
-    this.navOption.currentOption.subscribe((option: any) => {
-      this.logger.log('options', option, window.location.href)
-      if (window.location.href.includes('/app/profile-view')) {
-        this.currentText = isHindi ? 'अकाउंट' : 'Account'
-      }
-      if (window.location.href.includes('/app/toc')) {
-        this.currentText = isHindi ? 'होम' : 'Home'
-      }
-    })
-
     if (window.location.href.includes('/app/profile-view')) {
       this.currentText = isHindi ? 'अकाउंट' : 'Account'
     } else if (window.location.href.includes('user/my_courses')) {
@@ -202,6 +192,16 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
   }
   ngOnInit() {
+    const isHindi = this.languageSvc.isHindi()
+    this.navOption.currentOption.subscribe((option: any) => {
+      this.logger.log('options', option, window.location.href)
+      if (window.location.href.includes('/app/profile-view')) {
+        this.currentText = isHindi ? 'अकाउंट' : 'Account'
+      }
+      if (window.location.href.includes('/app/toc')) {
+        this.currentText = isHindi ? 'होम' : 'Home'
+      }
+    })
     this.instanceVal = this.configSvc.rootOrg || ''
     if (this.configSvc.userProfile && this.configSvc.userProfile.firstName) {
       this.givenName = `${this.configSvc!.userProfile!.firstName!} ${this.configSvc!.userProfile!.lastName!}`

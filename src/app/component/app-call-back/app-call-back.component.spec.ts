@@ -36,6 +36,7 @@ describe('AppCallBackComponent', () => {
 
   it('should not call webviewCookieSet when token query param is absent', () => {
     component = createComponent()
+    component.ngOnInit()
     queryParamSubject.next({ params: {}, get: jest.fn().mockReturnValue(null) })
     expect(mockAppCallBackService.webviewCookieSet).not.toHaveBeenCalled()
     expect(component.isLoading).toBe(false)
@@ -43,6 +44,7 @@ describe('AppCallBackComponent', () => {
 
   it('should set isLoading and token when x-authenticated-user-token query param is present', () => {
     component = createComponent()
+    component.ngOnInit()
     const mockToken = 'test-token-123'
     const mockQueryParams = {
       params: { 'x-authenticated-user-token': mockToken },
@@ -55,6 +57,7 @@ describe('AppCallBackComponent', () => {
 
   it('should call webviewCookieSet with the token when token query param is present', () => {
     component = createComponent()
+    component.ngOnInit()
     const mockToken = 'test-token-abc'
     const mockQueryParams = {
       params: { 'x-authenticated-user-token': mockToken },
@@ -73,6 +76,7 @@ describe('AppCallBackComponent', () => {
       ; (window as any).location = redirectUrl
 
     component = createComponent()
+    component.ngOnInit()
     const mockToken = 'test-token-redirect'
     const mockQueryParams = {
       params: { 'x-authenticated-user-token': mockToken },
@@ -89,6 +93,7 @@ describe('AppCallBackComponent', () => {
 
     const originalLocation = window.location
     component = createComponent()
+    component.ngOnInit()
     const mockToken = 'test-token-no-redirect'
     const mockQueryParams = {
       params: { 'x-authenticated-user-token': mockToken },
@@ -115,6 +120,7 @@ describe('AppCallBackComponent', () => {
 
   it('should handle multiple query param emissions and only act when token param present', () => {
     component = createComponent()
+    component.ngOnInit()
 
     queryParamSubject.next({ params: {}, get: jest.fn().mockReturnValue(null) })
     expect(mockAppCallBackService.webviewCookieSet).not.toHaveBeenCalled()

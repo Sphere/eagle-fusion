@@ -192,6 +192,176 @@ describe('ViewQuizQuestionComponent', () => {
     })
   })
 
+  describe('initJsPlump bind callbacks', () => {
+    it('emits itemSelected on connection bind', () => {
+      mockJsPlumbInstance.getSelector.mockReturnValue(['a'])
+      component.question = buildQuestion({ questionType: 'mtf' })
+      const emitSpy = jest.spyOn(component.itemSelected, 'emit')
+      component.initJsPlump()
+      const connectionCb = mockJsPlumbInstance.bind.mock.calls.find((c: any) => c[0] === 'connection')[1]
+      connectionCb({}, {})
+      expect(emitSpy).toHaveBeenCalled()
+    })
+
+    it('resets border color on connectionDetached', () => {
+      mockJsPlumbInstance.getSelector.mockReturnValue(['a'])
+      component.question = buildQuestion({ questionType: 'mtf' })
+      mockJsPlumbInstance.getAllConnections.mockReturnValue([])
+      component.initJsPlump()
+      const detachedCb = mockJsPlumbInstance.bind.mock.calls.find((c: any) => c[0] === 'connectionDetached')[1]
+      expect(() => detachedCb({ sourceId: 's1', targetId: 't1' }, {})).not.toThrow()
+    })
+
+    it('resets border colors on connectionMoved', () => {
+      mockJsPlumbInstance.getSelector.mockReturnValue(['a'])
+      component.question = buildQuestion({ questionType: 'mtf' })
+      mockJsPlumbInstance.getAllConnections.mockReturnValue([])
+      component.initJsPlump()
+      const movedCb = mockJsPlumbInstance.bind.mock.calls.find((c: any) => c[0] === 'connectionMoved')[1]
+      expect(() => movedCb({ originalSourceId: 's1', newSourceId: 's2', originalTargetId: 't1' }, {})).not.toThrow()
+    })
+  })
+
+  describe('numConnections', () => {
+    it('returns 0 when jsPlumbInstance is not set', () => {
+      component.jsPlumbInstance = null
+      expect(component.numConnections).toBe(0)
+    })
+
+    it('returns the number of connections when jsPlumbInstance is set', () => {
+      component.jsPlumbInstance = mockJsPlumbInstance
+      mockJsPlumbInstance.getAllConnections.mockReturnValue([{}, {}])
+      expect(component.numConnections).toBe(2)
+    })
+  })
+
+  describe('setBorderColorById / setBorderColor', () => {
+    it('sets border color on an existing element by id', () => {
+      const el = document.createElement('div')
+      el.id = 'elem1'
+      document.body.appendChild(el)
+      component.setBorderColorById('elem1', 'red')
+      expect(el.style.borderColor).toBe('red')
+      document.body.removeChild(el)
+    })
+
+    it('does nothing when element or color is missing', () => {
+      expect(() => component.setBorderColorById('missing', 'red')).not.toThrow()
+      const el = document.createElement('div')
+      el.id = 'elem2'
+      document.body.appendChild(el)
+      component.setBorderColorById('elem2', null)
+      document.body.removeChild(el)
+    })
+
+    it('sets border color on source and target elements', () => {
+      const source = document.createElement('div')
+      source.id = 'src1'
+      const target = document.createElement('div')
+      target.id = 'tgt1'
+      document.body.appendChild(source)
+      document.body.appendChild(target)
+      component.setBorderColor({ sourceId: 'src1', targetId: 'tgt1' } as any, 'blue')
+      expect(source.style.borderColor).toBe('blue')
+      expect(target.style.borderColor).toBe('blue')
+      document.body.removeChild(source)
+      document.body.removeChild(target)
+    })
+  })
+
+  describe('onResize / repaintEveryThing', () => {
+    it('repaints jsPlumb for mtf questions', () => {
+      component.question = buildQuestion({ questionType: 'mtf' })
+      component.jsPlumbInstance = mockJsPlumbInstance
+      component.onResize()
+      component.repaintEveryThing()
+      expect(mockJsPlumbInstance.repaintEverything).toHaveBeenCalledTimes(2)
+    })
+
+    it('does nothing for non-mtf questions', () => {
+      component.question = buildQuestion({ questionType: 'mcq' })
+      component.jsPlumbInstance = mockJsPlumbInstance
+      component.onResize()
+      expect(mockJsPlumbInstance.repaintEverything).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('ifFillInTheBlankCorrect', () => {
+    it('marks correctOption true and unTouchedBlank false for a matching answer', () => {
+      const input = document.createElement('input')
+      input.id = 'q10'
+      input.value = 'answer'
+      document.body.appendChild(input)
+      component.question = buildQuestion({ options: [{ optionId: 'o1', text: 'answer', isCorrect: false }] })
+      component.ifFillInTheBlankCorrect('q10')
+      expect(component.correctOption[0]).toBe(true)
+      expect(component.unTouchedBlank[0]).toBe(false)
+      document.body.removeChild(input)
+    })
+
+    it('marks correctOption false for a non-matching answer', () => {
+      const input = document.createElement('input')
+      input.id = 'q10'
+      input.value = 'wrong'
+      document.body.appendChild(input)
+      component.question = buildQuestion({ options: [{ optionId: 'o1', text: 'answer', isCorrect: false }] })
+      component.ifFillInTheBlankCorrect('q10')
+      expect(component.correctOption[0]).toBe(false)
+      document.body.removeChild(input)
+    })
+
+    it('marks unTouchedBlank true for an empty answer', () => {
+      const input = document.createElement('input')
+      input.id = 'q10'
+      input.value = ''
+      document.body.appendChild(input)
+      component.question = buildQuestion({ options: [{ optionId: 'o1', text: 'answer', isCorrect: false }] })
+      component.ifFillInTheBlankCorrect('q10')
+      expect(component.unTouchedBlank[0]).toBe(true)
+      document.body.removeChild(input)
+    })
+  })
+
+  describe('functionChangeBlankBorder / resetBlankBorder', () => {
+    it('applies green border for correct touched blanks', () => {
+      const setAttribute = jest.fn()
+      nativeElement.querySelector.mockReturnValue({ setAttribute })
+      component.question = buildQuestion({ questionType: 'fitb', question: '<input/>' })
+      component.correctOption = [true]
+      component.unTouchedBlank = [false]
+      component.functionChangeBlankBorder()
+      expect(setAttribute).toHaveBeenCalledWith('style', expect.stringContaining('#357a38'))
+    })
+
+    it('applies red border for incorrect touched blanks', () => {
+      const setAttribute = jest.fn()
+      nativeElement.querySelector.mockReturnValue({ setAttribute })
+      component.question = buildQuestion({ questionType: 'fitb', question: '<input/>' })
+      component.correctOption = [false]
+      component.unTouchedBlank = [false]
+      component.functionChangeBlankBorder()
+      expect(setAttribute).toHaveBeenCalledWith('style', expect.stringContaining('#f44336'))
+    })
+
+    it('applies default border for untouched blanks', () => {
+      const setAttribute = jest.fn()
+      nativeElement.querySelector.mockReturnValue({ setAttribute })
+      component.question = buildQuestion({ questionType: 'fitb', question: '<input/>' })
+      component.correctOption = [false]
+      component.unTouchedBlank = [true]
+      component.functionChangeBlankBorder()
+      expect(setAttribute).toHaveBeenCalled()
+    })
+
+    it('resets blank borders for all inputs', () => {
+      const setAttribute = jest.fn()
+      nativeElement.querySelector.mockReturnValue({ setAttribute })
+      component.question = buildQuestion({ question: '<input/>' })
+      component.resetBlankBorder()
+      expect(setAttribute).toHaveBeenCalled()
+    })
+  })
+
   describe('ngOnDestroy', () => {
     it('should complete the unsubscribe subject', () => {
       const nextSpy = jest.spyOn(component.unsubscribe, 'next')

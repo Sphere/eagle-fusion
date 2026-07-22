@@ -50,15 +50,15 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     private readonly themeService: ThemeService
   ) {
     this.subscribeNavbarChanges()
+  }
+
+  ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.syncMenuWithUrl()
         this.cd.detectChanges()
       }
     })
-  }
-
-  ngOnInit() {
     this.initializeNavLink()
   }
 

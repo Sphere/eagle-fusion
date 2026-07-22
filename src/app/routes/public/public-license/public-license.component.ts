@@ -27,12 +27,12 @@ export class PublicLicenseComponent implements OnInit {
   constructor(private readonly valueSvc: ValueService,
     private readonly tocSvc: AppTocService
   ) {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-    })
   }
 
   ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isXSmall = isXSmall
+    })
 
     this.tocSvc.showComponent$.pipe(takeUntil(this.unsubscribe)).subscribe(item => {
       if (item && !get(item, 'showComponent')) {

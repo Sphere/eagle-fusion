@@ -248,6 +248,11 @@ describe('WebModuleComponent (plugin)', () => {
       expect(component.currentFontSize).toBe('20px')
     })
 
+    it('modifyIframeStyle does nothing when no iframeElem available', () => {
+      component.iframeElem = null as any
+      expect(() => component.modifyIframeStyle('color', 'red')).not.toThrow()
+    })
+
     it('setTheme calls modifyIframeStyle for color and background', () => {
       const spy = jest.spyOn(component, 'modifyIframeStyle').mockImplementation()
       jest.spyOn(component, 'getColor').mockReturnValue('#ffffff')
@@ -255,6 +260,71 @@ describe('WebModuleComponent (plugin)', () => {
       component.setTheme()
       expect(spy).toHaveBeenCalledWith('backgroundColor', '#ffffff')
       expect(spy).toHaveBeenCalledWith('color', '#ffffff')
+    })
+
+    it('setTheme skips fontSize modification when currentFontSize is falsy', () => {
+      const spy = jest.spyOn(component, 'modifyIframeStyle').mockImplementation()
+      jest.spyOn(component, 'getColor').mockReturnValue('#000000')
+      component.currentFontSize = '' as any
+      component.setTheme()
+      expect(spy).not.toHaveBeenCalledWith('fontSize', expect.anything())
+    })
+
+    it('getColor converts rgb string to hex', () => {
+      jest.spyOn(window, 'getComputedStyle').mockReturnValue({ color: 'rgb(255, 0, 0)' } as any)
+      expect(component.getColor('color')).toBe('#ff0000')
+    })
+  })
+
+  describe('setPage null iframeUrl branch', () => {
+    it('sets iframeUrl from slides[0] when iframeUrl is explicitly null and page out of bounds', () => {
+      component.loadWebModule()
+      component.iframeUrl = null as any
+      const result = component.setPage(99)
+      expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalled()
+      expect(result).toBe(component.currentSlideNumber)
+    })
+
+    it('calls setAudio with slides[0].audio when present and iframeUrl null', () => {
+      component.webModuleManifest = {
+        resources: [
+          { artifactUrl: '/slide1.html', title: 'slide1', audio: [{ URL: '/a.mp3', title: 't', label: 'l', srclang: 'en' }] },
+        ],
+      }
+      component.loadWebModule()
+      component.iframeUrl = null as any
+      component.setPage(99)
+      expect(mockSafeResourceUrlSvc.trustUrl).toHaveBeenCalled()
+    })
+  })
+
+  describe('modifyIframeDom', () => {
+    it('returns early when iframe has no contentWindow', async () => {
+      const iframe = { contentWindow: null } as any
+      await component.modifyIframeDom(iframe)
+      expect(component.iframeLoadingInProgress).toBe(true)
+    })
+
+    it('returns early when contentWindow has no document', async () => {
+      const iframe = { contentWindow: {} } as any
+      await component.modifyIframeDom(iframe)
+      expect(component.iframeLoadingInProgress).toBe(true)
+    })
+
+    it('builds dom fragment, wires scroll listener and sets theme after timeout', async () => {
+      jest.useFakeTimers()
+      const doc = document.implementation.createHTMLDocument('test')
+      const iframe = { contentWindow: { document: doc } } as any
+      const setThemeSpy = jest.spyOn(component, 'setTheme').mockImplementation()
+      component.theme = { className: 'dark-theme' }
+      const promise = component.modifyIframeDom(iframe)
+      doc.dispatchEvent(new Event('scroll'))
+      jest.advanceTimersByTime(1000)
+      await promise
+      expect(component.iframeLoadingInProgress).toBe(false)
+      expect(setThemeSpy).toHaveBeenCalled()
+      expect(component.firstScroll).toBe(false)
+      jest.useRealTimers()
     })
   })
 })

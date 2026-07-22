@@ -250,6 +250,106 @@ describe('QuizModalComponent', () => {
     })
   })
 
+  describe('timer', () => {
+    it('does nothing when data is -1', () => {
+      component.timer(-1)
+      expect(component.timerSubscription).toBeNull()
+    })
+
+    it('sets up a timer subscription when data is positive', () => {
+      assesmentdata.questions.timeLimit = 100000
+      component.startTime = Date.now()
+      component.timer(100000)
+      expect(mockNgZone.runOutsideAngular).toHaveBeenCalled()
+      expect(component.timerSubscription).toBeTruthy()
+    })
+
+    it('marks isIdeal and switches tab when time runs out', () => {
+      assesmentdata.questions.timeLimit = 100
+      component.timeLeft = 0.05
+      component.startTime = Date.now()
+      component.timer(100)
+      jest.advanceTimersByTime(300)
+      expect(component.isIdeal).toBe(true)
+      expect(component.tabIndex).toBe(1)
+      expect(component.tabActive).toBe(true)
+    })
+  })
+
+  describe('submitQuiz - assessment branch', () => {
+    it('sets isIdeal when questions.isAssessment is true', () => {
+      assesmentdata.questions.isAssessment = true
+      component.ngOnInit()
+      component.submitQuiz()
+      expect(component.isIdeal).toBe(true)
+    })
+  })
+
+  describe('calculateResults - additional branches', () => {
+    it('marks fitb answer incorrect on length mismatch', () => {
+      assesmentdata.questions.questions = [
+        { questionId: 'q2', questionType: 'fitb', options: [{ optionId: 'o1', text: 'answer', isCorrect: true }] },
+      ]
+      component.questionAnswerHash = { q2: ['a,b'] }
+      component.calculateResults()
+      expect(component.numIncorrectAnswers).toBe(1)
+    })
+
+    it('evaluates mtf answers as correct and incorrect', () => {
+      const correctElement = {
+        sourceId: 'x1',
+        target: { innerHTML: 'MatchA' },
+        setPaintStyle: jest.fn(),
+      }
+      const incorrectElement = {
+        sourceId: 'x1',
+        target: { innerHTML: 'Wrong' },
+        setPaintStyle: jest.fn(),
+      }
+      assesmentdata.questions.questions = [
+        {
+          questionId: 'q3',
+          questionType: 'mtf',
+          options: [{ optionId: 'o1', isCorrect: true, match: 'MatchA' }],
+        },
+      ]
+      component.questionAnswerHash = { q3: [[correctElement]] }
+      component.calculateResults()
+      expect(correctElement.setPaintStyle).toHaveBeenCalledWith({ stroke: '#357a38' })
+      expect(component.numCorrectAnswers).toBe(1)
+
+      component.questionAnswerHash = { q3: [[incorrectElement]] }
+      component.calculateResults()
+      expect(incorrectElement.setPaintStyle).toHaveBeenCalledWith({ stroke: '#f44336' })
+      expect(component.numIncorrectAnswers).toBe(1)
+    })
+
+    it('treats mtf as untouched when selectedOptions is empty', () => {
+      assesmentdata.questions.questions = [
+        { questionId: 'q3', questionType: 'mtf', options: [{ optionId: 'o1', isCorrect: true, match: 'MatchA' }] },
+      ]
+      component.questionAnswerHash = { q3: [[]] }
+      component.calculateResults()
+      expect(component.numCorrectAnswers).toBe(0)
+      expect(component.numIncorrectAnswers).toBe(0)
+    })
+  })
+
+  describe('nextQuestion - mtf lookahead branch', () => {
+    it('sets question type to mtf when next question is mtf', () => {
+      component.totalQuestion = 3
+      assesmentdata.questions.questions = [
+        { questionId: 'q1', questionType: 'mcq' },
+        { questionId: 'q2', questionType: 'mtf' },
+      ]
+      mockQuizService.questionState.slides = [{}, {}, {}]
+      component.questionAnswerHash['qslideIndex'] = 0
+      component.nextQuestion()
+      jest.advanceTimersByTime(500)
+      expect(mockQuizService.updateMtf.next).toHaveBeenCalledWith(true)
+    })
+  })
+
   describe('ngOnDestroy', () => {
     it('should unsubscribe the timer and reset state', () => {
       component.ngOnInit()

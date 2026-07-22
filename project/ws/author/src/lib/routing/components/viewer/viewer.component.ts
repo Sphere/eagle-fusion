@@ -39,12 +39,12 @@ export class ViewerComponent implements OnInit, OnChanges, OnDestroy, AfterViewI
   isXSmall = false
 
   constructor(private readonly valueSvc: ValueService, private readonly activatedRoute: ActivatedRoute, private readonly router: Router) {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-    })
   }
 
   ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isXSmall = isXSmall
+    })
     this.routerSubscription = this.activatedRoute.data.subscribe(data => {
       if (data.content) {
         this.identifier = data.content.identifier

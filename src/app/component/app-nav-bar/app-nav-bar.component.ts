@@ -87,13 +87,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.restrictedFeatures) {
       this.isHelpMenuRestricted = this.configSvc.restrictedFeatures.has('helpNavBarMenu')
     }
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        this.cancelTour()
-      } else if (event instanceof NavigationEnd) {
-        this.cancelTour()
-      }
-    })
 
     effect(() => {
       this.isDark = this.themeSvc.isDark()
@@ -129,6 +122,13 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.cancelTour()
+      } else if (event instanceof NavigationEnd) {
+        this.cancelTour()
+      }
+    })
     this.initializeComponent()
   }
 

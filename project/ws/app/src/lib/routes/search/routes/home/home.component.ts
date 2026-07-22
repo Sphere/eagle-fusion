@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   languageSearch: string[] = []
   suggestedFilters: ISuggestedFilters[] = []
   contact = ''
+  isAutoCompleteAllowed: boolean | undefined
   constructor(
     private readonly configSvc: ConfigurationsService,
     private readonly router: Router,
@@ -39,24 +40,7 @@ export class HomeComponent implements OnInit {
     private readonly languageSvc: LanguageService,
     private readonly logger: LoggerService
   ) {
-    const isAutoCompleteAllowed = this.route.snapshot.data.pageData.data.search.isAutoCompleteAllowed
-    if (typeof isAutoCompleteAllowed === 'undefined' ||
-      (typeof isAutoCompleteAllowed === 'boolean' && isAutoCompleteAllowed)) {
-      this.query.valueChanges.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-      ).subscribe(q => {
-        this.searchQuery.q = q
-        this.logger.log(q)
-        // this.getAutoCompleteResults()
-      })
-    }
-    this.searchApi.currentMessage.subscribe(
-      (data: any) => {
-        if (data) {
-          this.search()
-        }
-      })
+    this.isAutoCompleteAllowed = this.route.snapshot.data.pageData.data.search.isAutoCompleteAllowed
   }
 
   search(query?: string, lang?: string) {
@@ -165,6 +149,23 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (typeof this.isAutoCompleteAllowed === 'undefined' ||
+      (typeof this.isAutoCompleteAllowed === 'boolean' && this.isAutoCompleteAllowed)) {
+      this.query.valueChanges.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+      ).subscribe(q => {
+        this.searchQuery.q = q
+        this.logger.log(q)
+        // this.getAutoCompleteResults()
+      })
+    }
+    this.searchApi.currentMessage.subscribe(
+      (data: any) => {
+        if (data) {
+          this.search()
+        }
+      })
     this.route.queryParamMap.subscribe(queryParam => {
       if (queryParam.has('q')) {
         this.searchQuery.q = queryParam.get('q') || ''
@@ -180,7 +181,7 @@ export class HomeComponent implements OnInit {
       this.languageSearch = this.route.snapshot.data.pageData.data.search.languageSearch.map(
         (u: string) => u.toLowerCase(),
       )
-      this.languageSearch = this.languageSearch.sort()
+      this.languageSearch = this.languageSearch.sort((a: string, b: string) => a.localeCompare(b))
       this.swapRemove(this.languageSearch, this.languageSearch.indexOf('all'), 0)
       if (this.preferredLanguages && this.preferredLanguages.split(',').length > 1) {
         this.languageSearch.splice(1, 0, this.preferredLanguages)

@@ -121,6 +121,39 @@ describe('AppTocContentCardComponent', () => {
     expect(component.resourceContentType).toBe('Course')
   })
 
+  it('should map collection mimeType to Topic', () => {
+    component.resourceContentTypeFunct('application/vnd.ekstep.content-collection')
+    expect(component.resourceContentType).toBe('Topic')
+  })
+
+  it('should map quiz/json mimeType to Assessment', () => {
+    component.resourceContentTypeFunct('application/quiz')
+    expect(component.resourceContentType).toBe('Assessment')
+    component.resourceContentTypeFunct('application/json')
+    expect(component.resourceContentType).toBe('Assessment')
+  })
+
+  it('should map html/scorm mimeType to Scorm', () => {
+    component.resourceContentTypeFunct('application/html')
+    expect(component.resourceContentType).toBe('Scorm')
+    component.resourceContentTypeFunct('application/vnd.ekstep.html-archive')
+    expect(component.resourceContentType).toBe('Scorm')
+  })
+
+  it('should map audio mimeType to Audio', () => {
+    component.resourceContentTypeFunct('audio/mpeg')
+    expect(component.resourceContentType).toBe('Audio')
+  })
+
+  it('should map link-like mimeTypes to Link', () => {
+    component.resourceContentTypeFunct('video/x-youtube')
+    expect(component.resourceContentType).toBe('Link')
+    component.resourceContentTypeFunct('text/x-url')
+    expect(component.resourceContentType).toBe('Link')
+    component.resourceContentTypeFunct('application/web-module')
+    expect(component.resourceContentType).toBe('Link')
+  })
+
   it('should navigate when reDirect is called with accessible content', () => {
     component.disabledNode = false
     const content = { url: '/a', queryParams: { primaryCategory: 'p', collectionId: 'c', collectionType: 'ct', batchId: 'b' } }
@@ -171,6 +204,16 @@ describe('AppTocContentCardComponent', () => {
     expect(component.isCollection).toBe(false)
   })
 
+  it('isCollection should set incomplete false when all children are complete', () => {
+    component.content = {
+      mimeType: NsContent.EMimeTypes.COLLECTION,
+      contentType: 'Resource',
+      children: [{ completionPercentage: 100 }],
+    } as any
+    expect(component.isCollection).toBe(true)
+    expect((component.content as any).incomplete).toBe(false)
+  })
+
   it('isResource should return true for Resource contentType', () => {
     component.content = { contentType: 'Resource' } as any
     expect(component.isResource).toBe(true)
@@ -214,6 +257,47 @@ describe('AppTocContentCardComponent', () => {
   it('contentTrackBy should return identifier or null', () => {
     expect(component.contentTrackBy(0, { identifier: 'abc' } as any)).toBe('abc')
     expect(component.contentTrackBy(0, null as any)).toBeNull()
+  })
+
+  it('ngOnInit should evaluate immediate children structure across all content/mime types', () => {
+    component.content = {
+      children: [
+        { contentType: 'Course' },
+        { contentType: 'Knowledge Artifact' },
+        { contentType: 'Module' },
+        { contentType: 'Resource', mimeType: 'application/hands-on' },
+        { contentType: 'Resource', mimeType: 'audio/mpeg' },
+        { contentType: 'Resource', mimeType: 'video/mp4' },
+        { contentType: 'Resource', mimeType: 'application/x-mpegURL' },
+        { contentType: 'Resource', mimeType: 'application/interaction' },
+        { contentType: 'Resource', mimeType: 'application/pdf' },
+        { contentType: 'Resource', mimeType: 'application/html' },
+        { contentType: 'Resource', mimeType: 'application/quiz' },
+        { contentType: 'Resource', mimeType: 'application/web-module' },
+        { contentType: 'Resource', mimeType: 'video/x-youtube' },
+        { contentType: 'Resource', mimeType: 'unknown/other' },
+      ],
+    } as any
+    component.ngOnInit()
+    expect(component.contentStructure.course).toBe(1)
+    expect(component.contentStructure.other).toBe(2)
+    expect(component.contentStructure.learningModule).toBe(1)
+    expect(component.contentStructure.handsOn).toBe(1)
+    expect(component.contentStructure.podcast).toBe(1)
+    expect(component.contentStructure.video).toBe(2)
+    expect(component.contentStructure.interactiveVideo).toBe(1)
+    expect(component.contentStructure.pdf).toBe(1)
+    expect(component.contentStructure.webPage).toBe(1)
+    expect(component.contentStructure.assessment).toBe(1)
+    expect(component.contentStructure.webModule).toBe(1)
+    expect(component.contentStructure.youtube).toBe(1)
+    expect(component.hasContentStructure).toBe(true)
+  })
+
+  it('ngOnInit should leave hasContentStructure false when there are no children', () => {
+    component.content = { children: [] } as any
+    component.ngOnInit()
+    expect(component.hasContentStructure).toBe(false)
   })
 
   it('expandView should emit true', () => {

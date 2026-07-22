@@ -739,6 +739,50 @@ describe('ViewerTocComponent', () => {
       expect((component.collection!.children![0] as any).completionStatus).toBe(2)
       expect(updateSpy).toHaveBeenCalled()
     })
+
+    it('marks the following node disabled when the data has no match and gating is enabled', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(true)
+      component.collection = {
+        identifier: 'c1',
+        children: [
+          { identifier: 'r1', completionPercentage: undefined } as any,
+          { identifier: 'r2', completionPercentage: 0 } as any,
+        ],
+      } as any
+      mockUtilitySvc.getLeafNodes.mockReturnValue(component.collection!.children)
+      jest.spyOn(component, 'updateResourceChange').mockImplementation(() => {})
+      await component.processData([{ contentId: 'unmatched', completionPercentage: 0 }])
+      expect((component.collection!.children![0] as any).disabledNode).toBe(false)
+    })
+
+    it('processes nested children within a matched top-level node', async () => {
+      component.collection = {
+        identifier: 'c1',
+        children: [
+          {
+            identifier: 'r1',
+            completionPercentage: 100,
+            children: [{ identifier: 'child-1', completionPercentage: 0 }],
+          } as any,
+        ],
+      } as any
+      mockUtilitySvc.getLeafNodes.mockReturnValue(component.collection!.children)
+      jest.spyOn(component, 'updateResourceChange').mockImplementation(() => {})
+      await component.processData([
+        { contentId: 'r1', completionPercentage: 100, status: 2 },
+        { contentId: 'child-1', completionPercentage: 50, status: 1 },
+      ])
+      const child = (component.collection!.children![0] as any).children[0]
+      expect(child.completionPercentage).toBe(50)
+      expect(child.completionStatus).toBe(1)
+    })
+
+    it('does nothing when there is no collection', async () => {
+      component.collection = null
+      const updateSpy = jest.spyOn(component, 'updateResourceChange').mockImplementation(() => {})
+      await component.processData([])
+      expect(updateSpy).toHaveBeenCalled()
+    })
   })
 
   describe('openCongratulationPopup', () => {
@@ -873,6 +917,294 @@ describe('ViewerTocComponent', () => {
       jest.advanceTimersByTime(300)
       expect(component.outer.nativeElement.scrollTop).toBe(0)
       jest.useRealTimers()
+    })
+  })
+
+  describe('ngOnChanges deeper coverage', () => {
+    it('sets contentId in localStorage for scorm type and updates tree nodes with progress', () => {
+      mockContentSvc.currentMessage = of({
+        type: 'scorm',
+        contentList: [{ contentId: 'r1', completionPercentage: 80, status: 2 }],
+      })
+      component.collection = {
+        identifier: 'c1',
+        children: [{ identifier: 'r1', completionPercentage: 0, completionStatus: 0 } as any],
+      } as any
+      jest.spyOn(component as any, 'processCollectionForTree').mockImplementation(() => {})
+      jest.spyOn(component, 'updateResourceChange').mockImplementation(() => {})
+      const setItemSpy = jest.spyOn(Storage.prototype, 'setItem')
+      component.ngOnChanges()
+      expect(setItemSpy).toHaveBeenCalledWith('contentId', expect.any(String))
+      expect((component.collection!.children![0] as any).completionPercentage).toBe(80)
+      setItemSpy.mockRestore()
+    })
+
+    it('removes contentId from localStorage for non-scorm type', () => {
+      mockContentSvc.currentMessage = of({ type: 'video', contentList: null })
+      jest.spyOn(component as any, 'processCollectionForTree').mockImplementation(() => {})
+      const removeItemSpy = jest.spyOn(Storage.prototype, 'removeItem')
+      component.ngOnChanges()
+      expect(removeItemSpy).toHaveBeenCalledWith('contentId')
+      removeItemSpy.mockRestore()
+    })
+
+    it('recursively updates nested child progress nodes', () => {
+      mockContentSvc.currentMessage = of({
+        type: 'video',
+        contentList: [{ contentId: 'child-1', completionPercentage: 60 }],
+      })
+      component.collection = {
+        identifier: 'c1',
+        children: [{
+          identifier: 'parent-1',
+          completionPercentage: 0,
+          children: [{ identifier: 'child-1', completionPercentage: 0, completionStatus: 0 }],
+        } as any],
+      } as any
+      jest.spyOn(component as any, 'processCollectionForTree').mockImplementation(() => {})
+      jest.spyOn(component, 'updateResourceChange').mockImplementation(() => {})
+      component.ngOnChanges()
+      expect((component.collection!.children![0] as any).children[0].completionPercentage).toBe(60)
+    })
+  })
+
+  describe('processCollectionForTree - no contentList branch', () => {
+    beforeEach(() => {
+      component.collectionId = 'c1'
+      component.resourceId = 'r1'
+      mockConfigSvc.userProfile = { userId: 'user-1' }
+      component.queue = [{ identifier: 'r1' } as any]
+    })
+
+    it('does nothing when collection has no children', async () => {
+      component.collection = { identifier: 'c1', children: null } as any
+      await (component as any).processCollectionForTree({})
+      expect(mockContentSvc.fetchContent).not.toHaveBeenCalled()
+    })
+
+    it('fetches content, merges progress via fetchContentHistoryV2 and updates resource change', async () => {
+      component.collection = {
+        identifier: 'c1',
+        children: [{ identifier: 'r1', completionPercentage: 0 } as any],
+      } as any
+      mockContentSvc.fetchContent.mockReturnValue({
+        toPromise: () => Promise.resolve({ result: { content: { mimeType: 'application/pdf' } } }),
+      })
+      mockContentSvc.fetchContentHistoryV2.mockReturnValue(of({
+        result: { contentList: [{ contentId: 'r1', completionPercentage: 100, status: 2 }] },
+      }))
+      const updateSpy = jest.spyOn(component, 'updateResourceChange').mockImplementation(() => {})
+      await (component as any).processCollectionForTree({})
+      await new Promise(resolve => setTimeout(resolve, 0))
+      expect(mockContentSvc.fetchContentHistoryV2).toHaveBeenCalled()
+      expect(updateSpy).toHaveBeenCalled()
+    })
+
+    it('removes contentId from localStorage when mimeType is not scorm html-archive', async () => {
+      component.collection = {
+        identifier: 'c1',
+        children: [{ identifier: 'r1', completionPercentage: 0 } as any],
+      } as any
+      mockContentSvc.fetchContent.mockReturnValue({
+        toPromise: () => Promise.resolve({ result: { content: { mimeType: 'application/pdf' } } }),
+      })
+      mockContentSvc.fetchContentHistoryV2.mockReturnValue(of({ result: { contentList: [] } }))
+      const removeItemSpy = jest.spyOn(Storage.prototype, 'removeItem')
+      await (component as any).processCollectionForTree({})
+      expect(removeItemSpy).toHaveBeenCalledWith('contentId')
+      removeItemSpy.mockRestore()
+    })
+
+    it('logs the content history fetch error without throwing', async () => {
+      component.collection = {
+        identifier: 'c1',
+        children: [{ identifier: 'r1', completionPercentage: 0 } as any],
+      } as any
+      mockContentSvc.fetchContent.mockReturnValue({
+        toPromise: () => Promise.resolve({ result: { content: { mimeType: 'application/pdf' } } }),
+      })
+      mockContentSvc.fetchContentHistoryV2.mockReturnValue(throwError(() => new Error('fetch fail')))
+      await expect((component as any).processCollectionForTree({})).resolves.toBeUndefined()
+    })
+  })
+
+  describe('processCollectionForTree - contentList deep branches', () => {
+    beforeEach(() => {
+      component.collectionId = 'c1'
+      component.heirarchy = { gatingEnabled: true }
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(of({ data: JSON.stringify([]) }))
+      mockContentSvc.readCourseRating.mockReturnValue(Promise.resolve({ params: { status: 'success' }, result: {} }))
+    })
+
+    it('falls back to insertData retry path when getRecordFromTable errors', async () => {
+      jest.spyOn(component, 'processData').mockResolvedValue(undefined)
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValueOnce(throwError(() => new Error('fail')))
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(of({ data: JSON.stringify([]) }))
+      mockOnlineIndexedDbService.insertData.mockReturnValue(of({}))
+      await (component as any).processCollectionForTree({ contentList: [{ contentId: 'r1' }] })
+      await new Promise(resolve => setTimeout(resolve, 0))
+      expect(mockOnlineIndexedDbService.insertData).toHaveBeenCalled()
+    })
+
+    it('navigates directly to a resolved next resource for scorm content type', async () => {
+      jest.spyOn(component, 'processData').mockResolvedValue(undefined)
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(
+        of({ data: JSON.stringify([{ contentId: 'r1', completionPercentage: 100 }]) }),
+      )
+      jest.spyOn(component, 'updateKeyIfMatch').mockReturnValue(50)
+      mockPlayerStateService.isResourceCompleted.mockReturnValue(true)
+      mockPlayerStateService.getNextResource.mockReturnValue('/next-res')
+      mockRouter.navigate.mockReturnValue(Promise.resolve(true))
+      await (component as any).processCollectionForTree({ contentList: [{ contentId: 'r1' }], type: 'scorm' })
+      await new Promise(resolve => setTimeout(resolve, 0))
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/next-res'], { queryParamsHandling: 'preserve' })
+    })
+
+    it('shows congratulation popup flow when there is no next resource and confirmation is required', async () => {
+      jest.spyOn(component, 'processData').mockResolvedValue(undefined)
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(
+        of({ data: JSON.stringify([{ contentId: 'r1', completionPercentage: 100 }]) }),
+      )
+      jest.spyOn(component, 'updateKeyIfMatch').mockReturnValue(100)
+      mockPlayerStateService.isResourceCompleted.mockReturnValue(true)
+      mockPlayerStateService.getNextResource.mockReturnValue('')
+      mockContentSvc.showConformation = true
+      component.resourceContentType = 'Video'
+      mockDialog.openDialogs = []
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
+      mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'CONFIRMED' }) })
+      jest.spyOn(component as any, 'completeCourseNavigation').mockImplementation(() => {})
+      jest.useFakeTimers()
+      const promise = (component as any).processCollectionForTree({ contentList: [{ contentId: 'r1' }], type: 'video' })
+      for (let i = 0; i < 5; i++) {
+        await Promise.resolve()
+      }
+      jest.advanceTimersByTime(2000)
+      for (let i = 0; i < 5; i++) {
+        await Promise.resolve()
+      }
+      await promise
+      jest.useRealTimers()
+      expect(popupSpy).toHaveBeenCalled()
+    })
+
+    it('completes the course when content.type is falsy and optimisticPercentage is 100', async () => {
+      jest.spyOn(component, 'processData').mockResolvedValue(undefined)
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(
+        of({ data: JSON.stringify([{ contentId: 'r1', completionPercentage: 100 }]) }),
+      )
+      jest.spyOn(component, 'updateKeyIfMatch').mockReturnValue(100)
+      mockPlayerStateService.isResourceCompleted.mockReturnValue(false)
+      const completeSpy = jest.spyOn(component as any, 'completeCourseNavigation').mockImplementation(() => {})
+      await (component as any).processCollectionForTree({ contentList: [{ contentId: 'r1' }], type: 'other' })
+      await new Promise(resolve => setTimeout(resolve, 0))
+      expect(completeSpy).toHaveBeenCalled()
+    })
+
+    it('navigates when the completed content has no type and resource-completed with a resolvable next match', async () => {
+      jest.spyOn(component, 'processData').mockResolvedValue(undefined)
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(
+        of({ data: JSON.stringify([{ contentId: 'res-1', completionPercentage: 100 }, { contentId: 'do_123', completionPercentage: 0 }]) }),
+      )
+      jest.spyOn(component, 'updateKeyIfMatch').mockReturnValue(50)
+      mockPlayerStateService.isResourceCompleted.mockReturnValue(true)
+      mockPlayerStateService.getNextResource.mockReturnValue('/do_123')
+      component.resourceId = 'res-1'
+      mockContentSvc.fetchContent.mockReturnValue({
+        toPromise: () => Promise.resolve({ mimeType: 'application/json' }),
+      })
+      await (component as any).processCollectionForTree({ contentList: [{ contentId: 'r1' }] })
+      await new Promise(resolve => setTimeout(resolve, 0))
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/do_123'], { queryParamsHandling: 'preserve' })
+    })
+
+    it('completes the course directly when confirmation is not required and rating already exists', async () => {
+      jest.spyOn(component, 'processData').mockResolvedValue(undefined)
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(
+        of({ data: JSON.stringify([{ contentId: 'r1', completionPercentage: 100 }]) }),
+      )
+      jest.spyOn(component, 'updateKeyIfMatch').mockReturnValue(100)
+      mockPlayerStateService.isResourceCompleted.mockReturnValue(true)
+      mockPlayerStateService.getNextResource.mockReturnValue('')
+      mockContentSvc.showConformation = false
+      mockContentSvc.readCourseRating.mockReturnValue(Promise.resolve({ params: { status: 'success' }, result: { stars: 5 } }))
+      component.heirarchy = { gatingEnabled: true, competencies_v1: JSON.stringify([{ competencyName: 'c', level: 1, competencyId: 1 }]) }
+      const completeSpy = jest.spyOn(component as any, 'completeCourseNavigation').mockImplementation(() => {})
+      await (component as any).processCollectionForTree({ contentList: [{ contentId: 'r1' }], type: 'video' })
+      await new Promise(resolve => setTimeout(resolve, 0))
+      expect(completeSpy).toHaveBeenCalled()
+    })
+
+    it('performs an external redirect for scorm content with a completed, non-Scrom foundObject', async () => {
+      jest.useFakeTimers()
+      jest.spyOn(component, 'processData').mockResolvedValue(undefined)
+      mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(
+        of({ data: JSON.stringify([{ contentId: 'r1', completionPercentage: 100 }]) }),
+      )
+      jest.spyOn(component, 'updateKeyIfMatch').mockReturnValue(50)
+      mockPlayerStateService.isResourceCompleted.mockReturnValue(true)
+      mockPlayerStateService.getNextResource.mockReturnValue('/do_999')
+      component.collection = { identifier: 'c1', children: [{ identifier: 'do_999', type: 'Scrom', completionPercentage: 100 } as any] } as any
+      const promise = (component as any).processCollectionForTree({ contentList: [{ contentId: 'r1' }], type: 'scorm' })
+      await promise
+      for (let i = 0; i < 5; i++) {
+        await Promise.resolve()
+      }
+      jest.advanceTimersByTime(60)
+      jest.useRealTimers()
+      expect(component.isLoading).toBe(false)
+    })
+  })
+
+  describe('openAshaModal further branches', () => {
+    it('closes any already-open assessment/confirm dialogs and opens the complete-courses modal', () => {
+      mockContentSvc.getAshaCardData.mockReturnValue({
+        levels: [
+          { level: 1, competencyId: 'c1', course: ['a'] },
+          { level: 2, competencyId: 'c1', course: ['b'] },
+        ],
+      })
+      mockContentSvc.getAshaData.mockReturnValue({ competencylevel: '1', competencyid: 'c1', competencylevel_raw: 1 })
+      const assessmentClose = jest.fn()
+      const confirmClose = jest.fn()
+      mockDialog.getDialogById.mockImplementation((id: string) => {
+        if (id === 'assessmentModel') return { close: assessmentClose }
+        if (id === 'confirmModal') return { close: confirmClose }
+        return null
+      })
+      mockDialog.open.mockReturnValue({ afterClosed: () => of(null) })
+      component.openAshaModal()
+      expect(assessmentClose).toHaveBeenCalled()
+      expect(confirmClose).toHaveBeenCalled()
+      expect(mockDialog.open).toHaveBeenCalled()
+    })
+
+    it('navigates home and closes dialogs on CLOSE event', () => {
+      mockContentSvc.getAshaCardData.mockReturnValue({ levels: [{ level: 1, competencyId: 'c1', course: ['a'] }] })
+      mockContentSvc.getAshaData.mockReturnValue({ competencylevel: '1', competencyid: 'c1' })
+      mockDialog.getDialogById.mockReturnValue(null)
+      mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'CLOSE' }) })
+      component.openAshaModal()
+      expect(mockDialog.closeAll).toHaveBeenCalled()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['page/home'])
+    })
+
+    it('navigates to next asha course on STARTNEXTCOURSE event', () => {
+      mockContentSvc.getAshaCardData.mockReturnValue({ levels: [{ level: 1, competencyId: 'c1', course: ['a'] }] })
+      mockContentSvc.getAshaData.mockReturnValue({ competencylevel: '1', competencyid: 'c1' })
+      mockDialog.getDialogById.mockReturnValue(null)
+      mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'STARTNEXTCOURSE' }) })
+      const navSpy = jest.spyOn(component, 'navigateToNextAshaCourses').mockImplementation(() => {})
+      component.openAshaModal()
+      expect(navSpy).toHaveBeenCalled()
+    })
+
+    it('does not reopen the complete-courses modal when one is already open', () => {
+      mockContentSvc.getAshaCardData.mockReturnValue({ levels: [{ level: 1, competencyId: 'c1', course: ['a'] }] })
+      mockContentSvc.getAshaData.mockReturnValue({ competencylevel: '1', competencyid: 'c1' })
+      mockDialog.getDialogById.mockImplementation((id: string) => (id === 'completeCoursesModal' ? {} : null))
+      component.openAshaModal()
+      expect(mockDialog.open).not.toHaveBeenCalled()
     })
   })
 })

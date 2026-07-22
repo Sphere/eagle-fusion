@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { AppCallBackService } from '../../services/app-call-back.service'
 import { get } from 'lodash'
@@ -10,7 +10,7 @@ import { get } from 'lodash'
   styleUrls: ['./app-call-back.component.scss'],
 
 })
-export class AppCallBackComponent {
+export class AppCallBackComponent implements OnInit {
 
   token: any
   isLoading = false
@@ -19,6 +19,9 @@ export class AppCallBackComponent {
     public activated: ActivatedRoute,
     private readonly appCallBackService: AppCallBackService
   ) {
+  }
+
+  ngOnInit() {
     this.activated.queryParamMap.subscribe(queryParams => {
       if (get(queryParams, 'params.x-authenticated-user-token')) {
         this.isLoading = true

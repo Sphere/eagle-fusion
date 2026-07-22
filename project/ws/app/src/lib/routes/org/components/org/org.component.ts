@@ -38,7 +38,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   totalRatings: any = ''
   orgUserCourseEnrolled: any = 0
   isMobile = false
-  private readonly mobileSubscription!: Subscription
+  private mobileSubscription!: Subscription
   private isDestroyed = false
   isLoading = false
   bannerLoaded = false
@@ -60,10 +60,6 @@ export class OrgComponent implements OnInit, OnDestroy {
     private readonly seoSvc: SeoService,
     private readonly userAgentSvc: UserAgentResolverService,
   ) {
-    this.mobileSubscription = this.valueSvc.isLtMedium$.subscribe(mobile => {
-      this.isMobile = mobile
-      this.detectViewChanges()
-    })
   }
 
   @HostListener('window:popstate', ['$event'])
@@ -76,6 +72,10 @@ export class OrgComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.mobileSubscription = this.valueSvc.isLtMedium$.subscribe(mobile => {
+      this.isMobile = mobile
+      this.detectViewChanges()
+    })
     this.userAgentSvc.requestGeolocation()
     for (this.index = 0; this.index < this.starCount; this.index++) {
       this.ratingArr.push(this.index)

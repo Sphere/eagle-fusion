@@ -35,12 +35,12 @@ export class QuizComponent implements OnInit {
 
   constructor(private readonly activatedRoute: ActivatedRoute, private readonly viewerDataSvc: PlayerStateService,
     private readonly valueSvc: ValueService) {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isSmall = isXSmall
-    })
   }
 
   ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isSmall = isXSmall
+    })
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     if (this.isTypeOfCollection) {
       this.collectionId = this.activatedRoute.snapshot.queryParams.collectionId

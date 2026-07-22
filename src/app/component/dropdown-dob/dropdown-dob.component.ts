@@ -33,16 +33,14 @@ export class DropdownDobComponent implements OnInit {
       monthField: new FormControl('', Validators.required),
       yearField: new FormControl('', Validators.required),
     })
+  }
 
+  ngOnInit() {
     this.dobForm.get('monthField')?.valueChanges.subscribe(month => this.updateDays(month))
     this.dobForm.get('yearField')?.valueChanges.subscribe(() => {
       const month = this.dobForm.get('monthField')!.value
       if (month) this.updateDays(month)
     })
-
-  }
-
-  ngOnInit() {
     this.initYear()
     setTimeout(() => {
       this.updateForm()

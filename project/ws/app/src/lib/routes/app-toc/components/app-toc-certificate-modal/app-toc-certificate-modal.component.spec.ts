@@ -6,6 +6,11 @@ jest.mock('@ws-widget/collection', () => ({
   WidgetContentService: class MockWidgetContentService {},
 }))
 
+jest.mock('file-saver', () => ({
+  saveAs: jest.fn(),
+}))
+
+import * as FileSaver from 'file-saver'
 import { WidgetContentService } from '@ws-widget/collection'
 import { LoggerService, SafeResourceUrlService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 import { AppTocCertificateModalComponent } from './app-toc-certificate-modal.component'
@@ -87,5 +92,75 @@ describe('AppTocCertificateModalComponent', () => {
   it('should not throw when responseCode is missing in downloadCertificate', async () => {
     ;(mockContentSvc.downloadCertificateAPI as jest.Mock).mockReturnValue(of({ responseCode: undefined }))
     expect(() => component.downloadCertificate(mockContent)).not.toThrow()
+  })
+
+  describe('downloadCertificate image onload handling', () => {
+    let originalImage: any
+    let mockCanvas: any
+    let ctxMock: any
+    let capturedImage: any
+
+    beforeEach(() => {
+      originalImage = (global as any).Image
+      ctxMock = { drawImage: jest.fn() }
+      mockCanvas = {
+        width: 0,
+        height: 0,
+        getContext: jest.fn().mockReturnValue(ctxMock),
+        toDataURL: jest.fn().mockReturnValue('data:image/jpeg;base64,QUJD'),
+      }
+      jest.spyOn(document, 'getElementById').mockReturnValue(mockCanvas)
+      ;(global as any).Image = class {
+        width = 500
+        height = 400
+        onload: any = null
+        set src(_v: string) {
+          capturedImage = this
+        }
+      }
+    })
+
+    afterEach(() => {
+      (global as any).Image = originalImage
+      jest.restoreAllMocks()
+    })
+
+    it('should scale to default size for small images and save file', async () => {
+      component.downloadCertificate(mockContent)
+      await Promise.resolve()
+      await Promise.resolve()
+      capturedImage.onload()
+      expect(mockCanvas.width).toBe(1350)
+      expect(mockCanvas.height).toBe(880)
+      expect(ctxMock.drawImage).toHaveBeenCalledWith(capturedImage, 0, 0, 1350, 880)
+      expect(FileSaver.saveAs).toHaveBeenCalled()
+    })
+
+    it('should use natural size for large images', async () => {
+      (global as any).Image = class {
+        width = 1200
+        height = 800
+        onload: any = null
+        set src(_v: string) {
+          capturedImage = this
+        }
+      }
+      component.downloadCertificate(mockContent)
+      await Promise.resolve()
+      await Promise.resolve()
+      capturedImage.onload()
+      expect(mockCanvas.width).toBe(1200)
+      expect(mockCanvas.height).toBe(800)
+      expect(ctxMock.drawImage).toHaveBeenCalledWith(capturedImage, 0, 0, 1200, 800)
+    })
+
+    it('should remove certificate_downloaded flag from localStorage when present', async () => {
+      localStorage.setItem('certificate_downloaded_id-1', 'true')
+      component.downloadCertificate(mockContent)
+      await Promise.resolve()
+      await Promise.resolve()
+      capturedImage.onload()
+      expect(localStorage.getItem('certificate_downloaded_id-1')).toBeNull()
+    })
   })
 })

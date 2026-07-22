@@ -57,11 +57,11 @@ export class PageComponent extends WidgetBaseComponent
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
+  }
+  ngOnInit() {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })
-  }
-  ngOnInit() {
     this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' })
 
     // Set authenticated based on user profile existence

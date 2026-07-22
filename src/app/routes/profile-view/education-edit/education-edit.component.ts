@@ -63,17 +63,6 @@ export class EducationEditComponent implements OnInit {
 
       },
     ]
-    this.educationForm.controls['courseName'].valueChanges.subscribe(selectedValue => {
-      this.cName = selectedValue
-    }
-    )
-    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      this.logger.log(data, 'here')
-      this.workLog = await data
-      if (this.workLog) {
-        this.getUserDetails()
-      }
-    })
     effect(() => {
       if (this.valueSvc.isMobile()) {
         this.showbackButton = true
@@ -86,6 +75,17 @@ export class EducationEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.educationForm.controls['courseName'].valueChanges.subscribe(selectedValue => {
+      this.cName = selectedValue
+    }
+    )
+    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
+      this.logger.log(data, 'here')
+      this.workLog = await data
+      if (this.workLog) {
+        this.getUserDetails()
+      }
+    })
     const eduLog: any = sessionStorage.getItem('academic') || null
     this.workLog = JSON.parse(eduLog)
 

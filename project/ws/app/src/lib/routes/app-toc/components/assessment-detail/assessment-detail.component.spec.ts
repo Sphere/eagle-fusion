@@ -120,4 +120,70 @@ describe('AssessmentDetailComponent', () => {
     ;(mockHttp.get as jest.Mock).mockReturnValue(throwError(() => new Error('network')))
     await expect(component.ngOnInit()).rejects.toBeTruthy()
   })
+
+  it('should strip hi/ segment from competency artifact url', async () => {
+    (window as any)['env'] = { azureHost: 'http://azure-host' }
+    ;(mockViewSvc.getCompetencyAuthoringUrl as jest.Mock).mockReturnValue('http://x/hi/artifact.json')
+    component = createComponent(mockRoute({ competency: 'true' }))
+    component.content = { artifactUrl: 'http://x/content/artifact.json', identifier: 'id-1' }
+    const quiz = { questions: [{ multiSelection: false, question: 'q1' }] }
+    ;(mockHttp.get as jest.Mock).mockReturnValue(of(quiz))
+    await component.ngOnInit()
+    expect(mockHttp.get).toHaveBeenCalledWith(expect.stringContaining('http://x/artifact.json'))
+  })
+
+  it('should replace to auth url for competency artifactUrl path when forPreview is true', async () => {
+    (window as any)['env'] = { azureHost: 'http://azure-host' }
+    component = createComponent(mockRoute({ competency: 'true' }))
+    component.forPreview = true
+    component.content = { artifactUrl: 'http://x/content/artifact.json', identifier: 'id-1' }
+    const quiz = { questions: [] }
+    ;(mockHttp.get as jest.Mock).mockReturnValue(of(quiz))
+    await component.ngOnInit()
+    expect(mockViewSvc.replaceToAuthUrl).toHaveBeenCalled()
+  })
+
+  it('should set mcq-mca for multiSelection in competency artifactUrl path', async () => {
+    (window as any)['env'] = { azureHost: 'http://azure-host' }
+    component = createComponent(mockRoute({ competency: 'true' }))
+    component.content = { artifactUrl: 'http://x/content/artifact.json', identifier: 'id-1' }
+    const quiz = { questions: [{ multiSelection: true, question: 'q1' }] }
+    ;(mockHttp.get as jest.Mock).mockReturnValue(of(quiz))
+    await component.ngOnInit()
+    expect(component.assesmentdata.questions[0].questionType).toBe('mcq-mca')
+  })
+
+  it('should follow competency path via fetchContent when artifactUrl is missing', async () => {
+    (window as any)['env'] = { azureHost: 'http://azure-host' }
+    component = createComponent(mockRoute({ competency: 'true' }))
+    component.content = { identifier: 'id-1' }
+    const quiz = { questions: [{ multiSelection: false, question: 'q1' }] }
+    ;(mockContentSvc.fetchContent as jest.Mock).mockReturnValue(
+      of({ result: { content: { artifactUrl: 'http://x/content/hi/artifact.json' } } }),
+    )
+    ;(mockHttp.get as jest.Mock).mockReturnValue(of(quiz))
+    await component.ngOnInit()
+    expect(mockContentSvc.fetchContent).toHaveBeenCalledWith('id-1', 'detail')
+    expect(component.assesmentdata.questions[0].questionType).toBe('mcq-sca')
+  })
+
+  it('should set mcq-mca for multiSelection when artifactUrl is missing (non-competency)', async () => {
+    component = createComponent(mockRoute({}))
+    component.content = { identifier: 'id-1' }
+    const quiz = { questions: [{ multiSelection: true, question: 'q1' }] }
+    ;(mockContentSvc.fetchContent as jest.Mock).mockReturnValue(of({ result: { content: { artifactUrl: 'http://x/content/artifact.json' } } }))
+    ;(mockHttp.get as jest.Mock).mockReturnValue(of(quiz))
+    await component.ngOnInit()
+    expect(component.assesmentdata.questions[0].questionType).toBe('mcq-mca')
+  })
+
+  it('should use authoring url when forPreview is true and artifactUrl is missing (non-competency)', async () => {
+    component = createComponent(mockRoute({}))
+    component.forPreview = true
+    component.content = { identifier: 'id-1' }
+    ;(mockContentSvc.fetchContent as jest.Mock).mockReturnValue(of({ result: { content: { artifactUrl: 'http://x/content/artifact.json' } } }))
+    ;(mockHttp.get as jest.Mock).mockReturnValue(of({ questions: [] }))
+    await component.ngOnInit()
+    expect(mockViewSvc.getAuthoringUrl).toHaveBeenCalledWith('http://x/content/artifact.json')
+  })
 })

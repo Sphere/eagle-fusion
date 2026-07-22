@@ -52,16 +52,6 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       organizationName: new UntypedFormControl('', [Validators.required]),
       designation: new UntypedFormControl('', [Validators.required]),
     })
-    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      this.logger.log(data, 'here')
-      this.workLog = await data
-      const check = sessionStorage.getItem('work')
-      this.logger.log(check)
-      if (this.workLog) {
-        this.getUserDetails()
-      }
-      this.logger.log(this.workLog.edit)
-    })
     effect(() => {
       if (this.valueSvc.isMobile()) {
         this.showbackButton = true
@@ -74,6 +64,16 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
+      this.logger.log(data, 'here')
+      this.workLog = await data
+      const check = sessionStorage.getItem('work')
+      this.logger.log(check)
+      if (this.workLog) {
+        this.getUserDetails()
+      }
+      this.logger.log(this.workLog.edit)
+    })
     this.workLog = sessionStorage.getItem('work') || null
     this.getUserDetails()
   }

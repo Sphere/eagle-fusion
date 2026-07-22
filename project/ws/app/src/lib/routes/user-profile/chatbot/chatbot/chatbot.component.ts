@@ -93,7 +93,9 @@ export class ChatbotComponent implements OnInit {
     private readonly configSvc: ConfigurationsService,
     private readonly btnservice: BtnProfileService,
     private readonly UserAgentResolverService: UserAgentResolverService) {
+  }
 
+  ngOnInit() {
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {
         if (this.configSvc.userProfile) {
@@ -107,9 +109,6 @@ export class ChatbotComponent implements OnInit {
           this.registeredUserName += `${data.profileDetails.profileReq.personalDetails.surname}`
         }
       })
-  }
-
-  ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
       this.chatObj = data
       this.chatArray.push(this.chatObj.regOption.profiledetails[0])

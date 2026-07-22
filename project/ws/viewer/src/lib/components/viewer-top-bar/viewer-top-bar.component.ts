@@ -52,9 +52,6 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     private readonly contentSvc: WidgetContentService,
     private readonly viewerSvc: ViewerUtilService
   ) {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isSmall = isXSmall
-    })
   }
 
   ngOnChanges() {
@@ -65,6 +62,9 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isSmall = isXSmall
+    })
     if (window.location.href.includes('/author/')) {
       this.isAuthor = true
     }

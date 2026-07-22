@@ -292,7 +292,7 @@ export class MpRegisterComponent implements OnInit {
         }
       })
     }
-    return Array.from(allTypes).sort()
+    return Array.from(allTypes).sort((a, b) => a.localeCompare(b))
   }
 
   // ---------- Form Submission ----------

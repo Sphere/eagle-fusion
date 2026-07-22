@@ -35,9 +35,10 @@ describe('QuizComponent (route-view-container)', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should set isSmall from valueSvc.isXSmall$ in constructor', () => {
+  it('should set isSmall from valueSvc.isXSmall$ in ngOnInit', () => {
     mockValueSvc.isXSmall$ = of(true)
     const comp = new QuizComponent(mockActivatedRoute, mockViewerDataSvc, mockValueSvc)
+    comp.ngOnInit()
     expect(comp.isSmall).toBe(true)
   })
 

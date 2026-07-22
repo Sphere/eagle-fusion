@@ -53,6 +53,7 @@ describe('ViewerTopBarComponent', () => {
   })
 
   it('tracks isSmall as isXSmall$ emits', () => {
+    component.ngOnInit()
     mockValueSvc.isXSmall$.next(true)
     expect(component.isSmall).toBe(true)
   })

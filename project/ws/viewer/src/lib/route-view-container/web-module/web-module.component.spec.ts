@@ -45,8 +45,9 @@ describe('WebModuleComponent (route-view-container)', () => {
     )
   })
 
-  it('should create and subscribe to isXSmall$ in constructor', () => {
+  it('should create and subscribe to isXSmall$ in ngOnInit', () => {
     expect(component).toBeTruthy()
+    component.ngOnInit()
     expect(component.isSmall).toBe(true)
   })
 

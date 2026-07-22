@@ -69,6 +69,7 @@ describe('WorkInfoListComponent', () => {
   })
 
   it('should set showbackButton when isXSmall$ emits true', () => {
+    component.ngOnInit()
     mockValueService.isXSmall$.next(true)
     expect(component.showbackButton).toBe(true)
   })
@@ -514,6 +515,7 @@ describe('WorkInfoListComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe mobileSubscription', () => {
+      component.ngOnInit()
       const spy = jest.spyOn(component['mobileSubscription'] as any, 'unsubscribe')
       component.ngOnDestroy()
       expect(spy).toHaveBeenCalled()

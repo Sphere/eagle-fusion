@@ -112,6 +112,173 @@ describe('HtmlComponent (routes/html)', () => {
     })
   })
 
+  describe('ngOnInit (non-preview path) - content-store branch', () => {
+    it('calls setS3Cookie when artifactUrl contains content-store', async () => {
+      mockActivatedRoute.data = of({
+        content: { data: { ...content, artifactUrl: 'https://x.com/content-store/y.html' } },
+      })
+      component.ngOnInit()
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(mockContentSvc.setS3Cookie).toHaveBeenCalled()
+      expect(component.htmlData).toBeTruthy()
+    })
+
+    it('raises unloaded event and clears timer when already raised on next data emission', async () => {
+      const subject: any = { data: null }
+      const { Subject } = require('rxjs')
+      const subj = new Subject()
+      mockActivatedRoute.data = subj.asObservable()
+      component.ngOnInit()
+      subj.next({ content: { data: { ...content } } })
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(component.alreadyRaised).toBe(true)
+      subj.next({ content: { data: { ...content, name: 'Content2' } } })
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(mockEventSvc.dispatchEvent).toHaveBeenCalled()
+      void subject
+    })
+
+    it('handles LOADED and TELEMETRY postMessage events', async () => {
+      component.ngOnInit()
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+      const source = { postMessage: jest.fn() }
+      window.dispatchEvent(new MessageEvent('message', {
+        data: { requestId: 'LOADED', subApplicationName: 'RBCP' },
+        source: source as any,
+      }))
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(mockRespondSvc.loadedRespond).toHaveBeenCalled()
+      expect(component.subApp).toBe(true)
+
+      window.dispatchEvent(new MessageEvent('message', {
+        data: { requestId: 'TELEMETRY' },
+        source: source as any,
+      }))
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(mockRespondSvc.telemetryEvents).toHaveBeenCalled()
+
+      window.dispatchEvent(new MessageEvent('message', {
+        data: { requestId: 'UNKNOWN' },
+        source: source as any,
+      }))
+      await Promise.resolve()
+    })
+
+    it('ignores postMessage events without a valid source', async () => {
+      component.ngOnInit()
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+      window.dispatchEvent(new MessageEvent('message', { data: { requestId: 'LOADED' } }))
+      await Promise.resolve()
+      expect(mockRespondSvc.loadedRespond).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('preview path - content-store branch', () => {
+    beforeEach(() => {
+      mockActivatedRoute.snapshot.queryParamMap.get = jest.fn((key: string) => (key === 'preview' ? 'true' : null))
+      mockActivatedRoute.snapshot.paramMap = { get: jest.fn().mockReturnValue('res1') }
+    })
+
+    it('calls setS3Cookie when artifactUrl contains content-store', async () => {
+      mockViewerSvc.getContent.mockReturnValue(of({ ...content, artifactUrl: 'https://x.com/content-store/y.html' }))
+      component.ngOnInit()
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(mockContentSvc.setS3Cookie).toHaveBeenCalled()
+      expect(component.htmlData).toBeTruthy()
+    })
+
+    it('rewrites a bare artifactUrl to https', async () => {
+      mockViewerSvc.getContent.mockReturnValue(of({ ...content, artifactUrl: 'example.com/x.html' }))
+      component.ngOnInit()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(component.htmlData).toBeTruthy()
+    })
+  })
+
+  describe('setS3Cookie error handling', () => {
+    it('swallows errors from the underlying service call', async () => {
+      mockContentSvc.setS3Cookie.mockReturnValue({ toPromise: () => Promise.reject(new Error('fail')) })
+      mockActivatedRoute.data = of({
+        content: { data: { ...content, artifactUrl: 'https://x.com/content-store/y.html' } },
+      })
+      component.ngOnInit()
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(component.htmlData).toBeTruthy()
+    })
+  })
+
+  describe('fireRealTimeProgress / raiseRealTimeProgress', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('does nothing when forPreview is true', () => {
+      component.forPreview = true
+      ;(component as any).raiseRealTimeProgress()
+      expect(component.realTimeProgressTimer).toBeUndefined()
+    })
+
+    it('sets a timer and fires real time progress after the delay, skipping external courses', () => {
+      component.forPreview = false
+      component.htmlData = { ...content, contentType: 'Course', isExternal: true } as any
+      ;(component as any).raiseRealTimeProgress()
+      jest.advanceTimersByTime(2 * 60 * 1000)
+      expect(component.hasFiredRealTimeProgress).toBe(true)
+    })
+
+    it('skips certification resource types', () => {
+      component.forPreview = false
+      component.htmlData = { ...content, resourceType: 'Certification' } as any
+      ;(component as any).fireRealTimeProgress()
+    })
+
+    it('skips when isIframeSupported is not yes', () => {
+      component.forPreview = false
+      component.htmlData = { ...content, isIframeSupported: 'no' } as any
+      ;(component as any).fireRealTimeProgress()
+    })
+
+    it('skips Cross Knowledge source', () => {
+      component.forPreview = false
+      component.htmlData = { ...content, sourceName: 'Cross Knowledge' } as any
+      ;(component as any).fireRealTimeProgress()
+    })
+
+    it('sets content_type from htmlData when none of the skip conditions apply', () => {
+      component.forPreview = false
+      component.htmlData = { ...content, contentType: 'Resource' } as any
+      ;(component as any).fireRealTimeProgress()
+      expect(component.realTimeProgressRequest.content_type).toBe('Resource')
+    })
+
+    it('sets content_type to empty string when htmlData is null', () => {
+      component.forPreview = false
+      component.htmlData = null
+      ;(component as any).fireRealTimeProgress()
+      expect(component.realTimeProgressRequest.content_type).toBe('')
+    })
+  })
+
   describe('formDiscussionForumWidget', () => {
     it('builds the discussion forum widget config from content', () => {
       component.formDiscussionForumWidget(content)

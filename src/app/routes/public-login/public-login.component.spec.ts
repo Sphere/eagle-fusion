@@ -496,6 +496,7 @@ describe('PublicLoginComponent', () => {
         { instant: jest.fn().mockImplementation((k: string) => k) } as any,
         mockCdr, mockNgZone,
       )
+      comp.ngOnInit()
       expect(comp.isEkshamtaLogin).toBe(true)
     })
 

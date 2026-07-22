@@ -78,6 +78,7 @@ describe('MobileProfileNavComponent', () => {
   it('should store backMessage url in sessionStorage', () => {
     mockContentSvc.backMessage.subscribe = jest.fn((cb: any) => cb('/page/home'))
     component = new MobileProfileNavComponent(mockDialog, mockRouter, mockContentSvc, mockLogger, mockValueSvc)
+    component.ngOnInit()
     expect(sessionStorage.getItem('clickedUrl')).toBe('/page/home')
   })
 

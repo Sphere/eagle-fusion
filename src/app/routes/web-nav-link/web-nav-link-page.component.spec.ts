@@ -364,6 +364,7 @@ describe('WebNavLinkPageComponent', () => {
 
   describe('router events / navbar subscriptions', () => {
     it('should syncMenuWithUrl and detectChanges on NavigationEnd', () => {
+      component.ngOnInit()
       const spy = jest.spyOn(component as any, 'syncMenuWithUrl')
       mockLocation.path.mockReturnValue('/page/home')
       routerEvents$.next(new NavigationEnd(1, '/page/home', '/page/home'))

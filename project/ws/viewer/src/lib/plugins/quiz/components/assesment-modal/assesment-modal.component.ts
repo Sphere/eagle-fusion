@@ -760,7 +760,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
       } else {
         if (
-          correctOptions.sort().join(',') === selectedOptions.sort().join(',')
+          correctOptions.sort((a, b) => a.localeCompare(b)).join(',') === selectedOptions.sort((a, b) => a.localeCompare(b)).join(',')
         ) {
           this.numCorrectAnswers += 1
         } else if (selectedOptions.length > 0) {

@@ -33,9 +33,10 @@ describe('PdfComponent (route-view-container/pdf)', () => {
     expect(component).toBeTruthy()
   })
 
-  it('subscribes to isXSmall$ in constructor and sets isSmall', () => {
+  it('subscribes to isXSmall$ in ngOnInit and sets isSmall', () => {
     mockValueSvc.isXSmall$ = of(true)
     const c = new PdfComponent(mockActivatedRoute, mockConfigSvc, mockViewerDataSvc, mockValueSvc)
+    c.ngOnInit()
     expect(c.isSmall).toBe(true)
   })
 
