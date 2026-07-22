@@ -36,12 +36,14 @@ describe('AuthRootComponent', () => {
 
   it('should not navigate when orgValue is not nhsrc', () => {
     localStorage.setItem('orgValue', 'other')
-    expect(() => createComponent()).not.toThrow()
+    component = createComponent()
+    expect(() => component.ngOnInit()).not.toThrow()
   })
 
-  it('should throw when orgValue is nhsrc since router is undefined', () => {
+  it('should throw when orgValue is nhsrc since router is undefined', async () => {
     localStorage.setItem('orgValue', 'nhsrc')
-    expect(() => createComponent()).toThrow()
+    component = createComponent()
+    await expect(component.ngOnInit()).rejects.toThrow()
   })
 
   describe('ngOnInit', () => {

@@ -109,26 +109,6 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     private readonly translate: TranslateService,
     private readonly themeService: ThemeService
   ) {
-    this.gotData = this.contentSvc.workMessage.subscribe((data: WorkMessage) => {
-      this.logger.log(data)
-      if (data.type === 'work' || data.type === 'academic') {
-        if (data.back === true || data.edit === 'save') {
-          this.showView = ''
-        } else {
-          this.showView = data
-        }
-      }
-      if (data.type === 'onListPage') {
-        this.hideData = false
-        this.selectedIndex = 'personal'
-        this.selectedIndex = ''
-      }
-      if (data.type === 'back' && this.showMobileView) {
-        this.hideData = false
-        this.selectedIndex = 'personal'
-        this.selectedIndex = ''
-      }
-    })
     this.userForm = new FormGroup({
       language: new FormControl(),
     })
@@ -182,7 +162,31 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges()
   }
 
+  private subscribeToWorkMessage(): void {
+    this.gotData = this.contentSvc.workMessage.subscribe((data: WorkMessage) => {
+      this.logger.log(data)
+      if (data.type === 'work' || data.type === 'academic') {
+        if (data.back === true || data.edit === 'save') {
+          this.showView = ''
+        } else {
+          this.showView = data
+        }
+      }
+      if (data.type === 'onListPage') {
+        this.hideData = false
+        this.selectedIndex = 'personal'
+        this.selectedIndex = ''
+      }
+      if (data.type === 'back' && this.showMobileView) {
+        this.hideData = false
+        this.selectedIndex = 'personal'
+        this.selectedIndex = ''
+      }
+    })
+  }
+
   ngOnInit(): void {
+    this.subscribeToWorkMessage()
     this.setupMenuItems()
     this.domain = window.location.hostname
     if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {

@@ -72,9 +72,10 @@ describe('PageComponent', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should navigate to organisations/home in constructor when orgValue is nhsrc', () => {
+  it('should navigate to organisations/home on init when orgValue is nhsrc', () => {
     localStorage.setItem('orgValue', 'nhsrc')
     const c = createComponent()
+    c.ngOnInit()
     expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/organisations/home')
     expect(c).toBeTruthy()
   })

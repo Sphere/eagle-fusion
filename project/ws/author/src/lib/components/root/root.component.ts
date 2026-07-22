@@ -30,12 +30,12 @@ export class AuthRootComponent implements OnInit, OnDestroy {
     private readonly changeDetector: ChangeDetectorRef,
     private readonly snackBar: MatSnackBar,
   ) {
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.router.navigateByUrl('/organisations/home')
-    }
   }
 
   async ngOnInit() {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.router.navigateByUrl('/organisations/home')
+    }
     if (window.innerWidth < 1163 && !this.isWidthMessageShown) {
       this.isWidthMessageShown = true
       this.snackBar.openFromComponent(NotificationComponent, {

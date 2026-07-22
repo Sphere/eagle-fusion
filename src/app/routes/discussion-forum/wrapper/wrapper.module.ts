@@ -18,26 +18,27 @@ export class WrapperModule {
         // private eventsSvc: EventService,
 
     ) {
-        this.discussionEventsService.telemetryEvent.subscribe(data => {
-            switch (data.eid) {
-                case 'IMPRESSION':
-                    // this.teleSvc.impression({ pageId: data.edata.pageid, module: WsEvents.EnumTelemetrymodules.DISCUSS })
-                    break
-                case 'INTERACT':
-                    // this.eventsSvc.raiseInteractTelemetry(
-                    //     {
-                    //         type: data.edata.type,
-                    //         subType: data.edata.pageid,
-                    //         id: (data.object && data.object.id) || '',
-                    //     },
-                    //     data.object,
-                    //     {
-                    //         pageId: data.edata.pageid,
-                    //         module: WsEvents.EnumTelemetrymodules.DISCUSS,
-                    //     })
-                    break
-            }
+        queueMicrotask(() => {
+            this.discussionEventsService.telemetryEvent.subscribe(data => {
+                switch (data.eid) {
+                    case 'IMPRESSION':
+                        // this.teleSvc.impression({ pageId: data.edata.pageid, module: WsEvents.EnumTelemetrymodules.DISCUSS })
+                        break
+                    case 'INTERACT':
+                        // this.eventsSvc.raiseInteractTelemetry(
+                        //     {
+                        //         type: data.edata.type,
+                        //         subType: data.edata.pageid,
+                        //         id: (data.object && data.object.id) || '',
+                        //     },
+                        //     data.object,
+                        //     {
+                        //         pageId: data.edata.pageid,
+                        //         module: WsEvents.EnumTelemetrymodules.DISCUSS,
+                        //     })
+                        break
+                }
+            })
         })
-
     }
 }

@@ -32,19 +32,21 @@ export class AuthKeycloakService {
     private readonly logger: LoggerService,
     private readonly themeSvc: ThemeService
   ) {
-    this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
-      this.configSvc.isAuthenticated = isLoggedIn
-      if (
-        isLoggedIn &&
-        this.configSvc.instanceConfig &&
-        Boolean(this.configSvc.instanceConfig.disablePidCheck)
-      ) {
-        this.configSvc.userProfile = {
-          email: this.userEmail,
-          userName: this.userName,
-          userId: this.userId || '',
+    queueMicrotask(() => {
+      this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
+        this.configSvc.isAuthenticated = isLoggedIn
+        if (
+          isLoggedIn &&
+          this.configSvc.instanceConfig &&
+          Boolean(this.configSvc.instanceConfig.disablePidCheck)
+        ) {
+          this.configSvc.userProfile = {
+            email: this.userEmail,
+            userName: this.userName,
+            userId: this.userId || '',
+          }
         }
-      }
+      })
     })
   }
 

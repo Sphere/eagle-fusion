@@ -61,9 +61,6 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
       ),
       { initialValue: '' }
     )
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.router.navigateByUrl('/organisations/home')
-    }
   }
 
   get shouldShowBadges(): boolean {
@@ -72,6 +69,9 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.router.navigateByUrl('/organisations/home')
+    }
     this.logger.log(this.configData, 'configData ****** ')
     this.uiConfig = this.configData?.[0]
     this.dataCarousel = this.uiConfig?.data

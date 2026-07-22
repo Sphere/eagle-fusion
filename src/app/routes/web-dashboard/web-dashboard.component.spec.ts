@@ -234,11 +234,12 @@ describe('WebDashboardComponent', () => {
     expect(component.noOfBadges).toBe(0)
   })
 
-  it('constructor should navigate to /organisations/home when orgValue is nhsrc', () => {
+  it('should navigate to /organisations/home on init when orgValue is nhsrc', () => {
     const router = TestBed.inject(Router)
     const navSpy = jest.spyOn(router, 'navigateByUrl').mockImplementation(jest.fn() as any)
     localStorage.setItem('orgValue', 'nhsrc')
-    TestBed.createComponent(WebDashboardComponent)
+    const fixture = TestBed.createComponent(WebDashboardComponent)
+    fixture.detectChanges()
     expect(navSpy).toHaveBeenCalledWith('/organisations/home')
     localStorage.removeItem('orgValue')
     navSpy.mockRestore()

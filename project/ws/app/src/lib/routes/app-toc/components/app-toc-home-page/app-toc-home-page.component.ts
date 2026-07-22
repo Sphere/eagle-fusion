@@ -129,15 +129,14 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private readonly translate: TranslateService
   ) {
     this.discussiConfig.setConfig()
+  }
+  ngOnInit() {
     if (this.configSvc.userProfile) {
       this.show()
       this.discussionConfig = {
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
-
-  }
-  ngOnInit() {
     // ASHA-home flow: capture the asha context (isAsha + competency/level/course params)
     // passed in the query string so this course page can drive asha-specific navigation.
     this.route.queryParams.subscribe((queryParams: any) => {

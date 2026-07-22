@@ -473,6 +473,7 @@ describe('MobileProfileDashboardComponent', () => {
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )
+      ;(component as any).subscribeToWorkMessage()
       workCb({ type: 'work', back: true })
       expect(component.showView).toBe('')
     })
@@ -489,6 +490,7 @@ describe('MobileProfileDashboardComponent', () => {
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )
+      ;(component as any).subscribeToWorkMessage()
       workCb({ type: 'onListPage' })
       expect(component.selectedIndex).toBe('')
     })
@@ -506,6 +508,7 @@ describe('MobileProfileDashboardComponent', () => {
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )
+      ;(component as any).subscribeToWorkMessage()
       workCb({ type: 'back' })
       expect(component.selectedIndex).toBe('')
     })

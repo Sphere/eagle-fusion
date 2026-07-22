@@ -38,6 +38,12 @@ export class PublicHomeComponent extends WidgetBaseComponent
     @Inject(PLATFORM_ID) private readonly platformId: object,
   ) {
     super()
+    effect(() => {
+      this.isXSmall = this.valueSvc.isMobile() ? true : false
+    })
+  }
+
+  ngOnInit() {
     if (isPlatformBrowser(this.platformId) && localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/public/organisations/home')
     }
@@ -45,12 +51,7 @@ export class PublicHomeComponent extends WidgetBaseComponent
     if (this.configSvc.instanceConfig && this.configSvc.userProfile !== null) {
       this.router.navigate(['/page/home'])
     }
-    effect(() => {
-      this.isXSmall = this.valueSvc.isMobile() ? true : false
-    })
-  }
 
-  ngOnInit() {
     this.seoSvc.update({
       title: 'Free Online Courses for Nurses in India | INC Certified | Aastrika Sphere',
       description: 'Earn CNE points with 500+ free INC-certified online courses for nurses, ANMs, GNMs, midwives and healthcare workers across India. Maternal health, newborn care, and more — in Hindi and English.',

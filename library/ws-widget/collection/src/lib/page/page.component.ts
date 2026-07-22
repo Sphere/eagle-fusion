@@ -54,11 +54,11 @@ export class PageComponent extends WidgetBaseComponent
     private readonly meta: Meta
   ) {
     super()
+  }
+  ngOnInit() {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
-  }
-  ngOnInit() {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })

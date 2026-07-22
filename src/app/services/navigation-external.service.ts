@@ -10,8 +10,10 @@ export class NavigationExternalService {
 
   dummy = 1
   constructor(private readonly router: Router) {
-    fromEvent(document, NAVIGATION_DATA_INCOMING).subscribe((event: CustomEventInit) => {
-      this.navigateTo(event.detail.url, event.detail.params)
+    queueMicrotask(() => {
+      fromEvent(document, NAVIGATION_DATA_INCOMING).subscribe((event: CustomEventInit) => {
+        this.navigateTo(event.detail.url, event.detail.params)
+      })
     })
   }
   init() {

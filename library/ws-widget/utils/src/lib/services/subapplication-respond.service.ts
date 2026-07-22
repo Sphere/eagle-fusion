@@ -22,8 +22,10 @@ export class SubapplicationRespondService {
     private readonly teleSvc: TelemetryService,
   ) {
     this.changeContextrespond()
-    this.configSvc.prefChangeNotifier.subscribe(() => {
-      this.changeContextrespond()
+    queueMicrotask(() => {
+      this.configSvc.prefChangeNotifier.subscribe(() => {
+        this.changeContextrespond()
+      })
     })
   }
   loadedRespond(contentWindow: any, applicationName: string, id?: string) {

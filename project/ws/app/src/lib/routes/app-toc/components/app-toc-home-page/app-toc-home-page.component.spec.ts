@@ -133,8 +133,12 @@ describe('AppTocHomePageComponent', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should call show() and set discussionConfig when userProfile exists on construction', () => {
+  it('should call setConfig() on construction', () => {
     expect(mockDiscussConfig.setConfig).toHaveBeenCalled()
+  })
+
+  it('should call show() and set discussionConfig on init when userProfile exists', () => {
+    component.ngOnInit()
     expect(component.discussionConfig.userName).toBe('test-user')
   })
 

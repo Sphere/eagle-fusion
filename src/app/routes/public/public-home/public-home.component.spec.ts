@@ -93,6 +93,7 @@ describe('PublicHomeComponent', () => {
     mockConfigSvc.instanceConfig = { siteName: 'test' }
     mockConfigSvc.userProfile = { userId: 'user-1' }
     makeComponent()
+    component.ngOnInit()
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/page/home'])
   })
 
@@ -100,6 +101,7 @@ describe('PublicHomeComponent', () => {
     mockConfigSvc.instanceConfig = { siteName: 'test' }
     mockConfigSvc.userProfile = null
     makeComponent()
+    component.ngOnInit()
     expect(mockRouter.navigate).not.toHaveBeenCalledWith(['/page/home'])
   })
 
@@ -158,6 +160,7 @@ describe('PublicHomeComponent', () => {
       commonMock.isPlatformBrowser.mockReturnValue(true)
       localStorage.setItem('orgValue', 'nhsrc')
       makeComponent()
+      component.ngOnInit()
       commonMock.isPlatformBrowser.mockReturnValue(false)
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/public/organisations/home')
     })

@@ -117,7 +117,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   videoData: VideoData = {}
   configData: ConfigData | null = null
   orgDetails!: OrgDetails
-  private readonly routerEventsSubscription!: Subscription
+  private routerEventsSubscription!: Subscription
   isEkshamata = false
   domain!: string
   bodyConfig!: BodyConfig
@@ -172,33 +172,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isEkshamata = true
       }
     }
-    this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
-      if (
-        event instanceof NavigationEnd &&
-        !event.url.toLowerCase().includes('/app/user/competency')
-      ) {
-        this.navigationInterceptor(event)
-      }
-    })
-
-    // Subscribe to profile updates and clear cache when profile is modified
-    this.userProfileSvc.updateuser$.pipe(takeUntil(this.destroy$)).subscribe((updatedProfile: any) => {
-      if (updatedProfile) {
-        this.logger.log('[RootComponent] Profile updated, refreshing user data cache', updatedProfile)
-        this.userDataCacheSvc.clearUserData()
-        this.userProfileSvc.clearUserDetailsCache()
-        // Set the updated profile data to session storage and subject
-        if (updatedProfile.request && updatedProfile.request.profileDetails) {
-          // Extract the full profile with the updated details
-          const userData = this.configSvc.unMappedUser || {}
-          if (updatedProfile.request.profileDetails.profileReq) {
-            userData.profileDetails = updatedProfile.request.profileDetails
-          }
-          this.logger.log('[RootComponent] Setting updated user data to cache')
-          this.userDataCacheSvc.setUserData(userData)
-        }
-      }
-    })
 
     // Online/offline tracking and resize listener are browser-only
     if (isBrowser) {
@@ -374,6 +347,34 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnInit(): void {
     this.handleRouterSubscription()
+
+    this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
+      if (
+        event instanceof NavigationEnd &&
+        !event.url.toLowerCase().includes('/app/user/competency')
+      ) {
+        this.navigationInterceptor(event)
+      }
+    })
+
+    // Subscribe to profile updates and clear cache when profile is modified
+    this.userProfileSvc.updateuser$.pipe(takeUntil(this.destroy$)).subscribe((updatedProfile: any) => {
+      if (updatedProfile) {
+        this.logger.log('[RootComponent] Profile updated, refreshing user data cache', updatedProfile)
+        this.userDataCacheSvc.clearUserData()
+        this.userProfileSvc.clearUserDetailsCache()
+        // Set the updated profile data to session storage and subject
+        if (updatedProfile.request && updatedProfile.request.profileDetails) {
+          // Extract the full profile with the updated details
+          const userData = this.configSvc.unMappedUser || {}
+          if (updatedProfile.request.profileDetails.profileReq) {
+            userData.profileDetails = updatedProfile.request.profileDetails
+          }
+          this.logger.log('[RootComponent] Setting updated user data to cache')
+          this.userDataCacheSvc.setUserData(userData)
+        }
+      }
+    })
 
     // Initialize downtime configuration
     this.downtimeService.initializeDowntimeConfig()

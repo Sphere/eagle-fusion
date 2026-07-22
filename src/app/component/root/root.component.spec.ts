@@ -373,6 +373,7 @@ describe('RootComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('unsubscribes routerEventsSubscription', () => {
+      component.ngOnInit()
       const spy = jest.spyOn(component['routerEventsSubscription'], 'unsubscribe')
       component.ngOnDestroy()
       expect(spy).toHaveBeenCalled()
@@ -952,6 +953,10 @@ describe('RootComponent', () => {
   })
 
   describe('navigationInterceptor (via constructor router.events)', () => {
+    beforeEach(() => {
+      component.ngOnInit()
+    })
+
     it('does not call navigationInterceptor for competency url', () => {
       const spy = jest.spyOn(component as any, 'navigationInterceptor')
       routerEvents$.next(new NavigationEnd(1, '/app/user/competency', '/app/user/competency'))
@@ -1374,7 +1379,7 @@ describe('RootComponent', () => {
         clearUserDetailsCache: jest.fn(),
         getUserdetailsFromRegistry: jest.fn().mockReturnValue(of({})),
       }
-      buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$, userProfileSvc: userProfileSvcWithCb })
+      buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$, userProfileSvc: userProfileSvcWithCb }).comp.ngOnInit()
       capturedCb({ request: { profileDetails: { profileReq: { personal: {} } } } })
       expect(userProfileSvcWithCb.clearUserDetailsCache).toHaveBeenCalled()
     })
@@ -1396,6 +1401,7 @@ describe('RootComponent', () => {
         configSvc: { userProfile: { userId: 'u1' }, unMappedUser: { userId: 'u1' }, isAuthenticated: false },
       })
       m.comp['userDataCacheSvc'] = mockUDC as any
+      m.comp.ngOnInit()
       capturedCb({ request: { profileDetails: { profileReq: { personal: {} } } } })
       expect(mockUDC.setUserData).toHaveBeenCalled()
     })
@@ -1410,7 +1416,7 @@ describe('RootComponent', () => {
         clearUserDetailsCache: jest.fn(),
         getUserdetailsFromRegistry: jest.fn().mockReturnValue(of({})),
       }
-      buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$, userProfileSvc: userProfileSvcWithCb })
+      buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$, userProfileSvc: userProfileSvcWithCb }).comp.ngOnInit()
       expect(() => capturedCb(null)).not.toThrow()
       expect(userProfileSvcWithCb.clearUserDetailsCache).not.toHaveBeenCalled()
     })
