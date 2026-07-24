@@ -63,6 +63,7 @@ export class PlaylistService {
         type: 'web_layout',
         subtype: 'v1',
         action: 'get',
+        framework: 'v2',
         component: (orgId && window.location.href.includes('ekshamata')) ? 'ekshamata' : 'web',
         rootOrgId: orgId || '*',
       },
@@ -106,6 +107,24 @@ export class PlaylistService {
       this.logger.error('Failed to load playlist config', error)
       return []
     }
+  }
+
+  /**
+   * Resolves the playlist/search `playlistId` to filter by for a given UI `sectionId`, by
+   * reading the `playlistConfigId` the backend already attaches to that section in the
+   * web_layout config (LAYOUT_BODY.sections). This is the join key backend owns — if they
+   * rename a playlistId, updating playlistConfigId in the section config is enough; no
+   * frontend deploy needed.
+   */
+  getPlaylistConfigId(sectionId: string): string | undefined {
+    const sectionsByTab: any = this.sections() || {}
+    for (const tabSections of Object.values(sectionsByTab)) {
+      if (Array.isArray(tabSections)) {
+        const match = (tabSections as any[]).find(s => s?.sectionId === sectionId && s?.playlistConfigId)
+        if (match) return match.playlistConfigId
+      }
+    }
+    return undefined
   }
 
   clearCache() {

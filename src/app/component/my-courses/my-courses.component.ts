@@ -166,12 +166,19 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     const roleCheck = (roles: string[]) =>
       roles?.some(r => r.toLowerCase() === designation.toLowerCase())
 
+    // Join key per section comes from the section's own `playlistConfigId` (backend
+    // web_layout config) rather than a hardcoded playlistId — falls back to the known
+    // default only if that section/config isn't present.
+    const yourPlansConfigId = this.playlistSvc.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')
+    const competencyConfigId = this.playlistSvc.getPlaylistConfigId('COMPETENCY_PLAYLIST')
+
     let matchedElements = this.plyLsData?.filter(element =>
-      element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === 'YOUR_PLANS_PLAYLIST' && element.language === this.lang)
+      element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === yourPlansConfigId && element.language === this.lang)
 
     if (matchedElements.length === 0) {
       matchedElements = this.plyLsData?.filter(element =>
-        element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
+        element.orgId === rootOrgId && roleCheck(element.role) &&
+        (element.playlistId === competencyConfigId || element.playlistId === 'SEARCH_PLAYLIST'))
 
       const listOfEnrolledCourseId = (this.userEnrolledCourse || [])
         .filter(course => course?.content?.identifier && !course?.content?.competency)
@@ -182,7 +189,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       let sourceName: string[] = []
 
       matchedElements?.forEach(element => {
-        if (element.playlistId === 'COMPETENCY_PLAYLIST') {
+        if (element.playlistId === competencyConfigId) {
           competencySearchArray.push(
             ...this.buildCompetencySearchArray(element?.dataSource?.payload)
           )
@@ -323,19 +330,16 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     }
     const competencySearchArray: string[] = []
     competencyPayload.forEach(competencyObj => {
-      Object.keys(competencyObj).forEach(key => {
-        const competency = competencyObj[key]
-        const competencyId = competency?.id
-        if (!competencyId) return
+      const competencyId = competencyObj?.id
+      if (!competencyId) return
 
-        const levelDescriptions = competency?.additionalProperties?.competencyLevelDescription || []
+      const levelDescriptions = competencyObj?.levels || []
 
-        levelDescriptions.forEach((levelDesc: any) => {
-          const level = levelDesc?.level
-          if (level) {
-            competencySearchArray.push(`${competencyId}-${level}`)
-          }
-        })
+      levelDescriptions.forEach((levelDesc: any) => {
+        const level = levelDesc?.level
+        if (level) {
+          competencySearchArray.push(`${competencyId}-${level}`)
+        }
       })
     })
     return competencySearchArray

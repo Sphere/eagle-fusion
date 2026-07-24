@@ -5,10 +5,8 @@ import { catchError, map } from 'rxjs/operators'
 import { API_END_POINTS } from 'src/app/constants/apiConstants'
 import _ from 'lodash-es'
 import {
-  CompetencyInfo,
   CompetencyLevel,
   CompetencyLevelDescription,
-  CompetencyData,
   Course,
   SearchResult,
   ProgressRecord,
@@ -27,9 +25,9 @@ export class MobileDashboardService {
     competencyHomeData: Role[],
     _rootOrgId: string,
     designation: string,
-    lang: string
-  ): CompetencyInfo | null {
-    const item = competencyHomeData.find(p => p.playlistId === 'COMPETENCY_PLAYLIST')
+    playlistConfigId?: string
+  ): { competencyIds: string[], competencyLevels: CompetencyLevel[], isUserDesignationInRoles: boolean } | null {
+    const item = competencyHomeData.find(p => p.playlistId === playlistConfigId)
     if (!item) return null
 
     const rolesInPlaylist: string[] = (item.role || []).map((r: string) => r.toLowerCase())
@@ -39,27 +37,21 @@ export class MobileDashboardService {
     const competencies: any[] = item.dataSource?.payload || item?.payload || []
     if (!competencies.length) return null
 
-    const competencyIds: string[] = _.flatMap(competencies, compObj =>
-      Object.keys(compObj).map(key => compObj[key].id)
-    )
-    const competencyLevels: CompetencyLevel[] = competencies.flatMap((compObj: any) =>
-      Object.values(compObj).flatMap((comp: CompetencyData) => {
-        const levels: CompetencyLevelDescription[] = comp.additionalProperties?.competencyLevelDescription || []
-        return levels.map((l: CompetencyLevelDescription): CompetencyLevel => ({
-          competencyId: comp.id,
-          // The level keeps its OWN name; the competency name is carried separately
-          // (competencyName) only so the card title can be derived, then stripped.
-          name: l.name || l.levelName,
-          competencyName: comp.name,
-          level: l.level,
-          levelName: l.name || l.levelName,
-          description: l.description,
-          langHiName: l[`lang-${lang}-name`],
-          langHiDescription: l[`lang-${lang}-description`],
-          course: l.course || [],
-        }))
-      })
-    )
+    const competencyIds: string[] = _.flatMap(competencies, compObj => compObj.id)
+    const competencyLevels: CompetencyLevel[] = competencies.flatMap((compObj: any) => {
+      const levels: CompetencyLevelDescription[] = compObj?.levels || []
+      return levels.map((l: any) => ({
+        competencyId: compObj.id,
+        // The level keeps its OWN name; the competency name is carried separately
+        // (competencyName) only so the card title can be derived, then stripped.
+        name: l.name || l.levelName,
+        competencyName: compObj.name,
+        level: l.level,
+        levelName: l.name || l.levelName,
+        description: l.description,
+        course: l.courseId || [],
+      }))
+    })
 
     return { competencyIds, competencyLevels, isUserDesignationInRoles }
   }
@@ -82,7 +74,7 @@ export class MobileDashboardService {
         competencyMap.set(key, {
           title: level.competencyName || level.name,
           competencyID: String(level.competencyId),
-          contentId: level.course?.[0]?.id || '',
+          contentId: level.course || '',
           batchId: '',
           isAsha: 'true',
           levels: [],
@@ -152,7 +144,7 @@ export class MobileDashboardService {
     return courses
       .map(course => {
         const matchedLevel = competencyLevels.find(l =>
-          (l.course || []).some((c: any) => c.id === course.identifier)
+          (l.course == course.identifier)
         )
         let competencyID = matchedLevel?.competencyId
         if (competencyID === undefined || competencyID === null) {
@@ -206,15 +198,13 @@ export class MobileDashboardService {
       // (mirrors mobile groupLevelsByCourse — iterates ALL courses, not just course[0]).
       const courseGroups = new Map<string, string[]>()
       for (const level of course.levels) {
-        ; (level.course || []).forEach((c: Course) => {
-          if (!c?.id) {
-            return
+        const courseId = level.course // Direct courseId from new structure
+        if (courseId) {
+          if (!courseGroups.has(courseId)) {
+            courseGroups.set(courseId, [])
           }
-          if (!courseGroups.has(c.id)) {
-            courseGroups.set(c.id, [])
-          }
-          courseGroups.get(c.id)!.push(String(level.level))
-        })
+          courseGroups.get(courseId)!.push(String(level.level))
+        }
       }
 
       // Identify completed courses (a Pass on a 'course' content type) by their level.
@@ -222,7 +212,7 @@ export class MobileDashboardService {
       rawProgress.forEach(p => {
         if (p.passFailStatus === 'Pass' && p.contentType?.toLowerCase() === 'course') {
           const matchingLevel = course.levels.find((l: any) => String(l.level) === String(p.levelId))
-          const levelCourseId = matchingLevel?.course?.[0]?.id
+          const levelCourseId = matchingLevel?.course // Use courseId from new structure
           if (levelCourseId) {
             completedCourseIds.add(levelCourseId)
           }
@@ -238,7 +228,7 @@ export class MobileDashboardService {
       completedCourseIds.forEach(completedCourseId => {
         const baseProgress = rawProgress.find(p => {
           const lvl = course.levels.find((l: any) => String(l.level) === String(p.levelId))
-          return lvl?.course?.[0]?.id === completedCourseId && p.passFailStatus === 'Pass'
+          return lvl?.course === completedCourseId && p.passFailStatus === 'Pass'
         })
           ; (courseGroups.get(completedCourseId) || []).forEach(levelNum => {
             finalProgress.set(levelNum, {

@@ -10,15 +10,20 @@ export interface CompetencyLevelDescription {
   description?: string
   'lang-hi-name'?: string
   'lang-hi-description'?: string
-  course: Course[]
+  courseId: string
 }
 
 export interface CompetencyData {
   id: string
   name: string
-  additionalProperties?: {
-    competencyLevelDescription: CompetencyLevelDescription[]
-  }
+  levels?: CompetencyLevelV2[]
+}
+
+export interface CompetencyLevelV2 {
+  name: string,
+  level: Number,
+  courseId: string,
+  description: string
 }
 
 export interface CompetencyLevel {
@@ -30,7 +35,7 @@ export interface CompetencyLevel {
   description?: string
   langHiName?: string
   langHiDescription?: string
-  course: Course[]
+  course: string
 }
 
 export interface Role {

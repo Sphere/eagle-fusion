@@ -126,6 +126,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   // programSec: boolean = false
   showProgramDet = computed(() => this.playlistSvc.showDetails())
   hasProgramConfig = false
+  hasCompetencyConfig = false
+  competencyConfig: any = {}
   constructor(
     private readonly router: Router,
     public readonly authSvc: AuthKeycloakService,
@@ -517,6 +519,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.showNavbar = true
       this.videoData = this.configData?.[this.configData?.length - 1]
       localStorage.setItem('videoData', JSON.stringify(this.videoData))
+      this.checkCompetencyConfig(homeTabConfig)
       if (!this.themeSvc.hasStoredPreference() && this.orgDetails?.themeConfig?.isDark === false) {
         this.themeSvc.setTheme(false)
       }
@@ -776,7 +779,29 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
     }
   }
-  backToChatIcon(): void {
+
+  private checkCompetencyConfig(homeTabConfig: any): void {
+    if (!homeTabConfig || !Array.isArray(homeTabConfig)) {
+      this.hasCompetencyConfig = false
+      return
+    }
+
+    const userProfile: any = this.configSvc.userProfile || {}
+    const userRole = (userProfile.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || (this.configSvc.unMappedUser as any)?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || '').toLowerCase()
+
+    if (!userRole) {
+      this.hasCompetencyConfig = false
+      return
+    }
+
+    this.hasCompetencyConfig = homeTabConfig.some((item: any) => {
+      if (item.role && Array.isArray(item.role)) {
+        return item.role.some((role: string) => role.toLowerCase() === userRole)
+      }
+      return false
+    })
+  }
+  backToChatIcon() {
     try {
       this.isCommonChatEnabled = true
       window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
