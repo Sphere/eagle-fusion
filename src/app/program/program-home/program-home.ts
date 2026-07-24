@@ -157,7 +157,7 @@ export class ProgramHome implements OnInit {
     ).length
 
     const inProgressCount = matchedCourses.filter(
-      (course: any) => course.completionPercentage == 0 && course.completionPercentage < 100
+      (course: any) => course.completionPercentage !== 100
     ).length
 
     console.log('[ProgramHome] Counts:', { completedCount, inProgressCount, total: payload.length })
