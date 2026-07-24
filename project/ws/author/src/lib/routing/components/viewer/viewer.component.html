@@ -24,12 +24,14 @@
       [src]="iframeUrl | pipeSafeSanitizer: 'resourceUrl'"
       [width]="selected.width"
       [height]="selected.height"
+      title="Content preview"
     >
     </iframe>
   </div>
 </div>
 <mat-menu #actionMenu="matMenu">
-  <a mat-menu-item (click)="takeAction()">
+  <a mat-menu-item (click)="takeAction()" (keydown.enter)="takeAction()"
+    (keydown.space)="takeAction(); $event.preventDefault()" tabindex="0">
     {{ actionType }}
   </a>
 </mat-menu>

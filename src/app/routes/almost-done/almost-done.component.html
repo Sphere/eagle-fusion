@@ -2,7 +2,9 @@
   <div class="login-card">
     <h1>{{ 'Almost done!' | translate }}</h1>
     <p><span style="float:left;"><span>{{ 'Background' | translate }}</span>: {{backgroundSelect}}</span>
-      <span style="float:right;color: var(--theme-accent); cursor: pointer;" (click)='redirectToYourBackground()'>{{
+      <span style="float:right;color: var(--theme-accent); cursor: pointer;" tabindex="0" role="button"
+        (click)='redirectToYourBackground()' (keydown.enter)='redirectToYourBackground()'
+        (keydown.space)='redirectToYourBackground(); $event.preventDefault()'>{{
         'Change' |
         translate }}</span>
     </p>

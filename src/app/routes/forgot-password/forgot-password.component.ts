@@ -42,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
 
     this.emailForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      userInput: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      userInput: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(?:(?:([- ]*)[6-9][0-9]{9}([- ]*))|(?:^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$))$/)]),
     })
   }
 

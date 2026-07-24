@@ -216,13 +216,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     // Loop through the keys in obj2
     for (const key in obj2) {
       if (obj2.hasOwnProperty(key)) {
-        // If the key exists in obj1, accept the latest value from obj2
-        if (mergedObj.hasOwnProperty(key)) {
-          mergedObj[key] = obj2[key]
-        } else {
-          // If the key doesn't exist in obj1, add it from obj2
-          mergedObj[key] = obj2[key]
-        }
+        // Whether the key exists in obj1 or not, take the latest value from obj2
+        mergedObj[key] = obj2[key]
       }
     }
     return mergedObj

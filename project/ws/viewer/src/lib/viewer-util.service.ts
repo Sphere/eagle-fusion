@@ -252,9 +252,11 @@ export class ViewerUtilService {
           this.logger.log('Record deleted successfully', message)
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
-            async (dat: any) => {
-              this.logger.log('Data inserted successfully2', dat)
-              await dat
+            (dat: any) => {
+              void (async () => {
+                this.logger.log('Data inserted successfully2', dat)
+                await dat
+              })()
             },
             (error: any) => { // 'error' callback for insertProgressData
               this.logger.error('Error inserting progress data:', error)
@@ -359,9 +361,11 @@ export class ViewerUtilService {
           this.logger.log('Record deleted successfully', message)
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
-            async (dat: any) => {
-              this.logger.log('Data inserted successfully2', dat)
-              await dat
+            (dat: any) => {
+              void (async () => {
+                this.logger.log('Data inserted successfully2', dat)
+                await dat
+              })()
             },
             (error: any) => { // 'error' callback for insertProgressData
               this.logger.error('Error inserting progress data:', error)

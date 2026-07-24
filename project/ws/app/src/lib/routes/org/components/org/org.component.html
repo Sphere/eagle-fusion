@@ -54,8 +54,10 @@
     <div *ngIf="currentOrgData?.headerStyle === 'inc'" id="navy-blue-bg"
       [ngClass]="{'mb-5': currentOrgData?.headerStyle === 'inc'}">
       <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5 flex flex-middle main">
-        <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
-          (click)="goToLink('https://indiannursingcouncil.org/')" alt="inc-logo" />
+        <a href="https://indiannursingcouncil.org/" target="_blank" rel="noopener"
+          style="all: unset; display: contents; cursor: pointer;">
+          <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo" alt="INC logo" />
+        </a>
         <span class="ml-5 mylearning">{{ currentOrgData.title || 'e-Learning for Maternal and Newborn Health Care'
           }}</span>
       </div>
@@ -149,7 +151,9 @@
                 section.showAll,
                 section.config.limit || 5)">
               <div class="card-standard-container mb-6 cursor-pointer">
-                <a (click)="gotoOverview(course.identifier)" class="rounded-t py-2" role="link" aria-label="Content">
+                <a (click)="gotoOverview(course.identifier)" (keydown.enter)="gotoOverview(course.identifier)"
+                  (keydown.space)="gotoOverview(course.identifier); $event.preventDefault()" tabindex="0"
+                  class="rounded-t py-2" aria-label="Content">
                   <div class="flex">
                     <img
                       [src]="course.posterImage || course.thumbnail || course.appIcon || '/fusion-assets/images/frame-156.svg'"

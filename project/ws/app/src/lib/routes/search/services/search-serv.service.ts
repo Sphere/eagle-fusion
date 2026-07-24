@@ -222,7 +222,7 @@ export class SearchServService {
         if (key) {
           let str = ''
           const count = filters[key].length
-          filters[key].map((cur: string, i: number) => {
+          filters[key].forEach((cur: string, i: number) => {
             if (i !== count - 1) {
               str += `"${cur}",`
             } else {

@@ -84,89 +84,91 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     this.lang = this.langSvc.getCurrentLanguage()
   }
 
-  async ngOnInit() {
-    this.logger.log('selectedProgDet ', this.selectedProgDet)
+  ngOnInit() {
+    void (async () => {
+      this.logger.log('selectedProgDet ', this.selectedProgDet)
 
-    this.isLoading.set(true)
-    this.handleScrollEvents()
-    const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
-    const designationLower = designation.toLowerCase()
-    const rootOrgId = this.configSvc?.userProfile?.rootOrgId
-    const roleCheck = (roles: string[]) =>
-      roles?.some(r => r.toLowerCase() === designationLower)
-    if (this.showbackButton() && !!this.programConfig) {
-      // Program config detail view: refresh enrollment/progress data instead of relying on
-      // the @Input snapshot (which is captured once at app bootstrap in RootComponent and
-      // never re-fires), so completed/in-progress status reflects the latest API response.
-      await this.refreshUserEnrollCourse()
+      this.isLoading.set(true)
+      this.handleScrollEvents()
+      const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
+      const designationLower = designation.toLowerCase()
+      const rootOrgId = this.configSvc?.userProfile?.rootOrgId
+      const roleCheck = (roles: string[]) =>
+        roles?.some(r => r.toLowerCase() === designationLower)
+      if (this.showbackButton() && !!this.programConfig) {
+        // Program config detail view: refresh enrollment/progress data instead of relying on
+        // the @Input snapshot (which is captured once at app bootstrap in RootComponent and
+        // never re-fires), so completed/in-progress status reflects the latest API response.
+        await this.refreshUserEnrollCourse()
 
-      this.isCompetencyUser.set(this.selectedProgDet?.type === 'competency')
-      if (this.isCompetencyUser()) {
-        // this.handleCompetencyFlow(rootOrgId, roleCheck)
-        this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: 'COMPETENCY_PLAYLIST' }])
-        this.competencyDesignation = designation
-        this.competencyRole = 'learner'
+        this.isCompetencyUser.set(this.selectedProgDet?.type === 'competency')
+        if (this.isCompetencyUser()) {
+          // this.handleCompetencyFlow(rootOrgId, roleCheck)
+          this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: 'COMPETENCY_PLAYLIST' }])
+          this.competencyDesignation = designation
+          this.competencyRole = 'learner'
 
-        const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST')
-        this.competencySection = sectionFromConfig || { text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
+          const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === 'COMPETENCY_PLAYLIST')
+          this.competencySection = sectionFromConfig || { text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
 
-        this.isCompetencyUser.set(true)
-        this.isLoading.set(false)
-        return
-      } else {
-        this.configData = this.programConfig?.tabs
-        this.uiConfig.set(this.configData)
-        this.programIdentifiers = this.selectedProgDet.payload
-      }
-    } else if (Array.isArray(this.configData)) {
-      this.uiConfig.set(this.configData.slice(1, -1))
-      if (this.configSvc?.userProfile) {
-        this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-        this.logger.log('plyLsData', this.plyLsData)
+          this.isCompetencyUser.set(true)
+          this.isLoading.set(false)
+          return
+        } else {
+          this.configData = this.programConfig?.tabs
+          this.uiConfig.set(this.configData)
+          this.programIdentifiers = this.selectedProgDet.payload
+        }
+      } else if (Array.isArray(this.configData)) {
+        this.uiConfig.set(this.configData.slice(1, -1))
+        if (this.configSvc?.userProfile) {
+          this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+          this.logger.log('plyLsData', this.plyLsData)
 
-        for (const element of this.plyLsData) {
-          if (element.orgId !== rootOrgId || element.language !== this.lang) continue
-          const { playlistId, dataSource } = element
-          if (designation && roleCheck(element.role)) {
-            if (playlistId === 'YOUR_PLANS_PLAYLIST') {
-              this.yourPlansCourseIdentifier = dataSource.payload
+          for (const element of this.plyLsData) {
+            if (element.orgId !== rootOrgId || element.language !== this.lang) continue
+            const { playlistId, dataSource } = element
+            if (designation && roleCheck(element.role)) {
+              if (playlistId === 'YOUR_PLANS_PLAYLIST') {
+                this.yourPlansCourseIdentifier = dataSource.payload
+              }
+            }
+            if (playlistId === 'TOP_COURSE_PLAYLIST') {
+              this.topCertifiedCourseIdentifier = dataSource.payload
+            }
+            if (playlistId === 'CNE_COURSE_PLAYLIST') {
+              this.cneCoursesIdentifier = dataSource.payload
+            }
+            if (this.isEkshamata && playlistId === 'FEATURED_COURSE_PLAYLIST') {
+              this.featuredCourseIdentifier = dataSource.payload
             }
           }
-          if (playlistId === 'TOP_COURSE_PLAYLIST') {
-            this.topCertifiedCourseIdentifier = dataSource.payload
-          }
-          if (playlistId === 'CNE_COURSE_PLAYLIST') {
-            this.cneCoursesIdentifier = dataSource.payload
-          }
-          if (this.isEkshamata && playlistId === 'FEATURED_COURSE_PLAYLIST') {
-            this.featuredCourseIdentifier = dataSource.payload
-          }
         }
       }
-    }
-    // Fallback: if playlist API returned empty, read identifiers from form config
-    if (!this.topCertifiedCourseIdentifier.length && !this.cneCoursesIdentifier.length && !this.yourPlansCourseIdentifier.length) {
-      this.uiConfig().forEach(data => {
-        if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
-          this.topCertifiedCourseIdentifier = data.payload || []
-        } else if (data?.playlistConfigId == 'CNE_COURSE_PLAYLIST') {
-          this.cneCoursesIdentifier = data.payload || []
-        }
-      })
-    }
-    // Evaluate competency eligibility first so isCompetencyUser is set correctly even
-    // when standard playlist identifiers also exist (the fallback above can populate them).
-    if (this.handleCompetencyFlow(rootOrgId, roleCheck)) {
-      return
-    }
+      // Fallback: if playlist API returned empty, read identifiers from form config
+      if (!this.topCertifiedCourseIdentifier.length && !this.cneCoursesIdentifier.length && !this.yourPlansCourseIdentifier.length) {
+        this.uiConfig().forEach(data => {
+          if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
+            this.topCertifiedCourseIdentifier = data.payload || []
+          } else if (data?.playlistConfigId == 'CNE_COURSE_PLAYLIST') {
+            this.cneCoursesIdentifier = data.payload || []
+          }
+        })
+      }
+      // Evaluate competency eligibility first so isCompetencyUser is set correctly even
+      // when standard playlist identifiers also exist (the fallback above can populate them).
+      if (this.handleCompetencyFlow(rootOrgId, roleCheck)) {
+        return
+      }
 
-    // Main flow (non-competency users)
-    if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0 || this.programIdentifiers.length > 0) {
-      this.fetchEnvironmentConfigurations()
-      return
-    } else {
-      this.isLoading.set(false)
-    }
+      // Main flow (non-competency users)
+      if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0 || this.programIdentifiers.length > 0) {
+        this.fetchEnvironmentConfigurations()
+        return
+      } else {
+        this.isLoading.set(false)
+      }
+    })()
   }
 
   ngOnChanges(changes: SimpleChanges) {

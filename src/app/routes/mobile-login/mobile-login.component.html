@@ -39,7 +39,7 @@
               <input [type]="hide ? 'password' : 'text'" placeholder="Password" id="password-field"
                 formControlName="password" class="form-control">
               <div class="input-group-addon iconPosition">
-                <a href="javascript:void(0)" (click)="toggle()" class="f-black">
+                <a href="javascript:void(0)" (click)="toggle()" class="f-black" [attr.aria-label]="hide ? 'Show password' : 'Hide password'">
                   <i [ngClass]="iconChange" aria-hidden="true"></i>
                 </a>
               </div>
@@ -66,10 +66,12 @@
         <p><span>{{'Do not have an account?' | translate}} </span><a href="app/create-account">{{'Create an account' |
             translate}}</a>
         </p>
-        <label>{{'Choose your Language' | translate}}</label>
+        <span>{{'Choose your Language' | translate}}</span>
         <div class="d-inline" style="margin-top: -5px; font-size: small;">
-          <a (click)="redirect('')" class="languages">English</a>
-          <a (click)="redirect('hi')" class="languages">हिन्दी</a>
+          <a (click)="redirect('')" (keydown.enter)="redirect('')" (keydown.space)="redirect(''); $event.preventDefault()"
+            tabindex="0" class="languages">English</a>
+          <a (click)="redirect('hi')" (keydown.enter)="redirect('hi')"
+            (keydown.space)="redirect('hi'); $event.preventDefault()" tabindex="0" class="languages">हिन्दी</a>
         </div>
       </div>
     </div>

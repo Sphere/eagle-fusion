@@ -41,6 +41,15 @@ jest.mock('../../services/playlist.service', () => ({
 
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 
+// ngOnInit wraps its body in a fire-and-forget IIFE, so it no longer returns a
+// promise. Call it, then flush microtask ticks for the internal awaits to settle.
+const runNgOnInit = async (comp: WebPublicComponent) => {
+  comp.ngOnInit()
+  for (let i = 0; i < 6; i++) {
+    await Promise.resolve()
+  }
+}
+
 const scrollToDivEvent$ = new Subject<string>()
 
 const mockRouter: Partial<Router> = {
@@ -221,7 +230,7 @@ describe('WebPublicComponent', () => {
       const localComponent = createComponent()
       localComponent.sections = { find: jest.fn().mockReturnValue(null) } as any
       localComponent.programConfig = { tabs: [] }
-      await localComponent.ngOnInit()
+      await runNgOnInit(localComponent)
       expect(localComponent.isCompetencyUser()).toBe(true)
       expect(localComponent.competencyPlaylists()[0]).toEqual(
         expect.objectContaining({ playlistId: 'COMPETENCY_PLAYLIST', type: 'competency' })
@@ -239,7 +248,7 @@ describe('WebPublicComponent', () => {
       const fetchSpy = jest
         .spyOn(localComponent as any, 'fetchEnvironmentConfigurations')
         .mockImplementation(() => {})
-      await localComponent.ngOnInit()
+      await runNgOnInit(localComponent)
       expect(localComponent.uiConfig()).toEqual([{ playlistConfigId: 'X' }])
       expect(localComponent.programIdentifiers).toEqual(['p1'])
       expect(fetchSpy).toHaveBeenCalled()
@@ -521,14 +530,14 @@ describe('WebPublicComponent', () => {
 
     it('should complete loading (isLoading false) when no identifiers exist', async () => {
       ;(mockConfigSvc as any).userProfile = null
-      await component.ngOnInit()
+      await runNgOnInit(component)
       // handleCompetencyFlow finds no competencies → sets isLoading(false)
       expect(component.isLoading()).toBe(false)
     })
 
     it('should skip playlist fetch when userProfile is null', async () => {
       ;(mockConfigSvc as any).userProfile = null
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(mockPlaylistSvc.getPlaylistConfig).not.toHaveBeenCalled()
     })
 
@@ -538,7 +547,7 @@ describe('WebPublicComponent', () => {
       component.configData = [{}, {}, {}]
       jest.spyOn(component as any, 'handleCompetencyFlow').mockImplementation(() => {})
 
-      await component.ngOnInit()
+      await runNgOnInit(component)
 
       expect(mockPlaylistSvc.getPlaylistConfig).toHaveBeenCalled()
     })
@@ -550,7 +559,7 @@ describe('WebPublicComponent', () => {
       jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
       ;(mockPlaylistSvc.getPlaylistConfig as jest.Mock).mockResolvedValue([])
 
-      await component.ngOnInit()
+      await runNgOnInit(component)
 
       expect((component as any).fetchEnvironmentConfigurations).toHaveBeenCalled()
     })
@@ -560,7 +569,7 @@ describe('WebPublicComponent', () => {
       component.configData = [{ id: 'start' }, { id: 'mid1' }, { id: 'mid2' }, { id: 'end' }]
       jest.spyOn(component as any, 'handleCompetencyFlow').mockImplementation(() => {})
 
-      await component.ngOnInit()
+      await runNgOnInit(component)
 
       // slice(1, -1) → ['mid1', 'mid2']
       expect(component.uiConfig()).toHaveLength(2)
@@ -579,7 +588,7 @@ describe('WebPublicComponent', () => {
       ]
       jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
 
-      await component.ngOnInit()
+      await runNgOnInit(component)
 
       expect(component['topCertifiedCourseIdentifier']).toEqual(['top1'])
       expect(component['cneCoursesIdentifier']).toEqual(['cne1'])
@@ -701,7 +710,7 @@ describe('WebPublicComponent', () => {
         dataSource: { payload: ['c1', 'c2'] }, role: [],
       }])
       jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component['topCertifiedCourseIdentifier']).toEqual(['c1', 'c2'])
     })
 
@@ -711,7 +720,7 @@ describe('WebPublicComponent', () => {
         dataSource: { payload: ['cne1'] }, role: [],
       }])
       jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component['cneCoursesIdentifier']).toEqual(['cne1'])
     })
 
@@ -721,7 +730,7 @@ describe('WebPublicComponent', () => {
         dataSource: { payload: ['c1'] }, role: [],
       }])
       jest.spyOn(component as any, 'handleCompetencyFlow').mockImplementation(() => {})
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component['topCertifiedCourseIdentifier']).toEqual([])
     })
 
@@ -734,7 +743,7 @@ describe('WebPublicComponent', () => {
         dataSource: { payload: ['plan1'] }, role: ['doctor'],
       }])
       jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component['yourPlansCourseIdentifier']).toEqual(['plan1'])
     })
 
@@ -745,7 +754,7 @@ describe('WebPublicComponent', () => {
         dataSource: { payload: ['feat1'] }, role: [],
       }])
       jest.spyOn(component as any, 'fetchEnvironmentConfigurations').mockImplementation(() => {})
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component['featuredCourseIdentifier']).toEqual(['feat1'])
     })
   })

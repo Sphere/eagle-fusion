@@ -6,7 +6,9 @@
       <mat-icon [matBadgeHidden]="!activity?.activityData.downVote" [matBadge]="activity?.activityData.downVote"
         matBadgeSize="small" matBadgeColor="accent">thumb_down</mat-icon>
     </button>
-    <mat-icon *ngIf="iconType === 'triangle'" class="vote-triangle" role="button" (click)="downVote(invalidUser.value)"
+    <mat-icon *ngIf="iconType === 'triangle'" class="vote-triangle" role="button" tabindex="0"
+      (click)="downVote(invalidUser.value)" (keydown.enter)="downVote(invalidUser.value)"
+      (keydown.space)="downVote(invalidUser.value); $event.preventDefault()"
       [ngClass]="{ highlight: activity.userActivity.downVote }">arrow_drop_down</mat-icon>
   </ng-container>
   <ng-container *ngIf="voteType === 'upVote'">
@@ -16,7 +18,9 @@
       <mat-icon [matBadgeHidden]="!activity?.activityData.upVote" [matBadge]="activity?.activityData.upVote"
         matBadgeColor="accent" matBadgeSize="small" class="thumb-icon">thumb_up</mat-icon>
     </button>
-    <mat-icon *ngIf="iconType === 'triangle'" class="vote-triangle" role="button" (click)="upVote(invalidUser.value)"
+    <mat-icon *ngIf="iconType === 'triangle'" class="vote-triangle" role="button" tabindex="0"
+      (click)="upVote(invalidUser.value)" (keydown.enter)="upVote(invalidUser.value)"
+      (keydown.space)="upVote(invalidUser.value); $event.preventDefault()"
       [ngClass]="{ highlight: activity.userActivity.upVote }">arrow_drop_up</mat-icon>
   </ng-container>
 </ng-container>

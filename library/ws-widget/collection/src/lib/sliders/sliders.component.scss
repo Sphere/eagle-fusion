@@ -164,12 +164,12 @@ $banner-min-height: 200px;
 
 @media (max-width: 600px) {
   .slider-header-text {
-    font: 500 16px/20px Roboto !important;
+    font: 500 16px/20px Roboto, sans-serif !important;
     margin-top: 5px;
   }
 
   .slider-header-subtext {
-    font: 400 13px/20px Roboto !important;
+    font: 400 13px/20px Roboto, sans-serif !important;
   }
   .text-block {
      padding-left: 7%;
@@ -188,7 +188,7 @@ $banner-min-height: 200px;
     margin-bottom: 0px !important;
   }
   .slider-header-text {
-    font: 500 15px/20px Roboto !important;
+    font: 500 15px/20px Roboto, sans-serif !important;
     padding-right: 22%;
   }
 }
@@ -197,7 +197,7 @@ $banner-min-height: 200px;
     padding-left: 6%;
   }
   .slider-header-subtext {
-    font: 400 13px/20px Roboto !important;
+    font: 400 13px/20px Roboto, sans-serif !important;
   }
 }
 .join-btn {
@@ -207,5 +207,5 @@ $banner-min-height: 200px;
 }
 
 h1 {
-  font: 400 28px/32px Roboto
+  font: 400 28px/32px Roboto, sans-serif
 }

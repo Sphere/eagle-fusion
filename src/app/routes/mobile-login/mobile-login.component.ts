@@ -35,7 +35,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.route = location.path()
     this.loginForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      username: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      username: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(?:(?:([- ]*)[6-9][0-9]{9}([- ]*))|(?:^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$))$/)]),
       password: new UntypedFormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
@@ -127,22 +127,24 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         idToken: storageItem1,
       }
       this.contentSvc.googleAuthenticate(req).subscribe(
-        async (results: any) => {
-          const result = await this.signupService.fetchStartUpDetails()
-          if (result.status === 401) {
-            this.openSnackbar(result.error.params.errmsg)
-          }
-          if (result.status === 419) {
-            this.openSnackbar(result.error.params.errmsg)
-          }
-          if (result.status === 200 && result.roles.length > 0) {
-            this.openSnackbar(results.msg)
-            if (localStorage.getItem('url_before_login')) {
-              location.href = localStorage.getItem('url_before_login') || ''
-            } else {
-              location.href = '/page/home'
+        (results: any) => {
+          void (async () => {
+            const result = await this.signupService.fetchStartUpDetails()
+            if (result.status === 401) {
+              this.openSnackbar(result.error.params.errmsg)
             }
-          }
+            if (result.status === 419) {
+              this.openSnackbar(result.error.params.errmsg)
+            }
+            if (result.status === 200 && result.roles.length > 0) {
+              this.openSnackbar(results.msg)
+              if (localStorage.getItem('url_before_login')) {
+                location.href = localStorage.getItem('url_before_login') || ''
+              } else {
+                location.href = '/page/home'
+              }
+            }
+          })()
         },
         (err: any) => {
           this.logger.log(err)
@@ -206,35 +208,37 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       }
     }
     this.contentSvc.loginAuth(req).subscribe(
-      async (results: any) => {
-        const result = await this.signupService.fetchStartUpDetails()
-        if (result.status === 200) {
-          // resendOTP();
-          if (result.roles && result.roles.length > 0) {
-            localStorage.setItem(`loginbtn`, `userLoggedIn`)
-            this.openSnackbar(results.msg)
-            if (localStorage.getItem('url_before_login')) {
-              location.href = localStorage.getItem('url_before_login') || ''
+      (results: any) => {
+        void (async () => {
+          const result = await this.signupService.fetchStartUpDetails()
+          if (result.status === 200) {
+            // resendOTP();
+            if (result.roles && result.roles.length > 0) {
+              localStorage.setItem(`loginbtn`, `userLoggedIn`)
+              this.openSnackbar(results.msg)
+              if (localStorage.getItem('url_before_login')) {
+                location.href = localStorage.getItem('url_before_login') || ''
+              } else {
+                location.href = '/page/home'
+              }
             } else {
-              location.href = '/page/home'
+              this.openSnackbar(this.redirectMsg)
+              this.otpPage = true
+              this.loginVerification = true
+              localStorage.setItem(`userUUID`, result.userId)
+              this.generateOtp(this.emailPhoneType, this.loginForm.value.username.trim())
             }
-          } else {
-            this.openSnackbar(this.redirectMsg)
-            this.otpPage = true
-            this.loginVerification = true
-            localStorage.setItem(`userUUID`, result.userId)
-            this.generateOtp(this.emailPhoneType, this.loginForm.value.username.trim())
           }
-        }
-        if (result.status === 400) {
-          this.openSnackbar(result.error.params.errmsg)
-        }
-        if (result.status === 401) {
-          this.openSnackbar(result.error.params.errmsg)
-        }
-        if (result.status === 419) {
-          this.openSnackbar(result.error.params.errmsg)
-        }
+          if (result.status === 400) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+          if (result.status === 401) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+          if (result.status === 419) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+        })()
       })
   }
   redirect(lang: string) {

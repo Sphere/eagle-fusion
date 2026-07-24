@@ -25,33 +25,35 @@ export class CongratulationsPopupComponent implements OnInit {
     private readonly logger: LoggerService
   ) { }
 
-  async ngOnInit() {
-    const profile: any = this.configSvc?.unMappedUser?.profileDetails?.profileReq
-    this.designation = profile?.professionalDetails[0]?.designation || ""
-    const currentLang = this.languageSvc.getCurrentLanguage()
-    this.generateInteractTelemetry()
-    this.fetchPlayLists(currentLang, this.designation)
-      .then(playlists => {
-        this.earnedBadge = false
-        this.logger.log("playlists", playlists, this.data.collectionId)
-        if (
-          (this.designation.includes("MP") ||
-            this.designation.toLowerCase().includes("mp")) &&
-          playlists &&
-          playlists.length > 0
-        ) {
-          if (playlists.includes(this.data.collectionId)) {
-            this.earnedBadge = true
-            this.playlsSvc.setEarnedBadges(1, true)
+  ngOnInit() {
+    void (async () => {
+      const profile: any = this.configSvc?.unMappedUser?.profileDetails?.profileReq
+      this.designation = profile?.professionalDetails[0]?.designation || ""
+      const currentLang = this.languageSvc.getCurrentLanguage()
+      this.generateInteractTelemetry()
+      this.fetchPlayLists(currentLang, this.designation)
+        .then(playlists => {
+          this.earnedBadge = false
+          this.logger.log("playlists", playlists, this.data.collectionId)
+          if (
+            (this.designation.includes("MP") ||
+              this.designation.toLowerCase().includes("mp")) &&
+            playlists &&
+            playlists.length > 0
+          ) {
+            if (playlists.includes(this.data.collectionId)) {
+              this.earnedBadge = true
+              this.playlsSvc.setEarnedBadges(1, true)
+            }
           }
-        }
-      })
-      .catch(() => {
-        this.earnedBadge = false
-      })
-    setTimeout(() => {
-      this.close()
-    }, 3000)
+        })
+        .catch(() => {
+          this.earnedBadge = false
+        })
+      setTimeout(() => {
+        this.close()
+      }, 3000)
+    })()
   }
 
   close() {
@@ -84,7 +86,7 @@ export class CongratulationsPopupComponent implements OnInit {
           ?.dataSource?.payload || []
         resolve(payload)
       }).catch(err => {
-        reject(err)
+        reject(err instanceof Error ? err : new Error(err))
       })
     })
   }

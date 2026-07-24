@@ -113,7 +113,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       this.populateContentPlayWidget(this.content)
     }
     if (this.content && this.content.gatingEnabled && this.content.children) {
-      this.content.children.map((child1: any, index: any, element: any) => {
+      this.content.children.forEach((child1: any, index: any, element: any) => {
         if (child1['children']) {
           child1['children'].map((child2: any, cindex: any) => {
             if (get(child2, 'completionPercentage') === 100) {

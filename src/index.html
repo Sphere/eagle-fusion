@@ -56,7 +56,8 @@
   <!-- Facebook Pixel — deferred until after page load so it doesn't block FCP -->
   <script>
     window.addEventListener('load', function () {
-      !function (f, b, e, v, n, t, s) {
+      !function (f, b, e, v, n) {
+        var t, s
         if (f.fbq) return; n = f.fbq = function () {
           n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
         }

@@ -43,14 +43,15 @@
                   (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
               </div>
               <div *ngIf="emailPhoneType === 'email'" [formGroup]="loginOtpForm" class="otp-input-container">
-                <input tabindex="1" id="code" class="form-control input-box" formControlName="code" type="text"
+                <input tabindex="0" id="code" class="form-control input-box" formControlName="code" type="text"
                   autocomplete="off"
                   [placeholder]="emailPhoneType === 'email' ? ('Code' | translate) : ('OTP' | translate)">
               </div>
             </div>
             <div class="form-group mt-4 mb-4 activeLink">
               <span>{{ 'Did not receive a OTP?' | translate }}</span>
-              <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)">
+              <span class="resend-text cursor-pointer" tabindex="0" role="button" (click)="resendOTP(emailPhoneType)"
+                (keydown.enter)="resendOTP(emailPhoneType)" (keydown.space)="resendOTP(emailPhoneType); $event.preventDefault()">
                 {{ 'Click Here to resend' | translate }}</span>
             </div>
             <span *ngIf="!loginVerification" class="button-span">

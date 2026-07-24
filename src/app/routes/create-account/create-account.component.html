@@ -3,7 +3,8 @@
 
 <!-- Mobile Navigation - Language Page -->
 <nav *ngIf="(isXSmall$ | async) && langPage" class="nav-bar-bg" aria-label="Language selection navigation">
-  <a class="navbar-brand cursor-pointer" (click)="homePage()" aria-label="Go to home page">
+  <a class="navbar-brand cursor-pointer" (click)="homePage()" (keydown.enter)="homePage()"
+    (keydown.space)="homePage(); $event.preventDefault()" tabindex="0" aria-label="Go to home page">
     <img alt="Sphere logo" width="125" height="65" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>
   <div class="lang-top-bg-block">
@@ -13,7 +14,8 @@
 
 <!-- Mobile Navigation - Other Pages -->
 <nav *ngIf="(isXSmall$ | async) && !langPage" class="nav-bar-bg1" aria-label="Main navigation">
-  <a class="navbar-brand cursor-pointer" (click)="homePage()" aria-label="Go to home page">
+  <a class="navbar-brand cursor-pointer" (click)="homePage()" (keydown.enter)="homePage()"
+    (keydown.space)="homePage(); $event.preventDefault()" tabindex="0" aria-label="Go to home page">
     <img alt="Sphere logo" width="125" height="65" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>
 </nav>
@@ -232,10 +234,10 @@
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
             <mat-label>{{ 'Password' | translate }}</mat-label>
             <input id="password-field" [type]="hide1 ? 'password' : 'text'" class="input-field" matInput
-              formControlName="password" autocomplete="new-password" aria-required="true">
+              formControlName="password" [attr.autocomplete]="hide1 ? 'new-password' : 'off'" aria-required="true">
 
             <div class="input-group-addon iconPosition1">
-              <a href="javascript:void(0)" (click)="toggle1()">
+              <a href="javascript:void(0)" (click)="toggle1()" [attr.aria-label]="hide1 ? 'Show password' : 'Hide password'">
                 <i [ngClass]="iconChange1" aria-hidden="true"></i>
               </a>
             </div>
@@ -261,10 +263,10 @@
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
             <mat-label>{{ 'Confirm Password' | translate }}</mat-label>
             <input id="confpassword-field" [type]="hide2 ? 'password' : 'text'" class="input-field" matInput
-              formControlName="confirmPassword" autocomplete="new-password" aria-required="true">
+              formControlName="confirmPassword" [attr.autocomplete]="hide2 ? 'new-password' : 'off'" aria-required="true">
 
             <div class="input-group-addon iconPosition1">
-              <a href="javascript:void(0)" (click)="toggle2()">
+              <a href="javascript:void(0)" (click)="toggle2()" [attr.aria-label]="hide2 ? 'Show password' : 'Hide password'">
                 <i [ngClass]="iconChange2" aria-hidden="true"></i>
               </a>
             </div>

@@ -140,7 +140,7 @@ export class WebCourseCardComponent implements OnInit {
       .trim()
       .replace(/&/g, 'and')
       .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
-      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
+      .replace(/(?:^-+)|(?:-+$)/g, '')       // Remove starting/ending hyphens
   }
 
 

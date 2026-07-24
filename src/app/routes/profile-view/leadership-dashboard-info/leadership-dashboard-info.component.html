@@ -2,7 +2,10 @@
   <div class="popup-content">
     <div class="info-header">
       <img src="fusion-assets/icons/info_icon.png" alt="Info" />
-      <img src="fusion-assets/icons/close_blue.png" class="icon cursor-pointer" (click)=" close()" alt="Close" />
+      <button type="button" style="all: unset; display: contents; cursor: pointer;" aria-label="Close"
+        (click)="close()">
+        <img src="fusion-assets/icons/close_blue.png" class="icon cursor-pointer" alt="" />
+      </button>
     </div>
 
     <div class="info-body">

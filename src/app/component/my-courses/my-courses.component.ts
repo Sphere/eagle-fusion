@@ -53,62 +53,64 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     })
   }
 
-  async ngOnInit() {
-    this.lang = this.langSvc.getCurrentLanguage()
-    this.isLoading = true
-    this.pendingRequests = 2 // enrollment list + professional/forYou courses
-
-    // Load playlist configs.
-    // getPlaylistConfig() and loadPlaylistData() are awaited here — if either
-    // throws (e.g. 4xx/5xx from the API), the error propagates out of ngOnInit
-    // and isLoading is never set false, leaving the page stuck on the skeleton.
-    // Wrap both in try/catch so a failed config fetch degrades gracefully.
-    try {
-      this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-    } catch (e) {
-      this.plyLsData = []
-    }
-
-    try {
-      let res = this.playlistSvc.selectedTabConfig()
-      if (res == '') {
-        res = await this.playlistSvc.loadPlaylistData()
-        this.config = res?.LAYOUT_BODY?.sections?.courseTab
-      } else {
-        this.config = res
+  ngOnInit() {
+    void (async () => {
+      this.lang = this.langSvc.getCurrentLanguage()
+      this.isLoading = true
+      this.pendingRequests = 2 // enrollment list + professional/forYou courses
+  
+      // Load playlist configs.
+      // getPlaylistConfig() and loadPlaylistData() are awaited here — if either
+      // throws (e.g. 4xx/5xx from the API), the error propagates out of ngOnInit
+      // and isLoading is never set false, leaving the page stuck on the skeleton.
+      // Wrap both in try/catch so a failed config fetch degrades gracefully.
+      try {
+        this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+      } catch (e) {
+        this.plyLsData = []
       }
-    } catch (e) {
-      this.config = null
-    }
-
-    sessionStorage.removeItem('cURL')
-
-    const userId = this.configSvc?.userProfile?.userId || ''
-
-    // Handle route params
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      if (params['courseType'] === 'formatForYouCourses') {
-        this.selectedIndex = 1
-      } else if (params['courseType'] === 'completed') {
-        this.selectedIndex = 2
+  
+      try {
+        let res = this.playlistSvc.selectedTabConfig()
+        if (res == '') {
+          res = await this.playlistSvc.loadPlaylistData()
+          this.config = res?.LAYOUT_BODY?.sections?.courseTab
+        } else {
+          this.config = res
+        }
+      } catch (e) {
+        this.config = null
       }
-    })
-
-    // Fetch user courses - pending request 1
-    this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe({
-      next: courses => {
-        this.userEnrolledCourse = courses
-        this.processUserCourses(courses)
-        this.updateTabData()
-        this.decrementPending()
-      },
-      error: () => {
-        this.decrementPending()
-      },
-    })
-
-    // Handle professional details - pending request 2
-    this.handleProfessionalCourses()
+  
+      sessionStorage.removeItem('cURL')
+  
+      const userId = this.configSvc?.userProfile?.userId || ''
+  
+      // Handle route params
+      this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+        if (params['courseType'] === 'formatForYouCourses') {
+          this.selectedIndex = 1
+        } else if (params['courseType'] === 'completed') {
+          this.selectedIndex = 2
+        }
+      })
+  
+      // Fetch user courses - pending request 1
+      this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe({
+        next: courses => {
+          this.userEnrolledCourse = courses
+          this.processUserCourses(courses)
+          this.updateTabData()
+          this.decrementPending()
+        },
+        error: () => {
+          this.decrementPending()
+        },
+      })
+  
+      // Handle professional details - pending request 2
+      this.handleProfessionalCourses()
+    })()
   }
 
   private decrementPending() {

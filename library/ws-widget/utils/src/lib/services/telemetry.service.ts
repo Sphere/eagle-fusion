@@ -91,7 +91,7 @@ export class TelemetryService {
         }
         $t.interact(edata, {
           actor: {
-            ...actor && actor,
+            ...(actor || {}),
           },
           context: {
             env: this.telemetryConfig.env,
@@ -104,7 +104,7 @@ export class TelemetryService {
             sid: this.getTelemetrySessionId,
           },
           object: {
-            ...(data) && data,
+            ...(data || {}),
           },
         })
       } else {
@@ -153,7 +153,7 @@ export class TelemetryService {
               ver: '3.0',
               mid: '',
               actor: {
-                ...actor && actor,
+                ...(actor || {}),
               },
               context: {
                 channel: this.telemetryConfig.channel,
@@ -183,7 +183,7 @@ export class TelemetryService {
           ],
         }
 
-        this.postPublicTelemetry(finalObject)
+        this.postPublicTelemetry(finalObject).catch(() => undefined)
       } else {
         this.logger.error('Error Initializing Telemetry. Config missing.')
       }
@@ -222,7 +222,7 @@ export class TelemetryService {
             sid: this.getTelemetrySessionId,
           },
           object: {
-            ...(data) && data,
+            ...(data || {}),
           },
         })
       } else {
@@ -255,7 +255,7 @@ export class TelemetryService {
               sid: this.getTelemetrySessionId,
             },
             object: {
-              ...(data) && data,
+              ...(data || {}),
             },
           }
         )
@@ -285,7 +285,7 @@ export class TelemetryService {
             sid: this.getTelemetrySessionId,
           },
           object: {
-            ...(data) && data,
+            ...(data || {}),
           },
         },
       )
@@ -401,11 +401,7 @@ export class TelemetryService {
           },
         ],
       }
-      if (page.objectId) {
-        this.postPublicTelemetry(finalObject)
-      } else {
-        this.postPublicTelemetry(finalObject)
-      }
+      await this.postPublicTelemetry(finalObject)
       this.previousUrl = page.pageUrl
     } catch (e) {
       this.logger.error('Error in telemetry publicImpression', e)
@@ -465,7 +461,7 @@ export class TelemetryService {
           },
         ],
       }
-      this.postPublicTelemetry(finalObject)
+      await this.postPublicTelemetry(finalObject)
       this.previousUrl = page.pageUrl
     } catch (e) {
       this.logger.error('Error in telemetry paramTriggerEnd', e)
@@ -525,7 +521,7 @@ export class TelemetryService {
           },
         ],
       }
-      this.postPublicTelemetry(finalObject)
+      await this.postPublicTelemetry(finalObject)
       this.previousUrl = page.pageUrl
     } catch (e) {
       this.logger.error('Error in telemetry paramTriggerStart', e)
@@ -626,7 +622,7 @@ export class TelemetryService {
             },
           ],
         }
-        this.postPublicTelemetry(finalObject)
+        this.postPublicTelemetry(finalObject).catch(() => undefined)
       } else {
         this.logger.error('Error Initializing Telemetry. Config missing.')
       }

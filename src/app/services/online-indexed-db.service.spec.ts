@@ -236,7 +236,7 @@ describe('IndexedDBService', () => {
     it('rejects when the open request fails', async () => {
       const promise = service.openDatabase()
       lastOpenRequest().triggerError('nope')
-      await expect(promise).rejects.toBe('Failed to open IndexedDB')
+      await expect(promise).rejects.toThrow('Failed to open IndexedDB')
       expect(mockLogger.error).toHaveBeenCalledWith('Failed to open IndexedDB:', 'nope')
     })
 
@@ -529,7 +529,7 @@ describe('IndexedDBService', () => {
       lastOpenRequest().triggerSuccess(db)
       await flushPromises()
       store.requests['getAll'].triggerError('boom')
-      await expect(promise).rejects.toBe('Error fetching data from IndexedDB: boom')
+      await expect(promise).rejects.toThrow('Error fetching data from IndexedDB: boom')
     })
 
     it('throws when opening the database fails', async () => {
@@ -643,7 +643,7 @@ describe('IndexedDBService', () => {
       lastOpenRequest().triggerSuccess(db)
       await flushPromises()
       store.requests['get'].triggerError('bad index')
-      await expect(promise).rejects.toBe('Error fetching row details from IndexedDB: bad index')
+      await expect(promise).rejects.toThrow('Error fetching row details from IndexedDB: bad index')
     })
 
     it('throws when opening the database fails', async () => {
@@ -708,7 +708,7 @@ describe('IndexedDBService', () => {
       const promise = service.updateRowField('onlineCourseProgress', 'c1', 'progress', 80)
       lastOpenRequest().triggerError('nope')
       await promise
-      expect(mockLogger.error).toHaveBeenCalledWith('Error updating field in IndexedDB:', 'Failed to open IndexedDB')
+      expect(mockLogger.error).toHaveBeenCalledWith('Error updating field in IndexedDB:', new Error('Failed to open IndexedDB'))
     })
   })
 })

@@ -4,6 +4,15 @@ import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { AuthRootComponent } from './root.component'
 
+// ngOnInit wraps its body in a fire-and-forget IIFE, so it no longer returns a
+// promise. Call it, then flush microtask ticks for the internal awaits to settle.
+const runNgOnInit = async (component: AuthRootComponent) => {
+  component.ngOnInit()
+  for (let i = 0; i < 5; i++) {
+    await Promise.resolve()
+  }
+}
+
 describe('AuthRootComponent', () => {
   let component: AuthRootComponent
   let mockSafeResourceUrlSvc: Partial<SafeResourceUrlService>
@@ -40,10 +49,12 @@ describe('AuthRootComponent', () => {
     expect(() => component.ngOnInit()).not.toThrow()
   })
 
-  it('should throw when orgValue is nhsrc since router is undefined', async () => {
+  it('should navigate to /organisations/home when orgValue is nhsrc', async () => {
     localStorage.setItem('orgValue', 'nhsrc')
     component = createComponent()
-    await expect(component.ngOnInit()).rejects.toThrow()
+    component.router = { navigateByUrl: jest.fn() }
+    await runNgOnInit(component)
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith('/organisations/home')
   })
 
   describe('ngOnInit', () => {
@@ -53,21 +64,21 @@ describe('AuthRootComponent', () => {
 
     it('should show width message when window is narrow', async () => {
       Object.defineProperty(window, 'innerWidth', { value: 1000, configurable: true })
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.isWidthMessageShown).toBe(true)
       expect(mockSnackBar.openFromComponent).toHaveBeenCalled()
     })
 
     it('should not show width message when window is wide', async () => {
       Object.defineProperty(window, 'innerWidth', { value: 1400, configurable: true })
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.isWidthMessageShown).toBe(false)
       expect(mockSnackBar.openFromComponent).not.toHaveBeenCalled()
     })
 
     it('should subscribe to loader changeLoad and update isLoading', async () => {
       Object.defineProperty(window, 'innerWidth', { value: 1400, configurable: true })
-      await component.ngOnInit()
+      await runNgOnInit(component)
       mockLoader.changeLoad.next(true)
       expect(component.isLoading).toBe(true)
       expect(mockChangeDetector.detectChanges).toHaveBeenCalled()
@@ -75,7 +86,7 @@ describe('AuthRootComponent', () => {
 
     it('should set appIcon when instanceConfig is present', async () => {
       Object.defineProperty(window, 'innerWidth', { value: 1400, configurable: true })
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith('app-icon.svg')
       expect(component.appIcon).toBe('trusted-icon')
     })
@@ -84,7 +95,7 @@ describe('AuthRootComponent', () => {
       mockConfigSvc.instanceConfig = undefined as any
       component = createComponent()
       Object.defineProperty(window, 'innerWidth', { value: 1400, configurable: true })
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(mockSafeResourceUrlSvc.trust).not.toHaveBeenCalled()
       expect(component.appIcon).toBeNull()
     })
@@ -94,7 +105,7 @@ describe('AuthRootComponent', () => {
     it('should unsubscribe loaderSubscription and detach changeDetector', async () => {
       component = createComponent()
       Object.defineProperty(window, 'innerWidth', { value: 1400, configurable: true })
-      await component.ngOnInit()
+      await runNgOnInit(component)
       const unsubscribeSpy = jest.spyOn(component.loaderSubscription, 'unsubscribe')
       component.ngOnDestroy()
       expect(unsubscribeSpy).toHaveBeenCalled()

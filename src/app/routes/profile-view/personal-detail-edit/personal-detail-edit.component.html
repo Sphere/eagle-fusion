@@ -11,15 +11,15 @@
         <!-- Text Input -->
         <div *ngIf="field.type === 'text' && (isEditableForSphere || personalDetailForm.get(field.key)?.value)"
           class="form-group">
-          <label>{{ field.label | translate }}</label>
-          <input [type]="field.tye" [formControlName]="field.key" class="form-control" (change)="fieldChange()"
+          <label [attr.for]="field.key">{{ field.label | translate }}</label>
+          <input [id]="field.key" [type]="field.tye" [formControlName]="field.key" class="form-control" (change)="fieldChange()"
             [placeholder]="field.label" autocomplete="off" [pattern]="field.pattern">
         </div>
         <!-- Select Input -->
         <div
           *ngIf="field.type === 'select' && showSelectField(field) && (isEditableForSphere || personalDetailForm.get(field.key)?.value)"
           class="form-group input-box">
-          <label>{{ field.label | translate }}</label>
+          <label [attr.for]="field.key">{{ field.label | translate }}</label>
           <select [id]="field.key" [formControlName]="field.key" class="form-control select-box"
             name="country-input-field" (change)="fieldChange(field.key)"
             [disabled]="(selectDisable && (field.key === 'state' || field.key === 'distict')) ? 'disabled' : null">
@@ -30,7 +30,7 @@
         <!-- DOB Custom Component -->
         <div *ngIf="field.type === 'dob' && (isEditableForSphere || personalDetailForm.get('dob')?.value)"
           class="form-group mt-4 relative" [ngStyle]="showbackButton ? {'font-size': '14px' } : {}">
-          <label>{{ field.label | translate }}</label>
+          <label for="year">{{ field.label | translate }}</label>
           <ng-container *ngIf="loadDob; else withoutDob">
             <ws-dropdown-dob [isEkshamata]="isEkshamata||!isEditableForSphere" (dobValue)="dobData($event)"
               [dob]="personalDetailForm.get('dob').value ">

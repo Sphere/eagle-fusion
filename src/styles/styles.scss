@@ -556,7 +556,7 @@ h3.shepherd-title {
 .mat-body,
 .mat-body-1,
 .mat-typography {
-  font: 400 14px/20px Roboto;
+  font: 400 14px/20px Roboto, sans-serif;
   color: #424242 !important;
 }
 
@@ -894,7 +894,6 @@ ws-widget-btn-catalog {
   margin-left: 10%;
   margin-top: 5vh;
   @extend %height-mat-toolbar-sibling;
-  box-sizing: border-box;
 
   @include ws-mixins.breakpoint-xs {
     margin-left: 0px;

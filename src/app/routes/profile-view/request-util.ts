@@ -67,7 +67,7 @@ export const populateAcademics = (data?: any, userProfileData?: any) => {
   if (data.academics && data.academics.length > 0) {
     const academics: any = []
     if (data.academics && Array.isArray(data.academics)) {
-      data.academics.map((item: any) => {
+      data.academics.forEach((item: any) => {
         switch (item.type) {
           case 'X_STANDARD':
             academics.push({

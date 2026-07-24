@@ -7,7 +7,6 @@
   @extend %page-center;
   @extend %height-mat-toolbar-sibling;
   padding: 0;
-  box-sizing: border-box;
 
   @include ws-common.breakpoint-gt-s {
     max-width: 30%;
@@ -28,7 +27,6 @@
 
   @include ws-common.breakpoint-xs {
     max-width: 100%;
-    margin: auto;
     margin: 0px !important;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 40px 40px 0px 0px;

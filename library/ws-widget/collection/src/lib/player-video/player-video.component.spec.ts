@@ -302,7 +302,8 @@ describe('PlayerVideoComponent', () => {
       const fireRProgress = call[3]
       mockContentSvc.fetchContentHistoryV2.mockImplementation(() => { throw new Error('boom') })
       component['contentHistoryResponse'] = null
-      await fireRProgress('id1', { current: ['20'], max_size: 100 })
+      fireRProgress('id1', { current: ['20'], max_size: 100 })
+      await new Promise(resolve => setTimeout(resolve, 0))
       expect(mockLogger.error).toHaveBeenCalled()
     })
   })

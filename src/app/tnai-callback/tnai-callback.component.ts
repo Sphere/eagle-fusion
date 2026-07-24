@@ -31,11 +31,13 @@ export class TnaiCallbackComponent implements OnInit {
     }
     try {
       setTimeout(() => {
-        this.orgService.setTnaiToken(data).subscribe(async (res: any) => {
-          this.isLoading = false
-          window.location = await res.resRedirectUrl
-          // tslint:disable-next-line:no-console
-          this.logger.log('tnai component.ts', res.resRedirectUrl)
+        this.orgService.setTnaiToken(data).subscribe((res: any) => {
+          void (async () => {
+            this.isLoading = false
+            window.location = await res.resRedirectUrl
+            // tslint:disable-next-line:no-console
+            this.logger.log('tnai component.ts', res.resRedirectUrl)
+          })()
         }, (err: any) => {
           // tslint:disable-next-line:no-console
           this.logger.log(err)

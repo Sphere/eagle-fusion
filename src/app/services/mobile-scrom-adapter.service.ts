@@ -177,20 +177,21 @@ export class MobileScromAdapterService {
 
   private handleCompletedStatus(data: any, paramsJSON: string): void {
     this.scromSubscription = this.updateScromProgress(data).subscribe({
-      next: async (response: any) => {
-        this.logger.log(response)
-        this.triggerTelemetryEvents(data, paramsJSON)
-        const result = await response.result
-        result['type'] = 'scorm'
-        if (this.getPercentage(data) === 100) {
-          setTimeout(() => {
-            this.LMSFinish()
-          })
-          setTimeout(() => {
-            this.postCordovaMessage(this.getPercentage(data))
-          }, 6000)
-        }
-        return !!response
+      next: (response: any) => {
+        void (async () => {
+          this.logger.log(response)
+          this.triggerTelemetryEvents(data, paramsJSON)
+          const result = await response.result
+          result['type'] = 'scorm'
+          if (this.getPercentage(data) === 100) {
+            setTimeout(() => {
+              this.LMSFinish()
+            })
+            setTimeout(() => {
+              this.postCordovaMessage(this.getPercentage(data))
+            }, 6000)
+          }
+        })()
       },
       error: error => {
         if (error) {

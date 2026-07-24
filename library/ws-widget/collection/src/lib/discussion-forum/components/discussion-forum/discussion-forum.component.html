@@ -4,7 +4,9 @@
       There aren’t any conversations yet
     </div>
     <div class="discussion-header" [hidden]="widgetData.isLoggedInUserRestricted">
-      <a class="text-xl blue-link cursor-pointer" (click)="showCommentBox=!showCommentBox">+ Start a New
+      <a class="text-xl blue-link cursor-pointer" (click)="showCommentBox=!showCommentBox"
+        (keydown.enter)="showCommentBox=!showCommentBox"
+        (keydown.space)="showCommentBox=!showCommentBox; $event.preventDefault()" tabindex="0">+ Start a New
         Discussion</a>
       <div [hidden]="!showCommentBox">
         <div class="question-container mt-10">

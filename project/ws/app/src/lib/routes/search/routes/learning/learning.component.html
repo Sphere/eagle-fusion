@@ -21,7 +21,7 @@
     </div>
   </ng-container>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
-    <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
+    <div class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
       [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
       <span class="mt-1" *ngIf="!isXSmall">{{'Showing' | translate}} </span>
       <span class="mt-1" *ngIf="!isXSmall"> {{ searchResults.result.content.length }} </span>
@@ -32,13 +32,14 @@
       <span class="mt-1" *ngIf="searchResults.result.content.length <= 1">{{'result' | translate}} </span>
       <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span>{{'across your preferred language' |
           translate}}</span>
-        <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
-          *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)">{{lang | uppercase}}
+        <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text" tabindex="0" role="button"
+          *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)"
+          (keydown.enter)="searchLanguage(lang)" (keydown.space)="searchLanguage(lang); $event.preventDefault()">{{lang | uppercase}}
         </span>
       </span>
       <div class="filter-lang" *ngIf="!isXSmall">
-        <label class="pos-rel mt-1">{{'Filter based on Language :' | translate}}</label>
-        <select class="form-control lang-select"
+        <label class="pos-rel mt-1" for="langSelect">{{'Filter based on Language :' | translate}}</label>
+        <select id="langSelect" class="form-control lang-select"
           [ngClass]="{'lang-icon': lang === '', 'lang-selected' : lang === 'step2' }" [(ngModel)]="contact"
           (change)="selectLang(contact)">
           <option></option>
@@ -48,31 +49,37 @@
       <ng-container *ngIf=" searchResults?.doYouMean || searchResults?.queryUsed">
         <span>.</span><span>&nbsp;</span>
         <span *ngIf="searchResults?.doYouMean"><span>{{'Did you mean' | translate}} </span><span>&nbsp;“</span><span
-            [innerHTML]="searchResults?.doYouMean" (click)="didYouMeanSearch(searchResults?.doYouMean)"
+            [innerHTML]="searchResults?.doYouMean" tabindex="0" role="button" (click)="didYouMeanSearch(searchResults?.doYouMean)"
+            (keydown.enter)="didYouMeanSearch(searchResults?.doYouMean)"
+            (keydown.space)="didYouMeanSearch(searchResults?.doYouMean); $event.preventDefault()"
             class="cursor-pointer ws-mat-primary-text cursor-pointer"></span>”
           ?</span>
         <span *ngIf="searchResults?.queryUsed"><span>{{'Showing results' | translate}}
             for</span><span>&nbsp;“</span>{{searchResults?.queryUsed}}”. <span>{{'Search instead for' |
             translate}}</span>
-          <span>&nbsp;“</span><span class="cursor-pointer ws-mat-primary-text cursor-pointer"
-            (click)="searchInsteadFor()">{{searchRequestObject.query}}</span>”.</span>
+          <span>&nbsp;“</span><span class="cursor-pointer ws-mat-primary-text cursor-pointer" tabindex="0" role="button"
+            (click)="searchInsteadFor()" (keydown.enter)="searchInsteadFor()"
+            (keydown.space)="searchInsteadFor(); $event.preventDefault()">{{searchRequestObject.query}}</span>”.</span>
       </ng-container>
       <ng-container *ngIf="exactResult.show && applyPhraseSearch">
         <span>{{'for the exact match on' | translate}}</span>
         <span>{{ searchRequestObject?.query }}, </span>
-        <a (click)="getResults(true)" class="ws-mat-primary-text cursor-pointer">{{'Click here' | translate}}</a>
+        <a (click)="getResults(true)" (keydown.enter)="getResults(true)"
+          (keydown.space)="getResults(true); $event.preventDefault()" tabindex="0" class="ws-mat-primary-text cursor-pointer">{{'Click here' | translate}}</a>
         <span>{{'to explore more.' | translate}}</span>
       </ng-container>
     </div>
     <div class="margin-bottom-m">
-      <mat-chip-list aria-label="Filter selection" role="none" *ngIf="filtersResponse">
+      <mat-chip-list aria-label="Filter selection" role="presentation" *ngIf="filtersResponse">
         <span *ngFor="let filter of filtersResponse">
           <span *ngFor="let content of filter?.content">
             <span *ngIf="content?.checked">
               <mat-chip [removable]="removable">
                 {{translatedFilters[filter?.displayName]?.value[content?.displayName] || content?.displayName}}
-                <mat-icon matChipRemove
+                <mat-icon matChipRemove tabindex="0"
                   (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :content?.type})"
+                  (keydown.enter)="appFilterDisplay.removeFilter({ key : filter?.type, value :content?.type})"
+                  (keydown.space)="appFilterDisplay.removeFilter({ key : filter?.type, value :content?.type}); $event.preventDefault()"
                   *ngIf="removable">{{"cancel" | translate}}</mat-icon>
               </mat-chip>
             </span>
@@ -80,8 +87,10 @@
               <span *ngFor="let children of content?.children">
                 <span *ngIf="children?.checked">
                   <mat-chip [removable]="removable">{{children?.displayName}}
-                    <mat-icon matChipRemove
+                    <mat-icon matChipRemove tabindex="0"
                       (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :children?.type})"
+                      (keydown.enter)="appFilterDisplay.removeFilter({ key : filter?.type, value :children?.type})"
+                      (keydown.space)="appFilterDisplay.removeFilter({ key : filter?.type, value :children?.type}); $event.preventDefault()"
                       *ngIf="removable">{{'cancel' | translate}}</mat-icon>
                   </mat-chip>
                 </span>
@@ -104,7 +113,7 @@
       </ng-container>
 
       <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus !== 'done'"
-        [hidden]="searchRequestStatus === 'fetching'" accesskey="+">
+        [hidden]="searchRequestStatus === 'fetching'">
         <mat-icon>add</mat-icon>
         <ng-container>{{'View More' | translate}}</ng-container>
       </button>

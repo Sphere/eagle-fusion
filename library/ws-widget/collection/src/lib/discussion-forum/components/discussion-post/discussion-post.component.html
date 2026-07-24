@@ -2,13 +2,16 @@
   <div class="flex postSection margin-top-s">
     <ws-widget-user-image class="main-post-user-image" [userId]="userId" [userName]="post.postCreator.name"
       [imageType]="'name-initial'" [email]="post.postCreator.emailId"></ws-widget-user-image>
-    <div class="ql-container margin-left-s margin-auto text-base  thread-title cursor-pointer"
-      *ngIf="!editMode && post.postContent.title.length" [innerHTML]="post.postContent.title" (click)="toggleReplies()">
+    <div class="ql-container margin-left-s margin-auto text-base  thread-title cursor-pointer" tabindex="0"
+      role="button"
+      *ngIf="!editMode && post.postContent.title.length" [innerHTML]="post.postContent.title" (click)="toggleReplies()"
+      (keydown.enter)="toggleReplies()" (keydown.space)="toggleReplies(); $event.preventDefault()">
     </div>
 
     <div name="discussion-post-respond-toggle-button" [hidden]="replyPlaceholderToggler"
       (click)="showCommentBox(commentBox)" class="write-reply-placeholder mt-1 blue-link uppercase cursor-pointer"
-      role="button">
+      role="button" tabindex="0" (keydown.enter)="showCommentBox(commentBox)"
+      (keydown.space)="showCommentBox(commentBox); $event.preventDefault()">
       Reply
     </div>
 
@@ -20,11 +23,14 @@
 
     <ng-container *ngIf="userId === post.postCreator.postCreatorId">
 
-      <img alt="logo" loading="lazy" (click)="editMode = true" class="action-icons align-edit"
-        src="/fusion-assets/icons/edit.png">
+      <button type="button" style="all: unset; display: contents; cursor: pointer;" aria-label="Edit"
+        (click)="editMode = true">
+        <img alt="" loading="lazy" class="action-icons align-edit" src="/fusion-assets/icons/edit.png">
+      </button>
 
-      <span class="material-icons opac-7" name="discussion-post-delete-button" type="button"
-        (click)="deletePost(deleteFailMsg.value)">
+      <span class="material-icons opac-7" name="discussion-post-delete-button" type="button" tabindex="0" role="button"
+        (click)="deletePost(deleteFailMsg.value)" (keydown.enter)="deletePost(deleteFailMsg.value)"
+        (keydown.space)="deletePost(deleteFailMsg.value); $event.preventDefault()">
         delete
       </span>
 
@@ -47,7 +53,8 @@
     <span *ngIf="post.postCreator.name" class="ws-mat-primary-text margin-left-s margin-right-s">by
       {{ post.postCreator.name }}</span>
 
-    <span (click)="toggleReplies()" class="blue-link cursor-pointer">{{postReplies.length}}
+    <span (click)="toggleReplies()" tabindex="0" role="button" (keydown.enter)="toggleReplies()"
+      (keydown.space)="toggleReplies(); $event.preventDefault()" class="blue-link cursor-pointer">{{postReplies.length}}
       {{postReplies.length > 1 ? 'Replies': 'Reply'}}</span>
 
   </div>

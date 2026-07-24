@@ -206,9 +206,9 @@ export function videoJsInitializer(
 
       if (
         !duration ||
-        isNaN(duration) ||
+        Number.isNaN(Number(duration)) ||
         duration <= 0 ||
-        isNaN(currentTime) ||
+        Number.isNaN(Number(currentTime)) ||
         currentTime < 0
       ) {
         return
@@ -286,7 +286,7 @@ export function videoJsInitializer(
     try {
       if (resumePoint) {
         const start = Number(resumePoint)
-        if (!isNaN(start) && start > 0) {
+        if (!Number.isNaN(Number(start)) && start > 0) {
           player.currentTime(start)
         }
       }

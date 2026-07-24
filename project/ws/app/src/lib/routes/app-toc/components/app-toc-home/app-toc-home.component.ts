@@ -391,11 +391,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
             const items = filter(flattenItems(get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
             set(rr, 'progressdetails.mimeType', get(first(items), 'mimeType'))
             if (!get(rr, 'completionPercentage')) {
-              if (get(rr, 'status') === 2) {
-                set(rr, 'completionPercentage', rr.completionPercentage)
-              } else {
-                set(rr, 'completionPercentage', rr.completionPercentage)
-              }
+              set(rr, 'completionPercentage', rr.completionPercentage)
             }
             return rr
           })

@@ -95,7 +95,7 @@ export class AlmostDoneComponent implements OnInit {
       this.almostDoneForm.controls.professSelected.setValue('ASHA')
       this.enableSubmit = true
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-        statesdata.states.map((item: any) => {
+        statesdata.states.forEach((item: any) => {
           if (item.state === this.yourBackground.value.state) {
             this.disticts = item.districts
           }
@@ -116,7 +116,7 @@ export class AlmostDoneComponent implements OnInit {
       this.enableSubmit = true
       if (this.yourBackground && this.yourBackground.value) {
         this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-          statesdata.states.map((item: any) => {
+          statesdata.states.forEach((item: any) => {
             if (item.state === this.yourBackground.value.state) {
               this.disticts = item.districts
             }
@@ -515,29 +515,31 @@ export class AlmostDoneComponent implements OnInit {
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
-      this.logger.log(data, 'data')
-      const status = await data.params.status
-      if (data && status === 'SUCCESS') {
-        this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
-        localStorage.removeItem('preferedLanguage')
-        this.activateRoute.queryParams.subscribe(params => {
-          this.logger.log(params.redirect, 'redirect')
-          const url1 = params.redirect
-          let url3 = `${document.baseURI}`
-          if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
-            localStorage.removeItem('url_before_login')
-            url3 = `${url3}${url1}`
-            this.logger.log(url3)
-            location.href = url3
-          } else {
-            let url = `${document.baseURI}`
-            url = `${url}/page/home`
-            this.logger.log(url)
-            location.href = url
-          }
-        })
-      }
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
+      void (async () => {
+        this.logger.log(data, 'data')
+        const status = await data.params.status
+        if (data && status === 'SUCCESS') {
+          this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
+          localStorage.removeItem('preferedLanguage')
+          this.activateRoute.queryParams.subscribe(params => {
+            this.logger.log(params.redirect, 'redirect')
+            const url1 = params.redirect
+            let url3 = `${document.baseURI}`
+            if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
+              localStorage.removeItem('url_before_login')
+              url3 = `${url3}${url1}`
+              this.logger.log(url3)
+              location.href = url3
+            } else {
+              let url = `${document.baseURI}`
+              url = `${url}/page/home`
+              this.logger.log(url)
+              location.href = url
+            }
+          })
+        }
+      })()
     })
   }
 

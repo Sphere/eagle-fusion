@@ -108,7 +108,7 @@ export class AppTocService {
 
   mapCompletionPercentage(content: NsContent.IContent | null, dataResult: any) {
     if (content && content.children) {
-      content.children.map(child => {
+      content.children.forEach(child => {
         const foundContent = dataResult.find((el: any) => el.contentId === child.identifier)
         if (foundContent) {
           child.completionPercentage = foundContent.completionPercentage

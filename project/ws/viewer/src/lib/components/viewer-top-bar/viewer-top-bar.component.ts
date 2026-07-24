@@ -75,9 +75,11 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     this.collectionIdentifier = collectionId
     const collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     if (collectionId && collectionType) {
-      this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
-        this.collectionId = params.get('collectionId') as string
-        this.isPreview = params.get('preview') === 'true' ? true : false
+      this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(params => {
+        void (async () => {
+          this.collectionId = params.get('collectionId') as string
+          this.isPreview = params.get('preview') === 'true' ? true : false
+        })()
       })
       try {
         this.contentSvc

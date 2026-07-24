@@ -74,12 +74,10 @@ export class AvatarPhotoComponent implements OnInit {
           continue
         }
 
-        if (this.name.charAt(i) === this.name.charAt(i)) {
-          initials += this.name.charAt(i)
+        initials += this.name.charAt(i)
 
-          if (initials.length === 2) {
-            break
-          }
+        if (initials.length === 2) {
+          break
         }
       }
     }

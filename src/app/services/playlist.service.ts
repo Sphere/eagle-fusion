@@ -76,7 +76,7 @@ export class PlaylistService {
 
       const data = response?.result?.form?.data ?? null
       if (data?.LAYOUT_BODY?.programConfig) {
-        this.getPlaylistConfig()
+        await this.getPlaylistConfig()
       }
       this.playlistData.set(data)
 

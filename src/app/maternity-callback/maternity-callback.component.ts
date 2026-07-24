@@ -35,16 +35,18 @@ export class MaternityCallbackComponent implements OnInit {
     }
     try {
       //setTimeout(() => {
-      this.orgService.setMaternyId(data).subscribe(async (res: any) => {
-        const loc = await res
-        this.logger.log(loc, 'oo')
-        localStorage.setItem('loc', JSON.stringify(loc))
-        if (loc.message === 'success') {
-          location.href = '/app/org-details?orgId=Maternity%20Foundation'
-          //window.location = loc.resRedirectUrl
-        }
-        // tslint:disable-next-line:no-console
-        this.logger.log('maternity component.ts', res.resRedirectUrl)
+      this.orgService.setMaternyId(data).subscribe((res: any) => {
+        void (async () => {
+          const loc = await res
+          this.logger.log(loc, 'oo')
+          localStorage.setItem('loc', JSON.stringify(loc))
+          if (loc.message === 'success') {
+            location.href = '/app/org-details?orgId=Maternity%20Foundation'
+            //window.location = loc.resRedirectUrl
+          }
+          // tslint:disable-next-line:no-console
+          this.logger.log('maternity component.ts', res.resRedirectUrl)
+        })()
       }, (err: any) => {
         // tslint:disable-next-line:no-console
         this.logger.log(err)

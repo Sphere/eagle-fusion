@@ -1,6 +1,7 @@
 <ng-container *ngIf="ashaData">
 
-  <div class="asha-card" (click)="toggleExpand()">
+  <div class="asha-card" tabindex="0" role="button" (click)="toggleExpand()" (keydown.enter)="toggleExpand()"
+    (keydown.space)="toggleExpand(); $event.preventDefault()">
     <div class="asha-header flex flex-col">
       <div class="flex justify-between">
         <p class="asha-title mb-0">{{ 'COMPETENCY' | translate }}</p>

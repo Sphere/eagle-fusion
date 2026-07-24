@@ -39,7 +39,7 @@ describe('ErrorResolverComponent', () => {
   describe('ngOnInit', () => {
     it('should build widgetData from the route when not provided', async () => {
       component.widgetData = undefined as any
-      await component.ngOnInit()
+      component.ngOnInit()
       await flush()
       expect(component.widgetData.errorType).toBe('notFound')
       expect(component.widgetData.errorData).toEqual({ a: 6 })
@@ -47,14 +47,14 @@ describe('ErrorResolverComponent', () => {
 
     it('should use existing widgetData when provided', async () => {
       component.widgetData = { errorType: 'internalServer' }
-      await component.ngOnInit()
+      component.ngOnInit()
       await flush()
       expect(component.widgetData.errorData).toEqual({ a: 5 })
     })
 
     it('should not fetch error config when errorData already present', async () => {
       component.widgetData = { errorType: 'internalServer', errorData: { existing: true } as any }
-      await component.ngOnInit()
+      component.ngOnInit()
       await flush()
       expect(mockErrorResolverSvc.getErrorConfig).not.toHaveBeenCalled()
       expect(component.widgetData.errorData).toEqual({ existing: true })
@@ -63,14 +63,14 @@ describe('ErrorResolverComponent', () => {
     it('should not fetch error config when instanceConfig is missing', async () => {
       mockConfigService.instanceConfig = null
       component.widgetData = { errorType: 'internalServer' }
-      await component.ngOnInit()
+      component.ngOnInit()
       await flush()
       expect(mockErrorResolverSvc.getErrorConfig).not.toHaveBeenCalled()
     })
 
     it('should use errorDataPath when provided instead of default config path', async () => {
       component.widgetData = { errorType: 'internalServer', errorDataPath: '/custom/path.json' }
-      await component.ngOnInit()
+      component.ngOnInit()
       await flush()
       expect(mockErrorResolverSvc.getErrorConfig).toHaveBeenCalledWith('/custom/path.json')
     })
@@ -86,7 +86,7 @@ describe('ErrorResolverComponent', () => {
       ['somethingsWrong', { a: 8 }],
     ])('should resolve errorData for errorType %s', async (errorType, expected) => {
       component.widgetData = { errorType: errorType as any }
-      await component.ngOnInit()
+      component.ngOnInit()
       await flush()
       expect(component.widgetData.errorData).toEqual(expected)
     })

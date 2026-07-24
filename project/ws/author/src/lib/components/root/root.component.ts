@@ -32,31 +32,33 @@ export class AuthRootComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  async ngOnInit() {
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.router.navigateByUrl('/organisations/home')
-    }
-    if (window.innerWidth < 1163 && !this.isWidthMessageShown) {
-      this.isWidthMessageShown = true
-      this.snackBar.openFromComponent(NotificationComponent, {
-        data: {
-          type: Notify.WINDOW_SIZE_ERROR,
+  ngOnInit() {
+    void (async () => {
+      if (localStorage.getItem('orgValue') === 'nhsrc') {
+        this.router.navigateByUrl('/organisations/home')
+      }
+      if (window.innerWidth < 1163 && !this.isWidthMessageShown) {
+        this.isWidthMessageShown = true
+        this.snackBar.openFromComponent(NotificationComponent, {
+          data: {
+            type: Notify.WINDOW_SIZE_ERROR,
+          },
+          duration: NOTIFICATION_TIME * 1000,
+        })
+      }
+      this.loaderSubscription = this.loader.changeLoad.subscribe(
+        data => {
+          this.isLoading = data
+          this.changeDetector.detectChanges()
         },
-        duration: NOTIFICATION_TIME * 1000,
-      })
-    }
-    this.loaderSubscription = this.loader.changeLoad.subscribe(
-      data => {
-        this.isLoading = data
-        this.changeDetector.detectChanges()
-      },
-    )
-    const instanceConfig = await this.configSvc.instanceConfig
-    if (instanceConfig) {
-      this.appIcon = this.safeResourceUrlSvc.trust(
-        instanceConfig.logos.app,
       )
-    }
+      const instanceConfig = await this.configSvc.instanceConfig
+      if (instanceConfig) {
+        this.appIcon = this.safeResourceUrlSvc.trust(
+          instanceConfig.logos.app,
+        )
+      }
+    })()
   }
 
   ngOnDestroy() {

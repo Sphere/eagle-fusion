@@ -6,20 +6,20 @@
   <ng-container *ngIf="isEkshamata">
     <div class="form-group input-box"
       *ngIf="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.designation">
-      <label>{{ 'Position' | translate }}</label>
-      <input type="text" class="form-control"
+      <label for="positionField">{{ 'Position' | translate }}</label>
+      <input id="positionField" type="text" class="form-control"
         [value]="ekshamataData.profileDetails.profileReq.professionalDetails[0].designation" readonly disabled />
     </div>
 
     <div class="form-group input-box" *ngIf="ekshamataData?.channel">
-      <label>{{ 'Department Name' | translate }}</label>
-      <input type="text" class="form-control" [value]="ekshamataData.channel" readonly disabled />
+      <label for="departmentNameField">{{ 'Department Name' | translate }}</label>
+      <input id="departmentNameField" type="text" class="form-control" [value]="ekshamataData.channel" readonly disabled />
     </div>
 
     <div class="form-group input-box"
       *ngIf="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.facilityName">
-      <label>{{ 'Facility Name' | translate }}</label>
-      <input type="text" class="form-control"
+      <label for="facilityNameField">{{ 'Facility Name' | translate }}</label>
+      <input id="facilityNameField" type="text" class="form-control"
         [value]="ekshamataData.profileDetails.profileReq.professionalDetails[0].facilityName" readonly disabled />
     </div>
 
@@ -28,8 +28,8 @@
       ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.nin ||
       ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.hrmsId
     ">
-      <label>{{ 'Facility Code' | translate }}</label>
-      <input type="text" class="form-control" [value]="
+      <label for="facilityCodeField">{{ 'Facility Code' | translate }}</label>
+      <input id="facilityCodeField" type="text" class="form-control" [value]="
         ekshamataData.profileDetails.profileReq.professionalDetails[0].facilityCode ||
         ekshamataData.profileDetails.profileReq.professionalDetails[0].nin ||
         ekshamataData.profileDetails.profileReq.professionalDetails[0].hrmsId
@@ -38,8 +38,8 @@
 
     <div class="form-group input-box"
       *ngIf="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.facilityType">
-      <label>{{ 'Facility Type' | translate }}</label>
-      <input type="text" class="form-control"
+      <label for="facilityTypeField">{{ 'Facility Type' | translate }}</label>
+      <input id="facilityTypeField" type="text" class="form-control"
         [value]="ekshamataData.profileDetails.profileReq.professionalDetails[0].facilityType" readonly disabled />
     </div>
   </ng-container>

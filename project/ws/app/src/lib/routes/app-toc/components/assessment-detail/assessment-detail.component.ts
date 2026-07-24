@@ -48,10 +48,12 @@ export class AssessmentDetailComponent implements OnInit {
     private readonly cdr: ChangeDetectorRef) {
   }
 
-  async ngOnInit() {
-    const result = await this.transformQuiz(this.content)
-    this.assesmentdata = result
-    this.cdr.detectChanges()
+  ngOnInit() {
+    void (async () => {
+      const result = await this.transformQuiz(this.content)
+      this.assesmentdata = result
+      this.cdr.detectChanges()
+    })()
   }
   /* api call to get info of quiz or assessment */
   private async transformQuiz(content: any): Promise<NSQuiz.IQuiz> {

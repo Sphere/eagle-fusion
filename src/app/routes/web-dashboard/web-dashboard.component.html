@@ -17,17 +17,19 @@
     <!-- ================= Ekshamata Banner ================= -->
     <div *ngIf="isEkshamata" class="ekshamta-banner-container">
       <div class="ekshamata-banner">
-        <img class="banner-first-image" [src]="bannerFirstImage" alt="Banner image 1" loading="lazy" />
-        <img class="banner-second-image" [src]="bannerSecondImage" alt="Banner image 2" loading="lazy" />
+        <img class="banner-first-image" [src]="bannerFirstImage" alt="Banner 1" loading="lazy" />
+        <img class="banner-second-image" [src]="bannerSecondImage" alt="Banner 2" loading="lazy" />
       </div>
     </div>
     <!-- ================= Sphere Banner (Web + Mobile) ================= -->
     <div *ngIf="!isEkshamata" class="slides-viewport">
       <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
         <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-          <div class="slide-content" (click)="scrollToHowSphereWorks(data?.scrollEmit)">
+          <div class="slide-content" tabindex="0" role="button" (click)="scrollToHowSphereWorks(data?.scrollEmit)"
+            (keydown.enter)="scrollToHowSphereWorks(data?.scrollEmit)"
+            (keydown.space)="scrollToHowSphereWorks(data?.scrollEmit); $event.preventDefault()">
             <div class="banner-shimmer" *ngIf="!imgsLoaded[i]"></div>
-            <img class="banner-image" [src]="!isDark ? data?.img: data?.darkimg" alt="Carousel image" loading="lazy"
+            <img class="banner-image" [src]="!isDark ? data?.img: data?.darkimg" alt="Carousel" loading="lazy"
               (load)="onBannerImgLoad(i)" (error)="onBannerImgLoad(i)" />
           </div>
         </div>

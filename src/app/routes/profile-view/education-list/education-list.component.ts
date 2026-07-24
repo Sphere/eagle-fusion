@@ -43,13 +43,15 @@ export class EducationListComponent implements OnInit {
         sessionStorage.removeItem('academic')
       }
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
-          this.isEditableForSphere = this.data?.isEditable ?? false
-          if (data && get(data, 'profileDetails.profileReq.academics')) {
-            this.academicsArray = get(data, 'profileDetails.profileReq.academics')
-            this.cdr.detectChanges()
-          }
-          this.cdr.markForCheck()
+        (data: any) => {
+          void (async () => {
+            this.isEditableForSphere = this.data?.isEditable ?? false
+            if (data && get(data, 'profileDetails.profileReq.academics')) {
+              this.academicsArray = get(data, 'profileDetails.profileReq.academics')
+              this.cdr.detectChanges()
+            }
+            this.cdr.markForCheck()
+          })()
         })
     }
   }

@@ -36,48 +36,52 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dataSubscription = this.activatedRoute.data.subscribe(
-      async data => {
-        this.resourceCollectionData = data.content.data
-        if (this.alreadyRaised && this.oldData) {
-          this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-        }
-        if (this.resourceCollectionData) {
-          this.formDiscussionForumWidget(this.resourceCollectionData)
-        }
-        if (
-          this.resourceCollectionData &&
-          this.resourceCollectionData.artifactUrl.indexOf('content-store') >= 0
-        ) {
-          await this.setS3Cookie(this.resourceCollectionData.identifier)
-        }
-        if (
-          this.resourceCollectionData &&
-          this.resourceCollectionData.mimeType === NsContent.EMimeTypes.COLLECTION_RESOURCE
-        ) {
-          this.resourceCollectionManifest = await this.transformResourceCollection(
-            this.resourceCollectionData,
-          )
-        }
-        if (this.resourceCollectionData && this.resourceCollectionManifest) {
-          this.oldData = this.resourceCollectionData
-          this.alreadyRaised = true
-          this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.resourceCollectionData)
-          this.isFetchingDataComplete = true
-        } else {
-          this.isErrorOccured = true
-        }
+      data => {
+        void (async () => {
+          this.resourceCollectionData = data.content.data
+          if (this.alreadyRaised && this.oldData) {
+            this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+          }
+          if (this.resourceCollectionData) {
+            this.formDiscussionForumWidget(this.resourceCollectionData)
+          }
+          if (
+            this.resourceCollectionData &&
+            this.resourceCollectionData.artifactUrl.indexOf('content-store') >= 0
+          ) {
+            await this.setS3Cookie(this.resourceCollectionData.identifier)
+          }
+          if (
+            this.resourceCollectionData &&
+            this.resourceCollectionData.mimeType === NsContent.EMimeTypes.COLLECTION_RESOURCE
+          ) {
+            this.resourceCollectionManifest = await this.transformResourceCollection(
+              this.resourceCollectionData,
+            )
+          }
+          if (this.resourceCollectionData && this.resourceCollectionManifest) {
+            this.oldData = this.resourceCollectionData
+            this.alreadyRaised = true
+            this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.resourceCollectionData)
+            this.isFetchingDataComplete = true
+          } else {
+            this.isErrorOccured = true
+          }
+        })()
       },
       () => { },
     )
   }
 
-  async ngOnDestroy() {
-    if (this.resourceCollectionData) {
-      this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.resourceCollectionData)
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe()
-    }
+  ngOnDestroy() {
+    void (async () => {
+      if (this.resourceCollectionData) {
+        this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.resourceCollectionData)
+      }
+      if (this.dataSubscription) {
+        this.dataSubscription.unsubscribe()
+      }
+    })()
   }
 
   private async transformResourceCollection(_content: NsContent.IContent) {

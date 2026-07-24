@@ -22,19 +22,19 @@ export class PipeDurationTransformPipe implements PipeTransform {
         return this.defaultDuration(h, m, s)
       case 'mnts':
         if (h > 0) {
-          duration += type === 'mnts' ? `${h}` : `${h}`
+          duration += `${h}`
         }
         if (m > 0) {
           if (h > 0) {
             space = ' '
           }
-          duration += type === 'mnts' ? `${space}${m}` : `${space}${m}`
+          duration += `${space}${m}`
         }
         if (s > 0 && h === 0) {
           if (m > 0) {
             space = ' '
           }
-          duration += type === 'mnts' ? `${space}${s}` : `${space}${s}`
+          duration += `${space}${s}`
         }
         return duration
 

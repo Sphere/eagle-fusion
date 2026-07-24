@@ -112,7 +112,7 @@ export class IndexedDBService {
 
       request.onerror = (event: any) => {
         this.logger.error('Failed to open IndexedDB:', event.target.error)
-        reject('Failed to open IndexedDB')
+        reject(new Error('Failed to open IndexedDB'))
       }
 
       request.onupgradeneeded = () => {
@@ -187,7 +187,7 @@ export class IndexedDBService {
 
       request.onerror = event => {
         this.logger.log(event)
-        reject('Error checking data in IndexedDB')
+        reject(new Error('Error checking data in IndexedDB'))
       }
     })
   }
@@ -337,7 +337,7 @@ export class IndexedDBService {
         }
 
         request.onerror = (event: any) => {
-          reject('Error fetching data from IndexedDB: ' + event.target.error)
+          reject(new Error('Error fetching data from IndexedDB: ' + event.target.error))
         }
       })
     } catch (error) {
@@ -421,7 +421,7 @@ export class IndexedDBService {
         }
 
         request.onerror = (event: any) => {
-          reject('Error fetching row details from IndexedDB: ' + event.target.error)
+          reject(new Error('Error fetching row details from IndexedDB: ' + event.target.error))
         }
       })
     } catch (error) {

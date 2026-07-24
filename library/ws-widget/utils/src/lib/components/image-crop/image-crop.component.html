@@ -31,7 +31,8 @@
   <div class="flex flex-between">
     <mat-icon class=" ws-mat-primary-text margin-bottom-xxs">crop</mat-icon>
     <p mat-dialog-title class="text-3xl font-weight-bold ws-mat-primary-text">Profile Photo</p>
-    <mat-icon class="float-right flex-end cursor-pointer" (click)="close()">close</mat-icon>
+    <mat-icon class="float-right flex-end cursor-pointer" tabindex="0" (click)="close()" (keydown.enter)="close()"
+      (keydown.space)="close(); $event.preventDefault()">close</mat-icon>
 
   </div>
   <mat-dialog-content class="p-0 overflow-hidden " *ngIf="isRoundCrop">
@@ -67,7 +68,8 @@
     <div class="flex flex-between">
       <mat-icon class=" ws-mat-primary-text margin-bottom-xxs">crop</mat-icon>
       <p mat-dialog-title class="text-3xl title-margin font-weight-bold ws-mat-primary-text">Edit Image</p>
-      <mat-icon class="float-right flex-end cursor-pointer" (click)="close()">
+      <mat-icon class="float-right flex-end cursor-pointer" tabindex="0" (click)="close()" (keydown.enter)="close()"
+        (keydown.space)="close(); $event.preventDefault()">
         close</mat-icon>
     </div>
     <mat-dialog-content *ngIf="!isRoundCrop">

@@ -177,39 +177,20 @@ export class QuizComponent implements OnChanges, OnDestroy {
                   },
                 })
               } else {
-                if (isNull(data.prevResource)) {
-                  if (this.viewerDataSvc.gatingEnabled) {
-                    if (data.currentCompletionPercentage === 100) {
-                      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                    } else {
-                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                        queryParams: {
-                          primaryCategory: 'Course',
-                          batchId: this.route.snapshot.queryParams.batchId,
-                        },
-                      })
-                    }
-
-                  } else {
+                if (this.viewerDataSvc.gatingEnabled) {
+                  if (data.currentCompletionPercentage === 100) {
                     this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+                  } else {
+                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                      queryParams: {
+                        primaryCategory: 'Course',
+                        batchId: this.route.snapshot.queryParams.batchId,
+                      },
+                    })
                   }
 
                 } else {
-                  if (this.viewerDataSvc.gatingEnabled) {
-                    if (data.currentCompletionPercentage === 100) {
-                      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                    } else {
-                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                        queryParams: {
-                          primaryCategory: 'Course',
-                          batchId: this.route.snapshot.queryParams.batchId,
-                        },
-                      })
-                    }
-
-                  } else {
-                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                  }
+                  this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                 }
               }
               return
@@ -830,7 +811,8 @@ export class QuizComponent implements OnChanges, OnDestroy {
             userId = this.configSvc.userProfile.userId || ''
           }
           this.contentSvc.fetchUserBatchList(userId).subscribe(
-            async (courses: NsContent.ICourse[]) => {
+            (courses: NsContent.ICourse[]) => {
+              void (async () => {
               if (this.collectionId) {
                 if (courses && courses.length) {
                   this.enrolledCourse = courses.find(course => {
@@ -892,6 +874,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
                   return
                 })
               }
+              })()
             },
             (error: any) => {
               this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)

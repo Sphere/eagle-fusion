@@ -1,3 +1,4 @@
 <div class="row justify-content-between cursor-pointer">
-  <mat-icon *ngIf="showbackButton && (isXSmall$ | async)" class="" (click)="backScreen()">chevron_left</mat-icon>
+  <mat-icon *ngIf="showbackButton && (isXSmall$ | async)" class="" tabindex="0" (click)="backScreen()"
+    (keydown.enter)="backScreen()" (keydown.space)="backScreen(); $event.preventDefault()">chevron_left</mat-icon>
 </div>

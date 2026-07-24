@@ -127,22 +127,24 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     )
 
       .pipe(debounceTime(250))
-      .subscribe(async _ => {
-        if (this.widgetData.readValuesQueryParamsKey) {
-          const { pageNumber } = this.widgetData.readValuesQueryParamsKey
-          const params = this.activatedRoute.snapshot.queryParamMap
-          if (
-            Number(params.get(pageNumber)) !== this.currentPage.value
-          ) {
-            this.router.navigate([], {
-              queryParams: {
-                [pageNumber]: this.currentPage.value,
-              },
-            })
+      .subscribe(_ => {
+        void (async () => {
+          if (this.widgetData.readValuesQueryParamsKey) {
+            const { pageNumber } = this.widgetData.readValuesQueryParamsKey
+            const params = this.activatedRoute.snapshot.queryParamMap
+            if (
+              Number(params.get(pageNumber)) !== this.currentPage.value
+            ) {
+              this.router.navigate([], {
+                queryParams: {
+                  [pageNumber]: this.currentPage.value,
+                },
+              })
+            }
           }
-        }
-        await this.render()
-        setTimeout(() => this.preserveAllApiCalls(), 500)
+          await this.render()
+          setTimeout(() => this.preserveAllApiCalls(), 500)
+        })()
       })
 
     if (!this.widgetData.disableTelemetry) {

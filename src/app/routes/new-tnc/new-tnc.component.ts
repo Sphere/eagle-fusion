@@ -331,46 +331,48 @@ export class NewTncComponent implements OnInit, OnDestroy {
       }
       if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-          async (data: any) => {
-            if (data) {
-              this.userProfileData = await data.profileDetails.profileReq
-              // let profileRequest = this.constructReq(this.createUserForm)
-              const source = this.UserAgentResolverService.getSource()
-              const userSource = source ? JSON.parse(source) : null
-              const obj = {
-                preferences: {
-                  language: this.lang,
-                },
-                ...(userSource ? { userSource } : {}),
-                // personalDetails: profileRequest.profileReq.personalDetails
-              }
-              this.loggerSvc.log("this.userProfileData", this.userProfileData)
-              let profileRequest = constructReq(this.createUserForm, this.userProfileData, userAgent, userCookie)
-
-              profileRequest = Object.assign(profileRequest, obj)
-              profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
-              profileRequest.profileReq.personalDetails["tncAccepted"] = 'true'
-              const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-              const rootOrgId = this.configSvc.userProfile?.rootOrgId || this.configSvc.unMappedUser?.rootOrgId
-              if (orgSelectiveConfig && orgSelectiveConfig.orgId) {
-                if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-                  profileRequest.profileReq.personalDetails["dob"] = '01/01/2000'
+          (data: any) => {
+            void (async () => {
+              if (data) {
+                this.userProfileData = await data.profileDetails.profileReq
+                // let profileRequest = this.constructReq(this.createUserForm)
+                const source = this.UserAgentResolverService.getSource()
+                const userSource = source ? JSON.parse(source) : null
+                const obj = {
+                  preferences: {
+                    language: this.lang,
+                  },
+                  ...(userSource ? { userSource } : {}),
+                  // personalDetails: profileRequest.profileReq.personalDetails
                 }
+                this.loggerSvc.log("this.userProfileData", this.userProfileData)
+                let profileRequest = constructReq(this.createUserForm, this.userProfileData, userAgent, userCookie)
+
+                profileRequest = Object.assign(profileRequest, obj)
+                profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
+                profileRequest.profileReq.personalDetails["tncAccepted"] = 'true'
+                const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+                const rootOrgId = this.configSvc.userProfile?.rootOrgId || this.configSvc.unMappedUser?.rootOrgId
+                if (orgSelectiveConfig && orgSelectiveConfig.orgId) {
+                  if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+                    profileRequest.profileReq.personalDetails["dob"] = '01/01/2000'
+                  }
+                }
+                const reqUpdate = {
+                  request: {
+                    userId: this.result.userId,
+                    // profileDetails: Object.assign(profileRequest, Obj),
+                    profileDetails: { ...profileRequest, profileLocation: 'sphere-web/new-tnc' },
+                    tncAcceptedVersion: this.termsAccepted,
+                    tncAcceptedOn: new Date().getTime(),
+                  },
+                }
+                this.loggerSvc.log(reqUpdate, 'sss')
+                this.loggerSvc.log(this.termsAccepted)
+                this.updateUser(reqUpdate)
+                //}
               }
-              const reqUpdate = {
-                request: {
-                  userId: this.result.userId,
-                  // profileDetails: Object.assign(profileRequest, Obj),
-                  profileDetails: { ...profileRequest, profileLocation: 'sphere-web/new-tnc' },
-                  tncAcceptedVersion: this.termsAccepted,
-                  tncAcceptedOn: new Date().getTime(),
-                },
-              }
-              this.loggerSvc.log(reqUpdate, 'sss')
-              this.loggerSvc.log(this.termsAccepted)
-              this.updateUser(reqUpdate)
-              //}
-            }
+            })()
           })
       }
 
@@ -380,58 +382,60 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
   }
   updateUser(reqUpdate: any) {
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
-      const res = await data
-      this.loggerSvc.log(res.result.response)
-      if (res.result.response === 'SUCCESS') {
-        this.telemetrySvc.registrationInteract(
-          { id: this.result.userId, type: 'User' },
-          'home',
-          { type: 'update-profile', subtype: 'success', id: 'profile', pageid: 'profile', extra: { pos: [] } },
-          undefined,
-          {
-            referrer: document.referrer || undefined,
-            screenWidth: screen.width,
-            screenHeight: screen.height,
-            language: navigator.language,
-          },
-        )
-        localStorage.removeItem('utm_source')
-        this.configSvc.profileDetailsStatus = true
-        this.configSvc.hasAcceptedTnc = true
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
+      void (async () => {
+        const res = await data
+        this.loggerSvc.log(res.result.response)
+        if (res.result.response === 'SUCCESS') {
+          this.telemetrySvc.registrationInteract(
+            { id: this.result.userId, type: 'User' },
+            'home',
+            { type: 'update-profile', subtype: 'success', id: 'profile', pageid: 'profile', extra: { pos: [] } },
+            undefined,
+            {
+              referrer: document.referrer || undefined,
+              screenWidth: screen.width,
+              screenHeight: screen.height,
+              language: navigator.language,
+            },
+          )
+          localStorage.removeItem('utm_source')
+          this.configSvc.profileDetailsStatus = true
+          this.configSvc.hasAcceptedTnc = true
 
-        const rootOrgId = this.configSvc.userProfile?.rootOrgId || this.configSvc.unMappedUser?.rootOrgId
-        const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+          const rootOrgId = this.configSvc.userProfile?.rootOrgId || this.configSvc.unMappedUser?.rootOrgId
+          const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
 
-        if (this.result.tncStatus) {
-          if (this.configSvc.unMappedUser) {
-            this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(400), mergeMap((userData: any) => {
-              return of(userData)
-            })).subscribe((userDetails: any) => {
-              if (!this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
-                if (localStorage.getItem('url_before_login')) {
-                  const courseUrl = localStorage.getItem('url_before_login')
-                  this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+          if (this.result.tncStatus) {
+            if (this.configSvc.unMappedUser) {
+              this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(400), mergeMap((userData: any) => {
+                return of(userData)
+              })).subscribe((userDetails: any) => {
+                if (!this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
+                  if (localStorage.getItem('url_before_login')) {
+                    const courseUrl = localStorage.getItem('url_before_login')
+                    this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+                  } else {
+                    this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-incomplete')
+                  }
                 } else {
-                  this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-incomplete')
+                  // Background details are filled - redirect to url_before_login if available
+                  const urlBeforeLogin = localStorage.getItem('url_before_login')
+                  if (urlBeforeLogin) {
+                    this.loggerSvc.log('Redirecting to url_before_login:', urlBeforeLogin)
+                    window.location.href = urlBeforeLogin
+                  } else {
+                    // No url_before_login, redirect to home
+                    this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-complete')
+                  }
                 }
-              } else {
-                // Background details are filled - redirect to url_before_login if available
-                const urlBeforeLogin = localStorage.getItem('url_before_login')
-                if (urlBeforeLogin) {
-                  this.loggerSvc.log('Redirecting to url_before_login:', urlBeforeLogin)
-                  window.location.href = urlBeforeLogin
-                } else {
-                  // No url_before_login, redirect to home
-                  this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-complete')
-                }
-              }
-            })
+              })
+            }
+          } else {
+            this.navigateToHome(rootOrgId, orgSelectiveConfig, 'tnc-not-accepted')
           }
-        } else {
-          this.navigateToHome(rootOrgId, orgSelectiveConfig, 'tnc-not-accepted')
         }
-      }
+      })()
     },
       (err: any) => {
         this.loggerSvc.error('ERROR ACCEPTING TNC:', err)

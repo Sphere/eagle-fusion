@@ -50,7 +50,6 @@ a.blue,
   @extend %page-center;
   @extend %height-mat-toolbar-sibling;
   padding: 0;
-  box-sizing: border-box;
 
   @include ws-mixins.breakpoint-gt-s {
     max-width: 30%;

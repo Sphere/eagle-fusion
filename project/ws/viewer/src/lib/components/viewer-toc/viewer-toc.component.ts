@@ -148,72 +148,74 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.configSvc.instanceConfig.logos.defaultContent,
       )
     }
-    this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
-      this.batchId = params.get('batchId')
-      const collectionId = params.get('collectionId')
-      this.collectionId = params.get('collectionId')
-      // isAsha isn't always propagated onto the viewer route, so also fall back to the ASHA
-      // context on contentSvc (set when an ASHA course is launched). Validate that context
-      // against the CURRENT course (contentid === collectionId) — otherwise a stale ASHA
-      // context from a previous session would wrongly treat a normal course as ASHA and
-      // pop the CompleteCoursesModalComponent. The ASHA modal is strictly ASHA-only.
-      const ashaContext = this.contentSvc.getAshaData()
-      const ashaContextMatchesCourse = !!(ashaContext && ashaContext.isAsha &&
-        String(ashaContext.contentid) === String(this.collectionId))
-      this.isAsha = params.get('isAsha') === 'true' || ashaContextMatchesCourse
+    this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(params => {
+      void (async () => {
+        this.batchId = params.get('batchId')
+        const collectionId = params.get('collectionId')
+        this.collectionId = params.get('collectionId')
+        // isAsha isn't always propagated onto the viewer route, so also fall back to the ASHA
+        // context on contentSvc (set when an ASHA course is launched). Validate that context
+        // against the CURRENT course (contentid === collectionId) — otherwise a stale ASHA
+        // context from a previous session would wrongly treat a normal course as ASHA and
+        // pop the CompleteCoursesModalComponent. The ASHA modal is strictly ASHA-only.
+        const ashaContext = this.contentSvc.getAshaData()
+        const ashaContextMatchesCourse = !!(ashaContext && ashaContext.isAsha &&
+          String(ashaContext.contentid) === String(this.collectionId))
+        this.isAsha = params.get('isAsha') === 'true' || ashaContextMatchesCourse
 
-      if (this.collectionId) {
-        localStorage.setItem('collectionId', this.collectionId)
-      }
-      const collectionType = params.get('collectionType')
-      if (collectionId && collectionType) {
-        if (
-          collectionType.toLowerCase() ===
-          NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
-        ) {
-          this.collection = await this.getPlaylistContent(collectionId, collectionType)
-        } else if (
-          collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
-          collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
-          collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
-        ) {
-          this.collection = await this.getCollection(collectionId, collectionType)
-        } else {
-          this.isErrorOccurred = true
+        if (this.collectionId) {
+          localStorage.setItem('collectionId', this.collectionId)
         }
-        if (this.collection) {
-          this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
+        const collectionType = params.get('collectionType')
+        if (collectionId && collectionType) {
+          if (
+            collectionType.toLowerCase() ===
+            NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
+          ) {
+            this.collection = await this.getPlaylistContent(collectionId, collectionType)
+          } else if (
+            collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
+            collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
+            collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
+          ) {
+            this.collection = await this.getCollection(collectionId, collectionType)
+          } else {
+            this.isErrorOccurred = true
+          }
+          if (this.collection) {
+            this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
+          }
+          setTimeout(() => {
+            this.isFetching = false
+            this.cdr.markForCheck()
+          }, 0)
         }
-        setTimeout(() => {
-          this.isFetching = false
-          this.cdr.markForCheck()
-        }, 0)
-      }
-      if (this.resourceId) {
-        this.processCurrentResourceChange()
+        if (this.resourceId) {
+          this.processCurrentResourceChange()
 
-        if (this.currentContentType == 'Video') {
-          if (this.playerStateService.isResourceCompleted()) {
-            const nextResource = this.playerStateService.getNextResource()
-            if (!(isNull(nextResource) || isEmpty(nextResource))) {
-              this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
-              this.playerStateService.trigger$.complete()
-            } else if (this.isCurrentResourceLastLeaf()) {
-              // Only return to the overview when the completed video is genuinely
-              // the final leaf. Previously an unresolved next-resource (empty
-              // string, e.g. before playerState is populated) also fell here and
-              // bounced a completed mid-course video back to the TOC.
-              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                queryParams: {
-                  primaryCategory: 'Course',
-                  batchId: this.batchId,
-                },
-              })
+          if (this.currentContentType == 'Video') {
+            if (this.playerStateService.isResourceCompleted()) {
+              const nextResource = this.playerStateService.getNextResource()
+              if (!(isNull(nextResource) || isEmpty(nextResource))) {
+                this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
+                this.playerStateService.trigger$.complete()
+              } else if (this.isCurrentResourceLastLeaf()) {
+                // Only return to the overview when the completed video is genuinely
+                // the final leaf. Previously an unresolved next-resource (empty
+                // string, e.g. before playerState is populated) also fell here and
+                // bounced a completed mid-course video back to the TOC.
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
+              }
             }
           }
         }
-      }
 
+      })()
     })
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
@@ -618,7 +620,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     if (this.collection && this.collection.children) {
       const mergeData = (collection: any) => {
         this.logger.log(data, 'ssssssssssss')
-        collection.map((child1: any, index: any, element: any) => {
+        collection.forEach((child1: any, index: any, element: any) => {
           const foundContent = data.find((el1: any) => el1.contentId === child1.identifier)
 
           if (foundContent) {
@@ -828,297 +830,301 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           }
         })
       }
-      this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(async record => {
-        this.logger.log('Record:', record)
-        rowData = await record
-        const dat = JSON.parse(rowData.data)
-        this.logger.log(dat, 'dat')
-        if (dat && dat.length) {
-          optmisticPercentage = await this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
-        }
-
-        this.logger.log(rating, optmisticPercentage)
-
-        if (content.type) {
-          if (this.playerStateService.isResourceCompleted()) {
-            const nextResource = this.playerStateService.getNextResource()
-            this.logger.log(nextResource)
-            const regex = /do_\d+/ // Regular expression to match "do_" followed by one or more digits
-            const match = nextResource.match(regex)
-            let foundObject: any
-            if (match) {
-              this.logger.log(match[0]) // Output: "do_11357407388494233611489"
-              this.logger.log(this.collection!.children)
-              foundObject = this.collection!.children!.find(obj => obj.identifier === match[0])
-              if (foundObject) {
-                this.logger.log(foundObject) // Output the object if a match is found
-              } else {
-                this.logger.log('No matching object found')
-              }
-            } else {
-              this.logger.log('No match found')
-            }
-            if (!(isEmpty(nextResource) || isNull(nextResource))) {
-
-              if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
-                this.logger.log(foundObject, 'foundObject')
-                if (!foundObject || (foundObject.type !== "Scrom" && foundObject.completionPercentage === 100)) {
-                  this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
-                    if (success) {
-                      this.playerStateService.trigger$.complete()
-                    }
-                  }).catch(error => {
-                    this.logger.error('Navigation error:', error)
-                  })
-                } else {
-                  // External navigation or fallback
-                  this.isLoading = true
-                  const modifiedString = nextResource.replace('/', '')
-                  const url = `${document.baseURI}${modifiedString}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
-                  this.logger.log('Redirecting to URL:', url)
-
-                  setTimeout(() => {
-                    window.location.href = url
-                  }, 30)
-
-                  setTimeout(() => {
-                    this.isLoading = false
-                  }, 60)
-                }
-              }
-            } else if (this.contentSvc.showConformation) {
-              let finalCompetencies = []
-              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
-                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
-
-                finalCompetencies = competencies_v1.map((competency: any) => {
-                  return {
-                    competencyName: competency.competencyName,
-                    competencyLevel: competency.level,
-                    competencyId: competency.competencyId,
-                  }
-                })
-                this.logger.log("finalCompetencies", finalCompetencies)
-              }
-              const data = {
-                courseId: this.collectionId,
-              }
-              this.logger.log("data", this.collectionId, data)
-              const isDialogOpen = this.dialog.openDialogs.length > 0
-              let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-
-              // If the dialog is not already open, open it
-              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0 && data) {
-                if (finalCompetencies.length > 0) {
-                  finalCompetencies.forEach((competency: any) => {
-                    this.updatePassbookEntryPassbook(data, competency)
-                  })
-                }
-
-                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
-                setTimeout(() => {
-                  this.openCongratulationPopup().then(isCompleted => {
-                    if (isCompleted) {
-                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        width: '300px',
-                        height: '420px',
-                        panelClass: 'overview-modal',
-                        backdropClass: 'overview-backdrop',
-                        disableClose: true,
-                        data: { request: data, message: 'Congratulations!, you have completed the course' },
-                      })
-
-                      if (confirmdialog) {
-                        confirmdialog.afterClosed().subscribe((res: any) => {
-                          if (res && res.event === 'CONFIRMED') {
-                            this.completeCourseNavigation()
-                          }
-                        })
-                      }
-                    }
-                  })
-                }, delay)
-              }
-            } else {
-              let finalCompetencies = []
-              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
-                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
-
-                finalCompetencies = competencies_v1.map((competency: any) => {
-                  return {
-                    competencyName: competency.competencyName,
-                    competencyLevel: competency.level,
-                    competencyId: competency.competencyId,
-                  }
-                })
-                this.logger.log("finalCompetencies", finalCompetencies)
-              }
-              this.logger.log(rating, optmisticPercentage)
-              const data = {
-                courseId: this.collectionId,
-              }
-              this.logger.log("data", this.collectionId, data)
-              const isDialogOpen = this.dialog.openDialogs.length > 0
-              let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-
-              // If the dialog is not already open, open it
-              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
-                if (finalCompetencies.length > 0) {
-                  finalCompetencies.forEach((competency: any) => {
-                    this.updatePassbookEntryPassbook(data, competency)
-                  })
-                }
-
-                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
-                setTimeout(() => {
-                  this.openCongratulationPopup().then(isCompleted => {
-                    if (isCompleted) {
-                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        width: '300px',
-                        height: '420px',
-                        panelClass: 'overview-modal',
-                        backdropClass: 'overview-backdrop',
-                        disableClose: true,
-                        data: { request: data, message: 'Congratulations!, you have completed the course' },
-                      })
-
-                      if (confirmdialog) {
-                        confirmdialog.afterClosed().subscribe((res: any) => {
-                          if (res && res.event === 'CONFIRMED') {
-                            this.completeCourseNavigation()
-                          }
-                        })
-                      }
-                    }
-                  })
-                }, delay)
-              }
-              if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
-                this.completeCourseNavigation()
-              }
-
-            }
-          } else {
-            this.logger.log(rating, optmisticPercentage)
-            if (optmisticPercentage === 100) {
-              this.completeCourseNavigation()
-            }
+      this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(record => {
+        void (async () => {
+          this.logger.log('Record:', record)
+          rowData = await record
+          const dat = JSON.parse(rowData.data)
+          this.logger.log(dat, 'dat')
+          if (dat && dat.length) {
+            optmisticPercentage = await this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
           }
-        } else {
-          if (this.playerStateService.isResourceCompleted()) {
-            if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
-              && this.contentSvc.showConformation) {
-              let finalCompetencies = []
-              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
-                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
 
-                finalCompetencies = competencies_v1.map((competency: any) => {
-                  return {
-                    competencyName: competency.competencyName,
-                    competencyLevel: competency.level,
-                    competencyId: competency.competencyId,
-                  }
-                })
-                this.logger.log("finalCompetencies", finalCompetencies)
-              }
-              const data = {
-                courseId: this.collectionId,
-              }
-              this.logger.log("data", this.collectionId, data)
-              // Check if the dialog is already open
-              const isDialogOpen = this.dialog.openDialogs.length > 0
-              let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-              this.logger.log(optmisticPercentage, Object.keys(rating).length)
-              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
-                if (finalCompetencies.length > 0) {
-                  finalCompetencies.forEach((competency: any) => {
-                    this.updatePassbookEntryPassbook(data, competency)
-                  })
+          this.logger.log(rating, optmisticPercentage)
+
+          if (content.type) {
+            if (this.playerStateService.isResourceCompleted()) {
+              const nextResource = this.playerStateService.getNextResource()
+              this.logger.log(nextResource)
+              const regex = /do_\d+/ // Regular expression to match "do_" followed by one or more digits
+              const match = nextResource.match(regex)
+              let foundObject: any
+              if (match) {
+                this.logger.log(match[0]) // Output: "do_11357407388494233611489"
+                this.logger.log(this.collection!.children)
+                foundObject = this.collection!.children!.find(obj => obj.identifier === match[0])
+                if (foundObject) {
+                  this.logger.log(foundObject) // Output the object if a match is found
+                } else {
+                  this.logger.log('No matching object found')
                 }
+              } else {
+                this.logger.log('No match found')
+              }
+              if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
-                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
-                setTimeout(() => {
-                  this.openCongratulationPopup().then(isCompleted => {
-                    if (isCompleted) {
-                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        width: '300px',
-                        height: '420px',
-                        panelClass: 'overview-modal',
-                        backdropClass: 'overview-backdrop',
-                        disableClose: true,
-                        data: { request: data, message: 'Congratulations!, you have completed the course' },
-                      })
-
-                      if (confirmdialog) {
-                        confirmdialog.afterClosed().subscribe((res: any) => {
-                          if (res && res.event === 'CONFIRMED') {
-                            this.completeCourseNavigation()
-                          }
-                        })
+                if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
+                  this.logger.log(foundObject, 'foundObject')
+                  if (!foundObject || (foundObject.type !== "Scrom" && foundObject.completionPercentage === 100)) {
+                    this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
+                      if (success) {
+                        this.playerStateService.trigger$.complete()
                       }
+                    }).catch(error => {
+                      this.logger.error('Navigation error:', error)
+                    })
+                  } else {
+                    // External navigation or fallback
+                    this.isLoading = true
+                    const modifiedString = nextResource.replace('/', '')
+                    const url = `${document.baseURI}${modifiedString}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
+                    this.logger.log('Redirecting to URL:', url)
+
+                    setTimeout(() => {
+                      window.location.href = url
+                    }, 30)
+
+                    setTimeout(() => {
+                      this.isLoading = false
+                    }, 60)
+                  }
+                }
+              } else if (this.contentSvc.showConformation) {
+                let finalCompetencies = []
+                if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                  const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+
+                  finalCompetencies = competencies_v1.map((competency: any) => {
+                    return {
+                      competencyName: competency.competencyName,
+                      competencyLevel: competency.level,
+                      competencyId: competency.competencyId,
                     }
                   })
-                }, delay)
+                  this.logger.log("finalCompetencies", finalCompetencies)
+                }
+                const data = {
+                  courseId: this.collectionId,
+                }
+                this.logger.log("data", this.collectionId, data)
+                const isDialogOpen = this.dialog.openDialogs.length > 0
+                let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+                // If the dialog is not already open, open it
+                if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0 && data) {
+                  if (finalCompetencies.length > 0) {
+                    finalCompetencies.forEach((competency: any) => {
+                      this.updatePassbookEntryPassbook(data, competency)
+                    })
+                  }
+
+                  const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                  setTimeout(() => {
+                    this.openCongratulationPopup().then(isCompleted => {
+                      if (isCompleted) {
+                        confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                          width: '300px',
+                          height: '420px',
+                          panelClass: 'overview-modal',
+                          backdropClass: 'overview-backdrop',
+                          disableClose: true,
+                          data: { request: data, message: 'Congratulations!, you have completed the course' },
+                        })
+
+                        if (confirmdialog) {
+                          confirmdialog.afterClosed().subscribe((res: any) => {
+                            if (res && res.event === 'CONFIRMED') {
+                              this.completeCourseNavigation()
+                            }
+                          })
+                        }
+                      }
+                    })
+                  }, delay)
+                }
               } else {
-                if (optmisticPercentage === 100) {
+                let finalCompetencies = []
+                if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                  const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+
+                  finalCompetencies = competencies_v1.map((competency: any) => {
+                    return {
+                      competencyName: competency.competencyName,
+                      competencyLevel: competency.level,
+                      competencyId: competency.competencyId,
+                    }
+                  })
+                  this.logger.log("finalCompetencies", finalCompetencies)
+                }
+                this.logger.log(rating, optmisticPercentage)
+                const data = {
+                  courseId: this.collectionId,
+                }
+                this.logger.log("data", this.collectionId, data)
+                const isDialogOpen = this.dialog.openDialogs.length > 0
+                let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+                // If the dialog is not already open, open it
+                if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                  if (finalCompetencies.length > 0) {
+                    finalCompetencies.forEach((competency: any) => {
+                      this.updatePassbookEntryPassbook(data, competency)
+                    })
+                  }
+
+                  const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                  setTimeout(() => {
+                    this.openCongratulationPopup().then(isCompleted => {
+                      if (isCompleted) {
+                        confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                          width: '300px',
+                          height: '420px',
+                          panelClass: 'overview-modal',
+                          backdropClass: 'overview-backdrop',
+                          disableClose: true,
+                          data: { request: data, message: 'Congratulations!, you have completed the course' },
+                        })
+
+                        if (confirmdialog) {
+                          confirmdialog.afterClosed().subscribe((res: any) => {
+                            if (res && res.event === 'CONFIRMED') {
+                              this.completeCourseNavigation()
+                            }
+                          })
+                        }
+                      }
+                    })
+                  }, delay)
+                }
+                if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
                   this.completeCourseNavigation()
                 }
+
               }
             } else {
-              this.logger.log('lll', dat)
-              const nextResource = this.playerStateService.getNextResource()
-              const regex = /do_\d+/
-              const match: any = nextResource.match(regex)
-              this.logger.log(match[0])
-              const courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
-              const courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
-              this.logger.log(courseData2)
-              const foundContent1 = dat.find((el1: any) => el1.contentId === this.resourceId)
+              this.logger.log(rating, optmisticPercentage)
+              if (optmisticPercentage === 100) {
+                this.completeCourseNavigation()
+              }
+            }
+          } else {
+            if (this.playerStateService.isResourceCompleted()) {
+              if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
+                && this.contentSvc.showConformation) {
+                let finalCompetencies = []
+                if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                  const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
 
-              const foundContent2 = dat.find((el2: any) => el2.contentId === match[0])
-              this.logger.log(foundContent1, foundContent2)
-              this.logger.log(nextResource, this.resourceId)
-              if (
-                foundContent1.completionPercentage === 100 &&
-                (courseData1.mimeType === 'application/json')
-                &&
-                (!foundContent2 || foundContent2.completionPercentage === 0)
-              ) {
-                this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
+                  finalCompetencies = competencies_v1.map((competency: any) => {
+                    return {
+                      competencyName: competency.competencyName,
+                      competencyLevel: competency.level,
+                      competencyId: competency.competencyId,
+                    }
+                  })
+                  this.logger.log("finalCompetencies", finalCompetencies)
+                }
+                const data = {
+                  courseId: this.collectionId,
+                }
+                this.logger.log("data", this.collectionId, data)
+                // Check if the dialog is already open
+                const isDialogOpen = this.dialog.openDialogs.length > 0
+                let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+                this.logger.log(optmisticPercentage, Object.keys(rating).length)
+                if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                  if (finalCompetencies.length > 0) {
+                    finalCompetencies.forEach((competency: any) => {
+                      this.updatePassbookEntryPassbook(data, competency)
+                    })
+                  }
+
+                  const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                  setTimeout(() => {
+                    this.openCongratulationPopup().then(isCompleted => {
+                      if (isCompleted) {
+                        confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                          width: '300px',
+                          height: '420px',
+                          panelClass: 'overview-modal',
+                          backdropClass: 'overview-backdrop',
+                          disableClose: true,
+                          data: { request: data, message: 'Congratulations!, you have completed the course' },
+                        })
+
+                        if (confirmdialog) {
+                          confirmdialog.afterClosed().subscribe((res: any) => {
+                            if (res && res.event === 'CONFIRMED') {
+                              this.completeCourseNavigation()
+                            }
+                          })
+                        }
+                      }
+                    })
+                  }, delay)
+                } else {
+                  if (optmisticPercentage === 100) {
+                    this.completeCourseNavigation()
+                  }
+                }
+              } else {
+                this.logger.log('lll', dat)
+                const nextResource = this.playerStateService.getNextResource()
+                const regex = /do_\d+/
+                const match: any = nextResource.match(regex)
+                this.logger.log(match[0])
+                const courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+                const courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
+                this.logger.log(courseData2)
+                const foundContent1 = dat.find((el1: any) => el1.contentId === this.resourceId)
+
+                const foundContent2 = dat.find((el2: any) => el2.contentId === match[0])
+                this.logger.log(foundContent1, foundContent2)
+                this.logger.log(nextResource, this.resourceId)
+                if (
+                  foundContent1.completionPercentage === 100 &&
+                  (courseData1.mimeType === 'application/json')
+                  &&
+                  (!foundContent2 || foundContent2.completionPercentage === 0)
+                ) {
+                  this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
+                }
               }
             }
           }
-        }
+        })()
       }, error => {
         this.logger.error('Error:', error)
         const userID = this.configSvc.userProfile!.userId
         this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', content.contentList).subscribe(
           (dat: any) => {
             this.logger.log('Data inserted successfully1', dat)
-            this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async record => {
-              this.logger.log('Record:', record)
-              rowData = await record
-              const dat = JSON.parse(rowData.data)
-              this.logger.log(dat)
-              if (dat && dat.length) {
-                optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
-                this.logger.log(optmisticPercentage, 'foundContent', '942')
-                if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
-                  if (this.playerStateService.isResourceCompleted()) {
-                    const nextResource = this.playerStateService.getNextResource()
-                    if (!(isEmpty(nextResource) || isNull(nextResource))) {
-                      this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
-                        if (success) {
-                          this.playerStateService.trigger$.complete()
-                        }
-                      }).catch(error => {
-                        this.logger.error('Navigation error:', error)
-                      })
+            this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(record => {
+              void (async () => {
+                this.logger.log('Record:', record)
+                rowData = await record
+                const dat = JSON.parse(rowData.data)
+                this.logger.log(dat)
+                if (dat && dat.length) {
+                  optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
+                  this.logger.log(optmisticPercentage, 'foundContent', '942')
+                  if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
+                    if (this.playerStateService.isResourceCompleted()) {
+                      const nextResource = this.playerStateService.getNextResource()
+                      if (!(isEmpty(nextResource) || isNull(nextResource))) {
+                        this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
+                          if (success) {
+                            this.playerStateService.trigger$.complete()
+                          }
+                        }).catch(error => {
+                          this.logger.error('Navigation error:', error)
+                        })
+                      }
                     }
                   }
-                }
 
-              }
+                }
+              })()
             }, error => {
               this.logger.error('Error:', error)
             })
@@ -1150,122 +1156,126 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             fields: ['progressdetails'],
           },
         }
-        this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(async data => {
-          // tslint:disable-next-line: no-console
-          this.logger.log(data['result']['contentList'])
-          // Ensure gating state is restored from the course hierarchy before mergeData runs
-          // (resolver resets gatingEnabled per resource, individual resources don't carry the flag)
-          if (this.heirarchy) {
-            this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
-          }
-          if (this.collection && this.collection.children) {
-            const mergeData = (collection: any) => {
+        this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(data => {
+          void (async () => {
+            // tslint:disable-next-line: no-console
+            this.logger.log(data['result']['contentList'])
+            // Ensure gating state is restored from the course hierarchy before mergeData runs
+            // (resolver resets gatingEnabled per resource, individual resources don't carry the flag)
+            if (this.heirarchy) {
+              this.viewerDataSvc.setNode(this.heirarchy.gatingEnabled)
+            }
+            if (this.collection && this.collection.children) {
+              const mergeData = (collection: any) => {
 
-              collection.map(async (child1: any, index: any, element: any) => {
-                const foundContent = await data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
+                collection.forEach((child1: any, index: any, element: any) => {
+                  void (async () => {
+                    const foundContent = await data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
 
-                if (foundContent) {
-                  child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
-                  child1.completionStatus = foundContent.status
-                  if (this.viewerDataSvc.getNode() && child1.completionPercentage === undefined) {
-                    child1.disabledNode = false
-                  }
-                } else if (this.viewerDataSvc.getNode()) {
-                  if (index === 0) {
-                    element[index].disabledNode = false
+                    if (foundContent) {
+                      child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
+                      child1.completionStatus = foundContent.status
+                      if (this.viewerDataSvc.getNode() && child1.completionPercentage === undefined) {
+                        child1.disabledNode = false
+                      }
+                    } else if (this.viewerDataSvc.getNode()) {
+                      if (index === 0) {
+                        element[index].disabledNode = false
+                        if (child1.completionPercentage === 100) {
+                          if (element && element[index + 1]) {
+                            element[index + 1].disabledNode = false
+                          }
+                        }
+                      } else {
+                        if (element[index + 1]) {
+                          element[index + 1].disabledNode = true
+                        }
+                      }
+                    }
                     if (child1.completionPercentage === 100) {
                       if (element && element[index + 1]) {
                         element[index + 1].disabledNode = false
                       }
+                    } else {
+                      if (element[index + 1]) {
+                        element[index + 1].disabledNode = this.viewerDataSvc.getNode()
+                      }
                     }
-                  } else {
-                    if (element[index + 1]) {
-                      element[index + 1].disabledNode = true
-                    }
-                  }
-                }
-                if (child1.completionPercentage === 100) {
-                  if (element && element[index + 1]) {
-                    element[index + 1].disabledNode = false
-                  }
-                } else {
-                  if (element[index + 1]) {
-                    element[index + 1].disabledNode = this.viewerDataSvc.getNode()
-                  }
-                }
 
-                if (child1['children']) {
+                    if (child1['children']) {
 
-                  child1['children'].map((child2: any, cindex: any) => {
-                    // tslint:disable-next-line:max-line-length
-                    const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
-                    if (foundContent2) {
-                      child2.completionPercentage = foundContent2.completionPercentage
-                      child2.completionStatus = foundContent2.status
+                      child1['children'].map((child2: any, cindex: any) => {
+                        // tslint:disable-next-line:max-line-length
+                        const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
+                        if (foundContent2) {
+                          child2.completionPercentage = foundContent2.completionPercentage
+                          child2.completionStatus = foundContent2.status
 
-                      // tslint:disable-next-line:max-line-length
-                    } else if (this.viewerDataSvc.getNode() && this.viewerDataSvc.resourceId === child2.identifier) {
-                      this.logger.log('entered')
-                      child2.disabledNode = false
+                          // tslint:disable-next-line:max-line-length
+                        } else if (this.viewerDataSvc.getNode() && this.viewerDataSvc.resourceId === child2.identifier) {
+                          this.logger.log('entered')
+                          child2.disabledNode = false
 
-                    } else if (
-                      element[index - 1]?.children?.length &&
-                      element[index - 1].children[element[index - 1].children.length - 1]?.completionPercentage === 100) {
-                      if (element[index].children.length > 0) {
-                        if (cindex === 0) {
-                          element[index].children[cindex].disabledNode = false
+                        } else if (
+                          element[index - 1]?.children?.length &&
+                          element[index - 1].children[element[index - 1].children.length - 1]?.completionPercentage === 100) {
+                          if (element[index].children.length > 0) {
+                            if (cindex === 0) {
+                              element[index].children[cindex].disabledNode = false
+                            } else {
+                              if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
+
+                                element[index].children[cindex].disabledNode = false
+                              } else {
+                                if (this.viewerDataSvc.getNode()) {
+                                  element[index].children[cindex].disabledNode = true
+                                } else {
+                                  element[index].children[cindex].disabledNode = false
+                                }
+
+                              }
+
+                            }
+                            return
+                          }
+                          // tslint:disable-next-line: max-line-length
+                        } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
+                          if (element[index].children.length > 0) {
+
+                            if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
+
+                              element[index].children[cindex].disabledNode = false
+                            } else {
+                              if (this.viewerDataSvc.getNode()) {
+                                element[index].children[cindex].disabledNode = true
+                              } else {
+                                element[index].children[cindex].disabledNode = false
+                              }
+
+                            }
+                            return
+                          }
                         } else {
-                          if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
 
-                            element[index].children[cindex].disabledNode = false
-                          } else {
-                            if (this.viewerDataSvc.getNode()) {
+                          if (element[index].children[cindex - 1]) {
+                            if (element[index].children[cindex - 1].completionPercentage === 100) {
+                              element[index].children[cindex].disabledNode = false
+                            } else if (this.viewerDataSvc.getNode()) {
                               element[index].children[cindex].disabledNode = true
                             } else {
                               element[index].children[cindex].disabledNode = false
                             }
-
                           }
-
                         }
-                        return
-                      }
-                      // tslint:disable-next-line: max-line-length
-                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
-                      if (element[index].children.length > 0) {
-
-                        if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
-
-                          element[index].children[cindex].disabledNode = false
-                        } else {
-                          if (this.viewerDataSvc.getNode()) {
-                            element[index].children[cindex].disabledNode = true
-                          } else {
-                            element[index].children[cindex].disabledNode = false
-                          }
-
-                        }
-                        return
-                      }
-                    } else {
-
-                      if (element[index].children[cindex - 1]) {
-                        if (element[index].children[cindex - 1].completionPercentage === 100) {
-                          element[index].children[cindex].disabledNode = false
-                        } else if (this.viewerDataSvc.getNode()) {
-                          element[index].children[cindex].disabledNode = true
-                        } else {
-                          element[index].children[cindex].disabledNode = false
-                        }
-                      }
+                      })
                     }
-                  })
-                }
-              })
+                  })()
+                })
+              }
+              mergeData(this.collection.children)
             }
-            mergeData(this.collection.children)
-          }
-          this.updateResourceChange()
+            this.updateResourceChange()
+          })()
         },
           (error: any) => {
             // tslint:disable-next-line:no-console

@@ -40,15 +40,17 @@ export class TnnmcCallbackComponent implements OnInit {
     }
     try {
       //setTimeout(() => {
-      this.orgService.setTnnmcToken(data).subscribe(async (res: any) => {
-        const loc = await res
-        this.logger.log(loc, 'oo')
-        localStorage.setItem('loc', JSON.stringify(loc))
-        if (loc.message === 'success') {
-          this.logger.log("loc.message", loc.message)
-          location.href = '/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council%20(TNNMC)'
-          //window.location = loc.resRedirectUrl
-        }
+      this.orgService.setTnnmcToken(data).subscribe((res: any) => {
+        void (async () => {
+          const loc = await res
+          this.logger.log(loc, 'oo')
+          localStorage.setItem('loc', JSON.stringify(loc))
+          if (loc.message === 'success') {
+            this.logger.log("loc.message", loc.message)
+            location.href = '/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council%20(TNNMC)'
+            //window.location = loc.resRedirectUrl
+          }
+        })()
       }, (err: any) => {
         // tslint:disable-next-line:no-console
         this.logger.log(err)

@@ -68,36 +68,38 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     return this.uiConfig?.badges?.showCompletedCourses === true && this.noOfBadges > 0
   }
 
-  async ngOnInit() {
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.router.navigateByUrl('/organisations/home')
-    }
-    this.logger.log(this.configData, 'configData ****** ')
-    this.uiConfig = this.configData?.[0]
-    this.dataCarousel = this.uiConfig?.data
-    this.imgsLoaded = (this.dataCarousel || []).map(() => false)
-    if (this.isEkshamata) {
-      this.domain = window.location.hostname
-      this.logger.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-        this.logger.log("yes here2 ", this.configSvc.hostedInfo)
-        this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
-        this.logger.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+  ngOnInit() {
+    void (async () => {
+      if (localStorage.getItem('orgValue') === 'nhsrc') {
+        this.router.navigateByUrl('/organisations/home')
       }
-    }
-    if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
-      this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
-    } else {
-      this.lang = this.languageSvc.getCurrentLanguage()
-    }
-    this.startCarousel()
+      this.logger.log(this.configData, 'configData ****** ')
+      this.uiConfig = this.configData?.[0]
+      this.dataCarousel = this.uiConfig?.data
+      this.imgsLoaded = (this.dataCarousel || []).map(() => false)
+      if (this.isEkshamata) {
+        this.domain = window.location.hostname
+        this.logger.log("yes here", this.isEkshamata)
+        if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+          this.logger.log("yes here2 ", this.configSvc.hostedInfo)
+          this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
+          this.logger.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+        }
+      }
+      if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
+        this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
+      } else {
+        this.lang = this.languageSvc.getCurrentLanguage()
+      }
+      this.startCarousel()
 
-    // Set preferred language from LanguageService
-    this.preferedLanguage = {
-      id: this.languageSvc.getCurrentLanguage(),
-      lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English',
-    }
-    await this.calculateBadges()
+      // Set preferred language from LanguageService
+      this.preferedLanguage = {
+        id: this.languageSvc.getCurrentLanguage(),
+        lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English',
+      }
+      await this.calculateBadges()
+    })()
   }
 
   ngOnDestroy(): void {

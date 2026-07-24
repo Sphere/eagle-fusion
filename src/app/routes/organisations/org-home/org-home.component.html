@@ -13,7 +13,9 @@
     <div class="container-xxl py-5 category">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
         <div class="row g-3" *ngIf="resultEnroll.length>0">
-          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.contentId)">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.contentId)"
+            (keydown.enter)="navigateToToc(content.contentId)"
+            (keydown.space)="navigateToToc(content.contentId); $event.preventDefault()" tabindex="0">
             <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
               style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
               <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl" [alt]="content.courseName">
@@ -40,18 +42,21 @@
 </div>
 <br>
 <div class="container-fluid  p-0-lang">
-  <a (click)='getCourseDetails("")'>
+  <a (click)='getCourseDetails("")' (keydown.enter)='getCourseDetails("")'
+    (keydown.space)='getCourseDetails(""); $event.preventDefault()' tabindex="0">
     <button class="all-courses">
       All
     </button></a>
   &nbsp;&nbsp;&nbsp;
 
-  <a (click)='getCourseDetails("en")'>
+  <a (click)='getCourseDetails("en")' (keydown.enter)='getCourseDetails("en")'
+    (keydown.space)='getCourseDetails("en"); $event.preventDefault()' tabindex="0">
     <button class="en-courses">
       English
     </button></a>
   &nbsp;&nbsp;&nbsp;
-  <a (click)='getCourseDetails("hi")'>
+  <a (click)='getCourseDetails("hi")' (keydown.enter)='getCourseDetails("hi")'
+    (keydown.space)='getCourseDetails("hi"); $event.preventDefault()' tabindex="0">
     <button class="hi-courses">हिन्दी
     </button>
   </a>
@@ -63,7 +68,9 @@
     <div class="row g-3">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultResponse">
         <div class="row g-3">
-          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)"
+            (keydown.enter)="navigateToToc(content.identifier)"
+            (keydown.space)="navigateToToc(content.identifier); $event.preventDefault()" tabindex="0">
             <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
               style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
               <img class="img-fluid  img-responsive courses" [src]="content.thumbnail" [alt]="content.name">

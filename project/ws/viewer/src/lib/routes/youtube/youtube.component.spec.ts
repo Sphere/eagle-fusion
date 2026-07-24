@@ -19,7 +19,6 @@ describe('YoutubeComponent', () => {
   let mockActivatedRoute: any
   let mockValueSvc: any
   let mockContentSvc: any
-  let mockPlatform: any
   let mockDataSvc: any
   let mockConfigSvc: any
   let routeDataSubject: Subject<any>
@@ -48,7 +47,6 @@ describe('YoutubeComponent', () => {
       setS3Cookie: jest.fn().mockReturnValue({ toPromise: () => Promise.resolve({}) }),
       fetchContentHistoryV2: jest.fn(),
     }
-    mockPlatform = { ANDROID: false }
     mockDataSvc = { getFullScreenStatus: fsSubject.asObservable() }
     mockConfigSvc = { userProfile: { userId: 'user-1' } }
 
@@ -56,7 +54,6 @@ describe('YoutubeComponent', () => {
       mockActivatedRoute,
       mockValueSvc,
       mockContentSvc,
-      mockPlatform,
       mockDataSvc,
       mockConfigSvc,
     )

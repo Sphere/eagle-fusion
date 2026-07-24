@@ -151,17 +151,19 @@ export class PageComponent extends WidgetBaseComponent
                 Boolean(event.source && typeof event.source.postMessage === 'function'),
             ),
           )
-          .subscribe(async (event: MessageEvent) => {
-            const contentWindow = event.source as Window
-            if (event.data.requestId) {
-              switch (event.data.requestId) {
-                case 'LOADED':
-                  this.respondSvc.loadedRespond(contentWindow, event.data.subApplicationName)
-                  break
-                default:
-                  break
+          .subscribe((event: MessageEvent) => {
+            void (async () => {
+              const contentWindow = event.source as Window
+              if (event.data.requestId) {
+                switch (event.data.requestId) {
+                  case 'LOADED':
+                    this.respondSvc.loadedRespond(contentWindow, event.data.subApplicationName)
+                    break
+                  default:
+                    break
+                }
               }
-            }
+            })()
           })
       }
 
@@ -170,7 +172,7 @@ export class PageComponent extends WidgetBaseComponent
 
   ngAfterViewInit() {
     const hash: any = window.location.hash ? window.location.hash.split('#')[1] : ''
-    if (hash && isNaN(hash)) {
+    if (hash && Number.isNaN(Number(hash))) {
       setTimeout(
         () => {
           const element = document.getElementById(hash)

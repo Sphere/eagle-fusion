@@ -1,5 +1,6 @@
 <nav aria-label="navbar" *ngIf="isXSmall$" class="nav-bar-bg1">
-  <a class="navbar-brand cursor-pointer" (click)="homePage()">
+  <a class="navbar-brand cursor-pointer" (click)="homePage()" (keydown.enter)="homePage()"
+    (keydown.space)="homePage(); $event.preventDefault()" tabindex="0">
     <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>
 </nav>
@@ -18,7 +19,8 @@
         translate }}</span>
       <ul class="ul-class margin-top-m">
         <li>
-          <span class="link-text" (click)="showTncPage('terms')">{{ 'Terms of use and Privacy Policy' | translate}}
+          <span class="link-text" tabindex="0" role="button" (click)="showTncPage('terms')"
+            (keydown.enter)="showTncPage('terms')" (keydown.space)="showTncPage('terms'); $event.preventDefault()">{{ 'Terms of use and Privacy Policy' | translate}}
           </span>
         </li>
       </ul>

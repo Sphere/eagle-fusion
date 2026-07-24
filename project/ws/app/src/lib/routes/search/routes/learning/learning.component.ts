@@ -586,7 +586,6 @@ export class LearningComponent implements OnInit, OnDestroy {
           value.displayName = value.name
           value.type = value.name
           value.checked = true
-          value.count = value.count
         })
 
         if (facet.name === 'resourceType' || facet.name === 'exclusiveContent') {
@@ -749,37 +748,29 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   sortOrder(type: string) {
-    try {
-      this.router.navigate([], {
-        queryParams: { sort: type },
-        queryParamsHandling: 'merge',
-        relativeTo: this.activated.parent,
-      })
-    } catch (e) {
+    this.router.navigate([], {
+      queryParams: { sort: type },
+      queryParamsHandling: 'merge',
+      relativeTo: this.activated.parent,
+    }).catch(e => {
       throw e
-    }
+    })
   }
 
   getSortType() {
-    try {
-      return 'desc'
-    } catch (e) {
-      throw e
-    }
+    return 'desc'
   }
 
   searchLanguage(type: string) {
-    try {
-      this.router.navigate([], {
-        queryParams: { lang: type },
-        queryParamsHandling: 'merge',
-        relativeTo: this.activated.parent,
-      }).then(() => {
-        this.expandToPrefLang = false
-      })
-    } catch (e) {
+    this.router.navigate([], {
+      queryParams: { lang: type },
+      queryParamsHandling: 'merge',
+      relativeTo: this.activated.parent,
+    }).then(() => {
+      this.expandToPrefLang = false
+    }).catch(e => {
       throw e
-    }
+    })
   }
 
   didYouMeanSearch(query: string) {

@@ -9,15 +9,14 @@ import {
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
-import { Platform } from '@angular/cdk/platform'
 import { ViewerDataService } from './../../viewer-data.service'
 
 @Component({
-    standalone: false,
-    selector: 'viewer-youtube',
-    templateUrl: './youtube.component.html',
-    styleUrls: ['./youtube.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-youtube',
+  templateUrl: './youtube.component.html',
+  styleUrls: ['./youtube.component.scss'],
+
 })
 export class YoutubeComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
@@ -40,7 +39,6 @@ export class YoutubeComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly valueSvc: ValueService,
     private readonly contentSvc: WidgetContentService,
-    private readonly platform: Platform,
     private readonly dataSvc: ViewerDataService,
     private readonly configSvc: ConfigurationsService
   ) { }
@@ -51,32 +49,30 @@ export class YoutubeComponent implements OnInit, OnDestroy {
       this.isScreenSizeSmall = data
     })
     this.routeDataSubscription = this.activatedRoute.data.subscribe(
-      async data => {
-        this.widgetResolverYoutubeData = null
-        this.youtubeData = data.content.data
-        if (this.youtubeData) {
-          this.formDiscussionForumWidget(this.youtubeData)
-        }
+      data => {
+        void (async () => {
+          this.widgetResolverYoutubeData = null
+          this.youtubeData = data.content.data
+          if (this.youtubeData) {
+            this.formDiscussionForumWidget(this.youtubeData)
+          }
 
-        this.widgetResolverYoutubeData = this.initWidgetResolverYoutubeData()
-        if (this.forPreview) {
-          this.widgetResolverYoutubeData.widgetData.disableTelemetry = true
-        }
-        this.widgetResolverYoutubeData.widgetData.url = this.youtubeData
-          ? this.youtubeData.artifactUrl
-          : ''
-        this.widgetResolverYoutubeData.widgetData.identifier = this.youtubeData
-          ? this.youtubeData.identifier
-          : ''
-        if (this.platform.ANDROID) {
+          this.widgetResolverYoutubeData = this.initWidgetResolverYoutubeData()
+          if (this.forPreview) {
+            this.widgetResolverYoutubeData.widgetData.disableTelemetry = true
+          }
+          this.widgetResolverYoutubeData.widgetData.url = this.youtubeData
+            ? this.youtubeData.artifactUrl
+            : ''
+          this.widgetResolverYoutubeData.widgetData.identifier = this.youtubeData
+            ? this.youtubeData.identifier
+            : ''
           this.widgetResolverYoutubeData.widgetData.isVideojs = false
-        } else {
-          this.widgetResolverYoutubeData.widgetData.isVideojs = false
-        }
-        if (this.youtubeData && this.youtubeData.artifactUrl.indexOf('content-store') >= 0) {
-          await this.setS3Cookie(this.youtubeData.identifier)
-        }
-        this.isFetchingDataComplete = true
+          if (this.youtubeData && this.youtubeData.artifactUrl.indexOf('content-store') >= 0) {
+            await this.setS3Cookie(this.youtubeData.identifier)
+          }
+          this.isFetchingDataComplete = true
+        })()
       },
       () => { },
     )

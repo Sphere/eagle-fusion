@@ -46,9 +46,10 @@
               <button mat-icon-button (click)="setHiddenForStrip(key)" *ngIf="stripsResultDataMap[key]?.canHideStrip">
                 <mat-icon>close</mat-icon>
               </button>
-              <mat-icon class="cursor-pointer"
+              <mat-icon class="cursor-pointer" tabindex="0"
                 *ngIf="stripsResultDataMap[key]?.mode === 'accordion' && utilitySvc.isMobile"
-                (click)="showAccordionData = !showAccordionData">{{ showAccordionData ? 'expand_less' : 'expand_more' }}
+                (click)="showAccordionData = !showAccordionData" (keydown.enter)="showAccordionData = !showAccordionData"
+                (keydown.space)="showAccordionData = !showAccordionData; $event.preventDefault()">{{ showAccordionData ? 'expand_less' : 'expand_more' }}
               </mat-icon>
             </div>
             <div class="mb-4">

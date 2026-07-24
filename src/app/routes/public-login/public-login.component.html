@@ -36,7 +36,8 @@
           </h4>
           <div class="field  type-container mw-100">
             <div class="heading" style="margin-right: 30px;">
-              <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
+              <input type="radio" (click)="passwordOrOtp('otp')" (keydown.enter)="passwordOrOtp('otp')"
+                (keydown.space)="passwordOrOtp('otp'); $event.preventDefault()" name="usePasswordOrOTP" id="useOTPRB"
                 style="cursor: pointer;" checked="true">&nbsp;
               <label id="useOTPLabel" for="useOTPRB" class="" style="cursor: pointer;"
                 [ngClass]="{'font-weight-500': selectedField === 'otp'}">
@@ -44,7 +45,8 @@
               </label>
             </div>
             <div style="cursor: pointer;">
-              <input type="radio" (click)="passwordOrOtp('password');" name="usePasswordOrOTP" id="usePasswordRB"
+              <input type="radio" (click)="passwordOrOtp('password');" (keydown.enter)="passwordOrOtp('password')"
+                (keydown.space)="passwordOrOtp('password'); $event.preventDefault()" name="usePasswordOrOTP" id="usePasswordRB"
                 style="cursor: pointer;">&nbsp;
               <label id="usePasswordLabel" for="usePasswordRB" class="" style="cursor: pointer;"
                 [ngClass]="{'font-weight-500': selectedField === 'password'}">
@@ -85,7 +87,7 @@
               <div class="field">
               </div>
               <div class="flex justify-end">
-                <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1"
+                <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="0"
                   href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">
                   {{'Forgot Password?' | translate }}</a>
               </div>

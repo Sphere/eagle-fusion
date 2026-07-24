@@ -38,9 +38,11 @@ export class QuizService {
           this.logger.log('Record deleted successfully', message)
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
-            async (dat: any) => {
-              this.logger.log('Data inserted successfully2', dat)
-              await dat
+            (dat: any) => {
+              void (async () => {
+                this.logger.log('Data inserted successfully2', dat)
+                await dat
+              })()
             },
             (error: any) => { // 'error' callback for insertProgressData
               this.logger.error('Error inserting progress data:', error)
@@ -85,7 +87,7 @@ export class QuizService {
       identifier,
       title,
     }
-    quizWithAnswers.questions.map(question => {
+    quizWithAnswers.questions.forEach(question => {
       if (
         question.questionType === undefined ||
         question.questionType === 'mcq-mca' ||
@@ -120,7 +122,7 @@ export class QuizService {
   ) {
     const userSelectedAnswer: any = quiz.questions[questionAnswerHash['qslideIndex']]
     userSelectedAnswer['isCorrect'] = false
-    userSelectedAnswer.options.map((option: any) => {
+    userSelectedAnswer.options.forEach((option: any) => {
       if (option.isCorrect) {
         userSelectedAnswer['answer'] = option.text
       }
@@ -179,7 +181,7 @@ export class QuizService {
       }
     }
     const matchHintDisplay: any = []
-    quiz.questions[questionAnswerHash['qslideIndex']].options.map(option => (option.matchForView = option.match))
+    quiz.questions[questionAnswerHash['qslideIndex']].options.forEach(option => (option.matchForView = option.match))
     const array = quiz.questions[questionAnswerHash['qslideIndex']].options.map(elem => elem.match)
     const arr = this.shuffle(array)
     for (let i = 0; i < quiz.questions[questionAnswerHash['qslideIndex']].options.length; i += 1) {

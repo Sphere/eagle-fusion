@@ -108,7 +108,8 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
+        (data: any) => {
+          void (async () => {
           if (data) {
             this.isEditableForSphere = this.data?.isEditable ?? false
             if (this.isEditableForSphere) {
@@ -189,6 +190,7 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
               }
             }
           }
+          })()
         })
     }
   }
@@ -416,7 +418,7 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
     if (!state) return
 
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-      statesdata.states.map((item: any) => {
+      statesdata.states.forEach((item: any) => {
         if (item.state === state) {
           this.disticts = item.districts
           if (onDone) onDone(this.disticts)
@@ -432,7 +434,7 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
     }
 
     // ✅ Use LanguageService instead of checking location.href
-    const local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
+    const local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
 
     let profileRequest = this.constructReq(form)
     if (form.value.locationselect) {

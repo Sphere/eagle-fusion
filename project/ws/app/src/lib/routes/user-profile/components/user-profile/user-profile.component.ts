@@ -261,7 +261,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   fetchMeta() {
     this.userProfileSvc.getMasterNationlity().subscribe(
       (data: INationalityApiData) => {
-        data.nationalities.map((item: INationality) => {
+        data.nationalities.forEach((item: INationality) => {
           this.masterNationalities.push({ name: item.name })
           this.countryCodes.push(item.countryCode)
         })
@@ -444,7 +444,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (name) {
       const filterValue = name.map(n => n.toLowerCase())
       return this.masterLanguagesEntries.filter(option => {
-        filterValue.map(f => {
+        filterValue.forEach(f => {
           return option.name.toLowerCase().includes(f)
         })
       })
@@ -664,7 +664,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       postDegree: [],
     }
     if (data.academics && Array.isArray(data.academics)) {
-      data.academics.map((item: IProfileAcademics) => {
+      data.academics.forEach((item: IProfileAcademics) => {
         switch (item.type) {
           case 'X_STANDARD': academics.X_STANDARD.schoolName10 = item.nameOfInstitute
             academics.X_STANDARD.yop10 = item.yearOfPassing
@@ -818,13 +818,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private setDegreeValuesArray(academics: any) {
     this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
     this.degrees.removeAt(0)
-    academics.degree.map((degree: any) => { this.addDegreeValues(degree) })
+    academics.degree.forEach((degree: any) => { this.addDegreeValues(degree) })
   }
 
   private setPostDegreeValuesArray(academics: any) {
     this.postDegrees = this.createUserForm.get('postDegrees') as UntypedFormArray
     this.postDegrees.removeAt(0)
-    academics.postDegree.map((degree: any) => { this.addPostDegreeValues(degree) })
+    academics.postDegree.forEach((degree: any) => { this.addPostDegreeValues(degree) })
   }
 
   private constructReq(form: any) {
@@ -951,7 +951,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDegree(form: any, degreeType: string): IProfileAcademics[] {
     const formatedDegrees: IProfileAcademics[] = []
-    form.value.degrees.map((degree: any) => {
+    form.value.degrees.forEach((degree: any) => {
       formatedDegrees.push({
         nameOfQualification: degree.degree,
         type: degreeType,
@@ -964,7 +964,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getPostDegree(form: any, degreeType: string): IProfileAcademics[] {
     const formatedDegrees: IProfileAcademics[] = []
-    form.value.postDegrees.map((degree: any) => {
+    form.value.postDegrees.forEach((degree: any) => {
       formatedDegrees.push({
         nameOfQualification: degree.degree,
         type: degreeType,

@@ -40,7 +40,7 @@ export class FilterDisplayComponent implements OnInit {
       this.activated.parent &&
       this.activated.parent.snapshot.data.searchPageData.data.search.tabs
     ) {
-      this.activated.parent.snapshot.data.searchPageData.data.search.tabs.map(
+      this.activated.parent.snapshot.data.searchPageData.data.search.tabs.forEach(
         (cur: ISearchConfigContentStrip) => {
           if (
             this.routeComp === cur.titleKey &&

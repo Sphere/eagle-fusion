@@ -521,31 +521,35 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
           this.loggerSvc.log('datatta', data)
-          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async record => {
-            this.loggerSvc.log('Record:', record)
-            this.rowData = await record
-            const dat = JSON.parse(this.rowData.data)
-            if (dat && dat.length) {
-              this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
-              this.cdr.detectChanges()
-            }
+          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
+            void (async () => {
+              this.loggerSvc.log('Record:', record)
+              this.rowData = await record
+              const dat = JSON.parse(this.rowData.data)
+              if (dat && dat.length) {
+                this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+                this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+                this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
+                this.cdr.detectChanges()
+              }
+            })()
           }, error => {
             this.loggerSvc.error('Error:', error, data.result.contentList)
             this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
               (dat: any) => {
                 this.loggerSvc.log('Data inserted successfully1', dat)
-                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async record => {
-                  this.loggerSvc.log('Record:', record)
-                  this.rowData = await record
-                  const dat = JSON.parse(this.rowData.data)
-                  if (dat && dat.length) {
-                    this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
-                    this.cdr.detectChanges()
-                  }
+                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
+                  void (async () => {
+                    this.loggerSvc.log('Record:', record)
+                    this.rowData = await record
+                    const dat = JSON.parse(this.rowData.data)
+                    if (dat && dat.length) {
+                      this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+                      this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+                      this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
+                      this.cdr.detectChanges()
+                    }
+                  })()
                 }, error => {
                   this.loggerSvc.error('Error:', error)
                 })
@@ -562,11 +566,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             const items = filter(flattenItems(get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
             set(rr, 'progressdetails.mimeType', get(first(items), 'mimeType'))
             if (!get(rr, 'completionPercentage')) {
-              if (get(rr, 'status') === 2) {
-                set(rr, 'completionPercentage', rr.completionPercentage)
-              } else {
-                set(rr, 'completionPercentage', rr.completionPercentage)
-              }
+              set(rr, 'completionPercentage', rr.completionPercentage)
             }
             return rr
           })

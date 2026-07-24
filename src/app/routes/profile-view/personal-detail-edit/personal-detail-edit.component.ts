@@ -218,7 +218,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       const filterValue = name.map(n => n.toLowerCase())
       return this.masterLanguagesEntries.filter(option => {
         // option.name.toLowerCase().includes(filterValue))
-        filterValue.map(f => {
+        filterValue.forEach(f => {
           return option.name.toLowerCase().includes(f)
         })
       })
@@ -256,35 +256,37 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
-          if (data) {
-            this.isEditableForSphere = this.data?.isEditable ?? false
-            if (this.isEditableForSphere) {
-              this.personalDetailForm.enable()
-              // Keep mobile and email disabled even when form is enabled
-              this.personalDetailForm.get('mobile')?.disable()
-              this.personalDetailForm.get('email')?.disable()
-            } else {
-              this.personalDetailForm.disable()
-            }
-            this.userProfileData = data.profileDetails.profileReq
-            this.userlang = data
-            this.logger.log(data.profileDetails.profileReq.personalDetails.dob, ';')
-            this.updateForm()
-            if (data?.profileDetails?.preferences?.language === 'hi') {
-              this.personalDetailForm.patchValue({
-                knownLanguage: 'हिंदी',
-              })
+        (data: any) => {
+          void (async () => {
+            if (data) {
+              this.isEditableForSphere = this.data?.isEditable ?? false
+              if (this.isEditableForSphere) {
+                this.personalDetailForm.enable()
+                // Keep mobile and email disabled even when form is enabled
+                this.personalDetailForm.get('mobile')?.disable()
+                this.personalDetailForm.get('email')?.disable()
+              } else {
+                this.personalDetailForm.disable()
+              }
               this.userProfileData = data.profileDetails.profileReq
               this.userlang = data
+              this.logger.log(data.profileDetails.profileReq.personalDetails.dob, ';')
               this.updateForm()
-              const lang = data.profileDetails?.preferences?.language === 'hi' ? 'हिंदी' : 'English'
-              this.personalDetailForm.patchValue({
-                knownLanguage: lang,
-              })
-              this.populateChips(this.userProfileData)
+              if (data?.profileDetails?.preferences?.language === 'hi') {
+                this.personalDetailForm.patchValue({
+                  knownLanguage: 'हिंदी',
+                })
+                this.userProfileData = data.profileDetails.profileReq
+                this.userlang = data
+                this.updateForm()
+                const lang = data.profileDetails?.preferences?.language === 'hi' ? 'हिंदी' : 'English'
+                this.personalDetailForm.patchValue({
+                  knownLanguage: lang,
+                })
+                this.populateChips(this.userProfileData)
+              }
             }
-          }
+          })()
         },
         (err: any) => {
           this.logger.error('Error fetching user details:', err)
@@ -330,7 +332,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
 
   private populateChips(data: any) {
     if (data.personalDetails.knownLanguages && data.personalDetails.knownLanguages.length) {
-      data.personalDetails.knownLanguages.map((lang: ILanguages) => {
+      data.personalDetails.knownLanguages.forEach((lang: ILanguages) => {
         if (lang) {
           this.selectedKnowLangs.push(lang)
         }

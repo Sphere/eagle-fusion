@@ -143,7 +143,6 @@ height: 41px;
   display: flex;
   align-items: center;
   margin: ws-vars.$size-s 0;
-  border-bottom: 1px solid var(--theme-ellipse);
   border-bottom: 1px solid var(--theme-ellipse, #E7F2FA);
 
   ws-display-content-type-icon {

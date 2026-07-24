@@ -79,12 +79,14 @@ export class EducationEditComponent implements OnInit {
       this.cName = selectedValue
     }
     )
-    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      this.logger.log(data, 'here')
-      this.workLog = await data
-      if (this.workLog) {
-        this.getUserDetails()
-      }
+    this.change = this.contentSvc.workMessage.subscribe((data: any) => {
+      void (async () => {
+        this.logger.log(data, 'here')
+        this.workLog = await data
+        if (this.workLog) {
+          this.getUserDetails()
+        }
+      })()
     })
     const eduLog: any = sessionStorage.getItem('academic') || null
     this.workLog = JSON.parse(eduLog)
@@ -117,16 +119,18 @@ export class EducationEditComponent implements OnInit {
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
-          if (data) {
-            this.isEditableForSphere = this.data?.isEditable ?? false
-            if (this.isEditableForSphere) {
-              this.educationForm.enable()
-            } else {
-              this.educationForm.disable()
+        (data: any) => {
+          void (async () => {
+            if (data) {
+              this.isEditableForSphere = this.data?.isEditable ?? false
+              if (this.isEditableForSphere) {
+                this.educationForm.enable()
+              } else {
+                this.educationForm.disable()
+              }
+              this.userProfileData = data.profileDetails.profileReq
             }
-            this.userProfileData = data.profileDetails.profileReq
-          }
+          })()
         })
     }
   }

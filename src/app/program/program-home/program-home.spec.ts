@@ -27,6 +27,15 @@ jest.mock('../../../../library/ws-widget/utils/src/public-api', () => ({
 import { ProgramHome } from './program-home'
 import { of } from 'rxjs'
 
+// ngOnInit wraps its body in a fire-and-forget IIFE, so it no longer returns a
+// promise. Call it, then flush microtask ticks for the internal awaits to settle.
+const runNgOnInit = async (comp: ProgramHome) => {
+  comp.ngOnInit()
+  for (let i = 0; i < 5; i++) {
+    await Promise.resolve()
+  }
+}
+
 describe('ProgramHome', () => {
   let comp: ProgramHome
   let mockValueSvc: any
@@ -84,7 +93,7 @@ describe('ProgramHome', () => {
         ],
       }
       mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([]))
-      await comp.ngOnInit()
+      await runNgOnInit(comp)
       const [course, competency] = comp.programData()
       expect(course.courseCount).toBe(2)
       expect(course.payload).toEqual(['course-1', 'course-2'])
@@ -99,7 +108,7 @@ describe('ProgramHome', () => {
         { courseId: 'course-1', completionPercentage: 100 },
         { courseId: 'unrelated', completionPercentage: 100 },
       ]))
-      await comp.ngOnInit()
+      await runNgOnInit(comp)
       expect(comp.programData()[0].programStatus).toBe('In-Progress')
     })
 
@@ -109,14 +118,14 @@ describe('ProgramHome', () => {
         { courseId: 'course-1', completionPercentage: 100 },
         { courseId: 'course-2', completionPercentage: 100 },
       ]))
-      await comp.ngOnInit()
+      await runNgOnInit(comp)
       expect(comp.programData()[0].programStatus).toBe('Completed')
     })
 
     it('leaves programStatus empty without enrolled courses', async () => {
       comp.configData = { programs: [{ type: 'course', playlistConfigId: 'PL_STATIC' }] }
       mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([]))
-      await comp.ngOnInit()
+      await runNgOnInit(comp)
       expect(comp.programData()[0].programStatus).toBe('')
     })
 
@@ -125,7 +134,7 @@ describe('ProgramHome', () => {
       mockUserSvc.fetchUserEnrollmentWithProgress.mockReturnValue(of([
         { courseId: 'comp-course-1', completionPercentage: 100 },
       ]))
-      await comp.ngOnInit()
+      await runNgOnInit(comp)
       expect(comp.programData()[0].programStatus).toBe('In-Progress')
     })
 
@@ -135,13 +144,13 @@ describe('ProgramHome', () => {
         { courseId: 'comp-course-1', completionPercentage: 100 },
         { courseId: 'comp-course-2', completionPercentage: 100 },
       ]))
-      await comp.ngOnInit()
+      await runNgOnInit(comp)
       expect(comp.programData()[0].programStatus).toBe('Completed')
     })
 
     it('handles missing configData without throwing', async () => {
       comp.configData = undefined
-      await comp.ngOnInit()
+      await runNgOnInit(comp)
       expect(comp.programData()).toBeUndefined()
       expect(comp.isLoading()).toBe(false)
     })

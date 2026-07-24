@@ -33,15 +33,17 @@ export class ErrorResolverComponent extends WidgetBaseComponent
     super()
   }
 
-  async ngOnInit() {
-    if (!this.widgetData) {
-      this.widgetData = {
-        errorType: this.activateRoute.snapshot.data.errorType,
+  ngOnInit() {
+    void (async () => {
+      if (!this.widgetData) {
+        this.widgetData = {
+          errorType: this.activateRoute.snapshot.data.errorType,
+        }
+        this.initialize()
+      } else {
+        this.initialize()
       }
-      this.initialize()
-    } else {
-      this.initialize()
-    }
+    })()
   }
 
   private async initialize() {

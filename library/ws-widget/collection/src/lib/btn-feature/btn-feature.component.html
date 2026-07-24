@@ -101,9 +101,10 @@
   </a>
 </ng-template>
 <ng-template #cardMini let-actionBtn="actionBtn" let-config="config">
-  <a role="button" *ngIf="local === 'en'"
+  <a role="button" *ngIf="local === 'en'" tabindex="0"
     [style.visibility]="!(actionBtn.name === 'Competency' && isSashakth === true) &&  !(actionBtn.name === 'Search' && isSashakth === true)  ? 'visible' : 'hidden'"
-    matRipple (click)="redirect(actionBtn)" active [wsWidgetUrlResolver]="actionBtn.isExternal"
+    matRipple (click)="redirect(actionBtn)" (keydown.enter)="redirect(actionBtn)"
+    (keydown.space)="redirect(actionBtn); $event.preventDefault()" active [wsWidgetUrlResolver]="actionBtn.isExternal"
     routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box"
     style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === actionBtn.name }">
     <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
@@ -140,8 +141,9 @@
       </div>
     </a>
 
-    <mat-icon role="button" class="feature-pin" color="accent" *ngIf="!config?.hidePin && isPinFeatureAvailable"
-      (click)="togglePin(actionBtn?.id, $event)">{{ isPinned ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+    <mat-icon role="button" tabindex="0" class="feature-pin" color="accent" *ngIf="!config?.hidePin && isPinFeatureAvailable"
+      (click)="togglePin(actionBtn?.id, $event)" (keydown.enter)="togglePin(actionBtn?.id, $event)"
+      (keydown.space)="togglePin(actionBtn?.id, $event); $event.preventDefault()">{{ isPinned ? 'bookmark' : 'bookmark_border' }}</mat-icon>
   </div>
 </ng-template>
 <ng-template #icon let-iconType="iconType" let-icon="icon" let-scale="scale" let-color="color">

@@ -150,7 +150,7 @@ h3 {
   color: var(--theme-text);
   margin-top: 20px;
   margin-bottom: 0px;
-  font: 400 24px / 32px Roboto;
+  font: 400 24px / 32px Roboto, sans-serif;
   @include ws-mixins.breakpoint-xs {
     margin-top: 0px;
   }
@@ -175,7 +175,7 @@ h3 {
   #heading {
     margin-left: 15px;
     margin-bottom: 10px;
-    font: 400 24px / 32px Roboto;
+    font: 400 24px / 32px Roboto, sans-serif;
   }
   ::ng-deep .mat-mdc-progress-bar {
     width: 100% !important;

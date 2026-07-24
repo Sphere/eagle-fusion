@@ -297,76 +297,78 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       let lastResource = ''
       let lastResourceMimeType: any
       this.logger.log(resumeDataV2, this.enrollCourse)
-      this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content.identifier).subscribe(async record => {
-        this.logger.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
-        if (record.contentId) {
-          this.updatedContentStatus = true
-        } else {
-          this.updatedContentStatus = false
-        }
-        this.cdr.detectChanges()
-        const rowData = await record
-        this.logger.log(rowData)
-        const data = JSON.parse(rowData.data)
-        this.logger.log(data)
-        let url1 = ''
-        if (rowData.url.includes('/chapters') || rowData.url.includes('/overview?primaryCategory=Course')) {
+      this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content.identifier).subscribe(record => {
+        void (async () => {
+          this.logger.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
+          if (record.contentId) {
+            this.updatedContentStatus = true
+          } else {
+            this.updatedContentStatus = false
+          }
+          this.cdr.detectChanges()
+          const rowData = await record
           this.logger.log(rowData)
-          this.logger.log(this.finishedPercentage, this.optmisticPercentage, '372')
-          if (this.optmisticPercentage === 100 && data.contents[0].completionPercentage === 100) {
-            const matchId = data.contents[0].contentId
-            const lastItem = collectionArry[collectionArry.length - 1]
-            this.logger.log(matchId, lastItem)
-            if (matchId === lastItem) {
-              const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${data.contents[0].batchId}`
-              this.logger.log(url1, 'url')
-              this.updatedContentFound = url1
+          const data = JSON.parse(rowData.data)
+          this.logger.log(data)
+          let url1 = ''
+          if (rowData.url.includes('/chapters') || rowData.url.includes('/overview?primaryCategory=Course')) {
+            this.logger.log(rowData)
+            this.logger.log(this.finishedPercentage, this.optmisticPercentage, '372')
+            if (this.optmisticPercentage === 100 && data.contents[0].completionPercentage === 100) {
+              const matchId = data.contents[0].contentId
+              const lastItem = collectionArry[collectionArry.length - 1]
+              this.logger.log(matchId, lastItem)
+              if (matchId === lastItem) {
+                const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${data.contents[0].batchId}`
+                this.logger.log(url1, 'url')
+                this.updatedContentFound = url1
+              } else {
+                if (data.contents[0].progressdetails.mimeType === "application/pdf") {
+                  url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
+                  this.logger.log(url1, 'url')
+                  this.updatedContentFound = url1
+                }
+              }
             } else {
               if (data.contents[0].progressdetails.mimeType === "application/pdf") {
                 url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
                 this.logger.log(url1, 'url')
                 this.updatedContentFound = url1
+              } else if (data.contents[0].progressdetails.mimeType === "video/mp4") {
+                url1 = `/viewer/video/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
+                this.logger.log(url1, 'url')
+                this.updatedContentFound = url1
+              } else if (data.contents[0].progressdetails.mimeType === "application/json") {
+                url1 = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                this.logger.log(url1)
+                this.updatedContentFound = url1
+              } else if (data.contents[0].progressdetails.mimeType === "application/vnd.ekstep.html-archive" || data.contents[0].progressdetails.mimeType === "text/x-url") {
+                url1 = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                this.logger.log(url1)
+                this.updatedContentFound = url1
               }
             }
           } else {
-            if (data.contents[0].progressdetails.mimeType === "application/pdf") {
-              url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
-              this.logger.log(url1, 'url')
-              this.updatedContentFound = url1
-            } else if (data.contents[0].progressdetails.mimeType === "video/mp4") {
-              url1 = `/viewer/video/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
-              this.logger.log(url1, 'url')
-              this.updatedContentFound = url1
-            } else if (data.contents[0].progressdetails.mimeType === "application/json") {
-              url1 = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-              this.logger.log(url1)
-              this.updatedContentFound = url1
-            } else if (data.contents[0].progressdetails.mimeType === "application/vnd.ekstep.html-archive" || data.contents[0].progressdetails.mimeType === "text/x-url") {
-              url1 = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-              this.logger.log(url1)
-              this.updatedContentFound = url1
-            }
-          }
-        } else {
-          this.logger.log('opp', this.optmisticPercentage, 'l', rowData.url)
-          const url = rowData.url
-          const regex = /do_\d+(?=\?primaryCategory)/
-          const match = url.match(regex)
-          if (match) {
-            this.logger.log(match[0], collectionArry)
-            const matchId = match[0]
-            const lastItem = collectionArry[collectionArry.length - 1]
-            if (matchId === lastItem && this.optmisticPercentage === 100) {
-              const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-              this.logger.log(url1, 'url')
-              this.updatedContentFound = url1
+            this.logger.log('opp', this.optmisticPercentage, 'l', rowData.url)
+            const url = rowData.url
+            const regex = /do_\d+(?=\?primaryCategory)/
+            const match = url.match(regex)
+            if (match) {
+              this.logger.log(match[0], collectionArry)
+              const matchId = match[0]
+              const lastItem = collectionArry[collectionArry.length - 1]
+              if (matchId === lastItem && this.optmisticPercentage === 100) {
+                const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                this.logger.log(url1, 'url')
+                this.updatedContentFound = url1
+              } else {
+                this.updatedContentFound = record.url
+              }
             } else {
-              this.updatedContentFound = record.url
+              this.logger.log('Identifier not found')
             }
-          } else {
-            this.logger.log('Identifier not found')
           }
-        }
+        })()
       }, err => {
         this.logger.log(err)
         const collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
@@ -389,7 +391,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       const eCourse = this.enrollCourse.contentStatus
       if (Object.keys(eCourse).length > 0) {
         lastResource = Object.keys(eCourse)[Object.keys(eCourse).length - 1]
-        this.content.children.filter((item: any) => {
+        this.content.children.forEach((item: any) => {
           if (lastResource === item.identifier) {
             lastResourceMimeType = item.mimeType
           }
@@ -625,13 +627,15 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             }
             this.logger.log(this.resumeData, this.content)
             this.logger.log(this.optmisticPercentage, 'optmisticPercentage', this.finishedPercentage, '705')
-            this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async record => {
-              this.logger.log('Record:', record)
-              if (record.contentId) {
-                this.updatedContentStatus = true
-                this.updatedContentFound = record.url
-              }
-              this.cdr.detectChanges()
+            this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(record => {
+              void (async () => {
+                this.logger.log('Record:', record)
+                if (record.contentId) {
+                  this.updatedContentStatus = true
+                  this.updatedContentFound = record.url
+                }
+                this.cdr.detectChanges()
+              })()
             }, async error => {
               this.updatedContentStatus = true
               this.logger.log(this.enrolledCourse, 'this.enrolledCourse!')

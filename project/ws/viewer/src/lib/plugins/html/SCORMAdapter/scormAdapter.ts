@@ -302,7 +302,8 @@ export class SCORMAdapterService implements OnDestroy {
     this.http.post<NsContent.IContinueLearningData>(
       `${API_END_POINTS.SCROM_FETCH_PROGRESS}/${req1.request.courseId}`, req1
     ).subscribe(
-      async data1 => {
+      data1 => {
+        void (async () => {
         this.logger.log('[SCORM] addDataV2 READ response:', data1)
 
         // Find existing content data from response (may be null for first-time access)
@@ -371,53 +372,55 @@ export class SCORMAdapterService implements OnDestroy {
 
           // Call the progress UPDATE API
           this.logger.log('[SCORM] Calling progress UPDATE API:', API_END_POINTS.NEW_PROGRESS_UPDATE)
-          this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
-            this.logger.log('[SCORM] Progress UPDATE API success:', response)
-            if (this.scormData) {
-              const object = {
-                "id": this.contentId,
-                "type": "scorm",
-                "version": "",
-                "rollup": {
-                  "l1": this.activatedRoute.snapshot.queryParams.collectionId,
-                  "l2": this.contentId,
-                },
-              }
-              this.telemetrySvc.start('scorm', 'scorm-start', 'player', object)
-              if (this.activatedRoute.snapshot.queryParams.collectionId) {
-                const data2: any = {
-                  id: this.contentId,
-                  type: 'scrom',
-                  version: "",
+          this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe((response: any) => {
+            void (async () => {
+              this.logger.log('[SCORM] Progress UPDATE API success:', response)
+              if (this.scormData) {
+                const object = {
+                  "id": this.contentId,
+                  "type": "scorm",
+                  "version": "",
                   "rollup": {
                     "l1": this.activatedRoute.snapshot.queryParams.collectionId,
                     "l2": this.contentId,
                   },
                 }
-                const extras: any = {
-                  values: [{
-                    courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-                      this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
-                    contentId: this.contentId,
-                    name: this.htmlName,
-                    moduleId: this.parent,
-                    duration: this.scormData["cmi.core.session_time"],
+                this.telemetrySvc.start('scorm', 'scorm-start', 'player', object)
+                if (this.activatedRoute.snapshot.queryParams.collectionId) {
+                  const data2: any = {
+                    id: this.contentId,
                     type: 'scrom',
-                    mode: 'scrom-play',
-                  }],
+                    version: "",
+                    "rollup": {
+                      "l1": this.activatedRoute.snapshot.queryParams.collectionId,
+                      "l2": this.contentId,
+                    },
+                  }
+                  const extras: any = {
+                    values: [{
+                      courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+                        this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
+                      contentId: this.contentId,
+                      name: this.htmlName,
+                      moduleId: this.parent,
+                      duration: this.scormData["cmi.core.session_time"],
+                      type: 'scrom',
+                      mode: 'scrom-play',
+                    }],
+                  }
+                  this.telemetrySvc.end('scorm', 'scorm-close', 'player', data2, extras)
                 }
-                this.telemetrySvc.end('scorm', 'scorm-close', 'player', data2, extras)
               }
-            }
 
-            if (this.getPercentage(this.scormData) === 100) {
-              const result = await response.result
-              result["type"] = 'scorm'
-              this.contentSvc.changeMessage(result)
-              setTimeout(() => {
-                this.LMSFinish()
-              })
-            }
+              if (this.getPercentage(this.scormData) === 100) {
+                const result = await response.result
+                result["type"] = 'scorm'
+                this.contentSvc.changeMessage(result)
+                setTimeout(() => {
+                  this.LMSFinish()
+                })
+              }
+            })()
           }, error => {
             this.logger.error('[SCORM] Progress UPDATE API FAILED:', error)
             this._setError(101)
@@ -425,6 +428,7 @@ export class SCORMAdapterService implements OnDestroy {
         } else {
           this.logger.warn('[SCORM] addDataV2 skipped: no userProfile or postData')
         }
+        })()
       },
       error => {
         this.logger.error('[SCORM] addDataV2 READ API FAILED:', error)

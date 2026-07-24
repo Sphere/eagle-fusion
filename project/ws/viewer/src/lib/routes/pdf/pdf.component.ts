@@ -74,37 +74,39 @@ export class PdfComponent implements OnInit, OnDestroy {
         })
     } else {
       this.dataSubscription = this.activatedRoute.data.subscribe(
-        async data => {
-          this.isFetchingDataComplete = false
-          this.pdfData = data.content.data
-          if (this.pdfData) {
-            this.formDiscussionForumWidget(this.pdfData)
-          }
-
-          if (this.pdfData && this.pdfData.artifactUrl.indexOf('content-store') >= 0) {
-            await this.setS3Cookie(this.pdfData.identifier)
-          }
-          this.widgetResolverPdfData.widgetData.resumePage = 1
-          if (this.pdfData && this.pdfData.identifier) {
-            if (this.activatedRoute.snapshot.queryParams.collectionId) {
-              await this.fetchContinueLearning(
-                this.activatedRoute.snapshot.queryParams.collectionId,
-                this.pdfData.identifier,
-              )
-            } else {
-              await this.fetchContinueLearning(this.pdfData.identifier, this.pdfData.identifier)
+        data => {
+          void (async () => {
+            this.isFetchingDataComplete = false
+            this.pdfData = data.content.data
+            if (this.pdfData) {
+              this.formDiscussionForumWidget(this.pdfData)
             }
-          }
-          this.widgetResolverPdfData.widgetData.pdfUrl = this.pdfData
-            ? this.forPreview
-              ? this.viewerSvc.getAuthoringUrl(this.pdfData.artifactUrl)
-              : this.pdfData.artifactUrl
-            : ''
-          this.widgetResolverPdfData.widgetData.identifier = this.pdfData && this.pdfData.identifier
 
-          this.widgetResolverPdfData = JSON.parse(JSON.stringify(this.widgetResolverPdfData))
-          this.isFetchingDataComplete = true
-          this.cdr.detectChanges()
+            if (this.pdfData && this.pdfData.artifactUrl.indexOf('content-store') >= 0) {
+              await this.setS3Cookie(this.pdfData.identifier)
+            }
+            this.widgetResolverPdfData.widgetData.resumePage = 1
+            if (this.pdfData && this.pdfData.identifier) {
+              if (this.activatedRoute.snapshot.queryParams.collectionId) {
+                await this.fetchContinueLearning(
+                  this.activatedRoute.snapshot.queryParams.collectionId,
+                  this.pdfData.identifier,
+                )
+              } else {
+                await this.fetchContinueLearning(this.pdfData.identifier, this.pdfData.identifier)
+              }
+            }
+            this.widgetResolverPdfData.widgetData.pdfUrl = this.pdfData
+              ? this.forPreview
+                ? this.viewerSvc.getAuthoringUrl(this.pdfData.artifactUrl)
+                : this.pdfData.artifactUrl
+              : ''
+            this.widgetResolverPdfData.widgetData.identifier = this.pdfData && this.pdfData.identifier
+
+            this.widgetResolverPdfData = JSON.parse(JSON.stringify(this.widgetResolverPdfData))
+            this.isFetchingDataComplete = true
+            this.cdr.detectChanges()
+          })()
         },
         () => { },
       )

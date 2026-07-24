@@ -38,48 +38,52 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dataSubscription = this.activatedRoute.data.subscribe(
-      async data => {
-        // Tear down the quiz plugin for each new resource: without this,
-        // isFetchingDataComplete stays true across navigation, the plugin is reused, and
-        // its overview can open on a stale snapshot (e.g. the previous resource's
-        // subtitle/name) before the new inputs finish binding. Resetting forces a fresh
-        // recreate once BOTH quizData (name) and quizJson are ready in the finally block.
-        this.isFetchingDataComplete = false
-        this.cdr.detectChanges()
-        try {
-          this.quizData = data.content.data
-          if (this.alreadyRaised && this.oldData) {
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-          }
-          if (this.quizData && this.quizData.artifactUrl.indexOf('content-store') >= 0) {
-            await this.setS3Cookie(this.quizData.identifier)
-          }
-          if (this.quizData) {
-            this.quizJson = await this.transformQuiz(this.quizData)
-          }
-          if (this.quizData) {
-            this.oldData = this.quizData
-            this.alreadyRaised = true
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.quizData)
-          }
-        } catch (_e) {
-          // transformQuiz can fail if the quiz artifact URL is unreachable; keep going so the quiz shell renders
-        } finally {
-          this.isFetchingDataComplete = true
+      data => {
+        void (async () => {
+          // Tear down the quiz plugin for each new resource: without this,
+          // isFetchingDataComplete stays true across navigation, the plugin is reused, and
+          // its overview can open on a stale snapshot (e.g. the previous resource's
+          // subtitle/name) before the new inputs finish binding. Resetting forces a fresh
+          // recreate once BOTH quizData (name) and quizJson are ready in the finally block.
+          this.isFetchingDataComplete = false
           this.cdr.detectChanges()
-        }
+          try {
+            this.quizData = data.content.data
+            if (this.alreadyRaised && this.oldData) {
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+            }
+            if (this.quizData && this.quizData.artifactUrl.indexOf('content-store') >= 0) {
+              await this.setS3Cookie(this.quizData.identifier)
+            }
+            if (this.quizData) {
+              this.quizJson = await this.transformQuiz(this.quizData)
+            }
+            if (this.quizData) {
+              this.oldData = this.quizData
+              this.alreadyRaised = true
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.quizData)
+            }
+          } catch (_e) {
+            // transformQuiz can fail if the quiz artifact URL is unreachable; keep going so the quiz shell renders
+          } finally {
+            this.isFetchingDataComplete = true
+            this.cdr.detectChanges()
+          }
+        })()
       },
       () => { },
     )
   }
 
-  async ngOnDestroy() {
-    if (this.quizData) {
-      this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.quizData)
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe()
-    }
+  ngOnDestroy() {
+    void (async () => {
+      if (this.quizData) {
+        this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.quizData)
+      }
+      if (this.dataSubscription) {
+        this.dataSubscription.unsubscribe()
+      }
+    })()
   }
 
   raiseEvent(state: WsEvents.EnumTelemetrySubType, data: NsContent.IContent) {

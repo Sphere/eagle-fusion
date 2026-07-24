@@ -307,15 +307,15 @@ describe('HtmlComponent (routes/html)', () => {
       ;(component as any).routeDataSubscription = { unsubscribe: jest.fn() }
       ;(component as any).responseSubscription = { unsubscribe: jest.fn() }
       ;(component as any).viewerDataSubscription = { unsubscribe: jest.fn() }
-      await component.ngOnDestroy()
+      component.ngOnDestroy()
       expect(mockEventSvc.dispatchEvent).toHaveBeenCalled()
       expect((component as any).routeDataSubscription.unsubscribe).toHaveBeenCalled()
       expect(mockRespondSvc.unsubscribeResponse).toHaveBeenCalled()
     })
 
-    it('does nothing extra when there is no htmlData or subscriptions', async () => {
+    it('does nothing extra when there is no htmlData or subscriptions', () => {
       component.htmlData = null
-      await expect(component.ngOnDestroy()).resolves.toBeUndefined()
+      expect(() => component.ngOnDestroy()).not.toThrow()
     })
   })
 })

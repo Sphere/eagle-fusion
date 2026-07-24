@@ -179,7 +179,7 @@ describe('BtnFeatureComponent', () => {
 
     it('should swallow rejected promise', async () => {
       component.widgetData = { actionBtn: { badgeEndpoint: '/x' } } as any
-      btnFeatureSvcMock.getBadgeCount.mockReturnValue(Promise.reject('err'))
+      btnFeatureSvcMock.getBadgeCount.mockReturnValue(Promise.reject(new Error('err')))
       component.updateBadge()
       await Promise.resolve()
       await Promise.resolve()

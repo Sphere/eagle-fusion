@@ -4,7 +4,8 @@
   <p class="label1" *ngIf="isXSmall$">{{config?.subTitleMobile | translate }}</p>
   <div *ngIf="videoData?.length>0" class="scrollHowSphereWorks-block">
     <div class="block-container " *ngFor="let video of videoData">
-      <div class="how-work-content" (click)="openVideoPopup(video?.url)">
+      <div class="how-work-content" tabindex="0" role="button" (click)="openVideoPopup(video?.url)"
+        (keydown.enter)="openVideoPopup(video?.url)" (keydown.space)="openVideoPopup(video?.url); $event.preventDefault()">
         <div class="how-work-thumbnail">
           <img [src]="getYoutubeThumbnail(video.url)" [alt]="video?.title | translate" class="how-work-thumb-img" />
           <div class="play-overlay">

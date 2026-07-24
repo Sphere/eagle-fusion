@@ -3,8 +3,9 @@
     <mat-icon>brightness_6</mat-icon>
   </button>
   <div class="link-block" *ngFor="let item of menuItems">
-    <a role="button" *ngIf="item.type==='text'" matRipple [ngClass]="{'ws-mat-accent-text': item.show }"
-      (click)="redirect(item)" class="flex cursor-pointer">
+    <a role="button" *ngIf="item.type==='text'" matRipple [ngClass]="{'ws-mat-accent-text': item.show }" tabindex="0"
+      (click)="redirect(item)" (keydown.enter)="redirect(item)" (keydown.space)="redirect(item); $event.preventDefault()"
+      class="flex cursor-pointer">
       <span class="link-text">{{item.title | translate}}</span>
     </a>
     <button *ngIf="item.type==='button-icon'" (keydown)="handleKeyDown($event)" (click)="redirect(item)" matRipple

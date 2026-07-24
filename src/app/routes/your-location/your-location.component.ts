@@ -111,7 +111,7 @@ export class YourLocationComponent implements OnInit {
   stateSelect(event: any) {
     const value = event.value
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-      statesdata.states.map((item: any) => {
+      statesdata.states.forEach((item: any) => {
         if (item.state === value) {
           this.disticts = item.districts
         }

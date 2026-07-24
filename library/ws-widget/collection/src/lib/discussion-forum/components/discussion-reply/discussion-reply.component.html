@@ -43,10 +43,13 @@
       </span>
 
       <ng-container *ngIf="userId === reply.postCreator.postCreatorId">
-        <img loading="lazy" alt="logo" (click)="editMode = true" class="action-icons"
-          src="/fusion-assets/icons/edit.png">
-        <span class="material-icons del-reply opac-7" name="discussion-post-delete-button" type="button"
-          (click)="deletePost(deleteFailMsg.value)">
+        <button type="button" style="all: unset; display: contents; cursor: pointer;" aria-label="Edit"
+          (click)="editMode = true">
+          <img loading="lazy" alt="" class="action-icons" src="/fusion-assets/icons/edit.png">
+        </button>
+        <span class="material-icons del-reply opac-7" name="discussion-post-delete-button" type="button" tabindex="0" role="button"
+          (click)="deletePost(deleteFailMsg.value)" (keydown.enter)="deletePost(deleteFailMsg.value)"
+          (keydown.space)="deletePost(deleteFailMsg.value); $event.preventDefault()">
           delete
         </span>
       </ng-container>

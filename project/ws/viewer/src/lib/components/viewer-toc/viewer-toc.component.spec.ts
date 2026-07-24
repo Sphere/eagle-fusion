@@ -637,7 +637,7 @@ describe('ViewerTocComponent', () => {
       [503, 'serviceUnavailable'],
       [418, 'somethingWrong'],
     ])('sets errorType for status %s to %s and returns null', async (status, errorType) => {
-      mockContentSvc.fetchContent.mockReturnValue({ toPromise: () => Promise.reject({ status }) })
+      mockContentSvc.fetchContent.mockReturnValue({ toPromise: () => Promise.reject(Object.assign(new Error('mock error'), { status })) })
       const result = await (component as any).getCollection('c1', 'Course')
       expect(result).toBeNull()
       expect(component.errorWidgetData.widgetData.errorType).toBe(errorType)
@@ -663,7 +663,7 @@ describe('ViewerTocComponent', () => {
       [503, 'serviceUnavailable'],
       [418, 'somethingWrong'],
     ])('sets errorType for status %s to %s and returns null', async (status, errorType) => {
-      mockContentSvc.fetchCollectionHierarchy.mockReturnValue({ toPromise: () => Promise.reject({ status }) })
+      mockContentSvc.fetchCollectionHierarchy.mockReturnValue({ toPromise: () => Promise.reject(Object.assign(new Error('mock error'), { status })) })
       const result = await (component as any).getPlaylistContent('p1', 'Playlist')
       expect(result).toBeNull()
       expect(component.errorWidgetData.widgetData.errorType).toBe(errorType)

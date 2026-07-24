@@ -38,18 +38,20 @@ export class ViewAllComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(async params => {
-      this.courseType.set(params['courseType'] || 'defaultCourseType')
-      const rawIdentifiers = params['data']
-      this.identifiers.set(Array.isArray(rawIdentifiers)
-        ? rawIdentifiers
-        : rawIdentifiers ? [rawIdentifiers] : [])
-      this.logger.log('Course Type:', this.courseType())
-      this.searchRequestStatus.set('fetching')
-      if (this.configSvc?.userProfile?.rootOrgId) {
-        this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-      }
-      this.fetchEnvironmentConfigurations()
+    this.route.queryParams.subscribe(params => {
+      void (async () => {
+        this.courseType.set(params['courseType'] || 'defaultCourseType')
+        const rawIdentifiers = params['data']
+        this.identifiers.set(Array.isArray(rawIdentifiers)
+          ? rawIdentifiers
+          : rawIdentifiers ? [rawIdentifiers] : [])
+        this.logger.log('Course Type:', this.courseType())
+        this.searchRequestStatus.set('fetching')
+        if (this.configSvc?.userProfile?.rootOrgId) {
+          this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+        }
+        this.fetchEnvironmentConfigurations()
+      })()
     })
   }
 

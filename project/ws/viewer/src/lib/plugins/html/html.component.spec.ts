@@ -30,6 +30,16 @@ jest.mock('../../../../../../../project/ws/viewer/src/lib/viewer-util.service', 
 import { HtmlComponent } from './html.component'
 import { of } from 'rxjs'
 
+// ngOnChanges wraps its body in a fire-and-forget IIFE, so it no longer returns
+// a promise. Call it, then flush microtask ticks for the internal awaits/`.then`
+// chains to settle.
+const runNgOnChanges = async (component: HtmlComponent) => {
+  component.ngOnChanges()
+  for (let i = 0; i < 5; i++) {
+    await Promise.resolve()
+  }
+}
+
 describe('HtmlComponent (plugins/html)', () => {
   let component: HtmlComponent
   let mockSafeResourceUrlSvc: any
@@ -127,12 +137,13 @@ describe('HtmlComponent (plugins/html)', () => {
   describe('ngOnChanges', () => {
     it('does nothing harmful when htmlContent is null', async () => {
       component.htmlContent = null
-      await expect(component.ngOnChanges()).resolves.toBeUndefined()
+      await runNgOnChanges(component)
+      expect(component.pageFetchStatus).toBe('error')
     })
 
     it('sets iframeUrl for a plain html mimeType content', async () => {
       component.htmlContent = { ...baseContent }
-      await component.ngOnChanges()
+      await runNgOnChanges(component)
       expect(component.mimeType).toBe('text/html')
       expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith(baseContent.artifactUrl)
       expect(mockCdr.detectChanges).toHaveBeenCalled()
@@ -141,25 +152,26 @@ describe('HtmlComponent (plugins/html)', () => {
     it('guards re-entrant processing for the same content id', async () => {
       component.htmlContent = { ...baseContent }
       ;(component as any).currentProcessingContentId = 'content1'
-      const result = await component.ngOnChanges()
-      expect(result).toBeUndefined()
+      await runNgOnChanges(component)
+      // The guard returns early from the IIFE before reaching detectChanges().
+      expect(mockCdr.detectChanges).not.toHaveBeenCalled()
     })
 
     it('sets pageFetchStatus to artifactUrlMissing when artifactUrl is empty', async () => {
       component.htmlContent = { ...baseContent, artifactUrl: '' }
-      await component.ngOnChanges()
+      await runNgOnChanges(component)
       expect(component.pageFetchStatus).toBe('artifactUrlMissing')
     })
 
     it('sets pageFetchStatus to error when htmlContent is falsy edge case', async () => {
       component.htmlContent = null
-      await component.ngOnChanges()
+      await runNgOnChanges(component)
       expect(component.pageFetchStatus).toBe('error')
     })
 
     it('initializes SCORM for html-archive mimeType content once', async () => {
       component.htmlContent = { ...baseContent, mimeType: 'application/vnd.ekstep.html-archive', status: 'Live', streamingUrl: 'https://static.sphere.aastrika.org/some/path' }
-      await component.ngOnChanges()
+      await runNgOnChanges(component)
       expect(mockScormAdapterService.LMSInitialize).toHaveBeenCalledTimes(1)
       expect(component.scormInitializedIds.has('content1')).toBe(true)
     })

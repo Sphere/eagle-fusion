@@ -170,12 +170,12 @@ describe('QuizComponent (routes)', () => {
     await Promise.resolve()
     await Promise.resolve()
     mockEventSvc.dispatchEvent.mockClear()
-    await component.ngOnDestroy()
+    component.ngOnDestroy()
     expect(mockEventSvc.dispatchEvent).toHaveBeenCalled()
   })
 
-  it('ngOnDestroy should not throw when quizData is null', async () => {
-    await expect(component.ngOnDestroy()).resolves.not.toThrow()
+  it('ngOnDestroy should not throw when quizData is null', () => {
+    expect(() => component.ngOnDestroy()).not.toThrow()
   })
 
   it('should handle activatedRoute.data error callback without throwing', () => {

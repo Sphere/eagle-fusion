@@ -244,12 +244,14 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
 
     //this.signupService.validateOtp(request).subscribe(
     otpService$.subscribe(
-      async (res: any) => {
-        this.logger.log(res, '2')
-        this.openSnackbar(this.translate.instant(res.message))
-        // localStorage.removeItem('preferedLanguage')
-        //location.href = '/page/home'
-        return res
+      (res: any) => {
+        void (async () => {
+          this.logger.log(res, '2')
+          this.openSnackbar(this.translate.instant(res.message))
+          // localStorage.removeItem('preferedLanguage')
+          //location.href = '/page/home'
+          return res
+        })()
       },
       (err: any) => {
         this.openSnackbar(this.translate.instant(err.error.error || err.error.message))
@@ -278,14 +280,16 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
       code: '',
     })
     this.signupService.generateOtp(requestBody).subscribe(
-      async (res: any) => {
-        this.loginOtpForm.patchValue({ code: '' })
-        this.isLoading = false
-        const str = res.msg ?? res.message
-        const parts = str.split(" ")
-        const lastValue = parts[parts.length - 1]
-        const message = parts.slice(0, -1).join(" ")
-        this.openSnackbar(this.translate.instant(message, { value: lastValue }))
+      (res: any) => {
+        void (async () => {
+          this.loginOtpForm.patchValue({ code: '' })
+          this.isLoading = false
+          const str = res.msg ?? res.message
+          const parts = str.split(" ")
+          const lastValue = parts[parts.length - 1]
+          const message = parts.slice(0, -1).join(" ")
+          this.openSnackbar(this.translate.instant(message, { value: lastValue }))
+        })()
       },
       (err: any) => {
         this.isLoading = false

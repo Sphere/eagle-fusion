@@ -133,7 +133,7 @@ describe('CongratulationsPopupComponent', () => {
           ],
         },
       })
-      await component.ngOnInit()
+      component.ngOnInit()
       await Promise.resolve()
       expect(component.designation).toBe('MP-Nurse')
       expect(component.earnedBadge).toBe(true)
@@ -148,7 +148,7 @@ describe('CongratulationsPopupComponent', () => {
           ],
         },
       })
-      await component.ngOnInit()
+      component.ngOnInit()
       await Promise.resolve()
       expect(component.earnedBadge).toBe(false)
       expect(mockPlaylistSvc.setEarnedBadges).not.toHaveBeenCalled()
@@ -156,7 +156,7 @@ describe('CongratulationsPopupComponent', () => {
 
     it('sets earnedBadge false when fetchPlayLists rejects', async () => {
       mockPlaylistSvc.getPlaylistConfig.mockRejectedValue(new Error('boom'))
-      await component.ngOnInit()
+      component.ngOnInit()
       await Promise.resolve()
       expect(component.earnedBadge).toBe(false)
     })
@@ -164,7 +164,7 @@ describe('CongratulationsPopupComponent', () => {
     it('defaults designation to empty string when professionalDetails is missing', async () => {
       mockConfigSvc.unMappedUser = {}
       mockPlaylistSvc.getPlaylistConfig.mockResolvedValue({ result: { playlist: [] } })
-      await component.ngOnInit()
+      component.ngOnInit()
       await Promise.resolve()
       expect(component.designation).toBe('')
       expect(component.earnedBadge).toBe(false)
@@ -172,7 +172,7 @@ describe('CongratulationsPopupComponent', () => {
 
     it('auto-closes the dialog after 3 seconds', async () => {
       mockPlaylistSvc.getPlaylistConfig.mockResolvedValue({ result: { playlist: [] } })
-      await component.ngOnInit()
+      component.ngOnInit()
       jest.advanceTimersByTime(3000)
       expect(mockDialogRef.close).toHaveBeenCalledWith({ completed: true })
     })

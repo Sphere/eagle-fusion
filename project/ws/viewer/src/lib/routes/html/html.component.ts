@@ -71,31 +71,34 @@ export class HtmlComponent implements OnInit, OnDestroy {
       this.viewerDataSubscription = this.viewerSvc
         .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
         .subscribe(
-          async data => {
-            data.artifactUrl = (data.artifactUrl.startsWith('https://')
-              ? data.artifactUrl
-              : data.artifactUrl.startsWith('http://')
+          data => {
+            void (async () => {
+              data.artifactUrl = (data.artifactUrl.startsWith('https://')
                 ? data.artifactUrl
-                : `https://${data.artifactUrl}`).replace(/ /ig, '').replace(/%20/ig, '').replace(/\n/ig, '')
-            if (this.accessControlSvc.hasAccess(data as any, true)) {
-              if (data && data.artifactUrl.indexOf('content-store') >= 0) {
-                await this.setS3Cookie(data.identifier)
-                this.htmlData = data
-              } else {
-                this.htmlData = data
-              }
+                : data.artifactUrl.startsWith('http://')
+                  ? data.artifactUrl
+                  : `https://${data.artifactUrl}`).replace(/ /ig, '').replace(/%20/ig, '').replace(/\n/ig, '')
+              if (this.accessControlSvc.hasAccess(data as any, true)) {
+                if (data && data.artifactUrl.indexOf('content-store') >= 0) {
+                  await this.setS3Cookie(data.identifier)
+                  this.htmlData = data
+                } else {
+                  this.htmlData = data
+                }
 
-            }
-            if (this.htmlData) {
-              this.formDiscussionForumWidget(this.htmlData)
-              if (this.discussionForumWidget) {
-                this.discussionForumWidget.widgetData.isDisabled = true
               }
-            }
+              if (this.htmlData) {
+                this.formDiscussionForumWidget(this.htmlData)
+                if (this.discussionForumWidget) {
+                  this.discussionForumWidget.widgetData.isDisabled = true
+                }
+              }
+            })()
           })
     } else {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
-        async data => {
+        data => {
+          void (async () => {
           data.content.data.artifactUrl =
             data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
               ? `${data.content.data.artifactUrl.replace(/%20/g, '')}&Param1=${this.uuid}`
@@ -133,50 +136,55 @@ export class HtmlComponent implements OnInit, OnDestroy {
                     Boolean(event.source && typeof event.source.postMessage === 'function'),
                 ),
               )
-              .subscribe(async (event: MessageEvent) => {
-                const contentWindow = event.source as Window
-                if (event.data.requestId && this.htmlData) {
-                  switch (event.data.requestId) {
-                    case 'LOADED':
-                      await this.respondSvc.loadedRespond(
-                        contentWindow,
-                        event.data.subApplicationName,
-                        this.htmlData.identifier,
-                      )
-                      if (event.data.subApplicationName === 'RBCP') {
-                        this.subApp = true
-                      }
-                      break
-                    case 'TELEMETRY':
-                      await this.respondSvc.telemetryEvents(event.data)
-                      break
-                    default:
-                      break
+              .subscribe((event: MessageEvent) => {
+                void (async () => {
+                  const contentWindow = event.source as Window
+                  if (event.data.requestId && this.htmlData) {
+                    switch (event.data.requestId) {
+                      case 'LOADED':
+                        await this.respondSvc.loadedRespond(
+                          contentWindow,
+                          event.data.subApplicationName,
+                          this.htmlData.identifier,
+                        )
+                        if (event.data.subApplicationName === 'RBCP') {
+                          this.subApp = true
+                        }
+                        break
+                      case 'TELEMETRY':
+                        await this.respondSvc.telemetryEvents(event.data)
+                        break
+                      default:
+                        break
+                    }
                   }
-                }
+                })()
               })
           }
           this.isFetchingDataComplete = true
+          })()
         },
         () => { },
       )
     }
   }
 
-  async ngOnDestroy() {
-    if (this.htmlData) {
-      this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.htmlData)
-    }
-    if (this.routeDataSubscription) {
-      this.routeDataSubscription.unsubscribe()
-    }
-    if (this.responseSubscription) {
-      this.respondSvc.unsubscribeResponse()
-      this.responseSubscription.unsubscribe()
-    }
-    if (this.viewerDataSubscription) {
-      this.viewerDataSubscription.unsubscribe()
-    }
+  ngOnDestroy() {
+    void (async () => {
+      if (this.htmlData) {
+        this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.htmlData)
+      }
+      if (this.routeDataSubscription) {
+        this.routeDataSubscription.unsubscribe()
+      }
+      if (this.responseSubscription) {
+        this.respondSvc.unsubscribeResponse()
+        this.responseSubscription.unsubscribe()
+      }
+      if (this.viewerDataSubscription) {
+        this.viewerDataSubscription.unsubscribe()
+      }
+    })()
   }
 
   formDiscussionForumWidget(content: NsContent.IContent) {

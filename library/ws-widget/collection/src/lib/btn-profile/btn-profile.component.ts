@@ -144,15 +144,17 @@ export class BtnProfileComponent extends WidgetBaseComponent
   }
   redirect() {
     if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
-        this.logger.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
-        this.userData = await data
-        if (data && data.profileDetails!.profileReq!.personalDetails!.dob) {
-          this.router.navigate(['/app/profile-view'])
-        } else {
-          const url = `/page/home`
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
-        }
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((data: any) => {
+        void (async () => {
+          this.logger.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
+          this.userData = await data
+          if (data && data.profileDetails!.profileReq!.personalDetails!.dob) {
+            this.router.navigate(['/app/profile-view'])
+          } else {
+            const url = `/page/home`
+            this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+          }
+        })()
       })
     }
   }

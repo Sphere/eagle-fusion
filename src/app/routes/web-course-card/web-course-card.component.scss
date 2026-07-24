@@ -263,7 +263,6 @@ margin: 0px !important;
 .fitsizeMini {
 box-shadow: 0px 0px 3px 0px #00000073;
 
-  border-radius: 4px !important;
   width: 145px;
 height: 109px;
 top: 16px;
@@ -717,7 +716,7 @@ a {
   $description-line-height: 1.5em;
 
   .description-text {
-    font: 400 14px/20px Roboto;
+    font: 400 14px/20px Roboto, sans-serif;
     // font-size: 15px;
     position: relative;
     overflow: hidden;
@@ -888,7 +887,7 @@ $title-line-count: 2;
 }
 
 .mat-typography {
-  font: 400 14px/20px Roboto;
+  font: 400 14px/20px Roboto, sans-serif;
 }
 
 .orange-text {

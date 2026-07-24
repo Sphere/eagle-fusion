@@ -5,7 +5,8 @@
       <div class="banner-heading" style="width: 90%;">{{ config?.title | translate }}</div>
       <div class="banner-mini-heading">{{ isXsmall ? config?.subTitleMob : config?.subTitle | translate }}</div>
       <div class="create-account" *ngIf="!isXsmall">
-        <a role="button" matRipple class="flex mt-8 box-sizing-box" (click)="createAcct()" active
+        <a role="button" matRipple class="flex mt-8 box-sizing-box" tabindex="0" (click)="createAcct()"
+          (keydown.enter)="createAcct()" (keydown.space)="createAcct(); $event.preventDefault()" active
           [ngStyle]="{'width':'inherit', 'z-index': 10}" routerLinkActive="ws-mat-accent-text">
           <span class="new-user-txt">{{config?.label | translate }}</span>
           <button name="login_client_button" color="primary" class="login-btn header-btn mat-button-base">
@@ -17,7 +18,9 @@
     <div class="slides-viewport">
       <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
         <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-          <div class="slide-content" (click)="scrollToHowSphereWorks(data.scrollEmit)">
+          <div class="slide-content" tabindex="0" role="button" (click)="scrollToHowSphereWorks(data.scrollEmit)"
+            (keydown.enter)="scrollToHowSphereWorks(data.scrollEmit)"
+            (keydown.space)="scrollToHowSphereWorks(data.scrollEmit); $event.preventDefault()">
             <div class="banner-shimmer" *ngIf="!imgsLoaded[i]"></div>
             <img class="banner-image" [src]="!isDark ? data.img : data.darkImg"
               [attr.loading]="i === 0 ? 'eager' : 'lazy'"
@@ -52,7 +55,8 @@
   <h3 class="text-center" style="font-weight: 550;margin-top: 5px;margin-bottom: 5px;">{{ config?.label | translate }}
   </h3>
   <a *ngIf="(configSvc.userProfile === null)" role="button" matRipple
-    class="flex items-center flex-col mt px-2 box-sizing-box" (click)="createAcct()" active
+    class="flex items-center flex-col mt px-2 box-sizing-box" tabindex="0" (click)="createAcct()"
+    (keydown.enter)="createAcct()" (keydown.space)="createAcct(); $event.preventDefault()" active
     [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
     <ng-container>
       <button mat-raised-button class="create-btn">

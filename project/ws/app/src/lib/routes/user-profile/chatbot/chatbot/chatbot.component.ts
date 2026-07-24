@@ -197,7 +197,7 @@ export class ChatbotComponent implements OnInit {
     this.userProfileSvc.getMasterNationlity().subscribe(
       data => {
         this.countryCodeList = data.nationalities
-        data.nationalities.map((item: INationality) => {
+        data.nationalities.forEach((item: INationality) => {
           this.masterNationalities.push(item.name)
         })
       },
@@ -216,7 +216,7 @@ export class ChatbotComponent implements OnInit {
 
     this.http.get(this.stateUrl).subscribe((data: any) => {
       this.states = data.states
-      this.states.map((i: any) => {
+      this.states.forEach((i: any) => {
         this.statesArr.push(i.name)
       })
     })
@@ -856,7 +856,7 @@ export class ChatbotComponent implements OnInit {
 
   getDegree(form: any, degreeType: string): IProfileAcademics[] {
     const formatedDegrees: IProfileAcademics[] = []
-    form.value.degrees.map((degree: any) => {
+    form.value.degrees.forEach((degree: any) => {
       formatedDegrees.push({
         nameOfQualification: degree.degree,
         type: degreeType,
@@ -869,7 +869,7 @@ export class ChatbotComponent implements OnInit {
 
   getPostDegree(form: any, degreeType: string): IProfileAcademics[] {
     const formatedDegrees: IProfileAcademics[] = []
-    form.value.postDegrees.map((degree: any) => {
+    form.value.postDegrees.forEach((degree: any) => {
       formatedDegrees.push({
         nameOfQualification: degree.degree,
         type: degreeType,

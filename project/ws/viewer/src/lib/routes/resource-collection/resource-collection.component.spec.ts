@@ -129,13 +129,13 @@ describe('ResourceCollectionComponent', () => {
       await Promise.resolve()
       mockEventSvc.dispatchEvent.mockClear()
       const unsubSpy = jest.spyOn((component as any).dataSubscription, 'unsubscribe')
-      await component.ngOnDestroy()
+      component.ngOnDestroy()
       expect(mockEventSvc.dispatchEvent).toHaveBeenCalled()
       expect(unsubSpy).toHaveBeenCalled()
     })
 
-    it('does nothing when no data and no subscription', async () => {
-      await expect(component.ngOnDestroy()).resolves.toBeUndefined()
+    it('does nothing when no data and no subscription', () => {
+      expect(() => component.ngOnDestroy()).not.toThrow()
     })
   })
 

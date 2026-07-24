@@ -24,6 +24,15 @@ import { PlaylistService } from '../../services/playlist.service'
 import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
 
+// ngOnInit wraps its body in a fire-and-forget IIFE, so it no longer returns a
+// promise. Call it, then flush microtask ticks for the internal awaits to settle.
+const runNgOnInit = async (component: WebDashboardComponent) => {
+  component.ngOnInit()
+  for (let i = 0; i < 5; i++) {
+    await Promise.resolve()
+  }
+}
+
 describe('WebDashboardComponent', () => {
   let component: WebDashboardComponent
   let fixture: ComponentFixture<WebDashboardComponent>
@@ -176,7 +185,7 @@ describe('WebDashboardComponent', () => {
   it('ngOnInit should start carousel and set preferedLanguage', async () => {
     jest.useFakeTimers()
     component.configData = null
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.preferedLanguage.id).toBe('en')
     jest.useRealTimers()
   })
@@ -187,7 +196,7 @@ describe('WebDashboardComponent', () => {
     configSvc.unMappedUser = { id: 'user123', profileDetails: { preferences: { language: 'hi' } } }
     configSvc.userProfile = null
     component.configData = null
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.lang).toBe('hi')
     jest.useRealTimers()
   })
@@ -206,7 +215,7 @@ describe('WebDashboardComponent', () => {
     configSvc.hostedInfo = { org: 'ekshamata' }
     component.isEkshamata = true
     component.configData = null
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.bannerFirstImage).toBe('/fusion-assets/images/ekshamata-logo.svg')
   })
 
@@ -222,7 +231,7 @@ describe('WebDashboardComponent', () => {
       { identifier: 'course1', completionPercentage: 100 },
       { identifier: 'course2', completionPercentage: 50 },
     ]
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.noOfBadges).toBe(1)
   })
 
@@ -230,7 +239,7 @@ describe('WebDashboardComponent', () => {
     const plylsSvc = TestBed.inject(PlaylistService) as any
     plylsSvc.getPlaylistConfig = jest.fn().mockRejectedValue(new Error('Fetch failed'))
     component.configData = [{ badges: { showCompletedCourses: true } }]
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.noOfBadges).toBe(0)
   })
 
@@ -274,7 +283,7 @@ describe('WebDashboardComponent', () => {
       value: { ...originalLocation, hostname: 'app.ekshamata.example.com' },
       configurable: true,
     })
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.bannerFirstImage).toBe('/fusion-assets/images/ekshamata-logo.svg')
     Object.defineProperty(window, 'location', { value: originalLocation, configurable: true })
   })
@@ -284,7 +293,7 @@ describe('WebDashboardComponent', () => {
     const langSvc = TestBed.inject(LanguageService) as any
     langSvc.getCurrentLanguage = jest.fn().mockReturnValue('hi')
     component.configData = null
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.preferedLanguage.lang).toBe('हिंदी')
     jest.useRealTimers()
   })
@@ -298,7 +307,7 @@ describe('WebDashboardComponent', () => {
     configSvc.userProfile = null
     component.configData = [{ badges: { showCompletedCourses: true } }]
     component.userEnrolledCourse = [{ identifier: 'x', completionPercentage: 100 }]
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.playListIds).toEqual([])
     expect(component.noOfBadges).toBe(0)
   })

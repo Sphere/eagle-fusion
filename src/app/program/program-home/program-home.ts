@@ -31,41 +31,43 @@ export class ProgramHome implements OnInit {
   ) {
   }
 
-  async ngOnInit() {
-    console.log("[ProgramHome] Init started with configData:", this.configData)
-    const plyLsData = await this.playlistSvc.getPlaylistConfig()
+  ngOnInit() {
+    void (async () => {
+      console.log("[ProgramHome] Init started with configData:", this.configData)
+      const plyLsData = await this.playlistSvc.getPlaylistConfig()
 
-    // Set display config for program cards (shows programStatus)
-    this.programDisplayConfig = {
-      ...this.configData?.cardDisplayConfig,
-      displayType: 'card-program',
-    }
-
-    // Fetch enrollment data with progress info for program status calculation
-    const userId = this.configSvc.userProfile?.userId
-
-    if (userId) {
-      try {
-        this.enrollmentData = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
-        console.log('[ProgramHome] Fetched enrollment with progress:', this.enrollmentData, 'courses')
-      } catch (error) {
-        console.warn('[ProgramHome] Failed to fetch enrollment with progress, using fallback:', error)
-        this.enrollmentData = []
+      // Set display config for program cards (shows programStatus)
+      this.programDisplayConfig = {
+        ...this.configData?.cardDisplayConfig,
+        displayType: 'card-program',
       }
-    } else {
-      console.log('[ProgramHome] No userId, using fallback enrollment data')
-    }
 
-    console.log('[ProgramHome] Final enrollmentData to use:', this.enrollmentData?.length, 'courses')
+      // Fetch enrollment data with progress info for program status calculation
+      const userId = this.configSvc.userProfile?.userId
 
-    const enricher = this.enrichProgramWithCount(plyLsData, 'en')
-    const enrichedPrograms = this.configData?.programs?.map((program: any) =>
-      enricher(program, this.enrollmentData)
-    )
+      if (userId) {
+        try {
+          this.enrollmentData = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
+          console.log('[ProgramHome] Fetched enrollment with progress:', this.enrollmentData, 'courses')
+        } catch (error) {
+          console.warn('[ProgramHome] Failed to fetch enrollment with progress, using fallback:', error)
+          this.enrollmentData = []
+        }
+      } else {
+        console.log('[ProgramHome] No userId, using fallback enrollment data')
+      }
 
-    console.log('[ProgramHome] Enriched programs:', enrichedPrograms)
-    this.programData.set(enrichedPrograms)
-    this.isLoading.set(false)
+      console.log('[ProgramHome] Final enrollmentData to use:', this.enrollmentData?.length, 'courses')
+
+      const enricher = this.enrichProgramWithCount(plyLsData, 'en')
+      const enrichedPrograms = this.configData?.programs?.map((program: any) =>
+        enricher(program, this.enrollmentData)
+      )
+
+      console.log('[ProgramHome] Enriched programs:', enrichedPrograms)
+      this.programData.set(enrichedPrograms)
+      this.isLoading.set(false)
+    })()
   }
 
   enrichProgramWithCount = (playlists: any[], defaultLang: string) => (program: any, enrollmentData: any = null): any => {

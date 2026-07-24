@@ -82,7 +82,8 @@ export class VideoComponent implements OnInit, OnDestroy {
 
     } else {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
-        async data => {
+        data => {
+          void (async () => {
           this.widgetResolverVideoData = null
           this.videoData = data.content.data
 
@@ -102,7 +103,8 @@ export class VideoComponent implements OnInit, OnDestroy {
               },
             }
             this.contentSvc.fetchContentHistoryV2(req).subscribe(
-              async data => {
+              data => {
+                void (async () => {
                 if (data && data.result && data.result.contentList.length) {
                   const contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
                   this.logger.log(contentData)
@@ -127,11 +129,13 @@ export class VideoComponent implements OnInit, OnDestroy {
                         },
                       }
                       this.logger.log(req)
-                      this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                        this.logger.log(data)
-                        const result = data.result
-                        result['type'] = 'video'
-                        this.contentSvc.changeMessage(result)
+                      this.viewerSvc.initUpdate(req).subscribe((data: any) => {
+                        void (async () => {
+                          this.logger.log(data)
+                          const result = data.result
+                          result['type'] = 'video'
+                          this.contentSvc.changeMessage(result)
+                        })()
                       })
                     }
                   } else {
@@ -154,12 +158,14 @@ export class VideoComponent implements OnInit, OnDestroy {
                         },
                       }
                       this.logger.log(req)
-                      this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                        this.logger.log(data)
-                        const result = data.result
-                        result['type'] = 'video'
-                        this.contentSvc.changeMessage(result)
+                      this.viewerSvc.initUpdate(req).subscribe((data: any) => {
+                        void (async () => {
+                          this.logger.log(data)
+                          const result = data.result
+                          result['type'] = 'video'
+                          this.contentSvc.changeMessage(result)
 
+                        })()
                       })
                     }
                   }
@@ -183,11 +189,14 @@ export class VideoComponent implements OnInit, OnDestroy {
                       },
                     }
                     this.logger.log(req, '183')
-                    this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                      this.logger.log(data)
+                    this.viewerSvc.initUpdate(req).subscribe((data: any) => {
+                      void (async () => {
+                        this.logger.log(data)
+                      })()
                     })
                   }
                 }
+                })()
               })
 
           }
@@ -221,6 +230,7 @@ export class VideoComponent implements OnInit, OnDestroy {
           }
           this.isFetchingDataComplete = true
           this.cdr.detectChanges()
+          })()
         },
         () => { },
       )

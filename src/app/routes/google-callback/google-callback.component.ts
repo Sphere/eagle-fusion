@@ -35,22 +35,24 @@ export class GoogleCallbackComponent implements OnInit {
       // this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
       // this.isSignedIn = true
       this.contentSvc.googleAuthenticate(req).subscribe(
-        async (results: any) => {
-          const result = await this.signupService.fetchStartUpDetails()
-          if (result.status === 401) {
-            this.openSnackbar(result.error.params.errmsg)
-          }
-          if (result.status === 419) {
-            this.openSnackbar(result.error.params.errmsg)
-          }
-          if (result.status === 200 && result.roles.length > 0) {
-            this.openSnackbar(results.msg)
-            if (localStorage.getItem('url_before_login')) {
-              location.href = localStorage.getItem('url_before_login') || ''
-            } else {
-              location.href = '/page/home'
+        (results: any) => {
+          void (async () => {
+            const result = await this.signupService.fetchStartUpDetails()
+            if (result.status === 401) {
+              this.openSnackbar(result.error.params.errmsg)
             }
-          }
+            if (result.status === 419) {
+              this.openSnackbar(result.error.params.errmsg)
+            }
+            if (result.status === 200 && result.roles.length > 0) {
+              this.openSnackbar(results.msg)
+              if (localStorage.getItem('url_before_login')) {
+                location.href = localStorage.getItem('url_before_login') || ''
+              } else {
+                location.href = '/page/home'
+              }
+            }
+          })()
         },
         (err: any) => {
           this.openSnackbar(err.error)

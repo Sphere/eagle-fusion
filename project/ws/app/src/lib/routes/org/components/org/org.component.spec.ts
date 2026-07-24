@@ -359,13 +359,13 @@ describe('OrgComponent', () => {
   })
 
   describe('totalCourseCount', () => {
-    it('sums courses excluding continueLearning/completed sections', () => {
+    it('sums courses across all sections', () => {
       component.orgSections = [
         { config: { sectionType: 'courseGroup' }, courses: [1, 2], showAll: false } as any,
         { config: { sectionType: 'continueLearning' }, courses: [1, 2, 3], showAll: false } as any,
         { config: { sectionType: 'completed' }, courses: [1], showAll: false } as any,
       ]
-      expect(component.totalCourseCount).toBe(2)
+      expect(component.totalCourseCount).toBe(6)
     })
   })
 

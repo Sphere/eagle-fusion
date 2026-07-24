@@ -1,6 +1,7 @@
 <div class="view-answer-wrapper">
   <div class="header-container">
-    <div (click)="closePopup()">
+    <div (click)="closePopup()" tabindex="0" role="button" (keydown.enter)="closePopup()"
+      (keydown.space)="closePopup(); $event.preventDefault()">
       <mat-icon class="cursor-pointer">keyboard_arrow_left</mat-icon>
     </div>
     <div class="header-content">

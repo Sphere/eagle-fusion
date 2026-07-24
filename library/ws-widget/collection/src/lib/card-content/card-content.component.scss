@@ -362,7 +362,7 @@ a {
   $description-line-height: 1.5em;
 
   .description-text {
-    font: 400 14px/20px Roboto;
+    font: 400 14px/20px Roboto, sans-serif;
     // font-size: 15px;
     position: relative;
     overflow: hidden;
@@ -527,7 +527,7 @@ $title-line-count: 2;
   font-size: 16px;
 }
 .mat-typography {
-  font: 400 14px/20px Roboto;
+  font: 400 14px/20px Roboto, sans-serif;
 }
 
 .orange-text {

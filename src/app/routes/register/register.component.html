@@ -53,7 +53,7 @@
 
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>First name</mat-label>
-          <input type="text" matInput placeholder="First Name" formControlName="firstName">
+          <input type="text" matInput placeholder="First Name" formControlName="firstName" autocomplete="given-name">
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Last name</mat-label>
@@ -64,15 +64,17 @@
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Password</mat-label>
           <input [type]="hide1 ? 'password' : 'text'" matInput placeholder="Password" formControlName="password"
-            autocomplete="new-password">
-          <mat-icon matSuffix (click)="hide1 = !hide1">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            [attr.autocomplete]="hide1 ? 'new-password' : 'off'">
+          <mat-icon matSuffix tabindex="0" (click)="hide1 = !hide1" (keydown.enter)="hide1 = !hide1"
+            (keydown.space)="hide1 = !hide1; $event.preventDefault()">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Confirm password</mat-label>
           <input [type]="hide2 ? 'password' : 'text'" matInput placeholder="confirm password"
-            formControlName="confirmPassword">
-          <mat-icon matSuffix (click)="hide2 = !hide2">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            formControlName="confirmPassword" [attr.autocomplete]="hide2 ? 'new-password' : 'off'">
+          <mat-icon matSuffix tabindex="0" (click)="hide2 = !hide2" (keydown.enter)="hide2 = !hide2"
+            (keydown.space)="hide2 = !hide2; $event.preventDefault()">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
 
           <mat-error
             *ngIf="signupForm.controls['confirmPassword'].pristine || signupForm.controls['confirmPassword'].errors">
