@@ -14,6 +14,7 @@ import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { MobileDashboardService } from './services/mobile-dashboard.service'
 import { CompetencyUserService } from './services/competency-user.service'
 import { LanguageService } from '../../services/language.service'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   standalone: false,
@@ -52,7 +53,8 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
     private valueSvc: ValueService,
     private dashboardSvc: MobileDashboardService,
     private userSvc: CompetencyUserService,
-    private langSvc: LanguageService
+    private langSvc: LanguageService,
+    private playlistSvc: PlaylistService
   ) {
     effect(() => {
       this.isTablet.set(!this.valueSvc.isMobile())
@@ -126,7 +128,8 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
     this.roleCompetencyData = []
     this.competencyLevelsData = []
 
-    const result = this.dashboardSvc.getCompetencyInfo(this.competencyHomeData, rootOrgId, this.designation)
+    const competencyConfigId = this.playlistSvc.getPlaylistConfigId(this.section?.sectionId)
+    const result = this.dashboardSvc.getCompetencyInfo(this.competencyHomeData, rootOrgId, this.designation, competencyConfigId)
     if (!result) return of({ ashaData: [], completedCourses: [], inProgressCourses: [] })
 
     this.competencyRoles = result.isUserDesignationInRoles

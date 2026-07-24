@@ -24,6 +24,7 @@ describe('CompetencyCourseListComponent', () => {
   let mockValueSvc: any
   let mockDashboardSvc: any
   let mockLangSvc: any
+  let mockPlaylistSvc: any
   let userSvc: CompetencyUserService
 
   const ashaResult = {
@@ -47,9 +48,15 @@ describe('CompetencyCourseListComponent', () => {
     mockLangSvc = {
       getCurrentLanguage: jest.fn().mockReturnValue(''),
     }
-    comp = new CompetencyCourseListComponent(mockConfigSvc, mockValueSvc, mockDashboardSvc, userSvc, mockLangSvc)
+    mockPlaylistSvc = {
+      getPlaylistConfigId: jest.fn((sectionId: string) => ({
+        COMPETENCY_PLAYLIST: 'COMPETENCY_PLAYLIST_V2',
+      }[sectionId])),
+    }
+    comp = new CompetencyCourseListComponent(mockConfigSvc, mockValueSvc, mockDashboardSvc, userSvc, mockLangSvc, mockPlaylistSvc)
     comp.playlists = [{ playlistId: 'COMPETENCY_PLAYLIST' }]
     comp.designation = 'ASHA'
+    comp.section = { sectionId: 'COMPETENCY_PLAYLIST' }
   })
 
   afterEach(() => {
@@ -123,7 +130,8 @@ describe('CompetencyCourseListComponent', () => {
   describe('initData', () => {
     it('populates the signals from the dashboard service', () => {
       comp.ngOnInit()
-      expect(mockDashboardSvc.getCompetencyInfo).toHaveBeenCalledWith(comp.playlists, 'org1', 'ASHA', 'hi')
+      expect(mockPlaylistSvc.getPlaylistConfigId).toHaveBeenCalledWith('COMPETENCY_PLAYLIST')
+      expect(mockDashboardSvc.getCompetencyInfo).toHaveBeenCalledWith(comp.playlists, 'org1', 'ASHA', 'COMPETENCY_PLAYLIST_V2')
       expect(mockDashboardSvc.getAshaData).toHaveBeenCalledWith('hi', [{ competencyId: 1, level: 1 }], ['1'], 'u1')
       expect(comp.ashaData()).toEqual(ashaResult.ashaData)
       expect(comp.completedCourses()).toEqual(ashaResult.completedCourses)
@@ -145,7 +153,7 @@ describe('CompetencyCourseListComponent', () => {
       comp.playlists = []
       comp.ngOnInit()
       expect(comp.showanmHome).toBe(false)
-      expect(mockDashboardSvc.getCompetencyInfo).toHaveBeenCalledWith([], 'org1', 'ASHA', 'hi')
+      expect(mockDashboardSvc.getCompetencyInfo).toHaveBeenCalledWith([], 'org1', 'ASHA', 'COMPETENCY_PLAYLIST_V2')
       expect(comp.ashaData()).toEqual([])
     })
 

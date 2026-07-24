@@ -196,6 +196,90 @@ describe('PlaylistService', () => {
     })
   })
 
+  describe('getPlaylistConfigId', () => {
+    it('resolves a renamed playlistConfigId (e.g. backend renames COMPETENCY_PLAYLIST_V2 -> COMPETENCY_V3) with no code change', async () => {
+      mockHttp.post = jest.fn().mockReturnValue(of({
+        result: {
+          form: {
+            data: {
+              LAYOUT_BODY: {
+                sections: {
+                  homeTab: [
+                    { sectionId: 'COMPETENCY_PLAYLIST', playlistConfigId: 'COMPETENCY_V3' },
+                    { sectionId: 'YOUR_PLANS_PLAYLIST', playlistConfigId: 'PLAYLIST_V2' },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      }))
+      await service.loadPlaylistData()
+
+      expect(service.getPlaylistConfigId('COMPETENCY_PLAYLIST')).toBe('COMPETENCY_V3')
+      expect(service.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')).toBe('PLAYLIST_V2')
+
+      // The renamed id must be usable to pull the matching payload straight out of a
+      // PLAYLIST_SEARCH response — proving the join reflects the new id end-to-end.
+      const searchResponse = [
+        { playlistId: 'COMPETENCY_V3', orgId: 'org-1', language: 'en', dataSource: { type: 'competency', payload: ['competency-payload'] } },
+        { playlistId: 'PLAYLIST_V2', orgId: 'org-1', language: 'en', dataSource: { type: 'static', payload: ['course-1', 'course-2'] } },
+        { playlistId: 'SOME_OTHER_UNRELATED_ID', orgId: 'org-1', language: 'en', dataSource: { type: 'static', payload: ['should-not-match'] } },
+      ]
+
+      const competencyConfigId = service.getPlaylistConfigId('COMPETENCY_PLAYLIST')
+      const yourPlansConfigId = service.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')
+
+      const competencyMatch = searchResponse.find(p => p.playlistId === competencyConfigId)
+      const yourPlansMatch = searchResponse.find(p => p.playlistId === yourPlansConfigId)
+
+      expect(competencyMatch?.dataSource.payload).toEqual(['competency-payload'])
+      expect(yourPlansMatch?.dataSource.payload).toEqual(['course-1', 'course-2'])
+    })
+
+    it('returns undefined when no section declares that sectionId', async () => {
+      await service.loadPlaylistData()
+      expect(service.getPlaylistConfigId('TOP_COURSE_PLAYLIST')).toBeUndefined()
+    })
+
+    it('returns undefined when the section exists but has no playlistConfigId', async () => {
+      mockHttp.post = jest.fn().mockReturnValue(of({
+        result: {
+          form: {
+            data: {
+              LAYOUT_BODY: {
+                sections: {
+                  homeTab: [{ sectionId: 'CONTINUE_LEARNING' }],
+                },
+              },
+            },
+          },
+        },
+      }))
+      await service.loadPlaylistData()
+      expect(service.getPlaylistConfigId('CONTINUE_LEARNING')).toBeUndefined()
+    })
+
+    it('finds a matching section across any tab, not just homeTab', async () => {
+      mockHttp.post = jest.fn().mockReturnValue(of({
+        result: {
+          form: {
+            data: {
+              LAYOUT_BODY: {
+                sections: {
+                  homeTab: [{ sectionId: 'CONTINUE_LEARNING', playlistConfigId: 'CONTINUE_LEARNING' }],
+                  courseTab: [{ sectionId: 'SEARCH_PLAYLIST', playlistConfigId: 'SEARCH_PLAYLIST_V4' }],
+                },
+              },
+            },
+          },
+        },
+      }))
+      await service.loadPlaylistData()
+      expect(service.getPlaylistConfigId('SEARCH_PLAYLIST')).toBe('SEARCH_PLAYLIST_V4')
+    })
+  })
+
   describe('computed signal defaults', () => {
     it('selectedTabConfig returns empty string when sections is null', () => {
       expect(service.selectedTabConfig()).toBe('')

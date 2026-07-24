@@ -64,6 +64,10 @@ const mockConfigSvc: Partial<ConfigurationsService> = {
 
 const mockPlaylistSvc: Partial<PlaylistService> = {
   getPlaylistConfig: jest.fn().mockResolvedValue([]),
+  loadPlaylistData: jest.fn().mockResolvedValue(null),
+  // Every fixture in this spec uses the same literal for sectionId/playlistConfigId/playlistId
+  // (e.g. 'TOP_COURSE_PLAYLIST' all the way through), so an identity resolver matches them all.
+  getPlaylistConfigId: jest.fn((sectionId: string) => sectionId),
   showDetails: signal(false),
   selectedProgram: signal<any | null>({}),
 }
@@ -226,7 +230,7 @@ describe('WebPublicComponent', () => {
       expect(localComponent.competencyPlaylists()[0]).toEqual(
         expect.objectContaining({ playlistId: 'COMPETENCY_PLAYLIST', type: 'competency' })
       )
-      expect(localComponent.competencySection).toEqual({ text: 'YOUR LEARNING PLAN', tabCardCount: 4 })
+      expect(localComponent.competencySection).toEqual({ sectionId: 'COMPETENCY_PLAYLIST', text: 'YOUR LEARNING PLAN', tabCardCount: 4 })
       expect(localComponent.isLoading()).toBe(false)
     })
 
@@ -814,7 +818,7 @@ describe('WebPublicComponent', () => {
       component.uiConfig.set([])
       component['plyLsData'] = [competencyPlaylist]
       ;(component as any).handleCompetencyFlow('org1', roleCheck)
-      expect(component.competencySection).toEqual({ text: 'YOUR LEARNING PLAN', tabCardCount: 4 })
+      expect(component.competencySection).toEqual({ sectionId: 'COMPETENCY_PLAYLIST', text: 'YOUR LEARNING PLAN', tabCardCount: 4 })
     })
   })
 

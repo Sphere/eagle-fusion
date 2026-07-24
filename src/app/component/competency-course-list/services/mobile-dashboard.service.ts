@@ -13,9 +13,10 @@ export class MobileDashboardService {
   getCompetencyInfo(
     competencyHomeData: any[],
     _rootOrgId: string,
-    designation: string
+    designation: string,
+    playlistConfigId?: string
   ): { competencyIds: string[], competencyLevels: any[], isUserDesignationInRoles: boolean } | null {
-    const item = competencyHomeData.find(p => p.playlistId === 'COMPETENCY_PLAYLIST_V2')
+    const item = competencyHomeData.find(p => p.playlistId === playlistConfigId)
     if (!item) return null
 
     const rolesInPlaylist: string[] = (item.role || []).map((r: string) => r.toLowerCase())

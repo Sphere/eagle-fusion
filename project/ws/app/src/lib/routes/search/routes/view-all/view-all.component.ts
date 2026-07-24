@@ -46,6 +46,10 @@ export class ViewAllComponent implements OnInit {
         : rawIdentifiers ? [rawIdentifiers] : [])
       this.logger.log('Course Type:', this.courseType())
       this.searchRequestStatus.set('fetching')
+      // loadPlaylistData() is cached after the first real fetch, so awaiting it here is
+      // cheap — but it guarantees playlistSvc.sections() (needed by getPlaylistConfigId)
+      // is populated even if this page is opened before root's background load finishes.
+      await this.playlistSvc.loadPlaylistData()
       if (this.configSvc?.userProfile?.rootOrgId) {
         this.plyLsData = await this.playlistSvc.getPlaylistConfig()
       }
@@ -63,13 +67,18 @@ export class ViewAllComponent implements OnInit {
 
   fetchEnvironmentConfigurations() {
     const identifiers: any[] = []
+    // Join key per section comes from the section's own `playlistConfigId` (backend
+    // web_layout config) rather than a hardcoded playlistId — falls back to the known
+    // default only if that section/config isn't present.
+    const topCourseConfigId = this.playlistSvc.getPlaylistConfigId('TOP_COURSE_PLAYLIST')
+    const cneConfigId = this.playlistSvc.getPlaylistConfigId('CNE_COURSE_PLAYLIST')
     this.plyLsData?.forEach((element: any) => {
       if (element.orgId === this.configSvc.userProfile.rootOrgId && element.language === this.langSvc.getCurrentLanguage()) {
-        if (this.courseType() === 'topCourse' && element.playlistId === 'TOP_COURSE_PLAYLIST') {
+        if (this.courseType() === 'topCourse' && element.playlistId === topCourseConfigId) {
           this.topCertifiedCourseIdentifier.set(element.dataSource.payload || [])
           identifiers.push(...(element.dataSource.payload || []))
         }
-        if (this.courseType() === 'cneCourses' && element.playlistId === 'CNE_COURSE_PLAYLIST') {
+        if (this.courseType() === 'cneCourses' && element.playlistId === cneConfigId) {
           this.cneCoursesIdentifier.set(element.dataSource.payload || [])
           identifiers.push(...(element.dataSource.payload || []))
         }

@@ -93,6 +93,10 @@ describe('MyCoursesComponent', () => {
       selectedTabConfig: jest.fn().mockReturnValue(''),
       orgDetails: jest.fn().mockReturnValue(''),
       headerConfig: jest.fn().mockReturnValue(null),
+      getPlaylistConfigId: jest.fn((sectionId: string) => ({
+        YOUR_PLANS_PLAYLIST: 'Playlist_Course',
+        COMPETENCY_PLAYLIST: 'COMPETENCY_PLAYLIST_V2',
+      }[sectionId])),
     }
 
     mockLangSvc = {
@@ -496,7 +500,7 @@ describe('MyCoursesComponent', () => {
         profileDetails: { profileReq: { professionalDetails: [{ designation: 'Nurse' }] } },
       }
       mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
-        { orgId: 'org1', role: ['Nurse'], playlistId: 'YOUR_PLANS_PLAYLIST', language: 'en', dataSource: { payload: ['do_123'] } },
+        { orgId: 'org1', role: ['Nurse'], playlistId: 'Playlist_Course', language: 'en', dataSource: { payload: ['do_123'] } },
       ])
       component = createComponent()
       await component.ngOnInit()
