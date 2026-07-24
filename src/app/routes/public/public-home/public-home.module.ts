@@ -30,6 +30,7 @@ import { NotificationsComponent } from '../../notification/notification.componen
 import { SelfAssessmentComponent } from '../../self-assessment/self-assessment.component'
 import { MobileLoginComponent } from '../../mobile-login/mobile-login.component'
 import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
+import { WebCourseCardComponent } from '../../web-course-card/web-course-card.component'
 import { LoginOtpComponent } from '../../login-otp/login-otp.component'
 import { TncRendererComponent } from '../../../component/tnc-renderer/tnc-renderer.component'
 import { AlmostDoneComponent } from '../../almost-done/almost-done.component'
@@ -53,6 +54,7 @@ import { MatMenuModule } from '@angular/material/menu'
     SelfAssessmentComponent,
     MobileLoginComponent,
     MobileCourseViewComponent,
+    WebCourseCardComponent,
     LoginOtpComponent,
     TncRendererComponent,
     AlmostDoneComponent,
@@ -98,6 +100,7 @@ import { MatMenuModule } from '@angular/material/menu'
     SelfAssessmentComponent,
     MobileLoginComponent,
     MobileCourseViewComponent,
+    WebCourseCardComponent,
     LoginOtpComponent,
     TncRendererComponent,
     AlmostDoneComponent,

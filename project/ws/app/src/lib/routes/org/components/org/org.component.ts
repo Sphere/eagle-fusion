@@ -288,8 +288,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   // Total number of courses across all non-personal sections (for the stats block)
   get totalCourseCount(): number {
     return this.orgSections
-      .filter((s: any) => !['continueLearning', 'completed'].includes(s.config?.sectionType))
-      .reduce((total, s) => total + (s.courses?.length ?? 0), 0)
+      .reduce((total, s: any) => total + (s.courses?.length ?? 0), 0)
   }
 
   filterByLanguage(language: 'all' | 'en' | 'hi'): void {

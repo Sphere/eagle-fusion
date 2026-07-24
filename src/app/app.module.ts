@@ -111,7 +111,6 @@ import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trus
 import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
 import { AppFooterComponent } from './component/app-footer/app-footer.component'
 import { VideoPopupComponent } from './routes/how-does-it-works-popup/how-does-it-works-popup.component'
-import { WebCourseCardComponent } from './routes/web-course-card/web-course-card.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import {
   PipeCountTransformModule,
@@ -290,7 +289,6 @@ export function initTranslate(translate: TranslateService) {
     WebHowDoesWorkComponent,
     AppFooterComponent,
     VideoPopupComponent,
-    WebCourseCardComponent,
     MyCoursesComponent,
   ],
   exports: [
