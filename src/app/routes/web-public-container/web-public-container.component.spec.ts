@@ -793,9 +793,9 @@ describe('WebPublicComponent', () => {
       expect((component as any).handleCompetencyFlow('org1', roleCheck)).toBe(false)
     })
 
-    it('matches regardless of playlist language (language condition removed for competency flow)', () => {
+    it('returns false when the playlist language does not match the component language', () => {
       component['plyLsData'] = [{ ...competencyPlaylist, language: 'hi' }]
-      expect((component as any).handleCompetencyFlow('org1', roleCheck)).toBe(true)
+      expect((component as any).handleCompetencyFlow('org1', roleCheck)).toBe(false)
     })
 
     it('activates the competency view when a playlist matches org, language, and role', () => {

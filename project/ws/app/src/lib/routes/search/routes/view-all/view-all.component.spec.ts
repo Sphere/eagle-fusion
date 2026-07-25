@@ -20,6 +20,7 @@ const mockConfigSvc: any = {
 
 const mockPlaylistSvc: any = {
   getPlaylistConfig: jest.fn().mockResolvedValue([]),
+  getPlaylistConfigId: jest.fn((sectionId: string) => sectionId),
 }
 
 const mockLangSvc: any = {

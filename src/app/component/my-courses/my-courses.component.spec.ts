@@ -658,7 +658,7 @@ describe('MyCoursesComponent', () => {
       }
       mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
         {
-          orgId: 'org1', role: ['Nurse'], playlistId: 'COMPETENCY_PLAYLIST',
+          orgId: 'org1', role: ['Nurse'], playlistId: 'COMPETENCY_PLAYLIST_V2',
           dataSource: { payload: [{ c: { id: 'COMP1', additionalProperties: { competencyLevelDescription: [{ level: '1' }] } } }] },
         },
         {
@@ -680,7 +680,7 @@ describe('MyCoursesComponent', () => {
         profileDetails: { profileReq: { professionalDetails: [{ profession: 'Doctor' }] } },
       }
       mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
-        { orgId: 'org1', role: ['Doctor'], playlistId: 'COMPETENCY_PLAYLIST', dataSource: { payload: [] } },
+        { orgId: 'org1', role: ['Doctor'], playlistId: 'COMPETENCY_PLAYLIST_V2', dataSource: { payload: [] } },
       ])
       component = createComponent()
       await runNgOnInit(component)
@@ -694,7 +694,7 @@ describe('MyCoursesComponent', () => {
       }
       mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
         {
-          orgId: 'org1', role: ['Nurse'], playlistId: 'COMPETENCY_PLAYLIST',
+          orgId: 'org1', role: ['Nurse'], playlistId: 'COMPETENCY_PLAYLIST_V2',
           dataSource: { payload: [{ c: { id: 'COMP1', additionalProperties: { competencyLevelDescription: [{ level: '1' }] } } }] },
         },
       ])
@@ -711,7 +711,7 @@ describe('MyCoursesComponent', () => {
         profileDetails: { profileReq: { professionalDetails: [{ designation: 'Nurse' }] } },
       }
       mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
-        { orgId: 'org1', role: ['Nurse'], playlistId: 'YOUR_PLANS_PLAYLIST', language: 'en', dataSource: { payload: ['do_1', 'do_2'] } },
+        { orgId: 'org1', role: ['Nurse'], playlistId: 'Playlist_Course', language: 'en', dataSource: { payload: ['do_1', 'do_2'] } },
       ])
       mockOrgService.getTopLiveSearchResults = jest.fn().mockReturnValue(of({
         result: {

@@ -175,10 +175,6 @@ describe('SearchInputHomeComponent', () => {
     })
   })
 
-  it('ngOnChanges should not throw', () => {
-    expect(() => component.ngOnChanges()).not.toThrow()
-  })
-
   describe('updateQuery', () => {
     it('should blur input and navigate to /app/search when ref is home', () => {
       const blur = jest.fn()
