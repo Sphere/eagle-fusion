@@ -40,7 +40,7 @@ export interface CompetencyLevel {
   description?: string
   langHiName?: string
   langHiDescription?: string
-  course: Course[]
+  course: any
 }
 
 export interface Role {
