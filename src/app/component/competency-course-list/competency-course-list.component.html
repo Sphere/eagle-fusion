@@ -41,7 +41,7 @@
                 [expand]="cardData?.expand">
               </app-asha-learning>
             </ng-container>
-            <button (click)="viewAllCourse()" class="view-all-course">
+            <button (click)="viewAllCourse()" class="view-all-course" *ngIf="inProgressCourses().length > 4">
               {{ showAllCourses() ? ("VIEW_LESS" | translate) : ("VIEW_ALL" | translate) }}
               <img class="right-arrow" src="../../../fusion-assets/icons/Arrowpng.png" alt="" />
             </button>
