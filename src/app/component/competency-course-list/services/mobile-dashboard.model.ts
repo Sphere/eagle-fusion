@@ -13,12 +13,22 @@ export interface CompetencyLevelDescription {
   course: Course[]
 }
 
+// V2 payload shape: levels sit directly on the competency object, one course id per level
+// (no additionalProperties wrapper, no per-language course array).
+export interface CompetencyLevelDescriptionV2 {
+  name?: string
+  level: number
+  description?: string
+  courseId?: string
+}
+
 export interface CompetencyData {
   id: string
   name: string
   additionalProperties?: {
     competencyLevelDescription: CompetencyLevelDescription[]
   }
+  levels?: CompetencyLevelDescriptionV2[]
 }
 
 export interface CompetencyLevel {
@@ -35,7 +45,8 @@ export interface CompetencyLevel {
 
 export interface Role {
   playlistId: string
-  role: string[]
+  role: string[],
+  language: string,
   dataSource?: {
     payload: any[]
   }
