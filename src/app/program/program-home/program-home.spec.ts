@@ -39,9 +39,34 @@ describe('ProgramHome', () => {
     language: 'en',
     dataSource: { type: 'static', payload: ['course-1', 'course-2'] },
   }
+  // Real competency payloads are arrays of competency objects, not plain course-id strings —
+  // v1 (legacy) nests under an arbitrary key with levels under additionalProperties, v2
+  // (current) carries `levels` directly with `courseId` per level.
   const competencyPlaylist = {
     playlistId: 'PL_COMPETENCY',
-    dataSource: { type: 'competency', payload: ['comp-course-1', 'comp-course-2'] },
+    dataSource: {
+      type: 'competency',
+      payload: [
+        {
+          comp1: {
+            id: 1,
+            name: 'Communication',
+            additionalProperties: {
+              competencyLevelDescription: [
+                { level: 1, name: 'Beginner', course: [{ id: 'comp-course-1', lang: 'en' }, { id: 'comp-course-1', lang: 'hi' }] },
+              ],
+            },
+          },
+        },
+        {
+          id: 2,
+          name: 'Nutrition',
+          levels: [
+            { name: 'Beginner', level: 1, courseId: 'comp-course-2' },
+          ],
+        },
+      ],
+    },
   }
 
   beforeEach(() => {
@@ -144,6 +169,48 @@ describe('ProgramHome', () => {
       await comp.ngOnInit()
       expect(comp.programData()).toBeUndefined()
       expect(comp.isLoading()).toBe(false)
+    })
+  })
+
+  describe('extractCourseIdsFromCompetency', () => {
+    it('extracts course ids from the legacy (v1) keyed-object shape, deduping across languages', () => {
+      const payload = [{
+        'UP-C2': {
+          id: 'UP-C2',
+          additionalProperties: {
+            competencyLevelDescription: [
+              { level: '1', course: [{ id: 'do_1', lang: 'en' }, { id: 'do_1', lang: 'hi' }] },
+              { level: '2', course: [{ id: 'do_2', lang: 'en' }] },
+            ],
+          },
+        },
+      }]
+      expect(comp.extractCourseIdsFromCompetency(payload)).toEqual(['do_1', 'do_2'])
+    })
+
+    it('extracts course ids from the current (v2) flat shape', () => {
+      const payload = [{
+        id: 100,
+        name: 'Pregnancy Identification',
+        levels: [
+          { level: 1, courseId: 'do_a' },
+          { level: 2, courseId: 'do_b' },
+        ],
+      }]
+      expect(comp.extractCourseIdsFromCompetency(payload)).toEqual(['do_a', 'do_b'])
+    })
+
+    it('handles a payload mixing both shapes together', () => {
+      const payload = [
+        { comp1: { id: 1, additionalProperties: { competencyLevelDescription: [{ course: [{ id: 'legacy-course', lang: 'en' }] }] } } },
+        { id: 2, levels: [{ courseId: 'flat-course' }] },
+      ]
+      expect(comp.extractCourseIdsFromCompetency(payload)).toEqual(['legacy-course', 'flat-course'])
+    })
+
+    it('returns an empty array for empty or malformed payloads', () => {
+      expect(comp.extractCourseIdsFromCompetency([])).toEqual([])
+      expect(comp.extractCourseIdsFromCompetency([{ comp1: { id: 1 } }, null, 'text' as any])).toEqual([])
     })
   })
 

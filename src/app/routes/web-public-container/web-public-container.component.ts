@@ -274,28 +274,31 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       return []
     }
 
+    const normalizeOne = (item: any): any => {
+      if (item?.id && Array.isArray(item.levels)) {
+        return item
+      }
+      if (item && typeof item === 'object') {
+        const key = Object.keys(item)[0]
+        const competency = item[key]
+        return {
+          id: competency?.id || competency?.competencyId || key,
+          title: competency?.title || competency?.name || competency?.competencyName,
+          levels: competency?.levels || competency?.additionalProperties?.competencyLevelDescription || [],
+          progress: competency?.progress || competency?.learnerPathProgress,
+        }
+      }
+      return null
+    }
+
     if (Array.isArray(payload) && payload.length > 0 && payload[0]?.id && Array.isArray(payload[0]?.levels)) {
       return payload
     }
 
     if (Array.isArray(payload)) {
       return payload.flatMap((item: any) => {
-        if (item?.id && Array.isArray(item.levels)) {
-          return [item]
-        }
-
-        if (item && typeof item === 'object') {
-          return Object.keys(item).map(key => {
-            const competency = item[key]
-            return {
-              id: competency?.id || competency?.competencyId || key,
-              title: competency?.title || competency?.name || competency?.competencyName,
-              levels: competency?.levels || competency?.additionalProperties?.competencyLevelDescription || [],
-              progress: competency?.progress || competency?.learnerPathProgress,
-            }
-          })
-        }
-        return []
+        const normalized = normalizeOne(item)
+        return normalized ? [normalized] : []
       })
     }
 

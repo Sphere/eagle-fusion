@@ -119,6 +119,9 @@ export class AshaLearningCardComponent implements OnChanges {
     if (Array.isArray(level.courseIds)) {
       return level.courseIds.filter(Boolean)
     }
+    if (level.courseId) {
+      return [level.courseId]
+    }
     return []
   }
 
