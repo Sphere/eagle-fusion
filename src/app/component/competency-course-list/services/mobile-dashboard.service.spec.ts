@@ -9,6 +9,7 @@ describe('MobileDashboardService', () => {
   const buildPlaylist = (overrides: any = {}) => [{
     playlistId: 'COMPETENCY_PLAYLIST',
     role: ['ASHA'],
+    language: 'en',
     dataSource: {
       payload: [
         {
@@ -35,10 +36,33 @@ describe('MobileDashboardService', () => {
     ...overrides,
   }]
 
+  const buildV2Playlist = (overrides: any = {}) => [{
+    playlistId: 'COMPETENCY_PLAYLIST',
+    role: ['ASHA'],
+    language: 'hi',
+    dataSource: {
+      payload: [
+        {
+          id: 100,
+          area: 'Management',
+          code: 'C1',
+          name: 'गर्भावस्था की पहचान',
+          type: 'competency',
+          level: 'INITIATE',
+          levels: [
+            { name: 'Understands anatomy', level: 1, courseId: 'do_1', description: 'desc1' },
+            { name: 'Identifies pregnancy', level: 2, courseId: 'do_2', description: 'desc2' },
+          ],
+        },
+      ],
+    },
+    ...overrides,
+  }]
+
   const buildLevels = () => [
-    { competencyId: 1, name: 'Beginner', competencyName: 'Communication', level: 1, course: [{ id: 'c1', lang: 'en' }] },
-    { competencyId: 1, name: 'Intermediate', competencyName: 'Communication', level: 2, course: [{ id: 'c1', lang: 'en' }] },
-    { competencyId: 2, name: 'Beginner', competencyName: 'Nutrition', level: 1, course: [{ id: 'c2', lang: 'en' }] },
+    { competencyId: 1, name: 'Beginner', competencyName: 'Communication', level: 1, course: 'c1' },
+    { competencyId: 1, name: 'Intermediate', competencyName: 'Communication', level: 2, course: 'c1' },
+    { competencyId: 2, name: 'Beginner', competencyName: 'Nutrition', level: 1, course: 'c2' },
   ]
 
   beforeEach(() => {
@@ -59,27 +83,27 @@ describe('MobileDashboardService', () => {
 
   describe('getCompetencyInfo', () => {
     it('returns null when there is no COMPETENCY_PLAYLIST item', () => {
-      expect(service.getCompetencyInfo([], 'org1', 'ASHA')).toBeNull()
-      expect(service.getCompetencyInfo([{ playlistId: 'OTHER' }], 'org1', 'ASHA')).toBeNull()
+      expect(service.getCompetencyInfo([], 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')).toBeNull()
+      expect(service.getCompetencyInfo([{ playlistId: 'OTHER' }], 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')).toBeNull()
     })
 
     it('returns null when the user designation is not in the playlist roles', () => {
-      expect(service.getCompetencyInfo(buildPlaylist(), 'org1', 'ANM')).toBeNull()
+      expect(service.getCompetencyInfo(buildPlaylist(), 'org1', 'ANM', 'COMPETENCY_PLAYLIST')).toBeNull()
     })
 
     it('matches the designation case-insensitively', () => {
-      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'asha')
+      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'asha', 'COMPETENCY_PLAYLIST')
       expect(result).not.toBeNull()
       expect(result!.isUserDesignationInRoles).toBe(true)
     })
 
     it('returns null when the playlist has no competencies payload', () => {
       const playlist = buildPlaylist({ dataSource: { payload: [] } })
-      expect(service.getCompetencyInfo(playlist, 'org1', 'ASHA')).toBeNull()
+      expect(service.getCompetencyInfo(playlist, 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')).toBeNull()
     })
 
-    it('extracts competencyIds and flattened levels with mapped fields', () => {
-      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'ASHA', 'hi')!
+    it('extracts competencyIds and flattened levels from the legacy (v1) keyed-object payload', () => {
+      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')!
       expect(result.competencyIds).toEqual([1])
       expect(result.competencyLevels).toHaveLength(2)
       expect(result.competencyLevels[0]).toEqual({
@@ -89,20 +113,49 @@ describe('MobileDashboardService', () => {
         level: 1,
         levelName: 'Beginner',
         description: 'd1',
-        langHiName: 'शुरुआती',
-        langHiDescription: 'विवरण',
-        course: [{ id: 'c1', lang: 'en' }],
+        course: 'c1',
       })
       expect(result.competencyLevels[1].name).toBe('Intermediate')
-      expect(result.competencyLevels[1].course).toEqual([{ id: 'c2', lang: 'en' }])
+      expect(result.competencyLevels[1].course).toBe('c2')
+    })
+
+    it('picks the course id matching the playlist language when the legacy course array has multiple entries', () => {
+      const playlist = buildPlaylist({ language: 'hi' })
+      playlist[0].dataSource.payload[0].comp1.additionalProperties.competencyLevelDescription[0].course = [
+        { id: 'course-en', lang: 'en' },
+        { id: 'course-hi', lang: 'hi' },
+      ]
+      const result = service.getCompetencyInfo(playlist, 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')!
+      expect(result.competencyLevels[0].course).toBe('course-hi')
+    })
+
+    it('extracts competencyIds and flattened levels from the current (v2) flat payload', () => {
+      const result = service.getCompetencyInfo(buildV2Playlist(), 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')!
+      expect(result.competencyIds).toEqual([100])
+      expect(result.competencyLevels).toHaveLength(2)
+      expect(result.competencyLevels[0]).toEqual({
+        competencyId: 100,
+        name: 'Understands anatomy',
+        competencyName: 'गर्भावस्था की पहचान',
+        level: 1,
+        levelName: 'Understands anatomy',
+        description: 'desc1',
+        course: 'do_1',
+      })
+      expect(result.competencyLevels[1].course).toBe('do_2')
     })
 
     it('falls back to item.payload when dataSource is missing', () => {
       const playlist = buildPlaylist()
       const item: any = { ...playlist[0], dataSource: undefined, payload: playlist[0].dataSource.payload }
-      const result = service.getCompetencyInfo([item], 'org1', 'ASHA')
+      const result = service.getCompetencyInfo([item], 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')
       expect(result).not.toBeNull()
       expect(result!.competencyIds).toEqual([1])
+    })
+
+    it('skips malformed entries that match neither payload shape', () => {
+      const playlist = buildPlaylist({ dataSource: { payload: [{ comp1: { name: 'no id or levels' } }] } })
+      expect(service.getCompetencyInfo(playlist, 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')).toBeNull()
     })
   })
 

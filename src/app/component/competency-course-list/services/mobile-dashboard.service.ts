@@ -27,41 +27,76 @@ export class MobileDashboardService {
     competencyHomeData: Role[],
     _rootOrgId: string,
     designation: string,
-    lang: string
+    playlistConfigId?: string
   ): CompetencyInfo | null {
-    const item = competencyHomeData.find(p => p.playlistId === 'COMPETENCY_PLAYLIST')
+    const item = competencyHomeData.find(p => p.playlistId === playlistConfigId)
     if (!item) return null
 
     const rolesInPlaylist: string[] = (item.role || []).map((r: string) => r.toLowerCase())
     const isUserDesignationInRoles = rolesInPlaylist.includes(designation.toLowerCase())
     if (!isUserDesignationInRoles) return null
 
-    const competencies: any[] = item.dataSource?.payload || item?.payload || []
+    const rawCompetencies: any[] = item.dataSource?.payload || item?.payload || []
+    if (!rawCompetencies.length) return null
+    const competencies = rawCompetencies
+      .map(raw => this.normalizeCompetency(raw, item.language))
+      .filter((c): c is { id: any, name: any, levels: any[] } => !!c)
     if (!competencies.length) return null
 
-    const competencyIds: string[] = _.flatMap(competencies, compObj =>
-      Object.keys(compObj).map(key => compObj[key].id)
-    )
-    const competencyLevels: CompetencyLevel[] = competencies.flatMap((compObj: any) =>
-      Object.values(compObj).flatMap((comp: CompetencyData) => {
-        const levels: CompetencyLevelDescription[] = comp.additionalProperties?.competencyLevelDescription || []
-        return levels.map((l: CompetencyLevelDescription): CompetencyLevel => ({
-          competencyId: comp.id,
-          // The level keeps its OWN name; the competency name is carried separately
-          // (competencyName) only so the card title can be derived, then stripped.
-          name: l.name || l.levelName,
-          competencyName: comp.name,
-          level: l.level,
-          levelName: l.name || l.levelName,
-          description: l.description,
-          langHiName: l[`lang-${lang}-name`],
-          langHiDescription: l[`lang-${lang}-description`],
-          course: l.course || [],
-        }))
-      })
-    )
+    const competencyIds: string[] = _.flatMap(competencies, compObj => compObj.id)
+    const competencyLevels: any[] = competencies.flatMap((compObj: any) => {
+      return compObj.levels.map((l: any) => ({
+        competencyId: compObj.id,
+        // The level keeps its OWN name; the competency name is carried separately
+        // (competencyName) only so the card title can be derived, then stripped.
+        name: l.name || l.levelName,
+        competencyName: compObj.name,
+        level: l.level,
+        levelName: l.name || l.levelName,
+        description: l.description,
+        course: l.course || '',
+      }))
+    })
 
     return { competencyIds, competencyLevels, isUserDesignationInRoles }
+  }
+
+  private normalizeCompetency(raw: any, lang?: string): { id: any, name: any, levels: any[] } | null {
+    if (!raw || typeof raw !== 'object') return null
+
+    if (Array.isArray(raw.levels)) {
+      return {
+        id: raw.id,
+        name: raw.name,
+        levels: raw.levels.map((l: any) => ({
+          name: l.name,
+          levelName: l.name,
+          level: l.level,
+          description: l.description,
+          course: l.courseId,
+        })),
+      }
+    }
+
+    const inner = raw.additionalProperties ? raw : Object.values(raw)[0] as any
+    const levelDescs: any[] = inner?.additionalProperties?.competencyLevelDescription
+    if (!inner?.id || !Array.isArray(levelDescs)) return null
+
+    return {
+      id: inner.id,
+      name: inner.name,
+      levels: levelDescs.map((l: any) => {
+        const courses: any[] = Array.isArray(l.course) ? l.course : []
+        const matched = courses.find((c: any) => c?.lang === lang) || courses[0]
+        return {
+          name: l.name,
+          levelName: l.name || l.levelName,
+          level: l.level,
+          description: l.description,
+          course: matched?.id,
+        }
+      }),
+    }
   }
 
   getAshaData(

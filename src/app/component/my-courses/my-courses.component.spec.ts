@@ -400,6 +400,23 @@ describe('MyCoursesComponent', () => {
       const result = component.buildCompetencySearchArray(payload)
       expect(result).toHaveLength(0)
     })
+
+    it('should build competency-level strings from the current (v2) flat payload', () => {
+      const payload = [
+        { id: 'C2', levels: [{ level: 1 }, { level: 2 }] },
+      ]
+      const result = component.buildCompetencySearchArray(payload)
+      expect(result).toEqual(['C2-1', 'C2-2'])
+    })
+
+    it('should handle a payload mixing both shapes together', () => {
+      const payload = [
+        { comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } } },
+        { id: 'C2', levels: [{ level: 1 }] },
+      ]
+      const result = component.buildCompetencySearchArray(payload)
+      expect(result).toEqual(['C1-1', 'C2-1'])
+    })
   })
 
   describe('processRecommendedCourses', () => {

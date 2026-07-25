@@ -84,9 +84,7 @@ export class ProgramHome implements OnInit {
       })
     } else if (program.type === 'competency') {
       playlist = this.getCompetencyPlaylistForLang(playlists, program.playlistConfigId)
-      // Extract course IDs from competency levels
-      payload = playlist?.dataSource?.payload ?? []
-      // payload = this.extractCourseIdsFromCompetency(playlist)
+      payload = this.extractCourseIdsFromCompetency(playlist?.dataSource?.payload ?? [])
       console.log(`[ProgramHome] Competency program "${program.title}":`, {
         playlistConfigId: program.playlistConfigId,
         playlistFound: !!playlist,
@@ -172,6 +170,26 @@ export class ProgramHome implements OnInit {
     }
 
     return ''
+  }
+
+  extractCourseIdsFromCompetency = (payload: any[]): string[] => {
+    const ids = new Set<string>()
+    for (const raw of payload || []) {
+      if (!raw || typeof raw !== 'object') continue
+
+      if (Array.isArray(raw.levels)) {
+        raw.levels.forEach((l: any) => { if (l?.courseId) ids.add(l.courseId) })
+        continue
+      }
+
+      const inner: any = raw.additionalProperties ? raw : Object.values(raw)[0]
+      const levelDescs: any[] = inner?.additionalProperties?.competencyLevelDescription || []
+      levelDescs.forEach((l: any) => {
+        const courses: any[] = Array.isArray(l.course) ? l.course : []
+        courses.forEach((c: any) => { if (c?.id) ids.add(c.id) })
+      })
+    }
+    return Array.from(ids)
   }
 
   getStaticPlaylistForLang = (playlists: any[], playlistConfigId: string, defaultLang: string): any | null => {

@@ -34,7 +34,7 @@
           <div class="asha-course-list">
             <div class="bg-blue line-label flex scroller-container">
               <span class="header0">
-                {{ section?.text | translate }} ({{ inProgressCourses().length }})</span>
+                {{ section?.title | translate }} ({{ inProgressCourses().length }})</span>
             </div>
             <ng-container *ngFor="let cardData of getVisibleCourses(); let i = index">
               <app-asha-learning [ashaData]="cardData" [inProgressCoursesCount]="inProgressCourses().length"
