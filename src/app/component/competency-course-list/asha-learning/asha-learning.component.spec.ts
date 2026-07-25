@@ -20,7 +20,7 @@ describe('AshaLearningComponent', () => {
     levels: [1, 2, 3, 4, 5].map(level => ({
       competencyId: 1,
       level,
-      course: [{ id: `course-${level}`, lang: 'en' }, { id: `course-${level}-hi`, lang: 'hi' }],
+      course: `course-${level}`,
     })),
     progress,
     ...overrides,
@@ -205,8 +205,8 @@ describe('AshaLearningComponent', () => {
         [{ levelId: 1, contentType: 'course', passFailStatus: 'Pass' }],
         {
           levels: [
-            { competencyId: 1, level: 1, course: [{ id: 'course-1', lang: 'en' }] },
-            { competencyId: 1, level: 2, course: [{ id: 'course-2-hi', lang: 'hi' }] },
+            { competencyId: 1, level: 1, course: 'course-1' },
+            { competencyId: 1, level: 2, course: null },
           ],
         }
       )
@@ -222,10 +222,10 @@ describe('AshaLearningComponent', () => {
       expect(comp.getCourseId('1', '3', comp.ashaData)).toBe('course-3')
     })
 
-    it('uses the translate current language when the data has none', () => {
+    it('returns the course id regardless of ashaData language', () => {
       mockTranslate.getCurrentLang.mockReturnValue('hi')
       const data = buildData([], { lang: undefined })
-      expect(comp.getCourseId('1', '3', data)).toBe('course-3-hi')
+      expect(comp.getCourseId('1', '3', data)).toBe('course-3')
     })
 
     it('returns null when nothing matches', () => {

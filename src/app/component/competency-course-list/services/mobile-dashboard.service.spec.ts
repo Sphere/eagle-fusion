@@ -60,9 +60,9 @@ describe('MobileDashboardService', () => {
   }]
 
   const buildLevels = () => [
-    { competencyId: 1, name: 'Beginner', competencyName: 'Communication', level: 1, course: [{ id: 'c1', lang: 'en' }] },
-    { competencyId: 1, name: 'Intermediate', competencyName: 'Communication', level: 2, course: [{ id: 'c1', lang: 'en' }] },
-    { competencyId: 2, name: 'Beginner', competencyName: 'Nutrition', level: 1, course: [{ id: 'c2', lang: 'en' }] },
+    { competencyId: 1, name: 'Beginner', competencyName: 'Communication', level: 1, course: 'c1' },
+    { competencyId: 1, name: 'Intermediate', competencyName: 'Communication', level: 2, course: 'c1' },
+    { competencyId: 2, name: 'Beginner', competencyName: 'Nutrition', level: 1, course: 'c2' },
   ]
 
   beforeEach(() => {
