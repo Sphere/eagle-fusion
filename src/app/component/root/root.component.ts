@@ -799,6 +799,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.hasCompetencyConfig = homeTabConfig.some((item: any) => {
+      if (item.sectionId !== 'COMPETENCY_PLAYLIST') {
+        return false
+      }
       if (item.role && Array.isArray(item.role)) {
         return item.role.some((role: string) => role.toLowerCase() === userRole)
       }
