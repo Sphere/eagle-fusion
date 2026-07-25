@@ -100,122 +100,100 @@ export class AshaLearningComponent implements OnInit, OnChanges {
     }
 
     const earnedProgress = this.getEarnedProgress()
-    if (!data?.progress?.length) {
-      this.router.navigate(['/app/user/self-assessment'], { queryParams: data })
-      return
-    }
+    if (data?.progress?.length) {
+      this.btnName = "Continue"
+      const completedLevels = earnedProgress
+        .filter((entry: any) => entry.passFailStatus === 'Pass')
+        .map((entry: any) => entry.levelId)
 
-    this.btnName = "Continue"
-    const { completedLevels, nextIncompleteLevel } = this.getContinueLevelInfo(earnedProgress)
-    const highestLevelEntry = this.getHighestLevelEntry(earnedProgress, completedLevels, nextIncompleteLevel)
-    const { contentType, passFailStatus } = highestLevelEntry || {}
+      const allLevels = [1, 2, 3, 4, 5]
+      const nextIncompleteLevel: number | null = allLevels
+        .filter(level => !completedLevels.includes(level))
+        .reduce((min: number | null, level: number) => (min === null || level < min ? level : min), null)
 
-    // Any completed course means the learner is progressing via courses, so the next step
-    // is a course (not a self-assessment) even if the current focus entry is a passed
-    // self-assessment — e.g. level 1 self-assessment cleared + level 3/4 course done.
-    const hasCourseProgress = earnedProgress.some(
-      (e: any) => e.contentType === 'course' && e.passFailStatus === 'Pass'
-    )
+      let highestLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === nextIncompleteLevel)
 
-    if (contentType === 'selfAssessment' && passFailStatus === 'Pass' && !hasCourseProgress) {
-      this.router.navigate(['/app/user/self-assessment'], { queryParams: data })
-      return
-    }
-
-    this.startNextLevelCourse(data, nextIncompleteLevel)
-  }
-
-  private getContinueLevelInfo(earnedProgress: any[]): { completedLevels: number[]; nextIncompleteLevel: number | null } {
-    const completedLevels = earnedProgress
-      .filter((entry: any) => entry.passFailStatus === 'Pass')
-      .map((entry: any) => entry.levelId)
-
-    const allLevels = [1, 2, 3, 4, 5]
-    const nextIncompleteLevel: number | null = allLevels
-      .filter(level => !completedLevels.includes(level))
-      .reduce((min: number | null, level: number) => (min === null || level < min ? level : min), null)
-
-    return { completedLevels, nextIncompleteLevel }
-  }
-
-  private getHighestLevelEntry(earnedProgress: any[], completedLevels: number[], nextIncompleteLevel: number | null): any {
-    let highestLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === nextIncompleteLevel)
-
-    if (!highestLevelEntries.length) {
-      const lowerDone = completedLevels.filter((l: number) => l < (nextIncompleteLevel ?? Infinity))
-      const fallback = lowerDone.length > 0 ? Math.max(...lowerDone) : Math.min(...completedLevels)
-      highestLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === fallback)
-    }
-
-    return (
-      highestLevelEntries.find((e: any) => e.passFailStatus === 'Pass' && e.contentType === 'course') ||
-      highestLevelEntries[0]
-    )
-  }
-
-  private startNextLevelCourse(data: any, nextIncompleteLevel: number | null) {
-    // Levels are sequential, so always start the FIRST incomplete level's course. This
-    // handles a stray completed higher level (e.g. level 5 course done while 1-4 aren't
-    // → start level 1) and course-progress cases (→ resume at the next pending level),
-    // and avoids an invalid level id (e.g. 6) that would 400 the getCourses search.
-    const nextLevelId = nextIncompleteLevel
-    if (!nextLevelId) {
-      // Every level is cleared — nothing to start (the button is hidden at 100%).
-      return
-    }
-
-    const identifier: any = this.getCourseId(data.competencyID, String(nextLevelId), data)
-    if (!identifier) {
-      // No course mapped for this level/language — skip the search to avoid a 400.
-      return
-    }
-
-    this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe(res => {
-      const navigationdata = res.result.content[0]
-      const batchId = navigationdata.batches?.[0]?.batchId
-
-      const ashaData = {
-        isAsha: true,
-        batchid: batchId,
-        contentid: navigationdata.identifier,
-        competencylevel: nextLevelId,
-        completionpercentage: 0,
-        progress: "course",
-        competencyid: data.competencyID,
-        competencyName: data.title,
+      if (!highestLevelEntries.length) {
+        const lowerDone = completedLevels.filter((l: number) => l < (nextIncompleteLevel ?? Infinity))
+        const fallback = lowerDone.length > 0 ? Math.max(...lowerDone) : Math.min(...completedLevels)
+        highestLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === fallback)
       }
 
-      this.contentSvc.setAshaData(ashaData)
+      const highestLevelEntry =
+        highestLevelEntries.find((e: any) => e.passFailStatus === 'Pass' && e.contentType === 'course') ||
+        highestLevelEntries[0]
 
-      // Navigate to the course page
-      this.router.navigate([`/app/toc/${navigationdata.identifier}/overview`], {
-        queryParams: {
-          primaryCategory: "Course",
-          batchId: batchId,
-          competencyid: data.competencyID,
-          levelId: nextLevelId,
-          courseid: data.contentId,
-          isAsha: true,
-        },
-      })
-    })
+      const { contentType, passFailStatus } = highestLevelEntry || {}
+
+      // Any completed course means the learner is progressing via courses, so the next step
+      // is a course (not a self-assessment) even if the current focus entry is a passed
+      // self-assessment — e.g. level 1 self-assessment cleared + level 3/4 course done.
+      const hasCourseProgress = earnedProgress.some(
+        (e: any) => e.contentType === 'course' && e.passFailStatus === 'Pass'
+      )
+
+      if (contentType === 'selfAssessment' && passFailStatus === 'Pass' && !hasCourseProgress) {
+        this.router.navigate(['/app/user/self-assessment'], { queryParams: data })
+        return
+      } else {
+        // Levels are sequential, so always start the FIRST incomplete level's course. This
+        // handles a stray completed higher level (e.g. level 5 course done while 1-4 aren't
+        // → start level 1) and course-progress cases (→ resume at the next pending level),
+        // and avoids an invalid level id (e.g. 6) that would 400 the getCourses search.
+        const nextLevelId = nextIncompleteLevel
+        if (!nextLevelId) {
+          // Every level is cleared — nothing to start (the button is hidden at 100%).
+          return
+        }
+
+        const identifier: any = this.getCourseId(data.competencyID, String(nextLevelId), data)
+        if (!identifier) {
+          // No course mapped for this level/language — skip the search to avoid a 400.
+          return
+        }
+
+        this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe((res) => {
+          const navigationdata = res.result.content[0]
+          const batchId = navigationdata.batches?.[0]?.batchId
+
+          let ashaData = {
+            isAsha: true,
+            batchid: batchId,
+            contentid: navigationdata.identifier,
+            competencylevel: nextLevelId,
+            completionpercentage: 0,
+            progress: "course",
+            competencyid: data.competencyID,
+            competencyName: data.title
+          }
+
+          this.contentSvc.setAshaData(ashaData)
+
+          // Navigate to the course page
+          this.router.navigate([`/app/toc/${navigationdata.identifier}/overview`], {
+            queryParams: {
+              primaryCategory: "Course",
+              batchId: batchId,
+              competencyid: data.competencyID,
+              levelId: nextLevelId,
+              courseid: data.contentId,
+              isAsha: true,
+            },
+          })
+        })
+      }
+    } else {
+      this.router.navigate(['/app/user/self-assessment'], { queryParams: data })
+    }
   }
 
   getCourseId(competencyId: string, levelId: string, ashaData: any): string | null {
-    // Extract the language from the ashaData
-    const language = ashaData.lang || this.translate.getCurrentLang()
 
     // Iterate over the levels in the ashaData
     for (const level of ashaData.levels) {
       // Check if the competencyId and levelId match
       if (level.competencyId.toString() == competencyId && level.level == levelId) {
-        // Iterate over the courses in the matched level
-        for (const course of level.course) {
-          // Check if the course language matches the input language (ashaData.lang)
-          if (course.lang == language) {
-            return course.id // Return the matched course ID
-          }
-        }
+        return level.course
       }
     }
 
@@ -224,16 +202,47 @@ export class AshaLearningComponent implements OnInit, OnChanges {
   }
 
   getNavigationData(res, levelId) {
-    this.logger.log('Input data:', res) // Debugging the input array
+    this.logger.log("Input data:", res) // Debugging the input array
+    let matchedContent = null
 
     // Ensure ashaData and its properties exist
     if (!this.ashaData || !this.ashaData.levels || !this.ashaData.lang) {
-      this.logger.error('ashaData or ashaData properties are undefined.')
-      this.logger.log('No match found for levelId:', levelId)
-      return null
-    }
+      this.logger.error("ashaData or ashaData properties are undefined.")
+    } else {
+      // Iterate through each content in res
+      matchedContent = res.find(content => {
+        // Iterate through all levels in ashaData
+        for (const level of this.ashaData.levels) {
+          if (level.level == levelId) {
+            const courseIdMatches = level.course === content.identifier
+            const languageMatches = content.lang === this.ashaData.lang
 
-    const matchedContent = res.find(content => this.contentMatchesLevel(content, levelId))
+            this.logger.log("Checking course:", level.course, content.identifier, content.lang, this.ashaData.lang)
+
+            // First priority: Check if both courseIdMatches and languageMatches are true
+            if (courseIdMatches && languageMatches) {
+              this.logger.log("Both matched:", level.course, content.identifier)
+              matchedContent = content // Found a match with both conditions
+              return true // Return immediately as we've found the desired match
+            }
+          }
+        }
+
+        // If no match was found, look for courseIdMatches condition alone
+        for (const level of this.ashaData.levels) {
+          if (level.level == levelId) {
+            const courseIdMatches = level.course === content.identifier
+            if (courseIdMatches) {
+              this.logger.log("Only courseIdMatches:", level.course, content.identifier)
+              matchedContent = content // Found a match for courseIdMatches alone
+              return true // Return immediately as we've found the match
+            }
+          }
+        }
+
+        return false // No match for this content
+      })
+    }
 
     // Check if a match was found
     if (matchedContent) {
@@ -243,38 +252,6 @@ export class AshaLearningComponent implements OnInit, OnChanges {
     }
 
     return matchedContent
-  }
-
-  private contentMatchesLevel(content: any, levelId: any): boolean {
-    // First priority: check courses at this level for both id and language match
-    if (this.findCourseMatch(content, levelId, true)) {
-      return true
-    }
-
-    // If no match was found, look for courseIdMatches condition alone
-    return this.findCourseMatch(content, levelId, false)
-  }
-
-  private findCourseMatch(content: any, levelId: any, requireLanguageMatch: boolean): boolean {
-    for (const level of this.ashaData.levels) {
-      if (level.level != levelId) {
-        continue
-      }
-      for (const course of level.course) {
-        const courseIdMatches = course.id === content.identifier
-        const languageMatches = content.lang === this.ashaData.lang
-
-        if (requireLanguageMatch) {
-          this.logger.log('Checking course:', course.id, content.identifier, content.lang, this.ashaData.lang)
-        }
-
-        if (courseIdMatches && (!requireLanguageMatch || languageMatches)) {
-          this.logger.log(requireLanguageMatch ? 'Both matched:' : 'Only courseIdMatches:', course.id, content.identifier)
-          return true
-        }
-      }
-    }
-    return false
   }
 
   getCompletionPercentage(): number {
@@ -332,28 +309,18 @@ export class AshaLearningComponent implements OnInit, OnChanges {
       .filter((entry: any) => entry.passFailStatus === "Pass")
       .map((entry: any) => entry.levelId)
 
-    const nextIncompleteLevel = this.getNextIncompleteLevelForNote(completedLevels)
+    const allLevels = [1, 2, 3, 4, 5]
+
+    // Find the next incomplete level
+    const nextIncompleteLevel = allLevels
+      .filter(level => !completedLevels.includes(level))
+      .reduce((min, level) => (min === null || level < min ? level : min), null)
 
     // If all levels are completed
     if (nextIncompleteLevel === null) {
       return this.translate.instant("YOU_CLEAR_ALL_LEVELS")
     }
 
-    const selectedEntry = this.getSelectedNoteEntry(earnedProgress, completedLevels, nextIncompleteLevel)
-
-    return selectedEntry
-      ? this.getNoteForSelectedEntry(selectedEntry)
-      : this.getNoteForNoSelectedEntry(selectedEntry)
-  }
-
-  private getNextIncompleteLevelForNote(completedLevels: number[]): number | null {
-    const allLevels = [1, 2, 3, 4, 5]
-    return allLevels
-      .filter(level => !completedLevels.includes(level))
-      .reduce((min: number | null, level) => (min === null || level < min ? level : min), null)
-  }
-
-  private getSelectedNoteEntry(earnedProgress: any[], completedLevels: number[], nextIncompleteLevel: number): any {
     // Filter entries for the next incomplete level
     let nextLevelEntries = earnedProgress.filter((entry: any) => entry.levelId === nextIncompleteLevel)
 
@@ -366,44 +333,60 @@ export class AshaLearningComponent implements OnInit, OnChanges {
     }
 
     // Select the highest priority entry
-    return (
-      nextLevelEntries.find((entry: any) => entry.passFailStatus === "Pass" && entry.contentType === "course") ||
-      nextLevelEntries[0]
+    let selectedEntry = nextLevelEntries.find(
+      (entry: any) => entry.passFailStatus === "Pass" && entry.contentType === "course"
     )
-  }
 
-  private getNoteForSelectedEntry(selectedEntry: any) {
-    const { contentType, levelId } = selectedEntry
-
-    if (
-      selectedEntry.levelId === 5 &&
-      selectedEntry.passFailStatus === "Pass" &&
-      selectedEntry.completionpercentage === 100
-    ) {
-      return this.translate.instant("YOU_CLEAR_ALL_LEVELS")
+    if (!selectedEntry) {
+      selectedEntry = nextLevelEntries[0]
     }
 
-    if (selectedEntry.passFailStatus === "Fail") {
-      return contentType === "course"
-        ? this.translate.instant("NOTE_CLEAR_COURSE", { nextLevel: levelId })
-        : this.translate.instant("NOTE_CLEAR_ASSESSMENT", { nextLevel: levelId })
-    }
-
-    if (selectedEntry.passFailStatus === "Pass") {
-      return contentType === "course"
-        ? this.translate.instant("COMPLETE_LEVEL_COURSE", { nextLevel: levelId + 1 })
-        : this.translate.instant("COMPLETE_LEVEL_ASSESSMENT", { nextLevel: levelId + 1 })
-    }
-  }
-
-  private getNoteForNoSelectedEntry(selectedEntry: any) {
     const { contentType, passFailStatus, levelId } = selectedEntry || {}
-    if (contentType === "selfAssessment" && passFailStatus === "Pass") {
-      return this.translate.instant("CLEAR_LEVEL_ASSESSMENT", { nextLevel: levelId })
-    } else if (contentType === "selfAssessment" && passFailStatus === "Fail") {
-      return this.translate.instant("CLEAR_LEVEL_COURSE", { nextLevel: levelId })
+
+    if (selectedEntry) {
+      if (
+        selectedEntry.levelId === 5 &&
+        selectedEntry.passFailStatus === "Pass" &&
+        selectedEntry.completionpercentage === 100
+      ) {
+        return this.translate.instant("YOU_CLEAR_ALL_LEVELS")
+      }
+
+      if (selectedEntry.passFailStatus === "Fail") {
+        if (contentType === "course") {
+          return this.translate.instant("NOTE_CLEAR_COURSE", {
+            nextLevel: levelId,
+          })
+        } else {
+          return this.translate.instant("NOTE_CLEAR_ASSESSMENT", {
+            nextLevel: levelId,
+          })
+        }
+      } else if (selectedEntry.passFailStatus === "Pass") {
+        if (contentType === "course") {
+          return this.translate.instant("COMPLETE_LEVEL_COURSE", {
+            nextLevel: levelId + 1,
+          })
+        } else {
+          return this.translate.instant("COMPLETE_LEVEL_ASSESSMENT", {
+            nextLevel: levelId + 1,
+          })
+        }
+      }
     } else {
-      return this.translate.instant("CLEAR_LEVEL_COURSE", { nextLevel: levelId ? levelId : 1 })
+      if (contentType === "selfAssessment" && passFailStatus === "Pass") {
+        return this.translate.instant("CLEAR_LEVEL_ASSESSMENT", {
+          nextLevel: levelId,
+        })
+      } else if (contentType === "selfAssessment" && passFailStatus === "Fail") {
+        return this.translate.instant("CLEAR_LEVEL_COURSE", {
+          nextLevel: levelId,
+        })
+      } else {
+        return this.translate.instant("CLEAR_LEVEL_COURSE", {
+          nextLevel: levelId ? levelId : 1,
+        })
+      }
     }
   }
 }
