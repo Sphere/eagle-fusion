@@ -110,57 +110,52 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   private async transformQuiz(content: NsContent.IContent): Promise<NSQuiz.IQuiz> {
     if (this.activatedRoute.snapshot.queryParams.competency) {
-      let artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
-      )
-      if (artifactUrl.includes('/hi/')) {
-        artifactUrl = artifactUrl.replace('hi/', '')
-      }
-      if (window.location.origin.indexOf('http://localhost:') === -1) {
-        artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
-      }
-      let quizJSON: NSQuiz.IQuiz = await this.http
-        .get<any>(artifactUrl || '')
-        .toPromise()
-        .catch((_err: any) => {
-        })
-      if (this.forPreview && quizJSON) {
-        quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
-      }
-      if (quizJSON && quizJSON.questions) {
-        quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-          if (question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-mca'
-          } else if (!question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-sca'
-          }
-        })
-      }
+      const artifactUrl = this.buildCompetencyArtifactUrl(content)
+      const quizJSON = await this.fetchAndNormalizeQuiz(artifactUrl)
       this.viewSvc.competencyAsessment.next(true)
       return quizJSON
-    } {
-      const artifactUrl = this.forPreview
-        ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
-        : content.artifactUrl
-      let quizJSON: NSQuiz.IQuiz = await this.http
-        .get<any>(artifactUrl || '')
-        .toPromise()
-        .catch((_err: any) => {
-        })
-      if (this.forPreview && quizJSON) {
-        quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
-      }
-      if (quizJSON && quizJSON.questions) {
-        quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-          if (question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-mca'
-          } else if (!question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-sca'
-          }
-        })
-      }
-      return quizJSON
     }
+    const artifactUrl = this.forPreview
+      ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
+      : content.artifactUrl
+    return this.fetchAndNormalizeQuiz(artifactUrl)
+  }
 
+  private buildCompetencyArtifactUrl(content: NsContent.IContent): string {
+    let artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
+    )
+    if (artifactUrl.includes('/hi/')) {
+      artifactUrl = artifactUrl.replace('hi/', '')
+    }
+    if (window.location.origin.indexOf('http://localhost:') === -1) {
+      artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
+    }
+    return artifactUrl
+  }
+
+  private async fetchAndNormalizeQuiz(artifactUrl: string): Promise<NSQuiz.IQuiz> {
+    let quizJSON: NSQuiz.IQuiz = await this.http
+      .get<any>(artifactUrl || '')
+      .toPromise()
+      .catch((_err: any) => {
+      })
+    if (this.forPreview && quizJSON) {
+      quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
+    }
+    if (quizJSON && quizJSON.questions) {
+      this.normalizeQuestionTypes(quizJSON.questions)
+    }
+    return quizJSON
+  }
+
+  private normalizeQuestionTypes(questions: NSQuiz.IQuestion[]): void {
+    questions.forEach((question: NSQuiz.IQuestion) => {
+      if (question.multiSelection && question.questionType === undefined) {
+        question.questionType = 'mcq-mca'
+      } else if (!question.multiSelection && question.questionType === undefined) {
+        question.questionType = 'mcq-sca'
+      }
+    })
   }
   private async setS3Cookie(contentId: string) {
     await this.contentSvc

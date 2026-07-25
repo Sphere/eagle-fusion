@@ -410,68 +410,78 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       const data = this.userProfileData
 
       if (data.personalDetails && data) {
-        this.logger.log(data)
-        this.logger.log(this.userlang)
-        this.personalDetailForm.patchValue({
-          // userName: this.profileUserName,
-          firstname: data.personalDetails.firstname,
-          surname: data.personalDetails.surname,
-          dob: data.personalDetails.dob ? this.getDateFromText(data.personalDetails.dob) : '',
-          regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
-          nationality: data.personalDetails.nationality,
-          domicileMedium: data.personalDetails.domicileMedium,
-          gender: data.personalDetails.gender,
-          maritalStatus: data.personalDetails.maritalStatus,
-          knownLanguages: data.personalDetails.knownLanguages,
-          mobile: data.personalDetails.mobile !== undefined ? data.personalDetails.mobile : this.userlang.phone,
-          email: data.personalDetails.primaryEmail,
-          postalAddress: data.personalDetails.postalAddress,
-          pincode: data.personalDetails.pincode,
-        })
-        if (data.personalDetails!.postalAddress) {
-          this.countryName = data.personalDetails!.postalAddress!.includes('India')
-        }
-
-        this.logger.log(this.countryName)
-        if (data.personalDetails!.postalAddress) {
-          if (this.countryName) {
-            const cName = data.personalDetails.postalAddress
-            const csplit = cName.split(',')
-            this.stateSelect(csplit[1].trim())
-            this.personalDetailForm.patchValue({
-              country: csplit[0],
-              state: csplit[1].trim(),
-              distict: csplit[2].trim(),
-            })
-            this.selectDisable = true
-          } else {
-            const cName = data.personalDetails.postalAddress
-            const csplit = cName.split(',')
-            this.personalDetailForm.patchValue({
-              country: csplit[0],
-            })
-            this.selectDisable = false
-          }
-        }
+        this.applyPersonalDetailsToForm(data)
+        this.applyPostalAddressToForm(data)
       }
       if (data && data.professionalDetails) {
-        (data.professionalDetails[0].orgType === 'Others' && data.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
-        (data.professionalDetails[0].profession === 'Others' && data.professionalDetails[0].professionOtherSpecify) ? this.professionOtherField = true : this.professionOtherField = false;
-        (data.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
-        data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
-        this.personalDetailForm.patchValue({
-          profession: data.professionalDetails[0].profession,
-          professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
-          orgType: data.professionalDetails[0].orgType,
-          orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,
-          organizationName: data.professionalDetails[0].name,
-          block: data.professionalDetails[0].block,
-          subcentre: data.professionalDetails[0].subcentre,
-          designation: data.professionalDetails[0].designation,
-        })
+        this.applyProfessionalDetailsToForm(data)
       }
     }
     this.loadDob = this.userProfileData.personalDetails.dob ? true : false
+  }
+
+  private applyPersonalDetailsToForm(data: any): void {
+    this.logger.log(data)
+    this.logger.log(this.userlang)
+    this.personalDetailForm.patchValue({
+      // userName: this.profileUserName,
+      firstname: data.personalDetails.firstname,
+      surname: data.personalDetails.surname,
+      dob: data.personalDetails.dob ? this.getDateFromText(data.personalDetails.dob) : '',
+      regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
+      nationality: data.personalDetails.nationality,
+      domicileMedium: data.personalDetails.domicileMedium,
+      gender: data.personalDetails.gender,
+      maritalStatus: data.personalDetails.maritalStatus,
+      knownLanguages: data.personalDetails.knownLanguages,
+      mobile: data.personalDetails.mobile !== undefined ? data.personalDetails.mobile : this.userlang.phone,
+      email: data.personalDetails.primaryEmail,
+      postalAddress: data.personalDetails.postalAddress,
+      pincode: data.personalDetails.pincode,
+    })
+    if (data.personalDetails!.postalAddress) {
+      this.countryName = data.personalDetails!.postalAddress!.includes('India')
+    }
+    this.logger.log(this.countryName)
+  }
+
+  private applyPostalAddressToForm(data: any): void {
+    if (!data.personalDetails!.postalAddress) {
+      return
+    }
+    const cName = data.personalDetails.postalAddress
+    const csplit = cName.split(',')
+    if (this.countryName) {
+      this.stateSelect(csplit[1].trim())
+      this.personalDetailForm.patchValue({
+        country: csplit[0],
+        state: csplit[1].trim(),
+        distict: csplit[2].trim(),
+      })
+      this.selectDisable = true
+    } else {
+      this.personalDetailForm.patchValue({
+        country: csplit[0],
+      })
+      this.selectDisable = false
+    }
+  }
+
+  private applyProfessionalDetailsToForm(data: any): void {
+    this.orgOthersField = Boolean(data.professionalDetails[0].orgType === 'Others' && data.professionalDetails[0].orgOtherSpecify)
+    this.professionOtherField = Boolean(data.professionalDetails[0].profession === 'Others' && data.professionalDetails[0].professionOtherSpecify)
+    this.showDesignation = Boolean(data.professionalDetails[0].designation)
+    this.rnShow = data.professionalDetails[0].profession === 'Healthcare Worker'
+    this.personalDetailForm.patchValue({
+      profession: data.professionalDetails[0].profession,
+      professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
+      orgType: data.professionalDetails[0].orgType,
+      orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,
+      organizationName: data.professionalDetails[0].name,
+      block: data.professionalDetails[0].block,
+      subcentre: data.professionalDetails[0].subcentre,
+      designation: data.professionalDetails[0].designation,
+    })
   }
 
   private getDateFromText(dateString: string): any {

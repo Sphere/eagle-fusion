@@ -224,91 +224,111 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.numCorrectAnswers = 0
     this.numIncorrectAnswers = 0
     correctAnswers.forEach((answer: any) => {
-      const correctOptions = answer.correctOptions
-      const correctMtfOptions = answer.correctMtfOptions
-      let selectedOptions: any =
-        this.questionAnswerHash[answer.questionId] ?? []
-      if (
-        answer.questionType === 'fitb' &&
-        this.questionAnswerHash[answer.questionId] &&
-        this.questionAnswerHash[answer.questionId][0]
-      ) {
-        selectedOptions =
-          this.questionAnswerHash[answer.questionId][0].split(',') ?? []
-        let correctFlag = true
-        let unTouched = false
-        if (selectedOptions.length < 1) {
-          unTouched = true
-        }
-        if (correctOptions.length !== selectedOptions.length) {
-          correctFlag = false
-        }
-        if (correctFlag && !unTouched) {
-          for (let i = 0; i < correctOptions.length; i += 1) {
-            if (
-              correctOptions[i].trim().toLowerCase() !==
-              selectedOptions[i].trim().toLowerCase()
-            ) {
-              correctFlag = false
-            }
-          }
-        }
-        if (correctFlag && !unTouched) {
-          this.numCorrectAnswers += 1
-        } else if (!unTouched) {
-          this.numIncorrectAnswers += 1
-        }
-
-      } else if (answer.questionType === 'mtf') {
-        let unTouched = false
-        let correctFlag = true
-        if (selectedOptions.length < 1 || selectedOptions[0].length < 1) {
-          unTouched = true
-        } else if (selectedOptions[0].length < correctMtfOptions.length) {
-          correctFlag = false
-        }
-        if (selectedOptions && selectedOptions[0]) {
-          (selectedOptions[0] as any[]).forEach(element => {
-            const b = element.sourceId
-            if (correctMtfOptions) {
-              const option = correctMtfOptions[(b.slice(-1) as number) - 1] ?? { match: '' }
-              const match = option.match
-              if (match && match.trim() === element.target.innerHTML.trim()
-              ) {
-                element.setPaintStyle({
-                  stroke: '#357a38',
-                })
-
-              } else {
-                element.setPaintStyle({
-                  stroke: '#f44336',
-                })
-                correctFlag = false
-
-              }
-            }
-          })
-        }
-        if (correctFlag && !unTouched) {
-          this.numCorrectAnswers += 1
-        } else if (!unTouched) {
-          this.numIncorrectAnswers += 1
-        }
-      } else {
-        if (
-          correctOptions.sort((a, b) => a.localeCompare(b)).join(',') === selectedOptions.sort((a, b) => a.localeCompare(b)).join(',')
-        ) {
-          this.numCorrectAnswers += 1
-        } else if (selectedOptions.length > 0) {
-          this.numIncorrectAnswers += 1
-        }
-      }
+      this.scoreAnswer(answer)
     })
     this.numUnanswered =
       this.assesmentdata.questions.length -
       this.numCorrectAnswers -
       this.numIncorrectAnswers
   }
+
+  private scoreAnswer(answer: any) {
+    const correctOptions = answer.correctOptions
+    const correctMtfOptions = answer.correctMtfOptions
+    const selectedOptions: any =
+      this.questionAnswerHash[answer.questionId] ?? []
+
+    if (
+      answer.questionType === 'fitb' &&
+      this.questionAnswerHash[answer.questionId] &&
+      this.questionAnswerHash[answer.questionId][0]
+    ) {
+      this.scoreFitbAnswer(correctOptions, this.questionAnswerHash[answer.questionId][0])
+    } else if (answer.questionType === 'mtf') {
+      this.scoreMtfAnswer(correctMtfOptions, selectedOptions)
+    } else {
+      this.scoreDefaultAnswer(correctOptions, selectedOptions)
+    }
+  }
+
+  private scoreFitbAnswer(correctOptions: any[], rawSelectedOptions: string) {
+    const selectedOptions: any = rawSelectedOptions.split(',') ?? []
+    let correctFlag = true
+    let unTouched = false
+    if (selectedOptions.length < 1) {
+      unTouched = true
+    }
+    if (correctOptions.length !== selectedOptions.length) {
+      correctFlag = false
+    }
+    if (correctFlag && !unTouched) {
+      for (let i = 0; i < correctOptions.length; i += 1) {
+        if (
+          correctOptions[i].trim().toLowerCase() !==
+          selectedOptions[i].trim().toLowerCase()
+        ) {
+          correctFlag = false
+        }
+      }
+    }
+    this.applyScoreFlag(correctFlag, unTouched)
+  }
+
+  private scoreMtfElement(element: any, correctMtfOptions: any[]): boolean {
+    const b = element.sourceId
+    if (!correctMtfOptions) {
+      return true
+    }
+    const option = correctMtfOptions[(b.slice(-1) as number) - 1] ?? { match: '' }
+    const match = option.match
+    if (match && match.trim() === element.target.innerHTML.trim()) {
+      element.setPaintStyle({
+        stroke: '#357a38',
+      })
+      return true
+    }
+    element.setPaintStyle({
+      stroke: '#f44336',
+    })
+    return false
+  }
+
+  private scoreMtfAnswer(correctMtfOptions: any[], selectedOptions: any) {
+    let unTouched = false
+    let correctFlag = true
+    if (selectedOptions.length < 1 || selectedOptions[0].length < 1) {
+      unTouched = true
+    } else if (selectedOptions[0].length < correctMtfOptions.length) {
+      correctFlag = false
+    }
+    if (selectedOptions && selectedOptions[0]) {
+      (selectedOptions[0] as any[]).forEach(element => {
+        if (!this.scoreMtfElement(element, correctMtfOptions)) {
+          correctFlag = false
+        }
+      })
+    }
+    this.applyScoreFlag(correctFlag, unTouched)
+  }
+
+  private scoreDefaultAnswer(correctOptions: any[], selectedOptions: any) {
+    if (
+      correctOptions.sort((a, b) => a.localeCompare(b)).join(',') === selectedOptions.sort((a, b) => a.localeCompare(b)).join(',')
+    ) {
+      this.numCorrectAnswers += 1
+    } else if (selectedOptions.length > 0) {
+      this.numIncorrectAnswers += 1
+    }
+  }
+
+  private applyScoreFlag(correctFlag: boolean, unTouched: boolean) {
+    if (correctFlag && !unTouched) {
+      this.numCorrectAnswers += 1
+    } else if (!unTouched) {
+      this.numIncorrectAnswers += 1
+    }
+  }
+
   checkAnswer() {
     // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {

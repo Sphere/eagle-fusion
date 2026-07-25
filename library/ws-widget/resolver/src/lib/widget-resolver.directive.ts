@@ -18,42 +18,25 @@ export class WidgetResolverDirective implements OnChanges {
 
   ngOnChanges() {
     const url = window.location.href
-    if (url.indexOf('/public/home') > 0) {
-      if (!this.widgetResolverSvc.isInitialized) {
-        this.widgetResolverSvc.initialize(this.configSvc.restrictedWidgets,
-                                          this.configSvc.userRoles,
-                                          this.configSvc.userGroups,
-                                          this.configSvc.restrictedFeatures)
-        if (this.wsResolverWidget) {
-          const compRef = this.widgetResolverSvc.resolveWidget(
-            this.wsResolverWidget,
-            this.viewContainerRef,
-          )
-          if (compRef) {
-            compRef.changeDetectorRef.detectChanges()
-          }
-        }
-      } else {
-        if (this.wsResolverWidget) {
-          const compRef = this.widgetResolverSvc.resolveWidget(
-            this.wsResolverWidget,
-            this.viewContainerRef,
-          )
-          if (compRef) {
-            compRef.changeDetectorRef.detectChanges()
-          }
-        }
-      }
-    } else {
-      if (this.wsResolverWidget) {
-        const compRef = this.widgetResolverSvc.resolveWidget(
-          this.wsResolverWidget,
-          this.viewContainerRef,
-        )
-        if (compRef) {
-          compRef.changeDetectorRef.detectChanges()
-        }
-      }
+    if (url.indexOf('/public/home') > 0 && !this.widgetResolverSvc.isInitialized) {
+      this.widgetResolverSvc.initialize(this.configSvc.restrictedWidgets,
+                                        this.configSvc.userRoles,
+                                        this.configSvc.userGroups,
+                                        this.configSvc.restrictedFeatures)
+    }
+    this.resolveAndRenderWidget()
+  }
+
+  private resolveAndRenderWidget() {
+    if (!this.wsResolverWidget) {
+      return
+    }
+    const compRef = this.widgetResolverSvc.resolveWidget(
+      this.wsResolverWidget,
+      this.viewContainerRef,
+    )
+    if (compRef) {
+      compRef.changeDetectorRef.detectChanges()
     }
   }
 }

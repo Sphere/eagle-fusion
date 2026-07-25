@@ -6,7 +6,7 @@ import {
 import { MatTreeNestedDataSource } from '@angular/material/tree'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { SafeUrl } from '@angular/platform-browser'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, ParamMap, Router } from '@angular/router'
 import {
   NsContent,
   VIEWER_ROUTE_FROM_MIME,
@@ -149,73 +149,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       )
     }
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(params => {
-      void (async () => {
-        this.batchId = params.get('batchId')
-        const collectionId = params.get('collectionId')
-        this.collectionId = params.get('collectionId')
-        // isAsha isn't always propagated onto the viewer route, so also fall back to the ASHA
-        // context on contentSvc (set when an ASHA course is launched). Validate that context
-        // against the CURRENT course (contentid === collectionId) — otherwise a stale ASHA
-        // context from a previous session would wrongly treat a normal course as ASHA and
-        // pop the CompleteCoursesModalComponent. The ASHA modal is strictly ASHA-only.
-        const ashaContext = this.contentSvc.getAshaData()
-        const ashaContextMatchesCourse = !!(ashaContext && ashaContext.isAsha &&
-          String(ashaContext.contentid) === String(this.collectionId))
-        this.isAsha = params.get('isAsha') === 'true' || ashaContextMatchesCourse
-
-        if (this.collectionId) {
-          localStorage.setItem('collectionId', this.collectionId)
-        }
-        const collectionType = params.get('collectionType')
-        if (collectionId && collectionType) {
-          if (
-            collectionType.toLowerCase() ===
-            NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
-          ) {
-            this.collection = await this.getPlaylistContent(collectionId, collectionType)
-          } else if (
-            collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
-            collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
-            collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
-          ) {
-            this.collection = await this.getCollection(collectionId, collectionType)
-          } else {
-            this.isErrorOccurred = true
-          }
-          if (this.collection) {
-            this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
-          }
-          setTimeout(() => {
-            this.isFetching = false
-            this.cdr.markForCheck()
-          }, 0)
-        }
-        if (this.resourceId) {
-          this.processCurrentResourceChange()
-
-          if (this.currentContentType == 'Video') {
-            if (this.playerStateService.isResourceCompleted()) {
-              const nextResource = this.playerStateService.getNextResource()
-              if (!(isNull(nextResource) || isEmpty(nextResource))) {
-                this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
-                this.playerStateService.trigger$.complete()
-              } else if (this.isCurrentResourceLastLeaf()) {
-                // Only return to the overview when the completed video is genuinely
-                // the final leaf. Previously an unresolved next-resource (empty
-                // string, e.g. before playerState is populated) also fell here and
-                // bounced a completed mid-course video back to the TOC.
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.batchId,
-                  },
-                })
-              }
-            }
-          }
-        }
-
-      })()
+      void this.handleQueryParams(params)
     })
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
@@ -266,6 +200,82 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     })
   }
+
+  private async handleQueryParams(params: ParamMap) {
+    this.batchId = params.get('batchId')
+    this.collectionId = params.get('collectionId')
+    // isAsha isn't always propagated onto the viewer route, so also fall back to the ASHA
+    // context on contentSvc (set when an ASHA course is launched). Validate that context
+    // against the CURRENT course (contentid === collectionId) — otherwise a stale ASHA
+    // context from a previous session would wrongly treat a normal course as ASHA and
+    // pop the CompleteCoursesModalComponent. The ASHA modal is strictly ASHA-only.
+    const ashaContext = this.contentSvc.getAshaData()
+    const ashaContextMatchesCourse = !!(ashaContext && ashaContext.isAsha &&
+      String(ashaContext.contentid) === String(this.collectionId))
+    this.isAsha = params.get('isAsha') === 'true' || ashaContextMatchesCourse
+
+    if (this.collectionId) {
+      localStorage.setItem('collectionId', this.collectionId)
+    }
+    await this.resolveCollectionFromParams(params)
+    this.handlePostCollectionResourceNavigation()
+  }
+
+  private async resolveCollectionFromParams(params: ParamMap) {
+    const collectionId = params.get('collectionId')
+    const collectionType = params.get('collectionType')
+    if (!collectionId || !collectionType) {
+      return
+    }
+    if (
+      collectionType.toLowerCase() ===
+      NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
+    ) {
+      this.collection = await this.getPlaylistContent(collectionId, collectionType)
+    } else if (
+      collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
+      collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
+      collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
+    ) {
+      this.collection = await this.getCollection(collectionId, collectionType)
+    } else {
+      this.isErrorOccurred = true
+    }
+    if (this.collection) {
+      this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
+    }
+    setTimeout(() => {
+      this.isFetching = false
+      this.cdr.markForCheck()
+    }, 0)
+  }
+
+  private handlePostCollectionResourceNavigation() {
+    if (!this.resourceId) {
+      return
+    }
+    this.processCurrentResourceChange()
+    if (this.currentContentType !== 'Video' || !this.playerStateService.isResourceCompleted()) {
+      return
+    }
+    const nextResource = this.playerStateService.getNextResource()
+    if (!(isNull(nextResource) || isEmpty(nextResource))) {
+      this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
+      this.playerStateService.trigger$.complete()
+    } else if (this.isCurrentResourceLastLeaf()) {
+      // Only return to the overview when the completed video is genuinely
+      // the final leaf. Previously an unresolved next-resource (empty
+      // string, e.g. before playerState is populated) also fell here and
+      // bounced a completed mid-course video back to the TOC.
+      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+        queryParams: {
+          primaryCategory: 'Course',
+          batchId: this.batchId,
+        },
+      })
+    }
+  }
+
   downloadResource(content: any) {
     const fileUrl = content.artifactUrl
     this.logger.log('fileUrl: ', content)

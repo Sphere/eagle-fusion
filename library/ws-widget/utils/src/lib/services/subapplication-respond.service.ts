@@ -29,91 +29,69 @@ export class SubapplicationRespondService {
     })
   }
   loadedRespond(contentWindow: any, applicationName: string, id?: string) {
-    if (id && this.activatedRoute.snapshot.queryParams.viewMode && this.activatedRoute.snapshot.queryParams.viewMode === 'RESUME') {
+    const isResumeMode = Boolean(id && this.activatedRoute.snapshot.queryParams.viewMode
+      && this.activatedRoute.snapshot.queryParams.viewMode === 'RESUME')
+    if (isResumeMode) {
       this.continueLearningData = null
-      this.contentSvc.fetchContentHistory(id).subscribe(
+      this.contentSvc.fetchContentHistory(id as string).subscribe(
         data => {
           this.continueLearningData = data.continueData
-          if (this.configSvc && this.configSvc.userProfile) {
-            const firstName = this.configSvc.userProfile.userName ?
-              this.configSvc.userProfile.userName.split(' ', 2)[0] : ''
-            const lastName = this.configSvc.userProfile.userName ?
-              this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
-            const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
-              this.activatedRoute.snapshot.queryParams.viewMode : ''
-            const response = {
-              subApplicationName: applicationName,
-              requestId: 'LOADED',
-              parentContext: {
-                domainName: window.location.host,
-                url: this.router.url,
-                rootOrg: this.configSvc.rootOrg,
-                theme: this.configSvc.activeThemeObject ? {
-                  name: this.configSvc.activeThemeObject.themeName,
-                  ...this.configSvc.activeThemeObject.color,
-                } : '',
-                fontSize: this.configSvc.activeFontObject ? this.configSvc.activeFontObject.baseFontSize : '14px',
-                locale: (this.configSvc.userPreference && this.configSvc.userPreference.selectedLocale) || 'en',
-                darkMode: this.configSvc.isDarkMode,
-                subApplicationStartMode: viewMode.toUpperCase(),
-                user: {
-                  firstName,
-                  lastName,
-                  userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
-                  roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
-                },
-                heartbeatFrequency: '200',
-              },
-              data: this.continueLearningData.data ? {
-                continueLearning: this.continueLearningData.data,
-              } : null,
-            }
-            const targetOrigin = this.getTargetOrigin(contentWindow)
-            contentWindow.postMessage(response, targetOrigin)
-            this.contentWindowinfo = contentWindow
-            this.loaded = true
-            this.subAppname = applicationName
-          }
+          const continueLearningPayload = this.continueLearningData.data ? {
+            continueLearning: this.continueLearningData.data,
+          } : null
+          this.sendLoadedResponse(contentWindow, applicationName, continueLearningPayload)
         })
     } else {
-      if (this.configSvc && this.configSvc.userProfile) {
-        const firstName = this.configSvc.userProfile.userName ?
-          this.configSvc.userProfile.userName.split(' ', 2)[0] : ''
-        const lastName = this.configSvc.userProfile.userName ?
-          this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
-        const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
-          this.activatedRoute.snapshot.queryParams.viewMode : ''
-        const response = {
-          subApplicationName: applicationName,
-          requestId: 'LOADED',
-          parentContext: {
-            domainName: window.location.host,
-            url: this.router.url,
-            rootOrg: this.configSvc.rootOrg,
-            theme: this.configSvc.activeThemeObject ? {
-              name: this.configSvc.activeThemeObject.themeName,
-              ...this.configSvc.activeThemeObject.color,
-            } : '',
-            fontSize: this.configSvc.activeFontObject ? this.configSvc.activeFontObject.baseFontSize : '14px',
-            locale: (this.configSvc.userPreference && this.configSvc.userPreference.selectedLocale) || 'en',
-            darkMode: this.configSvc.isDarkMode,
-            subApplicationStartMode: viewMode.toUpperCase(),
-            user: {
-              firstName,
-              lastName,
-              userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
-              roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
-            },
-            heartbeatFrequency: '200',
-          },
-          data: null,
-        }
-        const targetOrigin = this.getTargetOrigin(contentWindow)
-        contentWindow.postMessage(response, targetOrigin)
-        this.contentWindowinfo = contentWindow
-        this.loaded = true
-        this.subAppname = applicationName
-      }
+      this.sendLoadedResponse(contentWindow, applicationName, null)
+    }
+  }
+
+  private sendLoadedResponse(contentWindow: any, applicationName: string, data: any) {
+    if (!this.configSvc || !this.configSvc.userProfile) {
+      return
+    }
+    const response = {
+      subApplicationName: applicationName,
+      requestId: 'LOADED',
+      parentContext: this.buildParentContext(),
+      data,
+    }
+    const targetOrigin = this.getTargetOrigin(contentWindow)
+    contentWindow.postMessage(response, targetOrigin)
+    this.contentWindowinfo = contentWindow
+    this.loaded = true
+    this.subAppname = applicationName
+  }
+
+  private getUserInfo() {
+    const userName = this.configSvc.userProfile.userName
+    const firstName = userName ? userName.split(' ', 2)[0] : ''
+    const lastName = userName ? userName.split(' ', 2)[1] : ''
+    return {
+      firstName,
+      lastName,
+      userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
+      roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
+    }
+  }
+
+  private buildParentContext() {
+    const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
+      this.activatedRoute.snapshot.queryParams.viewMode : ''
+    return {
+      domainName: window.location.host,
+      url: this.router.url,
+      rootOrg: this.configSvc.rootOrg,
+      theme: this.configSvc.activeThemeObject ? {
+        name: this.configSvc.activeThemeObject.themeName,
+        ...this.configSvc.activeThemeObject.color,
+      } : '',
+      fontSize: this.configSvc.activeFontObject ? this.configSvc.activeFontObject.baseFontSize : '14px',
+      locale: (this.configSvc.userPreference && this.configSvc.userPreference.selectedLocale) || 'en',
+      darkMode: this.configSvc.isDarkMode,
+      subApplicationStartMode: viewMode.toUpperCase(),
+      user: this.getUserInfo(),
+      heartbeatFrequency: '200',
     }
   }
 
@@ -166,39 +144,15 @@ export class SubapplicationRespondService {
     this.loaded = false
   }
   changeContextrespond() {
-    if (this.loaded && this.contentWindowinfo && this.configSvc && this.configSvc.userProfile && this.subAppname) {
-      const firstName = this.configSvc.userProfile.userName ?
-        this.configSvc.userProfile.userName.split(' ', 2)[0] : ''
-      const lastName = this.configSvc.userProfile.userName ?
-        this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
-      const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
-        this.activatedRoute.snapshot.queryParams.viewMode : ''
-      const response = {
-        subApplicationName: this.subAppname,
-        requestId: 'CONTEXT_CHANGE',
-        parentContext: {
-          domainName: window.location.host,
-          url: this.router.url,
-          rootOrg: this.configSvc.rootOrg,
-          theme: this.configSvc.activeThemeObject ? {
-            name: this.configSvc.activeThemeObject.themeName,
-            ...this.configSvc.activeThemeObject.color,
-          } : '',
-          fontSize: this.configSvc.activeFontObject ? this.configSvc.activeFontObject.baseFontSize : '14px',
-          locale: (this.configSvc.userPreference && this.configSvc.userPreference.selectedLocale) || 'en',
-          darkMode: this.configSvc.isDarkMode,
-          subApplicationStartMode: viewMode.toUpperCase(),
-          user: {
-            firstName,
-            lastName,
-            userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
-            roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
-          },
-          heartbeatFrequency: '200',
-        },
-      }
-      const targetOrigin = this.getTargetOrigin(this.contentWindowinfo)
-      this.contentWindowinfo.postMessage(response, targetOrigin)
+    if (!(this.loaded && this.contentWindowinfo && this.configSvc && this.configSvc.userProfile && this.subAppname)) {
+      return
     }
+    const response = {
+      subApplicationName: this.subAppname,
+      requestId: 'CONTEXT_CHANGE',
+      parentContext: this.buildParentContext(),
+    }
+    const targetOrigin = this.getTargetOrigin(this.contentWindowinfo)
+    this.contentWindowinfo.postMessage(response, targetOrigin)
   }
 }

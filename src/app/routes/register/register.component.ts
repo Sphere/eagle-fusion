@@ -56,7 +56,11 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     // tslint:disable-next-line:max-line-length
     this.emailForm = fb.group({
       // tslint:disable-next-line:max-line-length
-      userInput: [null, Validators.compose([Validators.required, Validators.pattern(/^(\d{10}|\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3}))$/)])],
+      // Separator made mandatory inside each repeated group (was optional) to remove the
+      // ambiguous \w+ + \w+ overlap that made this pattern vulnerable to ReDoS — matches
+      // the exact same set of strings, since an optional separator was otherwise redundant
+      // with the preceding \w+.
+      userInput: [null, Validators.compose([Validators.required, Validators.pattern(/^(\d{10}|\w+(?:[.-]\w+)*@\w+(?:[.-]\w+)*(?:\.\w{2,3}))$/)])],
     })
   }
 

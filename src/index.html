@@ -37,12 +37,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://connect.facebook.net">
-  <!-- Google Fonts — non-blocking: media=print flips to all once loaded, avoids render delay -->
+  <!-- Google Fonts — non-blocking: media=print flips to all once loaded, avoids render delay.
+       No integrity attribute: Google Fonts CSS is served per-User-Agent (different font formats
+       per browser) and revalidated over time, so no single SRI hash could ever match. -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=optional">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=optional" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Roboto:wght@300;400;500&display=optional"></noscript>
   <meta name="google-signin-client_id"
     content="836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com">
+  <!-- No integrity attribute on the vendor scripts below: Google/Freshworks/Meta update these
+       URLs' content on their own schedule without versioning, so a pinned SRI hash would break
+       the app on the vendor's next routine deploy rather than add meaningful protection. -->
   <link rel="prefetch" as="script" href="https://apis.google.com/js/client:platform.js?onload=startApp">
   <link rel="prefetch" as="script" href='https://ind-widget.freshworks.com/widgets/82000001922.js'>
   <!-- Google Analytics — async, does not block render -->
@@ -210,6 +215,7 @@
 
 </script>
 <div id="widget" uuid=85464de9-5b19-4651-937d-a5f9d7ce5694 style="display:none"></div>
+<!-- Same as above: freecustomer's widget bundle is vendor-managed and unversioned, incompatible with SRI -->
 <script id="freecustomer-sdk" defer src="https://api.freecustomer.in/api/v1/files/scripts/component.bundle.js"></script>
 
 </html>

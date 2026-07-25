@@ -6,6 +6,9 @@ import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl
     name: 'pipeSafeSanitizer',
     
 })
+// Reserved for CMS/content-author-authored strings (T&C pages, About page copy, authoring-tool
+// iframe URLs) — never bind this to end-user-submitted text. Verified call sites: see usages of
+// `| pipeSafeSanitizer` across the repo.
 export class PipeSafeSanitizerPipe implements PipeTransform {
 
   constructor(protected sanitizer: DomSanitizer) { }

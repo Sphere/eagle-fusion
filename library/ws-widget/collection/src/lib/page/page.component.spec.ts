@@ -15,7 +15,7 @@ describe('PageComponent', () => {
   let configSvcMock: any
   let valueSvcMock: any
   let eventSvcMock: any
-  let domSanitizerMock: any
+  let safeResourceUrlSvcMock: any
   let respondSvcMock: any
   let dialogMock: any
   let exploreResolverSvcMock: any
@@ -41,7 +41,7 @@ describe('PageComponent', () => {
     }
     valueSvcMock = { isXSmall$: isXSmallSubject.asObservable() }
     eventSvcMock = { dispatchEvent: jest.fn() }
-    domSanitizerMock = { bypassSecurityTrustResourceUrl: jest.fn().mockReturnValue('safe-url') }
+    safeResourceUrlSvcMock = { trust: jest.fn().mockReturnValue('safe-url') }
     respondSvcMock = { loadedRespond: jest.fn(), unsubscribeResponse: jest.fn() }
     dialogMock = { open: jest.fn() }
     exploreResolverSvcMock = { isInitialized: false, initialize: jest.fn() }
@@ -54,7 +54,7 @@ describe('PageComponent', () => {
       configSvcMock,
       valueSvcMock,
       eventSvcMock,
-      domSanitizerMock,
+      safeResourceUrlSvcMock,
       respondSvcMock,
       dialogMock,
       exploreResolverSvcMock,
@@ -122,7 +122,7 @@ describe('PageComponent', () => {
 
     it('should set navbarIcon when instanceConfig has logos.app', () => {
       component.ngOnInit()
-      expect(domSanitizerMock.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('logo.png')
+      expect(safeResourceUrlSvcMock.trust).toHaveBeenCalledWith('logo.png')
       expect(component.navbarIcon).toBe('safe-url')
     })
 

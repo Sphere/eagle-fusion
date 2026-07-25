@@ -265,121 +265,128 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
   }
   acceptTnc() {
-    if (this.tncData) {
-      const generalTnc = this.tncData.termsAndConditions.filter(
-        tncUnit => tncUnit.name === 'Generic T&C',
-      )[0]
-      const dataPrivacy = this.tncData.termsAndConditions.filter(
-        tncUnit => tncUnit.name === 'Data Privacy',
-      )[0]
-      const termsAccepted: NsTnc.ITermAccepted[] = []
-      if (generalTnc) {
-        termsAccepted.push({
-          acceptedLanguage: generalTnc.language,
-          docName: generalTnc.name,
-          version: generalTnc.version,
-        })
-        this.termsAccepted = generalTnc.version
-      }
-      if (dataPrivacy) {
-        termsAccepted.push({
-          acceptedLanguage: dataPrivacy.language,
-          docName: dataPrivacy.name,
-          version: dataPrivacy.version,
-        })
-      }
-      this.isAcceptInProgress = true
-
-      const tncActorId = this.result?.userId || this.configSvc.userProfile?.userId || ''
-      this.telemetrySvc.registrationInteract(
-        { id: tncActorId, type: 'User' },
-        'create-account',
-        { type: 'TOUCH', subtype: 'accept-TNC', id: 'terms-n-conditions', pageid: 'terms-n-conditions', extra: { pos: [] } },
-        { id: 'Sphere', type: 'app-name', version: '', rollup: {} },
-      )
-
-      const paramMap = this.activatedRoute.snapshot.queryParamMap
-      const params: any = {}
-
-      paramMap.keys.forEach((key: any) => {
-        const paramValue = paramMap.get(key)
-        params[key] = paramValue
-      })
-
-      // this.paramsJSON = JSON.stringify(params)
-
-      this.createUserForm.controls.tncAccepted.setValue('true')
-      const userAgent = this.UserAgentResolverService.getUserAgent()
-      const userCookie = this.UserAgentResolverService.generateCookie()
-      this.loggerSvc.log('userCookie: ', userCookie)
-      if (this.configSvc.userProfile) {
-        this.userId = this.configSvc.userProfile.userId
-        this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
-        this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
-        this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
-        this.createUserForm.controls.regNurseRegMidwifeNumber.setValue('[NA]')
-        this.createUserForm.controls.osName.setValue(userAgent.OS || '')
-        this.createUserForm.controls.browserName.setValue(userAgent.browserName || '')
-        this.createUserForm.controls.userCookie.setValue(userCookie || '')
-      }
-      const data = localStorage.getItem('preferedLanguage')
-      if (data) {
-        this.lang = JSON.parse(data)
-        this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
-      } else {
-        this.lang = 'en'
-      }
-      if (this.configSvc.unMappedUser) {
-        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-          (data: any) => {
-            void (async () => {
-              if (data) {
-                this.userProfileData = await data.profileDetails.profileReq
-                // let profileRequest = this.constructReq(this.createUserForm)
-                const source = this.UserAgentResolverService.getSource()
-                const userSource = source ? JSON.parse(source) : null
-                const obj = {
-                  preferences: {
-                    language: this.lang,
-                  },
-                  ...(userSource ? { userSource } : {}),
-                  // personalDetails: profileRequest.profileReq.personalDetails
-                }
-                this.loggerSvc.log("this.userProfileData", this.userProfileData)
-                let profileRequest = constructReq(this.createUserForm, this.userProfileData, userAgent, userCookie)
-
-                profileRequest = Object.assign(profileRequest, obj)
-                profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
-                profileRequest.profileReq.personalDetails["tncAccepted"] = 'true'
-                const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-                const rootOrgId = this.configSvc.userProfile?.rootOrgId || this.configSvc.unMappedUser?.rootOrgId
-                if (orgSelectiveConfig && orgSelectiveConfig.orgId) {
-                  if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-                    profileRequest.profileReq.personalDetails["dob"] = '01/01/2000'
-                  }
-                }
-                const reqUpdate = {
-                  request: {
-                    userId: this.result.userId,
-                    // profileDetails: Object.assign(profileRequest, Obj),
-                    profileDetails: { ...profileRequest, profileLocation: 'sphere-web/new-tnc' },
-                    tncAcceptedVersion: this.termsAccepted,
-                    tncAcceptedOn: new Date().getTime(),
-                  },
-                }
-                this.loggerSvc.log(reqUpdate, 'sss')
-                this.loggerSvc.log(this.termsAccepted)
-                this.updateUser(reqUpdate)
-                //}
-              }
-            })()
-          })
-      }
-
-
-    } else {
+    if (!this.tncData) {
       this.errorInAccepting = false
+      return
     }
+
+    this.buildTermsAccepted()
+    this.isAcceptInProgress = true
+    this.logAcceptTncTelemetry()
+
+    this.createUserForm.controls.tncAccepted.setValue('true')
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
+    this.loggerSvc.log('userCookie: ', userCookie)
+    this.populateUserFormFields(userAgent, userCookie)
+    this.resolveAcceptLang()
+
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        (data: any) => {
+          void this.handleUserDetailsForAccept(data, userAgent, userCookie)
+        })
+    }
+  }
+
+  private buildTermsAccepted(): void {
+    const generalTnc = this.tncData!.termsAndConditions.filter(
+      tncUnit => tncUnit.name === 'Generic T&C',
+    )[0]
+    const dataPrivacy = this.tncData!.termsAndConditions.filter(
+      tncUnit => tncUnit.name === 'Data Privacy',
+    )[0]
+    const termsAccepted: NsTnc.ITermAccepted[] = []
+    if (generalTnc) {
+      termsAccepted.push({
+        acceptedLanguage: generalTnc.language,
+        docName: generalTnc.name,
+        version: generalTnc.version,
+      })
+      this.termsAccepted = generalTnc.version
+    }
+    if (dataPrivacy) {
+      termsAccepted.push({
+        acceptedLanguage: dataPrivacy.language,
+        docName: dataPrivacy.name,
+        version: dataPrivacy.version,
+      })
+    }
+  }
+
+  private logAcceptTncTelemetry(): void {
+    const tncActorId = this.result?.userId || this.configSvc.userProfile?.userId || ''
+    this.telemetrySvc.registrationInteract(
+      { id: tncActorId, type: 'User' },
+      'create-account',
+      { type: 'TOUCH', subtype: 'accept-TNC', id: 'terms-n-conditions', pageid: 'terms-n-conditions', extra: { pos: [] } },
+      { id: 'Sphere', type: 'app-name', version: '', rollup: {} },
+    )
+  }
+
+  private populateUserFormFields(userAgent: any, userCookie: any): void {
+    if (!this.configSvc.userProfile) {
+      return
+    }
+    this.userId = this.configSvc.userProfile.userId
+    this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
+    this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
+    this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
+    this.createUserForm.controls.regNurseRegMidwifeNumber.setValue('[NA]')
+    this.createUserForm.controls.osName.setValue(userAgent.OS || '')
+    this.createUserForm.controls.browserName.setValue(userAgent.browserName || '')
+    this.createUserForm.controls.userCookie.setValue(userCookie || '')
+  }
+
+  private resolveAcceptLang(): void {
+    const data = localStorage.getItem('preferedLanguage')
+    if (data) {
+      this.lang = JSON.parse(data)
+      this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
+    } else {
+      this.lang = 'en'
+    }
+  }
+
+  private async handleUserDetailsForAccept(
+    data: any,
+    userAgent: any,
+    userCookie: any,
+  ): Promise<void> {
+    if (!data) {
+      return
+    }
+    this.userProfileData = await data.profileDetails.profileReq
+    const source = this.UserAgentResolverService.getSource()
+    const userSource = source ? JSON.parse(source) : null
+    const obj = {
+      preferences: {
+        language: this.lang,
+      },
+      ...(userSource ? { userSource } : {}),
+    }
+    this.loggerSvc.log("this.userProfileData", this.userProfileData)
+    let profileRequest = constructReq(this.createUserForm, this.userProfileData, userAgent, userCookie)
+
+    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
+    profileRequest.profileReq.personalDetails["tncAccepted"] = 'true'
+    const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId || this.configSvc.unMappedUser?.rootOrgId
+    if (orgSelectiveConfig && orgSelectiveConfig.orgId && orgSelectiveConfig.orgId === rootOrgId) {
+      profileRequest.profileReq.personalDetails["dob"] = '01/01/2000'
+    }
+    const reqUpdate = {
+      request: {
+        userId: this.result.userId,
+        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/new-tnc' },
+        tncAcceptedVersion: this.termsAccepted,
+        tncAcceptedOn: new Date().getTime(),
+      },
+    }
+    this.loggerSvc.log(reqUpdate, 'sss')
+    this.loggerSvc.log(this.termsAccepted)
+    this.updateUser(reqUpdate)
   }
   updateUser(reqUpdate: any) {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {

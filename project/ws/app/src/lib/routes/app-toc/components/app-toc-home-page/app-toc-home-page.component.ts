@@ -521,44 +521,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
           this.loggerSvc.log('datatta', data)
-          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
-            void (async () => {
-              this.loggerSvc.log('Record:', record)
-              this.rowData = await record
-              const dat = JSON.parse(this.rowData.data)
-              if (dat && dat.length) {
-                this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
-                this.cdr.detectChanges()
-              }
-            })()
-          }, error => {
-            this.loggerSvc.error('Error:', error, data.result.contentList)
-            this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
-              (dat: any) => {
-                this.loggerSvc.log('Data inserted successfully1', dat)
-                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
-                  void (async () => {
-                    this.loggerSvc.log('Record:', record)
-                    this.rowData = await record
-                    const dat = JSON.parse(this.rowData.data)
-                    if (dat && dat.length) {
-                      this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                      this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                      this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
-                      this.cdr.detectChanges()
-                    }
-                  })()
-                }, error => {
-                  this.loggerSvc.error('Error:', error)
-                })
-              },
-              error => {
-                this.loggerSvc.error('Error inserting data:', error)
-              }
-            )
-          })
+          this.subscribeProgressRecord(userId, courseId, data.result.contentList)
 
           this.resumeData = get(data, 'result.contentList')
           this.resumeData = map(this.resumeData, rr => {
@@ -600,6 +563,59 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
       },
     )
+  }
+
+  private subscribeProgressRecord(userId: string, courseId: string, contentList: any) {
+    this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
+      void this.applyProgressRecord(record, contentList)
+    }, error => {
+      this.loggerSvc.error('Error:', error, contentList)
+      this.insertAndRefetchProgress(userId, courseId, contentList)
+    })
+  }
+
+  private async applyProgressRecord(record: any, contentList: any) {
+    this.loggerSvc.log('Record:', record)
+    this.rowData = await record
+    const dat = JSON.parse(this.rowData.data)
+    if (dat && dat.length) {
+      this.optmisticPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
+      this.finishedPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
+      this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
+      this.cdr.detectChanges()
+    }
+  }
+
+  private insertAndRefetchProgress(userId: string, courseId: string, contentList: any) {
+    this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', contentList).subscribe(
+      (dat: any) => {
+        this.loggerSvc.log('Data inserted successfully1', dat)
+        this.refetchProgressRecord(userId, courseId, contentList)
+      },
+      error => {
+        this.loggerSvc.error('Error inserting data:', error)
+      }
+    )
+  }
+
+  private refetchProgressRecord(userId: string, courseId: string, contentList: any) {
+    this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
+      void this.applyProgressRecordAfterInsert(record, contentList)
+    }, error => {
+      this.loggerSvc.error('Error:', error)
+    })
+  }
+
+  private async applyProgressRecordAfterInsert(record: any, contentList: any) {
+    this.loggerSvc.log('Record:', record)
+    this.rowData = await record
+    const dat = JSON.parse(this.rowData.data)
+    if (dat && dat.length) {
+      this.optmisticPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
+      this.finishedPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
+      this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
+      this.cdr.detectChanges()
+    }
   }
 
   updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
@@ -699,49 +715,22 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     // Carry the ASHA context onto the viewer route so the player (viewer-toc) can detect an
     // ASHA course and show the complete-courses flow. Without this the flag is lost on the
     // overview → viewer navigation and survives page reloads via the URL.
-    const ashaParams: { [key: string]: string } = this.navigateAshaHome ? {
-      isAsha: this.ashaData.isAsha,
-      competencyid: this.ashaData.competencyid,
-      levelId: this.ashaData.levelId,
-      courseid: this.ashaData.courseid,
-    } : {}
+    const ashaParams = this.getAshaParams()
     if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
-      let qParams: { [key: string]: string } = {
+      return this.finalizeQueryParams({
         ...this.firstResourceLink.queryParams,
         viewMode: type,
         batchId: this.getBatchId(),
         ...ashaParams,
-      }
-      if (this.contextId && this.contextPath) {
-        qParams = {
-          ...qParams,
-          collectionId: this.contextId,
-          collectionType: this.contextPath,
-        }
-      }
-      if (this.forPreview) {
-        delete qParams.viewMode
-      }
-      return qParams
+      })
     }
     if (this.resumeDataLink && type === 'RESUME') {
-      let qParams: { [key: string]: string } = {
+      return this.finalizeQueryParams({
         ...this.resumeDataLink.queryParams,
         batchId: this.getBatchId(),
         viewMode: 'RESUME',
         ...ashaParams,
-      }
-      if (this.contextId && this.contextPath) {
-        qParams = {
-          ...qParams,
-          collectionId: this.contextId,
-          collectionType: this.contextPath,
-        }
-      }
-      if (this.forPreview) {
-        delete qParams.viewMode
-      }
-      return qParams
+      })
     }
     if (this.forPreview) {
       return {}
@@ -751,5 +740,29 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       viewMode: type,
       ...ashaParams,
     }
+  }
+
+  private getAshaParams(): { [key: string]: string } {
+    return this.navigateAshaHome ? {
+      isAsha: this.ashaData.isAsha,
+      competencyid: this.ashaData.competencyid,
+      levelId: this.ashaData.levelId,
+      courseid: this.ashaData.courseid,
+    } : {}
+  }
+
+  private finalizeQueryParams(qParams: { [key: string]: string }): { [key: string]: string } {
+    let result = qParams
+    if (this.contextId && this.contextPath) {
+      result = {
+        ...result,
+        collectionId: this.contextId,
+        collectionType: this.contextPath,
+      }
+    }
+    if (this.forPreview) {
+      delete result.viewMode
+    }
+    return result
   }
 }

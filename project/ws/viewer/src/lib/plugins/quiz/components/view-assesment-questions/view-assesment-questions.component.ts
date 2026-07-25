@@ -372,32 +372,41 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.deleteEveryConnection()
       for (let i = 1; i <= this.question.options.length; i += 1) {
-        const questionSelector = `#c1${this.question.questionId}${i}`
-        for (let j = 1; j <= this.question.options.length; j += 1) {
-          const answerSelector = `#c2${this.question.questionId}${j}`
-          const options = this.question.options[i - 1]
-          if (options) {
-            const match = options.match
-            const selectors: HTMLElement[] = this.jsPlumbInstance.getSelector(answerSelector) as unknown as HTMLElement[]
-            if (match && match.trim() === selectors[0].innerText.trim()) {
-              const endpoint = `[
-                'Dot',
-                {
-                  radius: 5
-                }
-              ]`
-              this.jsPlumbInstance.connect({
-                endpoint,
-                source: this.jsPlumbInstance.getSelector(questionSelector) as unknown as Element,
-                target: this.jsPlumbInstance.getSelector(answerSelector) as unknown as Element,
-                anchors: ['Right', 'Left'],
-              })
-            }
-          }
-        }
+        this.connectMatchingAnswers(i)
       }
       this.changeColor()
     }
+  }
+
+  private connectMatchingAnswers(i: number) {
+    const questionSelector = `#c1${this.question.questionId}${i}`
+    const options = this.question.options[i - 1]
+    if (!options) {
+      return
+    }
+    for (let j = 1; j <= this.question.options.length; j += 1) {
+      const answerSelector = `#c2${this.question.questionId}${j}`
+      this.connectIfMatching(questionSelector, answerSelector, options.match)
+    }
+  }
+
+  private connectIfMatching(questionSelector: string, answerSelector: string, match: string | undefined) {
+    const selectors: HTMLElement[] = this.jsPlumbInstance.getSelector(answerSelector) as unknown as HTMLElement[]
+    if (!match || match.trim() !== selectors[0].innerText.trim()) {
+      return
+    }
+    const endpoint = `[
+      'Dot',
+      {
+        radius: 5
+      }
+    ]`
+    this.jsPlumbInstance.connect({
+      endpoint,
+      source: this.jsPlumbInstance.getSelector(questionSelector) as unknown as Element,
+      target: this.jsPlumbInstance.getSelector(answerSelector) as unknown as Element,
+      anchors: ['Right', 'Left'],
+    })
   }
 
   functionChangeBlankBorder() {

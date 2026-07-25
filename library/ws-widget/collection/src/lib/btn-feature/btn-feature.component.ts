@@ -75,23 +75,31 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.searchButton = false
     }
     const isHindi = this.languageSvc.isHindi()
+    this.currentText = this.resolveCurrentTextFromUrl(isHindi)
+  }
 
-    if (window.location.href.includes('/app/profile-view')) {
-      this.currentText = isHindi ? 'अकाउंट' : 'Account'
-    } else if (window.location.href.includes('user/my_courses')) {
-      this.currentText = isHindi ? 'आपके पाठ्यक्रम' : 'My Courses'
-    } else if (window.location.href.includes('/page/home')) {
-      this.currentText = isHindi ? 'होम' : 'Home'
-    } else if (window.location.href.includes('competency')) {
-      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-      this.currentText = isHindi ? 'योग्यता' : 'Competency'
-    } else if (window.location.href.includes('search')) {
-      this.currentText = isHindi ? 'खोज' : 'Search'
-    } else if (window.location.href.includes('notification')) {
-      this.currentText = isHindi ? 'अधिसूचना' : 'Notification'
-    } else {
-      this.currentText = ''
+  private resolveCurrentTextFromUrl(isHindi: boolean): string {
+    const href = window.location.href
+    if (href.includes('/app/profile-view')) {
+      return isHindi ? 'अकाउंट' : 'Account'
     }
+    if (href.includes('user/my_courses')) {
+      return isHindi ? 'आपके पाठ्यक्रम' : 'My Courses'
+    }
+    if (href.includes('/page/home')) {
+      return isHindi ? 'होम' : 'Home'
+    }
+    if (href.includes('competency')) {
+      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
+      return isHindi ? 'योग्यता' : 'Competency'
+    }
+    if (href.includes('search')) {
+      return isHindi ? 'खोज' : 'Search'
+    }
+    if (href.includes('notification')) {
+      return isHindi ? 'अधिसूचना' : 'Notification'
+    }
+    return ''
   }
 
   updateBadge() {
@@ -115,71 +123,91 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     // Do NOT use URL-based language prefixes (/hi) with ngx-translate
     const baseUrl = document.baseURI.endsWith('/') ? document.baseURI.slice(0, -1) : document.baseURI
 
+    if (text.name === 'Home' || text.name === 'होम') {
+      this.redirectHome(text, baseUrl)
+    } else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
+      await this.redirectMyCourses(text, baseUrl)
+    } else if (text.name === 'अधिसूचना' || text.name === 'Notification') {
+      this.redirectNotification(text, baseUrl)
+    } else if (text.name === 'Competency' || text.name === 'योग्यता') {
+      await this.redirectCompetency(text, baseUrl)
+    } else if (text.name === 'खोज' || text.name === 'Search') {
+      this.redirectSearch(text, baseUrl)
+    } else {
+      await this.redirectDefault(text, baseUrl)
+    }
+  }
+
+  private redirectHome(text: any, baseUrl: string) {
+    this.currentText = text.name
+
+    // ✅ Default home path
+    let url = '/page/home'
+
     // ✅ Selective org config
     const org = this.configSvc?.userProfile?.rootOrgId || ''
     const selectiveData = this.configSvc.orgSelectiveCourseConfig
 
-    if (text.name === 'Home' || text.name === 'होम') {
-      this.currentText = text.name
-
-      // ✅ Default home path
-      let url = '/page/home'
-
-      // ✅ If org matches selective config, redirect to selective course page
-      if (selectiveData && selectiveData.orgId === org) {
-        url = '/app/org-selective-course'
-        this.logger.log('Redirecting to selective org homepage for:', org)
-      }
-
-      location.href = `${baseUrl}${url}`
+    // ✅ If org matches selective config, redirect to selective course page
+    if (selectiveData && selectiveData.orgId === org) {
+      url = '/app/org-selective-course'
+      this.logger.log('Redirecting to selective org homepage for:', org)
     }
 
-    else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
-      this.currentText = text.name
-      const url = '/app/user/my_courses'
-      const result = await this.signupService.getUserData()
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        location.href = `${baseUrl}${url}`
-      } else {
-        const redirectUrl = '/page/home'
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
-      }
-    } else if (text.name === 'अधिसूचना' || text.name === 'Notification') {
-      this.currentText = text.name
-      const url = '/notification'
-      location.href = `${baseUrl}${url}`
-    } else if (text.name === 'Competency' || text.name === 'योग्यता') {
-      this.currentText = text.name
-      const result = await this.signupService.getUserData()
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-        const url = '/app/user/competency'
-        location.href = `${baseUrl}${url}`
-      } else {
-        const redirectUrl = '/page/home'
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
-      }
-    } else if (text.name === 'खोज' || text.name === 'Search') {
-      this.navOption.changeNavBarActive('search')
-      this.currentText = text.name
-      const url = '/app/search/home'
+    location.href = `${baseUrl}${url}`
+  }
+
+  private async redirectMyCourses(text: any, baseUrl: string) {
+    this.currentText = text.name
+    const url = '/app/user/my_courses'
+    const result = await this.signupService.getUserData()
+    if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
       location.href = `${baseUrl}${url}`
     } else {
-      const result = await this.signupService.getUserData()
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        this.currentText = text.name
-        const url = '/app/profile-view'
-        location.href = `${baseUrl}${url}`
-      } else {
-        if (localStorage.getItem('url_before_login')) {
-          const courseUrl = localStorage.getItem('url_before_login')
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-        } else {
-          this.currentText = 'Home'
-          const redirectUrl = '/page/home'
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
-        }
-      }
+      const redirectUrl = '/page/home'
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
+    }
+  }
+
+  private redirectNotification(text: any, baseUrl: string) {
+    this.currentText = text.name
+    const url = '/notification'
+    location.href = `${baseUrl}${url}`
+  }
+
+  private async redirectCompetency(text: any, baseUrl: string) {
+    this.currentText = text.name
+    const result = await this.signupService.getUserData()
+    if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
+      const url = '/app/user/competency'
+      location.href = `${baseUrl}${url}`
+    } else {
+      const redirectUrl = '/page/home'
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
+    }
+  }
+
+  private redirectSearch(text: any, baseUrl: string) {
+    this.navOption.changeNavBarActive('search')
+    this.currentText = text.name
+    const url = '/app/search/home'
+    location.href = `${baseUrl}${url}`
+  }
+
+  private async redirectDefault(text: any, baseUrl: string) {
+    const result = await this.signupService.getUserData()
+    if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+      this.currentText = text.name
+      const url = '/app/profile-view'
+      location.href = `${baseUrl}${url}`
+    } else if (localStorage.getItem('url_before_login')) {
+      const courseUrl = localStorage.getItem('url_before_login')
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+    } else {
+      this.currentText = 'Home'
+      const redirectUrl = '/page/home'
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
     }
   }
 

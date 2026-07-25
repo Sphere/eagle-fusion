@@ -103,28 +103,44 @@ export class AuthMicrosoftService {
       return this.msToken.accessToken
     }
     if (this.isValidEmail(email)) {
-      try {
-        this.msToken = await this.getTokenForEmail(email)
-        if (this.msToken.accessToken) {
-          this.emailUsed = email
-          return this.msToken.accessToken
-        }
-      } catch (error) {
-        if (!this.code) {
-          this.login(email)
-        }
+      const token = await this.tryGetTokenForRequestedEmail(email)
+      if (token) {
+        return token
       }
     }
     if (this.msConfig.defaultEmailId && this.isValidEmail(this.msConfig.defaultEmailId)) {
-      try {
-        this.msToken = await this.getTokenForEmail(this.msConfig.defaultEmailId)
-        if (this.msToken.accessToken) {
-          this.emailUsed = this.msConfig.defaultEmailId
-          return this.msToken.accessToken
-        }
-      } catch (error) { /* fall through to error below */ }
+      const token = await this.tryGetTokenForDefaultEmail(this.msConfig.defaultEmailId)
+      if (token) {
+        return token
+      }
     }
     throw new Error('UNABLE TO FETCH MS AUTH TOKEN')
+  }
+
+  private async tryGetTokenForRequestedEmail(email: string): Promise<string | null> {
+    try {
+      this.msToken = await this.getTokenForEmail(email)
+      if (this.msToken.accessToken) {
+        this.emailUsed = email
+        return this.msToken.accessToken
+      }
+    } catch (error) {
+      if (!this.code) {
+        this.login(email)
+      }
+    }
+    return null
+  }
+
+  private async tryGetTokenForDefaultEmail(defaultEmailId: string): Promise<string | null> {
+    try {
+      this.msToken = await this.getTokenForEmail(defaultEmailId)
+      if (this.msToken.accessToken) {
+        this.emailUsed = defaultEmailId
+        return this.msToken.accessToken
+      }
+    } catch (error) { /* fall through to error below */ }
+    return null
   }
 
   loginForSSOEnabledEmbed(email: string) {

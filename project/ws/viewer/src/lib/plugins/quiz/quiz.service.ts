@@ -26,43 +26,55 @@ export class QuizService {
   }
   submitQuizV2(req: any): Observable<NSQuiz.IQuizSubmitResponse> {
     this.logger.log(req, 'req')
-    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe(record => {
-      this.logger.log(record, '36')
-
-      const cUrl = window.location.href
-      this.logger.log(cUrl.split('/'))
-      const id = cUrl.split('/')[5]
-      this.logger.log(id)
-      this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.courseId).subscribe(
-        (message: any) => { // 'next' callback
-          this.logger.log('Record deleted successfully', message)
-
-          this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
-            (dat: any) => {
-              void (async () => {
-                this.logger.log('Data inserted successfully2', dat)
-                await dat
-              })()
-            },
-            (error: any) => { // 'error' callback for insertProgressData
-              this.logger.error('Error inserting progress data:', error)
-            }
-          )
-        },
-        (error: any) => { // 'error' callback for deleteRecordByKey
-          this.logger.error('Error deleting record:', error)
-        }
-      )
-    }, error => {
-      this.logger.log(error, '63')
-      this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
-        (dat: any) => {
-          this.logger.log('Data inserted successfully1', dat)
-
-        })
-    })
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe(
+      record => this.onRecordFetched(record, req),
+      error => this.onRecordFetchError(error, req),
+    )
 
     return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.ASSESSMENT_SUBMIT_V2, req)
+  }
+
+  private onRecordFetched(record: any, req: any) {
+    this.logger.log(record, '36')
+
+    const cUrl = window.location.href
+    this.logger.log(cUrl.split('/'))
+    const id = cUrl.split('/')[5]
+    this.logger.log(id)
+    this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.courseId).subscribe(
+      (message: any) => this.onRecordDeleted(message, req),
+      (error: any) => this.logger.error('Error deleting record:', error),
+    )
+  }
+
+  private onRecordDeleted(message: any, req: any) {
+    this.logger.log('Record deleted successfully', message)
+    this.insertProgressData(req, this.onProgressInsertedAfterDelete.bind(this))
+  }
+
+  private async onProgressInsertedAfterDelete(dat: any) {
+    this.logger.log('Data inserted successfully2', dat)
+    await dat
+  }
+
+  private onRecordFetchError(error: any, req: any) {
+    this.logger.log(error, '63')
+    this.insertProgressData(req, dat => this.logger.log('Data inserted successfully1', dat))
+  }
+
+  private insertProgressData(req: any, onSuccess: (dat: any) => void, onError?: (error: any) => void) {
+    this.onlineIndexedDbService.insertProgressData(
+      this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req,
+    ).subscribe(
+      (dat: any) => onSuccess(dat),
+      (error: any) => {
+        if (onError) {
+          onError(error)
+        } else {
+          this.logger.error('Error inserting progress data:', error)
+        }
+      },
+    )
   }
   competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
     return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2, req)

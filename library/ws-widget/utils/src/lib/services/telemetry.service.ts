@@ -565,20 +565,7 @@ export class TelemetryService {
         const guestId = this.getTelemetrySessionId
 
         const geo = this.UserAgentResolverService.getStoredGeolocation()
-        const contextValues: Record<string, any>[] = [
-          { browserName: userAgent.browserName },
-          { OS: userAgent.OS },
-          ...(deviceModel ? [{ deviceModel }] : []),
-          ...(userContext?.referrer ? [{ referrer: userContext.referrer }] : []),
-          ...(userContext?.screenWidth ? [{ screenWidth: userContext.screenWidth, screenHeight: userContext.screenHeight }] : []),
-          ...(userContext?.language ? [{ language: userContext.language }] : []),
-          ...(userContext?.utmParams?.utm_source ? [{ utm_source: userContext.utmParams.utm_source }] : []),
-          ...(userContext?.utmParams?.utm_medium ? [{ utm_medium: userContext.utmParams.utm_medium }] : []),
-          ...(userContext?.utmParams?.utm_campaign ? [{ utm_campaign: userContext.utmParams.utm_campaign }] : []),
-          ...(userContext?.utmParams?.utm_content ? [{ utm_content: userContext.utmParams.utm_content }] : []),
-          ...(userContext?.utmParams?.utm_term ? [{ utm_term: userContext.utmParams.utm_term }] : []),
-          ...(geo ? [{ latitude: geo.latitude, longitude: geo.longitude, geoAccuracy: geo.accuracy }] : []),
-        ]
+        const contextValues = this.buildRegistrationContextValues(userAgent, deviceModel, userContext, geo)
 
         const enrichedEdata = {
           ...edata,
@@ -629,6 +616,55 @@ export class TelemetryService {
     } catch (e) {
       this.logger.error('Error in telemetry registrationInteract', e)
     }
+  }
+
+  private buildUtmContextValues(utmParams?: {
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
+    utm_content?: string | null
+    utm_term?: string | null
+  }): Record<string, any>[] {
+    if (!utmParams) {
+      return []
+    }
+    return [
+      ...(utmParams.utm_source ? [{ utm_source: utmParams.utm_source }] : []),
+      ...(utmParams.utm_medium ? [{ utm_medium: utmParams.utm_medium }] : []),
+      ...(utmParams.utm_campaign ? [{ utm_campaign: utmParams.utm_campaign }] : []),
+      ...(utmParams.utm_content ? [{ utm_content: utmParams.utm_content }] : []),
+      ...(utmParams.utm_term ? [{ utm_term: utmParams.utm_term }] : []),
+    ]
+  }
+
+  private buildRegistrationContextValues(
+    userAgent: { browserName: string; OS: string },
+    deviceModel: any,
+    userContext: {
+      referrer?: string
+      screenWidth?: number
+      screenHeight?: number
+      language?: string
+      utmParams?: {
+        utm_source?: string | null
+        utm_medium?: string | null
+        utm_campaign?: string | null
+        utm_content?: string | null
+        utm_term?: string | null
+      }
+    } | undefined,
+    geo: { latitude: any; longitude: any; accuracy: any } | null | undefined,
+  ): Record<string, any>[] {
+    return [
+      { browserName: userAgent.browserName },
+      { OS: userAgent.OS },
+      ...(deviceModel ? [{ deviceModel }] : []),
+      ...(userContext?.referrer ? [{ referrer: userContext.referrer }] : []),
+      ...(userContext?.screenWidth ? [{ screenWidth: userContext.screenWidth, screenHeight: userContext.screenHeight }] : []),
+      ...(userContext?.language ? [{ language: userContext.language }] : []),
+      ...this.buildUtmContextValues(userContext?.utmParams),
+      ...(geo ? [{ latitude: geo.latitude, longitude: geo.longitude, geoAccuracy: geo.accuracy }] : []),
+    ]
   }
 
   postPublicTelemetry(data: IPublicTelemetryEvent) {

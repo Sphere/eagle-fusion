@@ -58,57 +58,8 @@ export class GeneralGuard {
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
-    // Try to restore user data from cache if it's not already set
-    // This handles the case where user data exists in sessionStorage but hasn't been loaded yet
-    if (this.configSvc.userProfile === null) {
-      const cachedUserData = this.userDataCacheSvc.getCachedUserData()
-      if (cachedUserData && cachedUserData.userId) {
-        this.logger.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserData.userId)
-        this.configSvc.unMappedUser = cachedUserData
-        // Basic user profile setup from cache
-        this.configSvc.userProfile = {
-          userId: cachedUserData.userId,
-          email: cachedUserData.email || cachedUserData.officialEmail,
-          givenName: cachedUserData.firstName,
-          firstName: cachedUserData.firstName,
-          lastName: cachedUserData.lastName,
-          userName: cachedUserData.userName,
-          rootOrgId: cachedUserData.rootOrgId,
-          rootOrgName: cachedUserData.channel,
-          profileImage: cachedUserData.thumbnail,
-          departmentName: cachedUserData.channel,
-          dealerCode: null,
-          isManager: false,
-          phone: cachedUserData.phone,
-          country: null,
-          language: cachedUserData.profileDetails?.preferences?.language || 'en',
-        }
-        // Restore roles
-        if (cachedUserData.roles && Array.isArray(cachedUserData.roles)) {
-          this.configSvc.userRoles = new Set((cachedUserData.roles || []).map((v: string) => v.toLowerCase()))
-        }
-      }
-    }
-
-    if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-      this.locale = this.configSvc.userProfile!.language
-      if (this.locale === 'en') {
-        this.locale = ''
-      }
-    }
-    if (localStorage.getItem('lang')) {
-      this.locale = localStorage.getItem('lang') || ''
-      if (this.locale === 'en') {
-        this.locale = ''
-      }
-    }
-    if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
-      if (this.configSvc.userProfile!.language === 'en') {
-        // Language is English, no prefix needed
-      } else {
-        this.locale = this.configSvc.userProfile!.language || 'en-US'
-      }
-    }
+    this.restoreUserFromCacheIfNeeded()
+    this.resolveLocale()
     this.logger.log(this.locale)
 
     // If invalid user
@@ -120,31 +71,8 @@ export class GeneralGuard {
       return this.router.parseUrl(`/public/home`)
     }
 
-    if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
-          this.logger.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
-          this.logger.log(data.profileDetails!.profileReq!.personalDetails)
+    this.checkTncAcceptance()
 
-          if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
-            if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === 'true') {
-              if (data.profileDetails!.profileReq!.personalDetails!.dob !== undefined) {
-                this.logger.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
-              }
-            } else {
-              if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                this.router.navigate(['app', 'new-tnc'])
-              }
-            }
-          } else {
-            localStorage.setItem('datanow', JSON.stringify(data))
-            this.router.navigate(['app', 'new-tnc'])
-          }
-        },
-        (_err: any) => {
-          this.logger.error('Error retrieving user details from registry:', _err)
-        })
-    }
     /**
      * Test IF User has requried role to access the page
      */
@@ -170,5 +98,89 @@ export class GeneralGuard {
     }
 
     return true
+  }
+
+  // Try to restore user data from cache if it's not already set
+  // This handles the case where user data exists in sessionStorage but hasn't been loaded yet
+  private restoreUserFromCacheIfNeeded() {
+    if (this.configSvc.userProfile !== null) {
+      return
+    }
+    const cachedUserData = this.userDataCacheSvc.getCachedUserData()
+    if (!cachedUserData || !cachedUserData.userId) {
+      return
+    }
+    this.logger.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserData.userId)
+    this.configSvc.unMappedUser = cachedUserData
+    // Basic user profile setup from cache
+    this.configSvc.userProfile = {
+      userId: cachedUserData.userId,
+      email: cachedUserData.email || cachedUserData.officialEmail,
+      givenName: cachedUserData.firstName,
+      firstName: cachedUserData.firstName,
+      lastName: cachedUserData.lastName,
+      userName: cachedUserData.userName,
+      rootOrgId: cachedUserData.rootOrgId,
+      rootOrgName: cachedUserData.channel,
+      profileImage: cachedUserData.thumbnail,
+      departmentName: cachedUserData.channel,
+      dealerCode: null,
+      isManager: false,
+      phone: cachedUserData.phone,
+      country: null,
+      language: cachedUserData.profileDetails?.preferences?.language || 'en',
+    }
+    // Restore roles
+    if (cachedUserData.roles && Array.isArray(cachedUserData.roles)) {
+      this.configSvc.userRoles = new Set((cachedUserData.roles || []).map((v: string) => v.toLowerCase()))
+    }
+  }
+
+  private resolveLocale() {
+    const lang = localStorage.getItem('lang')
+
+    if (lang) {
+      // Any locale-from-profile value would be overwritten by the localStorage value below,
+      // so localStorage always takes precedence when present (matches prior behavior).
+      this.locale = lang === 'en' ? '' : lang
+      return
+    }
+    if (this.configSvc.userProfile !== null && this.configSvc.userProfile!.language !== 'en') {
+      this.locale = this.configSvc.userProfile!.language || 'en-US'
+    }
+  }
+
+  private checkTncAcceptance() {
+    if (!this.configSvc.unMappedUser) {
+      return
+    }
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+      (data: any) => this.handleTncRegistryData(data),
+      (_err: any) => {
+        this.logger.error('Error retrieving user details from registry:', _err)
+      })
+  }
+
+  private handleTncRegistryData(data: any) {
+    const personalDetails = data.profileDetails?.profileReq?.personalDetails
+    this.logger.log(data.profileDetails, personalDetails?.dob === undefined)
+    this.logger.log(personalDetails)
+
+    if (!personalDetails) {
+      localStorage.setItem('datanow', JSON.stringify(data))
+      this.router.navigate(['app', 'new-tnc'])
+      return
+    }
+
+    if (personalDetails.tncAccepted === 'true') {
+      if (personalDetails.dob !== undefined) {
+        this.logger.log(personalDetails.tncAccepted)
+      }
+      return
+    }
+
+    if (personalDetails.dob === undefined) {
+      this.router.navigate(['app', 'new-tnc'])
+    }
   }
 }

@@ -243,18 +243,7 @@ export class OrgComponent implements OnInit, OnDestroy {
               const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
 
               this.orgService.getSearchV7Results(sourceNames)
-                .subscribe((result: any) => {
-                  const incoming = (result?.result?.content ?? [])
-                    .filter((c: any) => sourceNames.includes(c.sourceName) && !hideCourseIds.has(c.identifier))
-                  const existingIds = new Set(target.courses.map((c: any) => c.identifier))
-                  const newCourses = incoming.filter((c: any) => !existingIds.has(c.identifier))
-                  target.courses = [...target.courses, ...newCourses]
-                  // Extend competencyData with tagSearch courses not already present
-                  const existingCompIds = new Set(this.competencyData.map((c: any) => c.identifier))
-                  const newCompetencies = this.groupCompetenciesById(newCourses.filter((c: any) => !existingCompIds.has(c.identifier)))
-                  this.competencyData = [...this.competencyData, ...newCompetencies]
-                  this.detectViewChanges()
-                })
+                .subscribe((result: any) => this.mergeTagSearchResults(target, sourceNames, hideCourseIds, result))
             })
         },
         error: () => {
@@ -270,6 +259,24 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
 
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
+  }
+
+  private mergeTagSearchResults(
+    target: { config: any, courses: any[], showAll: boolean },
+    sourceNames: string[],
+    hideCourseIds: Set<string>,
+    result: any,
+  ): void {
+    const incoming = (result?.result?.content ?? [])
+      .filter((c: any) => sourceNames.includes(c.sourceName) && !hideCourseIds.has(c.identifier))
+    const existingIds = new Set(target.courses.map((c: any) => c.identifier))
+    const newCourses = incoming.filter((c: any) => !existingIds.has(c.identifier))
+    target.courses = [...target.courses, ...newCourses]
+    // Extend competencyData with tagSearch courses not already present
+    const existingCompIds = new Set(this.competencyData.map((c: any) => c.identifier))
+    const newCompetencies = this.groupCompetenciesById(newCourses.filter((c: any) => !existingCompIds.has(c.identifier)))
+    this.competencyData = [...this.competencyData, ...newCompetencies]
+    this.detectViewChanges()
   }
 
   private normalizeBatchItem(item: any): any {

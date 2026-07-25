@@ -104,46 +104,37 @@ export class AccessControlService {
     }
     let returnValue = false
     if (['Draft', 'Live'].indexOf(meta.status) > -1) {
-      if (meta.creatorContacts && meta.creatorContacts.length) {
-        meta.creatorContacts.forEach(v => {
-          if (v.id === this.userId) {
-            returnValue = true
-          }
-        })
-      }
+      returnValue = this.hasContactAccess(meta.creatorContacts)
     }
     if (meta.status === 'InReview' && this.hasRole(['reviewer'])) {
-      if (meta.trackContacts && meta.trackContacts.length) {
-        meta.trackContacts.forEach(v => {
-          if (v.id === this.userId) {
-            returnValue = true
-          }
-        })
-      }
-      if (!returnValue && parentMeta && parentMeta.creatorContacts && meta.creatorContacts) {
-        returnValue = parentMeta.creatorContacts.some(v =>
-          meta.creatorContacts.find(cv => cv.id === v.id),
-        )
-      }
+      returnValue = this.hasContactAccess(meta.trackContacts)
+        || this.hasParentCreatorOverlap(meta, parentMeta, returnValue)
     }
     if (['Reviewed'].indexOf(meta.status) > -1 && this.hasRole(['publisher'])) {
-      if (meta.publisherDetails && meta.publisherDetails.length) {
-        meta.publisherDetails.forEach(v => {
-          if (v.id === this.userId) {
-            returnValue = true
-          }
-        })
-      }
-      if (!returnValue && parentMeta && parentMeta.creatorContacts && meta.creatorContacts) {
-        returnValue = parentMeta.creatorContacts.some(v =>
-          meta.creatorContacts.find(cv => cv.id === v.id),
-        )
-      }
+      returnValue = this.hasContactAccess(meta.publisherDetails)
+        || this.hasParentCreatorOverlap(meta, parentMeta, returnValue)
     }
     if (forPreview && meta.visibility === 'Public') {
       returnValue = true
     }
     return returnValue
+  }
+
+  private hasContactAccess(contacts?: { id: string }[]): boolean {
+    return Boolean(contacts && contacts.length && contacts.some(v => v.id === this.userId))
+  }
+
+  private hasParentCreatorOverlap(
+    meta: NSContent.IContentMeta,
+    parentMeta: NSContent.IContentMeta | undefined,
+    alreadyGranted: boolean,
+  ): boolean {
+    if (alreadyGranted || !parentMeta || !parentMeta.creatorContacts || !meta.creatorContacts) {
+      return alreadyGranted
+    }
+    return parentMeta.creatorContacts.some(v =>
+      meta.creatorContacts.find(cv => cv.id === v.id),
+    )
   }
 
   convertToISODate(date = ''): Date {
@@ -205,64 +196,58 @@ export class AccessControlService {
    * @returns { string } The mat icon to be displayed
    */
   getIcon(content: NSContent.IContentMeta | ISearchContent): string {
-    if (content.mimeType === MIME_TYPE.collection) {
-      if (this.getCategory(content) === 'Knowledge Board') {
-        return ICON_TYPE.kBoard
-      }
-      if (this.getCategory(content) === 'Learning Path') {
-        return ICON_TYPE.program
-      }
-      if (this.getCategory(content) === 'Course') {
-        return ICON_TYPE.course
-      }
-      return ICON_TYPE.learningModule
+    switch (content.mimeType) {
+      case MIME_TYPE.collection:
+        return this.getCollectionIcon(content)
+      case MIME_TYPE.html:
+        return this.getHtmlIcon(content)
+      case MIME_TYPE.pdf:
+        return content.artifactUrl ? ICON_TYPE.pdf : ICON_TYPE.emptyFile
+      case MIME_TYPE.youtube:
+        return ICON_TYPE.youtube
+      case MIME_TYPE.quiz:
+        return this.getCategoryType(content) === 'Assessment' ? ICON_TYPE.assessment : ICON_TYPE.quiz
+      case MIME_TYPE.dragDrop:
+        return ICON_TYPE.dragNDrop
+      case MIME_TYPE.htmlPicker:
+        return ICON_TYPE.htmlPicker
+      case MIME_TYPE.webModule:
+        return ICON_TYPE.internalContent
+      case MIME_TYPE.handson:
+        return ICON_TYPE.handsOn
+      case MIME_TYPE.iap:
+        return ICON_TYPE.iap
+      case MIME_TYPE.mp3:
+        return ICON_TYPE.audio
+      case MIME_TYPE.mp4:
+        return ICON_TYPE.video
+      default:
+        return ICON_TYPE.default
     }
-    if (content.mimeType === MIME_TYPE.html) {
-      if (content.resourceType === 'Certification') {
-        return ICON_TYPE.certificate
-      }
-      if (content.isExternal) {
-        return ICON_TYPE.externalContent
-      }
-      return ICON_TYPE.internalContent
+  }
+
+  private getCollectionIcon(content: NSContent.IContentMeta | ISearchContent): string {
+    const category = this.getCategory(content)
+    if (category === 'Knowledge Board') {
+      return ICON_TYPE.kBoard
     }
-    if (content.mimeType === MIME_TYPE.pdf) {
-      if (!content.artifactUrl) {
-        return ICON_TYPE.emptyFile
-      }
-      return ICON_TYPE.pdf
+    if (category === 'Learning Path') {
+      return ICON_TYPE.program
     }
-    if (content.mimeType === MIME_TYPE.youtube) {
-      return ICON_TYPE.youtube
+    if (category === 'Course') {
+      return ICON_TYPE.course
     }
-    if (content.mimeType === MIME_TYPE.quiz) {
-      if (this.getCategoryType(content) === 'Assessment') {
-        return ICON_TYPE.assessment
-      }
-      return ICON_TYPE.quiz
+    return ICON_TYPE.learningModule
+  }
+
+  private getHtmlIcon(content: NSContent.IContentMeta | ISearchContent): string {
+    if (content.resourceType === 'Certification') {
+      return ICON_TYPE.certificate
     }
-    if (content.mimeType === MIME_TYPE.dragDrop) {
-      return ICON_TYPE.dragNDrop
+    if (content.isExternal) {
+      return ICON_TYPE.externalContent
     }
-    if (content.mimeType === MIME_TYPE.htmlPicker) {
-      return ICON_TYPE.htmlPicker
-    }
-    if (content.mimeType === MIME_TYPE.webModule) {
-      return ICON_TYPE.internalContent
-    }
-    if (content.mimeType === MIME_TYPE.handson) {
-      return ICON_TYPE.handsOn
-    }
-    if (content.mimeType === MIME_TYPE.iap) {
-      return ICON_TYPE.iap
-    }
-    if (content.mimeType === MIME_TYPE.mp3) {
-      return ICON_TYPE.audio
-    }
-    if (content.mimeType === MIME_TYPE.mp4) {
-      return ICON_TYPE.video
-    }
-    return ICON_TYPE.default
+    return ICON_TYPE.internalContent
   }
 
   proxyToAuthoringUrl(value: string): string {

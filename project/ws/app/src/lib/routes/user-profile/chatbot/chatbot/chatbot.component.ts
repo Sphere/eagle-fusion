@@ -440,151 +440,181 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
+  private assignFieldIfNeeded(_chatFormValue: any) {
+    if (_chatFormValue.replymsg !== 'skip' && _chatFormValue.replymsg !== 'Mother/Family member' && _chatFormValue.replymsg !== 'No') {
+      this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
+    }
+  }
+
+  private determineNextId(message: any) {
+    this.nextId = this.chatArray[this.order].action['submit']
+    if (message === 'Midwives' || message === 'ANM' || message === 'GNM' || message === 'BSC Nurse') {
+      this.nextId = 'RNNumber'
+    }
+    if (message === 'Student') {
+      this.nextId = 'coursename'
+      this.profession = 'student'
+    }
+    if (message === 'Faculty') {
+      this.nextId = 'designation'
+      this.profession = 'faculty'
+    }
+    if (this.nextId === 'institutionName') {
+      this.showOptionFields = false
+      this.inputMsgEnabled = false
+    }
+  }
+
+  private applyNextIdTransitions(_chatFormValue: any, msg: any) {
+    let message = msg
+    if (this.nextId === 'proceed') {
+      if (_chatFormValue.replymsg === 'Mother/Family member') {
+        this.getConfirmation()
+      }
+      this.nextId = _chatFormValue.replymsg
+      message = _chatFormValue.replymsg
+      this.inputMsgEnabled = true
+      this.showConfirmedProfile = true
+    }
+
+    if (this.nextId === 'dob') {
+      this.showDatePicker = true
+    }
+
+    if (this.currentId === 'dob') {
+      message = moment(message).format('DD/MM/YYYY')
+    }
+
+    if (this.nextId === 'location') {
+      this.enableInputForDropdown = true
+      this.inputMsgEnabled = true
+      this.createChatForm.value.replymsg = ''
+      this.dropdownStatus = 'country'
+      this.showConfirmedProfile = true
+      this.disableLocation = false
+    }
+
+    if (this.currentId === 'location') {
+      this.enableInputForDropdown = false
+      this.showConfirmedProfile = true
+      this.showAddress = false
+    }
+
+    return message
+  }
+
+  private handleOthersSpecify(_chatFormValue: any) {
+    $('#user-input').val('')
+    this.showConfirmedProfile = false
+    this.createChatForm.reset(this.createChatFormFields().value)
+    if (this.nextId === 'end') {
+      this.nextId = 'organizationName'
+      this.skipButton = true
+    } else {
+      this.nextId = _chatFormValue.replymsg
+    }
+    this.nextQuestions()
+    this.sendQuestion(this.currentData1)
+    this.inputMsgEnabled = false
+    this.otherbtnactive = true
+    return this.nextId
+  }
+
+  private handleMobileAutofill(_chatFormValue: any): boolean {
+    if (this.nextId !== 'mobile' || !this.configSvc.userProfile) {
+      return false
+    }
+    const mobile: any = this.configSvc.userProfile.email
+    const mobileArray: any = mobile.split('@')
+    const numbers = /^[0-9]+$/
+    if (mobileArray[0].length === 10 && mobileArray[0].match(numbers)) {
+      _chatFormValue.replymsg = mobileArray[0]
+      this.mobileLogin = true
+      this.getChatResponse(_chatFormValue)
+      return true
+    }
+    return false
+  }
+
+  private handleNonSkipResponse(_chatFormValue: any, outputArea: any, message: any) {
+    if (_chatFormValue.replymsg === 'skip') {
+      this.createChatForm.reset(this.createChatFormFields().value)
+      this.skipButton = false
+      this.nextQuestions()
+      this.sendQuestion(this.currentData1)
+      return this.nextId
+    }
+
+    this.showTypingIcon = false
+    if (!this.mobileLogin) {
+      outputArea.append(`<div class="bot-message">
+        <div class="message">
+          ${message}
+          </div>
+        </div>`)
+    }
+    setTimeout(() => {
+      this.showTypingIcon = true
+    }, 1000)
+
+    if (this.nextId === 'end' && message !== 'skip') {
+      this.order = this.order - 1
+      this.inputMsgEnabled = true
+      this.getConfirmation()
+      return undefined
+    }
+    this.nextQuestions()
+
+    $('#user-input').val('')
+    this.createChatForm.reset(this.createChatFormFields().value)
+
+    if (this.handleMobileAutofill(_chatFormValue)) {
+      return undefined
+    }
+
+    this.mobileLogin = false
+    if (this.nextId !== 'end') {
+      this.sendQuestion(this.currentData1)
+    }
+    if (this.chatArray[this.order].required) {
+      this.skipButton = false
+    } else {
+      this.skipButton = true
+      this.showConfirmedProfile = false
+    }
+    this.scrollToBottom()
+    return undefined
+  }
+
   getChatResponse(_chatFormValue: any) {
     const outputArea = $('#chat-output')
     this.otherbtnactive = false
     this.inputMsgEnabled = false
-    const v = this.validateResponse(this.chatArray[this.order], _chatFormValue.replymsg)
-    if (_chatFormValue.replymsg !== 'skip' && _chatFormValue.replymsg !== 'Mother/Family member' && _chatFormValue.replymsg !== 'No') {
-      this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
+    const isValid = this.validateResponse(this.chatArray[this.order], _chatFormValue.replymsg)
+    this.assignFieldIfNeeded(_chatFormValue)
+
+    if (!isValid) {
+      return undefined
     }
 
-    if (v) {
-      let message = _chatFormValue.replymsg
+    let message = _chatFormValue.replymsg
+    this.determineNextId(message)
+    this.currentId = this.chatArray[this.order].id
+    this.order = this.order + 1
 
-      this.nextId = this.chatArray[this.order].action['submit']
-      if (message === 'Midwives' || message === 'ANM' || message === 'GNM' || message === 'BSC Nurse') {
-        this.nextId = 'RNNumber'
-      }
-      if (message === 'Student') {
-        this.nextId = 'coursename'
-        this.profession = 'student'
-      }
-      if (message === 'Faculty') {
-        this.nextId = 'designation'
-        this.profession = 'faculty'
-      }
-      if (this.nextId === 'institutionName') {
-        this.showOptionFields = false
-        this.inputMsgEnabled = false
-      }
-      this.currentId = this.chatArray[this.order].id
+    message = this.applyNextIdTransitions(_chatFormValue, message)
 
-      this.order = this.order + 1
-
-      if (this.nextId === 'proceed') {
-        if (_chatFormValue.replymsg === 'Mother/Family member') {
-          this.getConfirmation()
-        }
-        this.nextId = _chatFormValue.replymsg
-        message = _chatFormValue.replymsg
-        this.inputMsgEnabled = true
-        this.showConfirmedProfile = true
-      }
-
-      if (this.nextId === 'dob') {
-        this.showDatePicker = true
-      }
-
-      if (this.currentId === 'dob') {
-        message = moment(message).format('DD/MM/YYYY')
-      }
-
-      if (this.nextId === 'location') {
-        this.enableInputForDropdown = true
-        this.inputMsgEnabled = true
-        this.createChatForm.value.replymsg = ''
-        this.dropdownStatus = 'country'
-        this.showConfirmedProfile = true
-        this.disableLocation = false
-      }
-
-      if (this.currentId === 'location') {
-        this.enableInputForDropdown = false
-        this.showConfirmedProfile = true
-        this.showAddress = false
-      }
-
-      if (_chatFormValue.replymsg === 'Others - Please Specify') {
-        $('#user-input').val('')
-        this.showConfirmedProfile = false
-        this.createChatForm.reset(this.createChatFormFields().value)
-        if (this.nextId === 'end') {
-          this.nextId = 'organizationName'
-          this.skipButton = true
-        } else {
-          this.nextId = _chatFormValue.replymsg
-        }
-        this.nextQuestions()
-        this.sendQuestion(this.currentData1)
-        this.inputMsgEnabled = false
-        this.otherbtnactive = true
-        return this.nextId
-      }
-
-      if (_chatFormValue.replymsg === 'skip' && this.currentId === 'organizationName') {
-        this.skipButton = false
-        this.getConfirmation()
-      } else {
-        if (_chatFormValue.replymsg === 'skip') {
-          this.createChatForm.reset(this.createChatFormFields().value)
-          this.skipButton = false
-          this.nextQuestions()
-          this.sendQuestion(this.currentData1)
-          return this.nextId
-        }
-
-        this.showTypingIcon = false
-        if (!this.mobileLogin) {
-          outputArea.append(`<div class="bot-message">
-            <div class="message">
-              ${message}
-              </div>
-            </div>`)
-        }
-        setTimeout(() => {
-          this.showTypingIcon = true
-        }, 1000)
-
-        if (this.nextId === 'end' && message !== 'skip') {
-          message = _chatFormValue.replymsg
-          this.order = this.order - 1
-          this.inputMsgEnabled = true
-          this.getConfirmation()
-          return
-        }
-        this.nextQuestions()
-
-        $('#user-input').val('')
-        this.createChatForm.reset(this.createChatFormFields().value)
-
-        if (this.nextId === 'mobile') {
-          if (this.configSvc.userProfile) {
-            const mobile: any = this.configSvc.userProfile.email
-            const mobileArray: any = mobile.split('@')
-            const numbers = /^[0-9]+$/
-            if (mobileArray[0].length === 10 && mobileArray[0].match(numbers)) {
-              _chatFormValue.replymsg = mobileArray[0]
-              this.mobileLogin = true
-              this.getChatResponse(_chatFormValue)
-              return
-            }
-          }
-        }
-        this.mobileLogin = false
-        if (this.nextId !== 'end') {
-          this.sendQuestion(this.currentData1)
-        }
-        if (this.chatArray[this.order].required) {
-          this.skipButton = false
-        } else {
-          this.skipButton = true
-          this.showConfirmedProfile = false
-        }
-        this.scrollToBottom()
-      }
+    if (_chatFormValue.replymsg === 'Others - Please Specify') {
+      return this.handleOthersSpecify(_chatFormValue)
     }
 
+    if (_chatFormValue.replymsg === 'skip' && this.currentId === 'organizationName') {
+      this.skipButton = false
+      this.getConfirmation()
+      return undefined
+    }
+
+    return this.handleNonSkipResponse(_chatFormValue, outputArea, message)
   }
 
   nextQuestions() {
@@ -619,55 +649,66 @@ export class ChatbotComponent implements OnInit {
       this.scrollToBottom()
     }, 1000)
   }
+  private validateDobResponse(obj: any, msg: any): boolean {
+    this.showDatePicker = false
+    const dobMsg = moment(msg).format('DD/MM/YYYY')
+    const d1 = moment(new Date()).format('YYYY-MM-DD')
+    const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    // const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1900')
+
+    if (!(moment(d2).isBefore(d1)) || dobMsg.match(obj.data.regexPattern) == null) {
+      this.errMsg = obj.action.error
+      return false
+    }
+    return true
+  }
+
+  private validateStringResponse(obj: any, msg: any): boolean {
+    if (!obj.data.regex) {
+      return true
+    }
+
+    if (obj.id === 'dob') {
+      return this.validateDobResponse(obj, msg)
+    }
+
+    if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
+      this.errMsg = obj.action.error
+      return false
+    }
+    return true
+  }
+
+  private validateNumberResponse(obj: any, msg: any): boolean {
+    if (msg.length !== obj.data.length) {
+      this.errMsg = obj.action.error
+      return false
+    }
+    if (obj.data.regex) {
+      if (msg.match(obj.data.regexPattern) == null) {
+        this.errMsg = obj.action.error
+        return false
+      }
+      return true
+    }
+    if (this.errMsg) {
+      this.errMsg = ''
+      return true
+    }
+    return true
+  }
+
   validateResponse(obj: any, msg: any) {
     if (this.errMsg) {
       this.errMsg = ''
     }
     switch (obj.data.type[0]) {
-      case 'string': {
-        if (obj.data.regex) {
-          if (obj.id === 'dob') {
-            this.showDatePicker = false
-            const dobMsg = moment(msg).format('DD/MM/YYYY')
-            const d1 = moment(new Date()).format('YYYY-MM-DD')
-            const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
-            // const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1900')
-
-            if (!(moment(d2).isBefore(d1)) || dobMsg.match(obj.data.regexPattern) == null) {
-              this.errMsg = obj.action.error
-              return false
-            }
-            return true
-          }
-
-          if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
-            this.errMsg = obj.action.error
-            return false
-          }
-          return true
-
-        }
+      case 'string':
+        return this.validateStringResponse(obj, msg)
+      case 'number':
+        return this.validateNumberResponse(obj, msg)
+      default:
         return true
-      }
-      case 'number': {
-        if (msg.length !== obj.data.length) {
-          this.errMsg = obj.action.error
-          return false
-        }
-        if (obj.data.regex) {
-          if (msg.match(obj.data.regexPattern) == null) {
-            this.errMsg = obj.action.error
-            return false
-          }
-          return true
-        }
-        if (this.errMsg) {
-          this.errMsg = ''
-          return true
-        }
-        return true
-      }
-      default: return true
     }
   }
   scrollToBottom() {

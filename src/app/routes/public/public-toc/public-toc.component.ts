@@ -122,79 +122,95 @@ export class PublicTocComponent implements OnInit {
   async seachAPI(id: any): Promise<any> {
     try {
       const res = await firstValueFrom(this.orgService.getSearchResultsV7ById(id))
-      if (res) {
-        const found = find(res.result.content, (c: any) => c.identifier === id)
-        if (found) {
-          this.tocData = found
-          // Sunbird content/v1/search returns the rating count as totalNumberOfRatings;
-          // map it onto totalRatingsCount, which the SEO JSON-LD consumes.
-          this.tocData.totalRatingsCount ??= this.tocData.totalNumberOfRatings
-          this.cdr.detectChanges()
-          this.logger.log('findRes', found)
-
-          const courseUrl = `https://sphere.aastrika.org${this.router.url.split('?')[0]}`
-          const description = (this.tocData?.description || this.tocData?.name || '')
-            .replace(/<[^>]*>/g, '')
-            .slice(0, 160)
-            .trim()
-
-          const subjectArr: string[] = Array.isArray(this.tocData?.subject)
-            ? this.tocData.subject
-            : (this.tocData?.subject ? [this.tocData.subject] : [])
-          const keywordArr: string[] = Array.isArray(this.tocData?.keywords)
-            ? this.tocData.keywords
-            : (this.tocData?.keywords ? String(this.tocData.keywords).split(',').map((k: string) => k.trim()) : [])
-          const keywords = [
-            this.tocData?.name,
-            ...subjectArr,
-            ...keywordArr,
-            this.tocData?.sourceName,
-            'INC certificate',
-            'CNE credits',
-            'Aastrika Sphere',
-          ].filter(Boolean).join(', ')
-
-          const providerName = this.tocData?.sourceName || 'Aastrika Sphere'
-
-          this.seoSvc.update({
-            title: `${this.tocData?.name} | Free INC Course — ${providerName} | Aastrika Sphere`,
-            description: description
-              ? `${description} — Free INC-certified course by ${providerName}. Earn CNE points. No fees, no deadline.`.slice(0, 260)
-              : `${this.tocData?.name} — Free INC-certified online course by ${providerName} on Aastrika Sphere. Earn CNE points. No fees, no deadline.`,
-            keywords,
-            ogType: 'article',
-            ogUrl: courseUrl,
-            ogImage: this.tocData?.appIcon || this.tocData?.posterImage,
-            canonicalUrl: courseUrl,
-            jsonLd: {
-              '@context': 'https://schema.org',
-              '@type': 'Course',
-              'name': this.tocData?.name,
-              'description': description,
-              'url': courseUrl,
-              'provider': {
-                '@type': 'Organization',
-                'name': providerName,
-                'sameAs': 'https://sphere.aastrika.org',
-              },
-              ...(this.tocData?.averageRating ? {
-                'aggregateRating': {
-                  '@type': 'AggregateRating',
-                  'ratingValue': this.tocData.averageRating,
-                  'bestRating': 5,
-                  'ratingCount': this.tocData.totalRatingsCount || 1,
-                },
-              } : {}),
-            },
-          })
-
-          localStorage.setItem('tocData', JSON.stringify(this.tocData))
-          localStorage.setItem(`url_before_login`, `app/toc/${id}/overview`)
-        }
+      const found = res && find(res.result.content, (c: any) => c.identifier === id)
+      if (found) {
+        this.applyTocData(found, id)
       }
     } catch (e) {
       this.logger.error(e)
     }
     return this.tocData
+  }
+
+  private applyTocData(found: any, id: any): void {
+    this.tocData = found
+    // Sunbird content/v1/search returns the rating count as totalNumberOfRatings;
+    // map it onto totalRatingsCount, which the SEO JSON-LD consumes.
+    this.tocData.totalRatingsCount ??= this.tocData.totalNumberOfRatings
+    this.cdr.detectChanges()
+    this.logger.log('findRes', found)
+
+    this.updateSeoForToc()
+
+    localStorage.setItem('tocData', JSON.stringify(this.tocData))
+    localStorage.setItem(`url_before_login`, `app/toc/${id}/overview`)
+  }
+
+  private extractTocDescription(): string {
+    return (this.tocData?.description || this.tocData?.name || '')
+      .replace(/<[^>]*>/g, '')
+      .slice(0, 160)
+      .trim()
+  }
+
+  private buildTocKeywords(): string {
+    const subjectArr: string[] = Array.isArray(this.tocData?.subject)
+      ? this.tocData.subject
+      : (this.tocData?.subject ? [this.tocData.subject] : [])
+    const keywordArr: string[] = Array.isArray(this.tocData?.keywords)
+      ? this.tocData.keywords
+      : (this.tocData?.keywords ? String(this.tocData.keywords).split(',').map((k: string) => k.trim()) : [])
+    return [
+      this.tocData?.name,
+      ...subjectArr,
+      ...keywordArr,
+      this.tocData?.sourceName,
+      'INC certificate',
+      'CNE credits',
+      'Aastrika Sphere',
+    ].filter(Boolean).join(', ')
+  }
+
+  private buildTocJsonLd(courseUrl: string, description: string, providerName: string): any {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Course',
+      'name': this.tocData?.name,
+      'description': description,
+      'url': courseUrl,
+      'provider': {
+        '@type': 'Organization',
+        'name': providerName,
+        'sameAs': 'https://sphere.aastrika.org',
+      },
+      ...(this.tocData?.averageRating ? {
+        'aggregateRating': {
+          '@type': 'AggregateRating',
+          'ratingValue': this.tocData.averageRating,
+          'bestRating': 5,
+          'ratingCount': this.tocData.totalRatingsCount || 1,
+        },
+      } : {}),
+    }
+  }
+
+  private updateSeoForToc(): void {
+    const courseUrl = `https://sphere.aastrika.org${this.router.url.split('?')[0]}`
+    const description = this.extractTocDescription()
+    const keywords = this.buildTocKeywords()
+    const providerName = this.tocData?.sourceName || 'Aastrika Sphere'
+
+    this.seoSvc.update({
+      title: `${this.tocData?.name} | Free INC Course — ${providerName} | Aastrika Sphere`,
+      description: description
+        ? `${description} — Free INC-certified course by ${providerName}. Earn CNE points. No fees, no deadline.`.slice(0, 260)
+        : `${this.tocData?.name} — Free INC-certified online course by ${providerName} on Aastrika Sphere. Earn CNE points. No fees, no deadline.`,
+      keywords,
+      ogType: 'article',
+      ogUrl: courseUrl,
+      ogImage: this.tocData?.appIcon || this.tocData?.posterImage,
+      canonicalUrl: courseUrl,
+      jsonLd: this.buildTocJsonLd(courseUrl, description, providerName),
+    })
   }
 }

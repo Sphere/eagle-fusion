@@ -603,53 +603,60 @@ export class LearningComponent implements OnInit, OnDestroy {
     })
   }
 
+  private runFallbackSearch(useLegacyRequest: boolean, didYouMean: boolean, exactFlag?: boolean) {
+    if (useLegacyRequest) {
+      this.getResults(exactFlag, didYouMean)
+    } else {
+      this.getSearchResults(exactFlag, didYouMean)
+    }
+  }
+
+  private handleNoResultsWithSpace(useLegacyRequest: boolean, didYouMean: boolean, withQuotes?: boolean): boolean {
+    if (!this.applyPhraseSearch) {
+      this.noContent = true
+      return false
+    }
+
+    if (withQuotes) {
+      this.noContent = true
+      return false
+    }
+
+    this.runFallbackSearch(useLegacyRequest, didYouMean, true)
+    return true
+  }
+
   private handleEmptyStateAndFallbacks(
     didYouMean: boolean,
     withQuotes?: boolean,
     useLegacyRequest = false,
   ): boolean {
     const query = useLegacyRequest ? this.searchRequestObject.request.query : this.newSearchRequestObject.query
+    const noResults = this.searchResults.result.count === 0
+    const hasSpace = query.indexOf(' ') > -1
 
-    if (this.searchResults.result.count === 0 && this.isDefaultFilterApplied) {
+    if (noResults && this.isDefaultFilterApplied) {
       this.removeDefaultFiltersApplied()
-      useLegacyRequest ? this.getResults(undefined, didYouMean) : this.getSearchResults(undefined, didYouMean)
+      this.runFallbackSearch(useLegacyRequest, didYouMean)
       return true
     }
 
-    if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
+    if (noResults && this.searchAcrossPreferredLang && this.expandToPrefLang) {
       this.searchWithPreferredLanguage()
-      useLegacyRequest ? this.getResults(undefined, didYouMean) : this.getSearchResults(undefined, didYouMean)
+      this.runFallbackSearch(useLegacyRequest, didYouMean)
       return true
     }
 
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') === -1) {
+    if (noResults && !hasSpace) {
       this.noContent = true
       return false
     }
 
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') === -1) {
-      useLegacyRequest
-        ? this.getResults(true, didYouMean)
-        : this.getSearchResults(true, didYouMean)
-      return true
+    if (noResults && hasSpace) {
+      return this.handleNoResultsWithSpace(useLegacyRequest, didYouMean, withQuotes)
     }
 
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && !this.applyPhraseSearch) {
-      this.noContent = true
-      return false
-    }
-
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && withQuotes) {
-      this.noContent = true
-      return false
-    }
-
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && this.applyPhraseSearch) {
-      useLegacyRequest ? this.getResults(true, didYouMean) : this.getSearchResults(true, didYouMean)
-      return true
-    }
-
-    if (this.searchResults.result.count > 0 && query.indexOf(' ') > -1 && !this.exactResult.applied) {
+    if (!noResults && hasSpace && !this.exactResult.applied) {
       this.exactResult.show = true
       this.exactResult.text = query.replace(/['"]+/g, '')
     }
