@@ -500,7 +500,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
-      let language = this.configSvc.userProfile.language || this.orgDetails.defaultLang || 'hi'
+      let language = this.configSvc.userProfile?.language || this.orgDetails.defaultLang || 'hi'
       this.langSvc.setLanguage(language)
       const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
       this.programConfig = this.playlistSvc.programs()
