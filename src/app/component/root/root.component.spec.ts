@@ -239,6 +239,7 @@ function buildMocks(overrides: any = {}) {
     hasStoredPreference: jest.fn().mockReturnValue(false), applyOrgTheme: jest.fn(),
   }
   const mockSeoSvc = { update: jest.fn() }
+  const mockLangSvc = { setLanguage: jest.fn() }
 
   const comp = new RootComponent(
     mockRouter as any,
@@ -268,13 +269,14 @@ function buildMocks(overrides: any = {}) {
     mockThemeSvc as any,
     mockSeoSvc as any,
     'server' as any,
+    mockLangSvc as any,
   )
 
   return {
     comp, routerEvents$, showNavbarDisplay$, hideHeaderFooter$,
     mockRouter, mockConfigSvc, mockTelemetrySvc, mockLogger, mockSeoSvc,
     mockChangeDetector, mockLoginServ, mockExploreService, mockBtnBackSvc,
-    mockDowntimeService, mockPlaylistSvc, mockThemeSvc, mockUserProfileSvc,
+    mockDowntimeService, mockPlaylistSvc, mockThemeSvc, mockUserProfileSvc, mockLangSvc,
     mockContentSvc, mockViewerSvc, mockCompetencyConfigSvc, mockValueSvc, mockUserAgentSvc,
     mockMobileAppsSvc, mockUserDataCacheSvc,
   }
