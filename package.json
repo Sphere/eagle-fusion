@@ -37,7 +37,7 @@
   },
   "private": true,
   "dependencies": {
-    "@aastrika_npmjs/comptency": "^2.0.0",
+    "@aastrika_npmjs/comptency": "^2.1.1",
     "@aastrika_npmjs/discussions-ui-v8": "^5.0.1",
     "@angular/animations": "^21.2.7",
     "@angular/cdk": "^21.2.5",
