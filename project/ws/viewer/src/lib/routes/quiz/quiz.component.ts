@@ -8,11 +8,11 @@ import { WsEvents, EventService } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-    standalone: false,
-    selector: 'viewer-quiz',
-    templateUrl: './quiz.component.html',
-    styleUrls: ['./quiz.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-quiz',
+  templateUrl: './quiz.component.html',
+  styleUrls: ['./quiz.component.scss'],
+
 })
 export class QuizComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
@@ -26,6 +26,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     timeLimit: 0,
     questions: [],
     isAssessment: false,
+    passPercentage: 60
   }
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -114,11 +115,12 @@ export class QuizComponent implements OnInit, OnDestroy {
       const quizJSON = await this.fetchAndNormalizeQuiz(artifactUrl)
       this.viewSvc.competencyAsessment.next(true)
       return quizJSON
+    } {
+      const artifactUrl = this.forPreview
+        ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
+        : this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1])
+      return this.fetchAndNormalizeQuiz(artifactUrl)
     }
-    const artifactUrl = this.forPreview
-      ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
-      : content.artifactUrl
-    return this.fetchAndNormalizeQuiz(artifactUrl)
   }
 
   private buildCompetencyArtifactUrl(content: NsContent.IContent): string {

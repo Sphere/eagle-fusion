@@ -69,6 +69,7 @@ import { TranslateService } from '@ngx-translate/core'
 import { PlaylistService } from '../../services/playlist.service'
 import { DowntimeConfigService } from '../../services/downtime-config.service'
 import { ThemeService } from '../../services/theme.service'
+import { LanguageService } from '../../services/language.service'
 
 @Component({
   standalone: false,
@@ -155,7 +156,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly downtimeService: DowntimeConfigService,
     private readonly themeSvc: ThemeService,
     private readonly seoSvc: SeoService,
-    @Inject(PLATFORM_ID) private readonly platformId: object
+    @Inject(PLATFORM_ID) private readonly platformId: object,
+    private readonly langSvc: LanguageService
   ) {
     const isBrowser = isPlatformBrowser(this.platformId)
     this.userEnrollCourse = toSignal(
@@ -506,6 +508,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
+      let language = this.configSvc.userProfile?.language || this.orgDetails?.defaultLang || 'hi'
+      this.langSvc.setLanguage(language)
       const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
       this.programConfig = this.playlistSvc.programs()
       this.hasProgramConfig = !!this.programConfig && Object.keys(this.programConfig).length > 0

@@ -9,11 +9,11 @@ import { ActivatedRoute } from '@angular/router'
 import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-assessment-detail',
-    templateUrl: './assessment-detail.component.html',
-    styleUrls: ['./assessment-detail.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-assessment-detail',
+  templateUrl: './assessment-detail.component.html',
+  styleUrls: ['./assessment-detail.component.scss'],
+
 })
 export class AssessmentDetailComponent implements OnInit {
 
@@ -125,7 +125,7 @@ export class AssessmentDetailComponent implements OnInit {
     if (content.artifactUrl) {
       const artifactUrl = this.forPreview
         ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
-        : content.artifactUrl
+        : this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1])
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()
@@ -153,7 +153,7 @@ export class AssessmentDetailComponent implements OnInit {
       ).toPromise()
       const artifactUrl = this.forPreview
         ? this.viewSvc.getAuthoringUrl(contents.result.content.artifactUrl)
-        : contents.result.content.artifactUrl
+        : this.viewSvc.getCompetencyAuthoringUrl(contents.result.content.artifactUrl.split('/content')[1])
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()

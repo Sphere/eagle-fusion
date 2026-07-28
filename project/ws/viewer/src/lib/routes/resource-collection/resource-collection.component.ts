@@ -8,11 +8,11 @@ import { EventService, WsEvents } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-    standalone: false,
-    selector: 'viewer-resource-collection',
-    templateUrl: './resource-collection.component.html',
-    styleUrls: ['./resource-collection.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-resource-collection',
+  templateUrl: './resource-collection.component.html',
+  styleUrls: ['./resource-collection.component.scss'],
+
 })
 export class ResourceCollectionComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
@@ -89,7 +89,7 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
     if (this.resourceCollectionData && this.resourceCollectionData.artifactUrl) {
       const artifactUrl = this.forPreview
         ? this.viewSvc.getAuthoringUrl(this.resourceCollectionData.artifactUrl)
-        : this.resourceCollectionData.artifactUrl
+        : this.viewSvc.getCompetencyAuthoringUrl(this.resourceCollectionData.artifactUrl.split('/content')[1])
       manifestFile = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()
