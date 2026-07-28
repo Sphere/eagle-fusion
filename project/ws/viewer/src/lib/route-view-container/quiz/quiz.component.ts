@@ -6,11 +6,11 @@ import { PlayerStateService } from '../../player-state.service'
 import { ValueService } from '@ws-widget/utils'
 
 @Component({
-    standalone: false,
-    selector: 'viewer-quiz-container',
-    templateUrl: './quiz.component.html',
-    styleUrls: ['./quiz.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-quiz-container',
+  templateUrl: './quiz.component.html',
+  styleUrls: ['./quiz.component.scss'],
+
 })
 export class QuizComponent implements OnInit {
   @Input() isFetchingDataComplete = false
@@ -21,6 +21,7 @@ export class QuizComponent implements OnInit {
     timeLimit: 0,
     questions: [],
     isAssessment: false,
+    passPercentage: 0
   }
   @Input() isPreviewMode = false
   stateChange = false

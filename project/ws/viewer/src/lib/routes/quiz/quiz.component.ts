@@ -8,11 +8,11 @@ import { WsEvents, EventService } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-    standalone: false,
-    selector: 'viewer-quiz',
-    templateUrl: './quiz.component.html',
-    styleUrls: ['./quiz.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-quiz',
+  templateUrl: './quiz.component.html',
+  styleUrls: ['./quiz.component.scss'],
+
 })
 export class QuizComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
@@ -26,6 +26,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     timeLimit: 0,
     questions: [],
     isAssessment: false,
+    passPercentage: 60
   }
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -148,7 +149,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     } {
       const artifactUrl = this.forPreview
         ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
-        : content.artifactUrl
+        : this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1])
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()

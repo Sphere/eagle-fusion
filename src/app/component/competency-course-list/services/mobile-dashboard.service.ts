@@ -104,8 +104,11 @@ export class MobileDashboardService {
       map(({ searchResult, progress }) => {
         // Enrich titles from search results — never reduces count
         const rawCourses: any[] = searchResult?.result?.content || searchResult?.content || []
-        if (rawCourses.length) {
-          const named = this.getFormattedCompetencyCoursesWithFilter(rawCourses, competencyLevels, competencyIds)
+        const named = rawCourses.length
+          ? this.getFormattedCompetencyCoursesWithFilter(rawCourses, competencyLevels, competencyIds)
+          : []
+
+        if (named.length > 0) {
           named.forEach((n: any) => {
             const key = String(n.competencyID)
             if (competencyMap.has(key)) {
@@ -118,10 +121,12 @@ export class MobileDashboardService {
               })
             }
           })
+          const enrichedCourses = Array.from(competencyMap.values())
+          const withProgress = this.mergeProgressData(enrichedCourses, progress?.data || [])
+          return this.setCoursesState(withProgress)
         }
-        const enrichedCourses = Array.from(competencyMap.values())
-        const withProgress = this.mergeProgressData(enrichedCourses, progress?.data || [])
-        return this.setCoursesState(withProgress)
+
+        return empty
       }),
       catchError(() => {
         const withProgress = this.mergeProgressData(courses, [])

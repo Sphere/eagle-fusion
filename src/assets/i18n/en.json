@@ -988,5 +988,6 @@
   "LEVELS": "Levels:",
   "FAIL_ASSESSMENT": "Self Assessment not cleared",
   "RELEVANT_COURSES": "View Relevant Courses",
-  "GO_TO_COMPETENCY": "Go to Competency Dashboard"
+  "GO_TO_COMPETENCY": "Go to Competency Dashboard",
+  "UNITS": "UNITS"
 }
