@@ -534,8 +534,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.changeDetector.markForCheck()
     } catch (error) {
       this.logger.error('Error setting up form data:', error)
-      // Set safe defaults - page can still render with router-outlet
-      // this.orgDetails = {}
       this.footerConfig = {}
     }
   }

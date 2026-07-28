@@ -115,7 +115,6 @@ export class DiscussionForumComponent extends WidgetBaseComponent
               ; (this.discussionRequest.pgNo as number) += 1
           } else {
             this.discussionFetchStatus = 'done'
-            // this.fetchAllPosts()
           }
         } else if (!this.discussionResult.result.length) {
           this.discussionFetchStatus = 'none'

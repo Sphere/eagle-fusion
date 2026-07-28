@@ -825,7 +825,6 @@ export class LearningComponent implements OnInit, OnDestroy {
     const trainingLHubEnabled = restrictedFeatures && !restrictedFeatures.has('trainingLHub')
 
     if (trainingLHubEnabled) {
-      // this.trainingSvc.getTrainingCountsForSearchResults(searchResults)
     }
   }
 
@@ -834,7 +833,6 @@ export class LearningComponent implements OnInit, OnDestroy {
     const trainingLHubEnabled = restrictedFeatures && !restrictedFeatures.has('trainingLHub')
 
     if (trainingLHubEnabled) {
-      // this.trainingSvc.getTrainingCountsForSearchResults(searchResults)
     }
   }
 }

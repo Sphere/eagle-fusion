@@ -3,14 +3,9 @@ import { isPlatformBrowser } from '@angular/common'
 
 import { Subject } from 'rxjs'
 
-// import * as _ from 'lodash'
-// import { takeUntil } from 'rxjs/operators'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
-// import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
-
-// import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
     standalone: false,

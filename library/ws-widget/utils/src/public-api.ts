@@ -21,7 +21,6 @@ export * from './lib/pipes/pipe-html-tag-removal/pipe-html-tag-removal.module'
 export * from './lib/pipes/pipe-limit-to/pipe-limit-to.module'
 export * from './lib/pipes/pipe-name-transform/pipe-name-transform.module'
 export * from './lib/pipes/pipe-partial-content/pipe-partial-content.module'
-export * from './lib/pipes/pipe-safe-sanitizer/pipe-safe-sanitizer.module'
 export * from './lib/resolvers/explore-detail.resolver'
 export * from './lib/resolvers/marketing-offering.resolve'
 // resolvers

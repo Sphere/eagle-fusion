@@ -82,16 +82,19 @@ export class SafeResourceUrlService {
     return this.sanitizer.bypassSecurityTrustHtml(value)
   }
 
+  // Only raster formats, and only base64-encoded — excludes svg+xml (can embed <script>)
+  // and excludes non-base64 data: URIs (which could carry literal markup/JS as text).
+  private static readonly SAFE_DATA_IMAGE = /^data:image\/(png|jpe?g|gif|webp);base64,/i
+
   private isHttpOrHttps(url: string): boolean {
-    if (url.startsWith("data:image")) {
+    if (SafeResourceUrlService.SAFE_DATA_IMAGE.test(url)) {
       return true
-    } else {
-      try {
-        const { protocol } = new URL(url, window.location.origin)
-        return protocol === 'https:' || protocol === 'http:'
-      } catch {
-        return false
-      }
+    }
+    try {
+      const { protocol } = new URL(url, window.location.origin)
+      return protocol === 'https:' || protocol === 'http:'
+    } catch {
+      return false
     }
   }
 }

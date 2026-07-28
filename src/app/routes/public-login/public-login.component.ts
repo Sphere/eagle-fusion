@@ -508,14 +508,11 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     if (form.status === "VALID") {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
-      // const validphone = /^[6-9]\d{9}$/.test(phone)
       phone = phone.replace(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
-        // this.otpPage = true
         type = 'phone'
         this.emailPhoneType = 'phone'
       } else {
-        // this.otpPage = true
         const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )

@@ -63,12 +63,10 @@ export class TncComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
-        // this.configSvc.isNewUser = Boolean(this.tncData && this.tncData.isNewUser)
         this.isPublic = response.isPublic || false
         this.cdr.markForCheck()
       } else {
         this.router.navigate(['error-service-unavailable'])
-        // this.errorFetchingTnc = true
       }
     })
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails) {
@@ -76,24 +74,10 @@ export class TncComponent implements OnInit, OnDestroy {
     } else {
       this.userId = false
     }
-    // this.createUserForm = this.createTncFormFields()
   }
   homePage() {
     this.logger.log(this.configSvc)
   }
-  // createTncFormFields() {
-  //   return new FormGroup({
-  //     tncAccepted: new FormControl(''),
-  //     firstname: new FormControl('', []),
-  //     middlename: new FormControl('', []),
-  //     surname: new FormControl('', []),
-  //     mobile: new FormControl('', []),
-  //     telephone: new FormControl('', []),
-  //     primaryEmail: new FormControl('', []),
-  //     primaryEmailType: new FormControl('', []),
-  //     dob: new FormControl('', []),
-  //   })
-  // }
 
   ngOnDestroy() {
     if (this.routeSubscription) {

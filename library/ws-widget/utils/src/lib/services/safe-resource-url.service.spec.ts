@@ -44,6 +44,25 @@ describe('SafeResourceUrlService', () => {
       expect(result).toBeNull()
     })
 
+    it('should trust a base64-encoded raster data:image url (e.g. a generated certificate image)', () => {
+      const dataUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA'
+      const result = service.trust(dataUrl)
+      expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(dataUrl)
+      expect(result).toEqual({ safe: dataUrl })
+    })
+
+    it('should block a data:image/svg+xml url (SVG can embed <script>)', () => {
+      const result = service.trust('data:image/svg+xml;base64,PHN2ZyBvbmxvYWQ9YWxlcnQoMSk+')
+      expect(mockSanitizer.bypassSecurityTrustResourceUrl).not.toHaveBeenCalled()
+      expect(result).toBeNull()
+    })
+
+    it('should block a non-base64 data:image url even with a safe-looking MIME type', () => {
+      const result = service.trust('data:image/png,<script>alert(1)</script>')
+      expect(mockSanitizer.bypassSecurityTrustResourceUrl).not.toHaveBeenCalled()
+      expect(result).toBeNull()
+    })
+
     it('should return null for empty/undefined/null input', () => {
       expect(service.trust('')).toBeNull()
       expect(service.trust(undefined)).toBeNull()
@@ -93,6 +112,19 @@ describe('SafeResourceUrlService', () => {
 
     it('should block a javascript: url', () => {
       const result = service.trustUrl('javascript:alert(1)')
+      expect(mockSanitizer.bypassSecurityTrustUrl).not.toHaveBeenCalled()
+      expect(result).toBeNull()
+    })
+
+    it('should trust a base64-encoded certificate image data url', () => {
+      const dataUrl = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD'
+      const result = service.trustUrl(dataUrl)
+      expect(mockSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith(dataUrl)
+      expect(result).toEqual({ safeUrl: dataUrl })
+    })
+
+    it('should block a data:image/svg+xml url', () => {
+      const result = service.trustUrl('data:image/svg+xml;base64,PHN2ZyBvbmxvYWQ9YWxlcnQoMSk+')
       expect(mockSanitizer.bypassSecurityTrustUrl).not.toHaveBeenCalled()
       expect(result).toBeNull()
     })

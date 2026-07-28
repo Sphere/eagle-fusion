@@ -204,16 +204,6 @@ export class ChatbotComponent implements OnInit {
       (_err: any) => {
       })
 
-    // this.userProfileSvc.getProfilePageMeta().subscribe(
-    //   data => {
-    // this.states = data.states
-    // this.states.map((i: any) => {
-    //   this.statesArr.push(i.name)
-    // })
-    // },
-    // (_err: any) => {
-    // })
-
     this.http.get(this.stateUrl).subscribe((data: any) => {
       this.states = data.states
       this.states.forEach((i: any) => {
@@ -405,7 +395,6 @@ export class ChatbotComponent implements OnInit {
     this.fetchMeta()
     this.showConfirmedProfile = false
     this.inputMsgEnabled = false
-    // this.showConfirmedProfile = false
     this.hideInputField = true
     this.profession = ''
     this.studentInstitute = ''
@@ -654,7 +643,6 @@ export class ChatbotComponent implements OnInit {
     const dobMsg = moment(msg).format('DD/MM/YYYY')
     const d1 = moment(new Date()).format('YYYY-MM-DD')
     const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
-    // const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1900')
 
     if (!(moment(d2).isBefore(d1)) || dobMsg.match(obj.data.regexPattern) == null) {
       this.errMsg = obj.action.error
@@ -1027,7 +1015,6 @@ export class ChatbotComponent implements OnInit {
         this.updateBtnProfileName(profileRequest.profileReq.personalDetails.firstname)
         this.createChatForm.reset(this.createChatFormFields().value)
         this.configSvc.profileDetailsStatus = true
-        // const res = data.toString()
         this.openSnackbar('User profile details updated successfully!')
         setTimeout(() => {
           this.retryProfile()

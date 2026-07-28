@@ -151,7 +151,6 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     const orgConfig = this.configSvc.orgSelectiveCourseConfig
     const route = item.redirect
     const titleKey = item.title.toLowerCase().replace(/\s+/g, '')
-    // this.navOption.changeNavBarActive(titleKey)
 
     switch (titleKey) {
       case 'home':

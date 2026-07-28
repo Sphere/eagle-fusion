@@ -55,10 +55,6 @@ export class SearchRootComponent implements OnInit {
   routeTabs(tab: number) {
     this.selectedIndex = tab
     this.router.navigateByUrl(`/app/search/${this.searchTabs.routeValue[tab]}`)
-    // this.router.navigate([this.searchTabs.routeValue[tab]], {
-    //   queryParams: { q: this.searchRequest.query },
-    //   relativeTo: this.activated.parent,
-    // })
   }
   hasKeys(object: object): boolean {
     if (object && Object.keys(object) && Object.keys(object).length) {

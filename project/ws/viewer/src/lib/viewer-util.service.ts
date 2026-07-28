@@ -13,7 +13,9 @@ import { API_END_POINTS } from '../../../../../src/app/constants/apiConstants'
   providedIn: 'root',
 })
 export class ViewerUtilService {
-  downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
+  // Character classes exclude the terminating quote/backslash so the group can't
+  // backtrack ambiguously against the trailing optional chars — bounds worst-case cost.
+  downloadRegex = new RegExp(`(/content-store/[^'"\\\\]*?)(\\\)?\\\\?['"])`, 'gm')
   authoringBase = '/apis/authContent/'
   competencyAsessment = new BehaviorSubject<any>(false)
   competencyAsessment$ = this.competencyAsessment.asObservable()

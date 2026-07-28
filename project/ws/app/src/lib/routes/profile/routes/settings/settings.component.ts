@@ -122,11 +122,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
       )
       this.intranetContentForm.setValue(this.isIntranetAllowed)
       this.updateActiveStatus()
-      // this.modeChangeSubs = this.intranetContentForm.valueChanges
-      //   .pipe(distinctUntilChanged(), debounceTime(150))
-      // .subscribe((isIntranet: boolean) => {
-      // this.btnSettingsSvc.intranetContentMode(isIntranet)
-      // })
       this.prefChangeSubs = this.configSvc.prefChangeNotifier
         .pipe(debounceTime(100))
         .subscribe(() => {
@@ -176,13 +171,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
     return 'not_interested'
   }
-
-  // changeFont(fontClass: string) {
-  //   this.btnSettingsSvc.changeFont(fontClass)
-  // }
-  // changeTheme(themeKey: string) {
-  //   this.btnSettingsSvc.changeTheme(themeKey)
-  // }
 
   private updateActiveStatus() {
     this.intranetContentForm.setValue(this.configSvc.isIntranetAllowed)

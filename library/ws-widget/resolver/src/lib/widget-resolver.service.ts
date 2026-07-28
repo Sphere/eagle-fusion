@@ -73,12 +73,6 @@ export class WidgetResolverService {
     this.availableRegisteredWidgets = registrationConfig
 
     this.isInitialized = true
-    // this.loggerSvc.log(
-    //   `Widget Configurations`,
-    //   this.globalConfig,
-    //   this.scopedConfig,
-    //   this.availableRegisteredWidgets,
-    // )
   }
 
   resolveWidget(

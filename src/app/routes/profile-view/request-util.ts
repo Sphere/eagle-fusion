@@ -1,6 +1,5 @@
 import { get, find } from 'lodash'
 
-// import { changeformat } from '../../../../project/ws/app/src/public-api'
 const buildPersonalDetails = (form: any, userProfileData: any, userAgent: any, userCookies: any) => ({
   firstname: get(form, 'firstname') ? form.firstname : userProfileData.personalDetails.firstname || "",
   middlename: get(form, 'middlename') ? form.middlename : userProfileData.personalDetails.middlename || "",

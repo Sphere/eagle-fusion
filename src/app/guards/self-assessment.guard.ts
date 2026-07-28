@@ -105,7 +105,6 @@ export class SelfAssessmentGuard {
           })
         )
         .subscribe((res: any) => {
-          // console.log('self assesment guard ',res)
           if (_.get(res, 'batchId')) {
             this.batchId = _.get(res, 'batchId')
           }

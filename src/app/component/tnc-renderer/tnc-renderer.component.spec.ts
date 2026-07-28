@@ -7,15 +7,16 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core' // Import CUSTOM_ELEMENTS
 import { MatIconModule } from '@angular/material/icon' // Import MatIconModule
 import { MatMenuModule } from '@angular/material/menu' // Import MatMenuModule
 import { HttpClientTestingModule } from '@angular/common/http/testing' // Import HttpClientTestingModule
-import { PipeSafeSanitizerPipe } from '../../../../library/ws-widget/utils/src/lib/pipes/pipe-safe-sanitizer/pipe-safe-sanitizer.pipe'
+import { SafeResourceUrlService } from '../../../../library/ws-widget/utils/src/lib/services/safe-resource-url.service'
 
 describe('TncRendererComponent', () => {
   let component: TncRendererComponent
   let fixture: ComponentFixture<TncRendererComponent>
+  const mockSafeResourceUrlSvc = { trustHtml: jest.fn().mockImplementation(value => ({ trusted: value })) }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TncRendererComponent, PipeSafeSanitizerPipe], // Declare your custom pipe
+      declarations: [TncRendererComponent],
       imports: [MatIconModule, MatMenuModule, HttpClientTestingModule], // Import MatIconModule, MatMenuModule, HttpClientTestingModule
       providers: [
         {
@@ -25,6 +26,7 @@ describe('TncRendererComponent', () => {
           },
         },
         ConfigurationsService,
+        { provide: SafeResourceUrlService, useValue: mockSafeResourceUrlSvc },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA], // Add CUSTOM_ELEMENTS_SCHEMA to suppress unknown element errors
     }).compileComponents()
@@ -114,7 +116,7 @@ describe('TncRendererComponent', () => {
 
   describe('constructor restrictedFeatures branch', () => {
     const makeCmp = (config: any, route: any) =>
-      new TncRendererComponent(config, route, { markForCheck: jest.fn() } as any)
+      new TncRendererComponent(config, route, { markForCheck: jest.fn() } as any, mockSafeResourceUrlSvc as any)
 
     it('should set termsOfUser false when restrictedFeatures has termsOfUser', () => {
       const cmp = makeCmp({ restrictedFeatures: new Set(['termsOfUser']) }, { queryParams: of({}) })
@@ -142,14 +144,14 @@ describe('TncRendererComponent', () => {
     } as any
 
     it('should set currentPanel to dp when panel=dp and dpTnc not accepted', () => {
-      const cmp = new TncRendererComponent({}, { queryParams: of({ panel: 'dp' }) } as any, { markForCheck: jest.fn() } as any)
+      const cmp = new TncRendererComponent({}, { queryParams: of({ panel: 'dp' }) } as any, { markForCheck: jest.fn() } as any, mockSafeResourceUrlSvc as any)
       cmp.tncData = tncData
       cmp.ngOnInit()
       expect(cmp.currentPanel).toBe('dp')
     })
 
     it('should set currentPanel to tnc when panel=tnc and generalTnc not accepted', () => {
-      const cmp = new TncRendererComponent({}, { queryParams: of({ panel: 'tnc' }) } as any, { markForCheck: jest.fn() } as any)
+      const cmp = new TncRendererComponent({}, { queryParams: of({ panel: 'tnc' }) } as any, { markForCheck: jest.fn() } as any, mockSafeResourceUrlSvc as any)
       cmp.currentPanel = 'dp'
       cmp.tncData = tncData
       cmp.ngOnInit()
@@ -158,7 +160,7 @@ describe('TncRendererComponent', () => {
 
     it('should not switch panel when tncData already accepted', () => {
       const accepted = { ...tncData, isAccepted: true }
-      const cmp = new TncRendererComponent({}, { queryParams: of({ panel: 'dp' }) } as any, { markForCheck: jest.fn() } as any)
+      const cmp = new TncRendererComponent({}, { queryParams: of({ panel: 'dp' }) } as any, { markForCheck: jest.fn() } as any, mockSafeResourceUrlSvc as any)
       cmp.tncData = accepted
       cmp.ngOnInit()
       expect(cmp.currentPanel).toBe('tnc')

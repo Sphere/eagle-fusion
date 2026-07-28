@@ -210,7 +210,6 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   ngAfterViewInit() {
-    // this.assignThumbnail()
     this.offSetXValue = 290
     this.offSetYValue = -340
   }

@@ -730,7 +730,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       mergeData(this.collection.children)
     }
-    // this.isLoading = false
     this.updateResourceChange()
   }
 

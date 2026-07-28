@@ -7,7 +7,8 @@ import {
   Input,
   OnChanges,
 } from '@angular/core'
-import { SafeUrl } from '@angular/platform-browser'
+import { SafeResourceUrl } from '@angular/platform-browser'
+import { SafeResourceUrlService } from '@ws-widget/utils'
 
 export interface IPreviewDevice {
   value: string
@@ -29,7 +30,8 @@ export class ViewerComponent implements AfterViewInit, OnChanges {
   @ViewChild('desktop', { static: true }) desktop: ElementRef<any> | null = null
   @Input() identifier: string | null = null
   @Input() mimeTypeRoute: string | null = null
-  iframeUrl: SafeUrl = `author/toc/${this.identifier}/overview`
+  rawIframeUrl = `author/toc/${this.identifier}/overview`
+  iframeUrl: SafeResourceUrl | null = null
   previewDevices: IPreviewDevice[] = [
     {
       value: 'mobile',
@@ -55,18 +57,24 @@ export class ViewerComponent implements AfterViewInit, OnChanges {
     },
   ]
   selected: IPreviewDevice = this.previewDevices[2]
-  constructor(private readonly accessControlSvc: AccessControlService) { }
+  constructor(
+    private readonly accessControlSvc: AccessControlService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+  ) {
+    this.iframeUrl = this.safeResourceUrlSvc.trust(this.rawIframeUrl)
+  }
 
   ngOnChanges() {
     if (this.accessControlSvc.authoringConfig.newDesign) {
       if (this.mimeTypeRoute === 'channel') {
-        this.iframeUrl = `author/viewer/channel/${this.identifier}`
+        this.rawIframeUrl = `author/viewer/channel/${this.identifier}`
       } else {
-        this.iframeUrl = `author/toc/${this.identifier}/overview`
+        this.rawIframeUrl = `author/toc/${this.identifier}/overview`
       }
     } else {
-      this.iframeUrl = `/viewer/${this.mimeTypeRoute}/${this.identifier}?preview=true`
+      this.rawIframeUrl = `/viewer/${this.mimeTypeRoute}/${this.identifier}?preview=true`
     }
+    this.iframeUrl = this.safeResourceUrlSvc.trust(this.rawIframeUrl)
   }
 
   ngAfterViewInit() {

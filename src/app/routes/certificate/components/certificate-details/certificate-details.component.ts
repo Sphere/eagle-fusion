@@ -8,7 +8,6 @@ import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { ApiService } from '@ws/author/src/public-api'
 import { CertificateService } from '../../services/certificate.service'
 import { SafeUrl } from '@angular/platform-browser'
-// import { IImpressionEventInput,  } from '@project-sunbird/telemetry-sdk'
 
 @Component({
   standalone: false,
@@ -75,7 +74,6 @@ export class CertificateDetailsComponent implements OnInit {
     }
     this.certificateService.validateCertificate(request).subscribe(
       (data: any) => {
-        // this.getCourseVideoUrl(get(data, 'result.response.courseId'))
         const certData = get(data, 'response.json')
         this.loader = false
         this.viewCertificate = true

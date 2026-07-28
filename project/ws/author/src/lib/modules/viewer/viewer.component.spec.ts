@@ -3,12 +3,14 @@ import { ViewerComponent } from './viewer.component'
 describe('ViewerComponent', () => {
   let component: ViewerComponent
   let accessControlSvc: any
+  let mockSafeResourceUrlSvc: any
 
   beforeEach(() => {
     accessControlSvc = {
       authoringConfig: { newDesign: false },
     }
-    component = new ViewerComponent(accessControlSvc)
+    mockSafeResourceUrlSvc = { trust: jest.fn().mockImplementation(url => ({ trusted: url })) }
+    component = new ViewerComponent(accessControlSvc, mockSafeResourceUrlSvc)
   })
 
   it('should create', () => {
@@ -25,7 +27,9 @@ describe('ViewerComponent', () => {
       component.identifier = 'id1'
       component.mimeTypeRoute = 'channel'
       component.ngOnChanges()
-      expect(component.iframeUrl).toBe('author/viewer/channel/id1')
+      expect(component.rawIframeUrl).toBe('author/viewer/channel/id1')
+      expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith('author/viewer/channel/id1')
+      expect(component.iframeUrl).toEqual({ trusted: 'author/viewer/channel/id1' })
     })
 
     it('should set toc overview iframe url when newDesign is true and mimeTypeRoute is not channel', () => {
@@ -33,7 +37,7 @@ describe('ViewerComponent', () => {
       component.identifier = 'id2'
       component.mimeTypeRoute = 'pdf'
       component.ngOnChanges()
-      expect(component.iframeUrl).toBe('author/toc/id2/overview')
+      expect(component.rawIframeUrl).toBe('author/toc/id2/overview')
     })
 
     it('should set legacy viewer iframe url when newDesign is false', () => {
@@ -41,7 +45,7 @@ describe('ViewerComponent', () => {
       component.identifier = 'id3'
       component.mimeTypeRoute = 'video'
       component.ngOnChanges()
-      expect(component.iframeUrl).toBe('/viewer/video/id3?preview=true')
+      expect(component.rawIframeUrl).toBe('/viewer/video/id3?preview=true')
     })
   })
 

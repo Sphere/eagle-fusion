@@ -110,15 +110,9 @@ implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> 
         }
       } else if (this.widgetData) {
         this.pageData = this.widgetData
-        // if (this.pageData && this.pageData.navigationBar) {
-        //   this.navBackground = this.pageData.navigationBar.background || this.configSvc.pageNavBar
-        //   this.links = this.isXSmall ? this.getNavLinks() : this.getNavLinks().filter(data =>
-        //     data.widgetData.actionBtnId !== 'channel_how_to')
-        // }
       } else {
         this.pageData = null
         this.error = routeData.pageData.error
-        // this.logger.warn('No page data available')
       }
       if (this.pageData) {
         this.oldData = this.pageData

@@ -212,7 +212,6 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         void (async () => {
           const result = await this.signupService.fetchStartUpDetails()
           if (result.status === 200) {
-            // resendOTP();
             if (result.roles && result.roles.length > 0) {
               localStorage.setItem(`loginbtn`, `userLoggedIn`)
               this.openSnackbar(results.msg)

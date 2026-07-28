@@ -428,7 +428,6 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: any) {
-    // this.logger.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }

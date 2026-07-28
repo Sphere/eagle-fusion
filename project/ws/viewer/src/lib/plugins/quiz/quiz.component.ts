@@ -876,8 +876,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
     const customerDate = moment(this.enrolledCourse.completedOn)
     const dateNow = moment(new Date())
     const duration = moment.duration(dateNow.diff(customerDate))
-    // tslint:disable-next-line
-    //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
     if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
       this.showCompletionMsg = true
     } else {

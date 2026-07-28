@@ -105,12 +105,6 @@ export class SignupService {
     }
     this.someDataObservable = this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(share())
     return this.someDataObservable
-    // .pipe(
-    //   map(response => {
-    //     return response
-    //   })
-    // )
-
   }
   plumb5SendEvent(data: any) {
     return this.http.post<any>(`https://track.plumb5.com/EventDetails/SaveEventDetails`, data).pipe(

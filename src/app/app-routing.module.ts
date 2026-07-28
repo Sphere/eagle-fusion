@@ -57,7 +57,6 @@ import { MpRegisterComponent } from './routes/mp-component/mp-register.component
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
 const domain = typeof window !== 'undefined' ? window.location.hostname : ''
-// this.domain = window.location.hostname
 
 const routes: Routes = [
   {

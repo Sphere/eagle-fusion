@@ -45,7 +45,6 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import { DiscussionUiModule, DiscussionService } from '@aastrika_npmjs/discussions-ui-v8'
 import {
   PipeDurationTransformModule,
-  PipeSafeSanitizerModule,
   PipeLimitToModule,
   PipePartialContentModule,
   HorizontalScrollerModule,
@@ -127,7 +126,6 @@ import { TranslateModule } from '@ngx-translate/core'
     MatNativeDateModule,
     DisplayContentTypeModule,
     PipeDurationTransformModule,
-    PipeSafeSanitizerModule,
     PipeLimitToModule,
     PipeNameTransformModule,
     PipeCountTransformModule,

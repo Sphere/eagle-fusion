@@ -157,7 +157,6 @@ export class HomeComponent implements OnInit {
       ).subscribe(q => {
         this.searchQuery.q = q
         this.logger.log(q)
-        // this.getAutoCompleteResults()
       })
     }
     this.searchApi.currentMessage.subscribe(

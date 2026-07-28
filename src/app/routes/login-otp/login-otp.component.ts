@@ -199,7 +199,6 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
       ? this.signupService.ssoValidateOrgOTP(request)
       : this.signupService.ssoValidateOTP(request)
 
-    //this.signupService.validateOtp(request).subscribe(
     otpService$.subscribe(
       (res: any) => {
         const url = `${document.baseURI}`
@@ -242,7 +241,6 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
       ? this.signupService.ssoValidateOrgOTP(request)
       : this.signupService.ssoValidateOTP(request)
 
-    //this.signupService.validateOtp(request).subscribe(
     otpService$.subscribe(
       (res: any) => {
         void (async () => {

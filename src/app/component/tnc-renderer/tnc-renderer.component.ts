@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit, ChangeDetectorRef } from '@angular/core'
+import { SafeHtml } from '@angular/platform-browser'
 import { NsTnc } from '../../models/tnc.model'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
+import { SafeResourceUrlService } from '../../../../library/ws-widget/utils/src/lib/services/safe-resource-url.service'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
@@ -20,11 +22,17 @@ export class TncRendererComponent implements OnInit, OnChanges {
 
   generalTnc: NsTnc.ITncUnit | null = null
   dpTnc: NsTnc.ITncUnit | null = null
+  dpTncSafeContent: SafeHtml | null = null
   termsOfUser = true
 
   // UI Vars
   currentPanel: 'tnc' | 'dp' = 'tnc'
-  constructor(private readonly configSvc: ConfigurationsService, private readonly route: ActivatedRoute, private readonly cdr: ChangeDetectorRef) {
+  constructor(
+    private readonly configSvc: ConfigurationsService,
+    private readonly route: ActivatedRoute,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+  ) {
     if (this.configSvc.restrictedFeatures) {
       if (this.configSvc.restrictedFeatures.has('termsOfUser')) {
         this.termsOfUser = false
@@ -62,6 +70,9 @@ export class TncRendererComponent implements OnInit, OnChanges {
           this.dpTnc = tnc
         }
       })
+      this.dpTncSafeContent = this.dpTnc?.content
+        ? this.safeResourceUrlSvc.trustHtml(this.dpTnc.content)
+        : null
       this.cdr.markForCheck()
     }
   }

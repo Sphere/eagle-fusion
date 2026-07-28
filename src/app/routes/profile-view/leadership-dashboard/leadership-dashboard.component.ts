@@ -64,15 +64,9 @@ export class LeadershipDashboardComponent implements OnInit, OnDestroy, AfterVie
     }
     this.collegeName =
       this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails[0].instituteName
-    // this.loadLeaderboard(true);
   }
 
   loadLeaderboard(reset = true) {
-    // if (reset) {
-    //   this.currentPage = 1;
-    //   this.infiniteDisabled = false;
-    //   this.restUsers = [];
-    // }
     this.loading = reset
     const request = {
       userId: this.configSvc.userProfile.userId, // this.configSvc.userProfile.userId,

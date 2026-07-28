@@ -4,7 +4,6 @@ import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
-//import { ConfigurationsService } from '@ws-widget/utils'
 @Component({
     standalone: false,
     selector: 'ws-keycloak-callback',
@@ -109,10 +108,5 @@ export class KeycloakCallbackComponent implements OnInit {
     }
     return '/page/home'
   }
-  // private openSnackbar(primaryMsg: string, duration: number = 3000) {
-  //   this.snackBar.open(primaryMsg, undefined, {
-  //     duration,
-  //   })
-  // }
 
 }

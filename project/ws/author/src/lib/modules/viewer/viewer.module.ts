@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { ViewerComponent } from './viewer.component'
 import { ViewerRoutingModule } from './viewer-routing.module'
-import { PipeSafeSanitizerModule } from '@ws-widget/utils'
 
 @NgModule({
   declarations: [ViewerComponent],
@@ -17,7 +16,6 @@ import { PipeSafeSanitizerModule } from '@ws-widget/utils'
     MatToolbarModule,
     MatSelectModule,
     ViewerRoutingModule,
-    PipeSafeSanitizerModule,
   ],
   exports: [
     ViewerComponent,

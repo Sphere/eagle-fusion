@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service.service'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
-//import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
     standalone: false,
     selector: 'ws-maternity-callback',
@@ -19,10 +18,8 @@ export class MaternityCallbackComponent implements OnInit {
 
   ngOnInit() {
     const maternity_token = sessionStorage.getItem('maternity_token') || null
-    //const maternity_moduleId = sessionStorage.getItem('maternity_moduleId') || null
     if (maternity_token) {
       this.isLoading = true
-      //this.checkMaternityCallback(maternity_token, maternity_moduleId)
       this.checkMaternityCallback(maternity_token)
     }
   }

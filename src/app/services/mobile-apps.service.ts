@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-// import { AuthKeycloakService } from '@ws-widget/utils'
 import { NsContent } from '../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
 // tslint:disable-next-line: max-line-length
 import {
@@ -9,10 +8,7 @@ import {
   GET_PLAYERCONTENT_JSON,
   GO_OFFLINE,
   IOS_OPEN_IN_BROWSER,
-  // ISAUTHENTICATED_OUTGOING,
   NAVIGATION_DATA_INCOMING,
-  // SESSIONID_OUTGOING,
-  // TOKEN_OUTGOING,
 } from '../models/mobile-events.model'
 import { NavigationExternalService } from './navigation-external.service'
 interface IWindowMobileAppModified extends Window {
@@ -31,7 +27,6 @@ declare let window: IWindowMobileAppModified
 })
 export class MobileAppsService {
   constructor(
-    // private authSvc: AuthKeycloakService,
     private readonly navigateSvc: NavigationExternalService,
   ) { }
 

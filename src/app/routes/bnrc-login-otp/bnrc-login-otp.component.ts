@@ -3,7 +3,6 @@ import { ChangeDetectorRef, Component, OnInit, Input, Output, EventEmitter } fro
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
-//import { v4 as uuid } from 'uuid'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
@@ -113,7 +112,6 @@ export class BnrcLoginOtpComponent implements OnInit {
         this.isLoading = false
         this.cdr.detectChanges()
         const res1 = res
-        //this.openSnackbar(res.message)
         if (this.preferedLanguage || localStorage.getItem('preferedLanguage')) {
           const reqObj = this.preferedLanguage || localStorage.getItem('preferedLanguage')
           const lang = JSON.parse(reqObj) || ''
@@ -147,8 +145,6 @@ export class BnrcLoginOtpComponent implements OnInit {
         } else {
           this.openSnackbar(err.error.error || err.error.message)
         }
-
-        // this.openSnackbar(`OTP Error`, + err.error.message)
       }
     )
   }

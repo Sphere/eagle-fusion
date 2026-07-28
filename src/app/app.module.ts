@@ -52,7 +52,6 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   ImageCropModule,
   LoggerService,
-  PipeSafeSanitizerModule,
   LogoutModule,
 } from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
@@ -337,7 +336,6 @@ export function initTranslate(translate: TranslateService) {
     CompetencyCourseListModule,
     PublicHomeModule,
     PublicBlogModule,
-    PipeSafeSanitizerModule,
     LogoutModule,
     SlidersModule,
     MatAutocompleteModule,

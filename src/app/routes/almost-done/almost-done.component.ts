@@ -11,11 +11,11 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-    standalone: false,
-    selector: 'ws-almost-done',
-    templateUrl: './almost-done.component.html',
-    styleUrls: ['./almost-done.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-almost-done',
+  templateUrl: './almost-done.component.html',
+  styleUrls: ['./almost-done.component.scss'],
+
 })
 export class AlmostDoneComponent implements OnInit {
 
@@ -242,7 +242,6 @@ export class AlmostDoneComponent implements OnInit {
 
     if (option === 'Others') {
       this.orgOthersField = true
-      // this.createUserForm.controls.orgOtherSpecify.setValue(null)
       this.almostDoneForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
     } else {
       this.orgOthersField = false
@@ -322,9 +321,6 @@ export class AlmostDoneComponent implements OnInit {
           this.enableSubmit = true
         }
       })
-      // if (this.almostDoneForm.value.professSelected && this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
-      //   this.enableSubmit = false
-      // }
     }
     if (this.backgroundSelect === 'ASHA') {
       const block = this.almostDoneForm.controls['block'].value
@@ -342,19 +338,6 @@ export class AlmostDoneComponent implements OnInit {
       })
     }
 
-    // if (this.backgroundSelect === 'Healthcare Worker') {
-    //   this.almostDoneForm.valueChanges.subscribe(value => {
-    //     if (value.professSelected || value.professionOtherSpecify && value.orgOtherSpecify && value.orgType && value.orgName) {
-    //       this.enableSubmit = false
-    //     } else {
-    //       this.enableSubmit = true
-    //     }
-    //   })
-
-    //   // if (this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
-    //   //   this.enableSubmit = false
-    //   // }
-    // }
     if (this.profession === 'student' && this.studentInstitute) {
       this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
       this.degrees.removeAt(0)
@@ -489,8 +472,6 @@ export class AlmostDoneComponent implements OnInit {
     }
 
     this.logger.log(this.userId, this.result.userId)
-    //const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-    //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
       preferences: {
         language: this.configSvc &&
@@ -502,7 +483,6 @@ export class AlmostDoneComponent implements OnInit {
           : 'en',
       },
       userSource: this.configSvc?.unMappedUser?.profileDetails?.userSource,
-      // personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
 

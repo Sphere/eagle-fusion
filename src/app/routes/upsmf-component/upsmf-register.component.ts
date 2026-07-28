@@ -340,17 +340,6 @@ export class UpsmfRegisterComponent implements OnInit {
     this.anmRegistrationForm.get('facilityName')?.reset()
   }
 
-  // onFacilityNameChange(selectedFacility: any): void {
-  //   this.logger.log('Selected facility:', selectedFacility)
-
-  //   // Set facility code based on selected facility
-  //   if (selectedFacility && selectedFacility.code) {
-  //     this.anmRegistrationForm.get('facilityCode')?.setValue(selectedFacility.code)
-  //   }
-
-  //   this.logger.log('Facility code set to:', this.anmRegistrationForm.get('facilityCode')?.value)
-  // }
-
   private resetFormValidation(): void {
     const governmentFields = ['serviceType', 'hrmsId', 'district', 'block', 'facilityType', 'facilityName']
     const privateFields = ['district', 'facilityName']

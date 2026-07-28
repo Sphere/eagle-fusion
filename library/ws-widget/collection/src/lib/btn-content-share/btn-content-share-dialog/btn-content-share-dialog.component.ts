@@ -70,7 +70,6 @@ export class BtnContentShareDialogComponent implements OnInit {
   }
 
   get detailUrl() {
-    // let locationOrigin = environment.sitePath ? `https://${environment.sitePath}` : location.origin
     let locationOrigin = location.origin
     if (this.configSvc.activeLocale && this.configSvc.activeLocale.path) {
       locationOrigin += `/${this.configSvc.activeLocale.path}`

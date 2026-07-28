@@ -7,7 +7,6 @@ import { mustMatch } from '../password-validator'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
-// import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
     standalone: false,
@@ -49,10 +48,6 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
       confirmPassword: new UntypedFormControl(['']),
     }, { validator: mustMatch('password', 'confirmPassword') })
 
-    // this.emailForm = this.fb.group({
-    //   userInput: new FormControl(['']),
-    // }, { validators: EmailMobileValidators.combinePattern })
-    // this.logger.log(this.emailForm)
     // tslint:disable-next-line:max-line-length
     this.emailForm = fb.group({
       // tslint:disable-next-line:max-line-length
@@ -102,8 +97,10 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           )
         }
       } else {
+        // All repetition is bounded ({m,n}, never unbounded + or *) so the regex engine's
+        // worst-case work is a fixed constant regardless of input length — no catastrophic backtracking.
         // tslint:disable-next-line: max-line-length
-        this.email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        this.email = /^(([^<>()\[\]\\.,;:\s@"]{1,200}(\.[^<>()\[\]\\.,;:\s@"]{1,200}){0,8})|("[^"]{1,200}"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]{1,63}\.){1,8}[a-zA-Z]{2,24}))$/.test(
           this.emailOrMobile
         )
         if (this.email) {
@@ -133,7 +130,6 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   onSubmit(form: any) {
-    // this.uploadSaveData = true
     let reqObj
 
     if (this.email) {
