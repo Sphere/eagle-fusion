@@ -459,7 +459,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     })
     this.orgService.hideHeaderFooter.pipe(takeUntil(this.destroy$)).subscribe(show => {
-      if (!isPlatformBrowser(this.platformId) || window.location.pathname !== '/app/new-tnc') {
+      const standaloneRoutes = ['/app/new-tnc', '/uttarpradesh/demo']
+      if (!isPlatformBrowser(this.platformId) || !standaloneRoutes.includes(window.location.pathname)) {
         this.hideHeaderFooter = show
       }
       this.changeDetector.detectChanges()
@@ -534,7 +535,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   handleRouterSubscription() {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        this.hideFooter = event.url.includes('/app/org-selective-course')
+        this.hideFooter = event.url.includes('/app/org-selective-course') || event.url.includes('/uttarpradesh/demo')
         if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
           window.location.href = 'public/home'
         }
@@ -599,7 +600,15 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.showmobileFooter = false
           this.disableChatForBnrc = true
         }
-        if (
+        if (event.url.includes('/uttarpradesh/demo')) {
+          // standalone page: only its own logo header, no app header/footer/nav
+          this.isNavBarRequired = false
+          this.hideHeaderFooter = true
+          this.hideFooter = true
+          this.showNavigation = false
+          this.showmobileFooter = false
+          this.mobileView = false
+        } else if (
           event.url.includes('preview') ||
           event.url.includes('embed') ||
           event.url.includes('/certs') ||
