@@ -24,6 +24,7 @@ import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugi
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
 import { ThemeService } from '../../../../../../../../../src/app/services/theme.service'
+import { hasCompetencyData } from '../../utils/competency.util'
 @Component({
   standalone: false,
   selector: 'ws-app-app-toc-desktop',
@@ -59,6 +60,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   resumeDataLink: { url: string; queryParams: { [key: string]: any } } | null = null
   isAssessVisible = false
   isPracticeVisible = false
+  hasCompetencies = false
   editButton = false
   reviewButton = false
   isRegistrationSupported = false
@@ -278,6 +280,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges() {
     this.assignPathAndUpdateBanner(this.router.url)
     let collectionArry: any
+    // Gate the Competency action on parsed data, not on the raw string — '[]' is truthy and
+    // used to show a button that opened an empty dialog.
+    this.hasCompetencies = hasCompetencyData((this.content as any)?.competencies_v1)
     if (this.content) {
       if (this.optmisticPercentage === 0 && this.finishedPercentage === undefined) {
         this.updatedContentStatus = false

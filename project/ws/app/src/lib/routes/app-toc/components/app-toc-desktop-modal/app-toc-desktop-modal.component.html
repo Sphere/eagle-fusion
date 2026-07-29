@@ -30,13 +30,24 @@
   </ng-container>
 
   <ng-container *ngIf="content.type === 'COMPETENCY'">
-    <h1>{{cometencyData[0].name}}</h1>
-    <div class="flex flex-row">
-      <ng-container *ngFor="let item of cometencyData; let last = last; ">
-        <div *ngIf="item.levels" class="levels">{{item.levels}}
-          <span *ngIf="!last">, </span>
+    <ng-container *ngIf="cometencyData.length; else noCompetency">
+      <div class="competency-group" *ngFor="let group of cometencyData">
+        <h1>{{ group.name || ('Competency' | translate) }}</h1>
+        <div class="flex flex-row" *ngIf="group.levels.length; else noLevels">
+          <ng-container *ngFor="let level of group.levels; let last = last;">
+            <div class="levels">{{ level }}
+              <span *ngIf="!last">, </span>
+            </div>
+          </ng-container>
         </div>
-      </ng-container>
-    </div>
+        <ng-template #noLevels>
+          <div class="levels">{{ 'LEVELS_DATA_NOT_AVAILABLE' | translate }}</div>
+        </ng-template>
+      </div>
+    </ng-container>
+    <ng-template #noCompetency>
+      <h1>{{ 'Competency' | translate }}</h1>
+      <p class="no-competency">{{ 'COMPETENCY_DATA_NOT_AVAILABLE' | translate }}</p>
+    </ng-template>
   </ng-container>
 </div>

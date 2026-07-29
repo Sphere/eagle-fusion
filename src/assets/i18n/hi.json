@@ -990,5 +990,7 @@
   "FAIL_ASSESSMENT": "सेल्फ असेसमेंट क्लियर नहीं हुआ",
   "RELEVANT_COURSES": "प्रासंगिक कोर्स देखें",
   "GO_TO_COMPETENCY": "योग्यता डैशबोर्ड पर जाएं",
-  "UNITS": "यूनिट्स"
+  "UNITS": "यूनिट्स",
+  "COMPETENCY_DATA_NOT_AVAILABLE": "इस कोर्स के लिए योग्यता विवरण उपलब्ध नहीं है",
+  "LEVELS_DATA_NOT_AVAILABLE": "स्तर की जानकारी नहीं मिली"
 }

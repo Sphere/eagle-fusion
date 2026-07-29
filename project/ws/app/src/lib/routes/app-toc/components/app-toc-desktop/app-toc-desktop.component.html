@@ -74,7 +74,7 @@
           <span class="btn-tittle">{{ 'Details' | translate }}</span>
         </div>
 
-        <div *ngIf="content?.competencies_v1" class="toc-icon-action">
+        <div *ngIf="hasCompetencies" class="toc-icon-action">
           <button mat-icon-button class="button-border" (click)="openCompetency(content)">
             <img loading="lazy" src="./fusion-assets/icons/competency.svg" alt="competency-icon">
           </button>

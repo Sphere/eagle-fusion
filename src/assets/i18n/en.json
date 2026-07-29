@@ -989,5 +989,7 @@
   "FAIL_ASSESSMENT": "Self Assessment not cleared",
   "RELEVANT_COURSES": "View Relevant Courses",
   "GO_TO_COMPETENCY": "Go to Competency Dashboard",
-  "UNITS": "UNITS"
+  "UNITS": "UNITS",
+  "COMPETENCY_DATA_NOT_AVAILABLE": "Competency details are not available for this course",
+  "LEVELS_DATA_NOT_AVAILABLE": "Levels data not found"
 }
