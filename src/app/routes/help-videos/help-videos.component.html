@@ -1,0 +1,33 @@
+<div class="help-videos-page">
+  <header class="help-videos-header">
+    <img class="brand-logo aastrika" [src]="aastrikaLogo" alt="Aastrika Foundation" />
+    <img class="brand-logo up-gov" [src]="upLogo" alt="Government of Uttar Pradesh" />
+  </header>
+
+  <main class="help-videos-content">
+    <h1 class="page-title">{{ 'HELP_VIDEOS_TITLE' | translate }}</h1>
+    <p class="page-subtitle">{{ 'HELP_VIDEOS_SUBTITLE' | translate }}</p>
+
+    <ul class="video-list">
+      @for (video of videos; track video.id) {
+        <li class="video-card">
+          <a class="video-link" [href]="video.url" target="_blank" rel="noopener noreferrer">
+            <div class="thumb-wrap">
+              <img class="thumb" [src]="thumbnail(video)" [alt]="video.title | translate" loading="lazy" />
+              <span class="play-badge">
+                <mat-icon>play_arrow</mat-icon>
+              </span>
+            </div>
+            <div class="video-meta">
+              <h2 class="video-title">{{ video.title | translate }}</h2>
+              <span class="watch-cta">
+                {{ 'WATCH_ON_YOUTUBE' | translate }}
+                <mat-icon class="cta-icon">open_in_new</mat-icon>
+              </span>
+            </div>
+          </a>
+        </li>
+      }
+    </ul>
+  </main>
+</div>
