@@ -95,7 +95,7 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
     if (this.resourceCollectionData && this.resourceCollectionData.artifactUrl) {
       const artifactUrl = this.forPreview
         ? this.viewSvc.getAuthoringUrl(this.resourceCollectionData.artifactUrl)
-        : this.viewSvc.getCompetencyAuthoringUrl(this.resourceCollectionData.artifactUrl.split('/content')[1])
+        : this.resourceCollectionData.artifactUrl
       manifestFile = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()
