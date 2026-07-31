@@ -92,6 +92,7 @@ import { GoogleCallbackComponent } from './routes/google-callback/google-callbac
 import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
+import { HelpVideosComponent } from './routes/help-videos/help-videos.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { LoaderService } from '../../project/ws/author/src/public-api'
@@ -291,6 +292,7 @@ export function initTranslate(translate: TranslateService) {
     BnrcRegisterComponent,
     UpsmfRegisterComponent,
     MpRegisterComponent,
+    HelpVideosComponent,
     ForgotPasswordComponent,
     CreateAccountComponent,
     YourLocationComponent,
