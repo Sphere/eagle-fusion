@@ -52,13 +52,18 @@
         <label [for]="field.key" style="display: block;" *ngIf="field.label || !isEditableForSphere">
           {{ (field.label || field.placeholder || field.key) | translate }}
         </label>
-        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
+        <mat-form-field *ngIf="isEditableForSphere" appearance="outline" class="field-fullwidth themed-mat-field"
+          style="width: 100%;">
           <mat-select [formControlName]="field.key" [placeholder]="field.placeholder | translate"
             (selectionChange)="professionalChange($event.value)">
             <mat-option [value]="profession" *ngFor="let profession of getOptions(field)">{{profession}}
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <!-- Read-only: render the stored value directly. A mat-select can only show values that
+             exist as options, so legacy professions rendered as an empty box. -->
+        <input *ngIf="!isEditableForSphere" type="text" class="form-control"
+          [value]="personalDetailForm.get(field.key)?.value || ''" readonly disabled />
       </div>
       <ng-container *ngIf="shouldShowField(field) && (isEditableForSphere || personalDetailForm.get(field.key)?.value)">
         <div class="form-group input-box" *ngIf="field.type === 'select'">
