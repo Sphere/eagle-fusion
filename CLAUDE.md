@@ -93,6 +93,17 @@ All API paths are defined in `src/app/constants/apiConstants.ts`. Never hardcode
 | `src/app/services/asset-cache-interceptor.service.ts` | Caches static config/i18n JSON in sessionStorage |
 | `project/ws/viewer/src/lib/interceptors/cache-control.interceptor.ts` | Adds 12-hour cache headers for `/hierarchy/` requests |
 
+### API response shapes — never trust a field to be a JSON string
+Some content fields reach the UI **already deserialized on one environment and as a JSON string on another**, because the Sunbird content-service only deserializes properties its schema declares as objects/arrays (`BaseSchemaValidator.getJsonProps()`), and that differs per deployed build.
+
+Verified for the same content id: `sphere.aastrika.org` returns `competencies_v1` as a **string**, `portal-staging.aastrika.org` returns it as an **array**. Same divergence affects `creatorDetails`, `publisherDetails` and `reviewer`.
+
+`JSON.parse(<array>)` coerces to `"[object Object]"` and throws `SyntaxError`. This has already caused two production-visible bugs (empty competency dialog; dead "Assess" button).
+
+- Use `parseCompetencies()` / `groupCompetenciesByName()` from `project/ws/app/src/lib/routes/app-toc/utils/competency.util.ts` — they handle string / array / keyed-object / malformed input and never throw.
+- Never call `JSON.parse` directly on an API field. If you must, guard with `typeof x === 'string'` and wrap in `try/catch`.
+- A throw inside an RxJS operator is swallowed by any `.subscribe()` without an `error` callback — the flow dies silently with nothing in the console. Always pass an `error` handler on subscribes that drive navigation or rendering.
+
 ---
 
 ## Coding Conventions
@@ -175,12 +186,24 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 
 ---
 
+## Known traps
+- **`environment.prod.ts` ships `production: false` — this is load-bearing, do NOT "fix" it.** The env files are effectively inverted: the prod build replaces `environment.ts` → `environment.prod.ts`, so **prod runs with `environment.production === false`**. That flag drives theme injection (`useLinkForThemeInjection` in `init.service.ts`) and config-path resolution (`configurations.service.ts`). Prod has always run this way; flipping it risks breaking config and theme loading. Known consequence: `LoggerService` gates on this flag, so logs print in prod. If you need to fix the logging, do it in the logging layer — don't flip `environment.production`.
+- **Do not re-add `@jaguards/material-extended-mde`** (`MdePopoverTrigger`) — removed for Angular 21 incompatibility. Use `MatMenuModule` or a custom tooltip.
+- **`/apis/protected/v8/userEnrolledInSource` returns 500** — upstream is broken. Use cached enrolment data from `ConfigurationsService`.
+- **Don't mix Signals with `ngOnChanges` in the same component** — it causes change-detection issues. New code in already-migrated areas (`PlaylistService`, `DowntimeConfigService`, `WebPublicContainerComponent`) should use Signals; legacy NgModule components stay on RxJS. Bridge with `toSignal()` / `toObservable()`.
+- **Test dark theme whenever touching global or `ViewEncapsulation.None` styles** — Angular 21's encapsulation changes have broken theme-scoped styles more than once.
+
+---
+
 ## i18n
 - Library: `@ngx-translate/core` v17
 - Translation files in `src/assets/i18n/` — `en.json` and `hi.json`
 - Always add `| translate` to user-facing strings in templates
+- **Every new key goes into BOTH `en.json` and `hi.json`, in the same change.** A key present only in `en.json` renders the raw key string to Hindi users — half-translated UI is a shipped defect, not a cleanup task. This covers error states, empty states, button labels, tooltips and `aria-label`s, not just the happy path.
+- Check before adding — many common words (`Close`, `Retry`, `Download`) already exist: `grep -F '"<key>":' src/assets/i18n/en.json`
 - Voice search language mapping: `'en' → 'en-IN'`, `'hi' → 'hi-IN'`
 - Key naming: use `SCREAMING_CASE` for new keys (e.g. `ENROLL_NOW`, `VIEW_COURSE`); full sentences used as keys for long strings — match the style of nearby keys
+- **Dev gotcha:** local `src/assets/i18n` edits do not resolve while running `yarn start` — the proxy serves `/assets/**` from prod. They work in a deployed build; to see them locally, seed the strings via `setTranslation`.
 
 ---
 
@@ -191,6 +214,8 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 - Conventions: `jest.spyOn`; for heavy components prefer direct instantiation with mocked deps over brittle full `TestBed` rendering; use `NO_ERRORS_SCHEMA` / `CUSTOM_ELEMENTS_SCHEMA` + `provideHttpClient` / `provideHttpClientTesting` where needed.
 - Run `yarn run jest-cache` if tests behave unexpectedly after dependency changes.
 - Always run `nvs use 20` before `yarn test` / builds (Node 20 required).
+- **Run the full suite and the production build at commit time, not after every edit.** `yarn test` and `yarn run build:local` each take minutes and stall the diagnose → fix → verify loop. During iteration a `node_modules/.bin/tsc --noEmit -p tsconfig.json` check is cheap and catches most breakage; batch the suite and the build into the commit step, where the build is the real gate anyway (the pre-commit lint hook is broken — see Commit & Branch Conventions).
+- Exception: if a change breaks an **existing** spec (e.g. adding a constructor argument), repair that spec in the same change. Leaving the suite red is not deferring work, it's handing over broken work.
 
 ---
 
@@ -209,6 +234,33 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 - Flow: verify green (`nvs use 20` → lint + `yarn test` + `yarn run build`) → write release notes + version on a branch → PR into the trunk → cut `release-X.Y.Z` + tag `vX.Y.Z` → publish the GitHub Release from the tag (`gh release create vX.Y.Z --notes-file RELEASE_NOTES/release-X.Y.Z.md`) → manual Jenkins deploy from the **branch**.
 - Each release gets its own new `release-X.Y.Z`; never advance a previous/frozen release branch. Rollback = redeploy the previous release branch.
 - Release notes structure: header table, plain-language Summary, ✨ Features, 🐛 Fixes, 🏗️ Build/CI, 📚 Docs/Chore, ⚠️ Deploy notes & risk, ✅ Pre-deploy checklist, Release & rollback. Each bullet ends with its short commit SHA.
+- **One PR per release, never two.** Write `RELEASE_NOTES/release-X.Y.Z.md` on the **same** feature/fix branch as the code and commit it *before* that branch's PR opens. Do not merge the code PR and then follow up with a separate release-notes PR — that's two review cycles for one release. A standalone `chore: write release notes for X.Y.Z` branch is a recovery path only (when the code was already merged before the release was called), not the default.
+- **GitHub Release title is `Release-X.Y.Z`** — not the tag name, not a descriptive title. Pass `--title "Release-X.Y.Z"` explicitly, since `gh release create` otherwise defaults to the tag.
+- **`master` is branch-protected: 2 approving reviews required.** The merge cannot be automated (the API returns `405`). A release run can open the PR and cut the tag/branch/GitHub Release, then must stop and wait for human approvals. Deploy does not depend on the merge — Jenkins deploys from the `release-X.Y.Z` branch, so a release can ship while the PR waits.
+- **Never `git commit` while checked out on `master`**, even for a notes-only change. Branch protection rejects the push (`GH006`), and the commit then has to be moved off `master` with `git branch <name>` + `git reset --hard origin/master`. Create and check out the branch *before* writing any files.
+
+---
+
+## Deploying to Sunbird Spark (staging)
+`Jenkinsfile-sun` **builds only** (checkout → assets-pull → `build.sh` → push image). It does **not** deploy — the rollout is a manual kubectl step.
+
+Run from the Jenkins bastion `jenkins@ip-10-0-19-95` (local machines do not have cluster access).
+
+- **Cluster:** `aastar-stage-new` (ap-south-1) — the only context on the bastion, already current
+- **Namespace:** `sunbird` · **Deployment/container:** `ui-static` · **Registry:** `aastardev1`
+- **Image tag:** `<branch-last-segment>_<shortSHA>_<jenkinsBuildNumber>` — e.g. `upgrade_605e288_2004` = branch `sunbird-spark/upgrade`, commit `605e288`, Jenkins build #2004
+
+```bash
+# 1. record the current image first — this is the rollback tag
+kubectl get deploy ui-static -n sunbird -o jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+# 2. roll out
+kubectl set image deployment/ui-static ui-static=aastardev1/ui-static:<build_tag> -n sunbird
+kubectl rollout status deployment/ui-static -n sunbird
+# rollback
+kubectl rollout undo deployment/ui-static -n sunbird
+```
+
+Healthy rollout = new ReplicaSet pod `1/1 Running`, old pod `Terminating`. `ImagePullBackOff` means that Jenkins build never pushed the tag to `aastardev1` — check the build log rather than retrying.
 
 ---
 
