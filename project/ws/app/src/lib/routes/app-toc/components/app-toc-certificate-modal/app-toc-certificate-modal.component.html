@@ -1,15 +1,21 @@
-<!-- Shimmer while loading -->
+<!-- Shimmer while loading. Keeps a real close button so the dialog is never a dead box. -->
 <div *ngIf="isLoading" class="shimmer-container">
   <div class="shimmer-header-row">
-    <div class="shimmer shimmer-title"></div>
+    <div class="shimmer shimmer-avatar"></div>
+    <div class="shimmer-title-block">
+      <div class="shimmer shimmer-line-sm"></div>
+      <div class="shimmer shimmer-line-lg"></div>
+    </div>
     <div class="shimmer shimmer-btn"></div>
-    <div class="shimmer shimmer-close"></div>
+    <button class="close-btn" [mat-dialog-close]="true" [attr.aria-label]="'Close' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
   <div class="shimmer shimmer-image"></div>
 </div>
 
-<!-- Certificate modal -->
-<div *ngIf="!isLoading" class="cert-modal">
+<!-- Certificate could not be loaded -->
+<div *ngIf="!isLoading && hasError" class="cert-modal">
   <div class="cert-header">
     <div class="cert-title-wrap">
       <mat-icon class="cert-icon">workspace_premium</mat-icon>
@@ -19,15 +25,55 @@
       </div>
     </div>
     <div class="cert-actions">
-      <button class="download-btn" (click)="downloadCertificate(content)">
-        <mat-icon>file_download</mat-icon>
-        <span class="btn-label">{{ 'Download' | translate }}</span>
-      </button>
-      <button class="close-btn" [mat-dialog-close]="true" aria-label="Close">
+      <button class="close-btn" [mat-dialog-close]="true" [attr.aria-label]="'Close' | translate">
         <mat-icon>close</mat-icon>
       </button>
     </div>
   </div>
+
+  <div class="cert-error">
+    <mat-icon class="cert-error-icon">cloud_off</mat-icon>
+    <p class="cert-error-title">{{ 'We could not load your certificate' | translate }}</p>
+    <p class="cert-error-hint">
+      {{ 'This is usually temporary. Please try again in a moment.' | translate }}
+    </p>
+    <div class="cert-error-actions">
+      <button class="download-btn" (click)="retry()">
+        <mat-icon>refresh</mat-icon>
+        <span class="btn-label">{{ 'Retry' | translate }}</span>
+      </button>
+      <button class="secondary-btn" [mat-dialog-close]="true">
+        {{ 'Close' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Certificate modal -->
+<div *ngIf="!isLoading && !hasError" class="cert-modal">
+  <div class="cert-header">
+    <div class="cert-title-wrap">
+      <mat-icon class="cert-icon">workspace_premium</mat-icon>
+      <div class="cert-title-text">
+        <span class="cert-label">{{ 'Certificate preview of course:' | translate }}</span>
+        <span class="cert-name" [title]="content.tocConfig">{{ content.tocConfig }}</span>
+      </div>
+    </div>
+    <div class="cert-actions">
+      <button class="download-btn" (click)="downloadCertificate(content)" [disabled]="isDownloading">
+        <mat-icon>file_download</mat-icon>
+        <span class="btn-label">{{ (isDownloading ? 'Downloading...' : 'Download') | translate }}</span>
+      </button>
+      <button class="close-btn" [mat-dialog-close]="true" [attr.aria-label]="'Close' | translate">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <p *ngIf="downloadFailed" class="cert-download-error">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ 'Download failed. Please try again.' | translate }}</span>
+  </p>
 
   <div class="cert-image-wrap">
     <img [src]="img" class="cert-image" alt="Certificate" />

@@ -275,7 +275,11 @@ $dark-theme-tokens: (
   }
 }
 
-.dark-theme %shimmer, .shimmer {
+// Scoped to .dark-theme only. The comma previously made `.shimmer` a global selector, so this
+// dark palette was forced onto light theme too — where --theme-bg and --theme-surface are both
+// white, making every shimmer invisible. `!important` plus late injection meant component
+// styles could not win. `%shimmer` was dead here (placeholders need @extend in the same file).
+.dark-theme .shimmer {
   background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px) !important;
 }
 
