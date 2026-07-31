@@ -28,6 +28,7 @@ import { isNull, isEmpty } from 'lodash-es'
 import { PlayerStateService, buildPlayerStateForResource } from '../../player-state.service'
 import { saveAs } from 'file-saver'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
+import { parseCompetencies } from '@ws/app/src/lib/routes/app-toc/utils/competency.util'
 interface IViewerTocCard {
   identifier: string
   completionPercentage: number
@@ -917,7 +918,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             } else if (this.contentSvc.showConformation) {
               let finalCompetencies = []
               if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
-                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+                const competencies_v1 = parseCompetencies(this.heirarchy.competencies_v1)
 
                 finalCompetencies = competencies_v1.map((competency: any) => {
                   return {
@@ -970,7 +971,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             } else {
               let finalCompetencies = []
               if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
-                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+                const competencies_v1 = parseCompetencies(this.heirarchy.competencies_v1)
 
                 finalCompetencies = competencies_v1.map((competency: any) => {
                   return {
@@ -1038,7 +1039,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               && this.contentSvc.showConformation) {
               let finalCompetencies = []
               if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
-                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+                const competencies_v1 = parseCompetencies(this.heirarchy.competencies_v1)
 
                 finalCompetencies = competencies_v1.map((competency: any) => {
                   return {
