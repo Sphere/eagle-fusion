@@ -140,6 +140,7 @@ export class AssessmentDetailComponent implements OnInit {
         } else if (!question.multiSelection && question.questionType === undefined) {
           question.questionType = 'mcq-sca'
         }
+        quizJSON.isAssessment = content.isAssessment || false
       })
       if (!quizJSON.hasOwnProperty('passPercentage')) {
         quizJSON.passPercentage = 60
