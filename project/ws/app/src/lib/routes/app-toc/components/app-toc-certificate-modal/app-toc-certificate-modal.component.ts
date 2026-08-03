@@ -27,7 +27,7 @@ export class AppTocCertificateModalComponent implements OnInit {
     this.logger.log(this.content)
     this.contentSvc.downloadCertificateAPI(this.content.content).toPromise().then(async (response: any) => {
       if (response.responseCode) {
-        const url = await response.result.printUri
+        const url = response.result.printUri
         this.img = this.sanitizer.trustUrl(url)
         this.isLoading = false
         this.cdr.detectChanges()
@@ -40,7 +40,7 @@ export class AppTocCertificateModalComponent implements OnInit {
       if (response.responseCode) {
         const img = new Image()
         const name = this.content.tocConfig
-        const url = await response.result.printUri
+        const url = response.result.printUri
         this.logger.log("response", response.result)
         this.isLoading = false
         const that = this
@@ -68,7 +68,7 @@ export class AppTocCertificateModalComponent implements OnInit {
 
           imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
           const arr = imgURI.split(',')
-          const mime = arr[0].match(/:(.*?);/)[1]
+          const mime = arr[0].match(/:([^;]*);/)[1]
           const bstr = atob(arr[1])
           let n = bstr.length
           const u8arr = new Uint8Array(n)

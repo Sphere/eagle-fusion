@@ -137,56 +137,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
-    // ASHA-home flow: capture the asha context (isAsha + competency/level/course params)
-    // passed in the query string so this course page can drive asha-specific navigation.
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.ashaData = queryParams || {}
-      this.navigateAshaHome = this.ashaData.isAsha === 'true'
-    })
+    this.subscribeToAshaQueryParams()
     this.checkRoute()
-    try {
-      this.isInIframe = window.self !== window.top
-    } catch (_ex) {
-      this.isInIframe = false
-    }
+    this.detectIframeContext()
     if (this.route) {
-      this.routeSubscription = this.route.data.subscribe((data: Data) => {
-        // Checking for JSON DATA
-        if (data.content.data) {
-          if (this.checkJson(data.content.data.creatorDetails)) {
-            data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
-          }
-
-          if (this.checkJson(data.content.data.reviewer)) {
-            data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
-          }
-        } else {
-          if (localStorage.getItem('url_before_login')) {
-            const url = localStorage.getItem('url_before_login') || ''
-            this.router.navigate([url])
-          } else {
-            this.router.navigate(['/app/login'])
-          }
-        }
-
-        // Safely initialize analytics from pageData
-        if (data.pageData && data.pageData.data) {
-          this.analytics = data.pageData.data.analytics || null
-          this.banners = data.pageData.data.banners
-          this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
-          this.tocSvc.showDescription = data.pageData.data.showDescription || false
-          this.tocConfig = data.pageData.data
-        }
-
-        try {
-
-          (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName ? "CNE" : "Non CNE", value: data.content.data.cneName })
-        }
-        catch (e) {
-          this.loggerSvc.log("fb pixel error")
-        }
-        this.initData(data)
-      })
+      this.subscribeToRouteData()
     }
 
     this.currentFragment = 'overview'
@@ -204,6 +159,73 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     )
     this.updateVisibleTabs()
     this.setTabIndex()
+  }
+
+  // ASHA-home flow: capture the asha context (isAsha + competency/level/course params)
+  // passed in the query string so this course page can drive asha-specific navigation.
+  private subscribeToAshaQueryParams(): void {
+    this.route.queryParams.subscribe((queryParams: any) => {
+      this.ashaData = queryParams || {}
+      this.navigateAshaHome = this.ashaData.isAsha === 'true'
+    })
+  }
+
+  private detectIframeContext(): void {
+    try {
+      this.isInIframe = window.self !== window.top
+    } catch (_ex) {
+      this.isInIframe = false
+    }
+  }
+
+  private subscribeToRouteData(): void {
+    this.routeSubscription = this.route.data.subscribe((data: Data) => this.handleRouteData(data))
+  }
+
+  private handleRouteData(data: Data): void {
+    this.parseContentJsonFields(data)
+    this.applyPageAnalytics(data)
+    this.raiseFbPixelViewContent(data)
+    this.initData(data)
+  }
+
+  private parseContentJsonFields(data: Data): void {
+    // Checking for JSON DATA
+    if (data.content.data) {
+      if (this.checkJson(data.content.data.creatorDetails)) {
+        data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
+      }
+      if (this.checkJson(data.content.data.reviewer)) {
+        data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
+      }
+      return
+    }
+    if (localStorage.getItem('url_before_login')) {
+      const url = localStorage.getItem('url_before_login') || ''
+      this.router.navigate([url])
+    } else {
+      this.router.navigate(['/app/login'])
+    }
+  }
+
+  private applyPageAnalytics(data: Data): void {
+    // Safely initialize analytics from pageData
+    if (data.pageData && data.pageData.data) {
+      this.analytics = data.pageData.data.analytics || null
+      this.banners = data.pageData.data.banners
+      this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
+      this.tocSvc.showDescription = data.pageData.data.showDescription || false
+      this.tocConfig = data.pageData.data
+    }
+  }
+
+  private raiseFbPixelViewContent(data: Data): void {
+    try {
+      (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName ? "CNE" : "Non CNE", value: data.content.data.cneName })
+    }
+    catch (e) {
+      this.loggerSvc.log("fb pixel error")
+    }
   }
 
   updateVisibleTabs() {
@@ -567,16 +589,16 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   private subscribeProgressRecord(userId: string, courseId: string, contentList: any) {
     this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
-      void this.applyProgressRecord(record, contentList)
+      this.applyProgressRecord(record, contentList)
     }, error => {
       this.loggerSvc.error('Error:', error, contentList)
       this.insertAndRefetchProgress(userId, courseId, contentList)
     })
   }
 
-  private async applyProgressRecord(record: any, contentList: any) {
+  private applyProgressRecord(record: any, contentList: any) {
     this.loggerSvc.log('Record:', record)
-    this.rowData = await record
+    this.rowData = record
     const dat = JSON.parse(this.rowData.data)
     if (dat && dat.length) {
       this.optmisticPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
@@ -600,15 +622,15 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   private refetchProgressRecord(userId: string, courseId: string, contentList: any) {
     this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
-      void this.applyProgressRecordAfterInsert(record, contentList)
+      this.applyProgressRecordAfterInsert(record, contentList)
     }, error => {
       this.loggerSvc.error('Error:', error)
     })
   }
 
-  private async applyProgressRecordAfterInsert(record: any, contentList: any) {
+  private applyProgressRecordAfterInsert(record: any, contentList: any) {
     this.loggerSvc.log('Record:', record)
-    this.rowData = await record
+    this.rowData = record
     const dat = JSON.parse(this.rowData.data)
     if (dat && dat.length) {
       this.optmisticPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')

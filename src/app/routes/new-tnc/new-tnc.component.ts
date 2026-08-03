@@ -356,7 +356,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     if (!data) {
       return
     }
-    this.userProfileData = await data.profileDetails.profileReq
+    this.userProfileData = data.profileDetails.profileReq
     const source = this.UserAgentResolverService.getSource()
     const userSource = source ? JSON.parse(source) : null
     const obj = {
@@ -391,7 +391,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   updateUser(reqUpdate: any) {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       void (async () => {
-        const res = await data
+        const res = data
         this.loggerSvc.log(res.result.response)
         if (res.result.response === 'SUCCESS') {
           this.telemetrySvc.registrationInteract(

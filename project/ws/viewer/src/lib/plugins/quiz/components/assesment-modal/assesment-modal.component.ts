@@ -532,127 +532,158 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
   submitCompetencyQuizV2(sanitizedRequestData: any) {
     this.quizService.competencySubmitQuizV2(sanitizedRequestData).subscribe(
-      (res: NSQuiz.IQuizSubmitResponse) => {
-        const data1: any = {
-          id: this.assesmentdata.generalData.identifier,
-          type: "competency",
-          version: "",
-          "rollup": {
-            "l1": this.assesmentdata.generalData.collectionId,
-            "l2": this.assesmentdata.generalData.identifier,
-          },
-        }
-        const extras: any = {
-          values: [{
-            courseID: this.assesmentdata.generalData.collectionId,
-            contentId: this.assesmentdata.generalData.identifier,
-            name: this.assesmentdata.generalData.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-          }],
-        }
-        this.telemetrySvc.end('competency', 'competency-submit', 'player', data1, extras)
-        window.scrollTo(0, 0)
-        if (this.assesmentdata.questions.isAssessment) {
-          this.isIdeal = true
-        }
-        this.fetchingResultsStatus = 'done'
-        this.numCorrectAnswers = res.correct
-        this.numIncorrectAnswers = res.inCorrect
-        this.numUnanswered = res.blank
-        /* tslint:disable-next-line:max-line-length */
-        this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
-        this.result = round(res.result)
-        this.tabIndex = 1
-        this.tabActive = true
-        this.assesmentActive = false
-        this.cdr.detectChanges()
-        if (this.result >= this.passPercentage) {
-          this.isCompleted = true
-          this.isCompetencyComplted = true
-          this.isShownGrif = true
-          setTimeout(() => {
-            this.isShownGrif = false
-            this.cdr.detectChanges()
-          }, 4000)
-        } else {
-          this.disableNext = true
-        }
-        this.isCompetency = this.route.snapshot.queryParams.competency
-        this.isAshaHome = this.route.snapshot.queryParams.isAsha
-        if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
-          this.disableContinue = true
-        }
-        const data = localStorage.getItem('competency_meta_data')
-        let competency_meta_data: any
-        let competencyLevelId
-        if (data) {
-          competency_meta_data = JSON.parse(data)[0]
-          forEach(JSON.parse(data), (item: any) => {
-            if (item.competencyIds) {
-              competencyLevelId = this.getCompetencyId(item.competencyIds)
-              this.competencyLevelId = competencyLevelId ?? ''
-            }
-          })
-        }
-        this.competencyId = competency_meta_data.competencyId
-        let userId = ''
-        if (this.configSvc.userProfile) {
-          userId = this.configSvc.userProfile.userId || ''
-        }
-        if (this.isCompetencyComplted) {
-          const formatedData = {
-            request: {
-              userId,
-              typeName: 'competency',
-              competencyDetails: [
-                {
-                  competencyId: competency_meta_data.competencyId,
-                  additionalParams: {
-                    competencyName: competency_meta_data.competencyName,
-                  },
-                  acquiredDetails: {
-                    acquiredChannel: 'selfAssessment',
-                    competencyLevelId,
-                    // effectiveDate: "2023-02-09 9:46:12",
-                    additionalParams: {
-                      competencyName: competency_meta_data.competencyName,
-                      courseId: this.assesmentdata.generalData.collectionId,
-                      ResourseId: this.assesmentdata.generalData.identifier,
-                    },
-                  },
-                },
-              ],
-            },
-          }
-          this.quizService.updatePassbook(formatedData).subscribe(() => {
-          })
-          this.updateNextResourses()
-        }
-        // ASHA-home extra flow: record the self-assessment result (pass or fail) against
-        // the learner path so the ASHA home progress (level highlight / next action)
-        // reflects this attempt. Runs for ASHA users regardless of pass/fail.
-        if (this.isAshaHome) {
-          this.courseID = sanitizedRequestData.courseId
-          const ashaReq = {
-            userid: userId,
-            courseid: sanitizedRequestData.courseId,
-            batchid: sanitizedRequestData.batchId,
-            contentid: sanitizedRequestData.contentId,
-            competencylevel: this.competencyLevelId,
-            completionpercentage: this.result >= this.passPercentage ? 100 : 0,
-            contentType: 'selfAssessment',
-            competencyid: this.competencyId,
-          }
-          this.quizService.updateAshaAssessment(ashaReq).subscribe(
-            (ashaRes: any) => { this.logger.log('asha assessment updated', ashaRes) },
-            (err: any) => { this.logger.warn('asha assessment update failed', err) },
-          )
-        }
-      },
+      (res: NSQuiz.IQuizSubmitResponse) => this.handleCompetencyQuizSubmitSuccess(res, sanitizedRequestData),
       (_error: any) => {
         this.openSnackbar(this.translate.instant("SUBMIT_ERR"))
         this.fetchingResultsStatus = 'error'
       },
+    )
+  }
+
+  private handleCompetencyQuizSubmitSuccess(res: NSQuiz.IQuizSubmitResponse, sanitizedRequestData: any): void {
+    this.raiseCompetencySubmitTelemetry()
+    this.applyQuizResult(res)
+
+    this.isCompetency = this.route.snapshot.queryParams.competency
+    this.isAshaHome = this.route.snapshot.queryParams.isAsha
+    if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
+      this.disableContinue = true
+    }
+
+    const { competency_meta_data, competencyLevelId } = this.loadCompetencyMetaData()
+    this.competencyId = competency_meta_data.competencyId
+    const userId = this.getCurrentUserId()
+
+    if (this.isCompetencyComplted) {
+      this.recordCompetencyCompletion(userId, competency_meta_data, competencyLevelId)
+    }
+    // ASHA-home extra flow: record the self-assessment result (pass or fail) against
+    // the learner path so the ASHA home progress (level highlight / next action)
+    // reflects this attempt. Runs for ASHA users regardless of pass/fail.
+    if (this.isAshaHome) {
+      this.recordAshaAssessmentResult(userId, sanitizedRequestData)
+    }
+  }
+
+  private raiseCompetencySubmitTelemetry(): void {
+    const data1: any = {
+      id: this.assesmentdata.generalData.identifier,
+      type: "competency",
+      version: "",
+      "rollup": {
+        "l1": this.assesmentdata.generalData.collectionId,
+        "l2": this.assesmentdata.generalData.identifier,
+      },
+    }
+    const extras: any = {
+      values: [{
+        courseID: this.assesmentdata.generalData.collectionId,
+        contentId: this.assesmentdata.generalData.identifier,
+        name: this.assesmentdata.generalData.name,
+        moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+      }],
+    }
+    this.telemetrySvc.end('competency', 'competency-submit', 'player', data1, extras)
+  }
+
+  private applyQuizResult(res: NSQuiz.IQuizSubmitResponse): void {
+    window.scrollTo(0, 0)
+    if (this.assesmentdata.questions.isAssessment) {
+      this.isIdeal = true
+    }
+    this.fetchingResultsStatus = 'done'
+    this.numCorrectAnswers = res.correct
+    this.numIncorrectAnswers = res.inCorrect
+    this.numUnanswered = res.blank
+    /* tslint:disable-next-line:max-line-length */
+    this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
+    this.result = round(res.result)
+    this.tabIndex = 1
+    this.tabActive = true
+    this.assesmentActive = false
+    this.cdr.detectChanges()
+    if (this.result >= this.passPercentage) {
+      this.isCompleted = true
+      this.isCompetencyComplted = true
+      this.isShownGrif = true
+      setTimeout(() => {
+        this.isShownGrif = false
+        this.cdr.detectChanges()
+      }, 4000)
+    } else {
+      this.disableNext = true
+    }
+  }
+
+  private loadCompetencyMetaData(): { competency_meta_data: any; competencyLevelId: any } {
+    const data = localStorage.getItem('competency_meta_data')
+    let competency_meta_data: any
+    let competencyLevelId
+    if (data) {
+      competency_meta_data = JSON.parse(data)[0]
+      forEach(JSON.parse(data), (item: any) => {
+        if (item.competencyIds) {
+          competencyLevelId = this.getCompetencyId(item.competencyIds)
+          this.competencyLevelId = competencyLevelId ?? ''
+        }
+      })
+    }
+    return { competency_meta_data, competencyLevelId }
+  }
+
+  private getCurrentUserId(): string {
+    let userId = ''
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    return userId
+  }
+
+  private recordCompetencyCompletion(userId: string, competency_meta_data: any, competencyLevelId: any): void {
+    const formatedData = {
+      request: {
+        userId,
+        typeName: 'competency',
+        competencyDetails: [
+          {
+            competencyId: competency_meta_data.competencyId,
+            additionalParams: {
+              competencyName: competency_meta_data.competencyName,
+            },
+            acquiredDetails: {
+              acquiredChannel: 'selfAssessment',
+              competencyLevelId,
+              // effectiveDate: "2023-02-09 9:46:12",
+              additionalParams: {
+                competencyName: competency_meta_data.competencyName,
+                courseId: this.assesmentdata.generalData.collectionId,
+                ResourseId: this.assesmentdata.generalData.identifier,
+              },
+            },
+          },
+        ],
+      },
+    }
+    this.quizService.updatePassbook(formatedData).subscribe(() => {
+    })
+    this.updateNextResourses()
+  }
+
+  private recordAshaAssessmentResult(userId: string, sanitizedRequestData: any): void {
+    this.courseID = sanitizedRequestData.courseId
+    const ashaReq = {
+      userid: userId,
+      courseid: sanitizedRequestData.courseId,
+      batchid: sanitizedRequestData.batchId,
+      contentid: sanitizedRequestData.contentId,
+      competencylevel: this.competencyLevelId,
+      completionpercentage: this.result >= this.passPercentage ? 100 : 0,
+      contentType: 'selfAssessment',
+      competencyid: this.competencyId,
+    }
+    this.quizService.updateAshaAssessment(ashaReq).subscribe(
+      (ashaRes: any) => { this.logger.log('asha assessment updated', ashaRes) },
+      (err: any) => { this.logger.warn('asha assessment update failed', err) },
     )
   }
 

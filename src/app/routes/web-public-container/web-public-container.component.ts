@@ -86,106 +86,127 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    void (async () => {
-      this.logger.log('selectedProgDet ', this.selectedProgDet)
+    void this.initializeContainer()
+  }
 
-      this.isLoading.set(true)
-      this.handleScrollEvents()
-      const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
-      const designationLower = designation.toLowerCase()
-      const rootOrgId = this.configSvc?.userProfile?.rootOrgId
-      const roleCheck = (roles: string[]) =>
-        roles?.some(r => r.toLowerCase() === designationLower)
+  private async initializeContainer(): Promise<void> {
+    this.logger.log('selectedProgDet ', this.selectedProgDet)
 
-      // loadPlaylistData() is cached after the first real fetch, so awaiting it here is
-      // cheap — but it guarantees playlistSvc.sections() (needed by getPlaylistConfigId)
-      // is populated even if root's background load hasn't resolved yet.
-      await this.playlistSvc.loadPlaylistData()
+    this.isLoading.set(true)
+    this.handleScrollEvents()
+    const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
+    const designationLower = designation.toLowerCase()
+    const rootOrgId = this.configSvc?.userProfile?.rootOrgId
+    const roleCheck = (roles: string[]) =>
+      roles?.some(r => r.toLowerCase() === designationLower)
 
-      // FLOW 1: Program Config Flow - highest priority
-      if (this.showbackButton() && !!this.programConfig) {
-        // Program config detail view: refresh enrollment/progress data instead of relying on
-        // the @Input snapshot (which is captured once at app bootstrap in RootComponent and
-        // never re-fires), so completed/in-progress status reflects the latest API response.
-        await this.refreshUserEnrollCourse()
+    // loadPlaylistData() is cached after the first real fetch, so awaiting it here is
+    // cheap — but it guarantees playlistSvc.sections() (needed by getPlaylistConfigId)
+    // is populated even if root's background load hasn't resolved yet.
+    await this.playlistSvc.loadPlaylistData()
 
-        this.isCompetencyUser.set(this.selectedProgDet?.type === 'competency')
-        if (this.isCompetencyUser()) {
-          const competencyConfigId = this.playlistSvc.getPlaylistConfigId('COMPETENCY_PLAYLIST')
-          this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: competencyConfigId }])
-          this.competencyDesignation = designation
-          this.competencyRole = 'learner'
-
-          const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === competencyConfigId)
-          this.competencySection = sectionFromConfig || { sectionId: 'COMPETENCY_PLAYLIST', text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
-
-          this.isCompetencyUser.set(true)
-          this.isLoading.set(false)
-          return
-        } else {
-          this.configData = this.programConfig?.tabs
-          this.uiConfig.set(this.configData)
-          this.programIdentifiers = this.selectedProgDet.payload
-        }
-      } else if (Array.isArray(this.configData)) {
-        this.uiConfig.set(this.configData.slice(1, -1))
-        if (this.configSvc?.userProfile) {
-          this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-          this.logger.log('plyLsData', this.plyLsData)
-
-          // Join key per section is read straight off the uiConfig just set above — each
-          // section already carries its own `playlistConfigId` from the backend web_layout
-          // config, so a backend rename there needs no code change here.
-          const yourPlansConfigId = this.playlistSvc.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')
-          const topCourseConfigId = this.playlistSvc.getPlaylistConfigId('TOP_COURSE_PLAYLIST')
-          const cneConfigId = this.playlistSvc.getPlaylistConfigId('CNE_COURSE_PLAYLIST')
-          const featuredConfigId = this.playlistSvc.getPlaylistConfigId('FEATURED_COURSE_PLAYLIST')
-
-          for (const element of this.plyLsData) {
-            if (element.orgId !== rootOrgId || element.language !== this.lang) continue
-            const { playlistId, dataSource } = element
-            if (designation && roleCheck(element.role)) {
-              if (playlistId === yourPlansConfigId) {
-                this.yourPlansCourseIdentifier = dataSource.payload
-              }
-            }
-            if (playlistId === topCourseConfigId) {
-              this.topCertifiedCourseIdentifier = dataSource.payload
-            }
-            if (playlistId === cneConfigId) {
-              this.cneCoursesIdentifier = dataSource.payload
-            }
-            if (this.isEkshamata && playlistId === featuredConfigId) {
-              this.featuredCourseIdentifier = dataSource.payload
-            }
-          }
-        }
-      }
-      // Fallback: if playlist API returned empty, read identifiers from configData
-      if (!this.topCertifiedCourseIdentifier.length && !this.cneCoursesIdentifier.length && !this.yourPlansCourseIdentifier.length) {
-        const fallbackTopCourseConfigId = this.playlistSvc.getPlaylistConfigId('TOP_COURSE_PLAYLIST')
-        const fallbackCneConfigId = this.playlistSvc.getPlaylistConfigId('CNE_COURSE_PLAYLIST')
-        this.uiConfig().forEach(data => {
-          if (data?.playlistConfigId == fallbackTopCourseConfigId) {
-            this.topCertifiedCourseIdentifier = data.payload || []
-          } else if (data?.playlistConfigId == fallbackCneConfigId) {
-            this.cneCoursesIdentifier = data.payload || []
-          }
-        })
-      }
-      if (this.hascompetency) {
-        this.handleCompetencyFlow(rootOrgId, roleCheck)
+    // FLOW 1: Program Config Flow - highest priority
+    if (this.showbackButton() && !!this.programConfig) {
+      const isCompetencyFlow = await this.initializeProgramConfigFlow(designation)
+      if (isCompetencyFlow) {
         return
       }
-
-      // Main flow (non-competency users)
-      if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0 || this.programIdentifiers.length > 0) {
-        this.fetchEnvironmentConfigurations()
-        return
-      } else {
-        this.isLoading.set(false)
+    } else if (Array.isArray(this.configData)) {
+      this.uiConfig.set(this.configData.slice(1, -1))
+      if (this.configSvc?.userProfile) {
+        await this.resolvePlaylistIdentifiers(rootOrgId, roleCheck, designation)
       }
-    })()
+    }
+    // Fallback: if playlist API returned empty, read identifiers from configData
+    if (!this.topCertifiedCourseIdentifier.length && !this.cneCoursesIdentifier.length && !this.yourPlansCourseIdentifier.length) {
+      this.applyFallbackIdentifiersFromConfig()
+    }
+    if (this.hascompetency) {
+      this.handleCompetencyFlow(rootOrgId, roleCheck)
+      return
+    }
+
+    // Main flow (non-competency users)
+    if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0 || this.programIdentifiers.length > 0) {
+      this.fetchEnvironmentConfigurations()
+    } else {
+      this.isLoading.set(false)
+    }
+  }
+
+  /** Returns true when this is a competency-user program flow (caller should return early). */
+  private async initializeProgramConfigFlow(designation: string): Promise<boolean> {
+    // Program config detail view: refresh enrollment/progress data instead of relying on
+    // the @Input snapshot (which is captured once at app bootstrap in RootComponent and
+    // never re-fires), so completed/in-progress status reflects the latest API response.
+    await this.refreshUserEnrollCourse()
+
+    this.isCompetencyUser.set(this.selectedProgDet?.type === 'competency')
+    if (this.isCompetencyUser()) {
+      const competencyConfigId = this.playlistSvc.getPlaylistConfigId('COMPETENCY_PLAYLIST')
+      this.competencyPlaylists.set([{ ...this.selectedProgDet, playlistId: competencyConfigId }])
+      this.competencyDesignation = designation
+      this.competencyRole = 'learner'
+
+      const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === competencyConfigId)
+      this.competencySection = sectionFromConfig || { sectionId: 'COMPETENCY_PLAYLIST', text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
+
+      this.isCompetencyUser.set(true)
+      this.isLoading.set(false)
+      return true
+    }
+    this.configData = this.programConfig?.tabs
+    this.uiConfig.set(this.configData)
+    this.programIdentifiers = this.selectedProgDet.payload
+    return false
+  }
+
+  private async resolvePlaylistIdentifiers(
+    rootOrgId: string | undefined,
+    roleCheck: (roles: string[]) => boolean,
+    designation: string,
+  ): Promise<void> {
+    this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+    this.logger.log('plyLsData', this.plyLsData)
+
+    // Join key per section is read straight off the uiConfig just set above — each
+    // section already carries its own `playlistConfigId` from the backend web_layout
+    // config, so a backend rename there needs no code change here.
+    const yourPlansConfigId = this.playlistSvc.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')
+    const topCourseConfigId = this.playlistSvc.getPlaylistConfigId('TOP_COURSE_PLAYLIST')
+    const cneConfigId = this.playlistSvc.getPlaylistConfigId('CNE_COURSE_PLAYLIST')
+    const featuredConfigId = this.playlistSvc.getPlaylistConfigId('FEATURED_COURSE_PLAYLIST')
+
+    for (const element of this.plyLsData) {
+      if (element.orgId !== rootOrgId || element.language !== this.lang) continue
+      const { playlistId, dataSource } = element
+      if (designation && roleCheck(element.role)) {
+        if (playlistId === yourPlansConfigId) {
+          this.yourPlansCourseIdentifier = dataSource.payload
+        }
+      }
+      if (playlistId === topCourseConfigId) {
+        this.topCertifiedCourseIdentifier = dataSource.payload
+      }
+      if (playlistId === cneConfigId) {
+        this.cneCoursesIdentifier = dataSource.payload
+      }
+      if (this.isEkshamata && playlistId === featuredConfigId) {
+        this.featuredCourseIdentifier = dataSource.payload
+      }
+    }
+  }
+
+  private applyFallbackIdentifiersFromConfig(): void {
+    const fallbackTopCourseConfigId = this.playlistSvc.getPlaylistConfigId('TOP_COURSE_PLAYLIST')
+    const fallbackCneConfigId = this.playlistSvc.getPlaylistConfigId('CNE_COURSE_PLAYLIST')
+    this.uiConfig().forEach(data => {
+      if (data?.playlistConfigId == fallbackTopCourseConfigId) {
+        this.topCertifiedCourseIdentifier = data.payload || []
+      } else if (data?.playlistConfigId == fallbackCneConfigId) {
+        this.cneCoursesIdentifier = data.payload || []
+      }
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {

@@ -178,52 +178,60 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
   private evaluateImmediateChildrenStructure() {
     if (this.content && this.content.children && this.content.children.length) {
-      this.content.children.forEach((child: NsContent.IContent) => {
-        if (child.contentType === NsContent.EContentTypes.COURSE) {
-          this.contentStructure.course += 1
-        } else if (child.contentType === NsContent.EContentTypes.KNOWLEDGE_ARTIFACT) {
-          this.contentStructure.other += 1
-        } else if (child.contentType === NsContent.EContentTypes.MODULE) {
-          this.contentStructure.learningModule += 1
-        } else if (child.contentType === NsContent.EContentTypes.RESOURCE) {
-          switch (child.mimeType) {
-            case NsContent.EMimeTypes.HANDS_ON:
-              this.contentStructure.handsOn += 1
-              break
-            case NsContent.EMimeTypes.MP3:
-              this.contentStructure.podcast += 1
-              break
-            case NsContent.EMimeTypes.MP4:
-            case NsContent.EMimeTypes.M3U8:
-              this.contentStructure.video += 1
-              break
-            case NsContent.EMimeTypes.INTERACTION:
-              this.contentStructure.interactiveVideo += 1
-              break
-            case NsContent.EMimeTypes.PDF:
-              this.contentStructure.pdf += 1
-              break
-            case NsContent.EMimeTypes.HTML:
-              this.contentStructure.webPage += 1
-              break
-            case NsContent.EMimeTypes.QUIZ:
-
-              this.contentStructure.assessment += 1
-
-              break
-            case NsContent.EMimeTypes.WEB_MODULE:
-              this.contentStructure.webModule += 1
-              break
-            case NsContent.EMimeTypes.YOUTUBE:
-              this.contentStructure.youtube += 1
-              break
-            default:
-              this.contentStructure.other += 1
-              break
-          }
-        }
-      })
+      this.content.children.forEach((child: NsContent.IContent) => this.tallyChildContentType(child))
     }
+    this.updateHasContentStructure()
+  }
+
+  private tallyChildContentType(child: NsContent.IContent): void {
+    if (child.contentType === NsContent.EContentTypes.COURSE) {
+      this.contentStructure.course += 1
+    } else if (child.contentType === NsContent.EContentTypes.KNOWLEDGE_ARTIFACT) {
+      this.contentStructure.other += 1
+    } else if (child.contentType === NsContent.EContentTypes.MODULE) {
+      this.contentStructure.learningModule += 1
+    } else if (child.contentType === NsContent.EContentTypes.RESOURCE) {
+      this.tallyResourceMimeType(child.mimeType)
+    }
+  }
+
+  private tallyResourceMimeType(mimeType: NsContent.EMimeTypes): void {
+    switch (mimeType) {
+      case NsContent.EMimeTypes.HANDS_ON:
+        this.contentStructure.handsOn += 1
+        break
+      case NsContent.EMimeTypes.MP3:
+        this.contentStructure.podcast += 1
+        break
+      case NsContent.EMimeTypes.MP4:
+      case NsContent.EMimeTypes.M3U8:
+        this.contentStructure.video += 1
+        break
+      case NsContent.EMimeTypes.INTERACTION:
+        this.contentStructure.interactiveVideo += 1
+        break
+      case NsContent.EMimeTypes.PDF:
+        this.contentStructure.pdf += 1
+        break
+      case NsContent.EMimeTypes.HTML:
+        this.contentStructure.webPage += 1
+        break
+      case NsContent.EMimeTypes.QUIZ:
+        this.contentStructure.assessment += 1
+        break
+      case NsContent.EMimeTypes.WEB_MODULE:
+        this.contentStructure.webModule += 1
+        break
+      case NsContent.EMimeTypes.YOUTUBE:
+        this.contentStructure.youtube += 1
+        break
+      default:
+        this.contentStructure.other += 1
+        break
+    }
+  }
+
+  private updateHasContentStructure(): void {
     for (const key in this.contentStructure) {
       if (this.contentStructure[key] > 0) {
         this.hasContentStructure = true

@@ -381,42 +381,38 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     })
   }
   scrollToUserView(index: number) {
-
     setTimeout(() => {
-      if (index > 3) {
-        if (this.highlightItem?.nativeElement?.classList.contains('li-active')) {
-
-          const highlightItemOffset = this.highlightItem.nativeElement.offsetTop
-          const outerClientHeight = this.outer.nativeElement.clientHeight
-          const liItemHeight = this.highlightItem.nativeElement.clientHeight
-
-          if (outerClientHeight < (highlightItemOffset + liItemHeight)) {
-            this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
-
-          } else {
-            this.outer.nativeElement.scrollTop = 0
-          }
-
-          if (highlightItemOffset > 535 && this.reverse === 'next') {
-
-            this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
-            this.outer.nativeElement.scrollTop = window.innerHeight
-            this.highlightItem.nativeElement.offsetTop = 300
-            this.highlightItem.nativeElement.scrollTop = 300
-            if (highlightItemOffset - window.innerHeight > 80) {
-              window.scrollTo(0, 80)
-            }
-          } else {
-
-            if (this.highlightItem.nativeElement.offsetTop + this.outer.nativeElement.offsetTop > window.innerHeight) {
-              this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
-            }
-
-          }
-        }
-
-      }
+      this.applyScrollForActiveItem(index)
     }, 300)
+  }
+
+  private applyScrollForActiveItem(index: number): void {
+    if (index <= 3 || !this.highlightItem?.nativeElement?.classList.contains('li-active')) {
+      return
+    }
+    const highlightItemOffset = this.highlightItem.nativeElement.offsetTop
+    const outerClientHeight = this.outer.nativeElement.clientHeight
+    const liItemHeight = this.highlightItem.nativeElement.clientHeight
+
+    this.outer.nativeElement.scrollTop = outerClientHeight < (highlightItemOffset + liItemHeight)
+      ? this.highlightItem.nativeElement.offsetTop
+      : 0
+
+    if (highlightItemOffset > 535 && this.reverse === 'next') {
+      this.scrollForwardPastThreshold(highlightItemOffset)
+    } else if (this.highlightItem.nativeElement.offsetTop + this.outer.nativeElement.offsetTop > window.innerHeight) {
+      this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+    }
+  }
+
+  private scrollForwardPastThreshold(highlightItemOffset: number): void {
+    this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+    this.outer.nativeElement.scrollTop = window.innerHeight
+    this.highlightItem.nativeElement.offsetTop = 300
+    this.highlightItem.nativeElement.scrollTop = 300
+    if (highlightItemOffset - window.innerHeight > 80) {
+      window.scrollTo(0, 80)
+    }
   }
 
   ngAfterViewInit() {
@@ -734,26 +730,33 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
+    this.mergeProgressRecords(arr1, arr2, keyToUpdate)
+    this.persistProgress(arr1)
+    return this.calculateCourseProgress(arr1)
+  }
+
+  private mergeProgressRecords(arr1: any, arr2: any, keyToUpdate: string): void {
+    arr2.forEach((obj2: any) => {
+      const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
+      if (!obj1) {
+        // Add the new object from arr2 to arr1
+        arr1.push(obj2)
+        return
+      }
+      // Update the existing object in arr1 if the keyToUpdate value is different AND obj2 has the value
+      // **CRITICAL**: Only update if obj2[keyToUpdate] is defined - this prevents undefined from wiping out existing values
+      if (obj2[keyToUpdate] !== undefined && obj1[keyToUpdate] !== obj2[keyToUpdate]) {
+        this.logger.log(`Updating ${obj2.contentId} ${keyToUpdate}: ${obj1[keyToUpdate]} → ${obj2[keyToUpdate]}`)
+        obj1[keyToUpdate] = obj2[keyToUpdate]
+      }
+    })
+  }
+
+  private persistProgress(arr1: any): void {
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
     const courseId = urlParams[3]
     const userID = this.configSvc.userProfile!.userId
-
-    arr2.forEach((obj2: any) => {
-      const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
-
-      if (obj1) {
-        // Update the existing object in arr1 if the keyToUpdate value is different AND obj2 has the value
-        // **CRITICAL**: Only update if obj2[keyToUpdate] is defined - this prevents undefined from wiping out existing values
-        if (obj2[keyToUpdate] !== undefined && obj1[keyToUpdate] !== obj2[keyToUpdate]) {
-          this.logger.log(`Updating ${obj2.contentId} ${keyToUpdate}: ${obj1[keyToUpdate]} → ${obj2[keyToUpdate]}`)
-          obj1[keyToUpdate] = obj2[keyToUpdate]
-        }
-      } else {
-        // Add the new object from arr2 to arr1
-        arr1.push(obj2)
-      }
-    })
     this.logger.log(arr1, 'arr1')
     this.logger.log(userID, courseId)
     this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', arr1).subscribe(
@@ -764,6 +767,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.logger.error('Error inserting data:', error)
       }
     )
+  }
+
+  private calculateCourseProgress(arr1: any): number {
     const uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
     this.logger.log(uniqueIdsOfType.length, this.heirarchy!.childNodes.length) // Output: [1, 3]
     // Only aggregate progress for resources that still exist in the current course
@@ -780,8 +786,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const denominator = uniqueIdsOfType.length * 100
     const percentage = denominator ? Math.round((aggregateValue) / denominator * 100) : 0
     this.logger.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
-    const progress = Math.min(Math.max(percentage, 0), 100)
-    return progress
+    return Math.min(Math.max(percentage, 0), 100)
   }
   calculateAggregate(arr: any, field: string): number {
     const val = arr.reduce((total: number, obj: any) => total + (Number(obj[field]) || 0), 0)
@@ -842,11 +847,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(record => {
         void (async () => {
           this.logger.log('Record:', record)
-          rowData = await record
+          rowData = record
           const dat = JSON.parse(rowData.data)
           this.logger.log(dat, 'dat')
           if (dat && dat.length) {
-            optmisticPercentage = await this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
+            optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
           }
 
           this.logger.log(rating, optmisticPercentage)
@@ -1111,7 +1116,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(record => {
               void (async () => {
                 this.logger.log('Record:', record)
-                rowData = await record
+                rowData = record
                 const dat = JSON.parse(rowData.data)
                 this.logger.log(dat)
                 if (dat && dat.length) {

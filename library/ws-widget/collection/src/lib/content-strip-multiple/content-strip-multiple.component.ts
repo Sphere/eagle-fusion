@@ -345,82 +345,84 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     }
   }
   fetchFromSearch(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
-    if (strip.request && strip.request.search && Object.keys(strip.request.search).length) {
-      if (this.configSvc.activeLocale) {
-        strip.request.search.locale = [this.configSvc.activeLocale.locals[0]]
-      } else {
-        strip.request.search.locale = ['en']
-      }
-      if (!this.callPublicApi) {
-        if (strip.request.search && strip.request.search.filters) {
-          strip.request.search.filters.lastUpdatedOn = ['year']
-          strip.request.search.sort = [
-            {
-              lastUpdatedOn: 'desc',
-            },
-          ]
-        }
-        this.contentSvc.search(strip.request.search).subscribe(
-          results => {
-            const showViewMore = Boolean(
-              results.result.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,
-            )
-            const viewMoreUrl = showViewMore
-              ? {
-                path: '/app/search/learning',
-                queryParams: {
-                  q: strip.request && strip.request.search && strip.request.search.query,
-                  f: JSON.stringify(
-                    strip.request && strip.request.search && strip.request.search.filters,
-                  ),
-                },
-              }
-              : null
-            this.processStrip(
-              strip,
-              this.transformContentsToWidgets(results.result, strip),
-              'done',
-              calculateParentStatus,
-              viewMoreUrl,
-            )
-          },
-          () => {
-            this.processStrip(strip, [], 'error', calculateParentStatus, null)
-          },
-        )
-      } else {
-        const req = {
-          query: '',
-          filters: [{ andFilters: [{ contentType: ['Course', 'Program'] }] }],
-        }
-        this.contentSvc.searchV6(req).subscribe(result => {
-          const results = result
-          if (results.result.length > 0) {
-            const showViewMore = Boolean(
-              results.result.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,
-            )
-            const viewMoreUrl = showViewMore
-              ? {
-                path: '/app/search/learning',
-                queryParams: {
-                  q: strip.request && strip.request.search && strip.request.search.query,
-                  f: JSON.stringify(
-                    strip.request && strip.request.search && strip.request.search.filters,
-                  ),
-                },
-              }
-              : null
-            this.processStrip(
-              strip,
-              this.transformContentsToWidgets(results.result, strip),
-              'done',
-              calculateParentStatus,
-              viewMoreUrl,
-            )
-          }
-        })
-      }
+    if (!(strip.request && strip.request.search && Object.keys(strip.request.search).length)) {
+      return
     }
+    this.applySearchLocale(strip)
+    if (!this.callPublicApi) {
+      this.fetchViaContentSearch(strip, calculateParentStatus)
+    } else {
+      this.fetchViaPublicSearch(strip, calculateParentStatus)
+    }
+  }
+
+  private applySearchLocale(strip: NsContentStripMultiple.IContentStripUnit): void {
+    strip.request.search.locale = this.configSvc.activeLocale
+      ? [this.configSvc.activeLocale.locals[0]]
+      : ['en']
+  }
+
+  private buildSearchViewMoreUrl(strip: NsContentStripMultiple.IContentStripUnit, resultCount: number): any {
+    const showViewMore = Boolean(
+      resultCount > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,
+    )
+    return showViewMore
+      ? {
+        path: '/app/search/learning',
+        queryParams: {
+          q: strip.request && strip.request.search && strip.request.search.query,
+          f: JSON.stringify(
+            strip.request && strip.request.search && strip.request.search.filters,
+          ),
+        },
+      }
+      : null
+  }
+
+  private fetchViaContentSearch(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus: boolean): void {
+    if (strip.request.search && strip.request.search.filters) {
+      strip.request.search.filters.lastUpdatedOn = ['year']
+      strip.request.search.sort = [
+        {
+          lastUpdatedOn: 'desc',
+        },
+      ]
+    }
+    this.contentSvc.search(strip.request.search).subscribe(
+      results => {
+        const viewMoreUrl = this.buildSearchViewMoreUrl(strip, results.result.length)
+        this.processStrip(
+          strip,
+          this.transformContentsToWidgets(results.result, strip),
+          'done',
+          calculateParentStatus,
+          viewMoreUrl,
+        )
+      },
+      () => {
+        this.processStrip(strip, [], 'error', calculateParentStatus, null)
+      },
+    )
+  }
+
+  private fetchViaPublicSearch(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus: boolean): void {
+    const req = {
+      query: '',
+      filters: [{ andFilters: [{ contentType: ['Course', 'Program'] }] }],
+    }
+    this.contentSvc.searchV6(req).subscribe(result => {
+      const results = result
+      if (results.result.length > 0) {
+        const viewMoreUrl = this.buildSearchViewMoreUrl(strip, results.result.length)
+        this.processStrip(
+          strip,
+          this.transformContentsToWidgets(results.result, strip),
+          'done',
+          calculateParentStatus,
+          viewMoreUrl,
+        )
+      }
+    })
   }
 
   fetchFromSearchRegionRecommendation(

@@ -196,39 +196,44 @@ export class SCORMAdapterService implements OnDestroy {
     }
     this.http.post<NsContent.IContinueLearningData>(
       `${API_END_POINTS.SCROM_FETCH_PROGRESS}/${req.request.courseId}`, req
-    ).subscribe(
-      data => {
-        if (data && data.result && data.result.contentList.length) {
-          const listOfContent = data.result.contentList
-          this.logger.log(listOfContent)
-          const self = this
-          const progressDetails = listOfContent.filter((item: any) => {
-            if (item.contentId === self.contentId) {
-              return item
-            }
-          })
-          this.logger.log('PD', progressDetails)
-          if (progressDetails.length > 0) {
-            const data = progressDetails[0]
-            if (data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data")) {
-              if (Object.keys(data.progressdetails).length === 1) {
-                data.progressdetails = {}
-              }
-              const loadDatas: IScromData = {
-                "cmi.core.exit": data.progressdetails["cmi.core.exit"],
-                "cmi.core.lesson_status": data.progressdetails["cmi.core.lesson_status"],
-                "cmi.core.session_time": data.progressdetails["cmi.core.session_time"],
-                "cmi.suspend_data": data.progressdetails["cmi.suspend_data"],
-                Initialized: data.progressdetails["Initialized"],
-              }
-              this.store.setAll(loadDatas)
-            }
-          } else {
-            this.logger.log('No initial data found')
-          }
-        }
-      },
-    )
+    ).subscribe(data => this.handleFetchedProgressV2(data))
+  }
+
+  private handleFetchedProgressV2(data: any): void {
+    if (!(data && data.result && data.result.contentList.length)) {
+      return
+    }
+    const listOfContent = data.result.contentList
+    this.logger.log(listOfContent)
+    const self = this
+    const progressDetails = listOfContent.filter((item: any) => {
+      if (item.contentId === self.contentId) {
+        return item
+      }
+    })
+    this.logger.log('PD', progressDetails)
+    if (progressDetails.length === 0) {
+      this.logger.log('No initial data found')
+      return
+    }
+    this.applyFetchedProgressData(progressDetails[0])
+  }
+
+  private applyFetchedProgressData(data: any): void {
+    if (!(data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data"))) {
+      return
+    }
+    if (Object.keys(data.progressdetails).length === 1) {
+      data.progressdetails = {}
+    }
+    const loadDatas: IScromData = {
+      "cmi.core.exit": data.progressdetails["cmi.core.exit"],
+      "cmi.core.lesson_status": data.progressdetails["cmi.core.lesson_status"],
+      "cmi.core.session_time": data.progressdetails["cmi.core.session_time"],
+      "cmi.suspend_data": data.progressdetails["cmi.suspend_data"],
+      Initialized: data.progressdetails["Initialized"],
+    }
+    this.store.setAll(loadDatas)
   }
 
   loadData() {
@@ -410,7 +415,7 @@ export class SCORMAdapterService implements OnDestroy {
       this.sendScormTelemetry()
 
       if (this.getPercentage(this.scormData) === 100) {
-        const result = await response.result
+        const result = response.result
         result["type"] = 'scorm'
         this.contentSvc.changeMessage(result)
         setTimeout(() => {

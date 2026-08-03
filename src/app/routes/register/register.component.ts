@@ -74,40 +74,50 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   verifyEntry() {
     this.emailOrMobile = this.emailForm.value.userInput
-    let phone = this.emailOrMobile
-    if (phone) {
-      if (phone.length === 10) {
-        phone = /^[6-9]\d{9}$/.test(phone)
-        // at least 10 in number
-        if (phone) {
-          // Call OTP Api, show resend Button true
-          const request = {
-            mobileNumber: phone,
-          }
-          this.tncService.registerWithMobile(request).subscribe(
-            (res: any) => {
-              if (res.message === 'Success') {
-                this.openSnackbar('OTP is sent to your mobile successfully')
-                this.isMobile = true
-              }
-            },
-            (err: any) => {
-              this.openSnackbar(err)
-            }
-          )
+    const phone = this.emailOrMobile
+    if (!phone) {
+      return
+    }
+    if (phone.length === 10) {
+      this.verifyMobileEntry(phone)
+    } else {
+      this.verifyEmailEntry()
+    }
+  }
+
+  private verifyMobileEntry(phone: string): void {
+    const isValidMobile = /^[6-9]\d{9}$/.test(phone)
+    // at least 10 in number
+    if (!isValidMobile) {
+      return
+    }
+    // Call OTP Api, show resend Button true
+    const request = {
+      mobileNumber: isValidMobile,
+    }
+    this.tncService.registerWithMobile(request).subscribe(
+      (res: any) => {
+        if (res.message === 'Success') {
+          this.openSnackbar('OTP is sent to your mobile successfully')
+          this.isMobile = true
         }
-      } else {
-        // All repetition is bounded ({m,n}, never unbounded + or *) so the regex engine's
-        // worst-case work is a fixed constant regardless of input length — no catastrophic backtracking.
-        // tslint:disable-next-line: max-line-length
-        this.email = /^(([^<>()\[\]\\.,;:\s@"]{1,200}(\.[^<>()\[\]\\.,;:\s@"]{1,200}){0,8})|("[^"]{1,200}"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]{1,63}\.){1,8}[a-zA-Z]{2,24}))$/.test(
-          this.emailOrMobile
-        )
-        if (this.email) {
-          this.isMobile = false
-          this.showAllFields = true
-        }
+      },
+      (err: any) => {
+        this.openSnackbar(err)
       }
+    )
+  }
+
+  private verifyEmailEntry(): void {
+    // All repetition is bounded ({m,n}, never unbounded + or *) so the regex engine's
+    // worst-case work is a fixed constant regardless of input length — no catastrophic backtracking.
+    // tslint:disable-next-line: max-line-length
+    this.email = /^(([^<>()\[\]\\.,;:\s@"]{1,200}(\.[^<>()\[\]\\.,;:\s@"]{1,200}){0,8})|("[^"]{1,200}"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]{1,63}\.){1,8}[a-zA-Z]{2,24}))$/.test(
+      this.emailOrMobile
+    )
+    if (this.email) {
+      this.isMobile = false
+      this.showAllFields = true
     }
   }
 

@@ -99,69 +99,69 @@ export class HtmlComponent implements OnInit, OnDestroy {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
         data => {
           void (async () => {
-          data.content.data.artifactUrl =
-            data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
-              ? `${data.content.data.artifactUrl.replace(/%20/g, '')}&Param1=${this.uuid}`
-              : data.content.data.artifactUrl.replace(/%20/g, '')
-          const tempHtmlData = data.content.data
-          if (this.alreadyRaised && this.oldData) {
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-            if (!this.hasFiredRealTimeProgress) {
-              if (this.realTimeProgressTimer) {
-                clearTimeout(this.realTimeProgressTimer)
+            data.content.data.artifactUrl =
+              data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
+                ? `${data.content.data.artifactUrl.replace(/%20/g, '')}&Param1=${this.uuid}`
+                : data.content.data.artifactUrl.replace(/%20/g, '')
+            const tempHtmlData = data.content.data
+            if (this.alreadyRaised && this.oldData) {
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+              if (!this.hasFiredRealTimeProgress) {
+                if (this.realTimeProgressTimer) {
+                  clearTimeout(this.realTimeProgressTimer)
+                }
               }
+              this.subApp = false
             }
-            this.subApp = false
-          }
-          if (tempHtmlData) {
-            this.formDiscussionForumWidget(tempHtmlData)
-          }
-          if (tempHtmlData && tempHtmlData.artifactUrl.indexOf('content-store') >= 0) {
-            await this.setS3Cookie(tempHtmlData.identifier)
-            this.htmlData = tempHtmlData
-          } else {
-            this.htmlData = tempHtmlData
-          }
-          this.raiseRealTimeProgress()
-          if (this.htmlData) {
-            this.oldData = this.htmlData
-            this.alreadyRaised = true
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.htmlData)
-            this.responseSubscription = await fromEvent<MessageEvent>(window, 'message')
-              .pipe(
-                filter(
-                  (event: MessageEvent) =>
-                    Boolean(event) &&
-                    Boolean(event.data) &&
-                    Boolean(event.source && typeof event.source.postMessage === 'function'),
-                ),
-              )
-              .subscribe((event: MessageEvent) => {
-                void (async () => {
-                  const contentWindow = event.source as Window
-                  if (event.data.requestId && this.htmlData) {
-                    switch (event.data.requestId) {
-                      case 'LOADED':
-                        await this.respondSvc.loadedRespond(
-                          contentWindow,
-                          event.data.subApplicationName,
-                          this.htmlData.identifier,
-                        )
-                        if (event.data.subApplicationName === 'RBCP') {
-                          this.subApp = true
-                        }
-                        break
-                      case 'TELEMETRY':
-                        await this.respondSvc.telemetryEvents(event.data)
-                        break
-                      default:
-                        break
+            if (tempHtmlData) {
+              this.formDiscussionForumWidget(tempHtmlData)
+            }
+            if (tempHtmlData && tempHtmlData.artifactUrl.indexOf('content-store') >= 0) {
+              await this.setS3Cookie(tempHtmlData.identifier)
+              this.htmlData = tempHtmlData
+            } else {
+              this.htmlData = tempHtmlData
+            }
+            this.raiseRealTimeProgress()
+            if (this.htmlData) {
+              this.oldData = this.htmlData
+              this.alreadyRaised = true
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.htmlData)
+              this.responseSubscription = fromEvent<MessageEvent>(window, 'message')
+                .pipe(
+                  filter(
+                    (event: MessageEvent) =>
+                      Boolean(event) &&
+                      Boolean(event.data) &&
+                      Boolean(event.source && typeof event.source.postMessage === 'function'),
+                  ),
+                )
+                .subscribe((event: MessageEvent) => {
+                  void (async () => {
+                    const contentWindow = event.source as Window
+                    if (event.data.requestId && this.htmlData) {
+                      switch (event.data.requestId) {
+                        case 'LOADED':
+                          await this.respondSvc.loadedRespond(
+                            contentWindow,
+                            event.data.subApplicationName,
+                            this.htmlData.identifier,
+                          )
+                          if (event.data.subApplicationName === 'RBCP') {
+                            this.subApp = true
+                          }
+                          break
+                        case 'TELEMETRY':
+                          await this.respondSvc.telemetryEvents(event.data)
+                          break
+                        default:
+                          break
+                      }
                     }
-                  }
-                })()
-              })
-          }
-          this.isFetchingDataComplete = true
+                  })()
+                })
+            }
+            this.isFetchingDataComplete = true
           })()
         },
         () => { },

@@ -15,11 +15,11 @@ import { Platform } from '@angular/cdk/platform'
 import dayjs from 'dayjs'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 @Component({
-    standalone: false,
-    selector: 'viewer-video',
-    templateUrl: './video.component.html',
-    styleUrls: ['./video.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-video',
+  templateUrl: './video.component.html',
+  styleUrls: ['./video.component.scss'],
+
 })
 export class VideoComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null
@@ -50,191 +50,217 @@ export class VideoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
     this.screenSizeSubscription = this.valueSvc.isXSmall$.subscribe(data => {
       this.isScreenSizeSmall = data
     })
     this.isNotEmbed =
       this.activatedRoute.snapshot.queryParamMap.get('embed') === 'true' ? false : true
-    if (
+    if (this.shouldUsePreviewMode()) {
+      this.initPreviewMode()
+    } else {
+      this.initRouteDataMode()
+    }
+  }
+
+  private shouldUsePreviewMode(): boolean {
+    return Boolean(
       this.activatedRoute.snapshot.queryParamMap.get('preview') &&
       !this.accessControlSvc.authoringConfig.newDesign
-    ) {
-      this.viewerDataSubscription = this.viewerSvc
-        .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
-        .subscribe(data => {
-          this.logger.log(data, '')
-          this.videoData = data
-          if (this.videoData) {
-            this.formDiscussionForumWidget(this.videoData)
-          }
-          this.widgetResolverVideoData = this.initWidgetResolverVideoData(this.videoData)
-          let url = ''
-          if (this.videoData.artifactUrl.indexOf('/content-store/') > -1) {
-            url = API_END_POINTS.AUTH_CONTENT(new URL(this.videoData.artifactUrl).pathname)
-          } else {
-            url = API_END_POINTS.AUTH_CONTENT(encodeURIComponent(this.videoData.artifactUrl))
-          }
-          this.widgetResolverVideoData.widgetData.url = this.videoData ? url : ''
-          this.widgetResolverVideoData.widgetData.disableTelemetry = true
-          this.isFetchingDataComplete = true
-        })
+    )
+  }
 
-    } else {
-      this.routeDataSubscription = this.activatedRoute.data.subscribe(
-        data => {
-          void (async () => {
-          this.widgetResolverVideoData = null
-          this.videoData = data.content.data
+  private initPreviewMode(): void {
+    this.viewerDataSubscription = this.viewerSvc
+      .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
+      .subscribe(data => this.handlePreviewContentData(data))
+  }
 
-          if (this.videoData) {
-            this.formDiscussionForumWidget(this.videoData)
-            let userId
-            if (this.configSvc.userProfile) {
-              userId = this.configSvc.userProfile.userId || ''
-            }
-            const req: NsContent.IContinueLearningDataReq = {
-              request: {
-                userId,
-                batchId: this.batchId,
-                courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                contentIds: this.videoData ? [this.videoData.identifier] : [],
-                fields: ['progressdetails'],
-              },
-            }
-            this.contentSvc.fetchContentHistoryV2(req).subscribe(
-              data => {
-                void (async () => {
-                if (data && data.result && data.result.contentList.length) {
-                  const contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
-                  this.logger.log(contentData)
-                  if (contentData === undefined || contentData.completionPercentage === 0) {
-                    this.logger.log('contentData')
-                    let req: any
-                    if (this.configSvc.userProfile) {
-                      req = {
-                        request: {
-                          userId: this.configSvc.userProfile.userId || '',
-                          contents: [
-                            {
-                              contentId: this.videoData!.identifier,
-                              batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
-                              courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                              status: 1,
-                              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                              progressdetails: {},
-                              completionPercentage: 0,
-                            },
-                          ],
-                        },
-                      }
-                      this.logger.log(req)
-                      this.viewerSvc.initUpdate(req).subscribe((data: any) => {
-                        void (async () => {
-                          this.logger.log(data)
-                          const result = data.result
-                          result['type'] = 'video'
-                          this.contentSvc.changeMessage(result)
-                        })()
-                      })
-                    }
-                  } else {
-                    let req: any
-                    if (this.configSvc.userProfile) {
-                      req = {
-                        request: {
-                          userId: this.configSvc.userProfile.userId || '',
-                          contents: [
-                            {
-                              contentId: this.videoData!.identifier,
-                              batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
-                              courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                              status: contentData.status,
-                              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                              progressdetails: contentData.progressdetails,
-                              completionPercentage: contentData.completionPercentage,
-                            },
-                          ],
-                        },
-                      }
-                      this.logger.log(req)
-                      this.viewerSvc.initUpdate(req).subscribe((data: any) => {
-                        void (async () => {
-                          this.logger.log(data)
-                          const result = data.result
-                          result['type'] = 'video'
-                          this.contentSvc.changeMessage(result)
-
-                        })()
-                      })
-                    }
-                  }
-                } else {
-                  let req: any
-                  if (this.configSvc.userProfile) {
-                    req = {
-                      request: {
-                        userId: this.configSvc.userProfile.userId || '',
-                        contents: [
-                          {
-                            contentId: this.videoData!.identifier,
-                            batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
-                            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                            status: 1,
-                            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                            progressdetails: {},
-                            completionPercentage: 0,
-                          },
-                        ],
-                      },
-                    }
-                    this.logger.log(req, '183')
-                    this.viewerSvc.initUpdate(req).subscribe((data: any) => {
-                      void (async () => {
-                        this.logger.log(data)
-                      })()
-                    })
-                  }
-                }
-                })()
-              })
-
-          }
-          this.widgetResolverVideoData = this.initWidgetResolverVideoData(this.videoData as any)
-          if (this.videoData && this.videoData.identifier) {
-            if (this.activatedRoute.snapshot.queryParams.collectionId) {
-              await this.fetchContinueLearning(
-                this.activatedRoute.snapshot.queryParams.collectionId,
-                this.videoData.identifier,
-              )
-            } else {
-              await this.fetchContinueLearning(this.videoData.identifier, this.videoData.identifier)
-            }
-          }
-          this.widgetResolverVideoData.widgetData.url = this.videoData
-            ? this.forPreview
-              ? this.viewerSvc.getAuthoringUrl(this.videoData.artifactUrl)
-              : this.videoData.artifactUrl
-            : ''
-          // Only use getResumePoint as fallback if fetchContinueLearning didn't set a value
-          if (!this.widgetResolverVideoData.widgetData.resumePoint) {
-            this.widgetResolverVideoData.widgetData.resumePoint = this.getResumePoint(this.videoData)
-          }
-          this.widgetResolverVideoData.widgetData.identifier = this.videoData
-            ? this.videoData.identifier
-            : ''
-          this.widgetResolverVideoData.widgetData.mimeType = data.content.data.mimeType
-          this.widgetResolverVideoData = JSON.parse(JSON.stringify(this.widgetResolverVideoData))
-          if (this.videoData && this.videoData.artifactUrl.indexOf('content-store') >= 0) {
-            await this.setS3Cookie(this.videoData.identifier)
-          }
-          this.isFetchingDataComplete = true
-          this.cdr.detectChanges()
-          })()
-        },
-        () => { },
-      )
+  private handlePreviewContentData(data: any): void {
+    this.logger.log(data, '')
+    this.videoData = data
+    if (this.videoData) {
+      this.formDiscussionForumWidget(this.videoData)
     }
+    this.widgetResolverVideoData = this.initWidgetResolverVideoData(this.videoData)
+    let url = ''
+    if (this.videoData.artifactUrl.indexOf('/content-store/') > -1) {
+      url = API_END_POINTS.AUTH_CONTENT(new URL(this.videoData.artifactUrl).pathname)
+    } else {
+      url = API_END_POINTS.AUTH_CONTENT(encodeURIComponent(this.videoData.artifactUrl))
+    }
+    this.widgetResolverVideoData.widgetData.url = this.videoData ? url : ''
+    this.widgetResolverVideoData.widgetData.disableTelemetry = true
+    this.isFetchingDataComplete = true
+  }
+
+  private initRouteDataMode(): void {
+    this.routeDataSubscription = this.activatedRoute.data.subscribe(
+      data => {
+        void this.handleRouteData(data)
+      },
+      () => { },
+    )
+  }
+
+  private async handleRouteData(data: any): Promise<void> {
+    this.widgetResolverVideoData = null
+    this.videoData = data.content.data
+
+    if (this.videoData) {
+      // Fire-and-forget: kicks off the progress-history sync without blocking the
+      // widget-resolver assembly below (matches the original concurrent behaviour).
+      this.syncVideoProgressHistory()
+    }
+    this.widgetResolverVideoData = this.initWidgetResolverVideoData(this.videoData as any)
+    if (this.videoData && this.videoData.identifier) {
+      if (this.activatedRoute.snapshot.queryParams.collectionId) {
+        await this.fetchContinueLearning(
+          this.activatedRoute.snapshot.queryParams.collectionId,
+          this.videoData.identifier,
+        )
+      } else {
+        await this.fetchContinueLearning(this.videoData.identifier, this.videoData.identifier)
+      }
+    }
+    this.widgetResolverVideoData.widgetData.url = this.videoData
+      ? this.forPreview
+        ? this.viewerSvc.getAuthoringUrl(this.videoData.artifactUrl)
+        : this.videoData.artifactUrl
+      : ''
+    // Only use getResumePoint as fallback if fetchContinueLearning didn't set a value
+    if (!this.widgetResolverVideoData.widgetData.resumePoint) {
+      this.widgetResolverVideoData.widgetData.resumePoint = this.getResumePoint(this.videoData)
+    }
+    this.widgetResolverVideoData.widgetData.identifier = this.videoData
+      ? this.videoData.identifier
+      : ''
+    this.widgetResolverVideoData.widgetData.mimeType = data.content.data.mimeType
+    this.widgetResolverVideoData = JSON.parse(JSON.stringify(this.widgetResolverVideoData))
+    if (this.videoData && this.videoData.artifactUrl.indexOf('content-store') >= 0) {
+      await this.setS3Cookie(this.videoData.identifier)
+    }
+    this.isFetchingDataComplete = true
+    this.cdr.detectChanges()
+  }
+
+  private syncVideoProgressHistory(): void {
+    this.formDiscussionForumWidget(this.videoData!)
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    const req: NsContent.IContinueLearningDataReq = {
+      request: {
+        userId,
+        batchId: this.batchId,
+        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+        contentIds: this.videoData ? [this.videoData.identifier] : [],
+        fields: ['progressdetails'],
+      },
+    }
+    this.contentSvc.fetchContentHistoryV2(req).subscribe(historyData => {
+      this.handleContentHistoryResponse(historyData)
+    })
+  }
+
+  private handleContentHistoryResponse(historyData: any): void {
+    if (!(historyData && historyData.result && historyData.result.contentList.length)) {
+      this.initZeroProgressSilent()
+      return
+    }
+    // .find() is synchronous — no await needed here.
+    const contentData = historyData['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
+    this.logger.log(contentData)
+    if (contentData === undefined || contentData.completionPercentage === 0) {
+      this.logger.log('contentData')
+      this.initZeroProgressWithNotify()
+    } else {
+      this.syncExistingVideoProgress(contentData)
+    }
+  }
+
+  private initZeroProgressWithNotify(): void {
+    if (!this.configSvc.userProfile) {
+      return
+    }
+    const req: any = {
+      request: {
+        userId: this.configSvc.userProfile.userId || '',
+        contents: [
+          {
+            contentId: this.videoData!.identifier,
+            batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+            status: 1,
+            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+            progressdetails: {},
+            completionPercentage: 0,
+          },
+        ],
+      },
+    }
+    this.logger.log(req)
+    this.viewerSvc.initUpdate(req).subscribe((data: any) => {
+      this.logger.log(data)
+      const result = data.result
+      result['type'] = 'video'
+      this.contentSvc.changeMessage(result)
+    })
+  }
+
+  private syncExistingVideoProgress(contentData: any): void {
+    if (!this.configSvc.userProfile) {
+      return
+    }
+    const req: any = {
+      request: {
+        userId: this.configSvc.userProfile.userId || '',
+        contents: [
+          {
+            contentId: this.videoData!.identifier,
+            batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+            status: contentData.status,
+            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+            progressdetails: contentData.progressdetails,
+            completionPercentage: contentData.completionPercentage,
+          },
+        ],
+      },
+    }
+    this.logger.log(req)
+    this.viewerSvc.initUpdate(req).subscribe((data: any) => {
+      this.logger.log(data)
+      const result = data.result
+      result['type'] = 'video'
+      this.contentSvc.changeMessage(result)
+    })
+  }
+
+  private initZeroProgressSilent(): void {
+    if (!this.configSvc.userProfile) {
+      return
+    }
+    const req: any = {
+      request: {
+        userId: this.configSvc.userProfile.userId || '',
+        contents: [
+          {
+            contentId: this.videoData!.identifier,
+            batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+            status: 1,
+            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+            progressdetails: {},
+            completionPercentage: 0,
+          },
+        ],
+      },
+    }
+    this.logger.log(req, '183')
+    this.viewerSvc.initUpdate(req).subscribe((data: any) => {
+      this.logger.log(data)
+    })
   }
 
   ngOnDestroy() {

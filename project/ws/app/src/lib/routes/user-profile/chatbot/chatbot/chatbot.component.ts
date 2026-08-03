@@ -243,10 +243,10 @@ export class ChatbotComponent implements OnInit {
       if (key === 'country') {
         return this.masterNationalities.filter((option: string) =>
           option.toLowerCase().includes(filterValue))
-      } if (key === 'state') {
+      } else if (key === 'state') {
         return this.statesArr.filter((option: string) =>
           option.toLowerCase().includes(filterValue))
-      } if (key === 'district') {
+      } else if (key === 'district') {
         return this.districtArr.filter((option: string) =>
           option.toLowerCase().includes(filterValue))
       }
@@ -332,52 +332,64 @@ export class ChatbotComponent implements OnInit {
   }
 
   getChatResponseCategorization(_chatFormValue: any) {
-
-    if (_chatFormValue.replymsg) {
-      if (_chatFormValue.replymsg === 'Yes, I confirm') {
+    if (!_chatFormValue.replymsg) {
+      return
+    }
+    switch (_chatFormValue.replymsg) {
+      case 'Yes, I confirm':
         this.inputMsgEnabled = false
         this.updateProfile()
-      } else if (_chatFormValue.replymsg === 'Retry') {
+        break
+      case 'Retry':
         this.inputMsgEnabled = false
         this.retryProfile()
-      } else if (_chatFormValue.replymsg === 'Yes') {
-        this.hideInputField = false
-        const typeIcon = $('#chat-output')
-        typeIcon.append(`<div class="bot-message">
-            <div class="message">
-              ${_chatFormValue.replymsg}
-              </div>
-            </div>`)
-        setTimeout(() => {
-          typeIcon.append(`
-          <div class='user-message'>
-            <div class='message'>
-              ${this.chatArray[0].title}
-            </div>
-          </div>
-        `)
-        }, 300)
-      } else if (_chatFormValue.replymsg === 'No') {
-        this.hideInputField = false
-        this.chatArray.push(this.chatObj.regOption.profiledetails[1])
-        this.chatArray.push(this.chatObj.regOption.profiledetails[2])
-
-        const name = this.registeredUserName.split(' ')
-        this.assignFields('fname', name[0])
-        if (name.length === 3) {
-          this.assignFields('middlename', name[1])
-          this.assignFields('lname', name[2])
-        } else {
-          this.assignFields('lname', name[1])
-        }
-        this.order = 2
-        this.getChatResponse(_chatFormValue)
-      } else {
+        break
+      case 'Yes':
+        this.showYesReplyMessage(_chatFormValue.replymsg)
+        break
+      case 'No':
+        this.handleNoReply(_chatFormValue)
+        break
+      default:
         this.showAddress = false
         this.getChatResponse(_chatFormValue)
-      }
     }
+  }
 
+  private showYesReplyMessage(replymsg: string): void {
+    this.hideInputField = false
+    const typeIcon = $('#chat-output')
+    typeIcon.append(`<div class="bot-message">
+        <div class="message">
+          ${replymsg}
+          </div>
+        </div>`)
+    setTimeout(() => {
+      typeIcon.append(`
+      <div class='user-message'>
+        <div class='message'>
+          ${this.chatArray[0].title}
+        </div>
+      </div>
+    `)
+    }, 300)
+  }
+
+  private handleNoReply(_chatFormValue: any): void {
+    this.hideInputField = false
+    this.chatArray.push(this.chatObj.regOption.profiledetails[1])
+    this.chatArray.push(this.chatObj.regOption.profiledetails[2])
+
+    const name = this.registeredUserName.split(' ')
+    this.assignFields('fname', name[0])
+    if (name.length === 3) {
+      this.assignFields('middlename', name[1])
+      this.assignFields('lname', name[2])
+    } else {
+      this.assignFields('lname', name[1])
+    }
+    this.order = 2
+    this.getChatResponse(_chatFormValue)
   }
 
   retryProfile() {

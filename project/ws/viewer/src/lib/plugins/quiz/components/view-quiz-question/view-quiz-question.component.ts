@@ -51,65 +51,79 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   ngOnInit() {
-    const res: string[] = this.question.question.match(/<img[^>]+src="([^">]+)"/g) || ['']
-    for (const oldImg of res) {
-      if (oldImg) {
-        let temp = oldImg.match(/src="([^">]+)"/g) || ['']
-        const toBeReplaced = temp[0]
-        temp = [temp[0].replace('src="/', '')]
-        temp = [temp[0].replace(/\"/g, '')]
-        const baseUrl = this.artifactUrl.split('/')
-        const newUrl = this.artifactUrl.replace(baseUrl[baseUrl.length - 1], temp[0])
-        this.question.question = this.question.question.replace(toBeReplaced, `src="${newUrl}"`)
-      }
-    }
+    this.replaceRelativeImageSrcs()
     if (this.question.questionType === 'fitb') {
-      const iterationNumber = (this.question.question.match(/<input/g) || []).length
-      for (let i = 0; i < iterationNumber; i += 1) {
-        this.question.question = this.question.question.replace('<input', 'idMarkerForReplacement')
-        this.correctOption.push(false)
-        this.unTouchedBlank.push(true)
-      }
-      for (let i = 0; i < iterationNumber; i += 1) {
-        this.question.question = this.question.question.replace(
-          'idMarkerForReplacement',
-          `<input matInput style="border-style: none none solid none;
-          border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
-        )
-      }
-      this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
+      this.setupFitbQuestionHtml()
     }
     if (this.question.questionType === 'mtf') {
-      this.question.options.forEach(option => (option.matchForView = option.match))
-      const array = this.question.options.map(elem => elem.match)
-      const arr = this.shuffle(array)
-      for (let i = 0; i < this.question.options.length; i += 1) {
-        this.question.options[i].matchForView = arr[i]
-      }
-      const matchHintDisplayLocal = [...this.question.options]
-      matchHintDisplayLocal.forEach(element => {
-        if (element.hint) {
-          this.matchHintDisplay.push(element)
-        }
-      })
+      this.setupMtfQuestionOptions()
     }
+    this.subscribeToMtfUpdates()
+  }
+
+  private replaceRelativeImageSrcs(): void {
+    const res: string[] = this.question.question.match(/<img[^>]+src="([^">]+)"/g) || ['']
+    for (const oldImg of res) {
+      if (!oldImg) {
+        continue
+      }
+      let temp = oldImg.match(/src="([^">]+)"/g) || ['']
+      const toBeReplaced = temp[0]
+      temp = [temp[0].replace('src="/', '')]
+      temp = [temp[0].replace(/\"/g, '')]
+      const baseUrl = this.artifactUrl.split('/')
+      const newUrl = this.artifactUrl.replace(baseUrl[baseUrl.length - 1], temp[0])
+      this.question.question = this.question.question.replace(toBeReplaced, `src="${newUrl}"`)
+    }
+  }
+
+  private setupFitbQuestionHtml(): void {
+    const iterationNumber = (this.question.question.match(/<input/g) || []).length
+    for (let i = 0; i < iterationNumber; i += 1) {
+      this.question.question = this.question.question.replace('<input', 'idMarkerForReplacement')
+      this.correctOption.push(false)
+      this.unTouchedBlank.push(true)
+    }
+    for (let i = 0; i < iterationNumber; i += 1) {
+      this.question.question = this.question.question.replace(
+        'idMarkerForReplacement',
+        `<input matInput style="border-style: none none solid none;
+        border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
+      )
+    }
+    this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
+  }
+
+  private setupMtfQuestionOptions(): void {
+    this.question.options.forEach(option => (option.matchForView = option.match))
+    const array = this.question.options.map(elem => elem.match)
+    const arr = this.shuffle(array)
+    for (let i = 0; i < this.question.options.length; i += 1) {
+      this.question.options[i].matchForView = arr[i]
+    }
+    const matchHintDisplayLocal = [...this.question.options]
+    matchHintDisplayLocal.forEach(element => {
+      if (element.hint) {
+        this.matchHintDisplay.push(element)
+      }
+    })
+  }
+
+  private subscribeToMtfUpdates(): void {
     this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe(
       // tslint:disable-next-line:no-shadowed-variable
       (res: any) => {
-        if (!isUndefined(res)) {
-          if (res) {
-            this.initJsPlump()
-
-          } else {
-
-            if (this.jsPlumbInstance) {
-              this.jsPlumbInstance.reset()
-              this.jsPlumbInstance.deleteEveryConnection()
-            }
-
-          }
+        if (isUndefined(res)) {
+          return
         }
-
+        if (res) {
+          this.initJsPlump()
+          return
+        }
+        if (this.jsPlumbInstance) {
+          this.jsPlumbInstance.reset()
+          this.jsPlumbInstance.deleteEveryConnection()
+        }
       })
   }
   initFitb() {

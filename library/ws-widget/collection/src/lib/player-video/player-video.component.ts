@@ -317,6 +317,75 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     ).dispose
   }
 
+  private async processVideoProgressUpdate(identifier: string, data: any, batchId: any, collectionId: any): Promise<void> {
+    try {
+      // Reset tracking state when navigating to a new video in a reused component instance
+      if (this.lastProgressIdentifier !== null && this.lastProgressIdentifier !== identifier) {
+        this.lastSentProgressPercentage = -1
+        this.contentHistoryResponse = null
+      }
+      this.lastProgressIdentifier = identifier
+
+      // Ensure we have contentHistoryResponse - fetch if needed
+      if (!this.contentHistoryResponse || !this.contentHistoryResponse.contentList || this.contentHistoryResponse.contentList.length === 0) {
+        await this.fetchAndCacheContentHistory(identifier, batchId, collectionId)
+      }
+
+      // **CRITICAL**: If resource is already 100% complete, don't send lower percentages on replay
+      // Initialize lastSentProgressPercentage from cached completion if it's 100%
+      if (this.lastSentProgressPercentage === -1 && this.contentHistoryResponse) {
+        const cachedItem = this.contentHistoryResponse.contentList.find((item: any) => item.contentId === identifier)
+        if (cachedItem && cachedItem.completionPercentage === 100) {
+          // Already marked complete - set tracking to 100 to prevent sending lower percentages
+          this.lastSentProgressPercentage = 100
+          this.logger.log('Resource already 100% complete, skipping progress updates for replay', { identifier })
+          return
+        }
+      }
+
+      // Calculate progress percentage
+      const temp = data.current
+      const latest = parseFloat(temp[temp.length - 1] ?? '0')
+      const percentMilis = (latest / data.max_size) * 100
+      let percent = parseFloat(percentMilis.toFixed(2))
+
+      // **CRITICAL: Force 100% for video near completion to ensure full green tick**
+      // Use 95% threshold to catch values like 97.9% that are essentially complete
+      if (percent >= 95) {
+        percent = 100
+        data.current = data.max_size
+      }
+
+      // Prevent duplicate updates (only skip if exact same percentage sent)
+      if (percent === this.lastSentProgressPercentage) {
+        this.logger.log('Exact same progress, skipping duplicate', { percent })
+        return
+      }
+
+      // Prevent backwards progress
+      if (percent < this.lastSentProgressPercentage) {
+        this.logger.log('Progress decreased, skipping', { percent, lastSent: this.lastSentProgressPercentage })
+        return
+      }
+
+      // Send update for every 5% milestone (5, 10, 15, 20... 100)
+      const currentMilestone = Math.floor(percent / 5) * 5
+      const lastMilestone = Math.floor(this.lastSentProgressPercentage / 5) * 5
+
+      // Check if we've reached a new 5% milestone
+      const isNewMilestone = currentMilestone > lastMilestone
+      const isCompletion = percent === 100
+      const isFirstProgress = this.lastSentProgressPercentage === -1 && percent > 0
+
+      if (isNewMilestone || isCompletion || isFirstProgress) {
+        this.logger.log('Sending progress update at milestone', { percent, milestone: currentMilestone, isNewMilestone, isCompletion, isFirstProgress })
+        await this.updateVideoProgress(identifier, data, percent, collectionId, batchId)
+      }
+    } catch (error) {
+      this.logger.error('Error in fireRProgress:', error)
+    }
+  }
+
   private initializePlayer() {
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
     const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
@@ -334,74 +403,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
-      void (async () => {
-        try {
-          // Reset tracking state when navigating to a new video in a reused component instance
-          if (this.lastProgressIdentifier !== null && this.lastProgressIdentifier !== identifier) {
-            this.lastSentProgressPercentage = -1
-            this.contentHistoryResponse = null
-          }
-          this.lastProgressIdentifier = identifier
-
-          // Ensure we have contentHistoryResponse - fetch if needed
-          if (!this.contentHistoryResponse || !this.contentHistoryResponse.contentList || this.contentHistoryResponse.contentList.length === 0) {
-            await this.fetchAndCacheContentHistory(identifier, batchId, collectionId)
-          }
-
-          // **CRITICAL**: If resource is already 100% complete, don't send lower percentages on replay
-          // Initialize lastSentProgressPercentage from cached completion if it's 100%
-          if (this.lastSentProgressPercentage === -1 && this.contentHistoryResponse) {
-            const cachedItem = this.contentHistoryResponse.contentList.find((item: any) => item.contentId === identifier)
-            if (cachedItem && cachedItem.completionPercentage === 100) {
-              // Already marked complete - set tracking to 100 to prevent sending lower percentages
-              this.lastSentProgressPercentage = 100
-              this.logger.log('Resource already 100% complete, skipping progress updates for replay', { identifier })
-              return
-            }
-          }
-
-          // Calculate progress percentage
-          const temp = data.current
-          const latest = parseFloat(temp[temp.length - 1] ?? '0')
-          const percentMilis = (latest / data.max_size) * 100
-          let percent = parseFloat(percentMilis.toFixed(2))
-
-          // **CRITICAL: Force 100% for video near completion to ensure full green tick**
-          // Use 95% threshold to catch values like 97.9% that are essentially complete
-          if (percent >= 95) {
-            percent = 100
-            data.current = data.max_size
-          }
-
-          // Prevent duplicate updates (only skip if exact same percentage sent)
-          if (percent === this.lastSentProgressPercentage) {
-            this.logger.log('Exact same progress, skipping duplicate', { percent })
-            return
-          }
-
-          // Prevent backwards progress
-          if (percent < this.lastSentProgressPercentage) {
-            this.logger.log('Progress decreased, skipping', { percent, lastSent: this.lastSentProgressPercentage })
-            return
-          }
-
-          // Send update for every 5% milestone (5, 10, 15, 20... 100)
-          const currentMilestone = Math.floor(percent / 5) * 5
-          const lastMilestone = Math.floor(this.lastSentProgressPercentage / 5) * 5
-
-          // Check if we've reached a new 5% milestone
-          const isNewMilestone = currentMilestone > lastMilestone
-          const isCompletion = percent === 100
-          const isFirstProgress = this.lastSentProgressPercentage === -1 && percent > 0
-
-          if (isNewMilestone || isCompletion || isFirstProgress) {
-            this.logger.log('Sending progress update at milestone', { percent, milestone: currentMilestone, isNewMilestone, isCompletion, isFirstProgress })
-            await this.updateVideoProgress(identifier, data, percent, collectionId, batchId)
-          }
-        } catch (error) {
-          this.logger.error('Error in fireRProgress:', error)
-        }
-      })()
+      void this.processVideoProgressUpdate(identifier, data, batchId, collectionId)
     }
 
     let enableTelemetry = false

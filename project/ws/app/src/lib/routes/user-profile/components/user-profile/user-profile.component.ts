@@ -544,70 +544,81 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getUserDetails() {
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.id) {
-      if (this.configSvc.userProfile) {
-        if (this.configSvc.userProfile.language) {
-          this.preferedLanguage = { lang: this.configSvc.userProfile.language }
-        } else {
-          this.preferedLanguage = { id: 'en', lang: 'English' }
-        }
-
-        if (this.configSvc.userProfile.email) {
-          this.mobileNumberLogin = true
-          this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
-          this.createUserForm.patchValue({
-            mobile: Number(this.mobileLoginNumber),
-          })
-        }
-        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-          (data: Record<string, any>) => {
-            const userData = data.profileDetails.profileReq
-            if (data && userData) {
-              this.isEditable = true
-              const academics = this.populateAcademics(userData)
-              this.setDegreeValuesArray(academics)
-              this.setPostDegreeValuesArray(academics)
-              const organisations = this.populateOrganisationDetails(userData)
-              this.constructFormFromRegistry(userData, academics, organisations)
-              this.populateChips(userData)
-              this.userProfileData = userData
-            } else {
-              if (this.configSvc.userProfile) {
-                this.createUserForm.patchValue({
-                  firstname: this.configSvc.userProfile.firstName,
-                  surname: this.configSvc.userProfile.lastName,
-                  primaryEmail: this.configSvc.userProfile.email,
-                  orgName: this.configSvc.userProfile.rootOrgName,
-                })
-              } else {
-                this.router.navigate(['app/user-profile/chatbot'])
-              }
-            }
-          },
-          (error: any) => {
-            console.error('Error loading user details from registry', error)
-          })
-      }
+      this.loadMappedUserProfile()
     } else {
-      if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
-        if (this.configSvc.userProfile.email.endsWith('yopmail.com')) {
-          this.mobileNumberLogin = true
-          this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
-          this.createUserForm.patchValue({
-            mobile: Number(this.mobileLoginNumber),
-          })
-        }
-        if (this.configSvc.userProfile) {
-          const tempData = this.configSvc.userProfile
-          this.userProfileData = _.get(this.configSvc, 'unMappedUser.profileDetails')
-          this.createUserForm.patchValue({
-            firstname: this.userProfileData.personalDetails.firstname,
-            surname: this.userProfileData.personalDetails.surname,
-            primaryEmail: _.get(this.configSvc.unMappedUser, 'profileDetails.profileReq.personalDetails.primaryEmail') || tempData.email,
-          })
-        }
-      }
-
+      this.loadUnmappedUserProfile()
     }
+  }
+
+  private loadMappedUserProfile(): void {
+    if (!this.configSvc.userProfile) {
+      return
+    }
+    this.setPreferredLanguage()
+    this.prefillMobileLoginFromEmail(this.configSvc.userProfile.email)
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser!.id).subscribe(
+      (data: Record<string, any>) => this.handleRegistryUserDetails(data),
+      (error: any) => {
+        console.error('Error loading user details from registry', error)
+      })
+  }
+
+  private setPreferredLanguage(): void {
+    this.preferedLanguage = this.configSvc.userProfile!.language
+      ? { lang: this.configSvc.userProfile!.language }
+      : { id: 'en', lang: 'English' }
+  }
+
+  private prefillMobileLoginFromEmail(email: string | undefined): void {
+    if (!email) {
+      return
+    }
+    this.mobileNumberLogin = true
+    this.mobileLoginNumber = email.substr(0, 10)
+    this.createUserForm.patchValue({
+      mobile: Number(this.mobileLoginNumber),
+    })
+  }
+
+  private handleRegistryUserDetails(data: Record<string, any>): void {
+    const userData = data.profileDetails.profileReq
+    if (data && userData) {
+      this.isEditable = true
+      const academics = this.populateAcademics(userData)
+      this.setDegreeValuesArray(academics)
+      this.setPostDegreeValuesArray(academics)
+      const organisations = this.populateOrganisationDetails(userData)
+      this.constructFormFromRegistry(userData, academics, organisations)
+      this.populateChips(userData)
+      this.userProfileData = userData
+      return
+    }
+    if (this.configSvc.userProfile) {
+      this.createUserForm.patchValue({
+        firstname: this.configSvc.userProfile.firstName,
+        surname: this.configSvc.userProfile.lastName,
+        primaryEmail: this.configSvc.userProfile.email,
+        orgName: this.configSvc.userProfile.rootOrgName,
+      })
+    } else {
+      this.router.navigate(['app/user-profile/chatbot'])
+    }
+  }
+
+  private loadUnmappedUserProfile(): void {
+    if (!(this.configSvc.userProfile && this.configSvc.userProfile.email)) {
+      return
+    }
+    if (this.configSvc.userProfile.email.endsWith('yopmail.com')) {
+      this.prefillMobileLoginFromEmail(this.configSvc.userProfile.email)
+    }
+    const tempData = this.configSvc.userProfile
+    this.userProfileData = _.get(this.configSvc, 'unMappedUser.profileDetails')
+    this.createUserForm.patchValue({
+      firstname: this.userProfileData.personalDetails.firstname,
+      surname: this.userProfileData.personalDetails.surname,
+      primaryEmail: _.get(this.configSvc.unMappedUser, 'profileDetails.profileReq.personalDetails.primaryEmail') || tempData.email,
+    })
   }
 
   private populateOrganisationDetails(data: Record<string, any>) {

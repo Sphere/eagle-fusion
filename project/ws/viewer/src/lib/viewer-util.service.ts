@@ -61,12 +61,12 @@ export class ViewerUtilService {
         ) {
           const percent = (current / max) * 100
           return Math.ceil(percent)
-        } if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'application/json') {
+        } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'application/json') {
           return 100
-        } if (mimeType === NsContent.EMimeTypes.ZIP) {
+        } else if (mimeType === NsContent.EMimeTypes.ZIP) {
           return 100
 
-        } if (mimeType === NsContent.EMimeTypes.PDF) {
+        } else if (mimeType === NsContent.EMimeTypes.PDF) {
           // Handle both array and number inputs
           let latest
           if (Array.isArray(temp)) {
@@ -115,7 +115,7 @@ export class ViewerUtilService {
       } else if (mimeType === NsContent.EMimeTypes.PDF) {
         if (percentage <= 25) {
           return 0
-        } if (percentage > 26 && percentage <= 75) {
+        } else if (percentage > 26 && percentage <= 75) {
           return 1
         }
         return 2
@@ -255,10 +255,7 @@ export class ViewerUtilService {
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
             (dat: any) => {
-              void (async () => {
-                this.logger.log('Data inserted successfully2', dat)
-                await dat
-              })()
+              this.logger.log('Data inserted successfully2', dat)
             },
             (error: any) => { // 'error' callback for insertProgressData
               this.logger.error('Error inserting progress data:', error)
@@ -364,10 +361,7 @@ export class ViewerUtilService {
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
             (dat: any) => {
-              void (async () => {
-                this.logger.log('Data inserted successfully2', dat)
-                await dat
-              })()
+              this.logger.log('Data inserted successfully2', dat)
             },
             (error: any) => { // 'error' callback for insertProgressData
               this.logger.error('Error inserting progress data:', error)

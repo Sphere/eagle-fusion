@@ -498,7 +498,7 @@ export class AlmostDoneComponent implements OnInit {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       void (async () => {
         this.logger.log(data, 'data')
-        const status = await data.params.status
+        const status = data.params.status
         if (data && status === 'SUCCESS') {
           this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           localStorage.removeItem('preferedLanguage')

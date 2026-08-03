@@ -654,70 +654,85 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        if (this.content && this.content.identifier && !this.forPreview) {
-          // tslint:disable-next-line:no-this-assignment
-          if (courses && courses.length) {
-            this.enrolledCourse = courses.find(course => {
-              const identifier = this.content && this.content.identifier || ''
-              if (course.courseId !== identifier) {
-                return undefined
-              }
-              return course
-            })
-            if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
-              this.issueCertificate = true
-            }
-            this.cdr.detectChanges()
-            if (this.enrolledCourse) {
-              this.resumeData = this.enrolledCourse.lastReadContentId
-            }
-            this.logger.log(this.resumeData, this.content)
-            this.logger.log(this.optmisticPercentage, 'optmisticPercentage', this.finishedPercentage, '705')
-            this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(record => {
-              void (async () => {
-                this.logger.log('Record:', record)
-                if (record.contentId) {
-                  this.updatedContentStatus = true
-                  this.updatedContentFound = record.url
-                }
-                this.cdr.detectChanges()
-              })()
-            }, async error => {
-              this.updatedContentStatus = true
-              this.logger.log(this.enrolledCourse, 'this.enrolledCourse!')
-              if (error && this.enrolledCourse?.batchId) {
-                this.logger.log('ewrwer')
-                if (this.enrolledCourse.lastReadContentId) {
-                  let url = ''
-                  const data = await this.findObjectById(this.content!.children, this.enrolledCourse.lastReadContentId)
-                  this.logger.log(data, 'datahoooooray')
-                  if (data.mimeType === "video/mp4") {
-                    url = `/viewer/video/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    this.logger.log(url)
-                  } else if (data.mimeType === "application/pdf") {
-                    url = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    this.logger.log(url)
-                  } else if (data.mimeType === "application/json") {
-                    url = `/viewer/quiz/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    this.logger.log(url)
-                  } else if (data.mimeType === "application/vnd.ekstep.html-archive" || data.mimeType === "text/x-url") {
-                    url = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    this.logger.log(url)
-                  }
-                  this.updatedContentFound = url
-                } else {
-                  this.updatedContentStatus = false
-                  const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                  this.logger.log(url1, 'url')
-                  this.updatedContentFound = url1
-                }
-              }
-              this.cdr.detectChanges()
-            }
-            )
-          }
-        }
+        this.handleEnrollApiResponse(courses)
       })
+  }
+
+  private handleEnrollApiResponse(courses: NsContent.ICourse[]): void {
+    if (!this.content || !this.content.identifier || this.forPreview || !(courses && courses.length)) {
+      return
+    }
+    this.enrolledCourse = courses.find(course => {
+      const identifier = this.content && this.content.identifier || ''
+      if (course.courseId !== identifier) {
+        return undefined
+      }
+      return course
+    })
+    if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
+      this.issueCertificate = true
+    }
+    this.cdr.detectChanges()
+    if (this.enrolledCourse) {
+      this.resumeData = this.enrolledCourse.lastReadContentId
+    }
+    this.logger.log(this.resumeData, this.content)
+    this.logger.log(this.optmisticPercentage, 'optmisticPercentage', this.finishedPercentage, '705')
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(
+      record => this.handleEnrollRecordFound(record),
+      error => this.handleEnrollRecordMissing(error),
+    )
+  }
+
+  private handleEnrollRecordFound(record: any): void {
+    void (async () => {
+      this.logger.log('Record:', record)
+      if (record.contentId) {
+        this.updatedContentStatus = true
+        this.updatedContentFound = record.url
+      }
+      this.cdr.detectChanges()
+    })()
+  }
+
+  private async handleEnrollRecordMissing(error: any): Promise<void> {
+    this.updatedContentStatus = true
+    this.logger.log(this.enrolledCourse, 'this.enrolledCourse!')
+    if (error && this.enrolledCourse?.batchId) {
+      this.logger.log('ewrwer')
+      await this.resolveResumeUrl()
+    }
+    this.cdr.detectChanges()
+  }
+
+  private async resolveResumeUrl(): Promise<void> {
+    if (!this.enrolledCourse!.lastReadContentId) {
+      this.updatedContentStatus = false
+      const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse!.batchId}`
+      this.logger.log(url1, 'url')
+      this.updatedContentFound = url1
+      return
+    }
+    const data = await this.findObjectById(this.content!.children, this.enrolledCourse!.lastReadContentId)
+    this.logger.log(data, 'datahoooooray')
+    this.updatedContentFound = this.buildResumeUrl(data)
+  }
+
+  private buildResumeUrl(data: any): string {
+    const mimeToViewer: Record<string, string> = {
+      "video/mp4": "video",
+      "application/pdf": "pdf",
+      "application/json": "quiz",
+      "application/vnd.ekstep.html-archive": "html",
+      "text/x-url": "html",
+    }
+    const viewer = mimeToViewer[data.mimeType]
+    if (!viewer) {
+      return ''
+    }
+    const url = `/viewer/${viewer}/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse!.batchId}`
+    this.logger.log(url)
+    return url
   }
 
   findObjectById(array: any, id: any): any {

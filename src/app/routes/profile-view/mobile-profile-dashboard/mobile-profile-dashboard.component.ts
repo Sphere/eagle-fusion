@@ -424,22 +424,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       return []
     }
   }
-  // openAboutDialog() {
-  //   if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
-  //     const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
-  //       width: '312px',
-  //       height: '369px',
-  //       data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
-  //     })
 
-  //     dialogRef.afterClosed().subscribe(result => {
-  //       // tslint:disable-next-line: no-console
-  //       this.logger.log('The dialog was closed', result)
-  //     })
-  //   } else {
-  //     this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
-  //   }
-  // }
   assignProfession(data: string): void {
     this.currentProfession = data
   }
@@ -457,7 +442,6 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       } else {
         this.currentProfession = 'Not specified'
       }
-      //this.currentProfession = this.userProfileData.professionalDetails[0].profession
       if (_.get(this.userProfileData, 'personalDetails')) {
         this.photoUrl = this.userProfileData?.personalDetails?.photo || null
       } else {

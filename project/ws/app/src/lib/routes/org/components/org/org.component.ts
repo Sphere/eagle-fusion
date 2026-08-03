@@ -133,25 +133,11 @@ export class OrgComponent implements OnInit, OnDestroy {
         return
       }
 
-      this.seoSvc.update({
-        title: `${this.orgName} | Aastrika Sphere - Free Healthcare Courses`,
-        description: this.currentOrgData.about
-          ? this.currentOrgData.about.replace(/<[^>]*>/g, '').slice(0, 160)
-          : `Explore free healthcare courses offered by ${this.orgName} on Aastrika Sphere.`,
-        ogImage: this.currentOrgData.logo || undefined,
-        canonicalUrl: `https://sphere.aastrika.org/app/org-details?orgId=${encodeURIComponent(this.orgName)}`,
-      })
-
+      this.applyOrgSeoData()
       this.formattedAbout = this.formatAbout(this.currentOrgData.about)
 
       const sections: any[] = this.currentOrgData.sections ?? []
-
-      // Collect all explicit courseIds across courseGroup + courseList sections for a single batch fetch,
-      // excluding any IDs each section has opted to hide via `hideCourse`
-      const allCourseIds: string[] = sections
-        .filter((s: any) => ['courseGroup', 'courseList'].includes(s.sectionType))
-        .flatMap((s: any) => (s.courseIds ?? []).filter((id: string) => !(s.hideCourse ?? []).includes(id)))
-
+      const allCourseIds = this.collectExplicitCourseIds(sections)
       const needsUserData = sections.some(
         (s: any) => ['continueLearning', 'completed'].includes(s.sectionType)
       )
@@ -160,92 +146,8 @@ export class OrgComponent implements OnInit, OnDestroy {
         allCourseIds.length ? this.orgService.getSearchResultsV7ById(allCourseIds) : of(null),
         needsUserData && userId ? this.userSvc.fetchUserBatchList(userId) : of([]),
       ]).subscribe({
-        next: ([courseResult, userBatchList]: any[]) => {
-          const fetchedCourses: any[] = courseResult?.result?.content ?? []
-          const courseMap = new Map(fetchedCourses.map((c: any) => [c.identifier, c]))
-
-          const inProgressCourses: any[] = []
-          const completedCourses: any[] = []
-          const startedOrCompletedIds = new Set<string>()
-
-            ; (userBatchList ?? []).forEach((item: any) => {
-              const id = item?.content?.identifier ?? item?.courseId
-              if (id && allCourseIds.includes(id)) {
-                const pct = item.completionPercentage ?? 0
-                const normalized = this.normalizeBatchItem(item)
-                if (pct === 100) {
-                  completedCourses.push(normalized)
-                  startedOrCompletedIds.add(id)
-                } else {
-                  inProgressCourses.push(normalized)
-                  startedOrCompletedIds.add(id)
-                }
-              }
-            })
-
-          this.orgSections = sections
-            .filter((s: any) => s.show !== false)
-            .filter((s: any) => s.sectionType !== 'tagSearch')
-            .map((sectionConfig: any) => {
-              let courses: any[] = []
-              switch (sectionConfig.sectionType) {
-                case 'continueLearning':
-                  courses = inProgressCourses
-                  break
-                case 'completed':
-                  courses = completedCourses
-                  break
-                case 'courseGroup':
-                case 'courseList': {
-                  const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
-                  courses = (sectionConfig.courseIds ?? [])
-                    .filter((id: string) => !startedOrCompletedIds.has(id) && !hideCourseIds.has(id))
-                    .map((id: string) => courseMap.get(id))
-                    .filter(Boolean)
-                  break
-                }
-              }
-              return { config: sectionConfig, courses, showAll: false }
-            })
-
-          if (fetchedCourses.length > 0) {
-            this.competencyData = this.groupCompetenciesById(fetchedCourses)
-            this.competency_offered = new Set(this.competencyData.map((c: any) => c.competencyId)).size
-          }
-
-          // Pre-populate tagSearch slots with empty courses so they are in the DOM before
-          // isLoading = false — prevents layout shift when search results arrive later.
-          sections
-            .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
-            .forEach((sectionConfig: any) => {
-              const existing = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)
-              if (!existing) {
-                this.orgSections.push({ config: sectionConfig, courses: [], showAll: false })
-              }
-            })
-
-          // All synchronous sections are ready — dismiss the shimmer now to avoid CLS
-          this.isLoading = false
-          this.detectViewChanges()
-
-          // tagSearch sections fire individual search calls and merge courses into the pre-existing slots
-          sections
-            .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
-            .forEach((sectionConfig: any) => {
-              const target = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)!
-
-              // Build a deduplicated array of sourceNames: org's own name + taggedSourceName
-              const sourceNames = [...new Set([
-                this.orgName,
-                ...(sectionConfig.taggedSourceName ? [sectionConfig.taggedSourceName] : []),
-              ])]
-
-              const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
-
-              this.orgService.getSearchV7Results(sourceNames)
-                .subscribe((result: any) => this.mergeTagSearchResults(target, sourceNames, hideCourseIds, result))
-            })
-        },
+        next: ([courseResult, userBatchList]: any[]) =>
+          this.handleOrgDataLoaded(sections, allCourseIds, courseResult, userBatchList),
         error: () => {
           this.isLoading = false
           this.detectViewChanges()
@@ -259,6 +161,148 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
 
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
+  }
+
+  private applyOrgSeoData(): void {
+    this.seoSvc.update({
+      title: `${this.orgName} | Aastrika Sphere - Free Healthcare Courses`,
+      description: this.currentOrgData.about
+        ? this.currentOrgData.about.replace(/<[^>]*>/g, '').slice(0, 160)
+        : `Explore free healthcare courses offered by ${this.orgName} on Aastrika Sphere.`,
+      ogImage: this.currentOrgData.logo || undefined,
+      canonicalUrl: `https://sphere.aastrika.org/app/org-details?orgId=${encodeURIComponent(this.orgName)}`,
+    })
+  }
+
+  private collectExplicitCourseIds(sections: any[]): string[] {
+    // Collect all explicit courseIds across courseGroup + courseList sections for a single batch fetch,
+    // excluding any IDs each section has opted to hide via `hideCourse`
+    return sections
+      .filter((s: any) => ['courseGroup', 'courseList'].includes(s.sectionType))
+      .flatMap((s: any) => (s.courseIds ?? []).filter((id: string) => !(s.hideCourse ?? []).includes(id)))
+  }
+
+  private handleOrgDataLoaded(sections: any[], allCourseIds: string[], courseResult: any, userBatchList: any): void {
+    const fetchedCourses: any[] = courseResult?.result?.content ?? []
+    const courseMap = new Map(fetchedCourses.map((c: any) => [c.identifier, c]))
+
+    const { inProgressCourses, completedCourses, startedOrCompletedIds } =
+      this.partitionCoursesByProgress(userBatchList, allCourseIds)
+
+    this.orgSections = this.buildOrgSections(sections, inProgressCourses, completedCourses, courseMap, startedOrCompletedIds)
+
+    if (fetchedCourses.length > 0) {
+      this.competencyData = this.groupCompetenciesById(fetchedCourses)
+      this.competency_offered = new Set(this.competencyData.map((c: any) => c.competencyId)).size
+    }
+
+    this.populateTagSearchPlaceholders(sections)
+
+    // All synchronous sections are ready — dismiss the shimmer now to avoid CLS
+    this.isLoading = false
+    this.detectViewChanges()
+
+    this.fetchTagSearchSections(sections)
+  }
+
+  private partitionCoursesByProgress(
+    userBatchList: any,
+    allCourseIds: string[],
+  ): { inProgressCourses: any[]; completedCourses: any[]; startedOrCompletedIds: Set<string> } {
+    const inProgressCourses: any[] = []
+    const completedCourses: any[] = []
+    const startedOrCompletedIds = new Set<string>()
+
+      ; (userBatchList ?? []).forEach((item: any) => {
+        const id = item?.content?.identifier ?? item?.courseId
+        if (id && allCourseIds.includes(id)) {
+          const pct = item.completionPercentage ?? 0
+          const normalized = this.normalizeBatchItem(item)
+          if (pct === 100) {
+            completedCourses.push(normalized)
+          } else {
+            inProgressCourses.push(normalized)
+          }
+          startedOrCompletedIds.add(id)
+        }
+      })
+
+    return { inProgressCourses, completedCourses, startedOrCompletedIds }
+  }
+
+  private buildOrgSections(
+    sections: any[],
+    inProgressCourses: any[],
+    completedCourses: any[],
+    courseMap: Map<string, any>,
+    startedOrCompletedIds: Set<string>,
+  ): any[] {
+    return sections
+      .filter((s: any) => s.show !== false)
+      .filter((s: any) => s.sectionType !== 'tagSearch')
+      .map((sectionConfig: any) => ({
+        config: sectionConfig,
+        courses: this.resolveSectionCourses(sectionConfig, inProgressCourses, completedCourses, courseMap, startedOrCompletedIds),
+        showAll: false,
+      }))
+  }
+
+  private resolveSectionCourses(
+    sectionConfig: any,
+    inProgressCourses: any[],
+    completedCourses: any[],
+    courseMap: Map<string, any>,
+    startedOrCompletedIds: Set<string>,
+  ): any[] {
+    switch (sectionConfig.sectionType) {
+      case 'continueLearning':
+        return inProgressCourses
+      case 'completed':
+        return completedCourses
+      case 'courseGroup':
+      case 'courseList': {
+        const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
+        return (sectionConfig.courseIds ?? [])
+          .filter((id: string) => !startedOrCompletedIds.has(id) && !hideCourseIds.has(id))
+          .map((id: string) => courseMap.get(id))
+          .filter(Boolean)
+      }
+      default:
+        return []
+    }
+  }
+
+  private populateTagSearchPlaceholders(sections: any[]): void {
+    // Pre-populate tagSearch slots with empty courses so they are in the DOM before
+    // isLoading = false — prevents layout shift when search results arrive later.
+    sections
+      .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
+      .forEach((sectionConfig: any) => {
+        const existing = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)
+        if (!existing) {
+          this.orgSections.push({ config: sectionConfig, courses: [], showAll: false })
+        }
+      })
+  }
+
+  private fetchTagSearchSections(sections: any[]): void {
+    // tagSearch sections fire individual search calls and merge courses into the pre-existing slots
+    sections
+      .filter((s: any) => s.sectionType === 'tagSearch' && s.show !== false)
+      .forEach((sectionConfig: any) => {
+        const target = this.orgSections.find((s: any) => s.config.title === sectionConfig.title)!
+
+        // Build a deduplicated array of sourceNames: org's own name + taggedSourceName
+        const sourceNames = [...new Set([
+          this.orgName,
+          ...(sectionConfig.taggedSourceName ? [sectionConfig.taggedSourceName] : []),
+        ])]
+
+        const hideCourseIds = new Set<string>(sectionConfig.hideCourse ?? [])
+
+        this.orgService.getSearchV7Results(sourceNames)
+          .subscribe((result: any) => this.mergeTagSearchResults(target, sourceNames, hideCourseIds, result))
+      })
   }
 
   private mergeTagSearchResults(

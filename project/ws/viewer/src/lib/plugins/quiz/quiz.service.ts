@@ -52,9 +52,8 @@ export class QuizService {
     this.insertProgressData(req, this.onProgressInsertedAfterDelete.bind(this))
   }
 
-  private async onProgressInsertedAfterDelete(dat: any) {
+  private onProgressInsertedAfterDelete(dat: any) {
     this.logger.log('Data inserted successfully2', dat)
-    await dat
   }
 
   private onRecordFetchError(error: any, req: any) {
@@ -113,7 +112,7 @@ export class QuizService {
           }
           return option
         })
-      } if (question.questionType === 'fitb') {
+      } else if (question.questionType === 'fitb') {
         for (let i = 0; i < question.options.length; i += 1) {
           if (questionAnswerHash[question.questionId]) {
             question.options[i].response = questionAnswerHash[question.questionId][0].split(',')[i]

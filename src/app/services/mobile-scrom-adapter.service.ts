@@ -130,7 +130,7 @@ export class MobileScromAdapterService {
         this.logger.log(res)
       })
     }
-    return false
+    return true
   }
 
   private extractQueryParams(): string {
@@ -178,20 +178,18 @@ export class MobileScromAdapterService {
   private handleCompletedStatus(data: any, paramsJSON: string): void {
     this.scromSubscription = this.updateScromProgress(data).subscribe({
       next: (response: any) => {
-        void (async () => {
-          this.logger.log(response)
-          this.triggerTelemetryEvents(data, paramsJSON)
-          const result = await response.result
-          result['type'] = 'scorm'
-          if (this.getPercentage(data) === 100) {
-            setTimeout(() => {
-              this.LMSFinish()
-            })
-            setTimeout(() => {
-              this.postCordovaMessage(this.getPercentage(data))
-            }, 6000)
-          }
-        })()
+        this.logger.log(response)
+        this.triggerTelemetryEvents(data, paramsJSON)
+        const result = response.result
+        result['type'] = 'scorm'
+        if (this.getPercentage(data) === 100) {
+          setTimeout(() => {
+            this.LMSFinish()
+          })
+          setTimeout(() => {
+            this.postCordovaMessage(this.getPercentage(data))
+          }, 6000)
+        }
       },
       error: error => {
         if (error) {

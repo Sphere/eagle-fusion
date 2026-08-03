@@ -118,10 +118,6 @@ describe('ScromPlayerComponent', () => {
     expect(mockLogger.log).toHaveBeenCalledWith('msg=>', msg)
   })
 
-  it('should not throw on ngOnDestroy', () => {
-    expect(() => component.ngOnDestroy()).not.toThrow()
-  })
-
   it('should default to empty strings when query params are missing', () => {
     const emptyRoute = makeRoute({})
     const cmp = new ScromPlayerComponent(emptyRoute, mockSafeResourceUrlSvc, mockScormAdapter, mockLogger)

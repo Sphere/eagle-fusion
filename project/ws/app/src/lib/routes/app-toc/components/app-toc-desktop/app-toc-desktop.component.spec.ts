@@ -7,7 +7,7 @@ import { DOCUMENT } from '@angular/common'
 import { of, Subject } from 'rxjs'
 
 jest.mock('@ws-widget/collection', () => ({
-  WidgetContentService: class MockWidgetContentService {},
+  WidgetContentService: class MockWidgetContentService { },
   NsContent: {
     EContentTypes: {
       COURSE: 'Course',
@@ -24,7 +24,7 @@ jest.mock('@ws-widget/collection', () => ({
 }))
 
 jest.mock('@ws/author/src/lib/services/loader.service', () => ({
-  LoaderService: class MockLoaderService {},
+  LoaderService: class MockLoaderService { },
 }))
 
 import { WidgetContentService } from '@ws-widget/collection'
@@ -33,7 +33,7 @@ import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.servic
 import { AppTocService } from '../../services/app-toc.service'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
-import { LoaderService } from '@ws/author/src/lib/services/loader.service'
+import { LoaderService } from 'src/app/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
 import { ThemeService } from '../../../../../../../../../src/app/services/theme.service'
 import { AppTocDesktopComponent } from './app-toc-desktop.component'
@@ -159,7 +159,7 @@ describe('AppTocDesktopComponent', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     TestBed.configureTestingModule({ providers: [{ provide: DOCUMENT, useValue: document }] })
-    ;(mockContentSvc.fetchUserBatchList as jest.Mock).mockReturnValue(of([]))
+      ; (mockContentSvc.fetchUserBatchList as jest.Mock).mockReturnValue(of([]))
     component = createComponent()
   })
 
@@ -241,7 +241,7 @@ describe('AppTocDesktopComponent', () => {
   })
 
   it('showSubtitleOnBanner should reflect tocSvc.subtitleOnBanners', () => {
-    ;(mockTocSvc as any).subtitleOnBanners = true
+    ; (mockTocSvc as any).subtitleOnBanners = true
     expect(component.showSubtitleOnBanner).toBe(true)
   })
 
@@ -345,7 +345,7 @@ describe('AppTocDesktopComponent', () => {
   })
 
   it('fetchCohorts should set hasError true on failure', () => {
-    ;(mockTocSvc.fetchContentCohorts as jest.Mock).mockReturnValue({ subscribe: (_next: any, error: any) => error() })
+    ; (mockTocSvc.fetchContentCohorts as jest.Mock).mockReturnValue({ subscribe: (_next: any, error: any) => error() })
     component.forPreview = false
     component.fetchCohorts('peer' as any, 'id-1')
     expect(component.cohortResults['peer'].hasError).toBe(true)
@@ -368,7 +368,7 @@ describe('AppTocDesktopComponent', () => {
   })
 
   it('openRating should show error snackbar when API status is not success', async () => {
-    ;(mockContentSvc.readCourseRating as jest.Mock).mockResolvedValue({ params: { status: 'failure' } })
+    ; (mockContentSvc.readCourseRating as jest.Mock).mockResolvedValue({ params: { status: 'failure' } })
     component.content = { identifier: 'id-1' } as any
     component.openRating('course-1')
     await Promise.resolve()
@@ -396,7 +396,7 @@ describe('AppTocDesktopComponent', () => {
   })
 
   it('enrollUser should show error snackbar on failed enroll response', async () => {
-    ;(mockContentSvc.enrollUserToBatch as jest.Mock).mockResolvedValue({ result: { response: 'FAILURE' } })
+    ; (mockContentSvc.enrollUserToBatch as jest.Mock).mockResolvedValue({ result: { response: 'FAILURE' } })
     component.enrollUser([{ courseId: 'c1', batchId: 'b1' }])
     await Promise.resolve()
     await Promise.resolve()
@@ -447,9 +447,9 @@ describe('AppTocDesktopComponent', () => {
 
   it('sendApi should open popup when enrolledCourse has issued certificates', () => {
     component.content = { identifier: 'id-1' } as any
-    ;(mockContentSvc.fetchUserBatchList as jest.Mock).mockReturnValue(
-      of([{ courseId: 'id-1', issuedCertificates: [{ identifier: 'cert-1' }], courseName: 'Course A' }]),
-    )
+      ; (mockContentSvc.fetchUserBatchList as jest.Mock).mockReturnValue(
+        of([{ courseId: 'id-1', issuedCertificates: [{ identifier: 'cert-1' }], courseName: 'Course A' }]),
+      )
     const openPopupSpy = jest.spyOn(component, 'openPopup')
     component.sendApi()
     expect(openPopupSpy).toHaveBeenCalledWith('cert-1', 'Course A')
@@ -457,9 +457,9 @@ describe('AppTocDesktopComponent', () => {
 
   it('getCourseID should set lastCourseID from enrolled course list', () => {
     component.content = { identifier: 'id-1' } as any
-    ;(mockContentSvc.fetchUserBatchList as jest.Mock).mockReturnValue(
-      of([{ courseId: 'id-1' }]),
-    )
+      ; (mockContentSvc.fetchUserBatchList as jest.Mock).mockReturnValue(
+        of([{ courseId: 'id-1' }]),
+      )
     component.getCourseID()
     expect(component.lastCourseID).toEqual({ courseId: 'id-1' })
   })

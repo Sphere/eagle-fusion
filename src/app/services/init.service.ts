@@ -2,7 +2,6 @@ import { APP_BASE_HREF } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { MatIconRegistry } from '@angular/material/icon'
-// import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
@@ -40,7 +39,6 @@ export class InitService {
     private readonly logger: LoggerService,
     private readonly configSvc: ConfigurationsService,
     private readonly widgetResolverService: WidgetResolverService,
-    // private readonly settingsSvc: BtnSettingsService,
     private readonly userPreference: UserPreferenceService,
     private readonly http: HttpClient,
     private readonly authSvc: AuthKeycloakService,
@@ -74,17 +72,7 @@ export class InitService {
 
   async init() {
     const authenticated = await this.authSvc.initAuth()
-    const loginData = localStorage.getItem('loginDetailsWithToken')
-    if (authenticated) {
-      if (loginData) {
-        const parsedData = JSON.parse(loginData)
-        // Gate on the persisted login status, not a stored token (tokens are no longer persisted).
-        if (parsedData.status !== 'success')
-          this.authSvc.logout()
-      } else {
-        this.authSvc.logout()
-      }
-    }
+    this.logoutIfSessionInvalid(authenticated)
 
     await this.fetchDefaultConfig()
     try {
@@ -98,13 +86,36 @@ export class InitService {
       }
 
     } catch (e) {
-      // this.settingsSvc.initializePrefChanges(environment.production)
       this.updateNavConfig()
       this.logger.info('Not Authenticated')
       // window.location.reload() // can do this
       return false
 
     }
+
+    await this.initializeAppConfig()
+
+    this.updateNavConfig()
+    return true
+  }
+
+  private logoutIfSessionInvalid(authenticated: boolean): void {
+    if (!authenticated) {
+      return
+    }
+    const loginData = localStorage.getItem('loginDetailsWithToken')
+    if (!loginData) {
+      this.authSvc.logout()
+      return
+    }
+    const parsedData = JSON.parse(loginData)
+    // Gate on the persisted login status, not a stored token (tokens are no longer persisted).
+    if (parsedData.status !== 'success') {
+      this.authSvc.logout()
+    }
+  }
+
+  private async initializeAppConfig(): Promise<void> {
     try {
       this.reloadAccordingToLocale()
       const appsConfigPromise = await this.fetchAppsConfig()
@@ -141,7 +152,6 @@ export class InitService {
       }
 
       // Apply the settings using settingsService
-      // this.settingsSvc.initializePrefChanges(environment.production)
       this.userPreference.initialize()
 
     } catch (e) {
@@ -149,12 +159,7 @@ export class InitService {
         'Initialization process encountered some error. Application may not work as expected',
         e,
       )
-      // this.settingsSvc.initializePrefChanges(environment.production)
     }
-
-
-    this.updateNavConfig()
-    return true
   }
   /** Fetches config once and caches it */
   private async fetchOrgSelectiveConfig(): Promise<void> {
@@ -429,7 +434,6 @@ export class InitService {
   }
 
   private async fetchStartUpDetails(): Promise<any> {
-    // const userRoles: string[] = []
     if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
       let userPidProfile: any | null = null
       try {
