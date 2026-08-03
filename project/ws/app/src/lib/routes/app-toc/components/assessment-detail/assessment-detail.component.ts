@@ -83,7 +83,7 @@ export class AssessmentDetailComponent implements OnInit {
             question.questionType = 'mcq-sca'
           }
         })
-        if (!quizJSON.hasOwnProperty('passPercentage')) {
+        if (!quizJSON.hasOwnProperty('passPercentage') || quizJSON.passPercentage === 0) {
           quizJSON.passPercentage = 60
         }
         return quizJSON
