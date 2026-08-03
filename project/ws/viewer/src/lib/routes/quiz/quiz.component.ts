@@ -123,7 +123,7 @@ export class QuizComponent implements OnInit, OnDestroy {
         ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
         : this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1])
       let res = this.fetchAndNormalizeQuiz(artifactUrl)
-        ; (await res).isAssessment == content.isAssessment || false
+        ; (await res).isAssessment == content.isAssessment ?? true
       return res
     }
   }
