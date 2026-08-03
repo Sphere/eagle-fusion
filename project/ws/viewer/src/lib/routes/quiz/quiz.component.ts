@@ -144,6 +144,9 @@ export class QuizComponent implements OnInit, OnDestroy {
           }
         })
       }
+      if (!quizJSON.hasOwnProperty('passPercentage') || quizJSON.passPercentage === 0) {
+        quizJSON.passPercentage = 60
+      }
       this.viewSvc.competencyAsessment.next(true)
       return quizJSON
     } {
