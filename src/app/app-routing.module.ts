@@ -53,6 +53,7 @@ import { NotificationsComponent } from './routes/notification/notification.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
+import { HelpVideosComponent } from './routes/help-videos/help-videos.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -117,6 +118,15 @@ const routes: Routes = [
       title: 'Aastrika Sphere - Madhya Pradesh Registration',
     },
     component: MpRegisterComponent,
+  },
+  {
+    path: 'uttarpradesh/demo',
+    data: {
+      title: 'Aastrika Sphere - Uttar Pradesh Demo Videos',
+      seoDescription: 'Watch step-by-step videos on how to register on eKshamata and how to use the E-Kshamata app.',
+      isPublic: true,
+    },
+    component: HelpVideosComponent,
   },
   {
     path: 'app/about-you',
