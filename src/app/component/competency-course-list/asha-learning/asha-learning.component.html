@@ -4,9 +4,9 @@
     (keydown.space)="toggleExpand(); $event.preventDefault()">
     <div class="asha-header flex flex-col">
       <div class="flex justify-between">
-        <p class="asha-title mb-0">{{ 'COMPETENCY' | translate }}</p>
+        <p class="asha-title mb-0">{{ 'Competency' | translate }}</p>
         <div class="progress-container" *ngIf="getCompletionPercentage() > 0 &&  getCompletionPercentage() !== 100 ">
-          <span class="progress-text">{{ 'COMPLETED' | translate }} {{ getCompletionPercentage() }}% </span>
+          <span class="progress-text">{{ 'Completed' | translate }} {{ getCompletionPercentage() }}% </span>
         </div>
       </div>
       <div class="flex justify-between  gap-4">

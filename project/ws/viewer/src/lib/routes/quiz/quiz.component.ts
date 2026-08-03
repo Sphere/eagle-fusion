@@ -113,6 +113,9 @@ export class QuizComponent implements OnInit, OnDestroy {
     if (this.activatedRoute.snapshot.queryParams.competency) {
       const artifactUrl = this.buildCompetencyArtifactUrl(content)
       const quizJSON = await this.fetchAndNormalizeQuiz(artifactUrl)
+      if (!quizJSON.hasOwnProperty('passPercentage') || quizJSON.passPercentage === 0) {
+        quizJSON.passPercentage = 60
+      }
       this.viewSvc.competencyAsessment.next(true)
       return quizJSON
     } {

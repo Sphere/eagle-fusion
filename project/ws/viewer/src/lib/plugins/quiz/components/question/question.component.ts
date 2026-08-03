@@ -47,19 +47,31 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     private readonly elementRef: ElementRef,
   ) { }
 
-  ngOnInit() {
-    const res: string[] = this.question.question.match(/<img[^>]+src="([^">]+)"/g) || ['']
-    for (const oldImg of res) {
-      if (oldImg) {
-        let temp = oldImg.match(/src="([^">]+)"/g) || ['']
-        const toBeReplaced = temp[0]
-        temp = [temp[0].replace('src="/', '')]
-        temp = [temp[0].replace(/\"/g, '')]
-        const baseUrl = this.artifactUrl.split('/')
-        const newUrl = this.artifactUrl.replace(baseUrl[baseUrl.length - 1], temp[0])
-        this.question.question = this.question.question.replace(toBeReplaced, `src="${newUrl}"`)
+  /**
+   * Only relative image paths need resolving against the artifact URL. Rewriting an absolute
+   * `src="https://…"` left the `src="` prefix embedded in the value (the old strip only matched
+   * paths starting with `/`), producing `src=https://…` which Angular sanitized to
+   * `unsafe:src=https://…` — the image then never loaded.
+   */
+  private resolveQuestionImages() {
+    const imgTags: string[] = this.question.question.match(/<img[^>]+src="([^">]+)"/g) || []
+    for (const imgTag of imgTags) {
+      const srcMatch = imgTag.match(/src="([^">]+)"/)
+      if (!srcMatch) {
+        continue
       }
+      const rawSrc = srcMatch[1]
+      if (/^(https?:)?\/\//i.test(rawSrc) || rawSrc.startsWith('data:')) {
+        continue
+      }
+      const baseUrl = this.artifactUrl.split('/')
+      const newUrl = this.artifactUrl.replace(baseUrl[baseUrl.length - 1], rawSrc.replace(/^\//, ''))
+      this.question.question = this.question.question.replace(srcMatch[0], `src="${newUrl}"`)
     }
+  }
+
+  ngOnInit() {
+    this.resolveQuestionImages()
     if (this.question.questionType === 'fitb') {
       const iterationNumber = (this.question.question.match(/<input/g) || []).length
       for (let i = 0; i < iterationNumber; i += 1) {
