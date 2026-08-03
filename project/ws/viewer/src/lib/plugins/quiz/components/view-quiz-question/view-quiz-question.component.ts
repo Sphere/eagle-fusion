@@ -49,19 +49,35 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
 
   }
 
-  ngOnInit() {
-    const res: string[] = this.question.question.match(/<img[^>]+src="([^">]+)"/g) || ['']
-    for (const oldImg of res) {
-      if (oldImg) {
-        let temp = oldImg.match(/src="([^">]+)"/g) || ['']
-        const toBeReplaced = temp[0]
-        temp = [temp[0].replace('src="/', '')]
-        temp = [temp[0].replace(/\"/g, '')]
-        const baseUrl = this.artifactUrl.split('/')
-        const newUrl = this.artifactUrl.replace(baseUrl[baseUrl.length - 1], temp[0])
-        this.question.question = this.question.question.replace(toBeReplaced, `src="${newUrl}"`)
+  /**
+   * Quiz HTML can reference images either relatively (packaged alongside the artifact) or by
+   * absolute URL. Only the relative ones need resolving against the artifact URL.
+   *
+   * The previous implementation stripped the `src="` prefix with `.replace('src="/', '')`,
+   * which only matches when the path starts with `/`. An absolute `src="https://…"` therefore
+   * kept its prefix and became `src=https://…`, which Angular's sanitizer turned into
+   * `unsafe:src=https://…` and the image silently failed to load.
+   */
+  private resolveQuestionImages() {
+    const imgTags: string[] = this.question.question.match(/<img[^>]+src="([^">]+)"/g) || []
+    for (const imgTag of imgTags) {
+      const srcMatch = imgTag.match(/src="([^">]+)"/)
+      if (!srcMatch) {
+        continue
       }
+      const rawSrc = srcMatch[1]
+      if (/^(https?:)?\/\//i.test(rawSrc) || rawSrc.startsWith('data:')) {
+        // Already resolvable — leave it exactly as authored.
+        continue
+      }
+      const baseUrl = this.artifactUrl.split('/')
+      const newUrl = this.artifactUrl.replace(baseUrl[baseUrl.length - 1], rawSrc.replace(/^\//, ''))
+      this.question.question = this.question.question.replace(srcMatch[0], `src="${newUrl}"`)
     }
+  }
+
+  ngOnInit() {
+    this.resolveQuestionImages()
     if (this.question.questionType === 'fitb') {
       const iterationNumber = (this.question.question.match(/<input/g) || []).length
       for (let i = 0; i < iterationNumber; i += 1) {
@@ -137,7 +153,17 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   }
   initJsPlump() {
     if (this.question.questionType === 'mtf') {
+      // Anchor the connectors to the element that holds the boxes. Without an explicit
+      // Container jsPlumb appends its SVGs to document.body and positions them in page
+      // coordinates, so once the dialog body scrolls the boxes move but the lines do not —
+      // which is what made them drift. Sharing a container keeps both in the same scrolling
+      // coordinate space, so they move together and need no repaint.
+      // Attribute selector, not `#id`: content ids like `do_114…` are not always valid
+      // bare CSS identifiers.
+      const container = this.elementRef.nativeElement
+        .querySelector(`[id="${this.question.questionId}"]`)
       this.jsPlumbInstance = jsPlumb.getInstance({
+        ...(container ? { Container: container } : {}),
         DragOptions: {
           cursor: 'pointer',
         },

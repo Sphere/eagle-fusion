@@ -166,20 +166,23 @@ export class QuizService {
   }
   checkMtfAnswer(quiz: NSQuiz.IQuiz, questionAnswerHash: any) {
     const userSelectedAnswer: any = quiz.questions[questionAnswerHash['qslideIndex']]
-    for (let i = 0; i < quiz.questions[questionAnswerHash['qslideIndex']].options.length; i += 1) {
-      // tslint:disable-next-line: max-line-length
-      if (questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId] && questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][i]) {
-        for (let j = 0; j < questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0].length; j += 1) {
-          // tslint:disable-next-line: max-line-length
-          if (quiz.questions[questionAnswerHash['qslideIndex']].options[i].text.trim() === questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][j].source.innerText.trim()) {
-            // tslint:disable-next-line: max-line-length
-            quiz.questions[questionAnswerHash['qslideIndex']].options[i].response = questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][j].target.innerText
-          }
-        }
-      } else {
-        quiz.questions[questionAnswerHash['qslideIndex']].options[i].response = ''
-      }
-    }
+    const connections: any[] = (questionAnswerHash[userSelectedAnswer.questionId] || [])[0] || []
+    // Resolve each option to the box the learner actually connected it to, for the Response
+    // column of the review table. Two bugs used to leave this permanently blank:
+    //
+    // 1. The guard tested `connections[i]`, indexing the connection list by option position,
+    //    so when fewer pairs were connected than there are options every row past that count
+    //    was blanked even if it had been answered.
+    // 2. It compared `source.innerText` against `option.text` directly. innerText returns the
+    //    *rendered* text, and CSS collapses runs of whitespace — option text in the authored
+    //    content frequently contains double spaces, so the two never matched.
+    const normalize = (value: string) => (value || '').replace(/\s+/g, ' ').trim()
+    userSelectedAnswer.options.forEach((option: any) => {
+      const connection = connections.find(
+        (item: any) => item && item.source && normalize(item.source.innerText) === normalize(option.text)
+      )
+      option.response = connection ? connection.target.innerText : ''
+    })
     const matchHintDisplay: any = []
     quiz.questions[questionAnswerHash['qslideIndex']].options.map(option => (option.matchForView = option.match))
     const array = quiz.questions[questionAnswerHash['qslideIndex']].options.map(elem => elem.match)

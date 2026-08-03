@@ -166,6 +166,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       })
 
       this.dialogOverview.afterClosed().subscribe((result: any) => {
+        // Release the ref as soon as the overview closes, otherwise the `!this.dialogOverview`
+        // guard above turns every later call into a no-op for the life of this component —
+        // which is why "Yes, Restart" never reopened the overview.
+        this.dialogOverview = null
         if (result.event === 'close-overview') {
           if (result.competency) {
             this.router.navigate([`/app/user/competency`])
@@ -230,7 +234,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           }
 
         }
-        // this.dialogOverview = null
       })
     }
   }
