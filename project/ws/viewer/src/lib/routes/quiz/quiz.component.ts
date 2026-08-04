@@ -122,8 +122,8 @@ export class QuizComponent implements OnInit, OnDestroy {
       const artifactUrl = this.forPreview
         ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
         : this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1])
-      let res = this.fetchAndNormalizeQuiz(artifactUrl)
-        ; (await res).isAssessment == content.isAssessment ?? true
+      const res = await this.fetchAndNormalizeQuiz(artifactUrl)
+      res.isAssessment = content.isAssessment ?? true
       return res
     }
   }
