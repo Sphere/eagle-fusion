@@ -11,7 +11,7 @@
       <span>{{ 'Last updated on' | translate }}</span> : {{ content?.lastUpdatedOn | date }}
     </div>
     <div class="details"><span>{{ 'Source' | translate }}</span> : {{content?.sourceName}}</div>
-    <div class="details" *ngIf="content?.creator"><span>{{ 'Author' | translate }}</span> : {{content?.creator}}</div>
+    <div class="details" *ngIf="authorName"><span>{{ 'Author' | translate }}</span> : {{ authorName }}</div>
   </div>
   <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsUtilsRetain>{{ 'View
     License Terms' | translate }}</div>
