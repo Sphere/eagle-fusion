@@ -80,4 +80,43 @@ describe('PublicTocBannerComponent', () => {
     component.createAcct()
     expect(routerSpy).toHaveBeenCalledWith('app/create-account')
   })
+
+  describe('authorName', () => {
+    const details = [{ id: '28ec6b71', name: 'Jhpiego Cooperation' }]
+
+    it('parses creatorDetails when the search API returns it as a JSON string', () => {
+      component.content = { creatorDetails: JSON.stringify(details), creator: 'creatorjhpaastrika_0qfj' }
+      expect(component.authorName).toBe('Jhpiego Cooperation')
+    })
+
+    it('reads creatorDetails when the content service returns it already parsed', () => {
+      component.content = { creatorDetails: details, creator: 'creatorjhpaastrika_0qfj' }
+      expect(component.authorName).toBe('Jhpiego Cooperation')
+    })
+
+    it('falls back to creator when creatorDetails is malformed', () => {
+      component.content = { creatorDetails: '[{oops', creator: 'creatorjhpaastrika_0qfj' }
+      expect(component.authorName).toBe('creatorjhpaastrika_0qfj')
+    })
+
+    it('falls back to creator when creatorDetails is absent', () => {
+      component.content = { creator: 'creatorjhpaastrika_0qfj' }
+      expect(component.authorName).toBe('creatorjhpaastrika_0qfj')
+    })
+
+    it('falls back to creator when creatorDetails carries no name', () => {
+      component.content = { creatorDetails: [{ id: '28ec6b71' }], creator: 'creatorjhpaastrika_0qfj' }
+      expect(component.authorName).toBe('creatorjhpaastrika_0qfj')
+    })
+
+    it('returns an empty string when there is nothing to show', () => {
+      component.content = {}
+      expect(component.authorName).toBe('')
+    })
+
+    it('does not throw when content is null', () => {
+      component.content = null
+      expect(component.authorName).toBe('')
+    })
+  })
 })

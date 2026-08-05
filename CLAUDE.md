@@ -231,7 +231,15 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 ## Release Process
 - **Release notes** live in `RELEASE_NOTES/`; start from `RELEASE_NOTES/TEMPLATE.md`. File name: `RELEASE_NOTES/release-X.Y.Z.md`.
 - **Tag**: `vX.Y.Z` (immutable marker + GitHub Release). **Build/deploy branch**: `release-X.Y.Z` (Jenkins deploy source). Branch and tag names always differ.
-- Flow: verify green (`nvs use 20` → lint + `yarn test` + `yarn run build`) → write release notes + version on a branch → PR into the trunk → cut `release-X.Y.Z` + tag `vX.Y.Z` → publish the GitHub Release from the tag (`gh release create vX.Y.Z --notes-file RELEASE_NOTES/release-X.Y.Z.md`) → manual Jenkins deploy from the **branch**.
+- Flow: verify green (`nvs use 20` → lint + `yarn test` + `yarn run build`) → write release notes + version on a branch → PR into `master` → **wait for the merge** → cut `release-X.Y.Z` + tag `vX.Y.Z` **from `master`** → publish the GitHub Release from the tag (`gh release create vX.Y.Z --notes-file RELEASE_NOTES/release-X.Y.Z.md --title "Release-X.Y.Z"`) → manual Jenkins deploy from the **branch**.
+- **`release-X.Y.Z` and `vX.Y.Z` are always cut from `master`, never from the feature/fix branch.** The release branch must point at the merged trunk commit, so what deploys is what `master` contains and what reviewers approved. Cutting from the fix branch produces a release that isn't reachable from `master` and silently diverges the deployed artifact from the trunk:
+
+  ```bash
+  git fetch origin
+  git branch release-X.Y.Z origin/master
+  git tag    vX.Y.Z        origin/master
+  ```
+- **`master` requires 2 approving reviews and cannot be merged programmatically** (the API returns `405`). Automate up to opening the PR, then stop and wait for the approvals. Do not create the branch/tag/Release early to unblock a deploy — that is what produces off-trunk releases.
 - Each release gets its own new `release-X.Y.Z`; never advance a previous/frozen release branch. Rollback = redeploy the previous release branch.
 - Release notes structure: header table, plain-language Summary, ✨ Features, 🐛 Fixes, 🏗️ Build/CI, 📚 Docs/Chore, ⚠️ Deploy notes & risk, ✅ Pre-deploy checklist, Release & rollback. Each bullet ends with its short commit SHA.
 - **One PR per release, never two.** Write `RELEASE_NOTES/release-X.Y.Z.md` on the **same** feature/fix branch as the code and commit it *before* that branch's PR opens. Do not merge the code PR and then follow up with a separate release-notes PR — that's two review cycles for one release. A standalone `chore: write release notes for X.Y.Z` branch is a recovery path only (when the code was already merged before the release was called), not the default.

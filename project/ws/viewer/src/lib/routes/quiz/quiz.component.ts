@@ -170,7 +170,7 @@ export class QuizComponent implements OnInit, OnDestroy {
             question.questionType = 'mcq-sca'
           }
         })
-        quizJSON.isAssessment = content.isAssessment || false
+        quizJSON.isAssessment = content.isAssessment ?? true
       }
       return quizJSON
     }
