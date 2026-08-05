@@ -1207,4 +1207,254 @@ describe('ViewerTocComponent', () => {
       expect(mockDialog.open).not.toHaveBeenCalled()
     })
   })
+
+  describe('processData - top level gating', () => {
+    const run = async (children: any[], data: any[]) => {
+      component.collection = { identifier: 'c1', children } as any
+      mockUtilitySvc.getLeafNodes.mockReturnValue(children)
+      jest.spyOn(component, 'updateResourceChange').mockImplementation(() => { })
+      await component.processData(data)
+      return children
+    }
+
+    it('should default a missing completion percentage to zero', async () => {
+      const children = await run(
+        [{ identifier: 'r1' }, { identifier: 'r2' }],
+        [{ contentId: 'r1', status: 1 }],
+      )
+      expect(children[0].completionPercentage).toBe(0)
+      expect(children[0].completionStatus).toBe(1)
+    })
+
+    it('should unlock the next node once a node is complete', async () => {
+      const children = await run(
+        [{ identifier: 'r1' }, { identifier: 'r2' }],
+        [{ contentId: 'r1', completionPercentage: 100, status: 2 }],
+      )
+      expect(children[1].disabledNode).toBe(false)
+    })
+
+    it('should keep the next node locked while gating is on and the node is incomplete', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(true)
+      const children = await run(
+        [{ identifier: 'r1' }, { identifier: 'r2' }],
+        [{ contentId: 'r1', completionPercentage: 40, status: 1 }],
+      )
+      expect(children[1].disabledNode).toBe(true)
+    })
+
+    it('should leave the next node unlocked when gating is off', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(false)
+      const children = await run(
+        [{ identifier: 'r1' }, { identifier: 'r2' }],
+        [{ contentId: 'r1', completionPercentage: 40, status: 1 }],
+      )
+      expect(children[1].disabledNode).toBe(false)
+    })
+
+    it('should lock the node after an unmatched non-first node while gating is on', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(true)
+      const children = await run(
+        [{ identifier: 'r1', completionPercentage: 100 }, { identifier: 'r2' }, { identifier: 'r3' }],
+        [{ contentId: 'r1', completionPercentage: 100, status: 2 }],
+      )
+      expect(children[2].disabledNode).toBe(true)
+    })
+
+    it('should tolerate an unmatched last node with no successor', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(true)
+      const children = await run([{ identifier: 'r1' }], [{ contentId: 'other' }])
+      expect(children[0].disabledNode).toBe(false)
+    })
+  })
+
+  describe('processData - nested child gating', () => {
+    const buildTree = (prevChildren: any[], targetChildren: any[]) => ([
+      { identifier: 'm1', children: prevChildren },
+      { identifier: 'm2', children: targetChildren },
+    ])
+
+    const run = async (children: any[]) => {
+      component.collection = { identifier: 'c1', children } as any
+      mockUtilitySvc.getLeafNodes.mockReturnValue(children)
+      jest.spyOn(component, 'updateResourceChange').mockImplementation(() => { })
+      // No progress records, so every nested child falls through to the gating branches.
+      await component.processData([])
+      return children
+    }
+
+    it('should unlock the first child of a module whose predecessor finished', async () => {
+      const tree = await run(buildTree(
+        [{ identifier: 'a1', completionPercentage: 100 }],
+        [{ identifier: 'b1' }, { identifier: 'b2' }],
+      ))
+      expect(tree[1].children[0].disabledNode).toBe(false)
+    })
+
+    it('should unlock a later child whose own predecessor finished', async () => {
+      const tree = await run(buildTree(
+        [{ identifier: 'a1', completionPercentage: 100 }],
+        [{ identifier: 'b1', completionPercentage: 100 }, { identifier: 'b2' }],
+      ))
+      expect(tree[1].children[1].disabledNode).toBe(false)
+    })
+
+    it('should lock a later child whose predecessor is unfinished while gating is on', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(true)
+      const tree = await run(buildTree(
+        [{ identifier: 'a1', completionPercentage: 100 }],
+        [{ identifier: 'b1', completionPercentage: 20 }, { identifier: 'b2' }],
+      ))
+      expect(tree[1].children[1].disabledNode).toBe(true)
+    })
+
+    it('should leave a later child unlocked when gating is off', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(false)
+      const tree = await run(buildTree(
+        [{ identifier: 'a1', completionPercentage: 100 }],
+        [{ identifier: 'b1', completionPercentage: 20 }, { identifier: 'b2' }],
+      ))
+      expect(tree[1].children[1].disabledNode).toBe(false)
+    })
+
+    it('should lock children when the previous module is unfinished and gating is on', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(true)
+      const tree = await run(buildTree(
+        [{ identifier: 'a1', completionPercentage: 30 }],
+        [{ identifier: 'b1' }, { identifier: 'b2' }],
+      ))
+      expect(tree[1].children[1].disabledNode).toBe(true)
+    })
+
+    it('should unlock children when the previous module is unfinished but gating is off', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(false)
+      const tree = await run(buildTree(
+        [{ identifier: 'a1', completionPercentage: 30 }],
+        [{ identifier: 'b1' }, { identifier: 'b2' }],
+      ))
+      expect(tree[1].children[1].disabledNode).toBe(false)
+    })
+
+    it('should fall back to per-child gating for the first module', async () => {
+      mockViewerDataSvc.getNode.mockReturnValue(true)
+      const tree = await run([
+        { identifier: 'm1', children: [{ identifier: 'a1', completionPercentage: 20 }, { identifier: 'a2' }] },
+      ])
+      expect(tree[0].children[1].disabledNode).toBe(true)
+    })
+
+    it('should unlock a child of the first module whose predecessor finished', async () => {
+      const tree = await run([
+        { identifier: 'm1', children: [{ identifier: 'a1', completionPercentage: 100 }, { identifier: 'a2' }] },
+      ])
+      expect(tree[0].children[1].disabledNode).toBe(false)
+    })
+
+    it('should apply matched progress to a nested child before any gating', async () => {
+      component.collection = {
+        identifier: 'c1',
+        children: [{ identifier: 'm1', children: [{ identifier: 'a1' }] }],
+      } as any
+      mockUtilitySvc.getLeafNodes.mockReturnValue(component.collection!.children)
+      jest.spyOn(component, 'updateResourceChange').mockImplementation(() => { })
+
+      await component.processData([{ contentId: 'a1', completionPercentage: 70, status: 1 }])
+      const child = (component.collection!.children![0] as any).children[0]
+      expect(child.completionPercentage).toBe(70)
+      expect(child.completionStatus).toBe(1)
+    })
+
+    it('should tolerate a module with no children to gate', async () => {
+      const tree = await run(buildTree([{ identifier: 'a1', completionPercentage: 100 }], []))
+      expect(tree[1].children).toEqual([])
+    })
+  })
+
+  describe('mergeProgressRecords', () => {
+    it('should append a record that is not yet tracked', () => {
+      const existing: any[] = [{ contentId: 'r1', completionPercentage: 10 }]
+      component['mergeProgressRecords'](existing, [{ contentId: 'r2', completionPercentage: 50 }], 'completionPercentage')
+      expect(existing).toHaveLength(2)
+      expect(existing[1].contentId).toBe('r2')
+    })
+
+    it('should update a tracked record when the value changed', () => {
+      const existing: any[] = [{ contentId: 'r1', completionPercentage: 10 }]
+      component['mergeProgressRecords'](existing, [{ contentId: 'r1', completionPercentage: 80 }], 'completionPercentage')
+      expect(existing[0].completionPercentage).toBe(80)
+    })
+
+    it('should leave a tracked record alone when the value is unchanged', () => {
+      const existing: any[] = [{ contentId: 'r1', completionPercentage: 10 }]
+      component['mergeProgressRecords'](existing, [{ contentId: 'r1', completionPercentage: 10 }], 'completionPercentage')
+      expect(existing[0].completionPercentage).toBe(10)
+    })
+
+    it('should never overwrite a known value with undefined', () => {
+      const existing: any[] = [{ contentId: 'r1', completionPercentage: 100 }]
+      component['mergeProgressRecords'](existing, [{ contentId: 'r1' }], 'completionPercentage')
+      expect(existing[0].completionPercentage).toBe(100)
+    })
+  })
+
+  describe('persistProgress', () => {
+    it('should write the merged records to the offline store', () => {
+      component.collectionId = 'c1'
+      component['persistProgress']([{ contentId: 'r1' }])
+      expect(mockOnlineIndexedDbService.insertData).toHaveBeenCalledWith(
+        'user-1', 'c1', 'onlineCourseProgress', [{ contentId: 'r1' }],
+      )
+    })
+
+    it('should log a write failure without throwing', () => {
+      mockOnlineIndexedDbService.insertData.mockReturnValueOnce(throwError(() => new Error('db down')))
+      expect(() => component['persistProgress']([{ contentId: 'r1' }])).not.toThrow()
+      expect(mockLogger.error).toHaveBeenCalledWith('Error inserting data:', expect.any(Error))
+    })
+  })
+
+  describe('calculateCourseProgress', () => {
+    beforeEach(() => {
+      component.heirarchy = {
+        children: [
+          { contentType: 'Resource', identifier: 'r1' },
+          { contentType: 'Resource', identifier: 'r2' },
+        ],
+        childNodes: ['r1', 'r2'],
+      } as any
+    })
+
+    it('should average the completion across the current resources', () => {
+      expect(component['calculateCourseProgress']([
+        { contentId: 'r1', completionPercentage: 100 },
+        { contentId: 'r2', completionPercentage: 0 },
+      ])).toBe(50)
+    })
+
+    it('should ignore progress for resources no longer in the hierarchy', () => {
+      expect(component['calculateCourseProgress']([
+        { contentId: 'r1', completionPercentage: 100 },
+        { contentId: 'removed', completionPercentage: 100 },
+      ])).toBe(50)
+    })
+
+    it('should report 100 when every resource is complete', () => {
+      expect(component['calculateCourseProgress']([
+        { contentId: 'r1', completionPercentage: 100 },
+        { contentId: 'r2', completionPercentage: 100 },
+      ])).toBe(100)
+    })
+
+    it('should report 0 for a course with no resources', () => {
+      component.heirarchy = { children: [], childNodes: [] } as any
+      expect(component['calculateCourseProgress']([])).toBe(0)
+    })
+
+    it('should clamp an over-reported aggregate to 100', () => {
+      expect(component['calculateCourseProgress']([
+        { contentId: 'r1', completionPercentage: 300 },
+        { contentId: 'r2', completionPercentage: 300 },
+      ])).toBe(100)
+    })
+  })
 })

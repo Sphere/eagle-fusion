@@ -360,4 +360,229 @@ describe('ContentStripMultipleComponent', () => {
       expect(component.showParentError).toBe(true)
     })
   })
+
+  describe('transformContentsToWidgets', () => {
+    const strip = (stripConfig: any = {}) => ({ key: 'k1', stripConfig }) as any
+
+    it('should return an empty list when there are no contents', () => {
+      expect(component['transformContentsToWidgets'](null as any, strip())).toEqual([])
+      expect(component['transformContentsToWidgets']([], strip())).toEqual([])
+    })
+
+    it('should wrap each content in a card widget carrying its position', () => {
+      const widgets = component['transformContentsToWidgets'](
+        [{ identifier: 'c1' }, { identifier: 'c2' }] as any, strip(),
+      )
+      expect(widgets).toHaveLength(2)
+      expect(widgets[0]).toEqual(expect.objectContaining({
+        widgetType: 'card', widgetSubType: 'cardContent', widgetHostClass: 'mb-2',
+      }))
+      expect(widgets[0].widgetData.context).toEqual({ pageSection: 'k1', position: 0 })
+      expect(widgets[1].widgetData.context.position).toBe(1)
+    })
+
+    it('should carry the strip card configuration onto each widget', () => {
+      const [widget] = component['transformContentsToWidgets']([{ identifier: 'c1' }] as any, strip({
+        cardSubType: 'card-wide', intranetMode: true, deletedMode: false, contentTags: ['a'],
+      }))
+      expect(widget.widgetData).toEqual(expect.objectContaining({
+        cardSubType: 'card-wide', intranetMode: true, deletedMode: false, contentTags: ['a'],
+      }))
+      expect(widget.widgetData.badges).toEqual({ orgIcon: false, certification: false })
+    })
+
+    it('should turn on both badges for the card-badges sub type', () => {
+      const [widget] = component['transformContentsToWidgets'](
+        [{ identifier: 'c1' }] as any, strip({ cardSubType: 'card-badges' }),
+      )
+      expect(widget.widgetData.badges).toEqual({ orgIcon: true, certification: true })
+    })
+
+    it('should leave the card config undefined when the strip has none', () => {
+      const [widget] = component['transformContentsToWidgets'](
+        [{ identifier: 'c1' }] as any, { key: 'k1', stripConfig: {} } as any,
+      )
+      expect(widget.widgetData.cardSubType).toBeUndefined()
+      expect(widget.widgetData.intranetMode).toBeUndefined()
+    })
+  })
+
+  describe('checkForEmptyWidget - request shapes', () => {
+    const shapes = ['api', 'search', 'searchRegionRecommendation', 'searchV6', 'enrollmentList', 'ids']
+
+    shapes.forEach(shape => {
+      it(`should accept a strip whose request carries a populated ${shape} block`, () => {
+        expect(component.checkForEmptyWidget({ request: { [shape]: { a: 1 } } } as any)).toBe(true)
+      })
+
+      it(`should reject a strip whose ${shape} block is empty`, () => {
+        expect(component.checkForEmptyWidget({ request: { [shape]: {} } } as any)).toBe(false)
+      })
+    })
+
+    it('should reject a strip with no request at all', () => {
+      expect(component.checkForEmptyWidget({} as any)).toBe(false)
+    })
+
+    it('should reject a strip with an empty request object', () => {
+      expect(component.checkForEmptyWidget({ request: {} } as any)).toBe(false)
+    })
+  })
+
+  describe('showAccordion', () => {
+    it('should always show the strip on desktop', () => {
+      component.stripsResultDataMap = { k1: { mode: 'accordion' } } as any
+      expect(component.showAccordion('k1')).toBe(true)
+    })
+
+    it('should follow the accordion toggle on mobile', () => {
+      mockUtilitySvc.isMobile = true
+      component.stripsResultDataMap = { k1: { mode: 'accordion' } } as any
+      component.showAccordionData = false
+      expect(component.showAccordion('k1')).toBe(false)
+      component.showAccordionData = true
+      expect(component.showAccordion('k1')).toBe(true)
+    })
+
+    it('should always show a non-accordion strip on mobile', () => {
+      mockUtilitySvc.isMobile = true
+      component.stripsResultDataMap = { k1: { mode: 'strip' } } as any
+      component.showAccordionData = false
+      expect(component.showAccordion('k1')).toBe(true)
+    })
+  })
+
+  describe('checkParentStatus', () => {
+    beforeEach(() => {
+      component.widgetData = { strips: [{ key: 'a' }, { key: 'b' }] } as any
+      component.noDataCount = 0
+      component.successDataCount = 0
+      component.errorDataCount = 0
+    })
+
+    it('should count a strip that resolved with no data', () => {
+      component['checkParentStatus']('done', 0)
+      expect(component.noDataCount).toBe(1)
+    })
+
+    it('should count a strip that resolved with data', () => {
+      component['checkParentStatus']('done', 3)
+      expect(component.successDataCount).toBe(1)
+    })
+
+    it('should count a strip that errored', () => {
+      component['checkParentStatus']('error', 0)
+      expect(component.errorDataCount).toBe(1)
+    })
+
+    it('should hold off on a verdict while a successful strip is still waiting on others', () => {
+      component['checkParentStatus']('done', 3)
+      expect(component.showParentNoData).toBeFalsy()
+      expect(component.showParentError).toBeFalsy()
+    })
+
+    it('should keep the loader up until every strip has settled', () => {
+      component['checkParentStatus']('done', 0)
+      expect(component.showParentLoader).toBe(true)
+    })
+
+    it('should report no data when every strip came back empty', () => {
+      component['checkParentStatus']('done', 0)
+      component['checkParentStatus']('done', 0)
+      expect(component.showParentLoader).toBe(false)
+      expect(component.showParentNoData).toBe(true)
+      expect(component.showParentError).toBe(false)
+    })
+
+    it('should report an error when every strip failed', () => {
+      component['checkParentStatus']('error', 0)
+      component['checkParentStatus']('error', 0)
+      expect(component.showParentError).toBe(true)
+      expect(component.showParentNoData).toBe(false)
+    })
+
+    it('should report no data when the strips split between empty and errored', () => {
+      component['checkParentStatus']('done', 0)
+      component['checkParentStatus']('error', 0)
+      expect(component.showParentNoData).toBe(true)
+      expect(component.showParentError).toBe(false)
+    })
+
+    it('should stay quiet once at least one strip returned data', () => {
+      component['checkParentStatus']('done', 2)
+      component['checkParentStatus']('done', 0)
+      expect(component.showParentNoData).toBe(false)
+      expect(component.showParentError).toBe(false)
+      expect(component.showParentLoader).toBe(false)
+    })
+
+    it('should ignore an unsettled fetch status', () => {
+      component['checkParentStatus']('fetching' as any, 0)
+      expect(component.noDataCount).toBe(0)
+      expect(component.successDataCount).toBe(0)
+      expect(component.errorDataCount).toBe(0)
+    })
+  })
+
+  describe('toggleInfo - mode handling', () => {
+    it('should do nothing when the strip carries no info block', () => {
+      component.stripsResultDataMap = { k1: {} } as any
+      component.toggleInfo({ key: 'k1' } as any)
+      expect(component.stripsResultDataMap.k1.stripInfo).toBeUndefined()
+    })
+
+    it('should reveal an info block already in "below" mode', () => {
+      component.stripsResultDataMap = { k1: { stripInfo: { mode: 'below' } } } as any
+      component.toggleInfo({ key: 'k1' } as any)
+      expect(component.stripsResultDataMap.k1.stripInfo.visibilityMode).toBe('visible')
+      expect(mockLoggerSvc.warn).not.toHaveBeenCalled()
+    })
+
+    it('should warn about an unimplemented mode and fall back to "below"', () => {
+      component.stripsResultDataMap = { k1: { stripInfo: { mode: 'popup' } } } as any
+      component.toggleInfo({ key: 'k1' } as any)
+      expect(mockLoggerSvc.warn).toHaveBeenCalledWith('strip info mode: popup not implemented yet')
+      expect(component.stripsResultDataMap.k1.stripInfo.visibilityMode).toBe('visible')
+    })
+  })
+
+  describe('getIfStripHidden / setHiddenForStrip', () => {
+    afterEach(() => localStorage.clear())
+
+    it('should treat an unseen strip as visible', () => {
+      expect(component['getIfStripHidden']('k1')).toBe(true)
+    })
+
+    it('should treat a dismissed strip as hidden', () => {
+      localStorage.setItem('cstrip_k1', '1')
+      expect(component['getIfStripHidden']('k1')).toBe(false)
+    })
+
+    it('should record the dismissal against the strip key', () => {
+      component.stripsResultDataMap = { k1: { showStrip: true } } as any
+      component.setHiddenForStrip('k1')
+      expect(component.stripsResultDataMap.k1.showStrip).toBe(false)
+      expect(localStorage.getItem('cstrip_k1')).toBe('1')
+    })
+  })
+
+  describe('processContentLikes', () => {
+    it('should attach zero likes for content the service does not know about', async () => {
+      mockContentSvc.fetchContentLikes.mockResolvedValue({})
+      const results: any[] = [{ widgetData: { content: { identifier: 'c1' } } }]
+      await component.processContentLikes(results)
+      expect(results[0].widgetData.likes).toBe(0)
+    })
+
+    it('should swallow a like-fetch failure', async () => {
+      mockContentSvc.fetchContentLikes.mockRejectedValue(new Error('down'))
+      const results: any[] = [{ widgetData: { content: { identifier: 'c1' } } }]
+      await expect(component.processContentLikes(results)).resolves.toBeUndefined()
+    })
+
+    it('should tolerate a result with no widget data', async () => {
+      mockContentSvc.fetchContentLikes.mockResolvedValue({})
+      await expect(component.processContentLikes([{}] as any)).resolves.toBeUndefined()
+    })
+  })
 })

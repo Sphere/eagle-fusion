@@ -469,4 +469,182 @@ describe('PlayerVideoComponent', () => {
       expect(() => component.ngOnDestroy()).not.toThrow()
     })
   })
+
+  describe('video telemetry events', () => {
+    it('should roll up under the collection id from the query params', () => {
+      mockActivatedRoute.snapshot.queryParams = { collectionId: 'coll-1' }
+      component.onVideoPlay()
+      expect(mockTelemetrySvc.start).toHaveBeenCalledWith(
+        'video/mp4', 'start', 'player',
+        expect.objectContaining({ rollup: { l1: 'coll-1', l2: 'id1' } }),
+      )
+    })
+
+    it('should roll up under the content id when there is no collection', () => {
+      component.onVideoPlay()
+      expect(mockTelemetrySvc.start).toHaveBeenCalledWith(
+        'video/mp4', 'start', 'player',
+        expect.objectContaining({ rollup: { l1: 'id1', l2: 'id1' } }),
+      )
+    })
+
+    it('should raise an interact event on pause', () => {
+      component.onVideoPause('pause')
+      expect(mockTelemetrySvc.interact).toHaveBeenCalledWith(
+        'video/mp4', 'pause', 'player', expect.objectContaining({ id: 'id1' }),
+      )
+    })
+
+    it('should roll a pause up under the collection id', () => {
+      mockActivatedRoute.snapshot.queryParams = { collectionId: 'coll-1' }
+      component.onVideoPause('pause')
+      expect(mockTelemetrySvc.interact.mock.calls[0][3].rollup).toEqual({ l1: 'coll-1', l2: 'id1' })
+    })
+
+    it('should close the telemetry span when the video ends', () => {
+      component.onVideoEnded()
+      expect(mockTelemetrySvc.end).toHaveBeenCalledWith(
+        'video/mp4', 'ended', 'player', expect.objectContaining({ id: 'id1' }),
+      )
+    })
+
+    it('should roll an end up under the collection id', () => {
+      mockActivatedRoute.snapshot.queryParams = { collectionId: 'coll-1' }
+      component.onVideoEnded()
+      expect(mockTelemetrySvc.end.mock.calls[0][3].rollup).toEqual({ l1: 'coll-1', l2: 'id1' })
+    })
+  })
+
+  describe('onEventTrigger', () => {
+    it('should treat the first start as a play', () => {
+      component.isResumeStarted = false
+      component.onEventTrigger('start')
+      expect(component.isResumeStarted).toBe(true)
+      expect(mockTelemetrySvc.start).toHaveBeenCalled()
+      expect(mockTelemetrySvc.interact).not.toHaveBeenCalled()
+    })
+
+    it('should treat a later start as a resume interact', () => {
+      component.isResumeStarted = true
+      component.onEventTrigger('start')
+      expect(mockTelemetrySvc.start).not.toHaveBeenCalled()
+      expect(mockTelemetrySvc.interact).toHaveBeenCalledWith(
+        'video/mp4', 'start', 'player', expect.any(Object),
+      )
+    })
+
+    it('should raise a pause interact', () => {
+      component.onEventTrigger('pause')
+      expect(mockTelemetrySvc.interact).toHaveBeenCalledWith(
+        'video/mp4', 'pause', 'player', expect.any(Object),
+      )
+    })
+
+    it('should close the span on end', () => {
+      component.onEventTrigger('end')
+      expect(mockTelemetrySvc.end).toHaveBeenCalled()
+    })
+
+    it('should ignore an unrecognised event', () => {
+      component.onEventTrigger('seek' as any)
+      expect(mockTelemetrySvc.start).not.toHaveBeenCalled()
+      expect(mockTelemetrySvc.interact).not.toHaveBeenCalled()
+      expect(mockTelemetrySvc.end).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('updateVideoProgress', () => {
+    const data = { current: 50, max_size: 100 }
+
+    it('should send status 2 for a fully watched video', async () => {
+      await component['updateVideoProgress']('id1', data, 100, 'coll-1', 'b1')
+      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+        'id1', expect.objectContaining({ completionPercentage: 100, status: 2 }), 'coll-1', 'b1',
+      )
+    })
+
+    it('should send status 1 for a partially watched video', async () => {
+      await component['updateVideoProgress']('id1', data, 50, 'coll-1', 'b1')
+      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+        'id1', expect.objectContaining({ completionPercentage: 50, status: 1 }), 'coll-1', 'b1',
+      )
+    })
+
+    it('should send status 0 for an unwatched video', async () => {
+      await component['updateVideoProgress']('id1', data, 0, 'coll-1', 'b1')
+      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+        'id1', expect.objectContaining({ completionPercentage: 0, status: 0 }), 'coll-1', 'b1',
+      )
+    })
+
+    it('should merge the new percentage into the cached history list', async () => {
+      component.contentHistoryResponse = {
+        contentList: [{ contentId: 'id1', batchId: 'b1', courseId: 'coll-1', completionPercentage: 10, status: 1 }],
+      } as any
+
+      await component['updateVideoProgress']('id1', data, 100, 'coll-1', 'b1')
+      await Promise.resolve()
+
+      const [message] = mockContentSvc.changeMessage.mock.calls[0]
+      expect(message.type).toBe('Video')
+      expect(message.contentList[0]).toEqual(expect.objectContaining({
+        contentId: 'id1', completionPercentage: 100, status: 2,
+      }))
+      expect(component.lastSentProgressPercentage).toBe(100)
+    })
+
+    it('should backfill missing percentages on the other cached entries', async () => {
+      component.contentHistoryResponse = {
+        contentList: [
+          { contentId: 'id1', completionPercentage: 10, status: 1 },
+          { contentId: 'other' },
+        ],
+      } as any
+
+      await component['updateVideoProgress']('id1', data, 60, 'coll-1', 'b1')
+      await Promise.resolve()
+
+      const other = mockContentSvc.changeMessage.mock.calls[0][0].contentList
+        .find((i: any) => i.contentId === 'other')
+      expect(other).toEqual(expect.objectContaining({ completionPercentage: 0, status: 0 }))
+    })
+
+    it('should append an entry for a video watched for the first time', async () => {
+      component.contentHistoryResponse = {
+        contentList: [{ contentId: 'other', completionPercentage: 100, status: 2 }],
+      } as any
+
+      await component['updateVideoProgress']('id1', data, 100, 'coll-1', 'b1')
+      await Promise.resolve()
+
+      const added = mockContentSvc.changeMessage.mock.calls[0][0].contentList
+        .find((i: any) => i.contentId === 'id1')
+      expect(added).toEqual(expect.objectContaining({
+        completionPercentage: 100, status: 2, batchId: 'b1', courseId: 'coll-1',
+      }))
+    })
+
+    it('should default a missing batch id on the appended entry', async () => {
+      component.contentHistoryResponse = { contentList: [{ contentId: 'other' }] } as any
+
+      await component['updateVideoProgress']('id1', data, 40, 'coll-1', undefined)
+      await Promise.resolve()
+
+      const added = mockContentSvc.changeMessage.mock.calls[0][0].contentList
+        .find((i: any) => i.contentId === 'id1')
+      expect(added.batchId).toBe('')
+    })
+
+    it('should report the progress update in telemetry', async () => {
+      component.contentHistoryResponse = { contentList: [{ contentId: 'id1' }] } as any
+
+      await component['updateVideoProgress']('id1', data, 100, 'coll-1', 'b1')
+      await Promise.resolve()
+
+      expect(mockViewerSvc.generateInteractTelemetry).toHaveBeenCalledWith(
+        'progress-update-success',
+        expect.objectContaining({ contentId: 'id1', completionPercentage: 100, mimeType: 'video/mp4' }),
+      )
+    })
+  })
 })

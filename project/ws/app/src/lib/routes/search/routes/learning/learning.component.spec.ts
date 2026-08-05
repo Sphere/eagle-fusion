@@ -448,4 +448,128 @@ describe('LearningComponent', () => {
     component.closeFilter(false)
     expect(component.sideNavBarOpened).toBe(false)
   })
+
+  describe('applyPhraseSearch / applyIsStandAlone', () => {
+    const tab = () => mockActivated.snapshot.data.pageData.data.search.tabs[0]
+
+    afterEach(() => {
+      delete tab().phraseSearch
+      delete tab().isStandAlone
+    })
+
+    it('should default phrase search on when the config omits it', () => {
+      tab().phraseSearch = undefined
+      expect(component.applyPhraseSearch).toBe(true)
+    })
+
+    it('should honour an explicit phrase-search opt-out', () => {
+      tab().phraseSearch = false
+      expect(component.applyPhraseSearch).toBe(false)
+    })
+
+    it('should default stand-alone on when the config omits it', () => {
+      tab().isStandAlone = undefined
+      expect(component.applyIsStandAlone).toBe(true)
+    })
+
+    it('should honour an explicit stand-alone opt-out', () => {
+      tab().isStandAlone = false
+      expect(component.applyIsStandAlone).toBe(false)
+    })
+  })
+
+  describe('isDefaultFilterApplied - mismatches', () => {
+    it('should return false when an applied filter differs from the default', () => {
+      component.searchRequestObject.request.filters = { visibility: ['Public'] }
+      expect(component.isDefaultFilterApplied).toBe(false)
+    })
+
+    it('should return false when the default filter is not applied at all', () => {
+      component.searchRequestObject.request.filters = {}
+      expect(component.isDefaultFilterApplied).toBe(false)
+    })
+
+    it('should tolerate a request with no filters block', () => {
+      component.searchRequestObject.request.filters = undefined as any
+      expect(component.isDefaultFilterApplied).toBe(false)
+    })
+  })
+
+  describe('preferredLanguages - fallbacks', () => {
+    it('should fall back to English when no language group is saved', () => {
+      const saved = mockConfigSvc.userPreference
+      mockConfigSvc.userPreference = {}
+      expect(component.preferredLanguages).toBe('en')
+      mockConfigSvc.userPreference = saved
+    })
+
+    it('should fall back to English when there is no preference at all', () => {
+      const saved = mockConfigSvc.userPreference
+      mockConfigSvc.userPreference = undefined
+      expect(component.preferredLanguages).toBe('en')
+      mockConfigSvc.userPreference = saved
+    })
+
+    it('should default a blank entry in the group to English', () => {
+      const saved = mockConfigSvc.userPreference
+      mockConfigSvc.userPreference = { selectedLangGroup: 'hi,' }
+      expect(component.preferredLanguages).toBe('hi,en')
+      mockConfigSvc.userPreference = saved
+    })
+  })
+
+  describe('searchAcrossPreferredLang', () => {
+    it('should be off', () => {
+      expect(component.searchAcrossPreferredLang).toBe(false)
+    })
+  })
+
+  describe('selectLang', () => {
+    it('should record the language and merge it into the route', () => {
+      component.selectLang('hi')
+      expect(component.lang).toBe('hi')
+      expect(mockRouter.navigate).toHaveBeenCalledWith([], expect.objectContaining({
+        queryParams: { lang: 'hi' },
+        queryParamsHandling: 'merge',
+      }))
+    })
+  })
+
+  describe('searchWithPreferredLanguage', () => {
+    it('should navigate with the preferred language group', () => {
+      component.searchWithPreferredLanguage()
+      expect(mockRouter.navigate).toHaveBeenCalledWith([], expect.objectContaining({
+        queryParams: { lang: 'en,hi' },
+      }))
+    })
+  })
+
+  describe('removeDefaultFiltersApplied', () => {
+    it('should strip the default filters from the applied set', () => {
+      component.searchRequestObject.request.filters = { visibility: ['Default'], topic: ['Health'] }
+      component.removeDefaultFiltersApplied()
+
+      expect(mockRouter.navigate).toHaveBeenCalledWith([], expect.objectContaining({
+        queryParams: { f: JSON.stringify({ topic: ['Health'] }) },
+      }))
+    })
+
+    it('should bail out when a default filter is not applied', () => {
+      component.searchRequestObject.request.filters = { topic: ['Health'] }
+      component.removeDefaultFiltersApplied()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+
+    it('should bail out when an applied filter differs from the default', () => {
+      component.searchRequestObject.request.filters = { visibility: ['Public'] }
+      component.removeDefaultFiltersApplied()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+
+    it('should tolerate a request with no filters block', () => {
+      component.searchRequestObject.request.filters = undefined as any
+      component.removeDefaultFiltersApplied()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+  })
 })

@@ -116,12 +116,26 @@ describe('API_END_POINTS', () => {
 })
 
 describe('S3_END_POINTS', () => {
-  it('builds S3 asset URLs with cache busting', () => {
+  it('points every entry at the aastar S3 bucket', () => {
     const entries = Object.values(S3_END_POINTS)
     expect(entries.length).toBeGreaterThan(0)
     entries.forEach(url => {
       expect(url).toMatch(/^https:\/\/aastar(-app)?-assets\.s3\.ap-south-1\.amazonaws\.com\//)
+    })
+  })
+
+  it('cache-busts the mutable JSON config endpoints', () => {
+    const jsonEntries = Object.values(S3_END_POINTS).filter(url => url.includes('.json'))
+    expect(jsonEntries.length).toBeGreaterThan(0)
+    jsonEntries.forEach(url => {
       expect(url).toMatch(/(cb|v)=\d+/)
     })
+  })
+
+  it('serves immutable static assets without a cache-buster', () => {
+    expect(S3_END_POINTS.UP_GOV_LOGO).toBe(
+      'https://aastar-app-assets.s3.ap-south-1.amazonaws.com/UP-govlogo1.svg',
+    )
+    expect(S3_END_POINTS.UP_GOV_LOGO).not.toMatch(/[?&](cb|v)=/)
   })
 })

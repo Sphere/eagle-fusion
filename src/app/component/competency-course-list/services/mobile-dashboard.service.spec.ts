@@ -65,6 +65,19 @@ describe('MobileDashboardService', () => {
     { competencyId: 2, name: 'Beginner', competencyName: 'Nutrition', level: 1, course: 'c2' },
   ]
 
+  // getAshaData only emits cards when the search call yields at least one course that maps
+  // back to a requested competency; otherwise it short-circuits to the empty response.
+  // This builds the minimal search payload that keeps that path open.
+  const searchResultFor = (competencyIds: number[]) => of({
+    result: {
+      content: competencyIds.map(id => ({
+        identifier: `course-${id}`,
+        name: `Course ${id}`,
+        competencies_v1: `[{"competencyId": ${id}}]`,
+      })),
+    },
+  })
+
   beforeEach(() => {
     mockHttp = {
       post: jest.fn().mockReturnValue(of(null)),
@@ -175,19 +188,44 @@ describe('MobileDashboardService', () => {
       })
     })
 
-    it('builds one card per competency from the playlist levels even when APIs return nothing', done => {
+    it('returns the empty response when the search call yields no courses', done => {
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res).toEqual({ ashaData: [], completedCourses: [], inProgressCourses: [] })
+        done()
+      })
+    })
+
+    it('returns the empty response when no search result maps to a requested competency', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([99]))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res).toEqual({ ashaData: [], completedCourses: [], inProgressCourses: [] })
+        done()
+      })
+    })
+
+    it('builds one card per playlist competency once the search yields a match', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
         expect(res.ashaData).toHaveLength(2)
         const [first, second] = res.ashaData
-        expect(first.title).toBe('Communication')
         expect(first.competencyID).toBe('1')
-        expect(first.contentId).toBe('c1')
         expect(first.isAsha).toBe('true')
         expect(first.levels).toHaveLength(2)
         expect(first.levels[0].competencyName).toBeUndefined()
-        expect(second.title).toBe('Nutrition')
+        expect(second.competencyID).toBe('2')
         expect(res.completedCourses).toEqual([])
         expect(res.inProgressCourses).toHaveLength(2)
+        done()
+      })
+    })
+
+    it('keeps a playlist card unenriched when the search only matches a sibling competency', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1]))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res.ashaData).toHaveLength(2)
+        const untouched = res.ashaData.find((c: any) => c.competencyID === '2')
+        expect(untouched.title).toBe('Nutrition')
+        expect(untouched.contentId).toBe('c2')
         done()
       })
     })
@@ -253,16 +291,47 @@ describe('MobileDashboardService', () => {
     it('ignores search results whose competency is not in the requested ids', done => {
       mockHttp.post.mockReturnValue(of({
         result: {
-          content: [{ identifier: 'other', name: 'Other Course', competencies_v1: '[{"competencyId": 99}]' }],
+          content: [
+            { identifier: 'course-1', name: 'Course 1', competencies_v1: '[{"competencyId": 1}]' },
+            { identifier: 'other', name: 'Other Course', competencies_v1: '[{"competencyId": 99}]' },
+          ],
         },
       }))
       service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
-        expect(res.ashaData.map((c: any) => c.title)).toEqual(['Communication', 'Nutrition'])
+        expect(res.ashaData.map((c: any) => c.competencyID)).toEqual(['1', '2'])
+        expect(res.ashaData.map((c: any) => c.title)).not.toContain('Other Course')
+        done()
+      })
+    })
+
+    it('drops a search result whose competencies_v1 payload is malformed json', done => {
+      mockHttp.post.mockReturnValue(of({
+        result: {
+          content: [
+            { identifier: 'course-1', name: 'Course 1', competencies_v1: '[{"competencyId": 1}]' },
+            { identifier: 'broken', name: 'Broken Course', competencies_v1: 'not-json' },
+          ],
+        },
+      }))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res.ashaData.map((c: any) => c.title)).not.toContain('Broken Course')
+        done()
+      })
+    })
+
+    it('reads search content from the top-level content key when result.content is absent', done => {
+      mockHttp.post.mockReturnValue(of({
+        content: [{ identifier: 'course-1', name: 'Top Level Course', competencies_v1: '[{"competencyId": 1}]' }],
+      }))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        const enriched = res.ashaData.find((c: any) => c.competencyID === '1')
+        expect(enriched.title).toBe('Top Level Course')
         done()
       })
     })
 
     it('expands a passed course across every level that course covers', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       mockHttp.get.mockReturnValue(of({
         data: [{ competencyid: 1, competencylevel: 1, passFailStatus: 'Pass', contentType: 'course', attemptcount: 2 }],
       }))
@@ -280,6 +349,7 @@ describe('MobileDashboardService', () => {
     })
 
     it('keeps non-course progress records alongside expanded course progress', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       mockHttp.get.mockReturnValue(of({
         data: [
           { competencyid: 2, competencylevel: 1, passFailStatus: 'Fail', contentType: 'selfAssessment' },
@@ -298,6 +368,7 @@ describe('MobileDashboardService', () => {
     })
 
     it('points contentId at the self-assessment course when one exists in progress', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       mockHttp.get.mockReturnValue(of({
         data: [
           { competencyid: 1, competencylevel: 1, passFailStatus: 'Pass', contentType: 'selfAssessment', courseid: 'sa-course' },
@@ -318,6 +389,7 @@ describe('MobileDashboardService', () => {
         level,
         course: [{ id: `c3-${level}`, lang: 'en' }],
       }))
+      mockHttp.post.mockReturnValue(searchResultFor([3]))
       mockHttp.get.mockReturnValue(of({
         data: [1, 2, 3, 4, 5].map(level => ({
           competencyid: 3, competencylevel: level, passFailStatus: 'Pass', contentType: 'course',
@@ -333,6 +405,7 @@ describe('MobileDashboardService', () => {
     })
 
     it('sorts in-progress cards by competencyID and expands only the first', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
         expect(res.inProgressCourses.map((c: any) => c.competencyID)).toEqual(['1', '2'])
         expect(res.inProgressCourses[0].expand).toBe(true)
@@ -351,12 +424,23 @@ describe('MobileDashboardService', () => {
       })
     })
 
-    it('still emits cards when both endpoints error', done => {
+    it('swallows endpoint errors and emits the empty response', done => {
+      // Each request carries its own catchError, so a failure yields null rather than
+      // erroring the forkJoin — leaving no search courses and therefore no cards.
       mockHttp.post.mockReturnValue(throwError(() => new Error('search down')))
       mockHttp.get.mockReturnValue(throwError(() => new Error('progress down')))
       service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res).toEqual({ ashaData: [], completedCourses: [], inProgressCourses: [] })
+        done()
+      })
+    })
+
+    it('emits playlist-only cards when the progress call fails but the search succeeds', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
+      mockHttp.get.mockReturnValue(throwError(() => new Error('progress down')))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
         expect(res.ashaData).toHaveLength(2)
-        expect(res.inProgressCourses).toHaveLength(2)
+        expect(res.ashaData.every((c: any) => c.progress.length === 0)).toBe(true)
         done()
       })
     })

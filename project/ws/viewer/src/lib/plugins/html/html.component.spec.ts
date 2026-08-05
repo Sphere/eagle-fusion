@@ -28,7 +28,7 @@ jest.mock('../../../../../../../project/ws/viewer/src/lib/viewer-util.service', 
 }))
 
 import { HtmlComponent } from './html.component'
-import { of } from 'rxjs'
+import { of, throwError } from 'rxjs'
 
 // ngOnChanges wraps its body in a fire-and-forget IIFE, so it no longer returns
 // a promise. Call it, then flush microtask ticks for the internal awaits/`.then`
@@ -270,6 +270,218 @@ describe('HtmlComponent (plugins/html)', () => {
       component.openInNewTab()
       expect(mockSnackBar.open).toHaveBeenCalled()
       openSpy.mockRestore()
+    })
+  })
+
+  describe('onBlur (youtube completion)', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+      component.htmlContent = { ...baseContent }
+      component.urlContains = 'https://youtube.com/watch?v=1'
+      component.mimeType = 'video/x-youtube' as any
+    })
+
+    afterEach(() => jest.useRealTimers())
+
+    it('should do nothing for a non-youtube url', () => {
+      component.urlContains = 'https://example.com/page.html'
+      component.onBlur()
+      jest.runAllTimers()
+      expect(mockTelemetrySvc.start).not.toHaveBeenCalled()
+      expect(mockViewerSvc.realTimeProgressUpdateV3).not.toHaveBeenCalled()
+    })
+
+    it('should do nothing when there is no content', () => {
+      component.htmlContent = null
+      component.onBlur()
+      jest.runAllTimers()
+      expect(mockTelemetrySvc.start).not.toHaveBeenCalled()
+    })
+
+    it('should mark the video complete and close the telemetry span', () => {
+      component.onBlur()
+      jest.runAllTimers()
+
+      expect(mockTelemetrySvc.start).toHaveBeenCalledWith('youtube', 'youtube-start', 'player')
+      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+        'content1',
+        expect.objectContaining({ completionPercentage: 100, status: 2 }),
+        'content1',
+        'content1',
+      )
+      expect(mockViewerSvc.generateInteractTelemetry).toHaveBeenCalledWith(
+        'progress-update-success', expect.objectContaining({ mimeType: 'youtube' }),
+      )
+      expect(mockContentSvc.changeMessage).toHaveBeenCalledWith(expect.objectContaining({ type: 'youtube' }))
+      expect(mockTelemetrySvc.end).toHaveBeenCalledWith(
+        'youtube', 'youtube-close', 'player', expect.any(Object), expect.any(Object),
+      )
+    })
+
+    it('should prefer the collection and batch ids from the query params', () => {
+      mockActivatedRoute.snapshot.queryParams = { collectionId: 'coll-1', batchId: 'b1' }
+      component.onBlur()
+      jest.runAllTimers()
+
+      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+        'content1', expect.any(Object), 'coll-1', 'b1',
+      )
+      const [, telemetry] = mockViewerSvc.generateInteractTelemetry.mock.calls[0]
+      expect(telemetry.batchId).toBe('b1')
+    })
+
+    it('should warn when the progress update fails', () => {
+      mockViewerSvc.realTimeProgressUpdateV3.mockReturnValue(throwError(() => new Error('down')))
+      component.onBlur()
+      jest.runAllTimers()
+      expect(mockLogger.warn).toHaveBeenCalledWith('Progress update failed:', expect.any(Error))
+    })
+  })
+
+  describe('executeForms (google docs completion)', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+      component.htmlContent = { ...baseContent }
+      component.urlContains = 'https://docs.google.com/forms/d/1'
+    })
+
+    afterEach(() => jest.useRealTimers())
+
+    it('should do nothing for a non-docs url', () => {
+      component.urlContains = 'https://example.com/page.html'
+      component.executeForms()
+      jest.runAllTimers()
+      expect(mockViewerSvc.realTimeProgressUpdateV3).not.toHaveBeenCalled()
+    })
+
+    it('should do nothing when there is no content', () => {
+      component.htmlContent = null
+      component.executeForms()
+      jest.runAllTimers()
+      expect(mockViewerSvc.realTimeProgressUpdateV3).not.toHaveBeenCalled()
+    })
+
+    it('should mark the form complete and close the telemetry span', () => {
+      component.executeForms()
+      jest.runAllTimers()
+
+      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+        'content1',
+        expect.objectContaining({ completionPercentage: 100, status: 2 }),
+        'content1',
+        'content1',
+      )
+      expect(mockViewerSvc.generateInteractTelemetry).toHaveBeenCalledWith(
+        'progress-update-success', expect.objectContaining({ mimeType: 'docs.google' }),
+      )
+      expect(mockContentSvc.changeMessage).toHaveBeenCalledWith(expect.objectContaining({ type: 'docs.google' }))
+      expect(mockTelemetrySvc.end).toHaveBeenCalledWith(
+        'docs.google', 'docs.google-close', 'player', expect.any(Object), expect.any(Object),
+      )
+    })
+
+    it('should prefer the collection and batch ids from the query params', () => {
+      mockActivatedRoute.snapshot.queryParams = { collectionId: 'coll-1', batchId: 'b1' }
+      component.executeForms()
+      jest.runAllTimers()
+      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+        'content1', expect.any(Object), 'coll-1', 'b1',
+      )
+    })
+
+    it('should warn when the progress update fails', () => {
+      mockViewerSvc.realTimeProgressUpdateV3.mockReturnValue(throwError(() => new Error('down')))
+      component.executeForms()
+      jest.runAllTimers()
+      expect(mockLogger.warn).toHaveBeenCalledWith('Progress update failed:', expect.any(Error))
+    })
+  })
+
+  describe('mergeProgressDetails', () => {
+    it('should carry over keys that only exist in the base object', () => {
+      expect(component.mergeProgressDetails({ a: 1 }, {})).toEqual({ a: 1 })
+    })
+
+    it('should let the incoming object win on shared keys', () => {
+      expect(component.mergeProgressDetails({ a: 1, b: 2 }, { b: 3 })).toEqual({ a: 1, b: 3 })
+    })
+
+    it('should add keys that only exist in the incoming object', () => {
+      expect(component.mergeProgressDetails({ a: 1 }, { c: 4 })).toEqual({ a: 1, c: 4 })
+    })
+
+    it('should take a falsy incoming value over the existing one', () => {
+      expect(component.mergeProgressDetails({ a: 1 }, { a: 0 })).toEqual({ a: 0 })
+    })
+  })
+
+  describe('isDuplicateProcessing', () => {
+    it('should be false before any content has been processed', () => {
+      component.htmlContent = { ...baseContent }
+      expect(component['isDuplicateProcessing']()).toBe(false)
+    })
+
+    it('should be true while the same content is already being processed', () => {
+      component.htmlContent = { ...baseContent }
+      component.currentProcessingContentId = 'content1'
+      expect(component['isDuplicateProcessing']()).toBe(true)
+    })
+
+    it('should be false for a different content id', () => {
+      component.htmlContent = { ...baseContent }
+      component.currentProcessingContentId = 'other'
+      expect(component['isDuplicateProcessing']()).toBe(false)
+    })
+
+    it('should be false when there is no content', () => {
+      component.htmlContent = null
+      component.currentProcessingContentId = 'content1'
+      expect(component['isDuplicateProcessing']()).toBe(false)
+    })
+  })
+
+  describe('processHtmlContentChange', () => {
+    it('should do nothing without content', () => {
+      component.htmlContent = null
+      component['processHtmlContentChange']()
+      expect(component.currentProcessingContentId).toBeNull()
+    })
+
+    it('should claim the content and seed the scorm adapter', () => {
+      component.htmlContent = { ...baseContent }
+      component['processHtmlContentChange']()
+
+      expect(component.currentProcessingContentId).toBe('content1')
+      expect(mockScormAdapterService.contentId).toBe('content1')
+      expect(mockScormAdapterService.htmlName).toBe('Content 1')
+      expect(mockScormAdapterService.parent).toBe('parent1')
+      expect(component.urlContains).toBe(baseContent.artifactUrl)
+    })
+
+    it('should leave the adapter parent undefined when the content has none', () => {
+      component.htmlContent = { ...baseContent, parent: undefined }
+      component['processHtmlContentChange']()
+      expect(mockScormAdapterService.parent).toBeUndefined()
+    })
+
+    it('should fetch the content history for non-scorm content', () => {
+      component.htmlContent = { ...baseContent }
+      component['processHtmlContentChange']()
+      expect(mockContentSvc.fetchContentHistoryV2).toHaveBeenCalled()
+    })
+
+    it('should skip the history fetch for scorm content', () => {
+      component.htmlContent = { ...baseContent, mimeType: 'application/vnd.ekstep.html-archive' }
+      component['processHtmlContentChange']()
+      expect(mockContentSvc.fetchContentHistoryV2).not.toHaveBeenCalled()
+    })
+
+    it('should drop a previous history subscription before starting a new one', () => {
+      const unsubscribe = jest.fn()
+      component.contentHistorySubscription = { unsubscribe } as any
+      component.htmlContent = { ...baseContent }
+      component['processHtmlContentChange']()
+      expect(unsubscribe).toHaveBeenCalled()
     })
   })
 })

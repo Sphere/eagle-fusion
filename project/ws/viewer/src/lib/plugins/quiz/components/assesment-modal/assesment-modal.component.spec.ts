@@ -474,4 +474,220 @@ describe('AssesmentModalComponent', () => {
     expect(component.getCorrectAnswerPopUp()).toBe(true)
     localStorage.removeItem('private')
   })
+
+  describe('canShowViewAnswers', () => {
+    it('should hide answers when the resource opts out explicitly', () => {
+      mockViewerDataSvc.resource = { isCorrectAnswerPopUp: false }
+      expect(component.canShowViewAnswers()).toBe(false)
+    })
+
+    it('should show answers when the resource opts in explicitly', () => {
+      mockViewerDataSvc.resource = { isCorrectAnswerPopUp: true }
+      mockPlylsSvc.orgDetails.mockReturnValue({ assessmentConfig: { isCorrectAnswerPopUp: false } })
+      expect(component.canShowViewAnswers()).toBe(true)
+    })
+
+    it('should hide answers for an organisation that has not opted in', () => {
+      mockViewerDataSvc.resource = {}
+      mockPlylsSvc.orgDetails.mockReturnValue({ assessmentConfig: { isCorrectAnswerPopUp: false } })
+      expect(component.canShowViewAnswers()).toBe(false)
+    })
+
+    it('should show answers for an organisation that has opted in', () => {
+      mockViewerDataSvc.resource = {}
+      mockPlylsSvc.orgDetails.mockReturnValue({ assessmentConfig: { isCorrectAnswerPopUp: true } })
+      expect(component.canShowViewAnswers()).toBe(true)
+    })
+
+    it('should show answers when the user has no organisation', () => {
+      mockViewerDataSvc.resource = {}
+      mockConfigSvc.userProfile = { userId: 'u1' }
+      mockPlylsSvc.orgDetails.mockReturnValue({ assessmentConfig: { isCorrectAnswerPopUp: false } })
+      expect(component.canShowViewAnswers()).toBe(true)
+    })
+
+    it('should tolerate missing org details and resource', () => {
+      mockViewerDataSvc.resource = null
+      mockPlylsSvc.orgDetails.mockReturnValue(null)
+      mockConfigSvc.userProfile = null
+      expect(component.canShowViewAnswers()).toBe(true)
+    })
+  })
+
+  describe('closePopup', () => {
+    beforeEach(() => {
+      component.assesmentdata = mockAssesmentdata
+      mockViewerDataSvc.resource = { parent: 'module-1' }
+    })
+
+    it('should report DONE when a passing standard assessment is closed', () => {
+      component.isCompetency = false
+      component.isCompleted = true
+      component.progress = 80
+      component.passPercentage = 60
+
+      component.closePopup()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'DONE' })
+    })
+
+    it('should report CLOSE when a failing standard assessment is closed', () => {
+      component.isCompetency = false
+      component.isCompleted = true
+      component.progress = 40
+      component.passPercentage = 60
+
+      component.closePopup()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'CLOSE' })
+    })
+
+    it('should report CLOSE when an unfinished assessment is closed', () => {
+      component.isCompetency = false
+      component.isCompleted = false
+
+      component.closePopup()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'CLOSE' })
+    })
+
+    it('should tag a competency close with the competency flag', () => {
+      component.isCompetency = true
+      component.isAshaHome = false
+      mockRoute.snapshot.queryParams = { competency: 'comp-1' }
+
+      component.closePopup()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'CLOSE', competency: 'comp-1' })
+    })
+
+    it('should tag an ASHA close with the asha flag', () => {
+      component.isCompetency = true
+      component.isAshaHome = true
+      mockRoute.snapshot.queryParams = { isAsha: 'true' }
+
+      component.closePopup()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'CLOSE', asha: 'true' })
+    })
+
+    it('should bracket the close with start and end telemetry', () => {
+      component.isCompetency = false
+      component.closePopup()
+
+      expect(mockTelemetrySvc.start).toHaveBeenCalledWith('assessment', 'assessment-close-start', 'id1')
+      expect(mockTelemetrySvc.end).toHaveBeenCalledWith(
+        'assessment', 'assessment-close-end', 'id1',
+        expect.objectContaining({ courseID: 'c1', contentId: 'id1', moduleId: 'module-1' }),
+      )
+    })
+
+    it('should leave the module id undefined when the resource has no parent', () => {
+      mockViewerDataSvc.resource = { parent: undefined }
+      component.isCompetency = false
+      component.closePopup()
+      expect(mockTelemetrySvc.end.mock.calls[0][3].moduleId).toBeUndefined()
+    })
+  })
+
+  describe('closeDone', () => {
+    it('should report DONE for a standard assessment', () => {
+      mockRoute.snapshot.queryParams = {}
+      component.isAshaHome = false
+      component.closeDone()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'DONE', asha: false })
+    })
+
+    it('should report DONE_ASHA for an ASHA assessment', () => {
+      mockRoute.snapshot.queryParams = { isAsha: 'true' }
+      component.closeDone()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'DONE_ASHA', asha: 'true' })
+    })
+
+    it('should still tag the ASHA flag from the home context', () => {
+      mockRoute.snapshot.queryParams = {}
+      component.isAshaHome = true
+      component.closeDone()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'DONE', asha: true })
+    })
+  })
+
+  describe('retakeQuiz', () => {
+    beforeEach(() => {
+      component.assesmentdata = mockAssesmentdata
+      component.passPercentage = 60
+    })
+
+    it('should request a retake when the learner failed', async () => {
+      component.result = 40
+      await component.retakeQuiz()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'RETAKE_QUIZ' })
+      expect(mockDialog.open).not.toHaveBeenCalled()
+    })
+
+    it('should request a retake on a perfect score', async () => {
+      component.result = 100
+      await component.retakeQuiz()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'RETAKE_QUIZ' })
+    })
+
+    it('should open the answer review for a passing, imperfect score', async () => {
+      component.result = 80
+      component.questionAnswerHash = { q1: ['o1'] }
+      await component.retakeQuiz()
+
+      expect(mockDialogRef.close).not.toHaveBeenCalled()
+      expect(mockDialog.open).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+        data: { questions: mockAssesmentdata.questions.questions, userInput: { q1: ['o1'] } },
+      }))
+    })
+  })
+
+  describe('competency and ASHA navigation', () => {
+    beforeEach(() => {
+      component.competencyId = 'comp-1'
+      component.competencyLevelId = 2
+      component.courseID = 'course-1'
+    })
+
+    it('should close to the competency dashboard on failure', () => {
+      mockRoute.snapshot.queryParams = { competency: 'comp-1' }
+      component.CompetencyDashboard()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'FAILED_COMPETENCY', competency: 'comp-1' })
+    })
+
+    it('should close to the competency course list', () => {
+      mockRoute.snapshot.queryParams = { competency: 'comp-1' }
+      component.viewCourses()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({
+        event: 'VIEW_COURSES', competency: 'comp-1', competencyId: 'comp-1', competencyLevel: 2,
+      })
+    })
+
+    it('should close to the next competency', () => {
+      mockRoute.snapshot.queryParams = { competency: 'comp-1' }
+      component.nextCompetency()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'NEXT_COMPETENCY', competency: 'comp-1' })
+    })
+
+    it('should close to the ASHA home on failure', () => {
+      mockRoute.snapshot.queryParams = { isAsha: 'true' }
+      component.goToAshaHome()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'FAILED_ASHA', asha: 'true' })
+    })
+
+    it('should close to the ASHA course list carrying the language', () => {
+      mockRoute.snapshot.queryParams = { isAsha: 'true', lang: 'hi' }
+      component.viewAshaCourses()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({
+        event: 'VIEW_ASHA_COURSES', asha: 'true', competencyId: 'comp-1',
+        competencyLevel: 2, courseid: 'course-1', lang: 'hi',
+      })
+    })
+  })
+
+  describe('getConicGradient', () => {
+    it('should place the sweep at the supplied percentage', () => {
+      expect(component.getConicGradient(75)).toContain('75%')
+    })
+
+    it('should render a zero-progress ring', () => {
+      expect(component.getConicGradient(0)).toContain('0%')
+    })
+  })
 })

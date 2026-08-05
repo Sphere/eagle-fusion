@@ -166,6 +166,40 @@ describe('WorkInfoListComponent', () => {
       component.personalDetailForm.patchValue({ profession: 'ASHA', designation: null })
       expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: 'Nurse' } })).toBe(false)
     })
+
+    it('should match a profession given as a bare string', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA' })
+      expect(component.shouldShowField({ showIf: { profession: 'ASHA' } })).toBe(true)
+      expect(component.shouldShowField({ showIf: { profession: 'Other' } })).toBe(false)
+    })
+
+    it('should match a secondary key given as a bare string', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA', designation: 'Nurse' })
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: 'Nurse' } })).toBe(true)
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: 'Doctor' } })).toBe(false)
+    })
+
+    it('should match a secondary key given as a list', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA', designation: 'Nurse' })
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: ['Nurse', 'GNM'] } })).toBe(true)
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: ['GNM'] } })).toBe(false)
+    })
+
+    it('should skip the background check unless the profession is Others', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA' })
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], selectBackground: 'X' } })).toBe(true)
+    })
+
+    it('should apply the background check when the profession is Others', () => {
+      component.personalDetailForm.patchValue({ profession: 'Others', selectBackground: 'X' })
+      expect(component.shouldShowField({ showIf: { profession: ['Others'], selectBackground: 'X' } })).toBe(true)
+      expect(component.shouldShowField({ showIf: { profession: ['Others'], selectBackground: 'Y' } })).toBe(false)
+    })
+
+    it('should show a field whose showIf has no profession gate', () => {
+      component.personalDetailForm.patchValue({ designation: 'Nurse' })
+      expect(component.shouldShowField({ showIf: { designation: 'Nurse' } })).toBe(true)
+    })
   })
 
   describe('getOptions', () => {
@@ -201,6 +235,23 @@ describe('WorkInfoListComponent', () => {
 
     it('should return named array for non-professional options', () => {
       expect(component.getOptions({ options: 'orgTypes' })).toEqual(component.orgTypes)
+    })
+
+    it('should return the India list for an Others profession with an Indian address', () => {
+      component.personalDetailForm.patchValue({ profession: 'Others' })
+      component.userProfileData = { personalDetails: { postalAddress: 'Delhi, India' } } as any
+      expect(component.getOptions({ options: 'professionalOptions' })).toEqual(component.OthersList)
+    })
+
+    it('should return the overseas list for an Others profession abroad', () => {
+      component.personalDetailForm.patchValue({ profession: 'Others' })
+      component.userProfileData = { personalDetails: { postalAddress: 'London, UK' } } as any
+      expect(component.getOptions({ options: 'professionalOptions' }))
+        .toEqual(['Mother/ Family Members', 'Other'])
+    })
+
+    it('should return an empty array for an unknown named option', () => {
+      expect(component.getOptions({ options: 'notARealList' })).toEqual([])
     })
   })
 

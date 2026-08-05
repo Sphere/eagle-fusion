@@ -148,7 +148,7 @@ function createComponent(): AppTocDesktopComponent {
     mockTelemetrySvc as TelemetryService,
     mockLogger as LoggerService,
     mockTranslate as TranslateService,
-    {} as ChangeDetectorRef,
+    { detectChanges: jest.fn(), markForCheck: jest.fn() } as unknown as ChangeDetectorRef,
     mockThemeSvc as ThemeService,
   ))
 }
@@ -487,5 +487,468 @@ describe('AppTocDesktopComponent', () => {
   it('ngOnInit should complete without throwing for minimal content', () => {
     component.content = { identifier: 'id-1' } as any
     expect(() => component.ngOnInit()).not.toThrow()
+  })
+
+  describe('onPopState', () => {
+    afterEach(() => sessionStorage.removeItem('cURL'))
+
+    it('should send the browser back to the stored url', () => {
+      sessionStorage.setItem('cURL', '/page/previous')
+      const setHref = jest.fn()
+      Object.defineProperty(window, 'location', {
+        value: { set href(v: string) { setHref(v) }, get href() { return '' } },
+        configurable: true,
+      })
+      component.onPopState()
+      expect(setHref).toHaveBeenCalledWith('/page/previous')
+    })
+  })
+
+  describe('isPostAssessment', () => {
+    it('should be false without a toc config', () => {
+      component.tocConfig = null
+      expect(component.isPostAssessment).toBe(false)
+    })
+
+    it('should be false without content', () => {
+      component.tocConfig = {}
+      component.content = null
+      expect(component.isPostAssessment).toBe(false)
+    })
+
+    it('should be true for an instructor-led course', () => {
+      component.tocConfig = {}
+      component.content = { contentType: 'Course', learningMode: 'Instructor-Led' } as any
+      expect(component.isPostAssessment).toBe(true)
+    })
+
+    it('should be false for a self-paced course', () => {
+      component.tocConfig = {}
+      component.content = { contentType: 'Course', learningMode: 'Self-Paced' } as any
+      expect(component.isPostAssessment).toBe(false)
+    })
+
+    it('should be false for a non-course', () => {
+      component.tocConfig = {}
+      component.content = { contentType: 'Resource', learningMode: 'Instructor-Led' } as any
+      expect(component.isPostAssessment).toBe(false)
+    })
+  })
+
+  describe('showIntranetMsg', () => {
+    afterEach(() => { (mockUtilitySvc as any).isMobile = false })
+
+    it('should always be true on mobile', () => {
+      ;(mockUtilitySvc as any).isMobile = true
+      component.showIntranetMessage = false
+      expect(component.showIntranetMsg).toBe(true)
+    })
+
+    it('should follow the intranet flag on desktop', () => {
+      component.showIntranetMessage = true
+      expect(component.showIntranetMsg).toBe(true)
+      component.showIntranetMessage = false
+      expect(component.showIntranetMsg).toBe(false)
+    })
+  })
+
+  describe('setConfirmDialogStatus', () => {
+    it('should push the percentage onto the content service', () => {
+      component.setConfirmDialogStatus(75)
+      expect(mockContentSvc.showConformation).toBe(75)
+    })
+  })
+
+  describe('getBatchId', () => {
+    it('should return an empty id when there is no batch data', () => {
+      component.batchData = null
+      expect(component['getBatchId']()).toBe('')
+    })
+
+    it('should return an empty id when the batch data has no content', () => {
+      component.batchData = {}
+      expect(component['getBatchId']()).toBe('')
+    })
+
+    it('should return the last batch id in the list', () => {
+      component.batchData = { content: [{ batchId: 'b1' }, { batchId: 'b2' }] }
+      expect(component['getBatchId']()).toBe('b2')
+    })
+  })
+
+  describe('buildViewerUrl', () => {
+    it('should build a viewer url for the given kind', () => {
+      expect(component['buildViewerUrl']('pdf', 'c1', 'coll-1', 'b1')).toBe(
+        '/viewer/pdf/c1?primaryCategory=Learning%20Resource&collectionId=coll-1&collectionType=Course&batchId=b1',
+      )
+    })
+  })
+
+  describe('resolveResourceUrlForMimeType', () => {
+    beforeEach(() => {
+      component.content = { identifier: 'course-1' } as any
+      component.enrolledCourse = { batchId: 'b9' }
+    })
+
+    const dataFor = (mimeType: string) => ({
+      identifier: 'do_1',
+      contents: [{ progressdetails: { mimeType }, contentId: 'c1', courseId: 'course-1', batchId: 'b1' }],
+    })
+
+    it('should map a pdf to the pdf viewer', () => {
+      expect(component['resolveResourceUrlForMimeType'](dataFor('application/pdf'))).toContain('/viewer/pdf/c1')
+    })
+
+    it('should map an mp4 to the video viewer', () => {
+      expect(component['resolveResourceUrlForMimeType'](dataFor('video/mp4'))).toContain('/viewer/video/c1')
+    })
+
+    it('should map json to the pdf viewer keyed on the parent identifier', () => {
+      const url = component['resolveResourceUrlForMimeType'](dataFor('application/json'))
+      expect(url).toContain('/viewer/pdf/do_1')
+      expect(url).toContain('batchId=b9')
+    })
+
+    it('should map an html archive to the html viewer', () => {
+      expect(component['resolveResourceUrlForMimeType'](dataFor('application/vnd.ekstep.html-archive')))
+        .toContain('/viewer/html/do_1')
+    })
+
+    it('should map an external url to the html viewer', () => {
+      expect(component['resolveResourceUrlForMimeType'](dataFor('text/x-url'))).toContain('/viewer/html/do_1')
+    })
+
+    it('should return an empty string for an unmapped mime type', () => {
+      expect(component['resolveResourceUrlForMimeType'](dataFor('application/unknown'))).toBe('')
+    })
+  })
+
+  describe('handleCompletedResumeCase', () => {
+    beforeEach(() => {
+      component.content = { identifier: 'course-1' } as any
+      component.firstResourceLink = { url: '/viewer/pdf/first', queryParams: {} }
+    })
+
+    it('should point at the first resource when the last item is complete', () => {
+      const data = { contents: [{ contentId: 'r2', batchId: 'b1', progressdetails: { mimeType: 'application/pdf' } }] }
+      component['handleCompletedResumeCase'](data, ['r1', 'r2'])
+      expect(component.updatedContentFound).toContain('/viewer/pdf/first')
+      expect(component.updatedContentFound).toContain('batchId=b1')
+    })
+
+    it('should build a pdf viewer url when a mid-list pdf is complete', () => {
+      const data = {
+        contents: [{ contentId: 'r1', courseId: 'course-1', batchId: 'b1', progressdetails: { mimeType: 'application/pdf' } }],
+      }
+      component['handleCompletedResumeCase'](data, ['r1', 'r2'])
+      expect(component.updatedContentFound).toContain('/viewer/pdf/r1')
+    })
+
+    it('should leave the resume target unset for a mid-list non-pdf', () => {
+      component.updatedContentFound = undefined
+      const data = {
+        contents: [{ contentId: 'r1', courseId: 'course-1', batchId: 'b1', progressdetails: { mimeType: 'video/mp4' } }],
+      }
+      component['handleCompletedResumeCase'](data, ['r1', 'r2'])
+      expect(component.updatedContentFound).toBeUndefined()
+    })
+  })
+
+  describe('handleChaptersOverviewCase', () => {
+    beforeEach(() => {
+      component.content = { identifier: 'course-1' } as any
+      component.firstResourceLink = { url: '/viewer/pdf/first', queryParams: {} }
+      component.enrolledCourse = { batchId: 'b9' }
+    })
+
+    it('should route through the completed path at 100%', () => {
+      component.optmisticPercentage = 100
+      const data = {
+        contents: [{ contentId: 'r2', batchId: 'b1', completionPercentage: 100, progressdetails: { mimeType: 'application/pdf' } }],
+      }
+      component['handleChaptersOverviewCase'](data, ['r1', 'r2'])
+      expect(component.updatedContentFound).toContain('/viewer/pdf/first')
+    })
+
+    it('should resolve the in-progress resource url below 100%', () => {
+      component.optmisticPercentage = 40
+      const data = {
+        identifier: 'do_1',
+        contents: [{ contentId: 'r1', courseId: 'course-1', batchId: 'b1', completionPercentage: 40, progressdetails: { mimeType: 'video/mp4' } }],
+      }
+      component['handleChaptersOverviewCase'](data, ['r1'])
+      expect(component.updatedContentFound).toContain('/viewer/video/r1')
+    })
+
+    it('should leave the target untouched when no url can be resolved', () => {
+      component.optmisticPercentage = 40
+      component.updatedContentFound = 'previous'
+      const data = {
+        identifier: 'do_1',
+        contents: [{ contentId: 'r1', completionPercentage: 40, progressdetails: { mimeType: 'application/unknown' } }],
+      }
+      component['handleChaptersOverviewCase'](data, ['r1'])
+      expect(component.updatedContentFound).toBe('previous')
+    })
+  })
+
+  describe('handleGenericResumeUrl', () => {
+    beforeEach(() => {
+      component.content = { identifier: 'course-1' } as any
+      component.firstResourceLink = { url: '/viewer/pdf/first', queryParams: {} }
+      component.enrolledCourse = { batchId: 'b9' }
+    })
+
+    it('should bail out when the url has no content identifier', () => {
+      component.updatedContentFound = 'previous'
+      component['handleGenericResumeUrl']({ url: '/app/toc/overview' }, ['do_1'])
+      expect(component.updatedContentFound).toBe('previous')
+    })
+
+    it('should restart from the first resource when the last item is complete', () => {
+      component.optmisticPercentage = 100
+      component['handleGenericResumeUrl']({ url: '/viewer/pdf/do_2?primaryCategory=x' }, ['do_1', 'do_2'])
+      expect(component.updatedContentFound).toContain('/viewer/pdf/first')
+      expect(component.updatedContentFound).toContain('batchId=b9')
+    })
+
+    it('should resume at the stored url when the course is incomplete', () => {
+      component.optmisticPercentage = 60
+      component['handleGenericResumeUrl']({ url: '/viewer/pdf/do_2?primaryCategory=x' }, ['do_1', 'do_2'])
+      expect(component.updatedContentFound).toBe('/viewer/pdf/do_2?primaryCategory=x')
+    })
+
+    it('should resume at the stored url for a mid-list resource', () => {
+      component.optmisticPercentage = 100
+      component['handleGenericResumeUrl']({ url: '/viewer/pdf/do_1?primaryCategory=x' }, ['do_1', 'do_2'])
+      expect(component.updatedContentFound).toBe('/viewer/pdf/do_1?primaryCategory=x')
+    })
+  })
+
+  describe('applyResumeRecordError', () => {
+    beforeEach(() => {
+      component.content = { identifier: 'course-1', children: [{ contentType: 'Resource', identifier: 'do_1' }] } as any
+      component.firstResourceLink = { url: '/viewer/pdf/first', queryParams: {} }
+      component.enrolledCourse = { batchId: 'b9' }
+    })
+
+    it('should bail out when the current target has no identifier', () => {
+      component.updatedContentFound = '/app/toc/overview'
+      component['applyResumeRecordError'](new Error('missing'))
+      expect(component.updatedContentFound).toBe('/app/toc/overview')
+    })
+
+    it('should restart from the first resource when the last item is complete', () => {
+      component.optmisticPercentage = 100
+      component.updatedContentFound = '/viewer/pdf/do_1?primaryCategory=x'
+      component['applyResumeRecordError'](new Error('missing'))
+      expect(component.updatedContentFound).toContain('/viewer/pdf/first')
+    })
+
+    it('should keep the current target when the course is incomplete', () => {
+      component.optmisticPercentage = 50
+      component.updatedContentFound = '/viewer/pdf/do_1?primaryCategory=x'
+      component['applyResumeRecordError'](new Error('missing'))
+      expect(component.updatedContentFound).toBe('/viewer/pdf/do_1?primaryCategory=x')
+    })
+  })
+
+  describe('deriveLastResourceInfo', () => {
+    it('should return blanks when nothing has been started', () => {
+      component.enrollCourse = { contentStatus: {} }
+      expect(component['deriveLastResourceInfo']()).toEqual({ lastResource: '', lastResourceMimeType: undefined })
+    })
+
+    it('should return the last started resource and its mime type', () => {
+      component.enrollCourse = { contentStatus: { r1: 2, r2: 1 } }
+      component.content = {
+        children: [{ identifier: 'r1', mimeType: 'application/pdf' }, { identifier: 'r2', mimeType: 'video/mp4' }],
+      } as any
+      expect(component['deriveLastResourceInfo']()).toEqual({ lastResource: 'r2', lastResourceMimeType: 'video/mp4' })
+    })
+
+    it('should leave the mime type undefined when the resource is not a child', () => {
+      component.enrollCourse = { contentStatus: { orphan: 1 } }
+      component.content = { children: [{ identifier: 'r1', mimeType: 'application/pdf' }] } as any
+      expect(component['deriveLastResourceInfo']()).toEqual({ lastResource: 'orphan', lastResourceMimeType: undefined })
+    })
+  })
+
+  describe('redirectPage', () => {
+    beforeEach(() => {
+      component.content = { identifier: 'course-1' } as any
+      component.firstResourceLink = { url: '/viewer/pdf/first', queryParams: {} }
+    })
+
+    it('should build a first-resource url from the batch data when nothing was resumed', () => {
+      component.batchData = { content: [{ batchId: 'b1' }] }
+      component.redirectPage(undefined)
+      expect(mockTelemetrySvc.interact).toHaveBeenCalled()
+      expect(component.updatedContentFound).toContain('batchId=b1')
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(component.updatedContentFound)
+    })
+
+    it('should fall back to the base uri for the batch id when there is no batch data', () => {
+      component.batchData = null
+      component.redirectPage(undefined)
+      expect(component.updatedContentFound).toContain('/viewer/pdf/first')
+    })
+
+    it('should navigate to an absolute resume url stripped of the base uri', () => {
+      component.redirectPage(`${document.baseURI}app/viewer/pdf/c1`)
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('app/viewer/pdf/c1')
+    })
+
+    it('should navigate to a relative resume url unchanged', () => {
+      component.redirectPage('/viewer/pdf/c1')
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/viewer/pdf/c1')
+    })
+  })
+
+  describe('redirectFirstResource', () => {
+    it('should build a first-resource url from the supplied query params', () => {
+      component.firstResourceLink = { url: '/viewer/pdf/first', queryParams: {} }
+      component.redirectFirstResource({ queryParams: { collectionId: 'coll-1', batchId: 'b1' } })
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
+        '/viewer/pdf/first?primaryCategory=Learning%20Resource&collectionId=coll-1&collectionType=Course&batchId=b1',
+      )
+    })
+  })
+
+  describe('subscribeBatchControlChanges', () => {
+    beforeEach(() => {
+      component['subscribeBatchControlChanges']()
+    })
+
+    it('should ignore a cleared batch selection', () => {
+      component.batchControl.setValue(null)
+      expect(component.disableEnrollBtn).toBe(true)
+      expect(mockContentSvc.enrollUserToBatch).not.toHaveBeenCalled()
+    })
+
+    it('should enrol the user and re-enable the button on success', async () => {
+      ;(mockContentSvc.enrollUserToBatch as jest.Mock).mockResolvedValue({ result: { response: 'SUCCESS' } })
+      component.batchControl.setValue({ courseId: 'course-1', batchId: 'b1' } as any)
+      await new Promise(resolve => setTimeout(resolve, 0))
+
+      expect(mockContentSvc.enrollUserToBatch).toHaveBeenCalledWith({
+        request: { userId: 'user-1', courseId: 'course-1', batchId: 'b1' },
+      })
+      expect(component.batchData).toEqual({ content: [{ courseId: 'course-1', batchId: 'b1' }], enrolled: true })
+      expect(mockRouter.navigate).toHaveBeenCalled()
+      expect(component.disableEnrollBtn).toBe(false)
+    })
+
+    it('should warn and re-enable the button when enrolment fails', async () => {
+      ;(mockContentSvc.enrollUserToBatch as jest.Mock).mockResolvedValueOnce({ result: { response: 'FAILED' } })
+      component.batchControl.setValue({ courseId: 'course-1', batchId: 'b2' } as any)
+      await new Promise(resolve => setTimeout(resolve, 0))
+
+      expect(mockSnackBar.open).toHaveBeenCalled()
+      expect(component.disableEnrollBtn).toBe(false)
+    })
+  })
+
+  describe('handleEnrollApiResponse', () => {
+    beforeEach(() => {
+      component.content = { identifier: 'course-1', children: [] } as any
+      component.forPreview = false
+    })
+
+    it('should ignore an empty course list', () => {
+      component['handleEnrollApiResponse']([])
+      expect(component.enrolledCourse).toBeUndefined()
+    })
+
+    it('should ignore the response in preview mode', () => {
+      component.forPreview = true
+      component['handleEnrollApiResponse']([{ courseId: 'course-1', issuedCertificates: [] }] as any)
+      expect(component.enrolledCourse).toBeUndefined()
+    })
+
+    it('should ignore the response when there is no content', () => {
+      component.content = null
+      component['handleEnrollApiResponse']([{ courseId: 'course-1', issuedCertificates: [] }] as any)
+      expect(component.enrolledCourse).toBeUndefined()
+    })
+
+    it('should capture the matching enrolment and its resume point', () => {
+      component['handleEnrollApiResponse']([
+        { courseId: 'other', issuedCertificates: [], lastReadContentId: 'x' },
+        { courseId: 'course-1', issuedCertificates: [], lastReadContentId: 'r1' },
+      ] as any)
+      expect(component.enrolledCourse.courseId).toBe('course-1')
+      expect(component.resumeData).toBe('r1')
+      expect(component.issueCertificate).toBe(false)
+    })
+
+    it('should flag an issued certificate', () => {
+      component['handleEnrollApiResponse']([
+        { courseId: 'course-1', issuedCertificates: [{ id: 'c1' }], lastReadContentId: 'r1' },
+      ] as any)
+      expect(component.issueCertificate).toBe(true)
+    })
+  })
+
+  describe('handleCertificateBatchList', () => {
+    const req = { request: {} }
+
+    beforeEach(() => {
+      component.content = { identifier: 'course-1' } as any
+      component.forPreview = false
+    })
+
+    it('should do nothing in preview mode', () => {
+      component.forPreview = true
+      component['handleCertificateBatchList']([{ courseId: 'course-1', issuedCertificates: [] }] as any, 0, req)
+      expect(mockContentSvc.processCertificate).not.toHaveBeenCalled()
+    })
+
+    it('should do nothing for an empty course list', () => {
+      component['handleCertificateBatchList']([], 0, req)
+      expect(mockContentSvc.processCertificate).not.toHaveBeenCalled()
+    })
+
+    it('should request a certificate when none has been issued', () => {
+      localStorage.removeItem('certificate_downloaded_course-1')
+      component['handleCertificateBatchList']([{ courseId: 'course-1', issuedCertificates: [] }] as any, 0, req)
+      expect(mockContentSvc.processCertificate).toHaveBeenCalledWith(req)
+    })
+
+    it('should skip the request when a certificate already exists', () => {
+      component['handleCertificateBatchList']([{ courseId: 'course-1', issuedCertificates: [{ id: 'c1' }] }] as any, 0, req)
+      expect(mockContentSvc.processCertificate).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('processCertificateRequest', () => {
+    const key = 'certificate_downloaded_course-1'
+    const req = { request: {} }
+
+    beforeEach(() => {
+      component.content = { identifier: 'course-1' } as any
+      localStorage.removeItem(key)
+    })
+
+    afterEach(() => localStorage.removeItem(key))
+
+    it('should throttle a repeat request inside the cool-off window', () => {
+      localStorage.setItem(key, new Date().toString())
+      component['processCertificateRequest'](10, req)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+      expect(mockContentSvc.processCertificate).not.toHaveBeenCalled()
+    })
+
+    it('should stamp the request and confirm on success', () => {
+      component['processCertificateRequest'](undefined as any, req)
+      expect(localStorage.getItem(key)).not.toBeNull()
+      expect(mockDialog.open).toHaveBeenCalledWith(AppTocDesktopModalComponent, expect.objectContaining({ width: '312px' }))
+    })
+
+    it('should warn when the certificate service rejects the request', () => {
+      ;(mockContentSvc.processCertificate as jest.Mock).mockReturnValueOnce(of({ responseCode: 'ERROR' }))
+      component['processCertificateRequest'](undefined as any, req)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+    })
   })
 })

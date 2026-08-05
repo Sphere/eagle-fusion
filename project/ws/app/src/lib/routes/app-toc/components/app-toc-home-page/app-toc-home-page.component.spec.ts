@@ -1,6 +1,6 @@
 import { ChangeDetectorRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { BehaviorSubject, of, Subject } from 'rxjs'
+import { BehaviorSubject, of, Subject, throwError } from 'rxjs'
 
 jest.mock('@ws-widget/collection', () => ({
   WidgetContentService: class MockWidgetContentService {},
@@ -333,5 +333,216 @@ describe('AppTocHomePageComponent', () => {
   it('refreshTable should log fetched table data', async () => {
     await component.refreshTable()
     expect(mockIndexedDbService.getData).toHaveBeenCalledWith('onlineCourseProgress')
+  })
+
+  describe('uniqueIdsByContentType', () => {
+    it('should return an empty list for an empty tree', () => {
+      expect(component.uniqueIdsByContentType([], 'Resource')).toEqual([])
+    })
+
+    it('should collect matching identifiers from a flat list', () => {
+      expect(component.uniqueIdsByContentType(
+        [{ contentType: 'Resource', identifier: 'r1' }, { contentType: 'Course', identifier: 'c1' }],
+        'Resource',
+      )).toEqual(['r1'])
+    })
+
+    it('should recurse into nested children', () => {
+      expect(component.uniqueIdsByContentType(
+        [{ contentType: 'Collection', identifier: 'm1', children: [{ contentType: 'Resource', identifier: 'r1' }] }],
+        'Resource',
+      )).toEqual(['r1'])
+    })
+
+    it('should de-duplicate identifiers seen more than once', () => {
+      expect(component.uniqueIdsByContentType(
+        [{ contentType: 'Resource', identifier: 'r1' }, { contentType: 'Resource', identifier: 'r1' }],
+        'Resource',
+      )).toEqual(['r1'])
+    })
+
+    it('should skip entries with no identifier', () => {
+      expect(component.uniqueIdsByContentType([{ contentType: 'Resource' }], 'Resource')).toEqual([])
+    })
+
+    it('should tolerate null and primitive nodes', () => {
+      expect(component.uniqueIdsByContentType([null, 'text', 7], 'Resource')).toEqual([])
+    })
+  })
+
+  describe('updateKeyIfMatch', () => {
+    beforeEach(() => {
+      component.content = {
+        identifier: 'course-1',
+        children: [
+          { contentType: 'Resource', identifier: 'r1' },
+          { contentType: 'Resource', identifier: 'r2' },
+        ],
+        childNodes: ['r1', 'r2'],
+      } as any
+    })
+
+    it('should append a record that is not yet tracked', () => {
+      const stored: any[] = []
+      component.updateKeyIfMatch(stored, [{ contentId: 'r1', completionPercentage: 100 }], 'completionPercentage')
+      expect(stored).toEqual([{ contentId: 'r1', completionPercentage: 100 }])
+    })
+
+    it('should update a tracked record when the value changed', () => {
+      const stored: any[] = [{ contentId: 'r1', completionPercentage: 10 }]
+      component.updateKeyIfMatch(stored, [{ contentId: 'r1', completionPercentage: 100 }], 'completionPercentage')
+      expect(stored[0].completionPercentage).toBe(100)
+    })
+
+    it('should leave a tracked record alone when the value is unchanged', () => {
+      const stored: any[] = [{ contentId: 'r1', completionPercentage: 100 }]
+      component.updateKeyIfMatch(stored, [{ contentId: 'r1', completionPercentage: 100 }], 'completionPercentage')
+      expect(stored[0].completionPercentage).toBe(100)
+    })
+
+    it('should return the resulting course percentage', () => {
+      const stored: any[] = []
+      const progress = component.updateKeyIfMatch(
+        stored,
+        [{ contentId: 'r1', completionPercentage: 100 }, { contentId: 'r2', completionPercentage: 0 }],
+        'completionPercentage',
+      )
+      expect(progress).toBe(50)
+    })
+
+    it('should persist the merged records against the course', () => {
+      component.updateKeyIfMatch([], [{ contentId: 'r1', completionPercentage: 100 }], 'completionPercentage')
+      expect(mockIndexedDbService.insertData).toHaveBeenCalledWith(
+        'user-1', 'course-1', 'onlineCourseProgress', expect.any(Array),
+      )
+    })
+
+    it('should log a persistence failure without throwing', () => {
+      ;(mockIndexedDbService.insertData as jest.Mock).mockReturnValueOnce(throwError(() => new Error('db down')))
+      expect(() =>
+        component.updateKeyIfMatch([], [{ contentId: 'r1', completionPercentage: 100 }], 'completionPercentage'),
+      ).not.toThrow()
+      expect(mockLogger.error).toHaveBeenCalledWith('Error inserting data:', expect.any(Error))
+    })
+  })
+
+  describe('applyProgressRecord', () => {
+    beforeEach(() => {
+      component.content = {
+        identifier: 'course-1',
+        children: [{ contentType: 'Resource', identifier: 'r1' }],
+        childNodes: ['r1'],
+      } as any
+      component.optmisticPercentage = 0
+      component.finishedPercentage = undefined
+    })
+
+    it('should derive both percentages from the stored record', () => {
+      component['applyProgressRecord'](
+        { data: JSON.stringify([{ contentId: 'r1', completionPercentage: 100 }]) },
+        [{ contentId: 'r1', completionPercentage: 100 }],
+      )
+      expect(component.optmisticPercentage).toBe(100)
+      expect(component.finishedPercentage).toBe(100)
+    })
+
+    it('should leave the percentages alone for an empty stored record', () => {
+      component['applyProgressRecord']({ data: '[]' }, [{ contentId: 'r1' }])
+      expect(component.optmisticPercentage).toBe(0)
+      expect(component.finishedPercentage).toBeUndefined()
+    })
+  })
+
+  describe('applyProgressRecordAfterInsert', () => {
+    beforeEach(() => {
+      component.content = {
+        identifier: 'course-1',
+        children: [{ contentType: 'Resource', identifier: 'r1' }],
+        childNodes: ['r1'],
+      } as any
+      component.optmisticPercentage = 0
+    })
+
+    it('should derive the percentage from the freshly inserted record', () => {
+      component['applyProgressRecordAfterInsert'](
+        { data: JSON.stringify([{ contentId: 'r1', completionPercentage: 100 }]) },
+        [{ contentId: 'r1', completionPercentage: 100 }],
+      )
+      expect(component.optmisticPercentage).toBe(100)
+    })
+
+    it('should leave the percentage alone for an empty record', () => {
+      component['applyProgressRecordAfterInsert']({ data: '[]' }, [])
+      expect(component.optmisticPercentage).toBe(0)
+    })
+  })
+
+  describe('subscribeProgressRecord', () => {
+    beforeEach(() => {
+      component.content = {
+        identifier: 'course-1',
+        children: [{ contentType: 'Resource', identifier: 'r1' }],
+        childNodes: ['r1'],
+      } as any
+    })
+
+    it('should apply a record that is already stored', () => {
+      const applySpy = jest.spyOn(component as any, 'applyProgressRecord').mockImplementation(() => { })
+      component['subscribeProgressRecord']('user-1', 'course-1', [{ contentId: 'r1' }])
+      expect(applySpy).toHaveBeenCalled()
+    })
+
+    it('should seed the store then re-read when no record exists', () => {
+      ;(mockIndexedDbService.getRecordFromTable as jest.Mock)
+        .mockReturnValueOnce(throwError(() => new Error('missing')))
+        .mockReturnValueOnce(of({ data: JSON.stringify([{ contentId: 'r1', completionPercentage: 100 }]) }))
+
+      component['subscribeProgressRecord']('user-1', 'course-1', [{ contentId: 'r1', completionPercentage: 100 }])
+
+      expect(mockIndexedDbService.insertData).toHaveBeenCalledWith(
+        'user-1', 'course-1', 'onlineCourseProgress', [{ contentId: 'r1', completionPercentage: 100 }],
+      )
+      expect(component.optmisticPercentage).toBe(100)
+    })
+
+    it('should log when seeding the store fails', () => {
+      ;(mockIndexedDbService.getRecordFromTable as jest.Mock)
+        .mockReturnValueOnce(throwError(() => new Error('missing')))
+      ;(mockIndexedDbService.insertData as jest.Mock)
+        .mockReturnValueOnce(throwError(() => new Error('insert down')))
+
+      component['subscribeProgressRecord']('user-1', 'course-1', [{ contentId: 'r1' }])
+      expect(mockLogger.error).toHaveBeenCalledWith('Error inserting data:', expect.any(Error))
+    })
+
+    it('should log when the re-read fails', () => {
+      ;(mockIndexedDbService.getRecordFromTable as jest.Mock)
+        .mockReturnValueOnce(throwError(() => new Error('missing')))
+        .mockReturnValueOnce(throwError(() => new Error('refetch down')))
+
+      component['subscribeProgressRecord']('user-1', 'course-1', [{ contentId: 'r1' }])
+      expect(mockLogger.error).toHaveBeenCalledWith('Error:', expect.any(Error))
+    })
+  })
+
+  describe('enrollUser', () => {
+    it('should do nothing without batch data', () => {
+      component.enrollUser(null)
+      expect(mockContentSvc.enrollUserToBatch).not.toHaveBeenCalled()
+    })
+
+    it('should enrol the user into the first batch', () => {
+      component.enrollUser({ content: [{ courseId: 'course-1', batchId: 'b1' }] })
+      expect(mockContentSvc.enrollUserToBatch).toHaveBeenCalledWith({
+        request: { userId: 'user-1', courseId: 'course-1', batchId: 'b1' },
+      })
+    })
+
+    it('should tolerate batch data with an empty content list', () => {
+      component.enrollUser({ content: [] })
+      expect(mockContentSvc.enrollUserToBatch).toHaveBeenCalledWith({
+        request: { userId: 'user-1', courseId: undefined, batchId: undefined },
+      })
+    })
   })
 })
