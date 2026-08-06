@@ -41,6 +41,8 @@ import {
 } from '@ws-widget/utils'
 import moment from 'moment'
 import _ from 'lodash'
+import { HttpClient } from '@angular/common/http'
+// import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
   standalone: false,
   selector: 'viewer-plugin-quiz',
@@ -131,7 +133,9 @@ export class QuizComponent implements OnChanges, OnDestroy {
     public router: Router,
     private readonly contentSvc: WidgetContentService,
     private readonly loggerSvc: LoggerService,
-    private readonly configSvc: ConfigurationsService
+    private readonly configSvc: ConfigurationsService,
+    private readonly http: HttpClient,
+    private readonly viewSvc: ViewerUtilService
   ) {
 
   }
@@ -162,13 +166,16 @@ export class QuizComponent implements OnChanges, OnDestroy {
       })
 
       this.dialogOverview.afterClosed().subscribe((result: any) => {
+        this.dialogOverview = null
         this.handleOverviewDialogClose(result)
       })
     }
   }
 
-  private handleOverviewDialogClose(result: any): void {
+  private async handleOverviewDialogClose(result: any): Promise<void> {
     if (result.event !== 'close-overview') {
+      let res = await this.transformQuiz(this.artifactUrl)
+      this.quizJson.questions = res.questions
       if (get(this.quizJson, 'isAssessment')) {
         this.openAssesmentDialog()
       } else {
@@ -203,6 +210,24 @@ export class QuizComponent implements OnChanges, OnDestroy {
         this.navigateToCourseOverview()
       }
     })
+  }
+  private async transformQuiz(url: string): Promise<NSQuiz.IQuiz> {
+    const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(url.split('/content')[1])
+    let quizJSON: NSQuiz.IQuiz = await this.http
+      .get<any>(artifactUrl || '')
+      .toPromise()
+      .catch((_err: any) => {
+      })
+    if (quizJSON && quizJSON.questions) {
+      quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
+        if (question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-mca'
+        } else if (!question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-sca'
+        }
+      })
+    }
+    return quizJSON
   }
 
   scroll(qIndex: number) {
@@ -883,14 +908,17 @@ export class QuizComponent implements OnChanges, OnDestroy {
   }
 
   private updateQuizShowCompletionMsg(): void {
+    // Guard first: enrolledCourse.completedOn was being read before this check, throwing
+    // whenever the current collectionId isn't found in the user's batch list — that silently
+    // killed this subscribe callback and blocked all navigation/completion logic after it.
+    if (!this.enrolledCourse || !this.enrolledCourse.completedOn) {
+      this.showCompletionMsg = false
+      return
+    }
     const customerDate = moment(this.enrolledCourse.completedOn)
     const dateNow = moment(new Date())
     const duration = moment.duration(dateNow.diff(customerDate))
-    if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
-      this.showCompletionMsg = true
-    } else {
-      this.showCompletionMsg = false
-    }
+    this.showCompletionMsg = duration.asMinutes() <= 0.5
   }
 
   private handleQuizPlayerState(data: any): void {

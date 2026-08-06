@@ -1,10 +1,10 @@
 jest.mock('@ws-widget/collection', () => ({
   NsContent: { EMimeTypes: { APPLICATION_JSON: 'application/json' } },
-  WidgetContentService: class {},
+  WidgetContentService: class { },
 }))
 jest.mock('@ws-widget/utils', () => ({
-  LoggerService: class {},
-  ConfigurationsService: class {},
+  LoggerService: class { },
+  ConfigurationsService: class { },
 }))
 
 import { of, throwError, Subject } from 'rxjs'
