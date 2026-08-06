@@ -194,13 +194,11 @@ export class CardContentComponent extends WidgetBaseComponent
   }
   slugify(text: string): string {
     return text
-      .slice(0, 200)
       .toLowerCase()
       .trim()
       .replace(/&/g, 'and')
       .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
-      .replace(/^-+/, '')            // Remove starting hyphens
-      .replace(/-+$/, '')            // Remove ending hyphens
+      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
