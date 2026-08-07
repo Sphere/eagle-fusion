@@ -54,7 +54,7 @@ import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import { split } from 'lodash'
+import { split } from 'lodash-es'
 import { App } from '@capacitor/app'
 import dayjs from 'dayjs'
 import { SeoService } from '../../services/seo.service'
@@ -230,108 +230,112 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   private navigationInterceptor(event: Event): void {
     if (event instanceof NavigationStart) {
       this.logger.log('Navigation started to URL:', event.url)
-    }
-
-    if (event instanceof NavigationEnd) {
+    } else if (event instanceof NavigationEnd) {
       this.logger.log('Navigation ended to URL:', event.url)
-      const contentURL = isPlatformBrowser(this.platformId) ? localStorage.getItem('contentId') : null
-      this.logger.log(contentURL)
-      if (contentURL) {
-        const url: string = contentURL
-        const path = url?.split('?')[0] // Get the part before the query string
-        const match = path.match(/do_[\w\d]+/) // Match the do_ identifier pattern
-        let doId: string | undefined
-        if (match) {
-          doId = match[0] // Extract the first match
-        }
-        const urlParams = new URLSearchParams(url.split('?')[1])
-        const collectionId: string | null = urlParams.get('collectionId')
-        const batchId = urlParams.get('batchId')
-        let storedData: string | null
-        let userId: string | undefined
-        if (this.configSvc.userProfile) {
-          userId = this.configSvc.userProfile.userId || ''
-        }
-        const req: ContentHistory = {
-          request: {
-            userId,
-            batchId: batchId,
-            courseId: collectionId,
-            contentIds: [],
-            fields: ['progressdetails'],
-          },
-        }
-        this.contentSvc
-          .fetchContentHistoryV2(req)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(
-            (data: any) => {
-              let contentData: any
-              contentData = data?.['result']?.['contentList']?.find(
-                (obj: any) => obj.contentId === doId,
-              )
-              if (
-                contentData &&
-                (event.url.includes('/chapters') || event.url.includes('/app/toc')) &&
-                event.url.includes(collectionId)
-              ) {
-                storedData = localStorage.getItem(doId)
-                if (storedData) {
-                  const dat = JSON.parse(storedData)
-                  const mergedProgressDetails: Record<string, any> = this.mergeProgressDetails(
-                    contentData.progressdetails,
-                    dat,
-                  )
-                  delete mergedProgressDetails['errors']
-                  if (this.configSvc.userProfile && Object.keys(dat).length > 0) {
-                    const updateReq: UpdateProgressRequest = {
-                      request: {
-                        userId: this.configSvc.userProfile.userId || '',
-                        contents: [
-                          {
-                            contentId: doId,
-                            batchId: batchId,
-                            courseId: collectionId,
-                            status: contentData.status,
-                            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                            progressdetails: mergedProgressDetails,
-                            completionPercentage: contentData.completionPercentage,
-                          },
-                        ],
-                        url: contentURL,
-                      },
-                    }
-                    this.viewerSvc
-                      .initUpdate(updateReq)
-                      .pipe(takeUntil(this.destroy$))
-                      .subscribe(
-                        () => {
-                          localStorage.removeItem('contentId')
-                        },
-                        err => {
-                          this.logger.error('Error updating progress:', err)
-                        },
-                      )
-                  }
-                }
-              } else {
-                this.logger.warn('No data found for ID:', doId)
-              }
-            },
-            err => {
-              this.logger.error('Error fetching content history:', err)
-            },
-          )
-      }
-    }
-
-    if (event instanceof NavigationCancel) {
+      this.syncContentProgressOnNavigationEnd(event)
+    } else if (event instanceof NavigationCancel) {
       this.logger.log('Navigation canceled to URL:', event.url)
-    }
-
-    if (event instanceof NavigationError) {
+    } else if (event instanceof NavigationError) {
       this.logger.log('Navigation error to URL:', event.url)
     }
+  }
+
+  private syncContentProgressOnNavigationEnd(event: NavigationEnd): void {
+    const contentURL = isPlatformBrowser(this.platformId) ? localStorage.getItem('contentId') : null
+    this.logger.log(contentURL)
+    if (!contentURL) {
+      return
+    }
+    const url: string = contentURL
+    const path = url?.split('?')[0] // Get the part before the query string
+    const match = path.match(/do_[\w\d]+/) // Match the do_ identifier pattern
+    const doId: string | undefined = match ? match[0] : undefined // Extract the first match
+    const urlParams = new URLSearchParams(url.split('?')[1])
+    const collectionId: string | null = urlParams.get('collectionId')
+    const batchId = urlParams.get('batchId')
+    let userId: string | undefined
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    const req: ContentHistory = {
+      request: {
+        userId,
+        batchId: batchId,
+        courseId: collectionId,
+        contentIds: [],
+        fields: ['progressdetails'],
+      },
+    }
+    this.contentSvc
+      .fetchContentHistoryV2(req)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data: any) => this.handleContentHistoryResponse(data, event, doId, collectionId, batchId, contentURL),
+        err => {
+          this.logger.error('Error fetching content history:', err)
+        },
+      )
+  }
+
+  private handleContentHistoryResponse(
+    data: any,
+    event: NavigationEnd,
+    doId: string | undefined,
+    collectionId: string | null,
+    batchId: string | null,
+    contentURL: string,
+  ): void {
+    const contentData: any = data?.['result']?.['contentList']?.find(
+      (obj: any) => obj.contentId === doId,
+    )
+    const isRelevantNavigation = contentData
+      && (event.url.includes('/chapters') || event.url.includes('/app/toc'))
+      && event.url.includes(collectionId)
+    if (!isRelevantNavigation) {
+      this.logger.warn('No data found for ID:', doId)
+      return
+    }
+    const storedData = localStorage.getItem(doId)
+    if (!storedData) {
+      return
+    }
+    const dat = JSON.parse(storedData)
+    const mergedProgressDetails: Record<string, any> = this.mergeProgressDetails(
+      contentData.progressdetails,
+      dat,
+    )
+    delete mergedProgressDetails['errors']
+    if (!this.configSvc.userProfile || Object.keys(dat).length === 0) {
+      return
+    }
+    const updateReq: UpdateProgressRequest = {
+      request: {
+        userId: this.configSvc.userProfile.userId || '',
+        contents: [
+          {
+            contentId: doId,
+            batchId: batchId,
+            courseId: collectionId,
+            status: contentData.status,
+            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+            progressdetails: mergedProgressDetails,
+            completionPercentage: contentData.completionPercentage,
+          },
+        ],
+        url: contentURL,
+      },
+    }
+    this.viewerSvc
+      .initUpdate(updateReq)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        () => {
+          localStorage.removeItem('contentId')
+        },
+        err => {
+          this.logger.error('Error updating progress:', err)
+        },
+      )
   }
 
   @HostListener('window:resize', [])
@@ -509,7 +513,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
-      let language = this.configSvc.userProfile?.language || this.orgDetails?.defaultLang || 'hi'
+      let language = this.configSvc.userProfile?.language || this.orgDetails?.['defaultLang'] || 'hi'
       this.langSvc.setLanguage(language)
       const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
       this.programConfig = this.playlistSvc.programs()
@@ -542,153 +546,14 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   handleRouterSubscription(): void {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
-        this.hideFooter = event.url.includes('/app/org-selective-course') || event.url.includes('/uttarpradesh/demo')
-        if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
-          window.location.href = 'public/home'
-        }
-        if (this.router.url === 'profile-view') {
-          this.isProfile = true
-        }
-        if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
-          window.location.href = 'page/home'
-        }
-        if (event.url.includes('/setup/')) {
-          this.isSetupPage = true
-        }
-        if (event.url.includes('/app/create-account')) {
-          this.showNavigation = false
-          this.createAcc = true
-        }
-
-        if (event.url.includes('/public/login')) {
-          this.showNavigation = false
-        }
-        if (
-          this.router.url.includes('/page/home') ||
-          this.router.url.includes('/public/home') ||
-          this.router.url === '/'
-        ) {
-          this.isHomePage = true
-          this.isNavBarRequired = this.router.url.includes('/page/home') ?? true
-        } else {
-          this.isHomePage = false
-          if (this.playlistSvc.showDetails()) {
-            this.playlistSvc.showDetails.set(false)
-          }
-        }
-        if (this.router.url.includes('/public/home')) {
-          this.showNavigation = true
-          this.hideHeaderFooter = false
-        }
+        this.applyNavigationEndUiState(event)
       }
 
       if (this.configSvc.userProfile === null) {
         this.isNavBarRequired = false
       }
       if (event instanceof NavigationStart) {
-        if (this.router.url === 'profile-view') {
-          this.isProfile = true
-        }
-        if (event.url.includes('/public/scrom-player')) {
-          this.showmobileFooter = false
-        }
-        if (event.url.includes('/app/create-account')) {
-          this.showmobileFooter = false
-        }
-        if (event.url.includes('/public/login') || event.url.includes('app/new-tnc')) {
-          this.hideHeaderFooter = true
-          this.showmobileFooter = false
-        }
-        if (
-          event.url.includes('/bnrc/register') ||
-          event.url.includes('/uttarpradesh/register') ||
-          event.url.includes('/madhyapradesh/register')
-        ) {
-          this.showmobileFooter = false
-          this.disableChatForBnrc = true
-        }
-        if (event.url.includes('/uttarpradesh/demo')) {
-          // standalone page: only its own logo header, no app header/footer/nav
-          this.isNavBarRequired = false
-          this.hideHeaderFooter = true
-          this.hideFooter = true
-          this.showNavigation = false
-          this.showmobileFooter = false
-          this.mobileView = false
-        } else if (
-          event.url.includes('preview') ||
-          event.url.includes('embed') ||
-          event.url.includes('/certs') ||
-          event.url.includes('/public/register')
-        ) {
-          this.isNavBarRequired = false
-          this.hideHeaderFooter = true
-        } else if (event.url.includes('author/') && this.isInIframe) {
-          this.isNavBarRequired = false
-        } else if (event.url.includes('/app/org-selective-course')) {
-          this.isNavBarRequired = false
-          this.hideFooter = true
-        } else if (event.url.includes('app/toc')) {
-          if (this.configSvc.userProfile !== null) {
-            this.mobileView = false
-          }
-          this.hideHeaderFooter = false
-          this.isNavBarRequired = true
-          this.isLoggedIn = true
-          localStorage.setItem(
-            `url_before_login`,
-            `app/toc/` + `${split(event.url, '/')[3]}` + `/overview`,
-          )
-          sessionStorage.setItem('login-btn', 'clicked')
-          if (!localStorage.getItem('userUUID')) {
-            location.href = '/public/login'
-          }
-        } else if (event.url.includes('login')) {
-          if (localStorage.getItem('userUUID')) {
-            if (localStorage.getItem('url_before_login')) {
-              const url = localStorage.getItem('url_before_login') || ''
-              location.href = url
-            } else if (this.configSvc.unMappedUser) {
-              window.location.href = '/page/home'
-            }
-          }
-        } else if (event.url.includes('page/home')) {
-          this.hideHeaderFooter = false
-          this.isNavBarRequired = true
-          this.mobileView = true
-        } else if (event.url.includes('/public/home')) {
-        } else if (
-          event.url.includes('/app/login') ||
-          event.url.includes('/app/mobile-otp') ||
-          event.url.includes('/app/email-otp') ||
-          event.url.includes('/public/forgot-password') ||
-          event.url.includes('/app/create-account')
-        ) {
-          this.hideHeaderFooter = true
-          this.isNavBarRequired = false
-          this.showMobileDashboard = false
-          this.mobileView = false
-        } else if (event.url.includes('public/tnc')) {
-          this.isNavBarRequired = false
-          this.hideHeaderFooter = true
-        } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
-          this.isNavBarRequired = true
-          this.hideHeaderFooter = true
-          this.mobileView = false
-          this.showNavigation = false
-        } else if (
-          event.url.includes('/app/search/learning') ||
-          event.url.includes('/app/video-player') ||
-          event.url.includes('/app/profile/dashboard') ||
-          event.url.includes('app/profile-view')
-        ) {
-          this.mobileView = false
-          this.isNavBarRequired = true
-          this.showNavbar = true
-        } else {
-          this.isNavBarRequired = true
-          this.mobileView = false
-        }
+        this.applyNavigationStartUiState(event)
         this.routeChangeInProgress = true
         this.changeDetector.detectChanges()
       } else if (
@@ -704,28 +569,185 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isProfile = true
       }
       if (event instanceof NavigationEnd) {
-        const paramMap = this.activatedRoute.snapshot.queryParamMap
-        const params: any = {}
-
-        paramMap.keys.forEach((key: any) => {
-          const paramValue = paramMap.get(key)
-          params[key] = paramValue
-        })
-
-        this.paramsJSON = JSON.stringify(params)
-        const userAgent = this.UserAgentResolverService.getUserAgent()
-
-        if (this.appStartRaised) {
-          this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
-          this.appStartRaised = false
-        }
-        if (!this.configSvc.userProfile) {
-          this.UserAgentResolverService.setSource(params)
-          this.logger.log('this.paramsJSON', this.paramsJSON)
-          this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
-        }
+        this.reportNavigationEndTelemetry()
       }
     })
+  }
+
+  private applyNavigationEndUiState(event: NavigationEnd): void {
+    this.hideFooter = event.url.includes('/app/org-selective-course')
+    if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
+      window.location.href = 'public/home'
+    }
+    if (this.router.url === 'profile-view') {
+      this.isProfile = true
+    }
+    if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
+      window.location.href = 'page/home'
+    }
+    if (event.url.includes('/setup/')) {
+      this.isSetupPage = true
+    }
+    if (event.url.includes('/app/create-account')) {
+      this.showNavigation = false
+      this.createAcc = true
+    }
+
+    if (event.url.includes('/public/login')) {
+      this.showNavigation = false
+    }
+    if (
+      this.router.url.includes('/page/home') ||
+      this.router.url.includes('/public/home') ||
+      this.router.url === '/'
+    ) {
+      this.isHomePage = true
+      this.isNavBarRequired = this.router.url.includes('/page/home') ?? true
+    } else {
+      this.isHomePage = false
+      if (this.playlistSvc.showDetails()) {
+        this.playlistSvc.showDetails.set(false)
+      }
+    }
+    if (this.router.url.includes('/public/home')) {
+      this.showNavigation = true
+      this.hideHeaderFooter = false
+    }
+  }
+
+  private applyNavigationStartUiState(event: NavigationStart): void {
+    if (this.router.url === 'profile-view') {
+      this.isProfile = true
+    }
+    if (event.url.includes('/public/scrom-player')) {
+      this.showmobileFooter = false
+    }
+    if (event.url.includes('/app/create-account')) {
+      this.showmobileFooter = false
+    }
+    if (event.url.includes('/public/login') || event.url.includes('app/new-tnc')) {
+      this.hideHeaderFooter = true
+      this.showmobileFooter = false
+    }
+    if (
+      event.url.includes('/bnrc/register') ||
+      event.url.includes('/uttarpradesh/register') ||
+      event.url.includes('/madhyapradesh/register')
+    ) {
+      this.showmobileFooter = false
+      this.disableChatForBnrc = true
+    }
+    this.applyNavigationStartRouteVisibility(event)
+  }
+
+  private applyNavigationStartRouteVisibility(event: NavigationStart): void {
+    if (
+      event.url.includes('preview') ||
+      event.url.includes('embed') ||
+      event.url.includes('/certs') ||
+      event.url.includes('/public/register')
+    ) {
+      this.isNavBarRequired = false
+      this.hideHeaderFooter = true
+    } else if (event.url.includes('author/') && this.isInIframe) {
+      this.isNavBarRequired = false
+    } else if (event.url.includes('/app/org-selective-course')) {
+      this.isNavBarRequired = false
+      this.hideFooter = true
+    } else if (event.url.includes('app/toc')) {
+      this.handleTocNavigationStart(event)
+    } else if (event.url.includes('login')) {
+      this.handleLoginNavigationStart()
+    } else if (event.url.includes('page/home')) {
+      this.hideHeaderFooter = false
+      this.isNavBarRequired = true
+      this.mobileView = true
+    } else if (event.url.includes('/public/home')) {
+      // Intentionally distinct branch (no state change) so this URL doesn't fall
+      // through to the catch-all else below.
+    } else if (
+      event.url.includes('/app/login') ||
+      event.url.includes('/app/mobile-otp') ||
+      event.url.includes('/app/email-otp') ||
+      event.url.includes('/public/forgot-password') ||
+      event.url.includes('/app/create-account')
+    ) {
+      this.hideHeaderFooter = true
+      this.isNavBarRequired = false
+      this.showMobileDashboard = false
+      this.mobileView = false
+    } else if (event.url.includes('public/tnc')) {
+      this.isNavBarRequired = false
+      this.hideHeaderFooter = true
+    } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
+      this.isNavBarRequired = true
+      this.hideHeaderFooter = true
+      this.mobileView = false
+      this.showNavigation = false
+    } else if (
+      event.url.includes('/app/search/learning') ||
+      event.url.includes('/app/video-player') ||
+      event.url.includes('/app/profile/dashboard') ||
+      event.url.includes('app/profile-view')
+    ) {
+      this.mobileView = false
+      this.isNavBarRequired = true
+      this.showNavbar = true
+    } else {
+      this.isNavBarRequired = true
+      this.mobileView = false
+    }
+  }
+
+  private handleTocNavigationStart(event: NavigationStart): void {
+    if (this.configSvc.userProfile !== null) {
+      this.mobileView = false
+    }
+    this.hideHeaderFooter = false
+    this.isNavBarRequired = true
+    this.isLoggedIn = true
+    localStorage.setItem(
+      `url_before_login`,
+      `app/toc/` + `${split(event.url, '/')[3]}` + `/overview`,
+    )
+    sessionStorage.setItem('login-btn', 'clicked')
+    if (!localStorage.getItem('userUUID')) {
+      location.href = '/public/login'
+    }
+  }
+
+  private handleLoginNavigationStart(): void {
+    if (localStorage.getItem('userUUID')) {
+      if (localStorage.getItem('url_before_login')) {
+        const url = localStorage.getItem('url_before_login') || ''
+        location.href = url
+      } else if (this.configSvc.unMappedUser) {
+        window.location.href = '/page/home'
+      }
+    }
+  }
+
+  private reportNavigationEndTelemetry(): void {
+    const paramMap = this.activatedRoute.snapshot.queryParamMap
+    const params: any = {}
+
+    paramMap.keys.forEach((key: any) => {
+      const paramValue = paramMap.get(key)
+      params[key] = paramValue
+    })
+
+    this.paramsJSON = JSON.stringify(params)
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+
+    if (this.appStartRaised) {
+      this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
+      this.appStartRaised = false
+    }
+    if (!this.configSvc.userProfile) {
+      this.UserAgentResolverService.setSource(params)
+      this.logger.log('this.paramsJSON', this.paramsJSON)
+      this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
+    }
   }
 
   private buildEnrolledCourses(res: any[]): any[] {

@@ -86,10 +86,10 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    void this.initializeContainer()
+    this.initializeContainer()
   }
 
-  private async initializeContainer(): Promise<void> {
+  private async initializeContainer() {
     this.logger.log('selectedProgDet ', this.selectedProgDet)
 
     this.isLoading.set(true)
@@ -104,6 +104,12 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     // cheap — but it guarantees playlistSvc.sections() (needed by getPlaylistConfigId)
     // is populated even if root's background load hasn't resolved yet.
     await this.playlistSvc.loadPlaylistData()
+
+    // Fetched unconditionally (not just inside resolvePlaylistIdentifiers) so
+    // handleCompetencyFlow below has plyLsData to search regardless of which
+    // branch (FLOW 1 program-config vs. configData) ran above it.
+    this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+    this.logger.log('plyLsData', this.plyLsData)
 
     // FLOW 1: Program Config Flow - highest priority
     if (this.showbackButton() && !!this.programConfig) {
@@ -121,8 +127,11 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     if (!this.topCertifiedCourseIdentifier.length && !this.cneCoursesIdentifier.length && !this.yourPlansCourseIdentifier.length) {
       this.applyFallbackIdentifiersFromConfig()
     }
-    if (this.hascompetency) {
-      this.handleCompetencyFlow(rootOrgId, roleCheck)
+    // Evaluate competency eligibility from the actual lookup result rather than the
+    // `hascompetency` @Input — that flag doesn't tell us whether handleCompetencyFlow
+    // actually found a matching playlist, so branching on it skipped the main flow
+    // (and its fetchEnvironmentConfigurations() call) for non-competency users too.
+    if (this.handleCompetencyFlow(rootOrgId, roleCheck)) {
       return
     }
 
@@ -166,9 +175,6 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     roleCheck: (roles: string[]) => boolean,
     designation: string,
   ): Promise<void> {
-    this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-    this.logger.log('plyLsData', this.plyLsData)
-
     // Join key per section is read straight off the uiConfig just set above — each
     // section already carries its own `playlistConfigId` from the backend web_layout
     // config, so a backend rename there needs no code change here.
@@ -285,7 +291,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     this.competencyRole = 'learner'
 
     const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === competencyConfigId)
-    this.competencySection = sectionFromConfig || { sectionId: 'COMPETENCY_PLAYLIST', text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
+    this.competencySection = sectionFromConfig || { sectionId: 'COMPETENCY_PLAYLIST', title: 'YOUR LEARNING PLAN', tabCardCount: 4 }
 
     this.isCompetencyUser.set(true)
     this.isLoading.set(false)
