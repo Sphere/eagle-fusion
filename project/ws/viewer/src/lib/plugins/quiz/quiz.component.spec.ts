@@ -24,6 +24,8 @@ describe('QuizComponent', () => {
   let mockContentSvc: any
   let mockLoggerSvc: any
   let mockConfigSvc: any
+  let mockHttp: any
+  let mockViewSvc: any
 
   beforeEach(() => {
     mockEvents = { raiseInteractTelemetry: jest.fn() }
@@ -54,6 +56,8 @@ describe('QuizComponent', () => {
     }
     mockLoggerSvc = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
     mockConfigSvc = { userProfile: { userId: 'u1' } }
+    mockHttp = { get: jest.fn().mockReturnValue(of({})), post: jest.fn().mockReturnValue(of({})) }
+    mockViewSvc = { getCompetencyAuthoringUrl: jest.fn().mockReturnValue('/authoring/url') }
 
     component = new QuizComponent(
       mockEvents,
@@ -67,7 +71,9 @@ describe('QuizComponent', () => {
       mockRouter,
       mockContentSvc,
       mockLoggerSvc,
-      mockConfigSvc
+      mockConfigSvc,
+      mockHttp,
+      mockViewSvc
     )
     component.identifier = 'id1'
     component.collectionId = 'c1'
@@ -106,21 +112,25 @@ describe('QuizComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['page/home'])
   })
 
-  it('openOverviewDialog should open assesment dialog when quiz isAssessment and event not close-overview', () => {
+  it('openOverviewDialog should open assesment dialog when quiz isAssessment and event not close-overview', async () => {
     component.quizJson.isAssessment = true
     const afterClosed = of({ event: 'other' })
     mockDialog.open.mockReturnValue({ afterClosed: () => afterClosed })
     const spy = jest.spyOn(component, 'openAssesmentDialog').mockImplementation()
     component.openOverviewDialog()
+    await Promise.resolve()
+    await Promise.resolve()
     expect(spy).toHaveBeenCalled()
   })
 
-  it('openOverviewDialog should open quiz dialog when not assessment', () => {
+  it('openOverviewDialog should open quiz dialog when not assessment', async () => {
     component.quizJson.isAssessment = false
     const afterClosed = of({ event: 'other' })
     mockDialog.open.mockReturnValue({ afterClosed: () => afterClosed })
     const spy = jest.spyOn(component, 'openQuizDialog').mockImplementation()
     component.openOverviewDialog()
+    await Promise.resolve()
+    await Promise.resolve()
     expect(spy).toHaveBeenCalled()
   })
 
