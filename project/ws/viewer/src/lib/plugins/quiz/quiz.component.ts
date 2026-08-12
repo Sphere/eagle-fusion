@@ -41,6 +41,7 @@ import {
 } from '@ws-widget/utils'
 import moment from 'moment'
 import _ from 'lodash'
+import { HttpClient } from '@angular/common/http'
 // import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
   standalone: false,
@@ -132,7 +133,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     public router: Router,
     private contentSvc: WidgetContentService,
     private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private http: HttpClient,
+    private viewSvc: ViewerUtilService
   ) {
 
   }
@@ -165,7 +168,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         data: overviewData,
       })
 
-      this.dialogOverview.afterClosed().subscribe((result: any) => {
+      this.dialogOverview.afterClosed().subscribe(async (result: any) => {
         // Release the ref as soon as the overview closes, otherwise the `!this.dialogOverview`
         // guard above turns every later call into a no-op for the life of this component —
         // which is why "Yes, Restart" never reopened the overview.
@@ -226,7 +229,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             })
           }
         } else {
-          // this.startQuiz()
+          let res = await this.transformQuiz(this.artifactUrl)
+          this.quizJson.questions = res.questions
           if (get(this.quizJson, 'isAssessment')) {
             this.openAssesmentDialog()
           } else {
@@ -238,6 +242,24 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  private async transformQuiz(url: string): Promise<NSQuiz.IQuiz> {
+    const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(url.split('/content')[1])
+    let quizJSON: NSQuiz.IQuiz = await this.http
+      .get<any>(artifactUrl || '')
+      .toPromise()
+      .catch((_err: any) => {
+      })
+    if (quizJSON && quizJSON.questions) {
+      quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
+        if (question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-mca'
+        } else if (!question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-sca'
+        }
+      })
+    }
+    return quizJSON
+  }
   scroll(qIndex: number) {
     if (!this.sidenavOpenDefault) {
       if (this.sideNav) {
