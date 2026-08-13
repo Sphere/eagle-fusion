@@ -21,6 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { TranslateService } from '@ngx-translate/core'
 import { ThemeService } from '../../../services/theme.service'
 import { MatSlideToggleChange } from '@angular/material/slide-toggle'
+import { getPortalHost } from '../../../constants/portal'
 
 @Component({
   standalone: false,
@@ -170,7 +171,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setupMenuItems()
-    this.domain = window.location.hostname
+    this.domain = getPortalHost()
     if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       this.isEkshamata = true
     }

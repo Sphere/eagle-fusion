@@ -11,6 +11,7 @@ import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
+import { getPortalHost } from '../../constants/portal'
 @Component({
   standalone: false,
   selector: 'ws-dashboard',
@@ -77,7 +78,7 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     this.dataCarousel = this.uiConfig?.data
     this.imgsLoaded = (this.dataCarousel || []).map(() => false)
     if (this.isEkshamata) {
-      this.domain = window.location.hostname
+      this.domain = getPortalHost()
       this.logger.log("yes here", this.isEkshamata)
       if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
         this.logger.log("yes here2 ", this.configSvc.hostedInfo)

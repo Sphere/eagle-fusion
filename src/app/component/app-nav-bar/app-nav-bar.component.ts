@@ -12,6 +12,7 @@ import { appNavBarService } from './app-nav-bar.service'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 import { ThemeService } from '../../services/theme.service'
+import { getPortalHost } from '../../constants/portal'
 
 @Component({
   standalone: false,
@@ -167,7 +168,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.appsConfig) {
       this.featureApps = Object.keys(this.configSvc.appsConfig.features)
     }
-    this.domain = window.location.hostname
+    this.domain = getPortalHost()
   }
 
   createAcct() {
