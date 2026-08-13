@@ -23,13 +23,16 @@
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
     <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
       [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
+      <!-- result.count is the API total; content.length is only what is loaded so
+           far (the list pages via "View More"), so it under-reported the total
+           and changed meaning between the All / English / Hindi filters. -->
       <span class="mt-1" *ngIf="!isXSmall">{{'Showing' | translate}} </span>
-      <span class="mt-1" *ngIf="!isXSmall"> {{ searchResults.result.content.length }} </span>
+      <span class="mt-1" *ngIf="!isXSmall"> {{ searchResults.result.count }} </span>
       <p class="text-xl" *ngIf="isXSmall">{{'All Courses' | translate}}</p>
-      <span class="mt-1" *ngIf="searchResults.result.content.length > 1 && !isXSmall ">{{'results' |
+      <span class="mt-1" *ngIf="searchResults.result.count > 1 && !isXSmall ">{{'results' |
         translate}}
       </span>
-      <span class="mt-1" *ngIf="searchResults.result.content.length <= 1">{{'result' | translate}} </span>
+      <span class="mt-1" *ngIf="searchResults.result.count <= 1">{{'result' | translate}} </span>
       <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span>{{'across your preferred language' |
           translate}}</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
@@ -41,7 +44,8 @@
         <select class="form-control lang-select"
           [ngClass]="{'lang-icon': lang === '', 'lang-selected' : lang === 'step2' }" [(ngModel)]="contact"
           (change)="selectLang(contact)">
-          <option></option>
+          <!-- label only — the value stays empty so selectLang('') behaves as before -->
+          <option value="">{{ 'All' | translate }}</option>
           <option *ngFor="let method of contactMethods" [value]="method.id">{{ method.label }}</option>
         </select>
       </div>

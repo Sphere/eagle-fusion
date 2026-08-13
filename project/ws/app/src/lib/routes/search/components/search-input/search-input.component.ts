@@ -117,16 +117,20 @@ export class SearchInputComponent implements OnInit, OnChanges {
     if (this.searchInputElem && this.searchInputElem.nativeElement) {
       this.searchInputElem.nativeElement.blur()
     }
+    // `competency=true` reaches this page from the competency dashboard's "View
+    // Courses" and survives the merge below, which makes the results page treat
+    // the typed text as a competency id and ignore the search. A typed query
+    // always means a normal search, so drop the flag (null removes the param).
     if (this.ref === 'home') {
       this.closed.emit(false)
       this.router.navigate(['/app/search'], {
-        queryParams: { q: query.trim() },
+        queryParams: { q: query.trim(), competency: null },
         queryParamsHandling: 'merge',
       })
     } else {
       this.router.navigate([], {
         relativeTo: this.activated.parent,
-        queryParams: { q: query.trim() },
+        queryParams: { q: query.trim(), competency: null },
         queryParamsHandling: 'merge',
       })
     }

@@ -180,7 +180,10 @@
 }
 
 .result-wrapper {
-  height: calc(90vh - 210px);
+  // Was a fixed `height`, so the result panel always claimed 90vh - 210px and
+  // scrolled internally even when the score block was shorter than that. As a
+  // max-height it shrinks to the content and only scrolls when it truly overflows.
+  max-height: calc(90vh - 210px);
   overflow-y: auto;
 }
 
@@ -296,6 +299,15 @@
   background-color: var(--theme-accent) !important;
   border-color: var(--theme-accent) !important;
   color: #ffffff !important;
+}
+
+// Secondary action (Retake Assessment) — must read as clickable next to the
+// filled primary button instead of blending into the dialog background.
+.btn-highlight {
+  background: transparent !important;
+  border: 2px solid var(--theme-accent, #1c5d95) !important;
+  color: var(--theme-accent, #1c5d95) !important;
+  font-weight: 500;
 }
 
 .timer {
@@ -553,6 +565,14 @@ mat-progress-bar {
     color: #ffffff !important;
   }
 
+  // #2E6491 is too dark to read as an outline against the dark dialog, so the
+  // secondary action gets a tinted fill and a brighter edge instead.
+  .btn-highlight {
+    background: rgba(46, 100, 145, 0.22) !important;
+    border-color: #7CB5E6 !important;
+    color: #ffffff !important;
+  }
+
   .audio-progress-bar .mat-mdc-progress-bar-buffer,
   .mat-mdc-progress-bar .mat-mdc-progress-bar-buffer {
     background: var(--theme-surface, #0e161b) !important;
@@ -641,9 +661,12 @@ mat-progress-bar {
 
 
 .asha-btn-home{
-  border: 1px solid var(--theme-primary);
+  // Was --theme-primary (#1c5d95 light / #E0E0E0 dark) while the filled button
+  // beside it uses --theme-accent (#2E6491) — two different blues on the same
+  // row. Both now key off the accent so the pair matches.
+  border: 1px solid var(--theme-accent);
     background-color: var(--theme-bg);
-    color: var(--theme-primary);
+    color: var(--theme-accent);
     width: 30% !important;
     height: 35px;
      border-radius: 30px;
@@ -653,12 +676,16 @@ mat-progress-bar {
   background-color: var(--theme-accent) !important;
   width: 30%;
   height: 35px;
-  color: var(--theme-bg) !important;
+  // --theme-bg is #ffffff in light but #303030 in dark, which left the label
+  // unreadable on the accent fill. The accent is the same colour in both
+  // themes, so the label is white in both.
+  color: #ffffff !important;
+  border: none;
   border-radius: 30px;
 }
 
 .home-icon {
-  filter: (--theme-icon-filter);
+  filter: var(--theme-icon-filter);
 }
 
 .achieved-score{

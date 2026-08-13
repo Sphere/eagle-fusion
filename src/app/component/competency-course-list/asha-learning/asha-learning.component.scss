@@ -32,6 +32,13 @@
   img {
     width: 24px;
     filter: var(--theme-icon-filter);
+    // Arrow_2.png points down; the card is a collapse/expand toggle, so flip it
+    // when open instead of leaving it pointing down in both states.
+    transition: transform 0.2s ease;
+  }
+
+  &.btn-expand--open img {
+    transform: rotate(180deg);
   }
 }
 

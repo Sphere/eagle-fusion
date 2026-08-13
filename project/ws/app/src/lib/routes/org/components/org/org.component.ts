@@ -284,10 +284,13 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Total number of courses across all non-personal sections (for the stats block)
+  // Total number of courses across all non-personal sections (for the stats block).
+  // Counts what is actually on screen: the cards render through
+  // getFilteredSectionCourses, so the total has to honour the language filter too —
+  // otherwise "N Courses offered" keeps showing the All total under English/Hindi.
   get totalCourseCount(): number {
     return this.orgSections
-      .reduce((total, s: any) => total + (s.courses?.length ?? 0), 0)
+      .reduce((total, s: any) => total + this.getFilteredSectionCourses(s.courses).length, 0)
   }
 
   filterByLanguage(language: 'all' | 'en' | 'hi'): void {

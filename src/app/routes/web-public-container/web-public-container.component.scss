@@ -18,7 +18,10 @@
   bottom:50%;
   left: 50%;
   transform: translateX(-50%);
-  width: 112%;
+  // Was 112%: centred and absolutely positioned, that hangs 6% past each edge of
+  // the container, and the right-hand overhang gave page/home a horizontal
+  // scrollbar. The divider only needs to span its own section.
+  width: 100%;
   height: 1px; /* Adjust thickness as needed */
   background-color: #000; /* Adjust color as needed */
   pointer-events: none; /* decorative divider must not intercept clicks (e.g. View All) */
