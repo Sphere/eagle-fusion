@@ -12,6 +12,10 @@
   // width: 276px;
   // height: 100%;
   width: 312px;
+  // never wider than the slot it sits in (grid cell / flex item) — a fixed
+  // width alone makes cards overlap and clip inside percentage-width parents
+  max-width: 100%;
+  box-sizing: border-box;
   min-height: 260px;
   overflow: visible;
   margin-right: 23px;
@@ -59,7 +63,7 @@
 
 .course-container .appIcon {
   // .mat-card-image {
-  width: calc(100% + 32px) !important;
+  width: 100% !important;
   // margin: 0 -16px 16px -16px;
   // }
   // min-width: 276px;
