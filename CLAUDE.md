@@ -18,7 +18,9 @@ nvs add 20        # install Node 20 if not already present (one-time)
 
 ```bash
 # Development
-yarn start                  # Dev server on :3000 with proxy to sphere.aastrika.org
+yarn start                  # Dev server on :3000, proxied to sphere.aastrika.org
+yarn start:ekshamata        # Dev server on :3000, proxied to ekshamata.aastrika.org
+                            #   pair with ?portal=ekshamata — see Multi-Portal below
 yarn run build              # Production build (gzip + brotli compressed)
 yarn run build:local        # Production build without compression
 yarn run build:fast         # Dev build with vendor chunk (faster iteration)
@@ -119,6 +121,11 @@ All API paths are defined in `src/app/constants/apiConstants.ts`. Never hardcode
 - Encapsulation is `ViewEncapsulation.None` on some search components — scope styles with host selector
 - **Don't fight a global utility `!important` with a component `!important`** — global styles (`styles.scss`, utility files, Tailwind) are injected into `<head>` *after* component styles, so the global wins regardless of specificity. Remove the utility class and add a custom class without `!important`, or move spacing to the parent via `gap`.
 - **Angular Material MDC overrides:** if an MDC component (`mat-form-field`, `mat-checkbox`…) has uncontrollable height/spacing, replace it with a native HTML element instead of fighting it with `::ng-deep` / `--mdc-*` tokens / `!important`. `formControlName` and `[(ngModel)]` work identically on native elements.
+- **Component hosts are `display: inline` by default.** `<ws-app-learning-card>`, `<ws-mobile-course-view>` etc. are unknown elements to CSS, so an inline host wrapping a block card still generates a line box — roughly a line of phantom leading under every row, which reads as "the gap is too big". Set `display: block` on the host (or in the parent's list/grid rule) before adjusting gaps. Same trap for an `<a>` given `width`/`height` — inline elements ignore both.
+- **Unverified utility classes:** `.text-truncate` is commented out in `styles/utility.scss` and `.width-1-8` does not exist, yet both are used in templates. Confirm a utility class is actually defined before relying on it for truncation or width.
+- **Shared cards carry fixed pixel widths** sized for the horizontal scrollers on the home/org pages. Dropping one into a percentage-width or grid parent makes cards overlap and the last in a row clip. Give it `max-width: 100%` + `box-sizing: border-box`, and let the parent own spacing via `gap`.
+- **Copy-pasted rules travel.** The `.line-label::after` divider (`width: 112%`, centred with `translateX(-50%)`) existed in three components and its 6% overhang gave `page/home` a horizontal scrollbar. When fixing a CSS defect, grep the repo for the same rule before assuming one file is the whole fix.
+- Spacing between list items should come from **one** source (the grid `gap`). Card margins, host line boxes and API-driven wrapper classes (`tab.className` → `.resource-container`, `.responsiveDiv`) stack silently; reset them on the container's direct children.
 
 ### HTML Templates
 - Use `| translate` pipe for all user-visible strings (ngx-translate)
@@ -160,10 +167,44 @@ Principle: **enhance, don't invent.** A visual/token update restyles what exists
 - Public routes do not require auth; check `app-routing.module.ts` for guard setup
 
 ## Proxy (Dev)
-`proxy/localhost.proxy.json` routes:
-- `/apis/*` → `https://sphere.aastrika.org` (prod API, uses hardcoded auth cookie — update when cookie expires)
-- `/content-api/*` → `localhost:3004`
-- `/assets/*` → `https://sphere.aastrika.org`
+Two proxy files, one per portal — `/proxy` is **gitignored** (they hold session cookies), so a fresh clone has to recreate them:
+- `proxy/localhost.proxy.json` (`yarn start`) → `https://sphere.aastrika.org`
+- `proxy/ekshamata.proxy.json` (`yarn start:ekshamata`) → `https://ekshamata.aastrika.org`
+
+Both route `/apis/*` and `/assets/*` to that host (hardcoded auth cookie — update when it expires) and the local services (`/content-api/*` → `:3004`, `/content-store/*` → `:3005`, `/chat-bot/*` → `:3006`, `/mobile-apps/*` → `:3007`, `/LA/*` → `:3008`).
+
+Note `ng serve` serves **local** `src/assets/**` before the proxy rule, so local `assets/i18n/*.json` edits *do* take effect (see the i18n cache caveat below).
+
+---
+
+## Multi-Portal (Sphere & Ekshamata)
+One codebase serves both portals. Two independent things decide which one renders:
+1. **Data** — the dev proxy target. `assets/configurations/host.config.json` is fetched relative and supplies `rootOrg`/`org`, which ride on every API call.
+2. **Frontend identity** — the hostname, resolved through **`getPortalHost()` / `isEkshamataPortal()` in `src/app/constants/portal.ts`**. Never read `window.location.hostname` directly for a portal decision — use the helper, or the check silently fails on localhost.
+
+Local switching (query param is stored in `localStorage`, honoured **only** on localhost so deployed behaviour is untouched):
+```bash
+yarn start              # Sphere   + http://localhost:3000/page/home?portal=reset
+yarn start:ekshamata    # Ekshamata + http://localhost:3000/page/home?portal=ekshamata
+```
+Always pair the command with the matching param — mismatching them renders one portal's layout over the other's content.
+
+Dark-mode logos swap **file** rather than style (`orgData.foundationLogo` vs `.foundationLogoDark`), so size them by a fixed `height` with `width: auto`; sizing by width makes each theme render at its own aspect ratio.
+
+---
+
+## Third-Party UI Packages (own large parts of the UI)
+Two npm packages render whole pages. **Their internals cannot be fixed from this repo** — only styled from outside or fixed via a version bump.
+
+| Package | Owns | Host selectors |
+|---|---|---|
+| `@aastrika_npmjs/comptency` | Competency Dashboard / Passbook (`/app/user/competency`) | `lib-competency-dashboard`, `lib-gained-comptency-card`, `lib-required-comptency-card`, `lib-competency-accordion` |
+| `@aastrika_npmjs/discussions-ui-v8` | Course **Discussion** tab (via `<all-discussion-widget>`) | `lib-discuss-all`, `lib-discussion-details`, `lib-reply-comment`, `lib-post-reply`, `lib-discuss-start` |
+
+- Both inject a **fixed light palette** of their own (`:root { --blue: #1C5D95; --black: #000; --white: #fff }`) plus hard-coded `color: #000`, and have **no dark variant**. Dark-mode fixes go in `src/styles/themes.scss` / `src/styles/styles.scss` scoped to the `lib-*` host, not in a component stylesheet. Use `html.dark-theme` when the package rule is `!important` at equal specificity — its styles are injected after the global sheet.
+- They pull translations from **this repo's** `en.json`/`hi.json` (e.g. the passbook legend uses `CRS_TRK_FRMELEMNTS_LBL_TRAINING`), so wording changes there are done here.
+- Discussion display names come from NodeBB usernames (`post.user.username`), not the Sphere profile — a mismatch there is a middleware/package issue, not a frontend one.
+- **Dead code trap:** `library/ws-widget/collection/.../discussion-forum` (`ws-widget-discussion-forum`) is the *legacy* forum and is rendered nowhere — `AppTocDiscussionComponent` is declared but unused. Its editor (`ws-widget-editor-quill`) was deleted and every usage is commented out. Don't fix discussion bugs there.
 
 ---
 
@@ -181,6 +222,9 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 - Always add `| translate` to user-facing strings in templates
 - Voice search language mapping: `'en' → 'en-IN'`, `'hi' → 'hi-IN'`
 - Key naming: use `SCREAMING_CASE` for new keys (e.g. `ENROLL_NOW`, `VIEW_COURSE`); full sentences used as keys for long strings — match the style of nearby keys
+- **Config-driven keys never appear in the code.** Section headers and button labels arrive from the form/layout API and render as `{{ section?.text | translate }}`, `{{ content.title | translate }}`, `{{ config.button?.label2 | translate }}`. ngx-translate echoes an unknown key, so a missing entry shows as raw English (e.g. `YOUR LEARNING PLAN`, `COMPETENCIES`, `View less`). Grepping the source will not find them — add the literal English string as a key in **both** files.
+- **Translations are cached in `sessionStorage` with no invalidation.** `asset-cache-interceptor.service.ts` caches `assets/i18n/{en,hi}.json` (and `site.config.json`, `widgets.config.json`, `home.json`, `toc.json`, …) keyed by path only. A reload — even a hard reload — keeps serving the cached copy. After editing a translation run `sessionStorage.clear()` and reload, or open a new tab. Same applies to users across a deploy: an open tab keeps the old strings until it is closed or the user logs out.
+- Audit before a release: extract every `'KEY' | translate` and `translateSvc.instant/get('KEY')` across `src/`, `project/` and `library/`, flatten the nested sections of both JSON files, and diff. Keys containing an apostrophe (`You're offline…`) split naive regexes — verify those by hand.
 
 ---
 
@@ -191,6 +235,8 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 - Conventions: `jest.spyOn`; for heavy components prefer direct instantiation with mocked deps over brittle full `TestBed` rendering; use `NO_ERRORS_SCHEMA` / `CUSTOM_ELEMENTS_SCHEMA` + `provideHttpClient` / `provideHttpClientTesting` where needed.
 - Run `yarn run jest-cache` if tests behave unexpectedly after dependency changes.
 - Always run `nvs use 20` before `yarn test` / builds (Node 20 required).
+- **Jest only covers `src/`.** `testPathIgnorePatterns` excludes `library/` and `project/`, so changes to the shared widgets, `project/ws/app`, `project/ws/viewer` etc. have no unit-test path — `yarn run build` (the pre-push gate) is the only automated check there. Say so explicitly when reporting such a change rather than implying it is test-covered.
+- Running a subset (`npx jest <path>`) exits non-zero on the **global coverage threshold** because coverage is computed repo-wide. Read the suite result, not just the exit code.
 
 ---
 
