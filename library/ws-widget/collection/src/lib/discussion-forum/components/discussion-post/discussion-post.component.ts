@@ -131,9 +131,6 @@ export class DiscussionPostComponent implements OnInit {
         this.fetchPostReplies(true)
         this.isPostingReply = false
         this.replyPlaceholderToggler = !this.replyPlaceholderToggler
-        // if (this.discussionReplyEditor) {
-        //   this.discussionReplyEditor.resetEditor()
-        // }
         this.isValidReply = false
         this.replyBody = undefined
       },
@@ -147,6 +144,10 @@ export class DiscussionPostComponent implements OnInit {
   onReplyTextChange(eventData: { isValid: boolean; htmlText: string }) {
     this.isValidReply = eventData.isValid
     this.replyBody = eventData.htmlText
+  }
+
+  onReplyInput(value: string) {
+    this.onReplyTextChange({ isValid: value.trim().length > 0, htmlText: value })
   }
 
   fetchPostReplies(forceNew = false) {
@@ -186,9 +187,8 @@ export class DiscussionPostComponent implements OnInit {
 
   cancelReply() {
     this.replyPlaceholderToggler = !this.replyPlaceholderToggler
-    // if (this.discussionReplyEditor) {
-    //   this.discussionReplyEditor.resetEditor()
-    // }
+    this.replyBody = undefined
+    this.isValidReply = false
   }
   toggleReplies() {
     this.showReplies = !this.showReplies

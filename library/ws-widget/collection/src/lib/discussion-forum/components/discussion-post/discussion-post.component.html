@@ -113,9 +113,9 @@
       [email]="userEmail" [userId]="userId"></ws-widget-user-image> -->
     <div class="padding-left-m width-expand">
       <div [hidden]="!replyPlaceholderToggler" #commentBox>
-        <!-- [minLength]="'10'" -->
-        <!-- <ws-widget-editor-quill class="write-reply-editor" (textData)="onReplyTextChange($event)"
-          #discussionReplyEditor></ws-widget-editor-quill> -->
+        <textarea name="discussion-post-reply-input" class="discussion-input write-reply-editor" rows="3"
+          aria-label="Write a reply" placeholder="Write a reply..." [value]="replyBody || ''"
+          (input)="onReplyInput($any($event.target).value)"></textarea>
         <div class="text-right padding-top-s mr-4 mat-app-background">
 
           <button name="discussion-post-cancel-reply-button" type="button" class="margin-right-xs cancel-btn"

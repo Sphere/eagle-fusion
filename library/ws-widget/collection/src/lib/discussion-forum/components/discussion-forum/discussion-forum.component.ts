@@ -149,9 +149,7 @@ export class DiscussionForumComponent extends WidgetBaseComponent
         this.editorText = undefined
         this.isValidPost = false
         this.isPostingDiscussion = false
-        // if (this.editorQuill) {
-        //   this.editorQuill.resetEditor()
-        // }
+        this.editorText = undefined
         this.fetchDiscussion(true)
       },
       () => {
@@ -174,6 +172,10 @@ export class DiscussionForumComponent extends WidgetBaseComponent
     this.editorText = eventData.htmlText
   }
 
+  onPostInput(value: string) {
+    this.onTextChange({ isValid: value.trim().length > 0, htmlText: value })
+  }
+
   fetchAllPosts() {
     const postIds: string[] = []
     this.discussionResult.result.forEach((post: NsDiscussionForum.ITimelineResult) =>
@@ -188,8 +190,7 @@ export class DiscussionForumComponent extends WidgetBaseComponent
 
   cancelPost() {
     this.showCommentBox = !this.showCommentBox
-    // if (this.editorQuill) {
-    //   this.editorQuill.resetEditor()
-    // }
+    this.editorText = undefined
+    this.isValidPost = false
   }
 }
