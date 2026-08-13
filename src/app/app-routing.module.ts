@@ -54,10 +54,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
 import { HelpVideosComponent } from './routes/help-videos/help-videos.component'
+import { getPortalHost } from './constants/portal'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
-const domain = typeof window !== 'undefined' ? window.location.hostname : ''
+// Real hostname in deployed environments; on localhost it honours ?portal=…
+// so Ekshamata can be previewed without editing this file. See constants/portal.ts
+const domain = getPortalHost()
 
 const routes: Routes = [
   {

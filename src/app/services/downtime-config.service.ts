@@ -10,6 +10,7 @@ import {
 } from '../models/downtime.model'
 import { API_END_POINTS } from '../constants/apiConstants'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
+import { getPortalHost } from '../constants/portal'
 
 /**
  * DowntimeConfigService
@@ -291,7 +292,7 @@ export class DowntimeConfigService implements OnDestroy {
    * Determine the application name from hostname
    */
   private getAppName(): string {
-    const hostname = window.location.hostname
+    const hostname = getPortalHost()
     if (hostname.includes('ekshamata')) {
       return 'ekshamata'
     }

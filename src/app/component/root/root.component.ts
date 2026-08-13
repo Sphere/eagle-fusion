@@ -70,6 +70,7 @@ import { PlaylistService } from '../../services/playlist.service'
 import { DowntimeConfigService } from '../../services/downtime-config.service'
 import { ThemeService } from '../../services/theme.service'
 import { LanguageService } from '../../services/language.service'
+import { getPortalHost } from '../../constants/portal'
 
 @Component({
   standalone: false,
@@ -171,7 +172,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     const t = this.injector.get(TranslateService, null as any)
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
     if (isBrowser) {
-      this.domain = window.location.hostname
+      this.domain = getPortalHost()
       if (this.domain.includes('ekshamata')) {
         this.isEkshamata = true
       }

@@ -16,8 +16,10 @@ box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
   color: var(--theme-text, #101828);
 }
 .course-container .appIcon {
-  min-width: 272px;
-  max-width: 272px;
+  // fluid — a fixed 272px image overflows the card on <=320px screens and
+  // leaves a white gutter on wider ones
+  width: 100%;
+  max-width: 100%;
 }
 
 .course-container .box {
@@ -308,7 +310,7 @@ height: 16px;
   width: 100%;
   max-width: 100% !important;
   height: 120px;
-  // object-fit: cover;
+  object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   box-shadow: 0px 0px 3px 0px #00000073;

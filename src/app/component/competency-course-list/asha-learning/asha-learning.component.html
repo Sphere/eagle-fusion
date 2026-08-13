@@ -11,8 +11,8 @@
       </div>
       <div class="flex justify-between  gap-4">
         <div class="asha-m-title mb-0">{{ashaData.title}}</div>
-        <span class="btn-expand" ion-button icon-only>
-          <img src="../../../fusion-assets/icons/Arrow_2.png" alt="">
+        <span class="btn-expand" [class.btn-expand--open]="isExpanded" ion-button icon-only>
+          <img src="../../../fusion-assets/icons/Arrow_2.png" [alt]="isExpanded ? 'Collapse' : 'Expand'">
         </span>
       </div>
 

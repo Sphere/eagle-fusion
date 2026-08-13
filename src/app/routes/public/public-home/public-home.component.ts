@@ -14,6 +14,7 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 import { SeoService } from '../../../services/seo.service'
 import { UserAgentResolverService } from '../../../services/user-agent.service'
+import { isEkshamataPortal } from '../../../constants/portal'
 @Component({
   standalone: false,
   selector: 'ws-public-home',
@@ -75,7 +76,7 @@ export class PublicHomeComponent extends WidgetBaseComponent
 
     this.userAgentSvc.requestGeolocation()
 
-    if (window.location.hostname?.includes('ekshamata')) {
+    if (isEkshamataPortal()) {
       this.isEkshamata = true
     }
 

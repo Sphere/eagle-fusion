@@ -174,6 +174,41 @@ $dark-theme-tokens: (
 .dark-theme {
   @include mat.all-component-colors($dark-theme);
   @include emit-theme-tokens($dark-theme-tokens);
+
+  // ── @aastrika_npmjs/comptency dark-mode bridge ─────────────────────────────
+  // The competency dashboard / passbook comes from that package, which injects a
+  // fixed light palette of its own (`:root { --blue: #1C5D95; --black: #000000 }`)
+  // and has no dark variant. `--black` is only ever used as a text colour there,
+  // so remapping it to the theme text colour makes the passbook legible — most
+  // visibly the level numbers, which were navy on a near-black surface.
+  // `--blue` is left alone: the package also uses it for filled backgrounds and
+  // borders, so flipping it would break those.
+  --black: #{map.get($dark-theme-tokens, theme-text)};
+
+  // Level numbers in the passbook use `color: var(--blue)` (#1C5D95) against a
+  // dark surface — about 1.5:1. Scoped to the package's own host elements so the
+  // generic `.level` class can't leak into other components.
+  lib-gained-comptency-card,
+  lib-required-comptency-card,
+  lib-competency-accordion {
+    .log-level-id,
+    .log-level-details,
+    .log-header {
+      color: var(--theme-text, #E0E0E0) !important;
+    }
+
+    // A level the learner has reached gets a pale background colour inline from
+    // the API (`[ngStyle]="{'background-color': proficiencyLevel.color}"`, the
+    // same yellow/green/blue as the legend), so its number must stay dark. Every
+    // other level box is transparent, which is where navy-on-black came from.
+    .level[style] {
+      color: var(--theme-black, #000000) !important;
+    }
+
+    .level:not([style]) {
+      color: var(--theme-text, #E0E0E0) !important;
+    }
+  }
 }
 
 .light-theme .mat-app-background,

@@ -35,6 +35,7 @@ import {
   OrgDetails,
   UserProfileRequest,
 } from './mobile-profile-dashboard.model'
+import { getPortalHost } from '../../../constants/portal'
 
 @Component({
   standalone: false,
@@ -188,7 +189,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscribeToWorkMessage()
     this.setupMenuItems()
-    this.domain = window.location.hostname
+    this.domain = getPortalHost()
     if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       this.isEkshamata = true
     }

@@ -10,11 +10,11 @@ import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { DialogSocialDeletePostComponent } from '../../dialog/dialog-social-delete-post/dialog-social-delete-post.component'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-discussion-post',
-    templateUrl: './discussion-post.component.html',
-    styleUrls: ['./discussion-post.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-discussion-post',
+  templateUrl: './discussion-post.component.html',
+  styleUrls: ['./discussion-post.component.scss'],
+
 })
 export class DiscussionPostComponent implements OnInit {
 
@@ -143,6 +143,10 @@ export class DiscussionPostComponent implements OnInit {
     this.replyBody = eventData.htmlText
   }
 
+  onReplyInput(value: string) {
+    this.onReplyTextChange({ isValid: value.trim().length > 0, htmlText: value })
+  }
+
   fetchPostReplies(forceNew = false) {
     if (this.replyFetchStatus === 'fetching') {
       return
@@ -180,6 +184,8 @@ export class DiscussionPostComponent implements OnInit {
 
   cancelReply() {
     this.replyPlaceholderToggler = !this.replyPlaceholderToggler
+    this.replyBody = undefined
+    this.isValidReply = false
   }
   toggleReplies() {
     this.showReplies = !this.showReplies

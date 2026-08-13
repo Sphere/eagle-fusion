@@ -6,11 +6,11 @@ import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-discussion-forum',
-    templateUrl: './discussion-forum.component.html',
-    styleUrls: ['./discussion-forum.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-discussion-forum',
+  templateUrl: './discussion-forum.component.html',
+  styleUrls: ['./discussion-forum.component.scss'],
+
 })
 export class DiscussionForumComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsDiscussionForum.IDiscussionForumInput> {
@@ -146,6 +146,7 @@ export class DiscussionForumComponent extends WidgetBaseComponent
         this.editorText = undefined
         this.isValidPost = false
         this.isPostingDiscussion = false
+        this.editorText = undefined
         this.fetchDiscussion(true)
       },
       () => {
@@ -168,6 +169,10 @@ export class DiscussionForumComponent extends WidgetBaseComponent
     this.editorText = eventData.htmlText
   }
 
+  onPostInput(value: string) {
+    this.onTextChange({ isValid: value.trim().length > 0, htmlText: value })
+  }
+
   fetchAllPosts() {
     const postIds: string[] = []
     this.discussionResult.result.forEach((post: NsDiscussionForum.ITimelineResult) =>
@@ -182,5 +187,7 @@ export class DiscussionForumComponent extends WidgetBaseComponent
 
   cancelPost() {
     this.showCommentBox = !this.showCommentBox
+    this.editorText = undefined
+    this.isValidPost = false
   }
 }

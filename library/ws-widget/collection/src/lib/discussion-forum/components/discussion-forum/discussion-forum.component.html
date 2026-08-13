@@ -14,6 +14,9 @@
             [imageType]="'name-initial'">
           </ws-widget-user-image>
           <div class="editor width-expand mat-app-background">
+            <textarea name="discussion-forum-post-input" class="discussion-input" rows="4"
+              aria-label="Start a new discussion" placeholder="What would you like to discuss?"
+              [value]="editorText || ''" (input)="onPostInput($any($event.target).value)"></textarea>
           </div>
         </div>
         <div class="text-right margin-top-xs">

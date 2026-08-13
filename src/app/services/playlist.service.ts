@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { ConfigurationsService, LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 import { BehaviorSubject } from 'rxjs'
 import { API_END_POINTS } from '../constants/apiConstants'
+import { isEkshamataPortal } from '../constants/portal'
 
 @Injectable({ providedIn: 'root' })
 export class PlaylistService {
@@ -64,7 +65,7 @@ export class PlaylistService {
         subtype: 'v1',
         action: 'get',
         framework: 'v2',
-        component: (orgId && window.location.href.includes('ekshamata')) ? 'ekshamata' : 'web',
+        component: (orgId && isEkshamataPortal()) ? 'ekshamata' : 'web',
         rootOrgId: orgId || '*',
       },
     }
