@@ -86,11 +86,15 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     // Initialize telemetry session ID if not present
     this.telemetrySessionId = this.getOrCreateSessionId()
 
+    // Deliberately indexable. "aastrika sphere login", "astrika login" and "aastrika cne login"
+    // are among the highest-volume brand queries and this page is their intended destination
+    // (pos 1.8, 44% CTR). It was previously noindex *and* robots-disallowed, so Google could
+    // never read the noindex and kept the URL indexed with no snippet at all — the
+    // "Indexed, though blocked by robots.txt" issue. Let it rank with a real title/description.
     this.seoSvc.update({
-      title: 'Login - Aastrika Sphere | Free Certified Courses for Healthcare Professionals',
-      description: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.',
-      keywords: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps',
-      noindex: true,
+      title: 'Aastrika Sphere Login | Free CNE Courses for Nurses & Healthcare Workers',
+      description: 'Log in to Aastrika Sphere to continue your free, INC-certified CNE courses. Self-paced training for nurses, ANMs, GNMs, midwives and healthcare workers across India.',
+      keywords: 'Aastrika Sphere login, aastrika login, CNE login, INC e-learning login, nursing course login, healthcare training login',
     })
     sessionStorage.clear()
     localStorage.removeItem('preferedLanguage')

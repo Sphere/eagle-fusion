@@ -7,6 +7,7 @@ import { combineLatest, firstValueFrom } from 'rxjs'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { SeoService } from '../../../services/seo.service'
 import { UserAgentResolverService } from '../../../services/user-agent.service'
+import { courseCanonicalUrl } from '../../../constants/courseSlug'
 
 @Component({
   standalone: false,
@@ -195,7 +196,12 @@ export class PublicTocComponent implements OnInit {
   }
 
   private updateSeoForToc(): void {
-    const courseUrl = `https://sphere.aastrika.org${this.router.url.split('?')[0]}`
+    // Derived from the course itself, not from this.router.url: the route matches on the
+    // identifier alone, so /…/do_123/any-old-slug/ and /public/toc/overview/?courseId=do_123
+    // all render this same course. Canonicalising to the current URL made every stale
+    // variant self-canonicalise and compete; deriving it here points them all at the one
+    // URL the sitemap advertises. Trailing slash because the CDN 301s the non-slash form.
+    const courseUrl = courseCanonicalUrl(this.tocData?.identifier, this.tocData?.name)
     const description = this.extractTocDescription()
     const keywords = this.buildTocKeywords()
     const providerName = this.tocData?.sourceName || 'Aastrika Sphere'

@@ -28,7 +28,7 @@ export class PublicBlogArticleComponent implements OnInit {
       return
     }
 
-    const canonicalUrl = `https://sphere.aastrika.org/public/blog/${this.article.slug}`
+    const canonicalUrl = `https://sphere.aastrika.org/public/blog/${this.article.slug}/`
 
     this.seoSvc.update({
       title: this.article.metaTitle,
