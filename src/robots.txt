@@ -15,8 +15,12 @@ Disallow: /certs/
 Disallow: /notification
 Disallow: /resources
 Disallow: /error-*
-Disallow: /login
-Disallow: /public/login
 Disallow: /google/
+
+# /public/login is intentionally crawlable: it is the destination for the
+# "aastrika sphere login" / "astrika login" query cluster and ranks at ~1.8.
+# Blocking it only stripped its snippet — it stayed indexed either way.
+Allow: /public/login
+Allow: /login
 
 Sitemap: https://sphere.aastrika.org/sitemap.xml

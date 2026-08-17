@@ -21,7 +21,7 @@ export class PublicBlogListComponent implements OnInit {
         'Guides and articles for nurses, ANMs, GNMs and healthcare workers in India. Learn about CNE points, INC certification, AMTSL, and free online courses.',
       keywords:
         'healthcare training blog, CNE points guide, INC certification India, nursing education, ANM GNM courses',
-      canonicalUrl: 'https://sphere.aastrika.org/public/blog',
+      canonicalUrl: 'https://sphere.aastrika.org/public/blog/',
     })
   }
 

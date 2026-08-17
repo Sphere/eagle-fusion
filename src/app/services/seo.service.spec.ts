@@ -16,7 +16,7 @@ describe('SeoService', () => {
     })
     mockDoc = {
       createElement: jest.fn().mockImplementation(() => makeEl()),
-      head: { appendChild: jest.fn() },
+      head: { appendChild: jest.fn(), querySelector: jest.fn().mockReturnValue(null) },
     }
     mockTitleSvc = { setTitle: jest.fn() }
     mockMetaSvc = { updateTag: jest.fn(), removeTag: jest.fn() }
@@ -87,5 +87,50 @@ describe('SeoService', () => {
     service.update()
     expect(mockDoc.createElement).toHaveBeenCalledWith('link')
     expect(mockDoc.head.appendChild).toHaveBeenCalled()
+  })
+
+  it('reuses an existing canonical link instead of appending a second one', () => {
+    const existing = { setAttribute: jest.fn() }
+    mockDoc.head.querySelector.mockReturnValue(existing)
+
+    service.update({ canonicalUrl: 'https://sphere.aastrika.org/public/home/' })
+
+    expect(mockDoc.createElement).not.toHaveBeenCalledWith('link')
+    expect(mockDoc.head.appendChild).not.toHaveBeenCalled()
+    expect(existing.setAttribute).toHaveBeenCalledWith('href', 'https://sphere.aastrika.org/public/home/')
+  })
+
+  describe('trailing-slash normalisation', () => {
+    const canonicalHref = () => {
+      const link = mockDoc.createElement.mock.results
+        .map((r: any) => r.value)
+        .find((el: any) => el.setAttribute.mock.calls.some((c: any[]) => c[0] === 'href'))
+      return link.setAttribute.mock.calls.find((c: any[]) => c[0] === 'href')[1]
+    }
+
+    it('appends a trailing slash to an extension-less canonical', () => {
+      service.update({ canonicalUrl: 'https://sphere.aastrika.org/public/blog' })
+      expect(canonicalHref()).toBe('https://sphere.aastrika.org/public/blog/')
+    })
+
+    it('leaves an already-slashed canonical untouched', () => {
+      service.update({ canonicalUrl: 'https://sphere.aastrika.org/public/blog/' })
+      expect(canonicalHref()).toBe('https://sphere.aastrika.org/public/blog/')
+    })
+
+    it('leaves a query-string canonical untouched', () => {
+      const url = 'https://sphere.aastrika.org/app/org-details?orgId=Indian%20Nursing%20Council'
+      service.update({ canonicalUrl: url })
+      expect(canonicalHref()).toBe(url)
+    })
+
+    it('normalises the derived og:url from the router path', () => {
+      mockRouter.url = '/public/toc/overview/do_123/slug?batchId=9'
+      service.update()
+      expect(mockMetaSvc.updateTag).toHaveBeenCalledWith({
+        property: 'og:url',
+        content: 'https://sphere.aastrika.org/public/toc/overview/do_123/slug/',
+      })
+    })
   })
 })

@@ -89,6 +89,9 @@ export class OrgComponent implements OnInit, OnDestroy {
         this.detectViewChanges()
         return
       }
+      // Name-only pass, so the page never serves the generic homepage title while
+      // ORG_CONFIG is still in flight. Re-run with the full org data once it lands.
+      this.applyOrgSeoData()
       this.loadOrgData()
     })
   }
@@ -163,15 +166,66 @@ export class OrgComponent implements OnInit, OnDestroy {
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
 
+  /**
+   * Runs twice: once as soon as the orgId is known, then again when ORG_CONFIG resolves.
+   * These pages are not prerendered, so the first pass is what a crawler that gives up
+   * before the config API returns will see — without it the whole org route served the
+   * generic homepage title, which is what Search Console reports across ~72k impressions.
+   */
   private applyOrgSeoData(): void {
+    const about = this.plainTextAbout(this.currentOrgData?.about)
+    const canonicalUrl = `https://sphere.aastrika.org/app/org-details?orgId=${encodeURIComponent(this.orgName)}`
+
     this.seoSvc.update({
-      title: `${this.orgName} | Aastrika Sphere - Free Healthcare Courses`,
-      description: this.currentOrgData.about
-        ? this.currentOrgData.about.replace(/<[^>]*>/g, '').slice(0, 160)
-        : `Explore free healthcare courses offered by ${this.orgName} on Aastrika Sphere.`,
-      ogImage: this.currentOrgData.logo || undefined,
-      canonicalUrl: `https://sphere.aastrika.org/app/org-details?orgId=${encodeURIComponent(this.orgName)}`,
+      // Leads with the org name because these pages rank for the council's own name
+      // ("indian nursing council", "tnnmc", "maharashtra nursing council") and for its
+      // e-learning variants ("inc e learning", "inc cne login").
+      title: `${this.orgName} e-Learning | Free CNE Courses & Certification | Aastrika Sphere`,
+      description: about
+        ? this.truncateAtWord(about, 155)
+        // eslint-disable-next-line max-len
+        : `Free online CNE courses from ${this.orgName} on Aastrika Sphere. Self-paced, certified training for nurses, ANMs, GNMs, midwives and healthcare workers across India.`,
+      keywords: [
+        this.orgName,
+        `${this.orgName} e learning`,
+        `${this.orgName} CNE`,
+        'free CNE courses',
+        'CNE points online',
+        'online courses for nurses India',
+        'Aastrika Sphere',
+      ].join(', '),
+      ogImage: this.currentOrgData?.logo || undefined,
+      canonicalUrl,
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        'name': `${this.orgName} — Free CNE Courses`,
+        'url': canonicalUrl,
+        'isPartOf': { '@id': 'https://sphere.aastrika.org/#website' },
+        'about': {
+          '@type': 'EducationalOrganization',
+          'name': this.orgName,
+          ...(about ? { description: this.truncateAtWord(about, 300) } : {}),
+          ...(this.currentOrgData?.logo ? { logo: this.currentOrgData.logo } : {}),
+        },
+      },
     })
+  }
+
+  private plainTextAbout(about?: string): string {
+    if (!about) { return '' }
+    return about
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
+
+  private truncateAtWord(text: string, max: number): string {
+    if (text.length <= max) { return text }
+    const cut = text.slice(0, max)
+    const lastSpace = cut.lastIndexOf(' ')
+    return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[,;:.\s]+$/, '')}…`
   }
 
   private collectExplicitCourseIds(sections: any[]): string[] {
