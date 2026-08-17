@@ -1,0 +1,104 @@
+<div class="cne-page">
+
+  <header class="cne-hero">
+    <h1 class="cne-hero-title">Online CNE Courses for Nurses in India</h1>
+    <p class="cne-hero-intro">{{ intro }}</p>
+    <div class="cne-hero-actions">
+      <a routerLink="/public/home" class="cne-btn cne-btn-primary">Browse free CNE courses</a>
+      <a routerLink="/public/login" class="cne-btn cne-btn-ghost">Log in to continue</a>
+    </div>
+  </header>
+
+  @for (section of sections; track trackBySection($index, section)) {
+    <section class="cne-section" [id]="section.id">
+      <h2 class="cne-section-heading">{{ section.heading }}</h2>
+
+      @for (para of section.paragraphs; track trackByIndex($index)) {
+        <p class="cne-para">{{ para }}</p>
+      }
+
+      @if (section.bullets?.length) {
+        <ul class="cne-bullets">
+          @for (bullet of section.bullets; track trackByIndex($index)) {
+            <li>{{ bullet }}</li>
+          }
+        </ul>
+      }
+    </section>
+  }
+
+  <section class="cne-section" id="cne-courses">
+    <h2 class="cne-section-heading">Free online CNE courses</h2>
+    <p class="cne-para">
+      {{ courses.length }} CNE-accredited courses, from {{ accreditors.join(', ') }}. Every one is free
+      to enroll, self-paced, and open with no deadline. Credit hours are awarded on completing the
+      end-of-course assessment.
+    </p>
+
+    <ul class="cne-course-list">
+      @for (course of courses; track trackByIdentifier($index, course)) {
+        <li class="cne-course">
+          <p class="cne-course-credits">{{ course.credits }} CNE credit hours</p>
+          <h3 class="cne-course-name">
+            <a [routerLink]="course.route" class="cne-course-link">{{ course.name }}</a>
+          </h3>
+          @if (course.blurb) {
+            <p class="cne-course-blurb">{{ course.blurb }}</p>
+          }
+          <p class="cne-course-meta">
+            <span>{{ course.sourceName }}</span>
+            @if (course.averageRating && course.ratingCount) {
+              <span class="cne-dot">·</span>
+              <span>Rated {{ course.averageRating }} out of 5 by {{ course.ratingCount | number }} learners</span>
+            }
+          </p>
+        </li>
+      }
+    </ul>
+
+    <p class="cne-para">
+      <a routerLink="/public/home" class="cne-inline-link">See the full course catalogue →</a>
+    </p>
+  </section>
+
+  <section class="cne-section" id="cne-certificate">
+    <h2 class="cne-section-heading">How to earn your CNE certificate</h2>
+    <ol class="cne-steps">
+      @for (step of steps; track trackByIndex($index)) {
+        <li>{{ step }}</li>
+      }
+    </ol>
+  </section>
+
+  <section class="cne-section" id="cne-login">
+    <h2 class="cne-section-heading">CNE login</h2>
+    <p class="cne-para">
+      Already registered? Log in with the mobile number you signed up with. Your progress, completed
+      modules and certificates stay in your account, so you can stop on one device and carry on from
+      another.
+    </p>
+    <p class="cne-para">
+      <a routerLink="/public/login" class="cne-inline-link">Go to the login page →</a>
+    </p>
+  </section>
+
+  <section class="cne-section" id="cne-faq">
+    <h2 class="cne-section-heading">Common questions about CNE</h2>
+    <dl class="cne-faq">
+      @for (faq of faqs; track trackByQuestion($index, faq)) {
+        <div class="cne-faq-item">
+          <dt class="cne-faq-q">{{ faq.question }}</dt>
+          <dd class="cne-faq-a">{{ faq.answer }}</dd>
+        </div>
+      }
+    </dl>
+  </section>
+
+  <footer class="cne-footer">
+    <p class="cne-footer-note">
+      All CNE courses on Aastrika Sphere are free, INC-certified, and available in English and Hindi.
+    </p>
+    <a routerLink="/public/home" class="cne-btn cne-btn-primary">Start a free CNE course</a>
+  </footer>
+
+</div>

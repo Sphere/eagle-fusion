@@ -26,6 +26,18 @@
   margin: 0 auto;
 }
 
+.blog-hero-link {
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--theme-text-soft, #5a6472);
+  margin: 14px 0 0;
+
+  a {
+    font-weight: 500;
+    color: var(--theme-accent, #2e6491);
+  }
+}
+
 .blog-grid {
   display: grid;
   grid-template-columns: 1fr;

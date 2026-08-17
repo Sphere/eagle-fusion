@@ -1,0 +1,250 @@
+.cne-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 16px 60px;
+}
+
+.cne-hero {
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--theme-border, #e4e7ec);
+}
+
+.cne-hero-title {
+  font-family: Roboto, sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 44px;
+  color: var(--theme-text, #101828);
+  margin: 0 0 16px;
+}
+
+.cne-hero-intro {
+  font-size: 17px;
+  line-height: 27px;
+  color: var(--theme-text-soft, #5a6472);
+  max-width: 68ch;
+  margin: 0 0 24px;
+}
+
+.cne-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cne-btn {
+  display: inline-block;
+  padding: 11px 26px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:hover { opacity: 0.88; }
+
+  &:focus-visible {
+    outline: 2px solid var(--theme-accent, #2e6491);
+    outline-offset: 2px;
+  }
+}
+
+.cne-btn-primary {
+  background-color: var(--theme-accent, #2e6491);
+  color: #fff;
+}
+
+.cne-btn-ghost {
+  border: 1px solid var(--theme-accent, #2e6491);
+  color: var(--theme-accent, #2e6491);
+}
+
+.cne-section {
+  margin-bottom: 44px;
+}
+
+.cne-section-heading {
+  font-family: Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+  color: var(--theme-text, #101828);
+  margin: 0 0 14px;
+}
+
+.cne-para {
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--theme-text-soft, #5a6472);
+  max-width: 68ch;
+  margin: 0 0 14px;
+}
+
+.cne-bullets,
+.cne-steps {
+  margin: 0 0 14px;
+  padding-left: 22px;
+  max-width: 68ch;
+
+  li {
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--theme-text-soft, #5a6472);
+    margin-bottom: 8px;
+  }
+}
+
+// Course list — cards, matching the blog list treatment
+.cne-course-list {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.cne-course {
+  position: relative;
+  background: var(--theme-surface, #ffffff);
+  border: 1px solid var(--theme-border, #e4e7ec);
+  border-radius: 12px;
+  padding: 22px 26px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover,
+  &:focus-within {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-color: var(--theme-accent, #2e6491);
+  }
+}
+
+.cne-course-name {
+  font-family: Roboto, sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 27px;
+  color: var(--theme-text, #101828);
+  margin: 0 0 6px;
+}
+
+.cne-course-link {
+  color: inherit;
+  text-decoration: none;
+
+  // Stretched-link: whole card clickable, single focus target on the title.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  &:hover { text-decoration: underline; }
+}
+
+// Credits lead the card: they are the reason someone is on this page.
+.cne-course-credits {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--theme-accent, #2e6491);
+  margin: 0 0 6px;
+}
+
+.cne-course-blurb {
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--theme-text-soft, #5a6472);
+  margin: 0 0 10px;
+}
+
+.cne-course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  line-height: 20px;
+  color: var(--theme-inactive, #808080);
+  margin: 0;
+}
+
+.cne-dot {
+  line-height: 1;
+}
+
+.cne-inline-link {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--theme-accent, #2e6491);
+}
+
+// FAQ
+.cne-faq {
+  margin: 0;
+  max-width: 72ch;
+}
+
+.cne-faq-item {
+  padding: 18px 0;
+  border-top: 1px solid var(--theme-border, #e4e7ec);
+
+  &:first-child { border-top: none; padding-top: 4px; }
+}
+
+.cne-faq-q {
+  font-family: Roboto, sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 25px;
+  color: var(--theme-text, #101828);
+  margin: 0 0 6px;
+}
+
+.cne-faq-a {
+  font-size: 15.5px;
+  line-height: 25px;
+  color: var(--theme-text-soft, #5a6472);
+  margin: 0;
+}
+
+.cne-footer {
+  margin-top: 8px;
+  padding-top: 28px;
+  border-top: 1px solid var(--theme-border, #e4e7ec);
+}
+
+.cne-footer-note {
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--theme-text-soft, #5a6472);
+  max-width: 68ch;
+  margin: 0 0 16px;
+}
+
+@media (max-width: 600px) {
+  .cne-page {
+    padding: 24px 16px 48px;
+  }
+
+  .cne-hero-title {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .cne-section-heading {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .cne-course {
+    padding: 18px 18px;
+  }
+
+  .cne-course-name {
+    font-size: 17px;
+    line-height: 25px;
+  }
+}
