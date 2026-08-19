@@ -14,9 +14,9 @@ export class PlaylistService {
   orgDetails = computed(() => this.playlistData()?.orgData ?? '')
 
   headerConfig = computed(() => this.playlistData()?.LAYOUT_HEADER ?? '')
-  bodyConfig = computed(() => this.playlistData()?.LAYOUT_BODY ?? [])
+  bodyConfig = computed(() => this.playlistData()?.LAYOUT_BODY ?? null)
   footerConfig = computed(() => this.playlistData()?.LAYOUT_FOOTER ?? '')
-  config = computed(() => this.playlistData()?.LAYOUT_BODY ?? '')
+  config = computed(() => this.playlistData()?.LAYOUT_BODY ?? null)
 
   sections = computed(
     () => this.playlistData()?.LAYOUT_BODY?.sections ?? {}
@@ -77,6 +77,9 @@ export class PlaylistService {
         .toPromise()
 
       const data = response?.result?.form?.data ?? null
+      if (data) {
+        data.LAYOUT_BODY = this.normalizeLayoutBody(data.LAYOUT_BODY)
+      }
       if (data?.LAYOUT_BODY?.programConfig) {
         await this.getPlaylistConfig()
       }
@@ -87,6 +90,20 @@ export class PlaylistService {
       this.logger.error('Failed to load playlist data', error)
       return null
     }
+  }
+
+  /**
+   * The before-login web_layout response returns `LAYOUT_BODY` as a plain array of
+   * section-cards; the after-login response returns it as `{ sections: { homeTab: [...] } }`
+   * (and possibly other tabs, e.g. `accountTab`). Normalizing both into the object shape here
+   * — the single seam both responses pass through — means every consumer can rely on
+   * `sections()?.homeTab` regardless of login state, instead of each guessing the shape.
+   */
+  private normalizeLayoutBody(layoutBody: any): any {
+    if (Array.isArray(layoutBody)) {
+      return { sections: { homeTab: layoutBody } }
+    }
+    return layoutBody ?? { sections: {} }
   }
 
   async getPlaylistConfig(): Promise<any> {
@@ -116,12 +133,19 @@ export class PlaylistService {
    * web_layout config (LAYOUT_BODY.sections). This is the join key backend owns — if they
    * rename a playlistId, updating playlistConfigId in the section config is enough; no
    * frontend deploy needed.
+   *
+   * The before-login (`web`) response doesn't carry a separate `sectionId` field per section —
+   * `playlistConfigId` there IS the section identifier (e.g. `{ playlistConfigId:
+   * "TOP_COURSE_PLAYLIST" }`, no renaming layer). The after-login response can rename it (e.g.
+   * `{ sectionId: "TOP_COURSE_PLAYLIST", playlistConfigId: "TOP_COURSE_PLAYLIST_V2" }`). Falling
+   * back to `playlistConfigId` when `sectionId` is absent covers both without the caller caring
+   * which shape it's looking at.
    */
   getPlaylistConfigId(sectionId: string): string | undefined {
     const sectionsByTab: any = this.sections() || {}
     for (const tabSections of Object.values(sectionsByTab)) {
       if (Array.isArray(tabSections)) {
-        const match = (tabSections as any[]).find(s => s?.sectionId === sectionId && s?.playlistConfigId)
+        const match = (tabSections as any[]).find(s => (s?.sectionId ?? s?.playlistConfigId) === sectionId && s?.playlistConfigId)
         if (match) return match.playlistConfigId
       }
     }

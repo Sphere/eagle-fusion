@@ -260,6 +260,22 @@ describe('PlaylistService', () => {
       expect(service.getPlaylistConfigId('CONTINUE_LEARNING')).toBeUndefined()
     })
 
+    it('resolves before-login sections that have no sectionId field, using playlistConfigId directly as the join key', async () => {
+      // Matches the real before-login web_layout shape: no `sectionId`, just `playlistConfigId`
+      // used as the section's own identifier (no backend rename indirection before login).
+      const beforeLoginBody = [
+        { title: 'TOP COURSES', playlistConfigId: 'TOP_COURSE_PLAYLIST', payload: ['do_1', 'do_2'] },
+        { title: 'CNE COURSES', playlistConfigId: 'CNE_COURSE_PLAYLIST', payload: ['do_3'] },
+      ]
+      mockHttp.post = jest.fn().mockReturnValue(of({
+        result: { form: { data: { LAYOUT_BODY: beforeLoginBody } } },
+      }))
+      await service.loadPlaylistData()
+      expect(service.getPlaylistConfigId('TOP_COURSE_PLAYLIST')).toBe('TOP_COURSE_PLAYLIST')
+      expect(service.getPlaylistConfigId('CNE_COURSE_PLAYLIST')).toBe('CNE_COURSE_PLAYLIST')
+      expect(service.getPlaylistConfigId('CONTINUE_LEARNING')).toBeUndefined()
+    })
+
     it('finds a matching section across any tab, not just homeTab', async () => {
       mockHttp.post = jest.fn().mockReturnValue(of({
         result: {
@@ -289,8 +305,8 @@ describe('PlaylistService', () => {
       expect(service.headerConfig()).toBe('')
     })
 
-    it('bodyConfig returns empty array before data loads', () => {
-      expect(service.bodyConfig()).toEqual([])
+    it('bodyConfig returns null before data loads', () => {
+      expect(service.bodyConfig()).toBeNull()
     })
 
     it('footerConfig returns empty string before data loads', () => {
@@ -323,6 +339,37 @@ describe('PlaylistService', () => {
     it('config computed returns LAYOUT_BODY after loading', async () => {
       await service.loadPlaylistData()
       expect(service.config()).toEqual({ sections: {} })
+    })
+  })
+
+  describe('LAYOUT_BODY shape normalization (before-login array vs after-login sections object)', () => {
+    it('wraps a before-login array LAYOUT_BODY into { sections: { homeTab } }', async () => {
+      const beforeLoginBody = [{ title: 'Access free Healthcare courses' }, { title: 'CONTINUE LEARNING' }]
+      mockHttp.post = jest.fn().mockReturnValue(of({
+        result: { form: { data: { LAYOUT_BODY: beforeLoginBody } } },
+      }))
+      await service.loadPlaylistData()
+      expect(service.sections()).toEqual({ homeTab: beforeLoginBody })
+      expect(service.bodyConfig()).toEqual({ sections: { homeTab: beforeLoginBody } })
+    })
+
+    it('leaves an after-login sections-object LAYOUT_BODY unchanged', async () => {
+      const afterLoginBody = { sections: { homeTab: [{ title: 'home section' }] } }
+      mockHttp.post = jest.fn().mockReturnValue(of({
+        result: { form: { data: { LAYOUT_BODY: afterLoginBody } } },
+      }))
+      await service.loadPlaylistData()
+      expect(service.sections()).toEqual({ homeTab: [{ title: 'home section' }] })
+    })
+
+    it('selectedTabConfig resolves homeTab uniformly whether LAYOUT_BODY arrived as an array or a sections object', async () => {
+      const beforeLoginBody = [{ title: 'card-1' }]
+      mockHttp.post = jest.fn().mockReturnValue(of({
+        result: { form: { data: { LAYOUT_BODY: beforeLoginBody } } },
+      }))
+      await service.loadPlaylistData()
+      service.setSelectedTab('homeTab')
+      expect(service.selectedTabConfig()).toEqual(beforeLoginBody)
     })
   })
 })

@@ -70,7 +70,7 @@ jest.mock('../../../services/playlist.service', () => ({
   PlaylistService: class {
     getSelectedTab = jest.fn().mockReturnValue('')
     setSelectedTab = jest.fn()
-    bodyConfig = jest.fn().mockReturnValue('')
+    sections = jest.fn().mockReturnValue({})
     selectedTabConfig = jest.fn()
     loadPlaylistData = jest.fn().mockResolvedValue({ LAYOUT_BODY: { sections: { accountTab: {} } } })
     earnedBadges$ = { subscribe: jest.fn() }
@@ -145,7 +145,7 @@ describe('MobileProfileDashboardComponent', () => {
     mockPlylsSvc = {
       getSelectedTab: jest.fn().mockReturnValue(''),
       setSelectedTab: jest.fn(),
-      bodyConfig: jest.fn().mockReturnValue(''),
+      sections: jest.fn().mockReturnValue({}),
       selectedTabConfig: jest.fn(),
       loadPlaylistData: jest.fn().mockResolvedValue({ LAYOUT_BODY: { sections: { accountTab: null } } }),
       earnedBadges$: { subscribe: jest.fn() },
@@ -783,7 +783,7 @@ describe('MobileProfileDashboardComponent', () => {
         webOrderList: ['item1', 'item2', 'item3'],
         mobOrderList: [],
       }
-      mockPlylsSvc.bodyConfig = jest.fn().mockReturnValue({ accountTab: config })
+      mockPlylsSvc.sections = jest.fn().mockReturnValue({ accountTab: config })
       component.showMobileView = false
       await component.setupMenuItems()
       expect(component.menuItems.length).toBeGreaterThan(0)

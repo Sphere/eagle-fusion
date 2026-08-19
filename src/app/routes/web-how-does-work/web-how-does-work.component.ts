@@ -6,11 +6,11 @@ import { MatDialog } from '@angular/material/dialog'
 import { SafeResourceUrlService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-    standalone: false,
-    selector: 'ws-how-does-work',
-    templateUrl: './web-how-does-work.component.html',
-    styleUrls: ['./web-how-does-work.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-how-does-work',
+  templateUrl: './web-how-does-work.component.html',
+  styleUrls: ['./web-how-does-work.component.scss'],
+
 })
 export class WebHowDoesWorkComponent implements OnInit {
   @Input() config: any = {}
@@ -31,7 +31,7 @@ export class WebHowDoesWorkComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.config.data) {
+    if (!this.config.data || this.config.data.length === 0) {
       this.config = JSON.parse(localStorage.getItem('videoData'))
     }
     this.config?.data.forEach((element: any) => {

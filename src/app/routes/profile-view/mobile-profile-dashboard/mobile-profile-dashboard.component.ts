@@ -141,7 +141,9 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     if (this.plylsSvc.getSelectedTab() == 'accountTab') {
       res = this.plylsSvc.selectedTabConfig()
     } else {
-      res = this.plylsSvc.bodyConfig()?.accountTab
+      // sections() normalizes both LAYOUT_BODY response shapes (see
+      // PlaylistService.normalizeLayoutBody) into `{ sections: { accountTab: ... } }`.
+      res = this.plylsSvc.sections()?.accountTab
     }
 
     if (!res || (typeof res === 'object' && Object.keys(res).length === 0)) {

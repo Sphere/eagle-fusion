@@ -23,11 +23,9 @@
             (keydown.space)="scrollToHowSphereWorks(data.scrollEmit); $event.preventDefault()">
             <div class="banner-shimmer" *ngIf="!imgsLoaded[i]"></div>
             <img class="banner-image" [src]="!isDark ? data.img : data.darkImg"
-              [attr.loading]="i === 0 ? 'eager' : 'lazy'"
-              [attr.fetchpriority]="i === 0 ? 'high' : 'auto'"
-              width="832" height="280"
-              [alt]="data.name || 'Aastrika Sphere course banner'"
-              (load)="onBannerImgLoad(i)" (error)="onBannerImgLoad(i)" />
+              [attr.loading]="i === 0 ? 'eager' : 'lazy'" [attr.fetchpriority]="i === 0 ? 'high' : 'auto'" width="832"
+              height="280" [alt]="data.name || 'Aastrika Sphere course banner'" (load)="onBannerImgLoad(i)"
+              (error)="onBannerImgLoad(i)" />
           </div>
         </div>
       </div>
@@ -36,8 +34,7 @@
 </div>
 
 <div class="carousel-dots">
-  <button *ngFor="let _ of dataCarousel; let i = index"
-    class="dot-btn" [class.active]="i === currentSlideIndex"
+  <button *ngFor="let _ of dataCarousel; let i = index" class="dot-btn" [class.active]="i === currentSlideIndex"
     (click)="goToSlide(i)" [attr.aria-label]="'Go to slide ' + (i + 1)">
   </button>
 </div>

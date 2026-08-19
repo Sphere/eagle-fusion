@@ -396,48 +396,55 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       userId = this.configSvc.userProfile.userId || ''
     }
     this.userSvc.fetchUserBatchList(userId).subscribe(
-      (courses: NsContent.ICourse[]) => {
-        if (this.content && this.content.identifier && !this.forPreview) {
-          if (courses && courses.length) {
-            this.enrolledCourse = courses.find(course => {
-              const identifier = this.content && this.content.identifier || ''
-              if (course.courseId !== identifier) {
-                return undefined
-              }
-              return course
-            })
-          }
-          // If current course is present in the list of user enrolled course
-          if (this.enrolledCourse && this.enrolledCourse.batchId) {
-            this.content.completionPercentage = this.enrolledCourse.completionPercentage || 0
-            this.content.completionStatus = this.enrolledCourse.status || 0
-            this.getContinueLearningData(this.content.identifier, this.enrolledCourse?.batchId)
-            this.batchData = {
-              content: [this.enrolledCourse.batch],
-              enrolled: true,
-            }
-
-            if (this.getBatchId()) {
-              this.batchId = this.getBatchId()
-              this.router.navigate(
-                [],
-                {
-                  relativeTo: this.route,
-                  queryParams: { batchId: this.getBatchId() },
-                  queryParamsHandling: 'merge',
-                })
-            }
-          } else {
-            // It's understood that user is not already enrolled
-            // Fetch the available batches and present to user
-            this.fetchBatchDetails()
-          }
-        }
-      },
+      (courses: NsContent.ICourse[]) => this.handleUserBatchList(courses),
       (error: any) => {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
       },
     )
+  }
+
+  private handleUserBatchList(courses: NsContent.ICourse[]): void {
+    if (!(this.content && this.content.identifier && !this.forPreview)) {
+      return
+    }
+    if (courses && courses.length) {
+      this.enrolledCourse = courses.find(course => {
+        const identifier = this.content && this.content.identifier || ''
+        if (course.courseId !== identifier) {
+          return undefined
+        }
+        return course
+      })
+    }
+    // If current course is present in the list of user enrolled course
+    if (this.enrolledCourse && this.enrolledCourse.batchId) {
+      this.applyEnrolledCourseState()
+    } else {
+      // It's understood that user is not already enrolled
+      // Fetch the available batches and present to user
+      this.fetchBatchDetails()
+    }
+  }
+
+  private applyEnrolledCourseState(): void {
+    this.content.completionPercentage = this.enrolledCourse.completionPercentage || 0
+    this.content.completionStatus = this.enrolledCourse.status || 0
+    this.getContinueLearningData(this.content.identifier, this.enrolledCourse?.batchId)
+    this.batchData = {
+      content: [this.enrolledCourse.batch],
+      enrolled: true,
+    }
+
+    if (this.getBatchId()) {
+      this.batchId = this.getBatchId()
+      this.router.navigate(
+        [],
+        {
+          relativeTo: this.route,
+          queryParams: { batchId: this.getBatchId() },
+          queryParamsHandling: 'merge',
+        })
+    }
   }
   public getBatchId(): string {
     let batchId = ''
@@ -539,52 +546,60 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       },
     }
     this.contentSvc.fetchContentHistoryV2(req).subscribe(
-      data => {
-
-        if (data && data.result && data.result.contentList && data.result.contentList.length) {
-          this.loggerSvc.log('datatta', data)
-          this.subscribeProgressRecord(userId, courseId, data.result.contentList)
-
-          this.resumeData = get(data, 'result.contentList')
-          this.resumeData = map(this.resumeData, rr => {
-            // tslint:disable-next-line
-            const items = filter(flattenItems(get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
-            set(rr, 'progressdetails.mimeType', get(first(items), 'mimeType'))
-            if (!get(rr, 'completionPercentage')) {
-              set(rr, 'completionPercentage', rr.completionPercentage)
-            }
-            return rr
-          })
-          const progress = map(this.resumeData, 'completionPercentage')
-          this.resumeResource = this.resumeData.filter((item: any) => {
-            return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
-          })
-          this.loggerSvc.log(this.enrolledCourse, 'enrolledCourse')
-          this.loggerSvc.log(this.resumeResource[0], 'me')
-          this.loggerSvc.log(this.resumeData)
-          const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
-          if (progress.length < totalCount) {
-            const diff = totalCount - progress.length
-            if (diff) {
-              // tslint:disable-next-line
-              each(new Array(diff), () => {
-                progress.push(0)
-              })
-            }
-          }
-
-          this.tocSvc.updateResumaData(this.resumeData)
-          this.cdr.detectChanges()
-        } else {
-          this.loggerSvc.log('no data')
-          this.resumeData = null
-          this.cdr.detectChanges()
-        }
-      },
+      data => this.handleContinueLearningResponse(data, userId, courseId),
       (error: any) => {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
       },
     )
+  }
+
+  private handleContinueLearningResponse(data: any, userId: string, courseId: string): void {
+    if (!(data && data.result && data.result.contentList && data.result.contentList.length)) {
+      this.loggerSvc.log('no data')
+      this.resumeData = null
+      this.cdr.detectChanges()
+      return
+    }
+    this.loggerSvc.log('datatta', data)
+    this.subscribeProgressRecord(userId, courseId, data.result.contentList)
+
+    this.resumeData = get(data, 'result.contentList')
+    this.resumeData = map(this.resumeData, rr => this.enrichResumeDataItem(rr))
+    const progress = map(this.resumeData, 'completionPercentage')
+    this.resumeResource = this.resumeData.filter((item: any) => {
+      return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
+    })
+    this.loggerSvc.log(this.enrolledCourse, 'enrolledCourse')
+    this.loggerSvc.log(this.resumeResource[0], 'me')
+    this.loggerSvc.log(this.resumeData)
+    this.padProgressToLeafNodeCount(progress)
+
+    this.tocSvc.updateResumaData(this.resumeData)
+    this.cdr.detectChanges()
+  }
+
+  private enrichResumeDataItem(rr: any): any {
+    // tslint:disable-next-line
+    const items = filter(flattenItems(get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
+    set(rr, 'progressdetails.mimeType', get(first(items), 'mimeType'))
+    if (!get(rr, 'completionPercentage')) {
+      set(rr, 'completionPercentage', rr.completionPercentage)
+    }
+    return rr
+  }
+
+  private padProgressToLeafNodeCount(progress: any[]): void {
+    const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
+    if (progress.length >= totalCount) {
+      return
+    }
+    const diff = totalCount - progress.length
+    if (diff) {
+      // tslint:disable-next-line
+      each(new Array(diff), () => {
+        progress.push(0)
+      })
+    }
   }
 
   private subscribeProgressRecord(userId: string, courseId: string, contentList: any) {

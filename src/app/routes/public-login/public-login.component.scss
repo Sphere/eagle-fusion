@@ -119,8 +119,6 @@ color: var(--theme-text);
     .help-btn{
         display: flex;
         gap: 12px;
-        width: 75px;
-        height: 36px;
         color: var(--theme-accent, #2E6491);
         border-radius: 63px;
         font-family: Roboto, sans-serif;
@@ -541,11 +539,8 @@ color:  var(--theme-inactive, #808080);
     .help-btn{
         display: flex;
         gap: 12px;
-        width: 22%;
-        height: 36px;
         color: var(--theme-accent, #2E6491);
         border-radius: 63px;
-
         font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;

@@ -26,8 +26,8 @@ jest.mock('../../services/language.service', () => ({
 
 jest.mock('../../services/playlist.service', () => ({
   PlaylistService: class {
-    bodyConfig = jest.fn().mockReturnValue('')
-    loadPlaylistData = jest.fn().mockResolvedValue({ LAYOUT_BODY: [{ data: [], bannerStats: {} }] })
+    sections = jest.fn().mockReturnValue({})
+    loadPlaylistData = jest.fn().mockResolvedValue({ LAYOUT_BODY: { sections: { homeTab: [{ data: [], bannerStats: {} }] } } })
   },
 }))
 
@@ -60,8 +60,8 @@ describe('WebHomeComponent', () => {
     mockElementRef = { nativeElement: { scrollIntoView: jest.fn() } }
     mockLanguageSvc = { getCurrentLanguage: jest.fn().mockReturnValue('en') }
     mockPlaylistSvc = {
-      bodyConfig: jest.fn().mockReturnValue(''),
-      loadPlaylistData: jest.fn().mockResolvedValue({ LAYOUT_BODY: [{ data: [1, 2, 3], bannerStats: {} }] }),
+      sections: jest.fn().mockReturnValue({}),
+      loadPlaylistData: jest.fn().mockResolvedValue({ LAYOUT_BODY: { sections: { homeTab: [{ data: [1, 2, 3], bannerStats: {} }] } } }),
     }
     mockLogger = { log: jest.fn(), error: jest.fn() }
     mockThemeSvc = { isDark: jest.fn().mockReturnValue(false) }
@@ -230,17 +230,18 @@ describe('WebHomeComponent', () => {
   })
 
   describe('ngOnInit', () => {
-    it('should call loadPlaylistData when bodyConfig returns empty string', async () => {
-      mockPlaylistSvc.bodyConfig.mockReturnValue('')
+    it('should call loadPlaylistData when sections() has no homeTab yet', async () => {
+      mockPlaylistSvc.sections.mockReturnValue({})
       await component.ngOnInit()
       expect(mockPlaylistSvc.loadPlaylistData).toHaveBeenCalled()
     })
 
-    it('should set config from bodyConfig when it returns a non-empty value', async () => {
+    it('should set config from sections() when homeTab is already populated', async () => {
       const mockConfig = { data: [1, 2], bannerStats: { total: 10 } }
-      mockPlaylistSvc.bodyConfig.mockReturnValue([mockConfig])
+      mockPlaylistSvc.sections.mockReturnValue({ homeTab: [mockConfig] })
       await component.ngOnInit()
       expect(component.config).toEqual(mockConfig)
+      expect(mockPlaylistSvc.loadPlaylistData).not.toHaveBeenCalled()
     })
 
     it('should set lang from userProfile preferences when available', async () => {
@@ -258,7 +259,7 @@ describe('WebHomeComponent', () => {
 
     it('should set dataCarousel and bannerStatus from config', async () => {
       const mockConfig = { data: ['a', 'b'], bannerStats: { count: 5 } }
-      mockPlaylistSvc.bodyConfig.mockReturnValue([mockConfig])
+      mockPlaylistSvc.sections.mockReturnValue({ homeTab: [mockConfig] })
       await component.ngOnInit()
       expect(component.dataCarousel).toEqual(['a', 'b'])
       expect(component.bannerStatus).toEqual({ count: 5 })
@@ -284,7 +285,7 @@ describe('WebHomeComponent', () => {
     })
 
     it('should default imgsLoaded to empty array when config has no data', async () => {
-      mockPlaylistSvc.bodyConfig.mockReturnValue([{ bannerStats: {} }])
+      mockPlaylistSvc.sections.mockReturnValue({ homeTab: [{ bannerStats: {} }] })
       await component.ngOnInit()
       expect(component.imgsLoaded).toEqual([])
     })

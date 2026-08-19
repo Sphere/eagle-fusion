@@ -55,18 +55,21 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   }
 
   private initializeHomeData(): void {
-    const res = this.playlsSvc.bodyConfig()
-    if (res == '') {
-      this.playlsSvc.loadPlaylistData().then(data => {
-        this.config = data?.LAYOUT_BODY[0]
+    // playlsSvc.sections() normalizes both the before-login (array) and after-login
+    // (`{ sections: { homeTab: [...] } }`) LAYOUT_BODY shapes into one object shape —
+    // see PlaylistService.normalizeLayoutBody — so both branches read the same path.
+    const homeTab = this.playlsSvc.sections()?.homeTab
+    if (homeTab?.length) {
+      this.config = homeTab[0]
+      this.setupUIAfterConfigLoad()
+    } else {
+      this.playlsSvc.loadPlaylistData().then(() => {
+        this.config = this.playlsSvc.sections()?.homeTab?.[0]
         this.setupUIAfterConfigLoad()
       }).catch(_err => {
         this.config = null
         this.setupUIAfterConfigLoad()
       })
-    } else {
-      this.config = res[0]
-      this.setupUIAfterConfigLoad()
     }
   }
 

@@ -273,6 +273,11 @@ color: #000000;
   img {
     filter: var(--theme-icon-filter) !important;
   }
+  lib-reply-comment {
+    .form-container {
+      padding: 1rem 2rem !important;
+    }
+  }
 }
 ::ng-deep lib-discuss-card {
 .discuss-card-content {
@@ -289,6 +294,16 @@ color: #000000;
 }
 .discuss-card-title {
   font-weight: 400 !important;
+}
+lib-discussion-delete {
+  .discussion-start-modal >.discussion-start-modal-content {
+    border-radius: 15px !important;
+    .flex {
+      padding-top: 1rem !important;
+      display: flex;
+      justify-content: center !important;
+    }
+  }
 }
 }
 .discuss-card-title {

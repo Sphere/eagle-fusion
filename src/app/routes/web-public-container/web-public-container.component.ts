@@ -108,9 +108,10 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     // Fetched unconditionally (not just inside resolvePlaylistIdentifiers) so
     // handleCompetencyFlow below has plyLsData to search regardless of which
     // branch (FLOW 1 program-config vs. configData) ran above it.
-    this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-    this.logger.log('plyLsData', this.plyLsData)
-
+    if (this.configSvc?.userProfile) {
+      this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+      this.logger.log('plyLsData', this.plyLsData)
+    }
     // FLOW 1: Program Config Flow - highest priority
     if (this.showbackButton() && !!this.programConfig) {
       const isCompetencyFlow = await this.initializeProgramConfigFlow(designation)
@@ -414,23 +415,29 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       const topCourseConfigId = this.playlistSvc.getPlaylistConfigId('TOP_COURSE_PLAYLIST')
       const completedConfigId = this.playlistSvc.getPlaylistConfigId('COMPLETED')
 
+      // Guard each branch on the resolved config id being present, not just equal —
+      // getPlaylistConfigId() returns `undefined` when that section isn't in the current
+      // org's layout, and elements with no playlistConfigId at all (e.g. the home banner)
+      // also read as `undefined`. Without the truthy guard, `undefined === undefined`
+      // matches the banner element and overwrites its `data` (a reference into
+      // PlaylistService's shared cache) with an unrelated, often-empty course list.
       this.configData.forEach((element: any) => {
-        if (element.playlistConfigId === continueLearningConfigId) {
+        if (element.playlistConfigId && continueLearningConfigId && element.playlistConfigId === continueLearningConfigId) {
           element.data = incomplete?.filter(item =>
             courseList?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)
-        } else if (element.playlistConfigId === yourPlansConfigId) {
+        } else if (element.playlistConfigId && yourPlansConfigId && element.playlistConfigId === yourPlansConfigId) {
           element.data = courseList.filter(item =>
             !this.userEnrollCourse?.some(bItem => bItem.identifier === item.identifier)
           )
           element.displayData = element?.data?.slice(0, element.limit)
-        } else if (element.playlistConfigId === cneConfigId) {
+        } else if (element.playlistConfigId && cneConfigId && element.playlistConfigId === cneConfigId) {
           element.data = this.cneCourse()
           element.displayData = element?.data?.slice(0, element.limit)
-        } else if (element.playlistConfigId === topCourseConfigId) {
+        } else if (element.playlistConfigId && topCourseConfigId && element.playlistConfigId === topCourseConfigId) {
           element.data = !this.isEkshamata ? this.topCertifiedCourse() : this.coursesForEK()
           element.displayData = element?.data?.slice(0, element.limit)
-        } else if (element.playlistConfigId === completedConfigId) {
+        } else if (element.playlistConfigId && completedConfigId && element.playlistConfigId === completedConfigId) {
           element.data = completed.filter(item =>
             courseList?.some(bItem => bItem.identifier === item.identifier))
           element.displayData = element?.data?.slice(0, element.limit)

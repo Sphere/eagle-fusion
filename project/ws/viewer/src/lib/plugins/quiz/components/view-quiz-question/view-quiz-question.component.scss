@@ -24,6 +24,12 @@
   background-color: rgba(#919296, 0.26) !important;
 }
 
+
+::ng-deep .mat-mdc-radio-button .mdc-form-field .mdc-label {
+  font-weight: 400 !important;
+  margin-bottom: 0px !important;
+}
+
 .wrap-mat-radio-label {
   white-space: normal;
 }

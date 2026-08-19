@@ -72,6 +72,7 @@ correct-option {
 
 ::ng-deep .mat-mdc-radio-button .mdc-form-field .mdc-label {
   font-weight: 400 !important;
+  margin-bottom: 0px !important;
 }
 
 ::ng-deep .mdc-radio__native-control:enabled:checked+.mdc-radio__background {

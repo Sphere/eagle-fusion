@@ -401,6 +401,31 @@ describe('WebPublicComponent', () => {
 
       expect(configEl.displayData).toHaveLength(2)
     })
+
+    it('does not touch an element with no playlistConfigId when a resolver also returns undefined for a missing section', () => {
+      // Reproduces the home banner element (no playlistConfigId at all, sectionId: '') going
+      // through updateCourseData() when the current org's layout doesn't declare
+      // YOUR_PLANS_PLAYLIST/COMPLETED — getPlaylistConfigId() then resolves to `undefined`
+      // for those, and `undefined === undefined` used to match the banner element too,
+      // overwriting its `data` (a reference into PlaylistService's shared cache) with an
+      // unrelated, often-empty course list.
+      const identityResolver = mockPlaylistSvc.getPlaylistConfigId as jest.Mock
+      identityResolver.mockImplementation((sectionId: string) =>
+        sectionId === 'YOUR_PLANS_PLAYLIST' || sectionId === 'COMPLETED' ? undefined : sectionId)
+      component.coursesForYou.set([{ identifier: 'c1' }])
+      component.userEnrollCourse = []
+      const bannerElement = { sectionId: '', bannerStats: [{ count: 1 }], data: [{ title: 'promo-slide' }] }
+      component.configData = [bannerElement]
+
+      try {
+        component.updateCourseData()
+        expect(bannerElement.data).toEqual([{ title: 'promo-slide' }])
+      } finally {
+        // Restore the identity resolver every other test in this file relies on —
+        // jest.clearAllMocks() (in the outer beforeEach) clears calls but not implementations.
+        identityResolver.mockImplementation((sectionId: string) => sectionId)
+      }
+    })
   })
 
   // ─── raiseTelemetry ───────────────────────────────────────────────────────

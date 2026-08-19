@@ -351,7 +351,38 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnInit(): void {
     this.handleRouterSubscription()
+    this.subscribeToNavigationEvents()
+    this.subscribeToProfileUpdates()
+    this.subscribeToDowntimeConfig()
+    this.initializeUserProfileState()
+    this.loadFormDataInBackground()
+    this.applyInitialAuthNavigationState()
 
+    this.setPageTitle()
+    this.fcSettingsFunc()
+
+    if (!this.loginServ.isInitialized) {
+      this.loginServ.initialize()
+    }
+    if (!this.exploreService.isInitialized) {
+      this.exploreService.initialize()
+    }
+    this.detectRootIframeContext()
+    this.btnBackSvc.initialize()
+    // Application start telemetry
+    this.telemetrySvc.getTelemetryConfig()
+    this.telemetrySvc.impression('page-loaded', 'init', 'static-home')
+    if (isPlatformBrowser(this.platformId)) {
+      this.registerBackButtonListener()
+    }
+    this.subscribeToNavbarDisplay()
+    this.subscribeToHomePageState()
+    this.subscribeToHideHeaderFooter()
+    this.redirectForNhsrcOrg()
+    this.fetchUserCompetencyConfig()
+  }
+
+  private subscribeToNavigationEvents(): void {
     this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
       if (
         event instanceof NavigationEnd &&
@@ -360,7 +391,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.navigationInterceptor(event)
       }
     })
+  }
 
+  private subscribeToProfileUpdates(): void {
     // Subscribe to profile updates and clear cache when profile is modified
     this.userProfileSvc.updateuser$.pipe(takeUntil(this.destroy$)).subscribe((updatedProfile: any) => {
       if (updatedProfile) {
@@ -379,7 +412,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     })
+  }
 
+  private subscribeToDowntimeConfig(): void {
     // Initialize downtime configuration
     this.downtimeService.initializeDowntimeConfig()
       .pipe(takeUntil(this.destroy$))
@@ -391,7 +426,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.logger.warn('[RootComponent] Error initializing downtime config, continuing normally:', error)
         }
       )
+  }
 
+  private initializeUserProfileState(): void {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
       // Pre-warm playlist config cache so home page ngOnInit doesn't block on it
@@ -408,7 +445,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isLoggedIn = false
     }
+  }
 
+  private loadFormDataInBackground(): void {
     // Load form data in background without blocking UI rendering
     // Use a timeout to prevent hanging on slow/failed requests
     Promise.race([
@@ -420,7 +459,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.footerConfig = {}
       this.changeDetector.markForCheck()
     })
+  }
 
+  private applyInitialAuthNavigationState(): void {
     if (this.configSvc.isAuthenticated) {
       this.appStartRaised = true
     } else if (isPlatformBrowser(this.platformId)) {
@@ -434,35 +475,31 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.showNavigation = true
       }
     }
+  }
 
-    this.setPageTitle()
-    this.fcSettingsFunc()
-
-    if (!this.loginServ.isInitialized) {
-      this.loginServ.initialize()
-    }
-    if (!this.exploreService.isInitialized) {
-      this.exploreService.initialize()
-    }
+  private detectRootIframeContext(): void {
     try {
       this.isInIframe = window.self !== window.top
     } catch (_ex) {
       this.logger.warn('Error determining if in iframe:', _ex)
       this.isInIframe = false
     }
-    this.btnBackSvc.initialize()
-    // Application start telemetry
-    this.telemetrySvc.getTelemetryConfig()
-    this.telemetrySvc.impression('page-loaded', 'init', 'static-home')
-    if (isPlatformBrowser(this.platformId)) {
-      App.addListener('backButton', () => {
-        window.history.go(-1)
-      })
-    }
+  }
+
+  private registerBackButtonListener(): void {
+    App.addListener('backButton', () => {
+      window.history.go(-1)
+    })
+  }
+
+  private subscribeToNavbarDisplay(): void {
     this.rootSvc.showNavbarDisplay$.pipe(delay(500), takeUntil(this.destroy$)).subscribe(display => {
       this.showNavbar = display
       this.changeDetector.detectChanges()
     })
+  }
+
+  private subscribeToHomePageState(): void {
     // Track home-page state on navigation in a single subscription. Previously this
     // router.events subscription was created inside the hideHeaderFooter callback, so a
     // new (never-cleaned) router subscription leaked on every hideHeaderFooter emission.
@@ -471,6 +508,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isHomePage = (e.url === '/page/home' || e.url === '/public/home' || e.url === '/')
       }
     })
+  }
+
+  private subscribeToHideHeaderFooter(): void {
     this.orgService.hideHeaderFooter.pipe(takeUntil(this.destroy$)).subscribe(show => {
       const standaloneRoutes = ['/app/new-tnc', '/uttarpradesh/demo']
       if (!isPlatformBrowser(this.platformId) || !standaloneRoutes.includes(window.location.pathname)) {
@@ -478,14 +518,18 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.changeDetector.detectChanges()
     })
+  }
 
+  private redirectForNhsrcOrg(): void {
     if (isPlatformBrowser(this.platformId) && localStorage.getItem('orgValue') === 'nhsrc') {
       if (localStorage.getItem('url_before_login')) {
         const url = localStorage.getItem(`url_before_login`) || ''
         this.router.navigateByUrl(url)
       }
     }
+  }
 
+  private fetchUserCompetencyConfig(): void {
     if (this.configSvc.userProfile) {
       this.userProfileSvc
         .getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
@@ -523,7 +567,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.hasProgramConfig) {
         this.playlistSvc?.showDetails.set(false)
       }
-      this.configData = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
+      // homeTabConfig already reads sections()?.homeTab, which PlaylistService normalizes
+      // for both the before-login (array) and after-login (`sections.homeTab`) LAYOUT_BODY
+      // shapes — so it's valid for logged-out users too, no isLoggedIn branch needed here.
+      this.configData = homeTabConfig || this.playlistSvc.selectedTabConfig()
       this.bodyConfig = this.configData
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
       this.showNavbar = true
