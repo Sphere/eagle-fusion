@@ -24,7 +24,7 @@ export const BLOG_ARTICLES: IBlogArticle[] = [
     title: 'How to Earn INC CNE Credits Online — Free Courses for Nurses in India',
     metaTitle: 'How to Earn INC CNE Credits Online | Free Courses for Nurses | Aastrika Sphere',
     metaDescription:
-      'Find out how to earn INC CNE credits online for free. Aastrika Sphere offers INC-certified courses worth 5–7.5 CNE hours each, with certificates issued on completion.',
+      'Find out how to earn INC CNE credits online for free. Aastrika Sphere offers INC-certified courses worth 2.5–7.5 CNE hours each, with certificates issued on completion.',
     keywords:
       'CNE points online, earn CNE credits India, INC CNE credits, continuing nursing education, CNE certificate, INC CNE points, free CNE courses nurses, how to earn CNE credits online',
     excerpt:
@@ -54,12 +54,16 @@ export const BLOG_ARTICLES: IBlogArticle[] = [
         paragraphs: [
           'Aastrika Sphere hosts INC-certified online courses that award CNE credit hours on successful completion. All courses are free to enroll, self-paced, and accessible on any smartphone.',
         ],
+        // Credit hours below are the catalogue's `cneName` values — the same field the CNE hub
+        // at /public/cne-courses is generated from. Do not edit a figure here without checking
+        // it there; an earlier version of this list credited two courses that award none.
         bullets: [
-          'Normal Labour and Birth and AMTSL — 7.5 CNE credits — Rated 4.74 out of 5 by over 54,000 learners',
-          'Care of Sick New Born (Hindi) — 7.5 CNE credits — Rated 4.8 out of 5',
-          'Care of New Born and Newborn Resuscitation — 5 CNE credits — Rated 4.8 out of 5',
-          'Postpartum Haemorrhage (PPH) — 7.5 CNE credits',
-          'Antenatal Care — 7.5 CNE credits',
+          'Normal Labour and Birth and AMTSL — 7.5 CNE credits — Rated 4.74 out of 5 by over 56,000 learners',
+          'Care of Sick Newborn — 7.5 CNE credits — Rated 4.7 out of 5 (also available in Hindi, rated 4.8)',
+          'Hypertension in Pregnancy — 5 CNE credits — Rated 4.74 out of 5 by over 67,000 learners',
+          'Post Partum Haemorrhage (PPH) — 5 CNE credits — Rated 4.75 out of 5 by over 63,000 learners',
+          'Care of Newborn and Newborn Resuscitation — 5 CNE credits — Rated 4.7 out of 5',
+          'Infection Prevention — 2.5 CNE credits — Rated 4.76 out of 5 by over 56,000 learners',
         ],
       },
       {
@@ -285,7 +289,7 @@ export const BLOG_ARTICLES: IBlogArticle[] = [
         heading: 'Learn AMTSL Online — Free, INC Certified',
         paragraphs: [
           'The Normal Labour and Birth and AMTSL course on Aastrika Sphere covers all four stages of labour, normal vaginal delivery, and the full AMTSL protocol. It includes animated clinical films, video lectures, practical procedure guides, and case-based assessments. The course was developed by the Indian Nursing Council in collaboration with the Safe Delivery App curriculum.',
-          'Duration: approximately 12 hours of self-paced learning. INC awards a certificate and 7.5 CNE credit hours on completion. The course is rated 4.74 out of 5 by over 54,000 learners and is free to enroll with no deadline.',
+          'Duration: approximately 12 hours of self-paced learning. INC awards a certificate and 7.5 CNE credit hours on completion. The course is rated 4.74 out of 5 by over 56,000 learners and is free to enroll with no deadline.',
         ],
         cta: {
           text: 'Enroll free — Normal Labour and Birth and AMTSL',
@@ -462,7 +466,7 @@ export const BLOG_ARTICLES: IBlogArticle[] = [
         heading: 'Learn Newborn Resuscitation Online — Free, with INC CNE Credits',
         paragraphs: [
           'The Care of New Born and Newborn Resuscitation course on Aastrika Sphere covers essential newborn care, step-by-step resuscitation technique, bag-and-mask ventilation, Vitamin K administration, and Kangaroo Mother Care. It was developed by the Indian Nursing Council and Maternity Foundation.',
-          'Duration: approximately 4 hours of self-paced learning. Earns 5 INC CNE credit hours on completion. Rated 4.8 out of 5. Free to enroll — open batch with no deadline.',
+          'Duration: approximately 4 hours of self-paced learning. Earns 5 INC CNE credit hours on completion. Rated 4.7 out of 5 by over 8,000 learners. Free to enroll — open batch with no deadline.',
         ],
         cta: {
           text: 'Enroll free — Care of New Born and Newborn Resuscitation',

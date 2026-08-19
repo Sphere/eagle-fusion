@@ -213,11 +213,14 @@ describe('PublicLoginComponent', () => {
   })
 
   describe('ngOnInit', () => {
-    it('should call seoSvc.update', () => {
+    it('should call seoSvc.update with an indexable login title', () => {
       component.ngOnInit()
-      expect(mockSeoSvc.update).toHaveBeenCalledWith(
-        expect.objectContaining({ noindex: true }),
-      )
+      const config = mockSeoSvc.update.mock.calls[0][0]
+      expect(config.title).toContain('Login')
+      expect(config.description).toBeTruthy()
+      // The login page is the destination for the brand "…login" query cluster,
+      // so it must stay indexable.
+      expect(config.noindex).toBeFalsy()
     })
 
     it('should clear localStorage keys on init', () => {

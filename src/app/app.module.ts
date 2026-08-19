@@ -68,6 +68,7 @@ import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicBlogModule } from './routes/public/public-blog/public-blog.module'
+import { PublicCneModule } from './routes/public/public-cne/public-cne.module'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
 
@@ -338,6 +339,7 @@ export function initTranslate(translate: TranslateService) {
     CompetencyCourseListModule,
     PublicHomeModule,
     PublicBlogModule,
+    PublicCneModule,
     LogoutModule,
     SlidersModule,
     MatAutocompleteModule,

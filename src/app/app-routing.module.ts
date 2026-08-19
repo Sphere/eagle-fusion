@@ -11,6 +11,7 @@ import { PublicHomeComponent } from './routes/public/public-home/public-home.com
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
 import { PublicBlogListComponent } from './routes/public/public-blog/public-blog-list.component'
+import { PublicCneComponent } from './routes/public/public-cne/public-cne.component'
 import { PublicBlogArticleComponent } from './routes/public/public-blog/public-blog-article.component'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
@@ -461,6 +462,14 @@ const routes: Routes = [
     path: 'public/blog/:slug',
     component: PublicBlogArticleComponent,
     data: { isPublic: true },
+  },
+  {
+    path: 'public/cne-courses',
+    component: PublicCneComponent,
+    data: {
+      title: 'Online CNE Courses — Free, INC-Certified, With Certificate | Aastrika Sphere',
+      isPublic: true,
+    },
   },
   {
     path: 'public/tnc',
