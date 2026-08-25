@@ -37,29 +37,29 @@
           <div class="field  type-container mw-100">
             <div class="heading" style="margin-right: 30px;">
               <input type="radio" (click)="passwordOrOtp('otp')" (keydown.enter)="passwordOrOtp('otp')"
-                (keydown.space)="passwordOrOtp('otp'); $event.preventDefault()" name="usePasswordOrOTP" id="useOTPRB"
+                (keydown.space)="passwordOrOtp('otp'); $event.preventDefault()" name="usePasswordOrOTP" id="useOTPRB-lg"
                 style="cursor: pointer;" checked="true">&nbsp;
-              <label id="useOTPLabel" for="useOTPRB" class="" style="cursor: pointer;"
+              <label id="useOTPLabel-lg" for="useOTPRB-lg" class="" style="cursor: pointer;"
                 [ngClass]="{'font-weight-500': selectedField === 'otp'}">
                 {{ 'Login with OTP' | translate }}
               </label>
             </div>
             <div style="cursor: pointer;">
               <input type="radio" (click)="passwordOrOtp('password');" (keydown.enter)="passwordOrOtp('password')"
-                (keydown.space)="passwordOrOtp('password'); $event.preventDefault()" name="usePasswordOrOTP" id="usePasswordRB"
+                (keydown.space)="passwordOrOtp('password'); $event.preventDefault()" name="usePasswordOrOTP" id="usePasswordRB-lg"
                 style="cursor: pointer;">&nbsp;
-              <label id="usePasswordLabel" for="usePasswordRB" class="" style="cursor: pointer;"
+              <label id="usePasswordLabel-lg" for="usePasswordRB-lg" class="" style="cursor: pointer;"
                 [ngClass]="{'font-weight-500': selectedField === 'password'}">
                 {{ 'Login with Password' | translate }}
               </label>
             </div>
           </div>
           <div id="usePasswordDiv" class="mw-100" *ngIf="selectedField === 'password'">
-            <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
+            <form [formGroup]="loginPwdForm" id="form-login-lg-pwd" action="" method="post">
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                   <mat-label>{{ 'Phone Number (or) Email ID' | translate }}</mat-label>
-                  <input autofocus="" autocomplete="off" tabindex="0" id="emailOrMobile" required=""
+                  <input autofocus="" autocomplete="off" tabindex="0" id="emailOrMobile-lg-pwd" required=""
                     (input)="checkMobileEmail2()" type="text" class="input-field" trim="blur" matInput
                     formControlName="emailOrMobile" #emailOrMobile />
                   <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">
@@ -87,12 +87,12 @@
               <div class="field">
               </div>
               <div class="flex justify-end">
-                <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="0"
+                <a id="fgtKeycloakFlow-lg" class="ui right floated forgetPasswordLink" tabindex="0"
                   href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">
                   {{'Forgot Password?' | translate }}</a>
               </div>
               <div class="field flex justify-content-center">
-                <button id="login-username-password" class="ui fluid button blueButton"
+                <button id="login-username-password-lg" class="ui fluid button blueButton"
                   (click)="submitDetails(loginPwdForm)" [disabled]="!loginPwdForm?.valid || isLoginLoading">
                   <span *ngIf="!isLoginLoading">{{ 'Login' | translate }}</span>
                   <span *ngIf="isLoginLoading">
@@ -102,31 +102,31 @@
                 </button>
               </div>
               <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
-                <div class="or-holder" id="or-holder" style="text-align: center;">
+                <div class="or-holder" id="or-holder-lg-pwd" style="text-align: center;">
                   <span class=""></span>
                   <span class="">{{ 'or' | translate }}</span>
                 </div>
               </div>
 
-              <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration" class="field">
+              <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration-lg-pwd" class="field">
                 <!-- Debug: isEkshamtaLogin={{isEkshamtaLogin}}, isOrgSelectiveCourse={{isOrgSelectiveCourse}} -->
 
                 <div class="ui flex justify-content-center content  signUpMsg">
-                  <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
+                  <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP-lg-pwd"
                     style="display: block;">{{ 'Create an Account' | translate }}</a>
 
-                  <div id="selfSingUp" style="height: 30px;">
+                  <div id="selfSingUp-lg-pwd" style="height: 30px;">
                   </div>
                 </div>
               </div>
             </form>
           </div>
           <div id="useOTPDiv" class="mw-100" *ngIf="selectedField === 'otp'">
-            <form [formGroup]="loginForm" id="kc-form-login" class=" ui form" action="" method="post" method="post">
+            <form [formGroup]="loginForm" id="kc-form-login-lg" class=" ui form" action="" method="post" method="post">
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                   <mat-label>{{ 'Phone Number (or) Email ID' | translate }}</mat-label>
-                  <input autocomplete="off" tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail()"
+                  <input autocomplete="off" tabindex="0" id="emailOrMobile-lg-otp" required="" (input)="checkMobileEmail()"
                     type="text" class="input-field" trim="blur" matInput formControlName="emailOrMobile"
                     #emailOrMobile />
                   <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">
@@ -135,23 +135,23 @@
               </div>
               <div class="mdc-card__actions">
                 <div class="field flex justify-content-center">
-                  <button tabindex="0" name="otp-login" id="otp-login" type="submit" class="ui fluid btn blueButton"
+                  <button tabindex="0" name="otp-login" id="otp-login-lg" type="submit" class="ui fluid btn blueButton"
                     (click)="otpClick(loginForm)" [disabled]="!loginForm?.valid">{{ 'Get OTP' | translate }}</button>
                 </div>
                 <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
-                  <div class="or-holder" id="or-holder" style="text-align: center;">
+                  <div class="or-holder" id="or-holder-lg-otp" style="text-align: center;">
                     <span class=""></span>
                     <span class="">{{ 'or' | translate }}</span>
                   </div>
                 </div>
 
-                <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration" class="field">
+                <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration-lg-otp" class="field">
                   <div class="ui content flex justify-content-center  signUpMsg">
-                    <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
+                    <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP-lg-otp"
                       style="display: block;">{{ 'Create an Account' | translate }}</a>
                   </div>
                 </div>
-                <div id="selfSingUp" style="height: 30px;">
+                <div id="selfSingUp-lg-otp" style="height: 30px;">
                 </div>
               </div>
             </form>
@@ -198,13 +198,13 @@
                     (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
                 </div>
                 <div *ngIf="emailPhoneType === 'email'" [formGroup]="OTPForm" class="otp-input-container">
-                  <input id="totp" name="OTPcode" [placeholder]="'Enter OTP' | translate" type="text"
+                  <input id="totp-lg" name="OTPcode" [placeholder]="'Enter OTP' | translate" type="text"
                     class="form-control" name="OTPcode" formControlName="OTPcode" />
                 </div>
 
                 <div class="field flex justify-content-center mt-4">
                   <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid || isLoginLoading"
-                    class="ui fluid submit button blueButton" name="submit-OTP" id="submit-OTP" type="submit">
+                    class="ui fluid submit button blueButton" name="submit-OTP" id="submit-OTP-lg" type="submit">
                     <span *ngIf="!isLoginLoading">{{'Submit' | translate }}</span>
                     <span *ngIf="isLoginLoading">
                       <mat-spinner diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
@@ -214,7 +214,7 @@
                 </div>
                 <div class="field flex justify-content-center">
                   <button (click)="resendOTP()" class="ui fluid submit btn button whiteButton" name="resend-OTP"
-                    id="resend-OTP" type="submit">{{ 'Resend OTP' | translate }}</button>
+                    id="resend-OTP-lg" type="submit">{{ 'Resend OTP' | translate }}</button>
                 </div>
               </form>
             </div>
@@ -269,28 +269,28 @@
     <div class="padding-20 field  type-container mw-100">
       <div class="heading" style="margin-right: 30px;">
         <input type="radio" (click)="passwordOrOtp('otp')" (keydown)="handleKeyDown1($event,'otp')"
-          name="usePasswordOrOTP" id="useOTPRB" style="cursor: pointer;" checked="true">
+          name="usePasswordOrOTP" id="useOTPRB-sm" style="cursor: pointer;" checked="true">
         &nbsp;
-        <label id="useOTPLabel" for="useOTPRB" class="option" style="cursor: pointer;"
+        <label id="useOTPLabel-sm" for="useOTPRB-sm" class="option" style="cursor: pointer;"
           [ngClass]="{'font-weight-500': selectedField === 'otp'}">
           {{ 'By OTP' | translate }}
         </label>
       </div>
       <div style="cursor: pointer;">
         <input type="radio" (click)="passwordOrOtp('password');" (keydown)="handleKeyDown1($event,'password')"
-          name="usePasswordOrOTP" id="usePasswordRB" style="cursor: pointer;">&nbsp;
-        <label id="usePasswordLabel" for="usePasswordRB" class="option" style="cursor: pointer;"
+          name="usePasswordOrOTP" id="usePasswordRB-sm" style="cursor: pointer;">&nbsp;
+        <label id="usePasswordLabel-sm" for="usePasswordRB-sm" class="option" style="cursor: pointer;"
           [ngClass]="{'font-weight-500': selectedField === 'password'}">
           {{ 'By Password' | translate }}
         </label>
       </div>
     </div>
-    <div id=" usePasswordDiv" class=" padding-20 mw-100" *ngIf="selectedField === 'password'">
-      <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
+    <div id="usePasswordDiv" class=" padding-20 mw-100" *ngIf="selectedField === 'password'">
+      <form [formGroup]="loginPwdForm" id="form-login-sm-pwd" action="" method="post">
         <div class="field-edit-width">
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
             <mat-label>{{ 'Phone Number (or) Email ID' | translate }}</mat-label>
-            <input autofocus="" tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail2()" type="text"
+            <input autofocus="" tabindex="0" id="emailOrMobile-sm-pwd" required="" (input)="checkMobileEmail2()" type="text"
               class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile />
             <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">{{
               'Invalid email or number' | translate }}</mat-error>
@@ -317,12 +317,12 @@
         <div class="field">
         </div>
         <div class="flex justify-end mt-2">
-          <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink"
+          <a id="fgtKeycloakFlow-sm" class="ui right floated forgetPasswordLink"
             href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">{{
             'Forgot Password?' | translate }}</a>
         </div>
         <div class="field flex justify-content-center">
-          <button id="login-username-password" class="ui fluid button blueButton" (click)="submitDetails(loginPwdForm)"
+          <button id="login-username-password-sm" class="ui fluid button blueButton" (click)="submitDetails(loginPwdForm)"
             [disabled]="!loginPwdForm?.valid || isLoginLoading">
             <span *ngIf="!isLoginLoading">{{ 'Login' | translate }}</span>
             <span *ngIf="isLoginLoading">
@@ -332,28 +332,28 @@
           </button>
         </div>
         <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
-          <div class="or-holder" id="or-holder" style=" text-align: center;">
+          <div class="or-holder" id="or-holder-sm-pwd" style=" text-align: center;">
             <span class=""></span>
             <span class="">{{ 'or' | translate }}</span>
           </div>
         </div>
 
-        <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration" class="field">
+        <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration-sm-pwd" class="field">
           <div class="ui content flex justify-content-center  signUpMsg">
-            <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
+            <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP-sm-pwd"
               style="display: block;">{{ 'Create an Account' | translate }}</a>
-            <div id="selfSingUp" style="height: 30px;">
+            <div id="selfSingUp-sm-pwd" style="height: 30px;">
             </div>
           </div>
         </div>
       </form>
     </div>
-    <div id=" useOTPDiv" class="padding-20 mw-100" *ngIf="selectedField === 'otp'">
-      <form [formGroup]="loginForm" id="kc-form-login" class=" ui form" action="" method="post" method="post">
+    <div id="useOTPDiv" class="padding-20 mw-100" *ngIf="selectedField === 'otp'">
+      <form [formGroup]="loginForm" id="kc-form-login-sm" class=" ui form" action="" method="post" method="post">
         <div class="field-edit-width">
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
             <mat-label>{{ 'Phone Number (or) Email ID' | translate }}</mat-label>
-            <input tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail()" type="text"
+            <input tabindex="0" id="emailOrMobile-sm-otp" required="" (input)="checkMobileEmail()" type="text"
               class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile />
             <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">{{
               'Invalid email or number' | translate }}</mat-error>
@@ -361,23 +361,23 @@
         </div>
         <div class="mdc-card__actions">
           <div class="field flex justify-content-center">
-            <button tabindex="0" name="otp-login" id="otp-login" type="submit" class="ui fluid btn blueButton"
+            <button tabindex="0" name="otp-login" id="otp-login-sm" type="submit" class="ui fluid btn blueButton"
               (click)="otpClick(loginForm)" [disabled]="!loginForm?.valid">{{ 'Get OTP' | translate }}</button>
           </div>
           <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
-            <div class="or-holder" id="or-holder" style=" text-align: center;">
+            <div class="or-holder" id="or-holder-sm-otp" style=" text-align: center;">
               <span class=""></span>
               <span class="">{{ 'or' | translate }}</span>
             </div>
           </div>
 
-          <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration" class="field">
+          <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration-sm-otp" class="field">
             <div class="ui content flex justify-content-center  signUpMsg">
-              <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
+              <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP-sm-otp"
                 style="display: block;">{{ 'Create an Account' | translate }}</a>
             </div>
           </div>
-          <div id="selfSingUp" style="height: 30px;">
+          <div id="selfSingUp-sm-otp" style="height: 30px;">
           </div>
         </div>
       </form>

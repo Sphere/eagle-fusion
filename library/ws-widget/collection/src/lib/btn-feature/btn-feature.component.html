@@ -50,7 +50,7 @@
 <!-- TEMPLATES -->
 <ng-template #buttonContent let-actionBtn="actionBtn" let-config="config">
   <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="actionBtn"></ng-container>
-  <span id="widgetInstanceId" *ngIf="!config.hideTitle" [ngClass]="{ 'ml-2': actionBtn.icon }">{{ actionBtn.name
+  <span *ngIf="!config.hideTitle" [ngClass]="{ 'ml-2': actionBtn.icon }">{{ actionBtn.name
     }}</span>
 </ng-template>
 
@@ -59,7 +59,7 @@
 </ng-template>
 
 <ng-template #cardFull let-actionBtn="actionBtn" let-config="config">
-  <mat-card class="card-full mr-4" id="{{actionBtn?.id}}">
+  <mat-card class="card-full mr-4" id="cardFull-{{actionBtn?.id}}">
     <a [href]="actionBtn.url" [url]="actionBtn.url" [wsWidgetUrlResolver]="actionBtn.isExternal" matRipple
       class="feature">
       <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
@@ -122,7 +122,7 @@
   </a>
 </ng-template>
 <ng-template #featureItem let-actionBtn="actionBtn" let-config="config">
-  <div class="relative py-2" id="{{actionBtn?.id}}" *ngIf="desktopVisible" [ngClass]="{
+  <div class="relative py-2" id="featureItem-{{actionBtn?.id}}" *ngIf="desktopVisible" [ngClass]="{
       'mat-card rounded py-6 h-full box-sizing-box': config?.treatAsCard,
       greyOut: actionBtn.greyOut
     }">
