@@ -1,5 +1,5 @@
 import { Component, effect, OnInit, signal } from '@angular/core'
-import { filter, includes, uniqBy } from 'lodash'
+import { filter, includes, uniqBy } from 'lodash-es'
 import { OrgServiceService } from '../../../org/org-service.service'
 import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'

@@ -3,7 +3,7 @@ import { NSQuiz } from '../../quiz.model'
 import { SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
-import { isUndefined, toLower } from 'lodash'
+import { isUndefined, toLower } from 'lodash-es'
 import { SafeResourceUrlService } from '@ws-widget/utils'
 
 import { takeUntil } from 'rxjs/operators'

@@ -6,7 +6,7 @@ import { QuizService } from '../../quiz.service'
 import { SafeResourceUrlService } from '@ws-widget/utils'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import { isUndefined, toLower } from 'lodash'
+import { isUndefined, toLower } from 'lodash-es'
 
 @Component({
   standalone: false,
