@@ -239,7 +239,7 @@ describe('WebPublicComponent', () => {
       expect(localComponent.competencyPlaylists()[0]).toEqual(
         expect.objectContaining({ playlistId: 'COMPETENCY_PLAYLIST', type: 'competency' })
       )
-      expect(localComponent.competencySection).toEqual({ sectionId: 'COMPETENCY_PLAYLIST', text: 'YOUR LEARNING PLAN', tabCardCount: 4 })
+      expect(localComponent.competencySection).toEqual({ sectionId: 'COMPETENCY_PLAYLIST', title: 'YOUR LEARNING PLAN', tabCardCount: 4 })
       expect(localComponent.isLoading()).toBe(false)
     })
 
@@ -852,7 +852,7 @@ describe('WebPublicComponent', () => {
       component.uiConfig.set([])
       component['plyLsData'] = [competencyPlaylist]
       ;(component as any).handleCompetencyFlow('org1', roleCheck)
-      expect(component.competencySection).toEqual({ sectionId: 'COMPETENCY_PLAYLIST', text: 'YOUR LEARNING PLAN', tabCardCount: 4 })
+      expect(component.competencySection).toEqual({ sectionId: 'COMPETENCY_PLAYLIST', title: 'YOUR LEARNING PLAN', tabCardCount: 4 })
     })
   })
 

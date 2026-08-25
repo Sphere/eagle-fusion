@@ -159,7 +159,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       this.competencyRole = 'learner'
 
       const sectionFromConfig = this.uiConfig().find(c => c.playlistConfigId === competencyConfigId)
-      this.competencySection = sectionFromConfig || { sectionId: 'COMPETENCY_PLAYLIST', text: 'YOUR LEARNING PLAN', tabCardCount: 4 }
+      this.competencySection = sectionFromConfig || { sectionId: 'COMPETENCY_PLAYLIST', title: 'YOUR LEARNING PLAN', tabCardCount: 4,}
 
       this.isCompetencyUser.set(true)
       this.isLoading.set(false)
