@@ -296,10 +296,10 @@ export class SignupService {
 
     // Decode + sanitize URL param
     orgNameFromUrl = decodeURIComponent(orgNameFromUrl)
-      .replace(/\+/g, ' ')
+      .replaceAll(/\+/g, ' ')
       .trim()
       .toLowerCase()
-      .replace(/&/g, 'and')
+      .replaceAll(/&/g, 'and')
 
     this.logger.log('Normalized Org from URL:', orgNameFromUrl)
 
@@ -309,7 +309,7 @@ export class SignupService {
         const orgNameNormalized = (org.orgName || '')
           .toLowerCase()
           .trim()
-          .replace(/&/g, 'and')
+          .replaceAll(/&/g, 'and')
         return orgNameNormalized === orgNameFromUrl
       })
       if (found) {

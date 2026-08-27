@@ -531,7 +531,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (withQuotes === undefined && query.indexOf(' ') > -1 &&
       !this.exactResult.applied) {
       this.exactResult.applied = true
-      const normalizedQuery = query.replace(/['"]+/g, '')
+      const normalizedQuery = query.replaceAll(/['"]+/g, '')
       if (useNewRequest) {
         this.newSearchRequestObject.query = normalizedQuery
       } else {
@@ -542,7 +542,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       this.exactResult.old = normalizedQuery
     } else if (withQuotes && query.indexOf(' ') > -1) {
       this.exactResult.applied = true
-      const normalizedQuery = query.replace(/['"]+/g, '')
+      const normalizedQuery = query.replaceAll(/['"]+/g, '')
 
       if (useNewRequest) {
         this.newSearchRequestObject.query = normalizedQuery
@@ -658,7 +658,7 @@ export class LearningComponent implements OnInit, OnDestroy {
 
     if (!noResults && hasSpace && !this.exactResult.applied) {
       this.exactResult.show = true
-      this.exactResult.text = query.replace(/['"]+/g, '')
+      this.exactResult.text = query.replaceAll(/['"]+/g, '')
     }
 
     return false

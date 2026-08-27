@@ -70,12 +70,12 @@ export class ViewerUtilService {
           // Handle both array and number inputs
           let latest
           if (Array.isArray(temp)) {
-            latest = parseFloat(temp.slice(-1)[0] || '0')  // Get last element of array
+            latest = Number.parseFloat(temp.slice(-1)[0] || '0')  // Get last element of array
           } else {
-            latest = parseFloat(temp || '0')
+            latest = Number.parseFloat(temp || '0')
           }
           const percentMilis = (latest / max) * 100
-          const percent = parseFloat(percentMilis.toFixed(2))
+          const percent = Number.parseFloat(percentMilis.toFixed(2))
           return percent
         }
         return 2
@@ -233,7 +233,7 @@ export class ViewerUtilService {
     // **CRITICAL**: Extract numeric value from current (could be array or number)
     // request.current comes as array ["69.613552"] from API responses
     const currentNumeric = Array.isArray(request.current)
-      ? parseFloat(request.current[0] || '0')
+      ? Number.parseFloat(request.current[0] || '0')
       : request.current
     // **CRITICAL**: Status code for API (2 = completed when 100%)
     const statusCode = percentage === 100 ? 2 : this.getStatus(currentNumeric, request.max_size, request.mime_type)

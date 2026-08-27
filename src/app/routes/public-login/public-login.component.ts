@@ -273,7 +273,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
 
   private determinePasswordLoginType(): string {
     let phone = this.loginPwdForm.controls.emailOrMobile.value
-    phone = phone.replace(/[^0-9+#]/g, '')
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
     if (phone.length >= 10) {
       return 'phone'
     }
@@ -349,7 +349,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     if ((this.loginForm.status === 'VALID')) {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
-      phone = phone.replace(/[^0-9+#]/g, '')
+      phone = phone.replaceAll(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
         type = 'phone'
       } else {
@@ -424,7 +424,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
 
   private determineOtpLoginType(): string {
     let phone = this.loginForm.controls.emailOrMobile.value
-    phone = phone.replace(/[^0-9+#]/g, '')
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
     if (phone.length >= 10) {
       return 'phone'
     }
@@ -528,7 +528,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     if (form.status === "VALID") {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
-      phone = phone.replace(/[^0-9+#]/g, '')
+      phone = phone.replaceAll(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
         type = 'phone'
         this.emailPhoneType = 'phone'

@@ -732,7 +732,7 @@ export class ChatbotComponent implements OnInit {
         this.createUserForm.controls.dob.setValue(moment(value).format('DD-MM-YYYY'))
         break
       case 'mobile':
-        this.createUserForm.controls.mobile.setValue(parseInt(value, 10))
+        this.createUserForm.controls.mobile.setValue(Number.parseInt(value, 10))
         break
       case 'location':
         this.createUserForm.controls.residenceAddress.setValue(value)

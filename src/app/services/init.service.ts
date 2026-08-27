@@ -194,10 +194,10 @@ export class InitService {
           if (orgNameFromUrl) {
             // Decode + sanitize URL param
             orgNameFromUrl = decodeURIComponent(orgNameFromUrl)
-              .replace(/\+/g, ' ')
+              .replaceAll(/\+/g, ' ')
               .trim()
               .toLowerCase()
-              .replace(/&/g, 'and')
+              .replaceAll(/&/g, 'and')
 
             this.logger.log('Normalized Org from URL:', orgNameFromUrl)
 
@@ -207,7 +207,7 @@ export class InitService {
                 const orgNameNormalized = (org.orgName || '')
                   .toLowerCase()
                   .trim()
-                  .replace(/&/g, 'and')
+                  .replaceAll(/&/g, 'and')
                 return orgNameNormalized === orgNameFromUrl
               })
               if (found) {
@@ -404,8 +404,8 @@ export class InitService {
   }
 
   get locale(): string {
-    return this.baseHref && this.baseHref.replace(/\//g, '')
-      ? this.baseHref.replace(/\//g, '')
+    return this.baseHref && this.baseHref.replaceAll(/\//g, '')
+      ? this.baseHref.replaceAll(/\//g, '')
       : 'en'
   }
 

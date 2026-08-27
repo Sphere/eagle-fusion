@@ -14,7 +14,7 @@ export class CertificateReceivedComponent {
 
   convertToJpeg(imgVal: any) {
     if (imgVal.rcCerticate) {
-      const fileName = imgVal.name.replace(/\s+/g, '') + '_certificate.jpg'
+      const fileName = imgVal.name.replaceAll(/\s+/g, '') + '_certificate.jpg'
       fetch(imgVal.downloadUrl)
         .then(response => {
           if (!response.ok) {
@@ -58,7 +58,7 @@ export class CertificateReceivedComponent {
         ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
         let imgURI = canvas
           .toDataURL('image/jpeg')
-        const fileName = imgVal.name.replace(/\s+/g, '') + '_certificate.jpg'
+        const fileName = imgVal.name.replaceAll(/\s+/g, '') + '_certificate.jpg'
 
         imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
         const arr = imgURI.split(',')
@@ -68,7 +68,7 @@ export class CertificateReceivedComponent {
         const u8arr = new Uint8Array(n)
         while (n) {
           n = n - 1
-          u8arr[n] = bstr.charCodeAt(n)
+          u8arr[n] = bstr.codePointAt(n)
         }
         const blob = new Blob([u8arr], { type: mime })
         FileSaver.saveAs(blob, fileName)

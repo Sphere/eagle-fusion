@@ -1131,7 +1131,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   uploadProfileImg(file: File) {
     const formdata = new FormData()
-    const fileName = file.name.replace(/[^A-Za-z0-9.]/g, '')
+    const fileName = file.name.replaceAll(/[^A-Za-z0-9.]/g, '')
     if (
       !(
         IMAGE_SUPPORT_TYPES.indexOf(

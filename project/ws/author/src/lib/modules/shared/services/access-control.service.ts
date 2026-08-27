@@ -44,8 +44,8 @@ export class AccessControlService {
   }
 
   get locale(): string {
-    return this.baseHref && this.baseHref.replace(/\//g, '')
-      ? this.baseHref.replace(/\//g, '').split('-')[0]
+    return this.baseHref && this.baseHref.replaceAll(/\//g, '')
+      ? this.baseHref.replaceAll(/\//g, '').split('-')[0]
       : 'en'
   }
 
@@ -151,7 +151,7 @@ export class AccessControlService {
   }
 
   convertToESDate(expiryDate: Date): string {
-    return `${expiryDate.toISOString().replace(/-/g, '').replace(/:/g, '').split('.')[0]}+0000`
+    return `${expiryDate.toISOString().replaceAll(/-/g, '').replaceAll(/:/g, '').split('.')[0]}+0000`
   }
 
   /**

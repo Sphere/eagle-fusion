@@ -74,9 +74,10 @@ export function courseSlug(name: string): string {
   const slug = transliterateDevanagari(name || '')
     .toLowerCase()
     .trim()
-    .replace(/&/g, 'and')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+    .replaceAll(/&/g, 'and')
+    .replaceAll(/[^a-z0-9]+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '')
 
   if (slug.length <= MAX_SLUG_LENGTH) { return slug }
   const cut = slug.slice(0, MAX_SLUG_LENGTH)

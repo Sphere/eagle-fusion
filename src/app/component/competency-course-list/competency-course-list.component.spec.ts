@@ -231,6 +231,6 @@ describe('CompetencyCourseListComponent', () => {
 
   it('trackByCourse returns contentId or the index fallback', () => {
     expect(comp.trackByCourse(0, { contentId: 'c1' })).toBe('c1')
-    expect(comp.trackByCourse(3, {})).toBe(3)
+    expect(comp.trackByCourse(3, {})).toBe(Number(3))
   })
 })

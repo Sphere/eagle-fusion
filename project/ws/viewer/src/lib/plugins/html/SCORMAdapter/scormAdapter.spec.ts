@@ -1,5 +1,5 @@
 jest.mock('../../../../../../../../library/ws-widget/utils/src/public-api', () => ({
-  ConfigurationsService: class {},
+  ConfigurationsService: class { },
   LoggerService: class { log = jest.fn(); warn = jest.fn(); error = jest.fn() },
   TelemetryService: class { start = jest.fn(); end = jest.fn() },
 }))
@@ -75,8 +75,8 @@ describe('SCORMAdapterService', () => {
       mockIndexedDbSvc,
       mockLogger
     )
-    // override http created internally in constructor with our mock
-    ;(service as any).http = mockHttp
+      // override http created internally in constructor with our mock
+      ; (service as any).http = mockHttp
   })
 
   it('should create', () => {
@@ -228,7 +228,7 @@ describe('SCORMAdapterService', () => {
   describe('_isInitialized/_setError', () => {
     it('_isInitialized reflects store value', () => {
       mockStore.getItem.mockReturnValue(true)
-      expect(service._isInitialized()).toBe(true)
+      expect(service._isInitialized()).toBe(Boolean(true))
     })
 
     it('_setError appends to existing errors array', () => {
@@ -355,13 +355,13 @@ describe('SCORMAdapterService', () => {
   describe('ngOnDestroy', () => {
     it('unsubscribes scromSubscription if present', () => {
       const unsubscribe = jest.fn()
-      ;(service as any).scromSubscription = { unsubscribe }
+        ; (service as any).scromSubscription = { unsubscribe }
       service.ngOnDestroy()
       expect(unsubscribe).toHaveBeenCalled()
     })
 
     it('does nothing when no subscription present', () => {
-      ;(service as any).scromSubscription = null
+      ; (service as any).scromSubscription = null
       expect(() => service.ngOnDestroy()).not.toThrow()
     })
   })

@@ -215,9 +215,9 @@ export class OrgComponent implements OnInit, OnDestroy {
   private plainTextAbout(about?: string): string {
     if (!about) { return '' }
     return about
-      .replace(/<[^>]*>/g, ' ')
-      .replace(/&nbsp;/g, ' ')
-      .replace(/\s+/g, ' ')
+      .replaceAll(/<[^>]{0,1000}>/g, ' ')
+      .replaceAll(/&nbsp;/g, ' ')
+      .replaceAll(/\s+/g, ' ')
       .trim()
   }
 
@@ -432,10 +432,10 @@ export class OrgComponent implements OnInit, OnDestroy {
   formatAbout(text: string): string {
     if (!text) return text
     return text
-      .replace(/\n/g, '<br>')
-      .replace(/•/g, '&bull;')
-      .replace(/\\u2019/g, '&#8217;')
-      .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+      .replaceAll(/\n/g, '<br>')
+      .replaceAll(/•/g, '&bull;')
+      .replaceAll(/\\u2019/g, '&#8217;')
+      .replaceAll(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
   }
 
   add(a: number, b: number): number {

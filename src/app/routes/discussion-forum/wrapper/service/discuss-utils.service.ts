@@ -14,7 +14,7 @@ export class DiscussUtilsService {
     // tslint:disable-next-line: no-increment-decrement
     for (let i = 0; i < str.length; i++) {
       // tslint:disable-next-line: no-bitwise
-      hash = str.charCodeAt(i) + ((hash << 5) - hash)
+      hash = str.codePointAt(i) + ((hash << 5) - hash)
     }
     const hue = Math.abs(hash % 360)
     // tslint:disable-next-line: prefer-template

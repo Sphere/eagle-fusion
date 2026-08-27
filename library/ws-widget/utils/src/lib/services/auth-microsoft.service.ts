@@ -149,7 +149,7 @@ export class AuthMicrosoftService {
     }
     let msPrevTS = 0
     try {
-      msPrevTS = parseInt(storage.getItem(storageKey) || '0', 10)
+      msPrevTS = Number.parseInt(storage.getItem(storageKey) || '0', 10)
     } catch (error) { /* ignore malformed stored timestamp, msPrevTS stays 0 */ }
     if (!msPrevTS || (msPrevTS && (Date.now() - msPrevTS) / 1000 > msTokenExpiryDuration)) {
       this.loggerSvc.info(

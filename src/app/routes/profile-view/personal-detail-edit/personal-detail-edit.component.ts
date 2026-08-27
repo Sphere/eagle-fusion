@@ -518,7 +518,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
 
 
     if (form.value.dob.includes('undefined')) {
-      const data = form.value.dob.replace(/\/undefined/g, '')
+      const data = form.value.dob.replaceAll(/\/undefined/g, '')
       form.value.dob = data
     }
     form.value.knownLanguages = this.selectedKnowLangs

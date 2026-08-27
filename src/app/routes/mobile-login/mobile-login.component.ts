@@ -103,7 +103,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     if (this.signUpdata) {
       let phone = this.signUpdata.value.emailOrMobile
-      phone = phone.replace(/[^0-9+#]/g, '')
+      phone = phone.replaceAll(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
         this.emailPhoneType = 'phone'
       } else {
@@ -185,7 +185,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   loginUser() {
     let phone = this.loginForm.value.username
-    phone = phone.replace(/[^0-9+#]/g, '')
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
       this.emailPhoneType = 'phone'

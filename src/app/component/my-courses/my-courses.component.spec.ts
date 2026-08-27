@@ -15,7 +15,7 @@ jest.mock('@ws-widget/collection', () => ({
 }))
 
 jest.mock('@ws-widget/utils', () => ({
-  ConfigurationsService: class {},
+  ConfigurationsService: class { },
   ValueService: class {
     isMobile = jest.fn().mockReturnValue(false)
   },
@@ -34,11 +34,11 @@ jest.mock('../../../../project/ws/app/src/lib/routes/org/org-service.service', (
 }))
 
 jest.mock('../../services/playlist.service', () => ({
-  PlaylistService: class {},
+  PlaylistService: class { },
 }))
 
 jest.mock('../../services/language.service', () => ({
-  LanguageService: class {},
+  LanguageService: class { },
 }))
 
 import { BehaviorSubject, Subject, of, throwError } from 'rxjs'
@@ -364,7 +364,7 @@ describe('MyCoursesComponent', () => {
 
     it('should return index when identifier is absent', () => {
       component = createComponent()
-      expect(component.courseTrackBy(3, {})).toBe(3)
+      expect(component.courseTrackBy(3, {})).toBe(Number(3))
     })
   })
 

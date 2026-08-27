@@ -150,7 +150,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     const rootOrgId = this.configSvc.userProfile?.rootOrgId
     const orgConfig = this.configSvc.orgSelectiveCourseConfig
     const route = item.redirect
-    const titleKey = item.title.toLowerCase().replace(/\s+/g, '')
+    const titleKey = item.title.toLowerCase().replaceAll(/\s+/g, '')
 
     switch (titleKey) {
       case 'home':

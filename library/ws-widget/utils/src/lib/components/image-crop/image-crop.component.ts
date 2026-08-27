@@ -145,7 +145,7 @@ export class ImageCropComponent implements OnInit {
     const view = new Uint8Array(buffer)
     // fill the view, using the decoded base64
     for (let n = 0; n < imageContent.length; n = n + 1) {
-      view[n] = imageContent.charCodeAt(n)
+      view[n] = imageContent.codePointAt(n)
     }
     // convert ArrayBuffer to Blob
     const blob = new Blob([view], { type: 'image/png' })

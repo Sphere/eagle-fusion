@@ -187,7 +187,7 @@ export class QuizService {
     // 2. It compared `source.innerText` against `option.text` directly. innerText returns the
     //    *rendered* text, and CSS collapses runs of whitespace — option text in the authored
     //    content frequently contains double spaces, so the two never matched.
-    const normalize = (value: string) => (value || '').replace(/\s+/g, ' ').trim()
+    const normalize = (value: string) => (value || '').replaceAll(/\s+/g, ' ').trim()
     userSelectedAnswer.options.forEach((option: any) => {
       const connection = connections.find(
         (item: any) => item && item.source && normalize(item.source.innerText) === normalize(option.text)

@@ -330,10 +330,10 @@ export class BnrcRegisterComponent implements OnInit {
   private _filter(value: string): { name: string }[] {
     if (!value) return this.currentDistrictInstitutes
 
-    const filterValue = value.toLowerCase().replace(/,/g, '')
+    const filterValue = value.toLowerCase().replaceAll(/,/g, '')
 
     return this.currentDistrictInstitutes.filter(ins =>
-      ins.name.toLowerCase().replace(/,/g, '').includes(filterValue)
+      ins.name.toLowerCase().replaceAll(/,/g, '').includes(filterValue)
     )
   }
 

@@ -63,7 +63,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.emailOrMobile = this.emailForm.value.userInput
 
     phone = this.emailOrMobile
-    phone = phone.replace(/[^0-9+#]/g, '')
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
     // Allow only indian mobile numbers
     if (phone.length >= 10) {
       this.key = 'phone'

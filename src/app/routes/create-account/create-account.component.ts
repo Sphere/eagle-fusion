@@ -494,7 +494,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     sessionStorage.setItem(STORAGE_KEYS.loginBtn, 'clicked')
 
     const emailOrMobile = accountForm.value.emailOrMobile.trim()
-    const sanitizedPhone = emailOrMobile.replace(/[^0-9+#]/g, '')
+    const sanitizedPhone = emailOrMobile.replaceAll(/[^0-9+#]/g, '')
 
     this.loader.changeLoad.next(true)
 

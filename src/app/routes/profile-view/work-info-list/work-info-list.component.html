@@ -53,7 +53,7 @@
           {{ (field.label || field.placeholder || field.key) | translate }}
         </label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
-          <mat-select [formControlName]="field.key" [placeholder]="field.placeholder | translate"
+          <mat-select [id]="field.key" [formControlName]="field.key" [placeholder]="field.placeholder | translate"
             (selectionChange)="professionalChange($event.value)">
             <mat-option [value]="profession" *ngFor="let profession of getOptions(field)">{{profession}}
             </mat-option>
@@ -66,20 +66,20 @@
             {{ (field.label || field.placeholder || field.key) | translate }}
           </label>
           <mat-form-field *ngIf="isEditableForSphere" appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
-            <mat-select [formControlName]="field.key" [placeholder]="field.placeholder | translate"
+            <mat-select [id]="field.key" [formControlName]="field.key" [placeholder]="field.placeholder | translate"
               [required]="field.required" (selectionChange)="handleChange($event, field)">
               <mat-option [value]="null" [disabled]="field.disabled">{{ field.placeholder | translate }}</mat-option>
               <mat-option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <input *ngIf="!isEditableForSphere" type="text" class="form-control"
+          <input *ngIf="!isEditableForSphere" type="text" class="form-control" [id]="field.key"
             [value]="personalDetailForm.get(field.key)?.value || ''" readonly disabled />
         </div>
         <div class="form-group input-box" *ngIf="field.type === 'text'">
           <label [for]="field.key" *ngIf="field.label || !isEditableForSphere">
             {{ (field?.label || field?.placeholder || field?.key) | translate }}
           </label>
-          <input class="form-control" [formControlName]="field.key" [required]="field.required"
+          <input class="form-control" [id]="field.key" [formControlName]="field.key" [required]="field.required"
             [placeholder]="field.placeholder | translate" autocomplete="off" />
         </div>
       </ng-container>

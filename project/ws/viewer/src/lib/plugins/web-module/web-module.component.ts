@@ -490,9 +490,9 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     return (
       // tslint:disable-next-line: prefer-template
       '#' +
-      ('0' + parseInt(color[0], 10).toString(16)).slice(-2) +
-      ('0' + parseInt(color[1], 10).toString(16)).slice(-2) +
-      ('0' + parseInt(color[2], 10).toString(16)).slice(-2)
+      ('0' + Number.parseInt(color[0], 10).toString(16)).slice(-2) +
+      ('0' + Number.parseInt(color[1], 10).toString(16)).slice(-2) +
+      ('0' + Number.parseInt(color[2], 10).toString(16)).slice(-2)
     )
   }
 

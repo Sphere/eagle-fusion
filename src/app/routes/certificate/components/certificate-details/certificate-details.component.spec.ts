@@ -2,7 +2,7 @@ jest.mock('lodash', () => ({
   trim: (s: string) => (s || '').trim(),
   upperCase: (s: string) => {
     // replicate lodash upperCase: 'aastrika' → 'AASTRIKA', 'nhsrc' → 'NHSRC'
-    return (s || '').replace(/([a-z])([A-Z])/g, '$1 $2').trim().toUpperCase()
+    return (s || '').replaceAll(/([a-z])([A-Z])/g, '$1 $2').trim().toUpperCase()
   },
   get: (obj: any, path: string | string[], defaultValue?: any) => {
     const keys = Array.isArray(path) ? path : (path as string).split('.')

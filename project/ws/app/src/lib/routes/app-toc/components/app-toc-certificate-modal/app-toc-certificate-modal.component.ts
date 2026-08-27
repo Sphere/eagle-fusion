@@ -74,7 +74,7 @@ export class AppTocCertificateModalComponent implements OnInit {
           const u8arr = new Uint8Array(n)
           while (n) {
             n = n - 1
-            u8arr[n] = bstr.charCodeAt(n)
+            u8arr[n] = bstr.codePointAt(n)
           }
           const blob = new Blob([u8arr], { type: mime })
           FileSaver.saveAs(blob, `${name}`)

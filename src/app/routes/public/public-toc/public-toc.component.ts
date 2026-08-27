@@ -149,7 +149,7 @@ export class PublicTocComponent implements OnInit {
 
   private extractTocDescription(): string {
     return (this.tocData?.description || this.tocData?.name || '')
-      .replace(/<[^>]*>/g, '')
+      .replaceAll(/<[^>]{0,1000}>/g, '')
       .slice(0, 160)
       .trim()
   }

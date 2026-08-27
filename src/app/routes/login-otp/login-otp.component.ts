@@ -56,7 +56,7 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
     if (this.signUpdata || this.loginData) {
       sessionStorage.setItem('fromOTPpage', 'true')
       let phone = this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username
-      phone = phone.replace(/[^0-9+#]/g, '')
+      phone = phone.replaceAll(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
         this.emailPhoneType = 'phone'
       } else {
@@ -171,7 +171,7 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
     let request: any = []
     let phone = this.signUpdata.value.emailOrMobile
     this.logger.log(this.signUpdata.value)
-    phone = phone.replace(/[^0-9+#]/g, '')
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
     const organisationId = this.organisationId
     // at least 10 in number
     if (phone.length >= 10) {

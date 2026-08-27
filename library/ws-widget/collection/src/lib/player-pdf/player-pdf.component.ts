@@ -290,8 +290,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           // Initialize maxPageReached from server-stored progress so we never go below it
           if (this.contentData?.progressdetails?.current) {
             const serverPage = Array.isArray(this.contentData.progressdetails.current)
-              ? parseInt(this.contentData.progressdetails.current[0] || '0', 10)
-              : parseInt(this.contentData.progressdetails.current || '0', 10)
+              ? Number.parseInt(this.contentData.progressdetails.current[0] || '0', 10)
+              : Number.parseInt(this.contentData.progressdetails.current || '0', 10)
             if (serverPage > this.maxPageReached) {
               this.maxPageReached = serverPage
             }
@@ -326,7 +326,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         percentMilis = 100
       }
 
-      const percent = parseFloat(percentMilis.toFixed(2))
+      const percent = Number.parseFloat(percentMilis.toFixed(2))
 
       // Only update if new percentage is strictly greater than stored percentage
       const storedPercentage = this.contentData?.completionPercentage || 0

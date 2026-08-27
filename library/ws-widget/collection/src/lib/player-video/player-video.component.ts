@@ -164,7 +164,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         const currentVal = Array.isArray(contentData.progressdetails.current)
           ? contentData.progressdetails.current[0]
           : contentData.progressdetails.current
-        this.widgetData.resumePoint = parseFloat(currentVal) || 0
+        this.widgetData.resumePoint = Number.parseFloat(currentVal) || 0
         this.logger.log("Updated resume point:", this.widgetData.resumePoint)
       }
     }
@@ -345,9 +345,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
       // Calculate progress percentage
       const temp = data.current
-      const latest = parseFloat(temp[temp.length - 1] ?? '0')
+      const latest = Number.parseFloat(temp[temp.length - 1] ?? '0')
       const percentMilis = (latest / data.max_size) * 100
-      let percent = parseFloat(percentMilis.toFixed(2))
+      let percent = Number.parseFloat(percentMilis.toFixed(2))
 
       // **CRITICAL: Force 100% for video near completion to ensure full green tick**
       // Use 95% threshold to catch values like 97.9% that are essentially complete
