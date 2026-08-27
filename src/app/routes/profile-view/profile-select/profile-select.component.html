@@ -27,6 +27,7 @@
         <img class="camer-icon cursor-pointer" src="../../../../fusion-assets/images/camera.png" alt="Upload">
 
         <input id="uploadProfile" name="uploadProfileName" type="file" #uploadProfilePic class="hidden"
+          aria-label="Upload profile picture"
           (change)="uploadProfileImg($event.target.files[0]); uploadProfilePic.value = null" style="display: none;"
           [accept]="imageTypes.toString()" />
       </div>

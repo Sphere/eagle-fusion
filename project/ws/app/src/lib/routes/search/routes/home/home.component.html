@@ -3,7 +3,7 @@
     <h1 class="text-center mat-title">{{'What do you want to learn?' | translate}}</h1>
     <div role="form" class="flex border border-solid search-border">
       <div [ngClass]="{'border-right': languageSearch?.length}" class="flex items-center">
-        <select class="form-control lang-select"
+        <select class="form-control lang-select" aria-label="Select language"
           [ngClass]="{'lang-icon': lang === '', 'lang-selected' : lang === 'step2' }" [(ngModel)]="contact"
           (change)="selectLang(contact)">
           <option></option>

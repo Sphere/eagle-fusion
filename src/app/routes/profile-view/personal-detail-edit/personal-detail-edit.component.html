@@ -30,7 +30,7 @@
         <!-- DOB Custom Component -->
         <div *ngIf="field.type === 'dob' && (isEditableForSphere || personalDetailForm.get('dob')?.value)"
           class="form-group mt-4 relative" [ngStyle]="showbackButton ? {'font-size': '14px' } : {}">
-          <label for="year">{{ field.label | translate }}</label>
+          <label for="dob-year">{{ field.label | translate }}</label>
           <ng-container *ngIf="loadDob; else withoutDob">
             <ws-dropdown-dob [isEkshamata]="isEkshamata||!isEditableForSphere" (dobValue)="dobData($event)"
               [dob]="personalDetailForm.get('dob').value ">

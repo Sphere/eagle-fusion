@@ -23,8 +23,8 @@
           <!-- {{resourceService?.frmelmnts?.lbl?.enterValidCertificateCode}} -->
           {{'Enter a valid certificate code'}}
         </label>
-        <div class="sb-certificatePage-field sb-field" id="certificate">
-          <input #codeInputField (keyup)="getCodeLength($event)" (keydown.space)="$event.preventDefault();"
+        <div class="sb-certificatePage-field sb-field">
+          <input #codeInputField id="certificate" (keyup)="getCodeLength($event)" (keydown.space)="$event.preventDefault();"
             [(ngModel)]="certificateCode" type="text" maxlength="6" pattern="^[-a-zA-Z0-9@\.+_]+$" required autofocus
             name="certificate" class="form-control input-box text-center" />
           <button [disabled]="!enableVerifyButton" type="button"

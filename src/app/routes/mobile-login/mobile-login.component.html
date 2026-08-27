@@ -26,7 +26,7 @@
 
             <div class="form-group" style="margin-bottom: 0;">
               <input type="text" class="form-control" placeholder="Phone Number/Email ID" id="userid-field"
-                formControlName="username">
+                aria-label="Phone Number/Email ID" autocomplete="username" formControlName="username">
             </div>
             <div style="margin-top: 4px;">
               <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
@@ -37,7 +37,7 @@
             </div>
             <div class="form-group input-group pwd" style="margin-top: 1rem;">
               <input [type]="hide ? 'password' : 'text'" placeholder="Password" id="password-field"
-                formControlName="password" class="form-control">
+                aria-label="Password" autocomplete="current-password" formControlName="password" class="form-control">
               <div class="input-group-addon iconPosition">
                 <a href="javascript:void(0)" (click)="toggle()" class="f-black" [attr.aria-label]="hide ? 'Show password' : 'Hide password'">
                   <i [ngClass]="iconChange" aria-hidden="true"></i>

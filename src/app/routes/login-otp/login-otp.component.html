@@ -34,17 +34,17 @@
 
               <div *ngIf="emailPhoneType === 'phone'" [formGroup]="loginOtpForm" class="otp-input-container">
                 <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
-                  (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
+                  aria-label="OTP digit 1" (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
                 <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
-                  (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
+                  aria-label="OTP digit 2" (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
                 <input class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
-                  (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
+                  aria-label="OTP digit 3" (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
                 <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
-                  (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
+                  aria-label="OTP digit 4" (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
               </div>
               <div *ngIf="emailPhoneType === 'email'" [formGroup]="loginOtpForm" class="otp-input-container">
                 <input tabindex="0" id="code" class="form-control input-box" formControlName="code" type="text"
-                  autocomplete="off"
+                  autocomplete="off" aria-label="Code"
                   [placeholder]="emailPhoneType === 'email' ? ('Code' | translate) : ('OTP' | translate)">
               </div>
             </div>

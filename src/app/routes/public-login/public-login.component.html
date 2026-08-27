@@ -189,17 +189,17 @@
               <form [formGroup]="OTPForm" class="ui form" action="" method="post" method="post" id="kc-totp-login-form">
                 <div *ngIf="emailPhoneType === 'phone'" [formGroup]="OTPForm" class="otp-input-container">
                   <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
-                    (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
+                    aria-label="OTP digit 1" (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
                   <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
-                    (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
+                    aria-label="OTP digit 2" (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
                   <input class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
-                    (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
+                    aria-label="OTP digit 3" (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
                   <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
-                    (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
+                    aria-label="OTP digit 4" (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
                 </div>
                 <div *ngIf="emailPhoneType === 'email'" [formGroup]="OTPForm" class="otp-input-container">
                   <input id="totp-lg" name="OTPcode" [placeholder]="'Enter OTP' | translate" type="text"
-                    class="form-control" name="OTPcode" formControlName="OTPcode" />
+                    class="form-control" name="OTPcode" formControlName="OTPcode" aria-label="Enter OTP" />
                 </div>
 
                 <div class="field flex justify-content-center mt-4">
@@ -420,17 +420,17 @@
                 <div class="form-group">
                   <div *ngIf="emailPhoneType === 'phone'" [formGroup]="OTPForm" class="otp-input-container">
                     <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
-                      (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
+                      aria-label="OTP digit 1" (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
                     <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
-                      (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
+                      aria-label="OTP digit 2" (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
                     <input class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
-                      (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
+                      aria-label="OTP digit 3" (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
                     <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
-                      (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
+                      aria-label="OTP digit 4" (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
                   </div>
                   <div *ngIf="emailPhoneType === 'email'" [formGroup]="OTPForm" class="otp-input-container">
                     <input id="totp" name="OTPcode" [placeholder]="'Enter OTP' | translate" type="text"
-                      class="form-control" name="OTPcode" formControlName="OTPcode" />
+                      class="form-control" name="OTPcode" formControlName="OTPcode" aria-label="Enter OTP" />
                   </div>
 
                 </div>

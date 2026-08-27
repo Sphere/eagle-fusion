@@ -43,7 +43,7 @@
                           First Name
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
-                          <input matInput #firstname formControlName="firstname" placeholder="Enter First Name"
+                          <input aria-label="Enter First Name" matInput #firstname formControlName="firstname" placeholder="Enter First Name"
                             [readonly]="isEditable" />
                           <mat-hint>{{ firstname.value.length }} / 500</mat-hint>
                           <mat-error [hidden]="false">
@@ -56,7 +56,7 @@
                           Middle Name
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
-                          <input matInput #middlename formControlName="middlename" placeholder="Enter Middle Name" />
+                          <input aria-label="Enter Middle Name" matInput #middlename formControlName="middlename" placeholder="Enter Middle Name" />
                           <mat-error [hidden]="false">
                             Middle name is mandatory
                           </mat-error>
@@ -67,7 +67,7 @@
                           Surname
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
-                          <input matInput #surname formControlName="surname" placeholder="Enter Surname"
+                          <input aria-label="Enter Surname" matInput #surname formControlName="surname" placeholder="Enter Surname"
                             [readonly]="isEditable" />
                           <mat-error [hidden]="false">
                             Surname is mandatory
@@ -79,7 +79,7 @@
                           Date of Birth (dd-mm-yyyy)
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
-                          <input matInput #dob formControlName="dob" [matDatepicker]="picker" (focus)="picker.open()"
+                          <input aria-label="Choose Date of Birth (dd-mm-yyyy)" matInput #dob formControlName="dob" [matDatepicker]="picker" (focus)="picker.open()"
                             placeholder="Choose Date of Birth (dd-mm-yyyy)" [min]="minDate" [max]="maxDate" readonly
                             (dateInput)="onDateChange($event.value)">
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -98,8 +98,8 @@
                           About
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
-                          <!-- <input matInput #about formControlName="about"  placeholder="Enter About" /> -->
-                          <textarea matInput #about formControlName="about" placeholder="Enter About"></textarea>
+                          <!-- <input aria-label="Enter About" matInput #about formControlName="about"  placeholder="Enter About" /> -->
+                          <textarea aria-label="Enter About" matInput #about formControlName="about" placeholder="Enter About"></textarea>
                           <mat-error [hidden]="false">
                             About is mandatory
                           </mat-error>
@@ -191,7 +191,7 @@
                           Registered Nurse Number(RN)/ Registered Midwife Number(RM)
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
-                          <input matInput #regNurseRegMidwifeNumber formControlName="regNurseRegMidwifeNumber"
+                          <input aria-label="Enter  Registered Nurse/ Midwife Number" matInput #regNurseRegMidwifeNumber formControlName="regNurseRegMidwifeNumber"
                             placeholder="Enter  Registered Nurse/ Midwife Number" />
                         </mat-form-field>
                       </div>
@@ -254,7 +254,7 @@
                       National Unique Identity Number (NUID) Number
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #nationalUniqueId formControlName="nationalUniqueId"
+                      <input aria-label="Enter NUID Number" matInput #nationalUniqueId formControlName="nationalUniqueId"
                         placeholder="Enter NUID Number" />
                     </mat-form-field>
                   </div>
@@ -265,7 +265,7 @@
                       Doctor Registration Number
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #doctorRegNumber formControlName="doctorRegNumber"
+                      <input aria-label="Enter Doctor Registration Number" matInput #doctorRegNumber formControlName="doctorRegNumber"
                         placeholder="Enter Doctor Registration Number" />
                     </mat-form-field>
                   </div>
@@ -276,7 +276,7 @@
                       Name the Institution (for students)
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #instituteName formControlName="instituteName"
+                      <input aria-label="Enter Name the Institution" matInput #instituteName formControlName="instituteName"
                         placeholder="Enter Name the Institution" />
                     </mat-form-field>
                   </div>
@@ -359,7 +359,7 @@
                         </mat-select>
                       </mat-form-field>
                       <mat-form-field appearance="outline" class="margin-top-xs flex-expand w-minus-w80">
-                        <input #mobile type="number" matInput placeholder="Mobile Number" formControlName="mobile" autocomplete="tel">
+                        <input aria-label="Mobile Number" #mobile type="number" matInput placeholder="Mobile Number" formControlName="mobile" autocomplete="tel">
                         <mat-error [hidden]="false" ="Mobile Number Error|Explains name is required"
                           *ngIf="createUserForm?.controls['mobile'].errors?.required">
                           Mobile Number is mandatory
@@ -377,7 +377,7 @@
                       Telephone Number
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input #telephone type="number" matInput placeholder="Telephone Number"
+                      <input aria-label="Telephone Number" #telephone type="number" matInput placeholder="Telephone Number"
                         formControlName="telephone">
                       <mat-error [hidden]="false">
                         Telephone Number is mandatory
@@ -390,7 +390,7 @@
                       Primary Email
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs no-pb">
-                      <input type="primaryEmail" matInput placeholder="Primary Email" #primaryEmail
+                      <input aria-label="Primary Email" type="primaryEmail" matInput placeholder="Primary Email" #primaryEmail
                         formControlName="primaryEmail" readonly>
                       <mat-error [hidden]="false" ="Primary Email Error|Explains name is required">
                         Primary Email is mandatory
@@ -404,7 +404,7 @@
                       Secondary Email
                     </p>
                     <mat-form-field appearance="outline" class="w-full margin-top-xs">
-                      <input type="email" matInput placeholder="Secondary Email" formControlName="secondaryEmail" autocomplete="email">
+                      <input aria-label="Secondary Email" type="email" matInput placeholder="Secondary Email" formControlName="secondaryEmail" autocomplete="email">
                     </mat-form-field>
                   </div> -->
                   <div class="input-wrapper margin-top-s">
@@ -412,10 +412,10 @@
                       Postal Address
                     </p>
                     <mat-form-field appearance="outline" class="w-full margin-top-xs">
-                      <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="3"
+                      <textarea aria-label="Type Your Residence Address Here" matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="3"
                         formControlName="residenceAddress" placeholder="Type Your Residence Address Here"
                         #residenceAddress></textarea>
-                      <!-- <input matInput #residenceAddress formControlName="residenceAddress"
+                      <!-- <input aria-label="Enter Postal Address Here" matInput #residenceAddress formControlName="residenceAddress"
                         placeholder="Enter Postal Address Here" [required]="true" /> -->
                       <mat-hint align="end">{{ residenceAddress.value.length }} /200 <span>characters</span>
                       </mat-hint>
@@ -429,7 +429,7 @@
                       Pincode
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input #pincode type="text" matInput placeholder="Pincode" formControlName="pincode">
+                      <input aria-label="Pincode" #pincode type="text" matInput placeholder="Pincode" formControlName="pincode">
                       <mat-error [hidden]="false" *ngIf="createUserForm?.controls['pincode'].errors?.required">
                         Pincode is mandatory
                       </mat-error>
@@ -476,7 +476,7 @@
                       School Name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #schoolName10 formControlName="schoolName10" placeholder="Enter School Name" />
+                      <input aria-label="Enter School Name" matInput #schoolName10 formControlName="schoolName10" placeholder="Enter School Name" />
                       <mat-error [hidden]="false">
                         School Name is mandatory
                       </mat-error>
@@ -487,14 +487,14 @@
                       Year of Passsing
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <!-- <input matInput #yop10 formControlName="yop10" [matDatepicker]="yop10Picker"
+                      <!-- <input aria-label="Choose Year of Passsing" matInput #yop10 formControlName="yop10" [matDatepicker]="yop10Picker"
                         placeholder="Choose Year of Passsing" [min]="" [max]="today">
                       <mat-datepicker-toggle matSuffix [for]="yop10Picker"></mat-datepicker-toggle>
                       <mat-datepicker #yop10Picker></mat-datepicker>
                       <mat-error [hidden]="false" ="Year of Passsing Error|Explains name is required">
                         Year of Passsing is mandatory
                       </mat-error> -->
-                      <input matInput #yop10 type="text" name="yop10" formControlName="yop10"
+                      <input aria-label="Enter Year like 1998" matInput #yop10 type="text" name="yop10" formControlName="yop10"
                         placeholder="Enter Year like 1998" />
                       <mat-error [hidden]="false" *ngIf="createUserForm?.controls['yop10'].errors?.pattern">
                         Please enter a valid 4 digit year
@@ -511,7 +511,7 @@
                       School Name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #schoolName12 formControlName="schoolName12" placeholder="Enter School Name" />
+                      <input aria-label="Enter School Name" matInput #schoolName12 formControlName="schoolName12" placeholder="Enter School Name" />
                       <mat-error [hidden]="false">
                         School Name is mandatory
                       </mat-error>
@@ -522,14 +522,14 @@
                       Year of Passsing
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <!-- <input matInput #yop12 formControlName="yop12" [matDatepicker]="yop12Picker"
+                      <!-- <input aria-label="Choose Year of Passsing" matInput #yop12 formControlName="yop12" [matDatepicker]="yop12Picker"
                         placeholder="Choose Year of Passsing" [min]="" [max]="today">
                       <mat-datepicker-toggle matSuffix [for]="yop12Picker"></mat-datepicker-toggle>
                       <mat-datepicker #yop12Picker></mat-datepicker>
                       <mat-error [hidden]="false" ="Year of Passsing Error|Explains name is required">
                         Year of Passsing is mandatory
                       </mat-error> -->
-                      <input matInput #yop12 type="text" formControlName="yop12" placeholder="Enter Year like 1998" />
+                      <input aria-label="Enter Year like 1998" matInput #yop12 type="text" formControlName="yop12" placeholder="Enter Year like 1998" />
                       <mat-error [hidden]="false" *ngIf="createUserForm?.controls['yop12'].errors?.pattern">
                         Please enter a valid 4 digit year
                       </mat-error>
@@ -550,7 +550,7 @@
                           <mat-option [value]="deg.name" *ngFor="let deg of degreesMeta?.graduations">{{deg.name}}
                           </mat-option>
                         </mat-select> -->
-                        <input matInput formControlName="degree" placeholder="Enter Your course" />
+                        <input aria-label="Enter Your course" matInput formControlName="degree" placeholder="Enter Your course" />
                       </mat-form-field>
                     </div>
                     <div class="item">
@@ -564,7 +564,7 @@
                         </mat-select>
                       </mat-form-field> -->
                       <mat-form-field appearance="outline" class="margin-top-xs">
-                        <input matInput #instituteName formControlName="instituteName"
+                        <input aria-label="Enter Institute Name" matInput #instituteName formControlName="instituteName"
                           placeholder="Enter Institute Name" />
                         <mat-error [hidden]="false">
                           Institute Name is mandatory
@@ -576,14 +576,14 @@
                         Year of Passsing
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
-                        <!-- <input matInput #yop formControlName="yop" [matDatepicker]="yop"
+                        <!-- <input aria-label="Choose Year of Passsing" matInput #yop formControlName="yop" [matDatepicker]="yop"
                           placeholder="Choose Year of Passsing" [min]="" [max]="today">
                         <mat-datepicker-toggle matSuffix [for]="yop"></mat-datepicker-toggle>
                         <mat-datepicker #yop></mat-datepicker>
                         <mat-error [hidden]="false" ="Year of Passsing Error|Explains name is required">
                           Year of Passsing is mandatory
                         </mat-error> -->
-                        <input matInput #yop type="text" formControlName="yop" placeholder="Enter Year like 1998" />
+                        <input aria-label="Enter Year like 1998" matInput #yop type="text" formControlName="yop" placeholder="Enter Year like 1998" />
                         <mat-error [hidden]="false" *ngIf="degrees.get('yop').errors?.pattern">
                           Please enter a valid 4 digit year
                         </mat-error>
@@ -628,7 +628,7 @@
                         </mat-select>
                       </mat-form-field> -->
                       <mat-form-field appearance="outline" class="margin-top-xs">
-                        <input matInput #instituteName formControlName="instituteName"
+                        <input aria-label="Enter Institute Name" matInput #instituteName formControlName="instituteName"
                           placeholder="Enter Institute Name" />
                         <mat-error [hidden]="false">
                           Institute Name is mandatory
@@ -640,14 +640,14 @@
                         Year of Passsing
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
-                        <!-- <input matInput #yop formControlName="yop" [matDatepicker]="yop"
+                        <!-- <input aria-label="Choose Year of Passsing" matInput #yop formControlName="yop" [matDatepicker]="yop"
                           placeholder="Choose Year of Passsing" [min]="" [max]="today">
                         <mat-datepicker-toggle matSuffix [for]="yop"></mat-datepicker-toggle>
                         <mat-datepicker #yop></mat-datepicker>
                         <mat-error [hidden]="false" ="Year of Passsing Error|Explains name is required">
                           Year of Passsing is mandatory
                         </mat-error> -->
-                        <input matInput #yop type="text" formControlName="yop" placeholder="Enter Year like 1998" />
+                        <input aria-label="Enter Year like 1998" matInput #yop type="text" formControlName="yop" placeholder="Enter Year like 1998" />
                         <mat-error [hidden]="false" *ngIf="degrees.get('yop').errors?.pattern">
                           Please enter a valid 4 digit year
                         </mat-error>
@@ -699,7 +699,7 @@
                       Please Specify Profession*
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #orgNameSelect type="text" formControlName="professionOtherSpecify"
+                      <input aria-label="Please Specify Profession*" matInput #orgNameSelect type="text" formControlName="professionOtherSpecify"
                         placeholder="Please Specify Profession*" autocomplete="off" />
                     </mat-form-field>
                   </div>
@@ -711,7 +711,7 @@
                       Organisation Name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #orgNameSelect type="text" formControlName="orgName"
+                      <input aria-label="Organisation Name" matInput #orgNameSelect type="text" formControlName="orgName"
                         placeholder="Organisation Name" />
                     </mat-form-field>
                   </div>
@@ -738,7 +738,7 @@
                       Please Specify
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput type="text" formControlName="orgOtherSpecify" placeholder="Please Specify*"
+                      <input aria-label="Please Specify*" matInput type="text" formControlName="orgOtherSpecify" placeholder="Please Specify*"
                         autocomplete="off" />
                     </mat-form-field>
                     <mat-error class="text-danger mb-4"
@@ -753,7 +753,7 @@
                       Designation
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #designation type="text" formControlName="designation"
+                      <input aria-label="Designation" matInput #designation type="text" formControlName="designation"
                         placeholder="Designation" />
                     </mat-form-field>
                   </div>
@@ -778,7 +778,7 @@
                       Other
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #locationOther formControlName="locationOther"
+                      <input aria-label="Enter Other Location Name" matInput #locationOther formControlName="locationOther"
                         placeholder="Enter Other Location Name" />
                       <mat-error [hidden]="false" ="Other Location Name  Error|Explains name is required">
                         Other Location Name is mandatory
@@ -792,7 +792,7 @@
                       Date of Joining
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #doj formControlName="doj" [matDatepicker]="dojPicker"
+                      <input aria-label="Choose Date of Joining" matInput #doj formControlName="doj" [matDatepicker]="dojPicker"
                         placeholder="Choose Date of Joining" (focus)="dojPicker.open()" [min]="" [max]="today">
                       <mat-datepicker-toggle matSuffix [for]="dojPicker"></mat-datepicker-toggle>
                       <mat-datepicker #dojPicker (closed)="doj.blur()"></mat-datepicker>
@@ -808,7 +808,7 @@
                       Address
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
-                      <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
+                      <textarea aria-label="Type Your your Address Here" matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
                         formControlName="orgDesc" placeholder="Type Your your Address Here" #orgDesc></textarea>
                       <mat-hint align="end">{{ orgDesc.value.length }} /500 <span>characters</span></mat-hint>
                       <mat-error>
@@ -875,7 +875,7 @@
                       Allotment Year of Service
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #allotmentYear formControlName="allotmentYear"
+                      <input aria-label="Choose Allotment Year of Service" matInput #allotmentYear formControlName="allotmentYear"
                         [matDatepicker]="allotmentYearPicker"
                         placeholder="Choose Allotment Year of Service" [min]="" [max]="today">
                       <mat-datepicker-toggle matSuffix [for]="allotmentYearPicker"></mat-datepicker-toggle>
@@ -883,7 +883,7 @@
                       <mat-error [hidden]="false" ="Allotment Year of Service Error|Explains name is required">
                         Allotment Year of Service is mandatory
                       </mat-error>
-                      <input matInput #allotmentYear type="text" formControlName="allotmentYear"
+                      <input aria-label="1998" matInput #allotmentYear type="text" formControlName="allotmentYear"
                         placeholder="1998" />
                         <mat-error [hidden]="false" *ngIf="createUserForm?.controls['allotmentYear'].errors?.pattern">
                           Please enter a valid 4 digit year
@@ -896,7 +896,7 @@
                       Date of Joining
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #otherDetailsDoj formControlName="otherDetailsDoj"
+                      <input aria-label="Choose Date of Joining" matInput #otherDetailsDoj formControlName="otherDetailsDoj"
                         [matDatepicker]="otherDetailsDojPicker"  placeholder="Choose Date of Joining"
                          (focus)="otherDetailsDojPicker.open()" [min]="" [max]="today">
                       <mat-datepicker-toggle matSuffix [for]="otherDetailsDojPicker"></mat-datepicker-toggle>
@@ -914,7 +914,7 @@
                       Civil List Number
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput type="number" #civilListNo formControlName="civilListNo"
+                      <input aria-label="Enter Civil List Number" matInput type="number" #civilListNo formControlName="civilListNo"
                         placeholder="Enter Civil List Number" />
                       <mat-error [hidden]="false" ="Civil List Number  Error|Explains name is required">
                         Civil List Number is mandatory
@@ -927,7 +927,7 @@
                       Employee Code
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput type="number" #employeeCode formControlName="employeeCode"
+                      <input aria-label="Enter Employee Code" matInput type="number" #employeeCode formControlName="employeeCode"
                         placeholder="Enter Employee Code" />
                       <mat-error [hidden]="false" ="Employee Code  Error|Explains name is required">
                         Employee Code is mandatory
@@ -942,7 +942,7 @@
                       Office Postal Address
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #otherDetailsOfficeAddress formControlName="otherDetailsOfficeAddress"
+                      <input aria-label="Enter Office Postal Address" matInput #otherDetailsOfficeAddress formControlName="otherDetailsOfficeAddress"
                          placeholder="Enter Office Postal Address" />
                       <mat-hint align="end">{{ otherDetailsOfficeAddress.value.length }} /200 characters</mat-hint>
                       <mat-error >
@@ -959,7 +959,7 @@
                       Pin Code
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #otherDetailsOfficePinCode type="number"
+                      <input aria-label="Enter Pin Code" matInput #otherDetailsOfficePinCode type="number"
                         formControlName="otherDetailsOfficePinCode"  placeholder="Enter Pin Code" />
                       <mat-error [hidden]="false" ="Pin Code  Error|Explains name is required">
                         Pin Code is mandatory
@@ -985,7 +985,7 @@
                       Description
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
-                      <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
+                      <textarea aria-label="Skills acquired or courses completed" matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
                         formControlName="skillAquiredDesc" placeholder="Skills acquired or courses completed"
                         #skillAquiredDesc></textarea>
                       <!-- <mat-hint align="end">{{ skillAquiredDesc.value.length }} /200 characters</mat-hint>
@@ -1000,7 +1000,7 @@
                       Description
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
-                      <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
+                      <textarea aria-label="Provide certification details" matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
                         formControlName="certificationDesc" placeholder="Provide certification details"
                         #certificationDesc></textarea>
                       <!-- <mat-hint align="end">{{ certificationDesc.value.length }} /200 characters</mat-hint>

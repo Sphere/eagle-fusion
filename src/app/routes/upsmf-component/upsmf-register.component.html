@@ -16,7 +16,7 @@
       <div class="form-section">
         <label i18n for="firstName" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName"
+          <input id="firstName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName"
             class="form-control" placeholder="First Name" autocomplete="off">
         </div>
         <mat-error
@@ -30,7 +30,7 @@
 
         <label i18n for="lastName" style="display: block;">Last Name / उपनाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName"
+          <input id="lastName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName"
             class="form-control" placeholder="Last Name" autocomplete="off">
         </div>
         <mat-error
@@ -45,7 +45,7 @@
         <label i18n for="phone" style="display: block;">Phone Number / मोबाइल नंबर <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input type="text" name="phone" formControlName="phone" class="form-control" placeholder="Phone Number"
+          <input id="phone" type="text" name="phone" formControlName="phone" class="form-control" placeholder="Phone Number"
             autocomplete="off">
         </div>
         <mat-error
@@ -70,7 +70,7 @@
         <label for="regNurseRegMidwifeNumber" i18n>Nursing Registration Number / नर्सिंग पंजीकरण संख्या <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control"
+          <input id="regNurseRegMidwifeNumber" type="text" formControlName="regNurseRegMidwifeNumber" class="form-control"
             placeholder="Nursing Registration Number" autocomplete="off">
         </div>
         <mat-error
@@ -84,7 +84,7 @@
         <label i18n for="roleForInService" style="display: block;">Employment Type / रोजगार का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select (selectionChange)="onEmploymentTypeChange($event.value)" formControlName="roleForInService"
+          <mat-select id="roleForInService" (selectionChange)="onEmploymentTypeChange($event.value)" formControlName="roleForInService"
             placeholder="Employment Type">
             <mat-option value="Government">Government</mat-option>
             <mat-option value="Private">Private</mat-option>
@@ -101,7 +101,7 @@
         <label i18n for="serviceType" style="display: block;">Type of Service / सेवा का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="serviceType" placeholder="Type of Service">
+          <mat-select id="serviceType" formControlName="serviceType" placeholder="Type of Service">
             <mat-option value="Regular">Regular</mat-option>
             <mat-option value="Contractual">Contractual</mat-option>
           </mat-select>
@@ -113,7 +113,7 @@
 
         <label for="hrmsId" i18n>eHRMS Number / eHRMS संख्या <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input type="text" formControlName="hrmsId" class="form-control" placeholder="eHRMS Number (5-8 digits)"
+          <input id="hrmsId" type="text" formControlName="hrmsId" class="form-control" placeholder="eHRMS Number (5-8 digits)"
             autocomplete="off">
         </div>
         <mat-error *ngIf="anmRegistrationForm.get('hrmsId')?.invalid && anmRegistrationForm.get('hrmsId')?.touched">
@@ -124,7 +124,7 @@
 
         <label i18n for="district" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="district" placeholder="District">
+          <mat-select id="district" formControlName="district" placeholder="District">
             <mat-option [value]="district" *ngFor="let district of districts">{{district}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -134,7 +134,7 @@
 
         <label i18n for="block" style="display: block;">Block / ब्लॉक <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="block" placeholder="Block">
+          <mat-select id="block" formControlName="block" placeholder="Block">
             <mat-option [value]="block" *ngFor="let block of blocks">{{block}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -145,7 +145,7 @@
         <label i18n for="facilityType" style="display: block;">Facility Type / सुविधा का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="facilityType" placeholder="Facility Type">
+          <mat-select id="facilityType" formControlName="facilityType" placeholder="Facility Type">
             <mat-option [value]="facilityType" *ngFor="let facilityType of facilityTypes">{{facilityType}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -157,7 +157,7 @@
         <label i18n for="facilityName" style="display: block;">Posting Facility / पोस्टिंग सुविधा <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="facilityName" placeholder="Posting Facility">
+          <mat-select id="facilityName" formControlName="facilityName" placeholder="Posting Facility">
             <mat-option [value]="facility" *ngFor="let facility of availableFacilities">{{facility.name}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -171,7 +171,7 @@
       <div *ngIf="isPrivateEmployee" class="form-section">
         <label i18n for="district" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="district" placeholder="District">
+          <mat-select id="district" formControlName="district" placeholder="District">
             <mat-option [value]="district" *ngFor="let district of districts">{{district}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -181,7 +181,7 @@
 
         <label for="facilityName" i18n>Posting Place / पोस्टिंग स्थान <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control"
+          <input id="facilityName" pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control"
             placeholder="Hospital/Clinic Name" autocomplete="off">
         </div>
         <mat-error
@@ -207,7 +207,7 @@
       <div class="form-section">
         <label i18n for="firstName" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName"
+          <input id="firstName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName"
             class="form-control" placeholder="First Name" autocomplete="off">
         </div>
         <mat-error
@@ -221,7 +221,7 @@
 
         <label i18n for="lastName" style="display: block;">Last Name / उपनाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName"
+          <input id="lastName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName"
             class="form-control" placeholder="Last Name" autocomplete="off">
         </div>
         <mat-error
@@ -236,7 +236,7 @@
         <label i18n for="phone" style="display: block;">Phone Number / मोबाइल नंबर <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input type="text" name="phone" formControlName="phone" class="form-control" placeholder="Phone Number"
+          <input id="phone" type="text" name="phone" formControlName="phone" class="form-control" placeholder="Phone Number"
             autocomplete="off">
         </div>
         <mat-error *ngIf="preServiceForm.get('phone')?.hasError('required') && preServiceForm.get('phone')?.touched">
@@ -248,7 +248,7 @@
 
         <label i18n for="district" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="district" placeholder="District">
+          <mat-select id="district" formControlName="district" placeholder="District">
             <mat-option [value]="district" *ngFor="let district of districts">{{district}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -261,7 +261,7 @@
       <div class="form-section">
         <label i18n for="role" style="display: block;">Role <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="role" i18n-placeholder placeholder="Role"
+          <mat-select id="role" formControlName="role" i18n-placeholder placeholder="Role"
             (selectionChange)="onRoleChange($event.value)">
             <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
             </mat-option>
@@ -277,7 +277,7 @@
         <label i18n for="instituteName" style="display: block;">Name of Institute / संस्थान का नाम <span
             class="red-icon">*</span></label>
         <div class="form-group mt-4 input-box">
-          <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
+          <input id="instituteName" autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
             formControlName="instituteName" placeholder="Name of Institute" i18n-placeholder
             (change)="assignFields('institutionName', preServiceForm.controls['instituteName'].value, $event)" required>
         </div>
@@ -293,7 +293,7 @@
         <label i18n for="instituteType" style="display: block;">Type of Institute /संस्थान का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
+          <mat-select id="instituteType" formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
             <mat-option [value]="type" *ngFor="let type of instituteTypes">{{type}}
             </mat-option>
           </mat-select>
@@ -305,7 +305,7 @@
         <label i18n for="courseSelection" style="display: block;">Course Selection / पाठ्यक्रम चयन <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="courseSelection" i18n-placeholder placeholder="Course selection">
+          <mat-select id="courseSelection" formControlName="courseSelection" i18n-placeholder placeholder="Course selection">
             <mat-option [value]="course" *ngFor="let course of courseSelection">{{course}}
             </mat-option>
           </mat-select>
@@ -321,7 +321,7 @@
         <label i18n for="instituteName" style="display: block;">Name of Institute / संस्थान का नाम <span
             class="red-icon">*</span></label>
         <div class="form-group mt-4 input-box">
-          <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
+          <input id="instituteName" autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
             formControlName="instituteName" placeholder="Name of Institute" i18n-placeholder
             (change)="assignFields('institutionName', preServiceForm.controls['instituteName'].value, $event)" required>
         </div>
@@ -337,7 +337,7 @@
         <label i18n for="instituteType" style="display: block;">Type of Institute / संस्थान का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
+          <mat-select id="instituteType" formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
             <mat-option [value]="type" *ngFor="let type of instituteTypes">{{type}}
             </mat-option>
           </mat-select>
@@ -349,7 +349,7 @@
         <label i18n for="facultyType" style="display: block;">Type Of Faculty / संकाय का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="facultyType" i18n-placeholder placeholder="Type Of Faculty">
+          <mat-select id="facultyType" formControlName="facultyType" i18n-placeholder placeholder="Type Of Faculty">
             <mat-option [value]="faculty" *ngFor="let faculty of facultyTypes">{{faculty}}
             </mat-option>
           </mat-select>
@@ -360,7 +360,7 @@
 
         <div class="form-group">
           <label for="hrmsId" i18n>HRMS/Manav Sampada id <span class="red-icon">*</span></label>
-          <input type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
+          <input id="hrmsId" type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
             placeholder="HRMS/Manav Sampada id" autocomplete="off">
           <mat-error *ngIf="preServiceForm.get('hrmsId')?.invalid && preServiceForm.get('hrmsId')?.touched">
             HRMS/Manav Sampada id is required.
@@ -369,7 +369,7 @@
 
         <div class="form-group">
           <label for="upsmfRegistrationNumber" i18n>UPSMF Registration number <span class="red-icon">*</span></label>
-          <input type="text" formControlName="upsmfRegistrationNumber" class="form-control" i18n-placeholder
+          <input id="upsmfRegistrationNumber" type="text" formControlName="upsmfRegistrationNumber" class="form-control" i18n-placeholder
             placeholder="UPSMF Registration number" autocomplete="off">
           <mat-error
             *ngIf="preServiceForm.get('upsmfRegistrationNumber')?.invalid && preServiceForm.get('upsmfRegistrationNumber')?.touched">
@@ -395,7 +395,7 @@
       <div class="form-section">
         <label i18n for="hrmsId" style="display: block;">eHRMS Code / eHRMS कोड <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input type="text" formControlName="hrmsId" class="form-control" placeholder="eHRMS Code" autocomplete="off">
+          <input id="hrmsId" type="text" formControlName="hrmsId" class="form-control" placeholder="eHRMS Code" autocomplete="off">
         </div>
         <mat-error
           *ngIf="medicalOfficerForm.get('hrmsId')?.hasError('required') && medicalOfficerForm.get('hrmsId')?.touched">
@@ -406,7 +406,7 @@
         <label i18n for="firstName" style="display: block;">First Name / प्रथम नाम <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" formControlName="firstName" class="form-control"
+          <input id="firstName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" formControlName="firstName" class="form-control"
             placeholder="First Name" autocomplete="off">
         </div>
         <mat-error
@@ -421,7 +421,7 @@
         <!-- Last Name -->
         <label i18n for="lastName" style="display: block;">Last Name / अंतिम नाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" formControlName="lastName" class="form-control"
+          <input id="lastName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" formControlName="lastName" class="form-control"
             placeholder="Last Name" autocomplete="off">
         </div>
         <mat-error
@@ -437,7 +437,7 @@
         <label i18n for="phone" style="display: block;">Phone Number / मोबाइल नंबर <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input type="text" formControlName="phone" class="form-control" placeholder="Phone Number" autocomplete="off">
+          <input id="phone" type="text" formControlName="phone" class="form-control" placeholder="Phone Number" autocomplete="off">
         </div>
         <mat-error
           *ngIf="medicalOfficerForm.get('phone')?.hasError('required') && medicalOfficerForm.get('phone')?.touched">
@@ -452,7 +452,7 @@
         <label i18n for="district" style="display: block;">District of Posting / पोस्टिंग का जिला <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <mat-select formControlName="district" placeholder="District of Posting">
+          <mat-select id="district" formControlName="district" placeholder="District of Posting">
             <mat-option [value]="district" *ngFor="let district of districts">{{district}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -487,7 +487,7 @@
         <!-- Seniority Number -->
         <label i18n for="seniorityNumber" style="display: block;">Seniority Number / सीनियरिटी नंबर</label>
         <div class="form-group input-box">
-          <input type="text" formControlName="seniorityNumber" class="form-control" placeholder="Seniority Number"
+          <input id="seniorityNumber" type="text" formControlName="seniorityNumber" class="form-control" placeholder="Seniority Number"
             autocomplete="off">
         </div>
       </div>

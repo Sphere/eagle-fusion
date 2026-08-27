@@ -26,7 +26,8 @@
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
                 <textarea (input)="setRating(selectedRating)" style="height: 96px;padding: 10px;" rows="4"
-                    matInput [placeholder]="'Tell us more about what you felt' | translate" name=" name"
+                    matInput [placeholder]="'Tell us more about what you felt' | translate"
+                    [attr.aria-label]="'Tell us more about what you felt' | translate" name=" name"
                     formControlName="review" required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
                     {{"Comments is mandatory" | translate}}
