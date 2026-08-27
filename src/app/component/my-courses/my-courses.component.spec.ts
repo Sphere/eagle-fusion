@@ -364,7 +364,7 @@ describe('MyCoursesComponent', () => {
 
     it('should return index when identifier is absent', () => {
       component = createComponent()
-      expect(component.courseTrackBy(3, {})).toBe(Number(3))
+      expect(component.courseTrackBy(3, {})).toBe('3')
     })
   })
 

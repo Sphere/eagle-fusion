@@ -137,6 +137,23 @@ describe('OrgComponent', () => {
       expect(component.currentOrgData).toBeTruthy()
       expect(mockSeoSvc.update).toHaveBeenCalled()
     })
+
+    it('truncates a long about text at a word boundary and trims trailing punctuation', async () => {
+      // 160+ chars with trailing ", " right before the 155-char cut so the trim branch runs too.
+      const longAbout = `${'word '.repeat(30)}tail, more text after the cut`
+      ;(mockOrgService.getOrgConfig as jest.Mock).mockReturnValue({
+        toPromise: () => Promise.resolve({
+          result: { form: { data: { sources: [{ sourceName: 'Indian Nursing Council', about: longAbout, sections: [] }] } } },
+        }),
+      })
+      component.ngOnInit()
+      await flushMicrotasks()
+      const calls = (mockSeoSvc.update as jest.Mock).mock.calls
+      const call = calls[calls.length - 1][0]
+      expect(call.description.length).toBeLessThan(longAbout.length)
+      expect(call.description.endsWith('…')).toBe(true)
+      expect(call.description).not.toMatch(/[,;:.\s]…$/)
+    })
   })
 
   describe('loadOrgData via ngOnInit', () => {

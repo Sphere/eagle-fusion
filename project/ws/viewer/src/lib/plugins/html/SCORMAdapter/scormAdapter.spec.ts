@@ -228,7 +228,7 @@ describe('SCORMAdapterService', () => {
   describe('_isInitialized/_setError', () => {
     it('_isInitialized reflects store value', () => {
       mockStore.getItem.mockReturnValue(true)
-      expect(service._isInitialized()).toBe(Boolean(true))
+      expect(service._isInitialized()).toBe(true)
     })
 
     it('_setError appends to existing errors array', () => {

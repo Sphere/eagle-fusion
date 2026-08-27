@@ -295,7 +295,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   }
 
   courseTrackBy(index: number, item: any): string {
-    return item?.identifier || index
+    return item?.identifier || String(index)
   }
 
 

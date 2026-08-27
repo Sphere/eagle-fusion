@@ -158,9 +158,9 @@ export class SCORMAdapterService implements OnDestroy {
     return error[errorCode]["diagnostic"]
   }
 
-  _isInitialized() {
+  _isInitialized(): boolean {
     const initialized = this.store.getItem('Initialized')
-    return initialized
+    return Boolean(initialized)
   }
 
   _setError(errorCode: number) {

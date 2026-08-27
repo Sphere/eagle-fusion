@@ -86,10 +86,8 @@
     <h2 class="cne-section-heading">Common questions about CNE</h2>
     <dl class="cne-faq">
       @for (faq of faqs; track trackByQuestion($index, faq)) {
-        <div class="cne-faq-item">
-          <dt class="cne-faq-q">{{ faq.question }}</dt>
-          <dd class="cne-faq-a">{{ faq.answer }}</dd>
-        </div>
+        <dt class="cne-faq-q">{{ faq.question }}</dt>
+        <dd class="cne-faq-a">{{ faq.answer }}</dd>
       }
     </dl>
   </section>

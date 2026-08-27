@@ -164,7 +164,7 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
   }
 
   trackByCourse(_index: number, course: any): string {
-    return course?.contentId || _index
+    return course?.contentId || String(_index)
   }
 
   readonly SKELETON_ITEMS = [1, 2, 3, 4]

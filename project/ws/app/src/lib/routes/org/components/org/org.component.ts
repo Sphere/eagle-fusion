@@ -434,7 +434,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     return text
       .replaceAll('\n', '<br>')
       .replaceAll('•', '&bull;')
-      .replaceAll('\\u2019', '&#8217;')
+      .replaceAll(String.raw`\u2019`, '&#8217;')
       .replaceAll('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
   }
 

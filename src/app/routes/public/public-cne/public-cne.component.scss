@@ -187,13 +187,6 @@
   max-width: 72ch;
 }
 
-.cne-faq-item {
-  padding: 18px 0;
-  border-top: 1px solid var(--theme-border, #e4e7ec);
-
-  &:first-child { border-top: none; padding-top: 4px; }
-}
-
 .cne-faq-q {
   font-family: Roboto, sans-serif;
   font-size: 17px;
@@ -201,6 +194,10 @@
   line-height: 25px;
   color: var(--theme-text, #101828);
   margin: 0 0 6px;
+  padding-top: 18px;
+  border-top: 1px solid var(--theme-border, #e4e7ec);
+
+  &:first-child { border-top: none; padding-top: 4px; }
 }
 
 .cne-faq-a {
@@ -208,6 +205,7 @@
   line-height: 25px;
   color: var(--theme-text-soft, #5a6472);
   margin: 0;
+  padding-bottom: 18px;
 }
 
 .cne-footer {
