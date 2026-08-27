@@ -255,8 +255,8 @@
         Type of service is required.
       </mat-error>
       <div class="form-group">
-        <label for="facilityName" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
-        <input id="facilityName" pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
+        <label for="facilityName-public" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
+        <input id="facilityName-public" pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
           placeholder="Name of Facility" autocomplete="off">
         <mat-error
           *ngIf="bnrcDetailForm.get('facilityName')?.hasError('required') && bnrcDetailForm.get('facilityName')?.touched">
@@ -309,8 +309,8 @@
 
 
       <div class="form-group">
-        <label for="facilityName" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
-        <input id="facilityName" pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
+        <label for="facilityName-private" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
+        <input id="facilityName-private" pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
           placeholder="Name of Facility" autocomplete="off">
         <mat-error
           *ngIf="bnrcDetailForm.get('facilityName')?.hasError('required') && bnrcDetailForm.get('facilityName')?.touched">
