@@ -257,12 +257,12 @@ export class UserAgentResolverService {
   getDeviceModel(): string | null {
     const ua = navigator.userAgent
     // Android: "Mozilla/5.0 (Linux; Android 11; SM-G991B) ..."
-    const androidMatch = ua.match(/Android[^;]*;\s*([^)]+)\)/)
+    const androidMatch = ua.match(/Android[^;]{0,200};\s{0,50}([^)]{1,200})\)/)
     if (androidMatch) {
       return androidMatch[1].trim()
     }
     // iOS: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 ...)" or "(iPad; ...)"
-    const iosMatch = ua.match(/\((iPhone|iPad|iPod)[^)]*\)/)
+    const iosMatch = ua.match(/\((iPhone|iPad|iPod)[^)]{0,200}\)/)
     if (iosMatch) {
       return iosMatch[1]
     }

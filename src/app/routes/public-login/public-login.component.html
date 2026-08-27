@@ -60,6 +60,7 @@
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                   <mat-label>{{ 'Phone Number (or) Email ID' | translate }}</mat-label>
                   <input autofocus="" autocomplete="off" tabindex="0" id="emailOrMobile-lg-pwd" required=""
+                    [attr.aria-label]="'Phone Number (or) Email ID' | translate"
                     (input)="checkMobileEmail2()" type="text" class="input-field" trim="blur" matInput
                     formControlName="emailOrMobile" #emailOrMobile />
                   <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">
@@ -70,7 +71,8 @@
                 <div class="field-edit-width">
                   <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                     <mat-label>{{ 'Enter Password' | translate }}</mat-label>
-                    <input autofocus="" tabindex="0" required="" [type]="hide2 ? 'password' : 'text'"
+                    <input id="password-field-lg" autofocus="" tabindex="0" required="" [type]="hide2 ? 'password' : 'text'"
+                      [attr.aria-label]="'Enter Password' | translate"
                       (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password" />
                     <button mat-icon-button matSuffix type="button" (click)="toggle2()" (keydown)="handleKeyDown($event)">
                       <i [ngClass]="iconChange2" aria-hidden="true"></i>
@@ -127,6 +129,7 @@
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                   <mat-label>{{ 'Phone Number (or) Email ID' | translate }}</mat-label>
                   <input autocomplete="off" tabindex="0" id="emailOrMobile-lg-otp" required="" (input)="checkMobileEmail()"
+                    [attr.aria-label]="'Phone Number (or) Email ID' | translate"
                     type="text" class="input-field" trim="blur" matInput formControlName="emailOrMobile"
                     #emailOrMobile />
                   <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">
@@ -188,13 +191,13 @@
               </div>
               <form [formGroup]="OTPForm" class="ui form" action="" method="post" method="post" id="kc-totp-login-form">
                 <div *ngIf="emailPhoneType === 'phone'" [formGroup]="OTPForm" class="otp-input-container">
-                  <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
+                  <input id="otp1-lg" class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
                     aria-label="OTP digit 1" (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
-                  <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
+                  <input id="otp2-lg" class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
                     aria-label="OTP digit 2" (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
-                  <input class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
+                  <input id="otp3-lg" class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
                     aria-label="OTP digit 3" (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
-                  <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
+                  <input id="otp4-lg" class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
                     aria-label="OTP digit 4" (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
                 </div>
                 <div *ngIf="emailPhoneType === 'email'" [formGroup]="OTPForm" class="otp-input-container">
@@ -291,6 +294,7 @@
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
             <mat-label>{{ 'Phone Number (or) Email ID' | translate }}</mat-label>
             <input autofocus="" tabindex="0" id="emailOrMobile-sm-pwd" required="" (input)="checkMobileEmail2()" type="text"
+              [attr.aria-label]="'Phone Number (or) Email ID' | translate"
               class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile />
             <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">{{
               'Invalid email or number' | translate }}</mat-error>
@@ -300,7 +304,8 @@
           <div class="field-edit-width">
             <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
               <mat-label>{{ 'Enter Password' | translate }}</mat-label>
-              <input autofocus="" tabindex="0" required="" [type]="hide2 ? 'password' : 'text'"
+              <input id="password-field-sm" autofocus="" tabindex="0" required="" [type]="hide2 ? 'password' : 'text'"
+                [attr.aria-label]="'Enter Password' | translate"
                 (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password" />
               <button mat-icon-button matSuffix type="button" (click)="toggle2()" (keydown)="handleKeyDown($event)">
                 <i [ngClass]="iconChange2" aria-hidden="true"></i>
@@ -354,6 +359,7 @@
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
             <mat-label>{{ 'Phone Number (or) Email ID' | translate }}</mat-label>
             <input tabindex="0" id="emailOrMobile-sm-otp" required="" (input)="checkMobileEmail()" type="text"
+              [attr.aria-label]="'Phone Number (or) Email ID' | translate"
               class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile />
             <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">{{
               'Invalid email or number' | translate }}</mat-error>
@@ -419,13 +425,13 @@
               <form [formGroup]="OTPForm" id="form-login" action="" method="post">
                 <div class="form-group">
                   <div *ngIf="emailPhoneType === 'phone'" [formGroup]="OTPForm" class="otp-input-container">
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
+                    <input id="otp1-sm" class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
                       aria-label="OTP digit 1" (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
+                    <input id="otp2-sm" class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
                       aria-label="OTP digit 2" (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
+                    <input id="otp3-sm" class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
                       aria-label="OTP digit 3" (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
+                    <input id="otp4-sm" class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
                       aria-label="OTP digit 4" (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
                   </div>
                   <div *ngIf="emailPhoneType === 'email'" [formGroup]="OTPForm" class="otp-input-container">

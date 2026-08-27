@@ -122,10 +122,10 @@ export class CertificateDetailsComponent implements OnInit {
         }
       })
   }
-  public getCollectionHierarchy(identifier: string, option: any = { params: {} }): Observable<any> {
+  public getCollectionHierarchy(identifier: string, option?: any): Observable<any> {
     const req = {
       url: `${this.urls.HIERARCHY}/${identifier}`,
-      param: option.params,
+      param: option?.params ?? {},
     }
     return this.apiService.get(req.url, req.param).pipe(map((response: any) => {
       this.collectionData = response.result.content

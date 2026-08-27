@@ -33,7 +33,7 @@
             </button>
             {{ selectedFile?.name }}
           </div>
-          <input #inputFile accept="application/pdf, video/mp4, audio/mp3, audio/mpeg"
+          <input #inputFile id="resourceCollectionFile" aria-label="Upload file" accept="application/pdf, video/mp4, audio/mp3, audio/mpeg"
             (change)="changeFile($event.target.files)" type="file" hidden />
           <div class="mat-caption padding-left-xs margin-remove-bottom"></div>
         </div>
