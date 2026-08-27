@@ -74,15 +74,15 @@ export function courseSlug(name: string): string {
   const slug = transliterateDevanagari(name || '')
     .toLowerCase()
     .trim()
-    .replaceAll(/&/g, 'and')
+    .replaceAll('&', 'and')
     .replaceAll(/[^a-z0-9]+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '')
+    .replace(/^-{1,1000}/, '')
+    .replace(/-{1,1000}$/, '')
 
   if (slug.length <= MAX_SLUG_LENGTH) { return slug }
   const cut = slug.slice(0, MAX_SLUG_LENGTH)
   const lastDash = cut.lastIndexOf('-')
-  return (lastDash > 0 ? cut.slice(0, lastDash) : cut).replace(/-+$/, '')
+  return (lastDash > 0 ? cut.slice(0, lastDash) : cut).replace(/-{1,1000}$/, '')
 }
 
 /** Absolute canonical URL for a course overview page, trailing slash included. */

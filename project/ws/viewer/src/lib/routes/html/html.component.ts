@@ -77,7 +77,7 @@ export class HtmlComponent implements OnInit, OnDestroy {
                 ? data.artifactUrl
                 : data.artifactUrl.startsWith('http://')
                   ? data.artifactUrl
-                  : `https://${data.artifactUrl}`).replaceAll(/ /ig, '').replaceAll(/%20/ig, '').replaceAll(/\n/ig, '')
+                  : `https://${data.artifactUrl}`).replaceAll(' ', '').replaceAll('%20', '').replaceAll('\n', '')
               if (this.accessControlSvc.hasAccess(data as any, true)) {
                 if (data && data.artifactUrl.indexOf('content-store') >= 0) {
                   await this.setS3Cookie(data.identifier)
@@ -101,8 +101,8 @@ export class HtmlComponent implements OnInit, OnDestroy {
           void (async () => {
             data.content.data.artifactUrl =
               data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
-                ? `${data.content.data.artifactUrl.replaceAll(/%20/g, '')}&Param1=${this.uuid}`
-                : data.content.data.artifactUrl.replaceAll(/%20/g, '')
+                ? `${data.content.data.artifactUrl.replaceAll('%20', '')}&Param1=${this.uuid}`
+                : data.content.data.artifactUrl.replaceAll('%20', '')
             const tempHtmlData = data.content.data
             if (this.alreadyRaised && this.oldData) {
               this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)

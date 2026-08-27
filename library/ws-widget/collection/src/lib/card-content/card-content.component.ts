@@ -197,10 +197,10 @@ export class CardContentComponent extends WidgetBaseComponent
       .slice(0, 200)
       .toLowerCase()
       .trim()
-      .replaceAll(/&/g, 'and')
+      .replaceAll('&', 'and')
       .replaceAll(/[^a-z0-9]+/g, '-')          // Replace spaces/symbols with hyphen
-      .replace(/^-+/, '')                   // Remove starting hyphens
-      .replace(/-+$/, '')                   // Remove ending hyphens
+      .replace(/^-{1,1000}/, '')             // Remove starting hyphens
+      .replace(/-{1,1000}$/, '')             // Remove ending hyphens
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {

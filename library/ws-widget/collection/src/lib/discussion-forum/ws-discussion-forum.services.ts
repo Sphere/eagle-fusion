@@ -67,7 +67,7 @@ export class WsDiscussionForumService {
     newFormData.append('content', file, fileName)
     return this.apiService.post<NSApiResponse.IFileApiResponse>(
       // tslint:disable-next-line:max-line-length
-      `${CONTENT_BASE}${this.accessService.rootOrg.replaceAll(/ /g, '_')}/${this.accessService.org.replaceAll(/ /g, '_')}/Public/${contentData.contentId.replace('.img', '')}${contentData.contentType}`,
+      `${CONTENT_BASE}${this.accessService.rootOrg.replaceAll(' ', '_')}/${this.accessService.org.replaceAll(' ', '_')}/Public/${contentData.contentId.replace('.img', '')}${contentData.contentType}`,
       newFormData,
       false,
       options,
@@ -81,7 +81,7 @@ export class WsDiscussionForumService {
   ): Observable<NSApiResponse.IFileApiResponse> {
     return this.apiService.post<NSApiResponse.IFileApiResponse>(
       // tslint:disable-next-line:max-line-length
-      `${CONTENT_BASE_ZIP}${this.accessService.rootOrg.replaceAll(/ /g, '_')}/${this.accessService.org.replaceAll(/ /g, '_')}/Public/${contentData.contentId.replace('.img', '')}${contentData.contentType}`,
+      `${CONTENT_BASE_ZIP}${this.accessService.rootOrg.replaceAll(' ', '_')}/${this.accessService.org.replaceAll(' ', '_')}/Public/${contentData.contentId.replace('.img', '')}${contentData.contentType}`,
       data,
       false,
       options,

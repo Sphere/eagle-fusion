@@ -137,10 +137,10 @@ export class WebCourseCardComponent implements OnInit {
     return text
       .toLowerCase()
       .trim()
-      .replaceAll(/&/g, 'and')
+      .replaceAll('&', 'and')
       .replaceAll(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
-      .replace(/^-+/, '')            // Remove starting hyphens
-      .replace(/-+$/, '')            // Remove ending hyphens
+      .replace(/^-{1,1000}/, '')      // Remove starting hyphens
+      .replace(/-{1,1000}$/, '')      // Remove ending hyphens
   }
 
 

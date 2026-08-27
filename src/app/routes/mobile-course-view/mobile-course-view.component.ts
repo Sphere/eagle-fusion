@@ -123,10 +123,10 @@ export class MobileCourseViewComponent implements OnInit {
     return text
       .toLowerCase()
       .trim()
-      .replaceAll(/&/g, 'and')
+      .replaceAll('&', 'and')
       .replaceAll(/[^a-z0-9]+/g, '-')
-      .replace(/^-+/, '')                // Remove starting hyphens
-      .replace(/-+$/, '')                // Remove ending hyphens
+      .replace(/^-{1,1000}/, '')          // Remove starting hyphens
+      .replace(/-{1,1000}$/, '')          // Remove ending hyphens
   }
   redirectPage(course: any) {
     this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course', version: "", rollup: { l1: course.identifier } })

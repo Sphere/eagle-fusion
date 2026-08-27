@@ -216,7 +216,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     if (!about) { return '' }
     return about
       .replaceAll(/<[^>]{0,1000}>/g, ' ')
-      .replaceAll(/&nbsp;/g, ' ')
+      .replaceAll('&nbsp;', ' ')
       .replaceAll(/\s+/g, ' ')
       .trim()
   }
@@ -225,7 +225,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     if (text.length <= max) { return text }
     const cut = text.slice(0, max)
     const lastSpace = cut.lastIndexOf(' ')
-    return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[,;:.\s]+$/, '')}…`
+    return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[,;:.\s]{1,1000}$/, '')}…`
   }
 
   private collectExplicitCourseIds(sections: any[]): string[] {
@@ -432,10 +432,10 @@ export class OrgComponent implements OnInit, OnDestroy {
   formatAbout(text: string): string {
     if (!text) return text
     return text
-      .replaceAll(/\n/g, '<br>')
-      .replaceAll(/•/g, '&bull;')
-      .replaceAll(/\\u2019/g, '&#8217;')
-      .replaceAll(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+      .replaceAll('\n', '<br>')
+      .replaceAll('•', '&bull;')
+      .replaceAll('\\u2019', '&#8217;')
+      .replaceAll('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
   }
 
   add(a: number, b: number): number {
