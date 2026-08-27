@@ -18,7 +18,7 @@
     <ng-template #submitAsTextView>
       <mat-form-field class="textView margin-m">
         <mat-label>Your answer here</mat-label>
-        <textarea rows="7" minlength="10" matInput [formControl]="answerControl"></textarea>
+        <textarea id="resourceCollectionAnswer" aria-label="Your answer here" rows="7" minlength="10" matInput [formControl]="answerControl"></textarea>
         <mat-error> Min length should be 10 characters </mat-error>
       </mat-form-field>
     </ng-template>

@@ -11,8 +11,8 @@
     <form [formGroup]="emailForm" #signup="ngForm">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Email / Mobile Number</mat-label>
-        <input name="userInput" matInput formControlName="userInput" placeholder="Email Id/ Mobile number" type="text"
-          required>
+        <input id="register-userInput" name="userInput" matInput formControlName="userInput" placeholder="Email Id/ Mobile number" type="text"
+          aria-label="Email / Mobile Number" required>
         <mat-error class="text-danger"
           *ngIf="emailForm.controls['userInput'].hasError('required') && (emailForm.controls['userInput'].dirty || emailForm.controls['userInput'].touched)">
           This field is required</mat-error>
@@ -42,7 +42,7 @@
     <form class="register-form" [formGroup]="signupForm">
       <mat-form-field appearance="outline" class="w-full" *ngIf="isMobile">
         <mat-label>Enter OTP</mat-label>
-        <input type="text" matInput placeholder="OTP" formControlName="otp">
+        <input id="register-otp" type="text" matInput placeholder="OTP" aria-label="Enter OTP" formControlName="otp">
       </mat-form-field>
       <span *ngIf="showResend">
         <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="resendOTP()">
@@ -53,26 +53,26 @@
 
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>First name</mat-label>
-          <input type="text" matInput placeholder="First Name" formControlName="firstName" autocomplete="given-name">
+          <input id="register-firstName" type="text" matInput placeholder="First Name" aria-label="First name" formControlName="firstName" autocomplete="given-name">
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Last name</mat-label>
-          <input type="text" matInput placeholder="Last Name" formControlName="lastName" autocomplete="off">
+          <input id="register-lastName" type="text" matInput placeholder="Last Name" aria-label="Last name" formControlName="lastName" autocomplete="off">
         </mat-form-field>
 
         <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 6 characters.</div>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Password</mat-label>
-          <input [type]="hide1 ? 'password' : 'text'" matInput placeholder="Password" formControlName="password"
-            [attr.autocomplete]="hide1 ? 'new-password' : 'off'">
+          <input id="register-password" [type]="hide1 ? 'password' : 'text'" matInput placeholder="Password" formControlName="password"
+            aria-label="Password" [attr.autocomplete]="hide1 ? 'new-password' : 'off'">
           <mat-icon matSuffix tabindex="0" (click)="hide1 = !hide1" (keydown.enter)="hide1 = !hide1"
             (keydown.space)="hide1 = !hide1; $event.preventDefault()">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Confirm password</mat-label>
-          <input [type]="hide2 ? 'password' : 'text'" matInput placeholder="confirm password"
-            formControlName="confirmPassword" [attr.autocomplete]="hide2 ? 'new-password' : 'off'">
+          <input id="register-confirmPassword" [type]="hide2 ? 'password' : 'text'" matInput placeholder="confirm password"
+            aria-label="Confirm password" formControlName="confirmPassword" [attr.autocomplete]="hide2 ? 'new-password' : 'off'">
           <mat-icon matSuffix tabindex="0" (click)="hide2 = !hide2" (keydown.enter)="hide2 = !hide2"
             (keydown.space)="hide2 = !hide2; $event.preventDefault()">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
 
