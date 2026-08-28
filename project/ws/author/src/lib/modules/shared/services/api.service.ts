@@ -12,7 +12,7 @@ export class ApiService {
     if (url.startsWith(AUTHORING_BASE)) {
       const sString = JSON.stringify(body)
       const aUTF16CodeUnits = new Uint16Array(sString.length)
-      Array.prototype.forEach.call(aUTF16CodeUnits, (_el, idx, arr) => arr[idx] = sString.charCodeAt(idx))
+      Array.prototype.forEach.call(aUTF16CodeUnits, (_el, idx, arr) => arr[idx] = sString.codePointAt(idx))
       return { data: btoa(new Uint8Array(aUTF16CodeUnits.buffer).reduce((data, byte) => data + String.fromCodePoint(byte), '')) }
     }
     return body
