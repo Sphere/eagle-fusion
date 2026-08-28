@@ -641,8 +641,11 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       this.openSnackbar(this.translate.instant(res.message))
       this.navigateToOtpPage()
       localStorage.setItem(STORAGE_KEYS.userUUID, res.userId)
-    } else if (res.status === 'error') {
+    } else if (res.status === 'error' || res.status === 'failed') {
       this.openSnackbar(this.translate.instant(res.message))
+      if (this.isUserExistsError(res.message)) {
+        this.userExist()
+      }
     }
 
     this.loader.changeLoad.next(false)
@@ -656,7 +659,17 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
     const errorMsg = err.error?.msg || err.error?.message || 'An error occurred'
     this.openSnackbar(this.translate.instant(errorMsg))
-    this.userExist()
+
+    // Only show the "User already exists." dialog when the API actually reports a
+    // duplicate user. Any other failure (e.g. "Sorry ! User not created...") should
+    // surface its real message via the snackbar instead of a misleading dialog.
+    if (this.isUserExistsError(errorMsg)) {
+      this.userExist()
+    }
+  }
+
+  private isUserExistsError(message: string): boolean {
+    return /already\s+(exist|register)/i.test(message || '')
   }
 
   private navigateToOtpPage(): void {

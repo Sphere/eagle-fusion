@@ -148,6 +148,12 @@ describe('WorkInfoListComponent', () => {
   })
 
   describe('shouldShowField', () => {
+    // showIf gating only applies while the form is editable. In the read-only view every
+    // stored field is shown regardless of profession, so these cases need edit mode on.
+    beforeEach(() => {
+      component.isEditableForSphere = true
+    })
+
     it('should return true when no showIf', () => {
       expect(component.shouldShowField({ label: 'test' })).toBe(true)
     })

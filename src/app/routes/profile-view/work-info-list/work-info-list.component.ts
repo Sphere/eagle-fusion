@@ -47,6 +47,8 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
   @Input() data: any
 
   isEditableForSphere = false
+  // Read-only view: control key → the single config entry chosen to represent it.
+  private readOnlyFieldForKey = new Map<string, any>()
 
   personalDetailForm: UntypedFormGroup
 
@@ -219,6 +221,9 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
         }
       }
     }
+    // Resolve the read-only field set after every control has been patched.
+    this.computeReadOnlyFields()
+    this.cdr.markForCheck()
   }
 
   professionalChange(value: any) {
@@ -293,6 +298,45 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
   }
 
   shouldShowField(field: any): boolean {
+    // Read-only renders one field per control key, resolved up-front in computeReadOnlyFields().
+    // The config carries mutually-exclusive variants that share a key (two `designation`
+    // entries, two `orgName` entries) and relies on showIf to pick one; showing them all
+    // duplicates rows, and showing none blanks the page for a profession the form
+    // does not know about (e.g. a stored value of 'Nurse').
+    if (!this.isEditableForSphere) {
+      return this.readOnlyFieldForKey.get(field.key) === field
+    }
+    if (!field.showIf) return true
+    return this.matchesShowIf(field)
+  }
+
+  /**
+   * Picks exactly one config entry per control key for the read-only view: the variant whose
+   * showIf matches the stored profession, else the first variant that actually has a value.
+   */
+  private computeReadOnlyFields() {
+    this.readOnlyFieldForKey.clear()
+    const fields = (this.data?.formData || []).filter((f: any) => f && f.key && f.type !== 'submit')
+    const withValue = fields.filter((f: any) => {
+      const value = this.personalDetailForm.get(f.key)?.value
+      return value !== null && value !== undefined && value !== ''
+    })
+
+    withValue
+      .filter((f: any) => !f.showIf || this.matchesShowIf(f))
+      .forEach((f: any) => {
+        if (!this.readOnlyFieldForKey.has(f.key)) {
+          this.readOnlyFieldForKey.set(f.key, f)
+        }
+      })
+    withValue.forEach((f: any) => {
+      if (!this.readOnlyFieldForKey.has(f.key)) {
+        this.readOnlyFieldForKey.set(f.key, f)
+      }
+    })
+  }
+
+  private matchesShowIf(field: any): boolean {
     if (!field.showIf) return true
     const showIf = field.showIf
     const form = this.personalDetailForm

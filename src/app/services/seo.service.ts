@@ -35,15 +35,16 @@ export class SeoService {
     private readonly titleSvc: Title,
     private readonly metaSvc: Meta,
     private readonly router: Router,
-  ) {}
+  ) { }
 
   update(config: ISeoConfig = {}) {
+    const path = this.normalizePath(this.router.url)
     const title = config.title || DEFAULT_TITLE
     const description = config.description || DEFAULT_DESCRIPTION
     const ogTitle = config.ogTitle || title
     const ogDescription = config.ogDescription || description
     const ogImage = config.ogImage || DEFAULT_OG_IMAGE
-    const ogUrl = this.toServedForm(config.ogUrl || `${BASE_URL}${this.router.url.split('?')[0]}`)
+    const ogUrl = config.ogUrl || `${BASE_URL}${path}`
     const ogType = config.ogType || 'website'
 
     this.titleSvc.setTitle(title)
@@ -75,26 +76,17 @@ export class SeoService {
     }
 
     // Canonical and JSON-LD — use injected DOCUMENT so these work during SSR/prerender too
-    this.setCanonical(this.toServedForm(config.canonicalUrl || ogUrl))
+    this.setCanonical(config.canonicalUrl || ogUrl)
     this.setJsonLd(config.jsonLd || null)
   }
 
-  /**
-   * The CDN 301-redirects every extension-less path to its trailing-slash form
-   * (`/public/home` -> `/public/home/`). A canonical or og:url pointing at the
-   * non-slash form therefore points at a redirect, so Google discards it and picks
-   * its own canonical — which is why Search Console reports `/public/home` and
-   * `/public/home/` as two separate pages and flags 265 URLs as "Page with redirect".
-   * Emit the form the server actually serves with a 200.
-   *
-   * Query-string URLs (`/app/org-details?orgId=…`) and file-like paths are served
-   * as-is by the CDN, so they are left untouched.
-   */
-  private toServedForm(url: string): string {
-    const queryOrHashAt = url.search(/[?#]/)
-    if (queryOrHashAt !== -1) { return url }
-    if (url.endsWith('/') || /\.[a-z0-9]+$/i.test(url)) { return url }
-    return `${url}/`
+  // Collapse a route to a single canonical form: drop the query string and any trailing slash
+  // (except the site root). The app serves index.html — HTTP 200 — for both `/x` and `/x/`, so
+  // without this the two variants each self-canonicalize and Google indexes them as duplicates,
+  // splitting ranking signals. sitemap.xml uses the no-trailing-slash form, so we match it.
+  private normalizePath(url: string): string {
+    const path = url.split('?')[0].split('#')[0]
+    return path.length > 1 ? path.replace(/\/+$/, '') : path
   }
 
   private setCanonical(url: string) {

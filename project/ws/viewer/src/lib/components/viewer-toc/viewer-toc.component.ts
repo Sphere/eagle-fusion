@@ -27,6 +27,7 @@ import { isNull, isEmpty } from 'lodash-es'
 import { PlayerStateService, buildPlayerStateForResource } from '../../player-state.service'
 import { saveAs } from 'file-saver'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
+import { parseCompetencies } from '@ws/app/src/lib/routes/app-toc/utils/competency.util'
 interface IViewerTocCard {
   identifier: string
   completionPercentage: number
@@ -1001,7 +1002,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   private buildFinalCompetencies(): any[] {
     let finalCompetencies = []
     if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
-      const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+      const competencies_v1 = parseCompetencies(this.heirarchy.competencies_v1)
 
       finalCompetencies = competencies_v1.map((competency: any) => {
         return {
@@ -1132,75 +1133,56 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
 
                   if (foundContent) {
-                      child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
-                      child1.completionStatus = foundContent.status
-                      if (this.viewerDataSvc.getNode() && child1.completionPercentage === undefined) {
-                        child1.disabledNode = false
-                      }
-                    } else if (this.viewerDataSvc.getNode()) {
-                      if (index === 0) {
-                        element[index].disabledNode = false
-                        if (child1.completionPercentage === 100) {
-                          if (element && element[index + 1]) {
-                            element[index + 1].disabledNode = false
-                          }
-                        }
-                      } else {
-                        if (element[index + 1]) {
-                          element[index + 1].disabledNode = true
-                        }
-                      }
+                    child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
+                    child1.completionStatus = foundContent.status
+                    if (this.viewerDataSvc.getNode() && child1.completionPercentage === undefined) {
+                      child1.disabledNode = false
                     }
-                    if (child1.completionPercentage === 100) {
-                      if (element && element[index + 1]) {
-                        element[index + 1].disabledNode = false
+                  } else if (this.viewerDataSvc.getNode()) {
+                    if (index === 0) {
+                      element[index].disabledNode = false
+                      if (child1.completionPercentage === 100) {
+                        if (element && element[index + 1]) {
+                          element[index + 1].disabledNode = false
+                        }
                       }
                     } else {
                       if (element[index + 1]) {
-                        element[index + 1].disabledNode = this.viewerDataSvc.getNode()
+                        element[index + 1].disabledNode = true
                       }
                     }
+                  }
+                  if (child1.completionPercentage === 100) {
+                    if (element && element[index + 1]) {
+                      element[index + 1].disabledNode = false
+                    }
+                  } else {
+                    if (element[index + 1]) {
+                      element[index + 1].disabledNode = this.viewerDataSvc.getNode()
+                    }
+                  }
 
-                    if (child1['children']) {
+                  if (child1['children']) {
 
-                      child1['children'].map((child2: any, cindex: any) => {
+                    child1['children'].map((child2: any, cindex: any) => {
+                      // tslint:disable-next-line:max-line-length
+                      const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
+                      if (foundContent2) {
+                        child2.completionPercentage = foundContent2.completionPercentage
+                        child2.completionStatus = foundContent2.status
+
                         // tslint:disable-next-line:max-line-length
-                        const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
-                        if (foundContent2) {
-                          child2.completionPercentage = foundContent2.completionPercentage
-                          child2.completionStatus = foundContent2.status
+                      } else if (this.viewerDataSvc.getNode() && this.viewerDataSvc.resourceId === child2.identifier) {
+                        this.logger.log('entered')
+                        child2.disabledNode = false
 
-                          // tslint:disable-next-line:max-line-length
-                        } else if (this.viewerDataSvc.getNode() && this.viewerDataSvc.resourceId === child2.identifier) {
-                          this.logger.log('entered')
-                          child2.disabledNode = false
-
-                        } else if (
-                          element[index - 1]?.children?.length &&
-                          element[index - 1].children[element[index - 1].children.length - 1]?.completionPercentage === 100) {
-                          if (element[index].children.length > 0) {
-                            if (cindex === 0) {
-                              element[index].children[cindex].disabledNode = false
-                            } else {
-                              if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
-
-                                element[index].children[cindex].disabledNode = false
-                              } else {
-                                if (this.viewerDataSvc.getNode()) {
-                                  element[index].children[cindex].disabledNode = true
-                                } else {
-                                  element[index].children[cindex].disabledNode = false
-                                }
-
-                              }
-
-                            }
-                            return
-                          }
-                          // tslint:disable-next-line: max-line-length
-                        } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
-                          if (element[index].children.length > 0) {
-
+                      } else if (
+                        element[index - 1]?.children?.length &&
+                        element[index - 1].children[element[index - 1].children.length - 1]?.completionPercentage === 100) {
+                        if (element[index].children.length > 0) {
+                          if (cindex === 0) {
+                            element[index].children[cindex].disabledNode = false
+                          } else {
                             if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
 
                               element[index].children[cindex].disabledNode = false
@@ -1212,50 +1194,69 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                               }
 
                             }
-                            return
-                          }
-                        } else {
 
-                          if (element[index].children[cindex - 1]) {
-                            if (element[index].children[cindex - 1].completionPercentage === 100) {
-                              element[index].children[cindex].disabledNode = false
-                            } else if (this.viewerDataSvc.getNode()) {
+                          }
+                          return
+                        }
+                        // tslint:disable-next-line: max-line-length
+                      } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
+                        if (element[index].children.length > 0) {
+
+                          if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
+
+                            element[index].children[cindex].disabledNode = false
+                          } else {
+                            if (this.viewerDataSvc.getNode()) {
                               element[index].children[cindex].disabledNode = true
                             } else {
                               element[index].children[cindex].disabledNode = false
                             }
+
+                          }
+                          return
+                        }
+                      } else {
+
+                        if (element[index].children[cindex - 1]) {
+                          if (element[index].children[cindex - 1].completionPercentage === 100) {
+                            element[index].children[cindex].disabledNode = false
+                          } else if (this.viewerDataSvc.getNode()) {
+                            element[index].children[cindex].disabledNode = true
+                          } else {
+                            element[index].children[cindex].disabledNode = false
                           }
                         }
-                      })
-                    }
-                  })()
-                })
-              }
-              mergeData(this.collection.children)
+                      }
+                    })
+                  }
+                })()
+              })
             }
-            this.updateResourceChange()
-          })()
+            mergeData(this.collection.children)
+          }
+          this.updateResourceChange()
+        })()
+      },
+        (error: any) => {
+          // tslint:disable-next-line:no-console
+          this.logger.log('CONTENT HISTORY FETCH ERROR >', error)
         },
-          (error: any) => {
-            // tslint:disable-next-line:no-console
-            this.logger.log('CONTENT HISTORY FETCH ERROR >', error)
-          },
-        )
-        // tslint:disable-next-line: no-console
-        this.logger.log(this.collection.children)
-        this.nestedDataSource.data = this.collection.children
-        this.pathSet = new Set()
-        this.cdr.markForCheck()
-        if (this.resourceId) {
-          of(true)
-            .pipe(delay(200))
-            .subscribe(() => {
-              this.expandThePath()
+      )
+      // tslint:disable-next-line: no-console
+      this.logger.log(this.collection.children)
+      this.nestedDataSource.data = this.collection.children
+      this.pathSet = new Set()
+      this.cdr.markForCheck()
+      if (this.resourceId) {
+        of(true)
+          .pipe(delay(200))
+          .subscribe(() => {
+            this.expandThePath()
 
-            })
-        }
+          })
       }
     }
+  }
 
   async openCongratulationPopup(): Promise<boolean> {
     const dialogRef = this.dialog.open(CongratulationsPopupComponent, {

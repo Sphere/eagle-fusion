@@ -107,14 +107,15 @@ export class GeneralGuard {
       return
     }
     const cachedUserData = this.userDataCacheSvc.getCachedUserData()
-    if (!cachedUserData || !cachedUserData.userId) {
+    const cachedUserId = cachedUserData && this.userDataCacheSvc.getUserIdFromProfile(cachedUserData)
+    if (!cachedUserData || !cachedUserId) {
       return
     }
     this.logger.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserData.userId)
     this.configSvc.unMappedUser = cachedUserData
     // Basic user profile setup from cache
     this.configSvc.userProfile = {
-      userId: cachedUserData.userId,
+      userId: cachedUserId,
       email: cachedUserData.email || cachedUserData.officialEmail,
       givenName: cachedUserData.firstName,
       firstName: cachedUserData.firstName,
@@ -131,8 +132,9 @@ export class GeneralGuard {
       language: cachedUserData.profileDetails?.preferences?.language || 'en',
     }
     // Restore roles
-    if (cachedUserData.roles && Array.isArray(cachedUserData.roles)) {
-      this.configSvc.userRoles = new Set((cachedUserData.roles || []).map((v: string) => v.toLowerCase()))
+    const roles = this.userDataCacheSvc.getRolesFromProfile(cachedUserData)
+    if (roles.length) {
+      this.configSvc.userRoles = new Set(roles.map((v: string) => v.toLowerCase()))
     }
   }
 

@@ -17,7 +17,33 @@ jest.mock('../../../project/ws/app/src/lib/routes/user-profile/services/user-pro
 }))
 
 jest.mock('../services/user-data-cache.service', () => ({
-  UserDataCacheService: class { getCachedUserData = jest.fn().mockReturnValue(null) },
+  UserDataCacheService: class {
+    getCachedUserData = jest.fn().mockReturnValue(null)
+    getRolesFromProfile = jest.fn((userPidProfile: any) => {
+      const normalizeRoleEntries = (entries: any[]): string[] =>
+        entries
+          .map((entry: any) => (typeof entry === 'string' ? entry : entry?.role))
+          .filter((role: any): role is string => typeof role === 'string' && role.length > 0)
+      if (userPidProfile && Array.isArray(userPidProfile.roles) && userPidProfile.roles.length) {
+        const roles = normalizeRoleEntries(userPidProfile.roles)
+        if (roles.length) {
+          return roles
+        }
+      }
+      const organisations = (userPidProfile && userPidProfile.organisations) || []
+      const roles = new Set<string>()
+      organisations.forEach((org: any) => {
+        (org.roles || []).forEach((role: string) => roles.add(role))
+      })
+      return Array.from(roles)
+    })
+    getUserIdFromProfile = jest.fn((userPidProfile: any) => {
+      if (!userPidProfile) {
+        return undefined
+      }
+      return userPidProfile.userId || userPidProfile.id || userPidProfile.identifier
+    })
+  },
 }))
 
 import { GeneralGuard } from './general.guard'

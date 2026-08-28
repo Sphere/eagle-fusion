@@ -93,7 +93,7 @@ export class UserDataCacheService implements OnDestroy {
     // If data is already cached, return it
     const cachedData = this.userDataSubject.value
     if (cachedData) {
-      this.logger.log('[UserDataCache] Returning existing cached data for userId:', cachedData.userId)
+      this.logger.log('[UserDataCache] Returning existing cached data for userId:', this.getUserIdFromProfile(cachedData))
       return this.userData$.pipe(take(1))
     }
 
@@ -114,7 +114,7 @@ export class UserDataCacheService implements OnDestroy {
           return res && res.result ? res.result.response : null
         }),
         tap((data: any) => {
-          this.logger.log('[UserDataCache] Caching data with userId:', data?.userId)
+          this.logger.log('[UserDataCache] Caching data with userId:', this.getUserIdFromProfile(data))
           this.userDataSubject.next(data)
           this.cacheToSession(data)
           this.cacheTimestamp = Date.now()
@@ -137,6 +137,44 @@ export class UserDataCacheService implements OnDestroy {
    */
   getCachedUserData(): any {
     return this.userDataSubject.value
+  }
+
+  /**
+   * Sunbird Spark's user-read (V3) response omits the top-level `roles` array and only
+   * carries roles nested per-organisation. Old Sunbird's top-level `roles` is a flat array
+   * of role-name strings; Spark's V5 top-level `roles` is an array of raw role records
+   * (`{role, scope, ...}`) instead. Normalize all three shapes down to plain role-name strings.
+   */
+  getRolesFromProfile(userPidProfile: any): string[] {
+    const normalizeRoleEntries = (entries: any[]): string[] =>
+      entries
+        .map((entry: any) => (typeof entry === 'string' ? entry : entry?.role))
+        .filter((role: any): role is string => typeof role === 'string' && role.length > 0)
+
+    if (userPidProfile && Array.isArray(userPidProfile.roles) && userPidProfile.roles.length) {
+      const roles = normalizeRoleEntries(userPidProfile.roles)
+      if (roles.length) {
+        return roles
+      }
+    }
+    const organisations = (userPidProfile && userPidProfile.organisations) || []
+    const roles = new Set<string>()
+    organisations.forEach((org: any) => {
+      (org.roles || []).forEach((role: string) => roles.add(role))
+    })
+    return Array.from(roles)
+  }
+
+  /**
+   * Old Sunbird's user-read response included a redundant top-level `userId` field.
+   * Sunbird Spark's response never sets it (for any read version) — only `id`/`identifier`
+   * are present. Prefer `userId` when present for backward compatibility, else fall back.
+   */
+  getUserIdFromProfile(userPidProfile: any): string | undefined {
+    if (!userPidProfile) {
+      return undefined
+    }
+    return userPidProfile.userId || userPidProfile.id || userPidProfile.identifier
   }
 
   /**
@@ -174,7 +212,7 @@ export class UserDataCacheService implements OnDestroy {
    * Cache user data to session storage for persistence during session
    */
   private cacheToSession(data: any): void {
-    if (data && data.userId) {
+    if (data && this.getUserIdFromProfile(data)) {
       try {
         sessionStorage.setItem('userDataCache', JSON.stringify(data))
         this.logger.log('[UserDataCache] User data cached to session storage')
@@ -193,8 +231,8 @@ export class UserDataCacheService implements OnDestroy {
       if (cached) {
         this.logger.log('[UserDataCache] Found cached data in session storage, attempting to parse...')
         const data = JSON.parse(cached)
-        if (data && data.userId) {
-          this.logger.log('[UserDataCache] Restoring data from session storage for userId:', data.userId)
+        if (data && this.getUserIdFromProfile(data)) {
+          this.logger.log('[UserDataCache] Restoring data from session storage for userId:', this.getUserIdFromProfile(data))
           this.userDataSubject.next(data)
           this.cacheTimestamp = Date.now()
           this.setupCacheExpiration()

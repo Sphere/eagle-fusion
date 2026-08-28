@@ -1,26 +1,26 @@
 // ─── Shimmer ─────────────────────────────────────────────────────────────────
+// Percentage-based sweep so the highlight crosses the block at any width. A fixed-px
+// gradient tile is fine for small cards but is invisible on a ~850px wide dialog.
 @keyframes shimmerSlide {
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .shimmer {
-  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 200px, #ececec 400px);
-  background-size: 400px 100%;
-  animation: shimmerSlide 1.5s infinite linear;
+  background: linear-gradient(90deg, #e4e8ee 25%, #cfd5de 50%, #e4e8ee 75%);
+  background-size: 200% 100%;
+  animation: shimmerSlide 1.4s infinite linear;
   border-radius: 6px;
 }
 
-:host-context(.dark-theme) .shimmer {
-  background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 200px, var(--theme-surface) 400px);
-  background-size: 400px 100%;
-}
+// Dark theme is handled globally by `.dark-theme .shimmer` in src/styles/themes.scss, which
+// carries !important — a component-level override here would never apply.
 
 .shimmer-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px 24px;
+  padding: 16px 20px 20px;
   height: 100%;
   box-sizing: border-box;
 }
@@ -29,16 +29,30 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--theme-border, #eaecf0);
 }
 
-.shimmer-title { flex: 1; height: 22px; }
-.shimmer-btn   { width: 110px; height: 38px; border-radius: 20px; }
-.shimmer-close { width: 38px;  height: 38px; border-radius: 50%; flex-shrink: 0; }
+// Mirrors the real header: round icon, two stacked text lines, download pill, close button.
+.shimmer-avatar { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; }
+
+.shimmer-title-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.shimmer-line-sm { height: 11px; width: 40%; border-radius: 4px; }
+.shimmer-line-lg { height: 15px; width: 70%; border-radius: 4px; }
+.shimmer-btn     { width: 120px; height: 38px; border-radius: 8px; flex-shrink: 0; }
 
 .shimmer-image {
   flex: 1;
+  width: 100%;
   border-radius: 10px;
-  min-height: 200px;
+  min-height: 220px;
 }
 
 // ─── Modal shell ─────────────────────────────────────────────────────────────
@@ -134,6 +148,88 @@
 
   &:hover {
     background: #164f80;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+
+    &:hover {
+      background: var(--theme-accent);
+    }
+  }
+}
+
+.secondary-btn {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--theme-border, #d0d5dd);
+  background: transparent;
+  color: var(--theme-text, #101828);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+// ─── Error state ──────────────────────────────────────────────────────────────
+.cert-error {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 24px;
+  gap: 4px;
+}
+
+.cert-error-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  color: var(--theme-text-secondary, #98a2b3);
+  margin-bottom: 8px;
+}
+
+.cert-error-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--theme-text, #101828);
+}
+
+.cert-error-hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--theme-text-secondary, #667085);
+}
+
+.cert-error-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cert-download-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 24px 8px;
+  font-size: 13px;
+  color: #b42318;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
   }
 }
 

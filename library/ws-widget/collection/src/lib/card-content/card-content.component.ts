@@ -11,6 +11,7 @@ import { delay, mergeMap } from 'rxjs/operators'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { Title } from '@angular/platform-browser'
 import { get, forEach } from 'lodash'
+import { parseCompetencies } from '@ws/app/src/lib/routes/app-toc/utils/competency.util'
 
 @Component({
   standalone: false,
@@ -80,7 +81,7 @@ export class CardContentComponent extends WidgetBaseComponent
 
     if (this.widgetData) {
       if (this.widgetData.content.competencies_v1 && Object.keys(this.widgetData.content.competencies_v1).length > 0) {
-        forEach(JSON.parse(get(this.widgetData, 'content.competencies_v1')), (value: any) => {
+        forEach(parseCompetencies(get(this.widgetData, 'content.competencies_v1')), (value: any) => {
           if (value.level) {
             this.cometencyData.push(
               {

@@ -483,16 +483,44 @@ describe('CreateAccountComponent', () => {
   })
 
   describe('onSubmit error path', () => {
-    it('should call openSnackbar and userExist on signup error', () => {
+    it('should show snackbar but NOT the userExist dialog for a generic failure', () => {
       const { throwError } = require('rxjs')
       mockSignupService.ssoWithMobileEmail = jest.fn().mockReturnValue(
-        throwError(() => ({ error: { message: 'Network error' } }))
+        throwError(() => ({ error: { message: 'Sorry ! User not created. Please try again in sometime.', status: 'failed' } }))
       )
       component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'test@example.com' })
       component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
       component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
       expect(mockSnackBar.open).toHaveBeenCalled()
-      expect(mockDialog.open).toHaveBeenCalled()
+      expect(mockDialog.open).not.toHaveBeenCalled()
+    })
+
+    it('should open the userExist dialog when the API reports the user already exists', () => {
+      const { throwError } = require('rxjs')
+      mockSignupService.ssoWithMobileEmail = jest.fn().mockReturnValue(
+        throwError(() => ({ error: { message: 'User already exists' } }))
+      )
+      component.createAccountForm.patchValue({ firstname: 'John', lastname: 'Doe', emailOrMobile: 'test@example.com' })
+      component.createAccountWithPasswordForm.patchValue({ password: 'Test@1234', confirmPassword: 'Test@1234' })
+      component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
+      expect(mockSnackBar.open).toHaveBeenCalled()
+      expect(mockDialog.open).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ data: expect.objectContaining({ selected: 'userExist' }) }),
+      )
+    })
+  })
+
+  describe('isUserExistsError', () => {
+    it('returns true for "already exists" and "already registered" messages', () => {
+      expect((component as any).isUserExistsError('User already exists')).toBe(true)
+      expect((component as any).isUserExistsError('This user is already registered')).toBe(true)
+    })
+
+    it('returns false for generic failures and empty input', () => {
+      expect((component as any).isUserExistsError('Sorry ! User not created. Please try again in sometime.')).toBe(false)
+      expect((component as any).isUserExistsError('')).toBe(false)
+      expect((component as any).isUserExistsError(undefined)).toBe(false)
     })
   })
 

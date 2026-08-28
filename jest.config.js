@@ -81,6 +81,7 @@ module.exports = {
     '^@ws/author/src/lib/constants/icons$': '<rootDir>/project/ws/author/src/lib/constants/icons.ts',
     '^@ws/author/src/lib/constants/mimeType$': '<rootDir>/project/ws/author/src/lib/constants/mimeType.ts',
     '^@ws/app/src/lib/routes/search/services/search-serv.service$': '<rootDir>/project/ws/app/src/lib/routes/search/services/search-serv.service.ts',
+    '^@ws/app/src/lib/routes/app-toc/utils/competency.util$': '<rootDir>/project/ws/app/src/lib/routes/app-toc/utils/competency.util.ts',
     '^project/ws/viewer/src/lib/viewer-data.service': '<rootDir>/project/ws/viewer/src/lib/viewer-data.service.ts',
     '^project/ws/app/src/lib/routes/user-profile/services/user-profile.service': '<rootDir>/project/ws/app/src/lib/routes/user-profile/services/user-profile.service.ts',
     '@ws-widget/resolver/src/public-api$': '<rootDir>/library/ws-widget/resolver/src/public-api.ts',

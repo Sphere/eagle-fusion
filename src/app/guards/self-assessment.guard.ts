@@ -5,9 +5,10 @@ import { forkJoin, of } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import { WidgetContentService } from '../../../library/ws-widget/collection/src/lib/_services/widget-content.service'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/lib/services/configurations.service'
-import { LoggerService } from '@ws-widget/utils'
 import { viewerRouteGenerator } from '../../../library/ws-widget/collection/src/lib/_services/viewer-route-util'
+import { LoggerService } from '../../../library/ws-widget/utils/src/lib/services/logger.service'
 import { TranslateService } from '@ngx-translate/core'
+import { parseCompetencies } from '@ws/app/src/lib/routes/app-toc/utils/competency.util'
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,10 @@ export class SelfAssessmentGuard {
     localStorage.removeItem('competency_meta_data')
     this.eventData = _.cloneDeep(event)
     if (this.eventData) {
+      // This guard is a root singleton, so batchId survives between clicks. Reset it every
+      // time and seed from the batchId the competency card already handed us — without this
+      // a stale batchId from a previously opened course can leak into the next navigation.
+      this.batchId = this.eventData.batchId || undefined
       this.competencyId = this.eventData.competencyID
       this.language = this.eventData.lang || this.translate.getCurrentLang()
       this.levelsDetaisl = JSON.stringify(this.eventData.levels)
@@ -62,14 +67,11 @@ export class SelfAssessmentGuard {
             this.content = _.get(res[0], 'result.content')
             let competency_meta_data = []
             if (this.content) {
-              if (
-                this.content.competencies_v1 &&
-                !_.isEmpty(this.content.competencies_v1)
-              ) {
-                competency_meta_data = JSON.parse(
-                  this.content.competencies_v1
-                )
-              }
+              // competencies_v1 arrives as a JSON string from some content-service builds and
+              // as an already-parsed array from others. A bare JSON.parse() throws on the array
+              // form, and because that throw happens inside this mergeMap it used to kill the
+              // whole chain silently — leaving the Assess button doing nothing.
+              competency_meta_data = parseCompetencies(this.content.competencies_v1)
               const children = _.map(this.content.children, (item: any) => {
                 return {
                   identifier: item.identifier,
@@ -104,11 +106,19 @@ export class SelfAssessmentGuard {
             }
           })
         )
-        .subscribe((res: any) => {
-          if (_.get(res, 'batchId')) {
-            this.batchId = _.get(res, 'batchId')
-          }
-          return this.navigateToplayer({ 'batchId': this.batchId })
+        .subscribe({
+          next: (res: any) => {
+            if (_.get(res, 'batchId')) {
+              this.batchId = _.get(res, 'batchId')
+            }
+            this.navigateToplayer({ 'batchId': this.batchId })
+          },
+          error: (err: any) => {
+            // Never swallow: this guard always returns false and navigates as a side effect,
+            // so an unhandled error here means the user simply stays put with no feedback.
+            this.logger.error('Self assessment: could not resolve batch, aborting navigation', err)
+            this.navigateToplayer({ 'batchId': this.batchId })
+          },
         })
     }
     return false
@@ -166,46 +176,61 @@ export class SelfAssessmentGuard {
         fields: ['progressdetails'],
       },
     }
-    this.contentSvc.fetchContentHistoryV2(req).subscribe((data: any) => {
-      if (
-        data &&
-        data.result &&
-        data.result.contentList &&
-        data.result.contentList.length > 0
-      ) {
-        this.resumeData = _.get(data, 'result.contentList')
-        const lastItem = _.last(this.resumeData)
-        const resumeDataV2 = {
-          identifier: _.get(lastItem, 'contentId'),
-          mimeType: _.get(lastItem, 'progressdetails.mimeType'),
+    if (!batchId) {
+      // The progress API rejects a request with no batchId (400 MANDATORY_PARAMETER_MISSING),
+      // so don't fire one we know will fail — start the course from its first resource.
+      this.logger.error('Self assessment: no batchId resolved, starting from first resource')
+      this.startFromFirstResource(batchId)
+      return false
+    }
+    this.contentSvc.fetchContentHistoryV2(req).subscribe({
+      next: (data: any) => {
+        if (data?.result?.contentList?.length > 0) {
+          this.resumeData = _.get(data, 'result.contentList')
+          const lastItem = _.last(this.resumeData)
+          const resumeDataV2 = {
+            identifier: _.get(lastItem, 'contentId'),
+            mimeType: _.get(lastItem, 'progressdetails.mimeType'),
+          }
+          this.resumeDataLink = viewerRouteGenerator(
+            resumeDataV2.identifier,
+            resumeDataV2.mimeType,
+            this.eventData.contentId,
+            this.eventData.contentType,
+            false,
+            'Course',
+            batchId
+          )
+          this.routeNavigation(batchId, 'RESUME')
+        } else {
+          this.startFromFirstResource(batchId)
         }
-        this.resumeDataLink = viewerRouteGenerator(
-          resumeDataV2.identifier,
-          resumeDataV2.mimeType,
-          this.eventData.contentId,
-          this.eventData.contentType,
-          false,
-          'Course',
-          batchId
-        )
-        this.routeNavigation(batchId, 'RESUME')
-      } else {
-        const firstPlayableContent = this.contentSvc.getFirstChildInHierarchy(
-          this.content
-        )
-        this.resumeDataLink = viewerRouteGenerator(
-          _.get(firstPlayableContent, 'identifier'),
-          _.get(firstPlayableContent, 'mimeType'),
-          this.eventData.contentId,
-          this.eventData.contentType,
-          false,
-          'Course',
-          batchId
-        )
-        this.routeNavigation(batchId, 'START')
-      }
+      },
+      error: (err: any) => {
+        // Fall back to starting the course rather than leaving the user on a dead button.
+        this.logger.error('Self assessment: progress lookup failed, starting from first resource', err)
+        this.startFromFirstResource(batchId)
+      },
     })
     return false
+  }
+
+  private startFromFirstResource(batchId?: any) {
+    if (!this.content) {
+      this.logger.error('Self assessment: no course hierarchy available, cannot navigate')
+      return
+    }
+    const firstPlayableContent = this.contentSvc.getFirstChildInHierarchy(this.content)
+    this.resumeDataLink = viewerRouteGenerator(
+      _.get(firstPlayableContent, 'identifier'),
+      _.get(firstPlayableContent, 'mimeType'),
+      this.eventData.contentId,
+      this.eventData.contentType,
+      false,
+      'Course',
+      batchId
+    )
+    this.routeNavigation(batchId, 'START')
   }
 
   routeNavigation(batchId?: any, viewMode?: any) {
@@ -236,7 +261,6 @@ export class SelfAssessmentGuard {
         queryParams: qParams,
       })
     }
-
   }
 
 }

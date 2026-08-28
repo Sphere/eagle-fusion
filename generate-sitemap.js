@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Runs automatically before `yarn prerender` via the package.json script.
  *
@@ -22,11 +21,20 @@ const CNE_COURSES_PATH = path.join(
 )
 const TODAY = new Date().toISOString().split('T')[0]
 const PAGE_SIZE = 200
+const ID_BATCH = 100
 const API_HOST = 'sphere.aastrika.org'
-const API_PATH = '/api/content/v1/search'
-const FORM_API_PATH = '/apis/v1/form/read'
-// The home page's "CNE COURSES" section is driven by this playlist config id.
-const CNE_PLAYLIST_CONFIG_ID = 'CNE_COURSE_PLAYLIST'
+// Two-step generation so the sitemap only lists course pages that actually render content:
+//   1. DISCOVERY — the broad Sunbird content search returns every Live Course (the candidates).
+//   2. RENDER CHECK — the public course page (PublicTocComponent) loads its data from
+//      SEARCH_V7PUBLIC (getCourses) filtered by identifier. A candidate whose id getCourses does
+//      NOT return renders as a blank page. So we validate every candidate id against getCourses
+//      and keep only those that come back — guaranteeing each sitemap URL has content.
+// (Historically the sitemap was built straight from discovery, so ~68% of URLs were blank pages
+//  that Google crawled and could not index.)
+const DISCOVERY_PATH = '/api/content/v1/search'
+const RENDER_CHECK_PATH = '/apis/public/v8/publicSearch/getCourses'
+// Match PublicTocComponent's lookup filter exactly (primaryCategory + contentType + status).
+const COURSE_FILTERS = { primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'] }
 
 const STATIC_ROUTES = [
   '/public/home',
@@ -166,7 +174,13 @@ function slugify(text) {
     .toLowerCase()
     .trim()
     .replace(/&/g, 'and')
-    .replace(/[^a-z0-9]+/g, '-')
+    // Keep Unicode letters/numbers/marks (\p{L}\p{N}\p{M}) so non-Latin names — e.g.
+    // Hindi/Devanagari course titles — produce a readable slug instead of being stripped to
+    // an empty string. \p{M} preserves combining vowel signs (matras) so words like
+    // "सक्रिय" stay intact rather than fragmenting into "सक-र-य". Previously [^a-z0-9] wiped
+    // Devanagari entirely, so ~38% of courses fell back to the identifier and emitted ugly
+    // /overview/<id>/<id> URLs that hurt CTR and Hindi SEO.
+    .replace(/[^\p{L}\p{N}\p{M}]+/gu, '-')
     .replace(/^-+|-+$/g, '')
 
   if (slug.length <= MAX_SLUG_LENGTH) { return slug }
@@ -175,7 +189,40 @@ function slugify(text) {
   return (lastDash > 0 ? cut.slice(0, lastDash) : cut).replace(/-+$/, '')
 }
 
-function postJson(body, apiPath = API_PATH) {
+// The slug becomes a single path segment — and, during prerender, a directory name on disk.
+// Most filesystems cap one path component at 255 bytes, and Devanagari characters are 3 bytes
+// each in UTF-8, so long Hindi titles can blow past that limit and fail the build. Cap the slug
+// well under 255 bytes, trimming whole words at hyphen boundaries so it stays readable. The slug
+// is purely cosmetic (the page loads by course id), so truncating it has no functional effect.
+const MAX_SLUG_BYTES = 180
+
+function truncateSlug(slug) {
+  if (Buffer.byteLength(slug, 'utf8') <= MAX_SLUG_BYTES) { return slug }
+  let out = ''
+  for (const word of slug.split('-')) {
+    const candidate = out ? `${out}-${word}` : word
+    if (Buffer.byteLength(candidate, 'utf8') > MAX_SLUG_BYTES) { break }
+    out = candidate
+  }
+  // A single word longer than the limit: hard-cut on a character boundary (never mid-codepoint).
+  if (!out) {
+    for (const ch of slug) {
+      if (Buffer.byteLength(out + ch, 'utf8') > MAX_SLUG_BYTES) { break }
+      out += ch
+    }
+  }
+  return out.replace(/-+$/g, '')
+}
+
+// Single source of truth for a course's public path, so sitemap.xml and prerender-routes.txt
+// never drift apart. Falls back to a generic slug (never the raw id) if a name has no
+// sluggable characters at all, avoiding the /<id>/<id> duplication.
+function coursePath(course) {
+  const slug = truncateSlug(slugify(course.name)) || 'course'
+  return `/public/toc/overview/${course.identifier}/${slug}`
+}
+
+function postJson(apiPath, body) {
   return new Promise((resolve, reject) => {
     const raw = JSON.stringify(body)
     const options = {
@@ -204,13 +251,13 @@ function postJson(body, apiPath = API_PATH) {
   })
 }
 
-async function fetchAllCourses() {
+// Step 1 — discover every Live Course id from the broad Sunbird content search.
+async function discoverCandidates() {
   const all = []
   let offset = 0
-
   while (true) {
-    console.log(`[sitemap] Fetching courses offset=${offset} limit=${PAGE_SIZE}...`)
-    const res = await postJson({
+    console.log(`[sitemap] Discovering courses offset=${offset} limit=${PAGE_SIZE}...`)
+    const res = await postJson(DISCOVERY_PATH, {
       request: {
         filters: { primaryCategory: ['Course'], status: ['Live'] },
         // cneName carries the CNE credit hours and is the only marker of a CNE-accredited
@@ -225,33 +272,62 @@ async function fetchAllCourses() {
         sort_by: { lastUpdatedOn: 'desc' },
       },
     })
-
     const courses = res?.result?.content || []
     const total = res?.result?.count || 0
     all.push(...courses)
-    console.log(`[sitemap] Got ${courses.length} courses (${all.length} / ${total} total)`)
-
-    if (all.length >= total || courses.length < PAGE_SIZE) break
+    if (all.length >= total || courses.length < PAGE_SIZE) { break }
     offset += PAGE_SIZE
   }
-
   return all
+}
+
+// Step 2 — keep only candidates that the course page's own data source (getCourses) returns.
+// getCourses accepts an identifier array, so we validate in batches. Returned objects carry the
+// canonical name/lastUpdatedOn, so we prefer those over the discovery payload.
+async function keepRenderable(candidates) {
+  const ids = candidates.map(c => c.identifier).filter(Boolean)
+  const renderable = new Map()
+  for (let i = 0; i < ids.length; i += ID_BATCH) {
+    const batch = ids.slice(i, i + ID_BATCH)
+    console.log(`[sitemap] Render-checking ${i + 1}-${i + batch.length} of ${ids.length}...`)
+    const res = await postJson(RENDER_CHECK_PATH, {
+      request: {
+        filters: { ...COURSE_FILTERS, identifier: batch },
+        query: '',
+        limit: ID_BATCH,
+        sort: [{ lastUpdatedOn: 'desc' }],
+      },
+    })
+    for (const c of (res?.result?.content || [])) {
+      if (c && c.identifier) { renderable.set(c.identifier, c) }
+    }
+  }
+  return [...renderable.values()]
+}
+
+async function fetchAllCourses() {
+  const candidates = await discoverCandidates()
+  console.log(`[sitemap] Discovered ${candidates.length} Live courses`)
+  const courses = await keepRenderable(candidates)
+  const dropped = candidates.length - courses.length
+  console.log(`[sitemap] ${courses.length} render with content; dropped ${dropped} blank/unreachable course(s)`)
+  return courses
 }
 
 function buildSitemap(courses) {
   const staticUrls = [
-    { loc: '/public/home',        priority: '1.0', changefreq: 'daily' },
-    { loc: '/public/about',       priority: '0.7', changefreq: 'monthly' },
+    { loc: '/public/home', priority: '1.0', changefreq: 'daily' },
+    { loc: '/public/about', priority: '0.7', changefreq: 'monthly' },
     { loc: '/public/cne-courses', priority: '0.9', changefreq: 'weekly' },
-    { loc: '/public/blog',        priority: '0.8', changefreq: 'weekly' },
-    { loc: '/public/blog/how-to-earn-cne-points-online',              priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
-    { loc: '/public/blog/inc-certification-guide-for-nurses',         priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
-    { loc: '/public/blog/free-courses-for-anm-gnm-staff-nurses',      priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
+    { loc: '/public/blog', priority: '0.8', changefreq: 'weekly' },
+    { loc: '/public/blog/how-to-earn-cne-points-online', priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
+    { loc: '/public/blog/inc-certification-guide-for-nurses', priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
+    { loc: '/public/blog/free-courses-for-anm-gnm-staff-nurses', priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
     { loc: '/public/blog/what-is-amtsl-guide-for-healthcare-workers', priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
-    { loc: '/public/blog/maternal-health-training-online-india',      priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
-    { loc: '/public/contact',     priority: '0.6', changefreq: 'monthly' },
+    { loc: '/public/blog/maternal-health-training-online-india', priority: '0.8', changefreq: 'monthly', lastmod: '2026-05-01' },
+    { loc: '/public/contact', priority: '0.6', changefreq: 'monthly' },
     { loc: '/public/faq/general', priority: '0.6', changefreq: 'monthly' },
-    { loc: '/public/tnc',         priority: '0.3', changefreq: 'yearly' },
+    { loc: '/public/tnc', priority: '0.3', changefreq: 'yearly' },
   ]
 
   const staticBlock = staticUrls.map(u => `
@@ -271,13 +347,14 @@ function buildSitemap(courses) {
   const courseBlock = courses
     .filter(c => c.identifier && c.name)
     .map(c => {
-      const slug = slugify(c.name) || c.identifier
       const lastmod = c.lastUpdatedOn
         ? new Date(c.lastUpdatedOn).toISOString().split('T')[0]
         : TODAY
+      // encodeURI keeps the path valid per the sitemap spec when the slug contains
+      // non-ASCII (e.g. Devanagari) characters; ASCII slugs pass through unchanged.
       return `
   <url>
-    <loc>${BASE_URL}${servedUrl(`/public/toc/overview/${c.identifier}/${slug}`)}</loc>
+    <loc>${encodeURI(`${BASE_URL}${coursePath(c)}`)}</loc>
     <lastmod>${lastmod}</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
@@ -410,7 +487,7 @@ ${body}
 function buildRoutesList(courses) {
   const courseRoutes = courses
     .filter(c => c.identifier && c.name)
-    .map(c => `/public/toc/overview/${c.identifier}/${slugify(c.name) || c.identifier}`)
+    .map(c => coursePath(c))
 
   return [...STATIC_ROUTES, ...courseRoutes].join('\n')
 }
@@ -456,4 +533,9 @@ async function main() {
   }
 }
 
-main()
+// Only run when invoked directly (node generate-sitemap.js), not when required by tests.
+if (require.main === module) {
+  main()
+}
+
+module.exports = { slugify, truncateSlug, coursePath, buildSitemap, buildRoutesList, MAX_SLUG_BYTES }

@@ -89,48 +89,47 @@ describe('SeoService', () => {
     expect(mockDoc.head.appendChild).toHaveBeenCalled()
   })
 
-  it('reuses an existing canonical link instead of appending a second one', () => {
-    const existing = { setAttribute: jest.fn() }
-    mockDoc.head.querySelector.mockReturnValue(existing)
+  const canonicalHrefFrom = (): string => {
+    let canonicalHref = ''
+    mockDoc.createElement.mockImplementation(() => {
+      const el: any = {
+        setAttribute: jest.fn((attr: string, val: string) => {
+          if (attr === 'rel') { el._rel = val }
+          if (attr === 'href' && el._rel === 'canonical') { canonicalHref = val }
+        }),
+        remove: jest.fn(),
+      }
+      return el
+    })
+    service.update()
+    return canonicalHref
+  }
 
-    service.update({ canonicalUrl: 'https://sphere.aastrika.org/public/home/' })
-
-    expect(mockDoc.createElement).not.toHaveBeenCalledWith('link')
-    expect(mockDoc.head.appendChild).not.toHaveBeenCalled()
-    expect(existing.setAttribute).toHaveBeenCalledWith('href', 'https://sphere.aastrika.org/public/home/')
+  it('update strips a trailing slash from the canonical URL so /x and /x/ consolidate', () => {
+    mockRouter.url = '/public/home/'
+    expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/public/home')
   })
 
-  describe('trailing-slash normalisation', () => {
-    const canonicalHref = () => {
-      const link = mockDoc.createElement.mock.results
-        .map((r: any) => r.value)
-        .find((el: any) => el.setAttribute.mock.calls.some((c: any[]) => c[0] === 'href'))
-      return link.setAttribute.mock.calls.find((c: any[]) => c[0] === 'href')[1]
-    }
+  it('update drops the query string from the canonical URL', () => {
+    mockRouter.url = '/public/home?tab=all'
+    expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/public/home')
+  })
 
-    it('appends a trailing slash to an extension-less canonical', () => {
-      service.update({ canonicalUrl: 'https://sphere.aastrika.org/public/blog' })
-      expect(canonicalHref()).toBe('https://sphere.aastrika.org/public/blog/')
-    })
+  it('update preserves the site root "/" without stripping it to empty', () => {
+    mockRouter.url = '/'
+    expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/')
+  })
 
-    it('leaves an already-slashed canonical untouched', () => {
-      service.update({ canonicalUrl: 'https://sphere.aastrika.org/public/blog/' })
-      expect(canonicalHref()).toBe('https://sphere.aastrika.org/public/blog/')
-    })
-
-    it('leaves a query-string canonical untouched', () => {
-      const url = 'https://sphere.aastrika.org/app/org-details?orgId=Indian%20Nursing%20Council'
-      service.update({ canonicalUrl: url })
-      expect(canonicalHref()).toBe(url)
-    })
-
-    it('normalises the derived og:url from the router path', () => {
-      mockRouter.url = '/public/toc/overview/do_123/slug?batchId=9'
-      service.update()
-      expect(mockMetaSvc.updateTag).toHaveBeenCalledWith({
-        property: 'og:url',
-        content: 'https://sphere.aastrika.org/public/toc/overview/do_123/slug/',
-      })
-    })
+  it('update reuses the canonical link element across navigations instead of duplicating it', () => {
+    service.update()
+    const linkCountAfterFirst = mockDoc.createElement.mock.calls
+      .filter((args: any[]) => args[0] === 'link').length
+    mockRouter.url = '/public/about'
+    service.update()
+    const linkCountAfterSecond = mockDoc.createElement.mock.calls
+      .filter((args: any[]) => args[0] === 'link').length
+    // Only the single canonical <link> is created, and it is reused on the second update.
+    expect(linkCountAfterFirst).toBe(1)
+    expect(linkCountAfterSecond).toBe(1)
   })
 })

@@ -1123,6 +1123,19 @@ describe('RootComponent', () => {
       expect(localMocks.comp.isLoggedIn).toBe(true)
     })
 
+    it('stores the real userId (not "undefined") in localStorage.userUUID when unMappedUser has no top-level userId (Sunbird Spark shape)', async () => {
+      const { isPlatformBrowser } = require('@angular/common')
+      isPlatformBrowser.mockReturnValue(true)
+      localStorage.removeItem('userUUID')
+      // Spark's raw profile only has id/identifier — configSvc.userProfile.userId is
+      // already resolved upstream (via getUserIdFromProfile) by the time ngOnInit reads it.
+      localMocks.comp['configSvc'].userProfile = { userId: 'spark-u1' } as any
+      localMocks.comp['configSvc'].unMappedUser = { id: 'spark-u1', identifier: 'spark-u1' } as any
+      await localMocks.comp.ngOnInit()
+      expect(localStorage.getItem('userUUID')).toBe('spark-u1')
+      isPlatformBrowser.mockReturnValue(false)
+    })
+
     it('sets isLoggedIn false when userProfile is null', async () => {
       localMocks.comp['configSvc'].userProfile = null
       await localMocks.comp.ngOnInit()

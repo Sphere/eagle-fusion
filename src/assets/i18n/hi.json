@@ -721,6 +721,11 @@
   "Name of State": "राज्य का नाम",
   "Select district": "जिला चुनें",
   "Retry": "पुन: प्रयास करें",
+  "Download": "डाउनलोड करें",
+  "Downloading...": "डाउनलोड हो रहा है...",
+  "We could not load your certificate": "हम आपका प्रमाणपत्र लोड नहीं कर सके",
+  "This is usually temporary. Please try again in a moment.": "यह आमतौर पर अस्थायी होता है। कृपया कुछ देर बाद पुन: प्रयास करें।",
+  "Download failed. Please try again.": "डाउनलोड विफल रहा। कृपया पुन: प्रयास करें।",
   "Name of District": "जिले का नाम",
   "district": "जिला",
   "Location": "स्थान",
@@ -923,6 +928,7 @@
   "ENTER_VALID_MAIL_PHONE": "कृपया एक वैध ईमेल या फ़ोन नंबर दर्ज करें",
   "User successfully created": "उपयोगकर्ता सफलतापूर्वक बनाया गया",
   "An error occurred": "एक त्रुटि घटित हुई है",
+  "Sorry ! User not created. Please try again in sometime.": "क्षमा करें! उपयोगकर्ता नहीं बनाया गया। कृपया कुछ समय बाद पुनः प्रयास करें।",
   "PROFILE_UPDATE_ERR": "प्रोफ़ाइल अपडेट करने में त्रुटि। कृपया पुनः प्रयास करें।",
   "USER_AUTH_SUCCESS": "सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.",
   "Success ! User is sucessfully authenticated.": "सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.",
@@ -997,7 +1003,6 @@
   "COMPETENCIES": "योग्यताएं",
   "Alert": "सूचना",
   "OK": "ठीक है",
-  "Download": "डाउनलोड करें",
   "Certificate preview of course:": "कोर्स के प्रमाणपत्र का पूर्वावलोकन:",
   "NEXT": "आगे",
   "Exit Quiz?": "क्विज़ से बाहर निकलें?",
@@ -1027,5 +1032,7 @@
   "Is It Available on internet ?": "क्या यह इंटरनेट पर उपलब्ध है?",
   "Opens in a new tab?": "नए टैब में खुलता है?",
   "URL is mandatory": "URL अनिवार्य है",
-  "Update Content": "सामग्री अपडेट करें"
+  "Update Content": "सामग्री अपडेट करें",
+  "COMPETENCY_DATA_NOT_AVAILABLE": "इस कोर्स के लिए योग्यता विवरण उपलब्ध नहीं है",
+  "LEVELS_DATA_NOT_AVAILABLE": "स्तर की जानकारी नहीं मिली"
 }

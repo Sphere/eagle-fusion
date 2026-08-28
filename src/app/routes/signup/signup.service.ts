@@ -162,37 +162,38 @@ export class SignupService {
   }
 
   async fetchStartUpDetails(): Promise<any> {
-    if (!this.configSvc.instanceConfig) {
-      return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }
-    }
-    let userPidProfile: any | null = null
-    try {
-      // Use cached user data service to prevent repeated API calls
-      userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
-      if (userPidProfile && userPidProfile.roles && userPidProfile.roles.length > 0 &&
-        this.hasRole(userPidProfile.roles)) {
-        this.applyMappedUserProfile(userPidProfile)
-      }
-      if (!this.configSvc.nodebbUserProfile) {
-        this.configSvc.nodebbUserProfile = {
-          username: userPidProfile.userName,
-          email: 'null',
-        }
-      }
-      // Cache the user data for future use
-      this.userDataCacheSvc.setUserData(userPidProfile)
+    if (this.configSvc.instanceConfig) {
+      let userPidProfile: any | null = null
       try {
-        await this.fetchOrgSelectiveConfig()
-      } catch (err) {
-        this.logger.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
+        // Use cached user data service to prevent repeated API calls
+        userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
+        const profileRoles = userPidProfile ? this.userDataCacheSvc.getRolesFromProfile(userPidProfile) : []
+        if (userPidProfile && profileRoles.length > 0 &&
+          this.hasRole(profileRoles)) {
+          this.applyMappedUserProfile(userPidProfile)
+        }
+        if (!this.configSvc.nodebbUserProfile) {
+          this.configSvc.nodebbUserProfile = {
+            username: userPidProfile.userName,
+            email: 'null',
+          }
+        }
+        // Cache the user data for future use
+        this.userDataCacheSvc.setUserData(userPidProfile)
+        try {
+          await this.fetchOrgSelectiveConfig()
+        } catch (err) {
+          this.logger.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
+        }
+        const details = this.buildStartUpDetails(userPidProfile)
+        this.applyStartUpDetailsToConfig(details)
+        return details
+      } catch (e) {
+        this.configSvc.userProfile = null
+        return e
       }
-      const details = this.buildStartUpDetails(userPidProfile)
-      this.applyStartUpDetailsToConfig(details)
-      return details
-    } catch (e) {
-      this.configSvc.userProfile = null
-      return e
     }
+    return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }
   }
 
   private applyMappedUserProfile(userPidProfile: any): void {
@@ -202,11 +203,12 @@ export class SignupService {
     localStorage.setItem('telemetrySessionId', uuid())
     this.configSvc.unMappedUser = userPidProfile
     const profileV2 = get(userPidProfile, 'profiledetails')
+    const userId = this.userDataCacheSvc.getUserIdFromProfile(userPidProfile)
     this.configSvc.userProfile = {
       country: get(profileV2, 'personalDetails.countryCode') || null,
       email: get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
       givenName: userPidProfile.firstName,
-      userId: userPidProfile.userId,
+      userId,
       firstName: userPidProfile.firstName,
       lastName: userPidProfile.lastName,
       rootOrgId: userPidProfile.rootOrgId,
@@ -219,7 +221,7 @@ export class SignupService {
       phone: get(userPidProfile, 'phone'),
     }
     this.configSvc.userProfileV2 = {
-      userId: get(profileV2, 'userId') || userPidProfile.userId,
+      userId: get(profileV2, 'userId') || userId,
       email: get(profileV2, 'personalDetails.officialEmail') || userPidProfile.email,
       firstName: get(profileV2, 'personalDetails.firstname') || userPidProfile.firstName,
       surName: get(profileV2, 'personalDetails.surname') || userPidProfile.lastName,
@@ -235,13 +237,14 @@ export class SignupService {
   }
 
   private buildStartUpDetails(userPidProfile: any): any {
+    const profileRoles = userPidProfile ? this.userDataCacheSvc.getRolesFromProfile(userPidProfile) : []
     return {
       group: [],
       profileDetailsStatus: !!get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
-      roles: (userPidProfile.roles || []).map((v: { toLowerCase: () => void }) => v.toLowerCase()),
+      roles: profileRoles.map((v: string) => v.toLowerCase()),
       tncStatus: !(isUndefined(this.configSvc.unMappedUser)),
       isActive: !!!userPidProfile.isDeleted,
-      userId: userPidProfile.userId,
+      userId: this.userDataCacheSvc.getUserIdFromProfile(userPidProfile),
       language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language) ? userPidProfile.profileDetails.preferences.language : 'en',
       status: 200,
     }
