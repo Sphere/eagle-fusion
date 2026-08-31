@@ -129,6 +129,10 @@ const mockThemeSvc: Partial<ThemeService> = {
   isDark: jest.fn().mockReturnValue(false) as any,
 }
 
+const mockViewerDataSvc: any = {
+  lastRatingSubmittedCourseId: null,
+}
+
 function createComponent(): AppTocDesktopComponent {
   return TestBed.runInInjectionContext(() => new AppTocDesktopComponent(
     mockSanitizer as SafeResourceUrlService,
@@ -150,6 +154,7 @@ function createComponent(): AppTocDesktopComponent {
     mockTranslate as TranslateService,
     { detectChanges: jest.fn(), markForCheck: jest.fn() } as unknown as ChangeDetectorRef,
     mockThemeSvc as ThemeService,
+    mockViewerDataSvc,
   ))
 }
 
@@ -158,6 +163,7 @@ describe('AppTocDesktopComponent', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    mockViewerDataSvc.lastRatingSubmittedCourseId = null
     TestBed.configureTestingModule({ providers: [{ provide: DOCUMENT, useValue: document }] })
       ; (mockContentSvc.fetchUserBatchList as jest.Mock).mockReturnValue(of([]))
     component = createComponent()
@@ -381,6 +387,78 @@ describe('AppTocDesktopComponent', () => {
     await component.readCourseRatingSummary()
     expect(component.averageRating).toBe('4.0')
     expect(component.totalRatings).toBe(2)
+  })
+
+  it('ngOnInit should fetch rating summary when content is already available', () => {
+    component.content = { identifier: 'id-1' } as any
+    const readSummarySpy = jest.spyOn(component, 'readCourseRatingSummary')
+    component.ngOnInit()
+    expect(readSummarySpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('ngOnChanges should fetch rating summary once content arrives after ngOnInit ran without it', () => {
+    component.content = null
+    const readSummarySpy = jest.spyOn(component, 'readCourseRatingSummary')
+    component.ngOnInit()
+    expect(readSummarySpy).not.toHaveBeenCalled()
+
+    // content Input arrives on a later change-detection tick (e.g. navigating back from
+    // the viewer's confirm-rating dialog) — ngOnChanges should still trigger the fetch.
+    component.content = { identifier: 'id-1', children: [] } as any
+    component.ngOnChanges()
+    expect(readSummarySpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('ngOnChanges should not refetch rating summary repeatedly for the same content identifier', () => {
+    component.content = { identifier: 'id-1', children: [] } as any
+    const readSummarySpy = jest.spyOn(component, 'readCourseRatingSummary')
+    component.ngOnInit()
+    expect(readSummarySpy).toHaveBeenCalledTimes(1)
+
+    // Subsequent ngOnChanges ticks (e.g. optmisticPercentage updates) for the same course
+    // must not spam the rating-summary API.
+    component.ngOnChanges()
+    component.ngOnChanges()
+    expect(readSummarySpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('ngOnInit should force a refetch and consume viewerDataSvc.lastRatingSubmittedCourseId when it matches', () => {
+    component.content = { identifier: 'id-1', children: [] } as any
+    mockViewerDataSvc.lastRatingSubmittedCourseId = 'id-1'
+    const readSummarySpy = jest.spyOn(component, 'readCourseRatingSummary')
+    component.ngOnInit()
+    expect(readSummarySpy).toHaveBeenCalledTimes(1)
+    expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBeNull()
+  })
+
+  it('ngOnChanges should force a refetch even for an already-fetched identifier when lastRatingSubmittedCourseId matches', () => {
+    component.content = { identifier: 'id-1', children: [] } as any
+    const readSummarySpy = jest.spyOn(component, 'readCourseRatingSummary')
+    component.ngOnInit()
+    expect(readSummarySpy).toHaveBeenCalledTimes(1)
+
+    // A rating was just submitted for this exact course via the viewer's confirm-modal flow.
+    mockViewerDataSvc.lastRatingSubmittedCourseId = 'id-1'
+    component.ngOnChanges()
+    expect(readSummarySpy).toHaveBeenCalledTimes(2)
+
+    // The signal is consumed after one use — a later, unrelated ngOnChanges tick for the
+    // same course must not keep forcing refetches.
+    component.ngOnChanges()
+    expect(readSummarySpy).toHaveBeenCalledTimes(2)
+  })
+
+  it('ngOnChanges should ignore lastRatingSubmittedCourseId for a different course', () => {
+    component.content = { identifier: 'id-1', children: [] } as any
+    const readSummarySpy = jest.spyOn(component, 'readCourseRatingSummary')
+    component.ngOnInit()
+    expect(readSummarySpy).toHaveBeenCalledTimes(1)
+
+    mockViewerDataSvc.lastRatingSubmittedCourseId = 'some-other-course'
+    component.ngOnChanges()
+    expect(readSummarySpy).toHaveBeenCalledTimes(1)
+    // Untouched — it belongs to a course this instance never displayed.
+    expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBe('some-other-course')
   })
 
   it('enrollUser should navigate and schedule resume navigation on success', async () => {

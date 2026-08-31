@@ -182,6 +182,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
                 this.playerStateService.trigger$.complete()
 
+              } else if (this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive) {
+                // This SCORM-driven completion check runs independently of the
+                // currentMessage-driven congrats/rating flow (handleOnlineProgressRecord)
+                // and used to navigate/close-all unconditionally on its own fixed 500ms
+                // timer — racing past that flow's still-open dialog and abandoning the
+                // rating before the user could submit it. If that flow is already in
+                // progress, do nothing here: its own confirmdialog.afterClosed() handler
+                // will call completeCourseNavigation() once it resolves.
               } else if (this.isAsha) {
                 this.completeCourseNavigation()
               } else {
@@ -922,7 +930,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             courseId: this.collectionId,
           }
           this.logger.log("data", this.collectionId, data)
-          const isDialogOpen = this.dialog.openDialogs.length > 0
+          // this.viewerDataSvc.isCourseCompletionFlowActive also counts as "busy": the congrats dialog
+          // in showCourseCompletionPopup() only opens after a setTimeout, so openDialogs
+          // alone misses the window between kicking off that flow and the dialog appearing.
+          const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
 
           // If the dialog is not already open, open it
           if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0 && data) {
@@ -935,20 +946,30 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             courseId: this.collectionId,
           }
           this.logger.log("data", this.collectionId, data)
-          const isDialogOpen = this.dialog.openDialogs.length > 0
+          // this.viewerDataSvc.isCourseCompletionFlowActive also counts as "busy": the congrats dialog
+          // in showCourseCompletionPopup() only opens after a setTimeout, so openDialogs
+          // alone misses the window between kicking off that flow and the dialog appearing.
+          const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
 
           // If the dialog is not already open, open it
           if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
             this.showCourseCompletionPopup(data, finalCompetencies)
           }
-          if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
+          // Guarded by !isDialogOpen too: this handler reruns on every currentMessage
+          // emission, and a congrats/rating dialog chain from an earlier tick may still be
+          // open — navigating here would race past it, and it will call
+          // completeCourseNavigation() itself once its own dialog closes.
+          if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length > 0) {
             this.completeCourseNavigation()
           }
 
         }
       } else {
         this.logger.log(rating, optmisticPercentage)
-        if (optmisticPercentage === 100) {
+        // Same guard as above: skip navigation while a congrats/rating dialog chain from
+        // an earlier currentMessage tick is still open (or starting up) — it will navigate
+        // itself on close.
+        if (optmisticPercentage === 100 && this.dialog.openDialogs.length === 0 && !this.viewerDataSvc.isCourseCompletionFlowActive) {
           this.completeCourseNavigation()
         }
       }
@@ -962,11 +983,18 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           }
           this.logger.log("data", this.collectionId, data)
           // Check if the dialog is already open
-          const isDialogOpen = this.dialog.openDialogs.length > 0
+          // this.viewerDataSvc.isCourseCompletionFlowActive also counts as "busy": the congrats dialog
+          // in showCourseCompletionPopup() only opens after a setTimeout, so openDialogs
+          // alone misses the window between kicking off that flow and the dialog appearing.
+          const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
           this.logger.log(optmisticPercentage, Object.keys(rating).length)
           if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
             this.showCourseCompletionPopup(data, finalCompetencies)
-          } else {
+          } else if (!isDialogOpen) {
+            // Only navigate here when no dialog is open — otherwise this is a rerun of this
+            // handler (it fires on every currentMessage emission) while an earlier tick's
+            // congrats/rating dialog chain is still in progress. Navigating now would race
+            // past it; that chain calls completeCourseNavigation() itself once it closes.
             if (optmisticPercentage === 100) {
               this.completeCourseNavigation()
             }
@@ -1019,6 +1047,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   /** Records passbook entries (if any) and, after the resource-type delay, shows the
    * congratulations popup followed by the completion-confirm dialog. */
   private showCourseCompletionPopup(data: any, finalCompetencies: any[]): void {
+    // Set synchronously, before the setTimeout below, so a concurrent currentMessage tick
+    // sees the flow as already started even during the pre-dialog delay window.
+    this.viewerDataSvc.isCourseCompletionFlowActive = true
+
     if (finalCompetencies.length > 0) {
       finalCompetencies.forEach((competency: any) => {
         this.updatePassbookEntryPassbook(data, competency)
@@ -1040,11 +1072,20 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
           if (confirmdialog) {
             confirmdialog.afterClosed().subscribe((res: any) => {
+              this.viewerDataSvc.isCourseCompletionFlowActive = false
               if (res && res.event === 'CONFIRMED') {
+                // Explicit save-and-refresh signal: app-toc-desktop.component.ts consumes
+                // this on the overview page to force a fresh rating-summary fetch for this
+                // exact course, rather than relying only on the component happening to remount.
+                this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
                 this.completeCourseNavigation()
               }
             })
+          } else {
+            this.viewerDataSvc.isCourseCompletionFlowActive = false
           }
+        } else {
+          this.viewerDataSvc.isCourseCompletionFlowActive = false
         }
       })
     }, delay)
