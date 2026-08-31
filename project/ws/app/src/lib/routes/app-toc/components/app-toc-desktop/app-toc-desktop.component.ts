@@ -21,6 +21,7 @@ import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
+import { ViewerDataService } from '../../../../../../../viewer/src/lib/viewer-data.service'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
 import { ThemeService } from '../../../../../../../../../src/app/services/theme.service'
@@ -89,6 +90,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   lastCourseID: any
   stars: number[] = [1, 2, 3, 4, 5]
   isDark: boolean
+  // Tracks which course identifier the rating summary was last fetched for, so
+  // refreshRatingSummaryIfNeeded() can fire exactly once per identifier — on initial
+  // ngOnInit if content is already there, or on the ngOnChanges tick where content
+  // actually arrives/changes (it must not re-fire on every ngOnChanges, which also runs
+  // on unrelated Input changes like optmisticPercentage).
+  private ratingSummaryFetchedForId: string | null = null
 
   constructor(
     private readonly sanitizer: SafeResourceUrlService,
@@ -109,7 +116,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private readonly logger: LoggerService,
     private readonly translate: TranslateService,
     private readonly cdr: ChangeDetectorRef,
-    private readonly themeSvc: ThemeService
+    private readonly themeSvc: ThemeService,
+    private readonly viewerDataSvc: ViewerDataService
   ) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
@@ -131,8 +139,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.enrollApi()
     if (this.content) {
       this.logger.log(this.optmisticPercentage, '149', this.finishedPercentage)
-      this.readCourseRatingSummary()
     }
+    this.refreshRatingSummaryIfNeeded()
 
     this.route.data.subscribe(data => {
       this.tocConfig = data.pageData.data
@@ -282,6 +290,42 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       this.processResumeData(collectionArry)
     }
     this.subscribeBatchControlChanges()
+    this.refreshRatingSummaryIfNeeded()
+  }
+
+  /**
+   * Fetches the rating summary once for the current course identifier. Called from both
+   * ngOnInit (covers the normal case where `content` Input is already populated by the
+   * time this component initializes) and ngOnChanges (covers `content` arriving/changing
+   * on a later Input update — e.g. right after navigating back from the viewer's
+   * congrats/rating dialog flow — so the just-submitted rating isn't left stale because
+   * ngOnInit alone happened to run too early). Guarded by identifier so it doesn't
+   * re-fire on every ngOnChanges tick (optmisticPercentage etc. also trigger it).
+   *
+   * viewerDataSvc.lastRatingSubmittedCourseId is an explicit save-and-refresh signal set by
+   * viewer-toc.component.ts / quiz.component.ts the instant a rating is genuinely
+   * CONFIRMED-submitted for a course. It's consulted first and, when it matches, forces a
+   * fresh fetch even if this identifier was already fetched for this instance (e.g. re-rating
+   * from the same still-mounted page) — and is consumed (nulled) so a later, unrelated visit
+   * to this same course doesn't keep forcing redundant refetches. This is independent of and
+   * doesn't replace the identifier-fetched-once guard below — it's a safety net that doesn't
+   * rely on the component actually remounting.
+   */
+  private refreshRatingSummaryIfNeeded() {
+    const identifier = this.content?.identifier
+    if (!identifier) {
+      return
+    }
+    if (this.viewerDataSvc.lastRatingSubmittedCourseId === identifier) {
+      this.viewerDataSvc.lastRatingSubmittedCourseId = null
+      this.ratingSummaryFetchedForId = identifier
+      this.readCourseRatingSummary()
+      return
+    }
+    if (identifier !== this.ratingSummaryFetchedForId) {
+      this.ratingSummaryFetchedForId = identifier
+      this.readCourseRatingSummary()
+    }
   }
 
   private updateContentDerivedState(): any {

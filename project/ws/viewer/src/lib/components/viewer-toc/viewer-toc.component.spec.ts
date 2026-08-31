@@ -74,6 +74,8 @@ describe('ViewerTocComponent', () => {
       changedSubject: new Subject<any>(),
       scromChangeSubject: new Subject<any>(),
       resourceId: null,
+      isCourseCompletionFlowActive: false,
+      lastRatingSubmittedCourseId: null,
     }
     mockViewSvc = { editResourceData: jest.fn() }
     mockConfigSvc = { instanceConfig: null, userProfile: { userId: 'user-1' } }
@@ -594,6 +596,44 @@ describe('ViewerTocComponent', () => {
         mockViewerDataSvc.scromChangeSubject.next({ batchId: 'b1' })
         expect(scromSpy).not.toHaveBeenCalled()
       })
+
+      it('does not navigate to overview when the shared congrats/rating flow is already active', () => {
+        jest.useFakeTimers()
+        const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => undefined)
+        mockPlayerStateService.trigger$.getValue.mockReturnValue(undefined)
+        mockPlayerStateService.isResourceCompleted.mockReturnValue(true)
+        mockPlayerStateService.getNextResource.mockReturnValue(null)
+        jest.spyOn(component, 'scromUpdateCheck').mockResolvedValue(undefined)
+        component.isAsha = false
+        component.collectionId = 'c1'
+        component.batchId = 'b1'
+        // quiz.component.ts's own flow (or this component's currentMessage-driven flow) has
+        // already started a congrats/rating dialog chain for this same completion.
+        mockViewerDataSvc.isCourseCompletionFlowActive = true
+        component.ngOnInit()
+        mockViewerDataSvc.scromChangeSubject.next({ batchId: 'b1' })
+        jest.advanceTimersByTime(500)
+        expect(alertSpy).not.toHaveBeenCalled()
+        expect(mockRouter.navigate).not.toHaveBeenCalledWith(['/app/toc/c1/overview'], expect.anything())
+        alertSpy.mockRestore()
+        jest.useRealTimers()
+      })
+
+      it('does not close-all/navigate for ASHA when the shared congrats/rating flow is already active', () => {
+        jest.useFakeTimers()
+        mockPlayerStateService.trigger$.getValue.mockReturnValue(undefined)
+        mockPlayerStateService.isResourceCompleted.mockReturnValue(true)
+        mockPlayerStateService.getNextResource.mockReturnValue(null)
+        jest.spyOn(component, 'scromUpdateCheck').mockResolvedValue(undefined)
+        const completeSpy = jest.spyOn(component as any, 'completeCourseNavigation').mockImplementation(() => {})
+        component.isAsha = true
+        mockViewerDataSvc.isCourseCompletionFlowActive = true
+        component.ngOnInit()
+        mockViewerDataSvc.scromChangeSubject.next({ batchId: 'b1' })
+        jest.advanceTimersByTime(500)
+        expect(completeSpy).not.toHaveBeenCalled()
+        jest.useRealTimers()
+      })
     })
   })
 
@@ -1070,10 +1110,11 @@ describe('ViewerTocComponent', () => {
       mockPlayerStateService.getNextResource.mockReturnValue('')
       mockContentSvc.showConformation = true
       component.resourceContentType = 'Video'
+      component.collectionId = 'c1'
       mockDialog.openDialogs = []
       const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
       mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'CONFIRMED' }) })
-      jest.spyOn(component as any, 'completeCourseNavigation').mockImplementation(() => {})
+      const completeSpy = jest.spyOn(component as any, 'completeCourseNavigation').mockImplementation(() => {})
       jest.useFakeTimers()
       const promise = (component as any).processCollectionForTree({ contentList: [{ contentId: 'r1' }], type: 'video' })
       for (let i = 0; i < 5; i++) {
@@ -1086,6 +1127,12 @@ describe('ViewerTocComponent', () => {
       await promise
       jest.useRealTimers()
       expect(popupSpy).toHaveBeenCalled()
+      // Save-and-refresh signal: app-toc-desktop.component.ts consumes this to force a
+      // fresh rating-summary fetch, and the mutex flag must be released once the chain
+      // resolves so it doesn't block a later, unrelated completion flow.
+      expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBe('c1')
+      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
+      expect(completeSpy).toHaveBeenCalled()
     })
 
     it('completes the course when content.type is falsy and optimisticPercentage is 100', async () => {

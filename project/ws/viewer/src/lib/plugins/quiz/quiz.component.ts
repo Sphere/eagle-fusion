@@ -456,16 +456,25 @@ export class QuizComponent implements OnChanges, OnDestroy {
     const courseCompleted =
       (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100) ||
       data.currentCompletionPercentage === 100
-    if (courseCompleted && this.contentSvc.showConformation && this.dialog.openDialogs.length === 0) {
+    // viewer-toc.component.ts's own progress-driven flow (handleOnlineProgressRecord) can be
+    // showing its own congrats/rating dialog chain at the same time this fires — both
+    // components are mounted together in the viewer. Checking only this.dialog.openDialogs
+    // isn't enough (the other flow's dialog may not be open *yet*), so also check the shared
+    // viewerDataSvc.isCourseCompletionFlowActive flag before either opening our own popup or
+    // navigating straight past the other flow's in-progress one.
+    const otherFlowBusy = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
+    if (courseCompleted && this.contentSvc.showConformation && !otherFlowBusy) {
       this.showCourseCompletionPopup()
-    } else {
+    } else if (!otherFlowBusy) {
       this.navigateToCourseOverview()
     }
   }
 
   private showCourseCompletionPopup(): void {
+    this.viewerDataSvc.isCourseCompletionFlowActive = true
     this.openCongratulationPopup().then((isCompleted: boolean) => {
       if (!isCompleted) {
+        this.viewerDataSvc.isCourseCompletionFlowActive = false
         this.navigateToCourseOverview()
         return
       }
@@ -477,6 +486,12 @@ export class QuizComponent implements OnChanges, OnDestroy {
         data: { request: { courseId: this.collectionId }, message: 'Congratulations!, you have completed the course' },
       })
       confirmdialog.afterClosed().subscribe((res: any) => {
+        this.viewerDataSvc.isCourseCompletionFlowActive = false
+        if (res?.event === 'CONFIRMED') {
+          // Explicit save-and-refresh signal: app-toc-desktop.component.ts consumes this on
+          // the overview page to force a fresh rating-summary fetch for this exact course.
+          this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
+        }
         if (res?.event === 'CONFIRMED' || res?.event === 'close-complete') {
           this.navigateToCourseOverview()
         }
@@ -926,7 +941,10 @@ export class QuizComponent implements OnChanges, OnDestroy {
       // tslint:disable-next-line
       if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
         && this.contentSvc.showConformation) {
-        const isDialogOpen = this.dialog.openDialogs.length > 0
+        // Same shared-flag check as handleBatchListForCourseCompletion — this method fires
+        // from a different signal (player state, not the batch list) but can race the same
+        // way against viewer-toc.component.ts's own in-progress congrats/rating flow.
+        const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
         if (!isDialogOpen) {
           this.showQuizCompletionCongrats(data)
         }
@@ -938,27 +956,34 @@ export class QuizComponent implements OnChanges, OnDestroy {
   }
 
   private showQuizCompletionCongrats(data: any): void {
+    this.viewerDataSvc.isCourseCompletionFlowActive = true
     this.openCongratulationPopup().then(isCompleted => {
-      if (isCompleted) {
-        const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-          width: '300px',
-          height: '420px',
-          panelClass: 'overview-modal',
-          disableClose: true,
-          data: { request: data, message: 'Congratulations!, you have completed the course' },
-        })
-
-        confirmdialog.afterClosed().subscribe((res: any) => {
-          if (res.event === 'CONFIRMED') {
-            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-              queryParams: {
-                primaryCategory: 'Course',
-                batchId: this.route.snapshot.queryParams.batchId,
-              },
-            })
-          }
-        })
+      if (!isCompleted) {
+        this.viewerDataSvc.isCourseCompletionFlowActive = false
+        return
       }
+      const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+        width: '300px',
+        height: '420px',
+        panelClass: 'overview-modal',
+        disableClose: true,
+        data: { request: data, message: 'Congratulations!, you have completed the course' },
+      })
+
+      confirmdialog.afterClosed().subscribe((res: any) => {
+        this.viewerDataSvc.isCourseCompletionFlowActive = false
+        if (res.event === 'CONFIRMED') {
+          // Explicit save-and-refresh signal: app-toc-desktop.component.ts consumes this on
+          // the overview page to force a fresh rating-summary fetch for this exact course.
+          this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
+          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+            queryParams: {
+              primaryCategory: 'Course',
+              batchId: this.route.snapshot.queryParams.batchId,
+            },
+          })
+        }
+      })
     })
   }
   closeQuizBtnDialog(event: string) {

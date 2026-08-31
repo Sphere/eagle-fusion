@@ -529,6 +529,23 @@ describe('QuizComponent', () => {
       component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 100 })
       expect(popupSpy).not.toHaveBeenCalled()
     })
+
+    it('should skip both the popup and the direct navigate when viewer-toc.component.ts already started its own flow', () => {
+      mockViewerDataSvc.isCourseCompletionFlowActive = true
+      const popupSpy = jest.spyOn(component as any, 'showCourseCompletionPopup').mockImplementation(() => { })
+      component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 100 })
+      expect(popupSpy).not.toHaveBeenCalled()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+
+    it('should defer to the other flow rather than navigate for an incomplete-here reading while it is active', () => {
+      // Another component's flow is already showing its congrats/rating dialog for this
+      // same completion event — even though this reading (currentCompletionPercentage: 40)
+      // looks incomplete, we must not navigate out from under it; it will navigate itself.
+      mockViewerDataSvc.isCourseCompletionFlowActive = true
+      component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 40 })
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
   })
 
   describe('showCourseCompletionPopup', () => {
@@ -559,6 +576,94 @@ describe('QuizComponent', () => {
       mockDialog.open.mockReturnValue({ afterClosed: () => of(undefined) })
       await component['showCourseCompletionPopup']()
       await Promise.resolve()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+
+    it('should set the shared busy flag immediately and clear it once the popup is dismissed', async () => {
+      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      const promise = component['showCourseCompletionPopup']()
+      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(true)
+      await promise
+      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
+    })
+
+    it('should save the submitted-rating signal for app-toc-desktop and clear the busy flag on confirm', async () => {
+      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
+      mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'CONFIRMED' }) })
+      await component['showCourseCompletionPopup']()
+      await Promise.resolve()
+      expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBe('c1')
+      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
+    })
+
+    it('should not save the submitted-rating signal when the dialog is merely dismissed', async () => {
+      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
+      mockDialog.open.mockReturnValue({ afterClosed: () => of(undefined) })
+      await component['showCourseCompletionPopup']()
+      await Promise.resolve()
+      expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBeUndefined()
+    })
+  })
+
+  describe('handleQuizPlayerState', () => {
+    it('should navigate to the next resource when one is present', () => {
+      component['handleQuizPlayerState']({ nextResource: '/next-res' })
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/next-res'], { queryParamsHandling: 'preserve' })
+    })
+
+    it('should show the completion congrats when the course is complete and no dialog is open', () => {
+      component.enrolledCourse = { completionPercentage: 100 } as any
+      mockContentSvc.showConformation = true
+      const congratsSpy = jest.spyOn(component as any, 'showQuizCompletionCongrats').mockImplementation(() => { })
+      component['handleQuizPlayerState']({ nextResource: null })
+      expect(congratsSpy).toHaveBeenCalled()
+    })
+
+    it('should skip the completion congrats when a dialog is already open', () => {
+      component.enrolledCourse = { completionPercentage: 100 } as any
+      mockContentSvc.showConformation = true
+      mockDialog.openDialogs = [{}]
+      const congratsSpy = jest.spyOn(component as any, 'showQuizCompletionCongrats').mockImplementation(() => { })
+      component['handleQuizPlayerState']({ nextResource: null })
+      expect(congratsSpy).not.toHaveBeenCalled()
+    })
+
+    it('should skip the completion congrats when viewer-toc.component.ts already started its own flow', () => {
+      component.enrolledCourse = { completionPercentage: 100 } as any
+      mockContentSvc.showConformation = true
+      mockViewerDataSvc.isCourseCompletionFlowActive = true
+      const congratsSpy = jest.spyOn(component as any, 'showQuizCompletionCongrats').mockImplementation(() => { })
+      component['handleQuizPlayerState']({ nextResource: null })
+      expect(congratsSpy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('showQuizCompletionCongrats', () => {
+    it('should set the shared busy flag immediately and clear it once the popup is dismissed', async () => {
+      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      const promise = component['showQuizCompletionCongrats']({})
+      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(true)
+      await promise
+      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
+    })
+
+    it('should save the submitted-rating signal, clear the busy flag, and navigate on confirm', async () => {
+      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
+      mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'CONFIRMED' }) })
+      await component['showQuizCompletionCongrats']({})
+      await Promise.resolve()
+      expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBe('c1')
+      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/c1/overview'], expect.anything())
+    })
+
+    it('should clear the busy flag without saving or navigating when the confirm dialog is dismissed', async () => {
+      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
+      mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'DISMISSED' }) })
+      await component['showQuizCompletionCongrats']({})
+      await Promise.resolve()
+      expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBeUndefined()
+      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
       expect(mockRouter.navigate).not.toHaveBeenCalled()
     })
   })
