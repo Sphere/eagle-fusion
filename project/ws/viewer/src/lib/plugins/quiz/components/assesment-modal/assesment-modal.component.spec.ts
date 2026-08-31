@@ -34,6 +34,7 @@ describe('AssesmentModalComponent', () => {
   let mockTranslate: any
   let mockNgZone: any
   let mockCdr: any
+  let mockHttp: any
 
   beforeEach(() => {
     mockDialogRef = { close: jest.fn() }
@@ -84,6 +85,7 @@ describe('AssesmentModalComponent', () => {
     mockTranslate = { instant: jest.fn((k: string) => k) }
     mockNgZone = { runOutsideAngular: (fn: any) => fn(), run: (fn: any) => fn() }
     mockCdr = { markForCheck: jest.fn(), detectChanges: jest.fn() }
+    mockHttp = { get: jest.fn().mockReturnValue({ toPromise: jest.fn().mockResolvedValue({ questions: [] }) }) }
 
     component = new AssesmentModalComponent(
       mockDialogRef,
@@ -104,7 +106,8 @@ describe('AssesmentModalComponent', () => {
       mockPlylsSvc,
       mockTranslate,
       mockNgZone,
-      mockCdr
+      mockCdr,
+      mockHttp
     )
   })
 
@@ -231,6 +234,7 @@ describe('AssesmentModalComponent', () => {
   })
 
   it('retakeQuiz should open ViewAnswerComponent dialog when passed', async () => {
+    mockViewerDataSvc.resource = { isCorrectAnswerPopUp: true }
     component.result = 80
     component.passPercentage = 60
     await component.retakeQuiz()
@@ -611,6 +615,7 @@ describe('AssesmentModalComponent', () => {
     beforeEach(() => {
       component.assesmentdata = mockAssesmentdata
       component.passPercentage = 60
+      mockViewerDataSvc.resource = { isCorrectAnswerPopUp: true }
     })
 
     it('should request a retake when the learner failed', async () => {
@@ -635,6 +640,50 @@ describe('AssesmentModalComponent', () => {
       expect(mockDialog.open).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
         data: { questions: mockAssesmentdata.questions.questions, userInput: { q1: ['o1'] } },
       }))
+    })
+
+    it('should not fetch the answer key when the org/resource does not allow it', async () => {
+      mockViewerDataSvc.resource = { isCorrectAnswerPopUp: false }
+      component.result = 80
+      await component.retakeQuiz()
+
+      expect(mockHttp.get).not.toHaveBeenCalled()
+      expect(mockDialog.open).not.toHaveBeenCalled()
+    })
+
+    it('should map fetched options onto the matching questionId and leave unmatched questions untouched', async () => {
+      // q1's user-side options carry isCorrect: false; the fetched quizJSON has the real answer for q1
+      // only — q2 has no match in the fetched set and must keep its original options unchanged.
+      component.assesmentdata.questions.questions = [
+        { questionId: 'q1', questionType: 'mcq-sca', options: [{ optionId: 'o1', isCorrect: false }] },
+        { questionId: 'q2', questionType: 'mcq-sca', options: [{ optionId: 'o2', isCorrect: false }] },
+      ]
+      mockHttp.get.mockReturnValue({
+        toPromise: jest.fn().mockResolvedValue({
+          questions: [
+            { questionId: 'q1', options: [{ optionId: 'o1', isCorrect: true }] },
+          ],
+        }),
+      })
+      component.result = 80
+
+      await component.retakeQuiz()
+
+      expect(component.assesmentdata.questions.questions).toEqual([
+        { questionId: 'q1', questionType: 'mcq-sca', options: [{ optionId: 'o1', isCorrect: true }] },
+        { questionId: 'q2', questionType: 'mcq-sca', options: [{ optionId: 'o2', isCorrect: false }] },
+      ])
+    })
+
+    it('should leave the questions unchanged when the fetch fails', async () => {
+      const originalQuestions = JSON.parse(JSON.stringify(mockAssesmentdata.questions.questions))
+      mockHttp.get.mockReturnValue({ toPromise: jest.fn().mockRejectedValue(new Error('network error')) })
+      component.result = 80
+
+      await component.retakeQuiz()
+
+      expect(component.assesmentdata.questions.questions).toEqual(originalQuestions)
+      expect(mockDialog.open).toHaveBeenCalled()
     })
   })
 

@@ -22,6 +22,7 @@ import { PlayerStateService } from '../../../../player-state.service'
 import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 import { TranslateService } from '@ngx-translate/core'
+import { HttpClient } from '@angular/common/http'
 @Component({
   standalone: false,
   selector: 'viewer-assesment-modal',
@@ -88,6 +89,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private readonly translate: TranslateService,
     private readonly ngZone: NgZone,
     private readonly cdr: ChangeDetectorRef,
+    private readonly http: HttpClient,
   ) { }
 
   ngOnInit() {
@@ -283,7 +285,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   async retakeQuiz() {
     if (this.result === 100 || this.result < this.passPercentage) {
       this.dialogRef.close({ event: 'RETAKE_QUIZ' })
-    } else {
+    } else if (this.canShowViewAnswers()) {
+      await this.populateAnswersFromArtifact()
       this.dialog.open(ViewAnswerComponent, {
         width: '90vw',
         maxWidth: '800px',
@@ -296,6 +299,29 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       })
     }
   }
+
+  /**
+   * Fetches the answer key from the resource's artifact and copies the correct-answer
+   * options onto the matching question (by questionId) in assesmentdata.questions.questions —
+   * the user's answer set has isCorrect always false, so it can't drive the view-answers
+   * dialog on its own. Questions with no match in the fetched set are left untouched.
+   */
+  private async populateAnswersFromArtifact(): Promise<void> {
+    const artifactUrl = this.assesmentdata.generalData.artifactUrl
+    const quizJSON: any = await this.http
+      .get<any>(artifactUrl || '')
+      .toPromise()
+      .catch((_err: any) => {
+      })
+    const quizQuestions = quizJSON && quizJSON.questions ? quizJSON.questions : []
+    this.assesmentdata.questions.questions.forEach((question: any) => {
+      const matchedQuestion = quizQuestions.find((qq: any) => qq.questionId === question.questionId)
+      if (matchedQuestion) {
+        question.options = matchedQuestion.options
+      }
+    })
+  }
+
   CompetencyDashboard() {
     this.dialogRef.close({
       event: 'FAILED_COMPETENCY',

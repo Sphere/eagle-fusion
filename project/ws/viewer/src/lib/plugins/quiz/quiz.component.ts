@@ -121,6 +121,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
   isAsha = false
   private readonly isAshaSubscription: Subscription
   private readonly isCurrentcardDataSubscribe: Subscription
+  overviewData: any = {}
   constructor(
     private readonly events: EventService,
     public dialog: MatDialog,
@@ -141,8 +142,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
   }
 
   openOverviewDialog() {
-    let overviewData: any = {}
-    overviewData = {
+    this.overviewData = {
       learningObjective: this.learningObjective,
       complexityLevel: this.complexityLevel,
       duration: this.duration,
@@ -162,7 +162,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
         panelClass: 'overview-modal',
         backdropClass: 'overview-backdrop',
         disableClose: true,
-        data: overviewData,
+        data: this.overviewData,
       })
 
       this.dialogOverview.afterClosed().subscribe((result: any) => {
@@ -564,7 +564,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
 
     // **CRITICAL**: Check if user failed and only update if new result is better than previous
     const userResult = result.result || 0
-    const passPercentage = result.passPercentage || 0
+    const passPercentage = this.overviewData.passPercentage || 0
     const userFailed = userResult < passPercentage
 
     if (userFailed) {
