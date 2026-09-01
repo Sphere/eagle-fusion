@@ -339,7 +339,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
 
   private resolveAcceptLang(): void {
-    const data = localStorage.getItem('preferedLanguage')
+    const data = localStorage.getItem('language') || localStorage.getItem('preferedLanguage')
     if (data) {
       this.lang = JSON.parse(data)
       this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
