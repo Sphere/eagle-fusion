@@ -232,31 +232,23 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
    *   - Show for all other organizations
    */
   canShowViewAnswers(): boolean {
-    // Check if isCorrectAnswerPopUp is present in resource
     const orgData = this.plylsSvc.orgDetails()
+    const isDisplayAnswer = orgData?.assessmentConfig?.isCorrectAnswerPopUp ?? false
+
     const resource = this.viewerDataSvc.resource
     const isCorrectAnswerPopUp = resource?.isCorrectAnswerPopUp
-    const isDisplayAnswer = orgData?.assessmentConfig?.isCorrectAnswerPopUp ?? false
-    // If isCorrectAnswerPopUp is explicitly false, don't show for ANY organization
     if (isCorrectAnswerPopUp === false) {
       return false
     }
 
-    // If isCorrectAnswerPopUp is explicitly true, show View Answers for all orgs
-    if (isCorrectAnswerPopUp === true) {
-      return true
-    }
-
-    // If isCorrectAnswerPopUp is NOT present, check organization
-    // Get the organization name from user profile
-    const userOrgName = this.configSvc.userProfile?.rootOrgName
-
-    // If user's organization is in restricted list (from S3), don't show View Answers
-    if (userOrgName && !isDisplayAnswer) {
+    const generalConfig = this.assesmentdata?.generalData?.isCorrectAnswerPopUp
+    const shouldCheckPopup = generalConfig !== undefined ? generalConfig : isDisplayAnswer
+    if (!shouldCheckPopup) {
       return false
     }
-
-    // For all other organizations, show View Answers
+    if (this.result === 100 || this.result < this.passPercentage) {
+      return false
+    }
     return true
   }
 

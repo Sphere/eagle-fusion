@@ -155,11 +155,8 @@
 
       <ng-container *ngIf="tabIndex === 1 && !isCompetency">
         <div class="text-center pt-5 flex justify-content-center">
-          <button
-            *ngIf="(result === 100 || result < passPercentage) || (result>= passPercentage && canShowViewAnswers())"
-            class="btn width-auto" mat-raised-button (click)="retakeQuiz()">
-            {{((result>= passPercentage && canShowViewAnswers()) ? 'View Answers' : 'Retake Assessment'
-            )|translate}}</button>
+          <button class="btn width-auto" mat-raised-button (click)="retakeQuiz()">
+            {{ (canShowViewAnswers() ? 'View Answers' : 'Retake Assessment' )|translate}}</button>
           <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()" mat-raised-button>
             {{"Continue" | translate}}</button>
         </div>
