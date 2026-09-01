@@ -21,6 +21,7 @@ import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
+import { ViewerDataService } from '../../../../../../../viewer/src/lib/viewer-data.service'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
 import { ThemeService } from '../../../../../../../../../src/app/services/theme.service'
@@ -89,6 +90,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   lastCourseID: any
   stars: number[] = [1, 2, 3, 4, 5]
   isDark: boolean
+  private ratingSummaryFetchedForId: string | null = null
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -109,7 +111,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private logger: LoggerService,
     private translate: TranslateService,
     private cdr: ChangeDetectorRef,
-    private themeSvc: ThemeService
+    private themeSvc: ThemeService,
+    private readonly viewerDataSvc: ViewerDataService
   ) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
@@ -131,8 +134,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.enrollApi()
     if (this.content) {
       this.logger.log(this.optmisticPercentage, '149', this.finishedPercentage)
-      this.readCourseRatingSummary()
     }
+    this.readCourseRatingSummary()
 
     this.route.data.subscribe(data => {
       this.tocConfig = data.pageData.data
@@ -455,6 +458,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         })
       }
     })
+    this.refreshRatingSummaryIfNeeded()
   }
   private getBatchId(): string {
     let batchId = ''
@@ -466,7 +470,22 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return batchId
   }
 
-
+  private refreshRatingSummaryIfNeeded() {
+    const identifier = this.content?.identifier
+    if (!identifier) {
+      return
+    }
+    if (this.viewerDataSvc.lastRatingSubmittedCourseId === identifier) {
+      this.viewerDataSvc.lastRatingSubmittedCourseId = null
+      this.ratingSummaryFetchedForId = identifier
+      this.readCourseRatingSummary()
+      return
+    }
+    if (identifier !== this.ratingSummaryFetchedForId) {
+      this.ratingSummaryFetchedForId = identifier
+      this.readCourseRatingSummary()
+    }
+  }
   redirectPage(updatedContentFound: any) {
     this.telemetrySvc.interact('redirect-clicked', 'click', 'toc-page', { id: this.content!.identifier, type: 'course', version: "", rollup: {} })
     if (updatedContentFound === undefined) {

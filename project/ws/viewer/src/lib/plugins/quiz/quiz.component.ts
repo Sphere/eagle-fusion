@@ -471,7 +471,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         const courseCompleted =
           (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100) ||
           data.currentCompletionPercentage === 100
-        if (courseCompleted && this.contentSvc.showConformation && this.dialog.openDialogs.length === 0) {
+        const otherFlowBusy = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
+        if (courseCompleted && this.contentSvc.showConformation && !otherFlowBusy) {
+          this.viewerDataSvc.isCourseCompletionFlowActive = true
           this.openCongratulationPopup().then((isCompleted: boolean) => {
             if (isCompleted) {
               const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
@@ -482,15 +484,22 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 data: { request: { courseId: this.collectionId }, message: 'Congratulations!, you have completed the course' },
               })
               confirmdialog.afterClosed().subscribe((res: any) => {
+                this.viewerDataSvc.isCourseCompletionFlowActive = false
+                if (res?.event === 'CONFIRMED') {
+                  // Explicit save-and-refresh signal: app-toc-desktop.component.ts consumes this on
+                  // the overview page to force a fresh rating-summary fetch for this exact course.
+                  this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
+                }
                 if (res?.event === 'CONFIRMED' || res?.event === 'close-complete') {
                   this.navigateToCourseOverview()
                 }
               })
             } else {
+              this.viewerDataSvc.isCourseCompletionFlowActive = false
               this.navigateToCourseOverview()
             }
           })
-        } else {
+        } else if (!otherFlowBusy) {
           this.navigateToCourseOverview()
         }
       },
@@ -962,7 +971,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
                       && this.contentSvc.showConformation) {
-                      const isDialogOpen = this.dialog.openDialogs.length > 0
+                      const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
                       if (!isDialogOpen) {
                         this.openCongratulationPopup().then(isCompleted => {
                           if (isCompleted) {
@@ -975,7 +984,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                             })
 
                             confirmdialog.afterClosed().subscribe((res: any) => {
+                              this.viewerDataSvc.isCourseCompletionFlowActive = false
                               if (res.event === 'CONFIRMED') {
+                                this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
                                 this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                                   queryParams: {
                                     primaryCategory: 'Course',
@@ -984,6 +995,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                                 })
                               }
                             })
+                          } else {
+                            this.viewerDataSvc.isCourseCompletionFlowActive = false
+                            return
                           }
                         })
                       }

@@ -250,6 +250,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               if (!(isNull(nextResource) || isEmpty(nextResource))) {
                 this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
                 this.playerStateService.trigger$.complete()
+              } else if (this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive) {
+                // This SCORM-driven completion check runs independently of the
+                // currentMessage-driven congrats/rating flow (handleOnlineProgressRecord)
+                // and used to navigate/close-all unconditionally on its own fixed 500ms
+                // timer — racing past that flow's still-open dialog and abandoning the
+                // rating before the user could submit it. If that flow is already in
+                // progress, do nothing here: its own confirmdialog.afterClosed() handler
+                // will call completeCourseNavigation() once it resolves.
 
               } else if (this.isAsha) {
                 this.completeCourseNavigation()
@@ -932,11 +940,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 courseId: this.collectionId,
               }
               this.logger.log("data", this.collectionId, data)
-              const isDialogOpen = this.dialog.openDialogs.length > 0
+              const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
               // If the dialog is not already open, open it
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0 && data) {
+                this.viewerDataSvc.isCourseCompletionFlowActive = true
                 if (finalCompetencies.length > 0) {
                   finalCompetencies.forEach((competency: any) => {
                     this.updatePassbookEntryPassbook(data, competency)
@@ -958,11 +967,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                       if (confirmdialog) {
                         confirmdialog.afterClosed().subscribe((res: any) => {
+                          this.viewerDataSvc.isCourseCompletionFlowActive = false
                           if (res && res.event === 'CONFIRMED') {
+                            this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
                             this.completeCourseNavigation()
                           }
                         })
+                      } else {
+                        this.viewerDataSvc.isCourseCompletionFlowActive = false
                       }
+                    } else {
+                      this.viewerDataSvc.isCourseCompletionFlowActive = false
                     }
                   })
                 }, delay)
@@ -986,11 +1001,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 courseId: this.collectionId,
               }
               this.logger.log("data", this.collectionId, data)
-              const isDialogOpen = this.dialog.openDialogs.length > 0
+              const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
               // If the dialog is not already open, open it
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                this.viewerDataSvc.isCourseCompletionFlowActive = true
                 if (finalCompetencies.length > 0) {
                   finalCompetencies.forEach((competency: any) => {
                     this.updatePassbookEntryPassbook(data, competency)
@@ -1012,23 +1028,29 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                       if (confirmdialog) {
                         confirmdialog.afterClosed().subscribe((res: any) => {
+                          this.viewerDataSvc.isCourseCompletionFlowActive = false
                           if (res && res.event === 'CONFIRMED') {
+                            this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
                             this.completeCourseNavigation()
                           }
                         })
+                      } else {
+                        this.viewerDataSvc.isCourseCompletionFlowActive = false
                       }
+                    } else {
+                      this.viewerDataSvc.isCourseCompletionFlowActive = false
                     }
                   })
                 }, delay)
               }
-              if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
+              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length > 0) {
                 this.completeCourseNavigation()
               }
 
             }
           } else {
             this.logger.log(rating, optmisticPercentage)
-            if (optmisticPercentage === 100) {
+            if (optmisticPercentage === 100 && this.dialog.openDialogs.length === 0 && !this.viewerDataSvc.isCourseCompletionFlowActive) {
               this.completeCourseNavigation()
             }
           }
@@ -1054,10 +1076,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
               this.logger.log("data", this.collectionId, data)
               // Check if the dialog is already open
-              const isDialogOpen = this.dialog.openDialogs.length > 0
+              const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
               this.logger.log(optmisticPercentage, Object.keys(rating).length)
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                this.viewerDataSvc.isCourseCompletionFlowActive = true
                 if (finalCompetencies.length > 0) {
                   finalCompetencies.forEach((competency: any) => {
                     this.updatePassbookEntryPassbook(data, competency)
@@ -1079,15 +1102,21 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                       if (confirmdialog) {
                         confirmdialog.afterClosed().subscribe((res: any) => {
+                          this.viewerDataSvc.isCourseCompletionFlowActive = false
                           if (res && res.event === 'CONFIRMED') {
+                            this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
                             this.completeCourseNavigation()
                           }
                         })
+                      } else {
+                        this.viewerDataSvc.isCourseCompletionFlowActive = false
                       }
+                    } else {
+                      this.viewerDataSvc.isCourseCompletionFlowActive = false
                     }
                   })
                 }, delay)
-              } else {
+              } else if (!isDialogOpen) {
                 if (optmisticPercentage === 100) {
                   this.completeCourseNavigation()
                 }
