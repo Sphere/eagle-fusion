@@ -23,11 +23,11 @@ import { constructReq } from '../profile-view/request-util'
 import { API_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
-    standalone: false,
-    selector: 'ws-new-tnc',
-    templateUrl: './new-tnc.component.html',
-    styleUrls: ['./new-tnc.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-new-tnc',
+  templateUrl: './new-tnc.component.html',
+  styleUrls: ['./new-tnc.component.scss'],
+
 })
 export class NewTncComponent implements OnInit, OnDestroy {
   //@ViewChild('scrollContainer') scrollContainer: ElementRef
@@ -364,10 +364,14 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.browserName.setValue(userAgent.browserName || '')
         this.createUserForm.controls.userCookie.setValue(userCookie || '')
       }
-      const data = localStorage.getItem('preferedLanguage')
+      const data = localStorage.getItem('language') || localStorage.getItem('preferedLanguage')
       if (data) {
-        this.lang = JSON.parse(data)
-        this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
+        try {
+          this.lang = JSON.parse(data)
+          this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
+        } catch {
+          this.lang = data !== 'en' ? data : 'en'
+        }
       } else {
         this.lang = 'en'
       }

@@ -158,9 +158,10 @@
           <button
             *ngIf="(result === 100 || result < passPercentage) || (result>= passPercentage && canShowViewAnswers())"
             class="btn width-auto" mat-raised-button (click)="retakeQuiz()">
-            {{((result === 100 || result < passPercentage) ? 'Retake Assessment' : 'View Answers' )|translate}}</button>
-              <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()" mat-raised-button>
-                {{"Continue" | translate}}</button>
+            {{((result>= passPercentage && canShowViewAnswers()) ? 'View Answers' : 'Retake Assessment'
+            )|translate}}</button>
+          <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()" mat-raised-button>
+            {{"Continue" | translate}}</button>
         </div>
 
 
