@@ -303,9 +303,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async retakeQuiz() {
-    if (this.result === 100 || this.result < this.passPercentage) {
-      this.dialogRef.close({ event: 'RETAKE_QUIZ' })
-    } else if (this.canShowViewAnswers()) {
+    if (this.canShowViewAnswers()) {
       await this.populateAnswersFromArtifact()
       this.dialog.open(ViewAnswerComponent, {
         width: '90vw',
@@ -317,6 +315,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           userInput: this.questionAnswerHash,
         },
       })
+    } else {
+      this.dialogRef.close({ event: 'RETAKE_QUIZ' })
     }
   }
 
