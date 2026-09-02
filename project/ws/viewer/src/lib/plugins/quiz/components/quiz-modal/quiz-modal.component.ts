@@ -86,6 +86,16 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dialogRef.close({ event: 'CLOSE' })
   }
   closeDone() {
+    // Report DONE only once the server has accepted the submission.
+    // `fetchingResultsStatus` becomes 'done' inside the submitQuizV2 success callback,
+    // so it proves the score was recorded; `isCompleted` is set before the request is
+    // even made and proves nothing. Marking the content complete with no recorded
+    // score makes course completion fire ahead of the score, and the certificate is
+    // then generated with an empty maxScore.
+    if (this.fetchingResultsStatus !== 'done') {
+      this.dialogRef.close({ event: 'CLOSE' })
+      return
+    }
     this.dialogRef.close({ event: 'DONE' })
   }
   retakeQuiz() {

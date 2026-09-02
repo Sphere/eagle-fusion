@@ -303,6 +303,19 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   closeDone() {
+    // Report DONE only once the assessment has been submitted and passed.
+    // `isCompleted` is set solely inside the submitQuizV2 success callback, and only
+    // when result >= passPercentage, so it guarantees the score has been recorded in
+    // user_assessment_summary. Closing with DONE without it marks the content 100%
+    // complete while no score exists — course completion then fires ahead of the
+    // score and the certificate is generated with an empty maxScore.
+    if (!this.isCompleted) {
+      this.dialogRef.close({
+        event: 'CLOSE',
+        asha: this.route.snapshot.queryParams.isAsha || this.isAshaHome,
+      })
+      return
+    }
     this.dialogRef.close({
       event: this.route.snapshot.queryParams.isAsha ? 'DONE_ASHA' : 'DONE',
       asha: this.route.snapshot.queryParams.isAsha || this.isAshaHome,
