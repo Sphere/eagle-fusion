@@ -68,10 +68,10 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private languageSvc: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef
+    private readonly languageSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.personalDetailForm = new UntypedFormGroup({
       profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
@@ -91,13 +91,13 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
       selectBackground: new UntypedFormControl(),
       nameOther: new UntypedFormControl(),
     })
+  }
+
+  ngOnInit() {
     this.mobileSubscription = this.valueSvc.isXSmall$.subscribe(isSmall => {
       this.showbackButton = isSmall
       this.showLogOutIcon = false
     })
-  }
-
-  ngOnInit() {
     this.logger.log(this.data)
     this.getUserDetails()
     if (this.isEkshamata) {
@@ -106,90 +106,118 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
   }
 
   getUserDetails() {
-    if (this.configSvc.userProfile) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
-          if (data) {
-            this.isEditableForSphere = this.data?.isEditable ?? false
-            if (this.isEditableForSphere) {
-              this.personalDetailForm.enable()
-            } else {
-              this.personalDetailForm.disable()
-            }
-            const newData = data.profileDetails.profileReq
-            this.ekshamataData = data
-            this.userProfileData = newData
+    if (!this.configSvc.userProfile) {
+      return
+    }
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+      (data: any) => this.handleUserDetailsResponse(data)
+    )
+  }
 
-            if (newData && newData.professionalDetails) {
-              const pd0 = newData.professionalDetails[0]
+  private handleUserDetailsResponse(data: any): void {
+    if (!data) {
+      return
+    }
+    this.isEditableForSphere = this.data?.isEditable ?? false
+    if (this.isEditableForSphere) {
+      this.personalDetailForm.enable()
+    } else {
+      this.personalDetailForm.disable()
+    }
+    const newData = data.profileDetails.profileReq
+    this.ekshamataData = data
+    this.userProfileData = newData
 
-              this.personalDetailForm.patchValue({
-                profession: pd0.profession,
-                professionOtherSpecify: pd0.professionOtherSpecify,
-                orgType: pd0.orgType,
-                orgOtherSpecify: pd0.orgOtherSpecify,
-                organizationName: pd0.name,
-                block: pd0.block,
-                subcentre: pd0.subcentre,
-                designation: pd0.designation,
-                orgName: pd0.name,
-                courseName: pd0.qualification,
-                selectBackground: pd0.selectBackground,
-                nameOther: pd0.nameOther,
-                instituteName: pd0.instituteName,
-                regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
-              })
-              if (pd0.profession === 'Healthcare Worker') {
-                this.personalDetailForm.patchValue({
-                  regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
-                })
-                if (pd0.designation === 'ANM') {
-                  this.personalDetailForm.patchValue({ designation: 'ANM/MPW' })
-                }
-              }
+    if (newData && newData.professionalDetails) {
+      this.applyProfileDataToForm(newData)
+    }
+  }
 
-              if (newData.personalDetails.postalAddress) {
-                const cName = newData.personalDetails.postalAddress
-                const csplit = cName.split(',')
-                const country = (csplit[0] || '').trim()
-                if (country !== 'India') {
-                  this.professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Student', 'Faculty', 'Others']
-                }
-              }
-              this.cdr.markForCheck()
-              if (pd0.profession === 'ASHA' || (pd0.profession === 'Others' && (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer'))) {
-                this.selectedBg = pd0.selectBackground
-                this.personalDetailForm.controls.block.setValidators([Validators.required])
-                this.personalDetailForm.controls.block.updateValueAndValidity()
+  private applyProfileDataToForm(newData: any): void {
+    const pd0 = newData.professionalDetails[0]
 
-                this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-                  if (pd0.locationselect) {
-                    // Find state by matching the saved district value
-                    for (const stateData of statesdata.states) {
-                      if (stateData.districts.includes(pd0.locationselect)) {
-                        this.disticts = stateData.districts
-                        this.personalDetailForm.controls.locationselect.setValue(pd0.locationselect)
-                        break
-                      }
-                    }
-                  } else {
-                    // No saved district — derive from postalAddress
-                    const { state, dist } = this.extractStateDistrictFromPostalAddress(newData.personalDetails.postalAddress)
-                    if (state) {
-                      const match = statesdata.states.find((s: any) => s.state === state)
-                      if (match) {
-                        this.disticts = match.districts
-                        if (dist && match.districts.includes(dist)) {
-                          this.personalDetailForm.controls.locationselect.setValue(dist)
-                        }
-                      }
-                    }
-                  }
-                })
-              }
-            }
-          }
-        })
+    this.personalDetailForm.patchValue({
+      profession: pd0.profession,
+      professionOtherSpecify: pd0.professionOtherSpecify,
+      orgType: pd0.orgType,
+      orgOtherSpecify: pd0.orgOtherSpecify,
+      organizationName: pd0.name,
+      block: pd0.block,
+      subcentre: pd0.subcentre,
+      designation: pd0.designation,
+      orgName: pd0.name,
+      courseName: pd0.qualification,
+      selectBackground: pd0.selectBackground,
+      nameOther: pd0.nameOther,
+      instituteName: pd0.instituteName,
+      regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
+    })
+    this.applyHealthcareWorkerOverrides(pd0, newData)
+    this.applyNonIndiaProfessionOptions(newData)
+    this.cdr.markForCheck()
+    this.applyAshaLocationDefaults(pd0, newData)
+  }
+
+  private applyHealthcareWorkerOverrides(pd0: any, newData: any): void {
+    if (pd0.profession !== 'Healthcare Worker') {
+      return
+    }
+    this.personalDetailForm.patchValue({
+      regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
+    })
+    if (pd0.designation === 'ANM') {
+      this.personalDetailForm.patchValue({ designation: 'ANM/MPW' })
+    }
+  }
+
+  private applyNonIndiaProfessionOptions(newData: any): void {
+    if (!newData.personalDetails.postalAddress) {
+      return
+    }
+    const cName = newData.personalDetails.postalAddress
+    const csplit = cName.split(',')
+    const country = (csplit[0] || '').trim()
+    if (country !== 'India') {
+      this.professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Student', 'Faculty', 'Others']
+    }
+  }
+
+  private applyAshaLocationDefaults(pd0: any, newData: any): void {
+    const isAshaProfession = pd0.profession === 'ASHA' || (pd0.profession === 'Others' && (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer'))
+    if (!isAshaProfession) {
+      return
+    }
+    this.selectedBg = pd0.selectBackground
+    this.personalDetailForm.controls.block.setValidators([Validators.required])
+    this.personalDetailForm.controls.block.updateValueAndValidity()
+
+    this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+      this.applyDistrictSelection(pd0, newData, statesdata)
+    })
+  }
+
+  private applyDistrictSelection(pd0: any, newData: any, statesdata: any): void {
+    if (pd0.locationselect) {
+      // Find state by matching the saved district value
+      for (const stateData of statesdata.states) {
+        if (stateData.districts.includes(pd0.locationselect)) {
+          this.disticts = stateData.districts
+          this.personalDetailForm.controls.locationselect.setValue(pd0.locationselect)
+          break
+        }
+      }
+      return
+    }
+    // No saved district — derive from postalAddress
+    const { state, dist } = this.extractStateDistrictFromPostalAddress(newData.personalDetails.postalAddress)
+    if (state) {
+      const match = statesdata.states.find((s: any) => s.state === state)
+      if (match) {
+        this.disticts = match.districts
+        if (dist && match.districts.includes(dist)) {
+          this.personalDetailForm.controls.locationselect.setValue(dist)
+        }
+      }
     }
   }
 
@@ -416,7 +444,7 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
     if (!state) return
 
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-      statesdata.states.map((item: any) => {
+      statesdata.states.forEach((item: any) => {
         if (item.state === state) {
           this.disticts = item.districts
           if (onDone) onDone(this.disticts)
@@ -426,13 +454,12 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: any) {
-    // this.logger.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
 
     // ✅ Use LanguageService instead of checking location.href
-    const local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
+    const local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
 
     let profileRequest = this.constructReq(form)
     if (form.value.locationselect) {

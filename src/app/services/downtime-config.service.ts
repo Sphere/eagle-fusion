@@ -9,7 +9,8 @@ import {
   DowntimeType,
 } from '../models/downtime.model'
 import { API_END_POINTS } from '../constants/apiConstants'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
+import { getPortalHost } from '../constants/portal'
 
 /**
  * DowntimeConfigService
@@ -23,15 +24,16 @@ import { ConfigurationsService } from '@ws-widget/utils'
   providedIn: 'root',
 })
 export class DowntimeConfigService implements OnDestroy {
-  private updateInfo = signal<any | null>(null)
+  private readonly updateInfo = signal<any | null>(null)
 
   constructor(
-    private ngZone: NgZone,
-    private httpClient: HttpClient,
-    private configSvc: ConfigurationsService,
+    private readonly ngZone: NgZone,
+    private readonly httpClient: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly logger: LoggerService,
   ) { }
 
-  private downtimeState$ = new BehaviorSubject<DowntimeState>({
+  private readonly downtimeState$ = new BehaviorSubject<DowntimeState>({
     isDowntime: false,
     type: 'full',
     content: {
@@ -131,7 +133,7 @@ export class DowntimeConfigService implements OnDestroy {
           return this.parseDowntimeConfig(data)
         }),
         catchError(error => {
-          console.error('Failed to fetch downtime config from API:', error)
+          this.logger.error('Failed to fetch downtime config from API:', error)
           return of(this.getDefaultDowntimeState(false))
         }),
       )
@@ -174,7 +176,7 @@ export class DowntimeConfigService implements OnDestroy {
         refreshTimer,
       }
     } catch (error) {
-      console.error('Error parsing downtime configuration:', error)
+      this.logger.error('Error parsing downtime configuration:', error)
       return this.getDefaultDowntimeState(false)
     }
   }
@@ -268,7 +270,7 @@ export class DowntimeConfigService implements OnDestroy {
         this.scheduleAutoRefresh(state)
       },
       error => {
-        console.warn('Auto-refresh failed:', error)
+        this.logger.warn('Auto-refresh failed:', error)
         if (this.currentConfig?.refreshInterval) {
           this.scheduleAutoRefresh(this.getCurrentDowntimeState())
         }
@@ -290,7 +292,7 @@ export class DowntimeConfigService implements OnDestroy {
    * Determine the application name from hostname
    */
   private getAppName(): string {
-    const hostname = window.location.hostname
+    const hostname = getPortalHost()
     if (hostname.includes('ekshamata')) {
       return 'ekshamata'
     }

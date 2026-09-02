@@ -9,9 +9,11 @@ import { NAVIGATION_DATA_INCOMING } from '../models/mobile-events.model'
 export class NavigationExternalService {
 
   dummy = 1
-  constructor(private router: Router) {
-    fromEvent(document, NAVIGATION_DATA_INCOMING).subscribe((event: CustomEventInit) => {
-      this.navigateTo(event.detail.url, event.detail.params)
+  constructor(private readonly router: Router) {
+    queueMicrotask(() => {
+      fromEvent(document, NAVIGATION_DATA_INCOMING).subscribe((event: CustomEventInit) => {
+        this.navigateTo(event.detail.url, event.detail.params)
+      })
     })
   }
   init() {

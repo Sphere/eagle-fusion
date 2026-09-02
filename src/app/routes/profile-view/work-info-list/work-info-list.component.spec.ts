@@ -69,6 +69,7 @@ describe('WorkInfoListComponent', () => {
   })
 
   it('should set showbackButton when isXSmall$ emits true', () => {
+    component.ngOnInit()
     mockValueService.isXSmall$.next(true)
     expect(component.showbackButton).toBe(true)
   })
@@ -165,6 +166,40 @@ describe('WorkInfoListComponent', () => {
       component.personalDetailForm.patchValue({ profession: 'ASHA', designation: null })
       expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: 'Nurse' } })).toBe(false)
     })
+
+    it('should match a profession given as a bare string', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA' })
+      expect(component.shouldShowField({ showIf: { profession: 'ASHA' } })).toBe(true)
+      expect(component.shouldShowField({ showIf: { profession: 'Other' } })).toBe(false)
+    })
+
+    it('should match a secondary key given as a bare string', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA', designation: 'Nurse' })
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: 'Nurse' } })).toBe(true)
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: 'Doctor' } })).toBe(false)
+    })
+
+    it('should match a secondary key given as a list', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA', designation: 'Nurse' })
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: ['Nurse', 'GNM'] } })).toBe(true)
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: ['GNM'] } })).toBe(false)
+    })
+
+    it('should skip the background check unless the profession is Others', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA' })
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], selectBackground: 'X' } })).toBe(true)
+    })
+
+    it('should apply the background check when the profession is Others', () => {
+      component.personalDetailForm.patchValue({ profession: 'Others', selectBackground: 'X' })
+      expect(component.shouldShowField({ showIf: { profession: ['Others'], selectBackground: 'X' } })).toBe(true)
+      expect(component.shouldShowField({ showIf: { profession: ['Others'], selectBackground: 'Y' } })).toBe(false)
+    })
+
+    it('should show a field whose showIf has no profession gate', () => {
+      component.personalDetailForm.patchValue({ designation: 'Nurse' })
+      expect(component.shouldShowField({ showIf: { designation: 'Nurse' } })).toBe(true)
+    })
   })
 
   describe('getOptions', () => {
@@ -200,6 +235,23 @@ describe('WorkInfoListComponent', () => {
 
     it('should return named array for non-professional options', () => {
       expect(component.getOptions({ options: 'orgTypes' })).toEqual(component.orgTypes)
+    })
+
+    it('should return the India list for an Others profession with an Indian address', () => {
+      component.personalDetailForm.patchValue({ profession: 'Others' })
+      component.userProfileData = { personalDetails: { postalAddress: 'Delhi, India' } } as any
+      expect(component.getOptions({ options: 'professionalOptions' })).toEqual(component.OthersList)
+    })
+
+    it('should return the overseas list for an Others profession abroad', () => {
+      component.personalDetailForm.patchValue({ profession: 'Others' })
+      component.userProfileData = { personalDetails: { postalAddress: 'London, UK' } } as any
+      expect(component.getOptions({ options: 'professionalOptions' }))
+        .toEqual(['Mother/ Family Members', 'Other'])
+    })
+
+    it('should return an empty array for an unknown named option', () => {
+      expect(component.getOptions({ options: 'notARealList' })).toEqual([])
     })
   })
 
@@ -378,6 +430,22 @@ describe('WorkInfoListComponent', () => {
       component.onSubmit(component.personalDetailForm)
       expect(spy).toHaveBeenCalledWith('ASHA')
     })
+
+    it('should rebuild postalAddress from locationselect when address includes India', () => {
+      component.userProfileData.personalDetails.postalAddress = 'India,UP,OldDist'
+      component.personalDetailForm.patchValue({ locationselect: 'NewDist' })
+      component.onSubmit(component.personalDetailForm)
+      const call = mockUserProfileService.updateProfileDetails.mock.calls[0][0]
+      expect(call.request.profileDetails.profileReq.personalDetails.postalAddress).toBe('India,UP,NewDist')
+    })
+
+    it('should fall back to languageSvc language when preference is undefined', () => {
+      mockConfigService.unMappedUser = { profileDetails: { preferences: {}, userSource: 'src' } }
+      component['languageSvc'] = { getCurrentLanguage: jest.fn().mockReturnValue('hi') } as any
+      component.onSubmit(component.personalDetailForm)
+      const call = mockUserProfileService.updateProfileDetails.mock.calls[0][0]
+      expect(call.request.profileDetails.preferences.language).toBe('hi')
+    })
   })
 
   describe('openSnackbar', () => {
@@ -387,8 +455,118 @@ describe('WorkInfoListComponent', () => {
     })
   })
 
+  describe('getUserDetails additional branches', () => {
+    it('should enable form and patch Healthcare Worker with ANM designation for non-India address', () => {
+      const profileData = {
+        profileDetails: {
+          profileReq: {
+            professionalDetails: [{ profession: 'Healthcare Worker', name: 'PHC', designation: 'ANM' }],
+            personalDetails: { regNurseRegMidwifeNumber: 'RN-1', postalAddress: 'USA, NY, City' },
+          },
+        },
+      }
+      component.data = { isEditable: true }
+      mockConfigService.userProfile = { userId: 'u1' }
+      mockConfigService.unMappedUser = { id: 'um-1' }
+      mockUserProfileService.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of(profileData))
+      const enableSpy = jest.spyOn(component.personalDetailForm, 'enable')
+      component['getUserDetails']()
+      expect(enableSpy).toHaveBeenCalled()
+      expect(component.personalDetailForm.get('designation')?.value).toBe('ANM/MPW')
+      expect(component.professions).not.toContain('ASHA')
+    })
+
+    it('should match saved district for ASHA when locationselect present', () => {
+      const profileData = {
+        profileDetails: {
+          profileReq: {
+            professionalDetails: [{ profession: 'ASHA', name: 'PHC', designation: 'ASHA', locationselect: 'Dist', block: 'B1' }],
+            personalDetails: { regNurseRegMidwifeNumber: '', postalAddress: 'India, UP, Dist' },
+          },
+        },
+      }
+      mockConfigService.userProfile = { userId: 'u1' }
+      mockConfigService.unMappedUser = { id: 'um-1' }
+      mockUserProfileService.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of(profileData))
+      mockHttpClient.get.mockReturnValue(of({ states: [{ state: 'UP', districts: ['Dist', 'Dist2'] }] }))
+      component['getUserDetails']()
+      expect(component.disticts).toEqual(['Dist', 'Dist2'])
+      expect(component.personalDetailForm.get('locationselect')?.value).toBe('Dist')
+    })
+
+    it('should disable form when data not editable', () => {
+      const profileData = {
+        profileDetails: { profileReq: { professionalDetails: null, personalDetails: {} } },
+      }
+      component.data = { isEditable: false }
+      mockConfigService.userProfile = { userId: 'u1' }
+      mockConfigService.unMappedUser = { id: 'um-1' }
+      mockUserProfileService.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of(profileData))
+      const disableSpy = jest.spyOn(component.personalDetailForm, 'disable')
+      component['getUserDetails']()
+      expect(disableSpy).toHaveBeenCalled()
+    })
+  })
+
+  describe('shouldShowField additional branches', () => {
+    it('should skip selectBackground key when profession is not Others', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA' })
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], selectBackground: 'x' } })).toBe(true)
+    })
+
+    it('should match array expected values for non-profession key', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA', designation: 'Nurse' })
+      expect(component.shouldShowField({ showIf: { profession: ['ASHA'], designation: ['Nurse'] } })).toBe(true)
+    })
+
+    it('should match scalar profession when not an array', () => {
+      component.personalDetailForm.patchValue({ profession: 'ASHA' })
+      expect(component.shouldShowField({ showIf: { profession: 'ASHA' } })).toBe(true)
+    })
+  })
+
+  describe('getOptions Others branches', () => {
+    it('should return OthersList when postalAddress includes India', () => {
+      component.userProfileData = { personalDetails: { postalAddress: 'India, UP, Dist' } } as any
+      component.personalDetailForm.patchValue({ profession: 'Others' })
+      expect(component.getOptions({ options: 'professionalOptions' })).toEqual(component.OthersList)
+    })
+
+    it('should return limited list when postalAddress is not India', () => {
+      component.userProfileData = { personalDetails: { postalAddress: 'USA, NY, City' } } as any
+      component.personalDetailForm.patchValue({ profession: 'Others' })
+      expect(component.getOptions({ options: 'professionalOptions' })).toEqual(['Mother/ Family Members', 'Other'])
+    })
+  })
+
+  describe('handleChange locationselect', () => {
+    it('should call onLocationSelectChange for locationselect field', () => {
+      const spy = jest.spyOn(component, 'onLocationSelectChange')
+      component.userProfileData = { personalDetails: { postalAddress: 'India, UP, Dist' } } as any
+      component.handleChange({ value: 'NewDist' }, { key: 'locationselect' })
+      expect(spy).toHaveBeenCalledWith('NewDist')
+    })
+  })
+
+  describe('constructReq official email branch', () => {
+    it('should set officialEmail when primaryEmailType is OFFICIAL', () => {
+      component.userProfileData = {
+        userId: 'u-1', id: 'u-1', academics: [],
+        personalDetails: { primaryEmail: 'off@t.com', secondaryEmail: 's@t.com', primaryEmailType: component.ePrimaryEmailType.OFFICIAL },
+        professionalDetails: [{}],
+      } as any
+      component['UserAgentResolverService'] = {
+        getUserAgent: jest.fn().mockReturnValue({ OS: 'Mac', browserName: 'Chrome' }),
+        generateCookie: jest.fn().mockReturnValue('c'),
+      } as any
+      const req = component.constructReq(component.personalDetailForm)
+      expect(req.profileReq.personalDetails.officialEmail).toBe('off@t.com')
+    })
+  })
+
   describe('ngOnDestroy', () => {
     it('should unsubscribe mobileSubscription', () => {
+      component.ngOnInit()
       const spy = jest.spyOn(component['mobileSubscription'] as any, 'unsubscribe')
       component.ngOnDestroy()
       expect(spy).toHaveBeenCalled()

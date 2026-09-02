@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button'
 
 import { BtnPageBackModule } from '@ws-widget/collection'
-import { HorizontalScrollerModule, PipeSafeSanitizerModule } from '@ws-widget/utils'
+import { HorizontalScrollerModule } from '@ws-widget/utils'
 
 @NgModule({
   declarations: [PublicAboutComponent],
@@ -24,7 +24,6 @@ import { HorizontalScrollerModule, PipeSafeSanitizerModule } from '@ws-widget/ut
     MatButtonModule,
 
     HorizontalScrollerModule,
-    PipeSafeSanitizerModule,
   ],
 
   exports: [PublicAboutComponent],

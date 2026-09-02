@@ -3,9 +3,9 @@ declare let $: any
 import { QuizService } from '../quiz.service'
 /* tslint:disable */
 @Directive({
-    standalone: false,
-    selector: '[questionSlide]',
-    
+  standalone: false,
+  selector: '[questionSlide]',
+
 })
 /* tslint:enable */
 export class SlideDirective implements OnInit {
@@ -26,7 +26,5 @@ export class SlideDirective implements OnInit {
       $(this.el.nativeElement).show()
     }
   }
-
-  // constructor() { }
 
 }

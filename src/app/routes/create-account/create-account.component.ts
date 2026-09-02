@@ -21,9 +21,9 @@ import { v4 as uuid } from 'uuid'
 // Constants
 const ASSET_PATHS = {
   languageIcon: '../../../fusion-assets/images/lang-icon.png',
-  grayDot: '../../../fusion-assets/icons/gray_dot.pwd.png',
-  pwdTick: '../../../fusion-assets/icons/pwd-tick.png',
-  pwdCross: '../../../fusion-assets/icons/pwd-cross.png',
+  grayDot: '../../../fusion-assets/icons/gray-dot.png',
+  tickIcon: '../../../fusion-assets/icons/tick-icon.png',
+  crossIcon: '../../../fusion-assets/icons/cross-icon.png',
 } as const
 
 const REGEX_PATTERNS = {
@@ -127,29 +127,29 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   isOrgSelectiveCourse = false
 
   // Cleanup
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
   private dialogRef?: MatDialogRef<any>
   organisationId = '0132317968766894088'
   channelName!: string
   state!: string
   userRole!: string
   constructor(
-    private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-    private signupService: SignupService,
-    private router: Router,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private route: ActivatedRoute,
-    private http: HttpClient,
-    private languageService: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef,
-    private userAgentSvc: UserAgentResolverService,
-    private telemetrySvc: TelemetryService,
+    private readonly fb: FormBuilder,
+    private readonly snackBar: MatSnackBar,
+    private readonly signupService: SignupService,
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
+    private readonly loader: LoaderService,
+    public readonly configSvc: ConfigurationsService,
+    private readonly valueSvc: ValueService,
+    private readonly route: ActivatedRoute,
+    private readonly http: HttpClient,
+    private readonly languageService: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly userAgentSvc: UserAgentResolverService,
+    private readonly telemetrySvc: TelemetryService,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForms()
@@ -324,10 +324,10 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     }
 
     this.passwordValidation = {
-      length: password.length >= 8 ? ASSET_PATHS.pwdTick : ASSET_PATHS.pwdCross,
-      uppercase: /[A-Z]/.test(password) ? ASSET_PATHS.pwdTick : ASSET_PATHS.pwdCross,
-      number: /\d/.test(password) ? ASSET_PATHS.pwdTick : ASSET_PATHS.pwdCross,
-      specialChar: /[\W_]/.test(password) ? ASSET_PATHS.pwdTick : ASSET_PATHS.pwdCross,
+      length: password.length >= 8 ? ASSET_PATHS.tickIcon : ASSET_PATHS.crossIcon,
+      uppercase: /[A-Z]/.test(password) ? ASSET_PATHS.tickIcon : ASSET_PATHS.crossIcon,
+      number: /\d/.test(password) ? ASSET_PATHS.tickIcon : ASSET_PATHS.crossIcon,
+      specialChar: /[\W_]/.test(password) ? ASSET_PATHS.tickIcon : ASSET_PATHS.crossIcon,
     }
   }
 
@@ -494,7 +494,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     sessionStorage.setItem(STORAGE_KEYS.loginBtn, 'clicked')
 
     const emailOrMobile = accountForm.value.emailOrMobile.trim()
-    const sanitizedPhone = emailOrMobile.replace(/[^0-9+#]/g, '')
+    const sanitizedPhone = emailOrMobile.replaceAll(/[^0-9+#]/g, '')
 
     this.loader.changeLoad.next(true)
 

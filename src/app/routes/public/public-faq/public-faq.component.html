@@ -7,8 +7,7 @@
   <mat-sidenav class="sidenav" [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
     <mat-nav-list>
       <a mat-list-item aria-label="Login Related Faqs" class="" [routerLink]="'/public/faq/login'"
-        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button" (click)="sideNavOnClick()"
-        accesskey="1">Login</a>
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button" (click)="sideNavOnClick()">Login</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -17,7 +16,7 @@
         <mat-icon>menu</mat-icon>
       </button>
       <h2 class="mat-subheading-2 margin-remove px-2" [ngSwitch]="currentTab">
-        <span *ngSwitchCase="'login'" accesskey="1">Login</span>
+        <span *ngSwitchCase="'login'">Login</span>
       </h2>
     </div>
     <section class="padding-m leading-relaxed" [ngSwitch]="currentTab">

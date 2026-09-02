@@ -230,4 +230,62 @@ describe('ForgotPasswordComponent', () => {
     expect(component.resendOTPbtn).toBe('Resend OTP')
     jest.useRealTimers()
   })
+
+  it('should fall back to error.error string when no error.message (phone)', () => {
+    mockSignupService.forgotPassword = jest.fn().mockReturnValue(
+      throwError(() => ({ error: 'plain error' })),
+    )
+    component.emailForm.get('userInput')?.setValue('9876543210')
+    component.forgotPassword()
+    expect(mockTranslate.instant).toHaveBeenCalledWith('plain error')
+  })
+
+  it('should fall back to default message on empty error (phone)', () => {
+    mockSignupService.forgotPassword = jest.fn().mockReturnValue(throwError(() => ({})))
+    component.emailForm.get('userInput')?.setValue('9876543210')
+    component.forgotPassword()
+    expect(mockTranslate.instant).toHaveBeenCalledWith('Oops! Something went wrong')
+  })
+
+  it('should fall back to default message on empty error (email)', () => {
+    mockSignupService.forgotPassword = jest.fn().mockReturnValue(throwError(() => ({})))
+    component.emailForm.get('userInput')?.setValue('user@test.com')
+    component.forgotPassword()
+    expect(mockTranslate.instant).toHaveBeenCalledWith('Oops! Something went wrong')
+  })
+
+  it('should not set showOtpPwd when phone response has no message', () => {
+    mockSignupService.forgotPassword = jest.fn().mockReturnValue(of({}))
+    component.emailForm.get('userInput')?.setValue('9876543210')
+    component.forgotPassword()
+    expect(component.showOtpPwd).toBe(false)
+  })
+
+  it('should not set showCheckEmailText when email response has no message', () => {
+    mockSignupService.forgotPassword = jest.fn().mockReturnValue(of({}))
+    component.emailForm.get('userInput')?.setValue('user@test.com')
+    component.forgotPassword()
+    expect(component.showCheckEmailText).toBe(false)
+  })
+
+  it('onSubmit should fall back to default message on empty error', () => {
+    mockSignupService.setPasswordWithOtp = jest.fn().mockReturnValue(throwError(() => ({})))
+    component.forgotPasswordForm.patchValue({ otp: '111111' })
+    component.onSubmit()
+    expect(mockTranslate.instant).toHaveBeenCalledWith('Oops! Something went wrong')
+  })
+
+  it('onSubmit should do nothing when response has no response field', () => {
+    mockSignupService.setPasswordWithOtp = jest.fn().mockReturnValue(of({}))
+    component.forgotPasswordForm.patchValue({ otp: '111111' })
+    expect(() => component.onSubmit()).not.toThrow()
+  })
+
+  it('should reset disableResendButton and snackbar when max retry exceeded on resend', () => {
+    component.resendOtpCounter = component.maxResendTry
+    component.disableResendButton = true
+    component.forgotPassword('resend')
+    expect(component.disableResendButton).toBe(false)
+    expect(mockSnackBar.open).toHaveBeenCalled()
+  })
 })

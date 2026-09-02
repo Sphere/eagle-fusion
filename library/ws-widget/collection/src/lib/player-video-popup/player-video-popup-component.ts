@@ -28,7 +28,7 @@ export class PlayerVideoPopupComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<PlayerVideoPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { questions: Array<{ text: string; options: any[] }> },
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) {
     this.questions = data.questions
     this.answers = new Array(this.questions.length).fill(null) // Initialize answers array

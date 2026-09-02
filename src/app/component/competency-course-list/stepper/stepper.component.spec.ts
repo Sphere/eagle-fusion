@@ -1,11 +1,14 @@
+import { LoggerService } from '@ws-widget/utils'
 import { StepperComponent } from './stepper.component'
 
 describe('StepperComponent', () => {
   let comp: StepperComponent
+  let mockLogger: any
 
   beforeEach(() => {
     jest.spyOn(console, 'log').mockImplementation(() => undefined)
-    comp = new StepperComponent()
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
+    comp = new StepperComponent(mockLogger)
   })
 
   afterEach(() => {
@@ -25,7 +28,6 @@ describe('StepperComponent', () => {
     comp.failedLevels = [2]
     comp.currentLevel = 2
     comp.ngOnInit()
-    // eslint-disable-next-line no-console
-    expect(console.log).toHaveBeenCalledWith('stepper data', [1, 2, 3], [1], [2], 2)
+    expect(mockLogger.log).toHaveBeenCalledWith('stepper data', [1, 2, 3], [1], [2], 2)
   })
 })

@@ -8,9 +8,9 @@ import { ISearchContent } from '../interface/search'
 @Injectable()
 export class WorkFlowService {
   constructor(
-    private initService: AuthInitService,
-    private conditionService: ConditionCheckService,
-    private accessControlSvc: AccessControlService,
+    private readonly initService: AuthInitService,
+    private readonly conditionService: ConditionCheckService,
+    private readonly accessControlSvc: AccessControlService,
   ) {}
 
   getWorkFlow(content: NSContent.IContentMeta | ISearchContent): string[] {

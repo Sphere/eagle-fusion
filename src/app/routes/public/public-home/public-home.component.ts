@@ -14,12 +14,13 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 import { SeoService } from '../../../services/seo.service'
 import { UserAgentResolverService } from '../../../services/user-agent.service'
+import { isEkshamataPortal } from '../../../constants/portal'
 @Component({
-    standalone: false,
-    selector: 'ws-public-home',
-    templateUrl: './public-home.component.html',
-    styleUrls: ['./public-home.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-public-home',
+  templateUrl: './public-home.component.html',
+  styleUrls: ['./public-home.component.scss'],
+
 })
 export class PublicHomeComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {
@@ -29,15 +30,21 @@ export class PublicHomeComponent extends WidgetBaseComponent
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
   isEkshamata = false
   constructor(
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private valueSvc: ValueService,
-    private snackBar: MatSnackBar,
-    private seoSvc: SeoService,
-    private userAgentSvc: UserAgentResolverService,
-    @Inject(PLATFORM_ID) private platformId: object,
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly valueSvc: ValueService,
+    private readonly snackBar: MatSnackBar,
+    private readonly seoSvc: SeoService,
+    private readonly userAgentSvc: UserAgentResolverService,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
   ) {
     super()
+    effect(() => {
+      this.isXSmall = this.valueSvc.isMobile() ? true : false
+    })
+  }
+
+  ngOnInit() {
     if (isPlatformBrowser(this.platformId) && localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/public/organisations/home')
     }
@@ -45,36 +52,30 @@ export class PublicHomeComponent extends WidgetBaseComponent
     if (this.configSvc.instanceConfig && this.configSvc.userProfile !== null) {
       this.router.navigate(['/page/home'])
     }
-    effect(() => {
-      this.isXSmall = this.valueSvc.isMobile() ? true : false
-    })
-  }
 
-  ngOnInit() {
     this.seoSvc.update({
       title: 'Free Online Courses for Nurses in India | INC Certified | Aastrika Sphere',
       description: 'Earn CNE points with 500+ free INC-certified online courses for nurses, ANMs, GNMs, midwives and healthcare workers across India. Maternal health, newborn care, and more — in Hindi and English.',
       keywords: 'free nursing courses online India, INC certified courses, CNE points online, free courses for nurses India, ANM GNM courses online, healthcare training online India, maternal health courses nurses, free courses for healthcare workers',
-      canonicalUrl: 'https://sphere.aastrika.org/public/home',
+      canonicalUrl: 'https://sphere.aastrika.org/public/home/',
       ogType: 'website',
+      // No SearchAction/potentialAction: its only valid target would be /app/search, which
+      // robots.txt disallows, and Google crawled the literal template as a URL
+      // (/app/search?q=%7Bsearch_term_string%7D). Google also retired the sitelinks
+      // search box, so the markup bought nothing and cost an indexed junk URL.
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         'name': 'Aastrika Sphere',
         'url': 'https://sphere.aastrika.org',
         'description': 'Free INC-certified online courses for nurses, ANMs, GNMs, midwives and healthcare workers across India.',
-        'potentialAction': {
-          '@type': 'SearchAction',
-          'target': 'https://sphere.aastrika.org/app/search?q={search_term_string}',
-          'query-input': 'required name=search_term_string',
-        },
       },
     })
     if (!isPlatformBrowser(this.platformId)) { return }
 
     this.userAgentSvc.requestGeolocation()
 
-    if (window.location.hostname?.includes('ekshamata')) {
+    if (isEkshamataPortal()) {
       this.isEkshamata = true
     }
 

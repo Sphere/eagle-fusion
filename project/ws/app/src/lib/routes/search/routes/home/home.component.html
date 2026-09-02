@@ -3,7 +3,7 @@
     <h1 class="text-center mat-title">{{'What do you want to learn?' | translate}}</h1>
     <div role="form" class="flex border border-solid search-border">
       <div [ngClass]="{'border-right': languageSearch?.length}" class="flex items-center">
-        <select class="form-control lang-select"
+        <select class="form-control lang-select" aria-label="Select language"
           [ngClass]="{'lang-icon': lang === '', 'lang-selected' : lang === 'step2' }" [(ngModel)]="contact"
           (change)="selectLang(contact)">
           <option></option>
@@ -24,12 +24,13 @@
           </mat-autocomplete>
         </form>
       </div>
-      <div (click)="search()" class="flex items-center justify-center w-16 cursor-pointer">
+      <div (click)="search()" tabindex="0" role="button" (keydown.enter)="search()"
+        (keydown.space)="search(); $event.preventDefault()" class="flex items-center justify-center w-16 cursor-pointer">
         <mat-icon>search</mat-icon>
       </div>
     </div>
     <div class="flex flex-wrap md:flex-no-wrap justify-around mt-10">
-      <a *ngFor="let filter of suggestedFilters" matRipple role="button" -aria-label aria-label="Suggested filter"
+      <a *ngFor="let filter of suggestedFilters" matRipple aria-label="Suggested filter"
         [routerLink]="filter?.url" [queryParams]="filter?.queryParams" class="w-1/3 filter-button">
         <mat-icon class="mb-2">{{filter.icon}}</mat-icon>
         <span class="font-normal">{{filter.title}}</span>
@@ -46,11 +47,11 @@
         <span class="flex items-center w-full">
           <span class="mr-2 flex items-center">
             <img *ngIf="lang.split(',').length > 1" [ngStyle]="{ height: '17px' ,width :'17px'}"
-              src="/assets/common/flags/pref.png">
+              src="/assets/common/flags/pref.png" alt="Preferred languages">
             <img *ngIf="lang.split(',').length === 1" [ngStyle]="{
                         height: lang === 'all' ? '17px': '14px',
                          width: lang === 'all' ? '17px': '20px'
-                      }" src="/assets/common/flags/{{lang}}.png">
+                      }" src="/assets/common/flags/{{lang}}.png" [alt]="lang">
           </span>
           <span>{{ lang }}</span>
           <mat-icon class="ml-2" *ngIf="lang === searchQuery.l">check</mat-icon>

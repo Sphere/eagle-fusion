@@ -1,19 +1,21 @@
 import { Directive, HostListener, Output, EventEmitter } from '@angular/core'
+import { LoggerService } from '@ws-widget/utils'
 
 @Directive({
-    standalone: false,
-    selector: '[appScrollDetector]',
-    
+  standalone: false,
+  selector: '[appScrollDetector]',
+
 })
 export class ScrollDetectorDirective {
   @Output() scrolled = new EventEmitter<boolean>()
 
+  constructor(private readonly logger: LoggerService) { }
 
   @HostListener('scroll', ['$event'])
   onScroll(event: Event): void {
     const element = event.target as HTMLElement
     const isScrolled = element.scrollHeight - element.scrollTop === element.clientHeight
-    console.log(isScrolled)
+    this.logger.log(isScrolled)
     // Emit the event indicating whether the user has scrolled
     this.scrolled.emit(isScrolled)
   }

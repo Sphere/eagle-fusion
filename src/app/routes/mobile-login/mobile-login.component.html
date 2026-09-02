@@ -20,26 +20,13 @@
         <div class="input-content-wrapper">
           <form [formGroup]="loginForm">
 
-            <!--<div class="text-info">Due to security reasons all users have to reset their password after 5th of Feb
-              2022. Old password will
-              no longer work.</div> -->
             <div style="margin-bottom: 10px; margin-top: 10px;">
               <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
             </div>
 
-            <!--             <div class="form-group">
-                  <label for="selectLanguage">Select Language</label>
-              <select id="selectLanguage" class="form-control select-box"
-                 required>
-                <option [value]="null" disabled>Select Language</option>
-                <option value="en" selected>English</option>
-                <option value="hi">Hindi</option>
-              </select>
-            </div> -->
-
             <div class="form-group" style="margin-bottom: 0;">
               <input type="text" class="form-control" placeholder="Phone Number/Email ID" id="userid-field"
-                formControlName="username">
+                aria-label="Phone Number/Email ID" autocomplete="username" formControlName="username">
             </div>
             <div style="margin-top: 4px;">
               <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
@@ -50,9 +37,9 @@
             </div>
             <div class="form-group input-group pwd" style="margin-top: 1rem;">
               <input [type]="hide ? 'password' : 'text'" placeholder="Password" id="password-field"
-                formControlName="password" class="form-control">
+                aria-label="Password" autocomplete="current-password" formControlName="password" class="form-control">
               <div class="input-group-addon iconPosition">
-                <a href="javascript:void(0)" (click)="toggle()" class="f-black">
+                <a href="javascript:void(0)" (click)="toggle()" class="f-black" [attr.aria-label]="hide ? 'Show password' : 'Hide password'">
                   <i [ngClass]="iconChange" aria-hidden="true"></i>
                 </a>
               </div>
@@ -79,27 +66,14 @@
         <p><span>{{'Do not have an account?' | translate}} </span><a href="app/create-account">{{'Create an account' |
             translate}}</a>
         </p>
-        <label>{{'Choose your Language' | translate}}</label>
+        <span>{{'Choose your Language' | translate}}</span>
         <div class="d-inline" style="margin-top: -5px; font-size: small;">
-          <a (click)="redirect('')" class="languages">English</a>
-          <a (click)="redirect('hi')" class="languages">हिन्दी</a>
+          <a (click)="redirect('')" (keydown.enter)="redirect('')" (keydown.space)="redirect(''); $event.preventDefault()"
+            tabindex="0" class="languages">English</a>
+          <a (click)="redirect('hi')" (keydown.enter)="redirect('hi')"
+            (keydown.space)="redirect('hi'); $event.preventDefault()" tabindex="0" class="languages">हिन्दी</a>
         </div>
       </div>
-
-      <!--<div class="form-group">
-          <h4 class="font-weight-bolder f-w-500">OR</h4>
-        </div>
-        <div class="form-group">
-          <a href="javascript:void(0)" #myDiv id="googleBtn" title="Google sign-in"
-            class="btn btn-outline-primary btn-block text-left f-black border-radius" role="button"
-            (click)="googleInit()" id="social-google">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
-              width="20" height="20">
-            <span style="padding-left: 10px;">Log in with Google</span>
-          </a>
-        </div>
--->
     </div>
   </div>
 </div>

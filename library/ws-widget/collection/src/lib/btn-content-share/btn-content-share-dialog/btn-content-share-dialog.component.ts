@@ -30,7 +30,7 @@ export class BtnContentShareDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { content: NsContent.IContent },
     public shareSvc: WidgetContentShareService,
     public configSvc: ConfigurationsService,
-    private cdr: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -70,7 +70,6 @@ export class BtnContentShareDialogComponent implements OnInit {
   }
 
   get detailUrl() {
-    // let locationOrigin = environment.sitePath ? `https://${environment.sitePath}` : location.origin
     let locationOrigin = location.origin
     if (this.configSvc.activeLocale && this.configSvc.activeLocale.path) {
       locationOrigin += `/${this.configSvc.activeLocale.path}`

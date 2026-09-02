@@ -1,5 +1,5 @@
 <div class="banner-header">
-  <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png">
+  <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png" alt="Banner">
 </div>
 
 <ng-container *ngIf="enrollData===false;else second">
@@ -13,10 +13,12 @@
     <div class="container-xxl py-5 category">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
         <div class="row g-3" *ngIf="resultEnroll.length>0">
-          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.contentId)">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.contentId)"
+            (keydown.enter)="navigateToToc(content.contentId)"
+            (keydown.space)="navigateToToc(content.contentId); $event.preventDefault()" tabindex="0">
             <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
               style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
-              <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl">
+              <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl" [alt]="content.courseName">
               <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
                 <h5 class="m-0"> {{content.courseName}}</h5>
               </div>
@@ -40,18 +42,21 @@
 </div>
 <br>
 <div class="container-fluid  p-0-lang">
-  <a (click)='getCourseDetails("")'>
+  <a (click)='getCourseDetails("")' (keydown.enter)='getCourseDetails("")'
+    (keydown.space)='getCourseDetails(""); $event.preventDefault()' tabindex="0">
     <button class="all-courses">
       All
     </button></a>
   &nbsp;&nbsp;&nbsp;
 
-  <a (click)='getCourseDetails("en")'>
+  <a (click)='getCourseDetails("en")' (keydown.enter)='getCourseDetails("en")'
+    (keydown.space)='getCourseDetails("en"); $event.preventDefault()' tabindex="0">
     <button class="en-courses">
       English
     </button></a>
   &nbsp;&nbsp;&nbsp;
-  <a (click)='getCourseDetails("hi")'>
+  <a (click)='getCourseDetails("hi")' (keydown.enter)='getCourseDetails("hi")'
+    (keydown.space)='getCourseDetails("hi"); $event.preventDefault()' tabindex="0">
     <button class="hi-courses">हिन्दी
     </button>
   </a>
@@ -63,10 +68,12 @@
     <div class="row g-3">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultResponse">
         <div class="row g-3">
-          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)"
+            (keydown.enter)="navigateToToc(content.identifier)"
+            (keydown.space)="navigateToToc(content.identifier); $event.preventDefault()" tabindex="0">
             <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
               style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
-              <img class="img-fluid  img-responsive courses" [src]="content.thumbnail">
+              <img class="img-fluid  img-responsive courses" [src]="content.thumbnail" [alt]="content.name">
               <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
                 <h5 class="m-0">{{content.name}}</h5>
               </div>
@@ -81,7 +88,7 @@
   <div class="container py-5">
     <div class="row g-5">
       <div class="col-lg-3 col-md-6">
-        <img class="img-fluid  img-responsive footer-logo" src="./../../fusion-assets/images/sphere-new-logo.svg">
+        <img class="img-fluid  img-responsive footer-logo" src="./../../fusion-assets/images/sphere-new-logo.svg" alt="Aastrika Sphere Logo">
         <!-- <img class="img-fluid  img-responsive footer-logo" src="./../../fusion-assets/images/Asha-E-ABhyass-logo.svg"> -->
       </div>
 
@@ -100,14 +107,14 @@
           <hr>
         </h4>
         <a href="https://rohininilekani.org/" target="_blank">
-          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-1.svg">
+          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-1.svg" alt="Rohini Nilekani Philanthropies logo">
         </a>
         <a href="https://societalplatform.org/" target="_blank">
-          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-2.svg">
+          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-2.svg" alt="Societal Platform logo">
         </a>
         <a href="https://www.whiteribbonalliance.org/respectful-maternity-care-charter/" class="text-center"
           target="_blank">
-          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-3.svg">
+          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-3.svg" alt="White Ribbon Alliance logo">
         </a>
         <br>
         <div class="text-dark mt-1">

@@ -7,7 +7,8 @@
 
 <ng-template #cardLarge>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a href="javascript:void(0)" (click)="redirectPage(courseData)" role="button" tabindex="0">
+    <a href="javascript:void(0)" (click)="redirectPage(courseData)" (keydown.enter)="redirectPage(courseData)"
+      (keydown.space)="redirectPage(courseData); $event.preventDefault()" role="button" tabindex="0">
       <div class="box">
         <div class="text-over">
           <div class="img-shimmer-wrapper">
@@ -71,7 +72,8 @@
 
 <ng-template #cardMini>
   <section class="mini-card-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a (click)="redirectPage(courseData)" class="card-block">
+    <a (click)="redirectPage(courseData)" (keydown.enter)="redirectPage(courseData)"
+      (keydown.space)="redirectPage(courseData); $event.preventDefault()" tabindex="0" class="card-block">
       <div class="card-long">
         <div class="img-block">
           <div class="img-shimmer-wrapper">
@@ -134,7 +136,8 @@ Added  new template for the program card
 
 <ng-template #cardProgram>
   <section class="course-container-program">
-    <div class="program-card" (click)="onProgramClick()">
+    <div class="program-card" tabindex="0" role="button" (click)="onProgramClick()" (keydown.enter)="onProgramClick()"
+      (keydown.space)="onProgramClick(); $event.preventDefault()">
 
       <!-- Program title -->
       <div class="title">{{ programData?.title }}</div>
@@ -198,10 +201,10 @@ Added  new template for the program card
       <div>
         <div>
           <div style="float: left;">
-            <img src="/fusion-assets/icons/Frame-149.svg">
+            <img src="/fusion-assets/icons/Frame-149.svg" alt="">
           </div>
           <div style="float: right;">
-            <img src="/fusion-assets/icons/Frame-150.svg">
+            <img src="/fusion-assets/icons/Frame-150.svg" alt="">
           </div>
         </div>
         <!-- <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()">Close</button> -->

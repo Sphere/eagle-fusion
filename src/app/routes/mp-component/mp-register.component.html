@@ -18,7 +18,7 @@
         <label i18n for="roleForInService" style="display: block;">Position / पद <span class="red-icon">*</span></label>
         <mat-form-field (selectionChange)="onRoleChange($event.value)" appearance="outline" class="field-fullwidth"
           style="width: 100%;">
-          <mat-select formControlName="role" placeholder="Position">
+          <mat-select id="roleForInService" formControlName="role" placeholder="Position">
             <mat-option value="ANM-MP">ANM</mat-option>
             <mat-option value="CHO-MP">CHO</mat-option>
             <mat-option value="Trainer-MP">Trainer</mat-option>
@@ -31,7 +31,7 @@
       <div class="form-section">
         <label i18n for="firstName" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName"
+          <input id="firstName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName"
             class="form-control" placeholder="First Name" autocomplete="off">
         </div>
         <mat-error
@@ -45,7 +45,7 @@
 
         <label i18n for="lastName" style="display: block;">Last Name / उपनाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName"
+          <input id="lastName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName"
             class="form-control" placeholder="Last Name" autocomplete="off">
         </div>
         <mat-error
@@ -60,7 +60,7 @@
         <label i18n for="phone" style="display: block;">Phone Number / मोबाइल नंबर <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input type="text" name="phone" formControlName="phone" class="form-control" placeholder="Phone Number"
+          <input id="phone" type="text" name="phone" formControlName="phone" class="form-control" placeholder="Phone Number"
             autocomplete="off">
         </div>
         <mat-error
@@ -78,7 +78,7 @@
 
       <label i18n for="district" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-        <mat-select formControlName="district" placeholder="District">
+        <mat-select id="district" formControlName="district" placeholder="District">
           <mat-option [value]="district" *ngFor="let district of districts">{{district}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -88,7 +88,7 @@
 
       <label i18n for="block" style="display: block;">Block / ब्लॉक <span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-        <mat-select formControlName="block" placeholder="Block">
+        <mat-select id="block" formControlName="block" placeholder="Block">
           <mat-option [value]="block" *ngFor="let block of blocks">{{block}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -101,7 +101,7 @@
         <label i18n for="customBlockName" style="display: block;">Add Block Name / ब्लॉक का नाम जोड़ें <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input type="text" name="customBlockName" formControlName="customBlockName" class="form-control"
+          <input id="customBlockName" type="text" name="customBlockName" formControlName="customBlockName" class="form-control"
             placeholder="Enter block name" autocomplete="off">
         </div>
         <mat-error
@@ -115,7 +115,7 @@
 
       <!-- Facility Type Dropdown (shown for both normal blocks and Others block) -->
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-        <mat-select formControlName="facilityType" placeholder="Facility Type">
+        <mat-select id="facilityType" formControlName="facilityType" placeholder="Facility Type">
           <mat-option [value]="facilityType" *ngFor="let facilityType of facilityTypes">{{facilityType}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -131,7 +131,7 @@
       <!-- Facility Name Input (shown when Others block is selected) -->
       <div *ngIf="showFacilityNameAsInput">
         <div class="form-group input-box">
-          <input type="text" name="customFacilityName" formControlName="customFacilityName" class="form-control"
+          <input id="facilityName-input" aria-label="Posting Facility" type="text" name="customFacilityName" formControlName="customFacilityName" class="form-control"
             placeholder="Enter facility name" autocomplete="off">
         </div>
         <mat-error
@@ -143,7 +143,7 @@
       <!-- Facility Name Dropdown (shown for normal blocks) -->
       <mat-form-field *ngIf="!showFacilityNameAsInput" appearance="outline" class="field-fullwidth"
         style="width: 100%;">
-        <mat-select formControlName="facilityName" placeholder="Posting Facility">
+        <mat-select id="facilityName" formControlName="facilityName" placeholder="Posting Facility">
           <mat-option [value]="facility.name" *ngFor="let facility of availableFacilities">
             <span *ngIf="facility.code">{{facility.name}} - {{facility.code}}</span>
             <span *ngIf="!facility.code">{{facility.name}}</span>
@@ -159,8 +159,8 @@
       <!-- Custom Facility Name Input (shown when Others is selected in facility dropdown) -->
       <div *ngIf="!showFacilityNameAsInput && showCustomFacilityInput">
         <div class="form-group input-box">
-          <input type="text" name="customFacilityName" formControlName="customFacilityName" class="form-control"
-            placeholder="Enter facility name" autocomplete="off">
+          <input id="customFacilityName" type="text" name="customFacilityName" formControlName="customFacilityName" class="form-control"
+            placeholder="Enter facility name" autocomplete="off" aria-label="Facility Name">
         </div>
         <mat-error
           *ngIf="anmRegistrationForm.get('customFacilityName')?.hasError('required') && anmRegistrationForm.get('customFacilityName')?.touched">

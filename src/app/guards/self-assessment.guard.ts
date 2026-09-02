@@ -5,6 +5,7 @@ import { forkJoin, of } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import { WidgetContentService } from '../../../library/ws-widget/collection/src/lib/_services/widget-content.service'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/lib/services/configurations.service'
+import { LoggerService } from '@ws-widget/utils'
 import { viewerRouteGenerator } from '../../../library/ws-widget/collection/src/lib/_services/viewer-route-util'
 import { TranslateService } from '@ngx-translate/core'
 
@@ -12,8 +13,8 @@ import { TranslateService } from '@ngx-translate/core'
   providedIn: 'root',
 })
 export class SelfAssessmentGuard {
-  resumeData: any = null;
-  eventData: any = null;
+  resumeData: any = null
+  eventData: any = null
   batchData: any
   resumeDataLink: any
   content: any
@@ -23,10 +24,11 @@ export class SelfAssessmentGuard {
   language: any
   levelsDetaisl: any
   constructor(
-    private contentSvc: WidgetContentService,
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private translate: TranslateService
+    private readonly contentSvc: WidgetContentService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly translate: TranslateService,
+    private readonly logger: LoggerService
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot) {
@@ -49,7 +51,7 @@ export class SelfAssessmentGuard {
       this.competencyId = this.eventData.competencyID
       this.language = this.eventData.lang || this.translate.getCurrentLang()
       this.levelsDetaisl = JSON.stringify(this.eventData.levels)
-      console.log("query paramas levels details", this.levelsDetaisl)
+      this.logger.log('query paramas levels details', this.levelsDetaisl)
       this.isAshaCourses = this.eventData.isAsha ? true : false
       this.eventData['mimeType'] = 'application/json'
       const content$ = this.getContent()
@@ -103,7 +105,6 @@ export class SelfAssessmentGuard {
           })
         )
         .subscribe((res: any) => {
-          // console.log('self assesment guard ',res)
           if (_.get(res, 'batchId')) {
             this.batchId = _.get(res, 'batchId')
           }
@@ -215,7 +216,7 @@ export class SelfAssessmentGuard {
         viewMode: viewMode,
         competency: 'true',
       }
-      console.log("router url", this.resumeDataLink, qParams)
+      this.logger.log('router url', this.resumeDataLink, qParams)
       this.router.navigate([this.resumeDataLink.url], {
         queryParams: qParams,
       })
@@ -228,9 +229,9 @@ export class SelfAssessmentGuard {
         isAsha: this.isAshaCourses,
         competencyId: this.competencyId,
         lang: this.language,
-        levels: this.levelsDetaisl
+        levels: this.levelsDetaisl,
       }
-      console.log("router url", this.resumeDataLink, qParams)
+      this.logger.log('router url', this.resumeDataLink, qParams)
       this.router.navigate([this.resumeDataLink.url], {
         queryParams: qParams,
       })

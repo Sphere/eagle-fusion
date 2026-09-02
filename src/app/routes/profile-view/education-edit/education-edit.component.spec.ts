@@ -137,7 +137,9 @@ describe('EducationEditComponent', () => {
     expect(component.showbackButton).toBe(false)
   })
 
-  it('should subscribe to contentSvc.workMessage in constructor', () => {
+  it('should subscribe to contentSvc.workMessage in ngOnInit', () => {
+    sessionStorage.setItem('academic', JSON.stringify({ edit: false }))
+    component.ngOnInit()
     expect(mockContentSvc.workMessage.subscribe).toHaveBeenCalled()
   })
 
@@ -153,7 +155,8 @@ describe('EducationEditComponent', () => {
         },
         changeWork: jest.fn(),
       }
-      new EducationEditComponent(
+      sessionStorage.setItem('academic', JSON.stringify({ edit: false }))
+      const comp = new EducationEditComponent(
         mockConfigSvc,
         mockUserProfileSvc,
         mockSnackBar,
@@ -165,6 +168,7 @@ describe('EducationEditComponent', () => {
         mockLogger,
         mockTranslate,
       )
+      comp.ngOnInit()
       capturedCallback({ edit: true })
       await Promise.resolve()
       await Promise.resolve()

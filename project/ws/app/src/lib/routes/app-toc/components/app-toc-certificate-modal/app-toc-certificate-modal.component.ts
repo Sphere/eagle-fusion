@@ -2,14 +2,13 @@ import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { WidgetContentService } from '@ws-widget/collection'
 import * as FileSaver from 'file-saver'
-import { DomSanitizer } from '@angular/platform-browser'
-import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, SafeResourceUrlService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-certificate-modal',
-    templateUrl: './app-toc-certificate-modal.component.html',
-    styleUrls: ['./app-toc-certificate-modal.component.scss'],
+  standalone: false,
+  selector: 'ws-app-app-toc-certificate-modal',
+  templateUrl: './app-toc-certificate-modal.component.html',
+  styleUrls: ['./app-toc-certificate-modal.component.scss'],
 
 })
 export class AppTocCertificateModalComponent implements OnInit {
@@ -18,18 +17,18 @@ export class AppTocCertificateModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AppTocCertificateModalComponent>,
     @Inject(MAT_DIALOG_DATA) public content: any,
-    private contentSvc: WidgetContentService,
-    private sanitizer: DomSanitizer,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly contentSvc: WidgetContentService,
+    private readonly sanitizer: SafeResourceUrlService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.logger.log(this.content)
     this.contentSvc.downloadCertificateAPI(this.content.content).toPromise().then(async (response: any) => {
       if (response.responseCode) {
-        const url = await response.result.printUri
-        this.img = this.sanitizer.bypassSecurityTrustUrl(url)
+        const url = response.result.printUri
+        this.img = this.sanitizer.trustUrl(url)
         this.isLoading = false
         this.cdr.detectChanges()
       }
@@ -41,7 +40,7 @@ export class AppTocCertificateModalComponent implements OnInit {
       if (response.responseCode) {
         const img = new Image()
         const name = this.content.tocConfig
-        const url = await response.result.printUri
+        const url = response.result.printUri
         this.logger.log("response", response.result)
         this.isLoading = false
         const that = this
@@ -69,13 +68,13 @@ export class AppTocCertificateModalComponent implements OnInit {
 
           imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
           const arr = imgURI.split(',')
-          const mime = arr[0].match(/:(.*?);/)[1]
+          const mime = arr[0].match(/:([^;]{0,100});/)[1]
           const bstr = atob(arr[1])
           let n = bstr.length
           const u8arr = new Uint8Array(n)
           while (n) {
             n = n - 1
-            u8arr[n] = bstr.charCodeAt(n)
+            u8arr[n] = bstr.codePointAt(n)
           }
           const blob = new Blob([u8arr], { type: mime })
           FileSaver.saveAs(blob, `${name}`)

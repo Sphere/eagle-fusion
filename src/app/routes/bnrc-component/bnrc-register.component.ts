@@ -1,5 +1,4 @@
 import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core'
-// import { Router } from '@angular/router'
 import { ActivatedRoute } from '@angular/router'
 
 import { ConfigurationsService, LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
@@ -8,7 +7,6 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { WidgetContentService } from '@ws-widget/collection'
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-// import { constructReq } from '../request-util'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
@@ -105,11 +103,11 @@ export class BnrcRegisterComponent implements OnInit {
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private formBuilder: UntypedFormBuilder,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    private route: ActivatedRoute,
-    private logger: LoggerService
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly dialog: MatDialog,
+    private readonly loader: LoaderService,
+    private readonly route: ActivatedRoute,
+    private readonly logger: LoggerService
   ) {
     this.bnrcDetailForm = this.formBuilder.group({
       firstName: new UntypedFormControl('', [Validators.required]),
@@ -332,10 +330,10 @@ export class BnrcRegisterComponent implements OnInit {
   private _filter(value: string): { name: string }[] {
     if (!value) return this.currentDistrictInstitutes
 
-    const filterValue = value.toLowerCase().replace(/,/g, '')
+    const filterValue = value.toLowerCase().replaceAll(',', '')
 
     return this.currentDistrictInstitutes.filter(ins =>
-      ins.name.toLowerCase().replace(/,/g, '').includes(filterValue)
+      ins.name.toLowerCase().replaceAll(',', '').includes(filterValue)
     )
   }
 

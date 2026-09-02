@@ -24,7 +24,7 @@ export class AvatarPhotoComponent implements OnInit {
 
   // public initials!: string
 
-  private colors = [
+  private readonly colors = [
     '#EB7181', // red
     '#306933', // green
     '#000000', // black
@@ -74,12 +74,10 @@ export class AvatarPhotoComponent implements OnInit {
           continue
         }
 
-        if (this.name.charAt(i) === this.name.charAt(i)) {
-          initials += this.name.charAt(i)
+        initials += this.name.charAt(i)
 
-          if (initials.length === 2) {
-            break
-          }
+        if (initials.length === 2) {
+          break
         }
       }
     }

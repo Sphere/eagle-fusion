@@ -46,17 +46,16 @@ export class WebCourseCardComponent implements OnInit {
     return '' // Always empty - language is now managed by ngx-translate
   }
 
-  constructor(private router: Router,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private signUpSvc: SignupService,
-    private titleService: Title,
-    private telemetrySvc: TelemetryService,
-    private logger: LoggerService
+  constructor(private readonly router: Router,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly signUpSvc: SignupService,
+    private readonly titleService: Title,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly logger: LoggerService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
-    // this.logger.log("this.courseData", this.courseData, this.displayConfig)
     if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
       this.isUserLoggedIn = true
     } else {
@@ -138,9 +137,10 @@ export class WebCourseCardComponent implements OnInit {
     return text
       .toLowerCase()
       .trim()
-      .replace(/&/g, 'and')
-      .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
-      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
+      .replaceAll('&', 'and')
+      .replaceAll(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
+      .replace(/^-{1,1000}/, '')      // Remove starting hyphens
+      .replace(/-{1,1000}$/, '')      // Remove ending hyphens
   }
 
 
@@ -228,7 +228,7 @@ export class WebCourseCardComponent implements OnInit {
     }
   }
   onProgramClick() {
-    console.log("[1] card clicked, programData:", this.programData)
+    this.logger.log('[1] card clicked, programData:', this.programData)
     this.programClick.emit(this.programData)
   }
 }

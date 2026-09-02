@@ -1,7 +1,6 @@
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
   Component,
-  OnInit,
   Input,
   ElementRef,
   ViewChild,
@@ -16,7 +15,6 @@ import { EventService } from '@ws-widget/utils'
 import {
   videoJsInitializer,
   telemetryEventDispatcherFunction,
-  // saveContinueLearningFunction,
   fireRealTimeProgressFunction,
 } from '../_services/videojs-util'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
@@ -43,30 +41,28 @@ const videoJsOptions: videoJs.PlayerOptions = {
 }
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-player-audio',
-    templateUrl: './player-audio.component.html',
-    styleUrls: ['./player-audio.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-player-audio',
+  templateUrl: './player-audio.component.html',
+  styleUrls: ['./player-audio.component.scss'],
+
 })
 export class PlayerAudioComponent extends WidgetBaseComponent
-  implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
+  implements AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
   @Input() widgetData!: IWidgetsPlayerMediaData
   @ViewChild('audioTag', { static: true }) audioTag!: ElementRef<HTMLAudioElement>
   private player: videoJs.Player | null = null
   private dispose: null | (() => void) = null
   constructor(
-    private eventSvc: EventService,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private activatedRoute: ActivatedRoute,
-    private plylsSvc: PlaylistService
+    private readonly eventSvc: EventService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly plylsSvc: PlaylistService
   ) {
     super()
   }
 
-  ngOnInit() {
-  }
   ngAfterViewInit() {
     this.widgetData = {
       ...this.widgetData,
@@ -93,44 +89,6 @@ export class PlayerAudioComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    // const saveCLearning: saveContinueLearningFunction = data => {
-    //   if (this.widgetData.identifier) {
-    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-    //           this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-    //         resourceId: data.resourceId,
-    //         contextType: 'playlist',
-    //         dateAccessed: Date.now(),
-    //         data: JSON.stringify({
-    //           progress: data.progress,
-    //           timestamp: Date.now(),
-    //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-    //         }),
-    //       }
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     } else {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-    //           this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-    //         resourceId: data.resourceId,
-    //         dateAccessed: Date.now(),
-    //         data: JSON.stringify({
-    //           progress: data.progress,
-    //           timestamp: Date.now(),
-    //         }),
-    //       }
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     }
-    //   }
-    // }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
@@ -151,7 +109,6 @@ export class PlayerAudioComponent extends WidgetBaseComponent
       this.audioTag.nativeElement,
       { ...videoJsOptions, poster: this.widgetData.posterImage },
       dispatcher,
-      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.audio,

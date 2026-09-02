@@ -14,11 +14,11 @@ import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants
   providedIn: 'root',
 })
 export class PageResolve {
-  private baseUrl = this.configSvc.sitePath
-  private localBaseUrl = this.configSvc.localSitePath
+  private readonly baseUrl = this.configSvc.sitePath
+  private readonly localBaseUrl = this.configSvc.localSitePath
   constructor(
-    private configSvc: ConfigurationsService,
-    private http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   resolve(
@@ -103,35 +103,6 @@ export class PageResolve {
       this.locale = 'en'
     }
 
-    // if (location.href.indexOf('hi/public/home') > -1) {
-    //   this.locale = 'hi'
-    // }
-
-    // if (location.href.indexOf('hi/page/home') > -1) {
-    //   this.locale = 'hi'
-    // }
-
-    // tslint:disable-next-line: no-non-null-assertion
-    // if (this.configSvc.userProfile && url.indexOf('public-home') <= -1) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   this.locale = this.configSvc.userProfile!.language || 'en-US'
-    // }
-    // if (localStorage.getItem('lang')) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   this.locale = localStorage.getItem('lang') || ''
-    // }
-    // tslint:disable-next-line: no-non-null-assertion
-    // if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   if (this.configSvc.userProfile!.language === 'en') {
-    //     // this.locale = 'en-US'
-    //   } else {
-    //     // tslint:disable-next-line: no-non-null-assertion
-    //     this.locale = this.configSvc.userProfile!.language || 'en-US'
-    //   }
-    // }
-    // tslint:disable-next-line:no-console
-    // this.logger.log(this.locale, url)
     const pageRequest = [
       (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
         mergeMap(() =>

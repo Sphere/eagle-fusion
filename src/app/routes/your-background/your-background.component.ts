@@ -29,15 +29,15 @@ export class YourBackgroundComponent implements OnInit {
   selectedAddress: any
   professionUrl = '../../../fusion-assets/files/professions.json'
   constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef,
-    private activateRoute: ActivatedRoute,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private translate: TranslateService
+    private readonly http: HttpClient,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly translate: TranslateService
   ) { }
 
   ngOnInit() {

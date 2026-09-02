@@ -2,10 +2,10 @@
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar">
   <!-- TOP MODE -->
   <div *ngIf="mode === 'top'" class="logo-container flex items-center">
-    <a (click)="goHomePage()" matTooltip="Home" class="logo-dim">
+    <a (click)="goHomePage()" (keydown.enter)="goHomePage()" (keydown.space)="goHomePage(); $event.preventDefault()" tabindex="0" matTooltip="Home" class="logo-dim">
       <div class="flex">
-        <img *ngIf="appIcon" [src]="appIcon" loading="lazy" alt="Application Logo" id="app-logo" class="app-logo" />
-        <img *ngIf="orgLogo" [src]="orgLogo" loading="lazy" alt="Org Logo" id="app-logo"
+        <img *ngIf="appIcon" [src]="appIcon" loading="lazy" alt="Application Logo" id="app-icon-logo" class="app-logo" />
+        <img *ngIf="orgLogo" [src]="orgLogo" loading="lazy" alt="Org Logo" id="app-org-logo"
           class="foundation-logo app-logo ml-4" />
       </div>
     </a>
@@ -19,8 +19,10 @@
         [orgData]="orgData"></ws-web-nav-link-page>
     </section>
 
-    <img *ngIf="isXSmall" (click)="navigate()" class="burger-menu" [src]="config?.rightMenuItem?.image?.src"
-      alt="menu" />
+    <button type="button" *ngIf="isXSmall" style="all: unset; display: contents; cursor: pointer;"
+      aria-label="Menu" (click)="navigate()">
+      <img class="burger-menu" [src]="config?.rightMenuItem?.image?.src" alt="" />
+    </button>
   </div>
 
   <!-- BOTTOM MODE -->

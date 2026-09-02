@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, effect } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService, LoggerService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { PlaylistService } from '../../services/playlist.service'
@@ -17,7 +17,7 @@ import { catchError, map, takeUntil } from 'rxjs/operators'
 
 })
 export class MyCoursesComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
   startedCourse: any[] = []
   completedCourse: any[] = []
   coursesForYou: any[] = []
@@ -36,78 +36,81 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   displayLimit: number[] = [] // Per-tab display limits for progressive rendering
   private readonly PAGE_SIZE = 10
   constructor(
-    private configSvc: ConfigurationsService,
-    private contentSvc: WidgetContentService,
-    private signupService: SignupService,
-    public router: Router,
-    private valueSvc: ValueService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly signupService: SignupService,
+    public readonly router: Router,
+    private readonly valueSvc: ValueService,
     private readonly route: ActivatedRoute,
-    private playlistSvc: PlaylistService,
-    private langSvc: LanguageService,
-    private orgService: OrgServiceService,
-    private cdr: ChangeDetectorRef
+    private readonly playlistSvc: PlaylistService,
+    private readonly langSvc: LanguageService,
+    private readonly orgService: OrgServiceService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly logger: LoggerService
   ) {
     effect(() => {
       this.isXSmall = this.valueSvc.isMobile() ? true : false
     })
   }
 
-  async ngOnInit() {
-    this.lang = this.langSvc.getCurrentLanguage()
-    this.isLoading = true
-    this.pendingRequests = 2 // enrollment list + professional/forYou courses
-
-    // Load playlist configs.
-    // getPlaylistConfig() and loadPlaylistData() are awaited here — if either
-    // throws (e.g. 4xx/5xx from the API), the error propagates out of ngOnInit
-    // and isLoading is never set false, leaving the page stuck on the skeleton.
-    // Wrap both in try/catch so a failed config fetch degrades gracefully.
-    try {
-      this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-    } catch (e) {
-      this.plyLsData = []
-    }
-
-    try {
-      let res = this.playlistSvc.selectedTabConfig()
-      if (res == '') {
-        res = await this.playlistSvc.loadPlaylistData()
-        this.config = res?.LAYOUT_BODY?.sections?.courseTab
-      } else {
-        this.config = res
+  ngOnInit() {
+    void (async () => {
+      this.lang = this.langSvc.getCurrentLanguage()
+      this.isLoading = true
+      this.pendingRequests = 2 // enrollment list + professional/forYou courses
+  
+      // Load playlist configs.
+      // getPlaylistConfig() and loadPlaylistData() are awaited here — if either
+      // throws (e.g. 4xx/5xx from the API), the error propagates out of ngOnInit
+      // and isLoading is never set false, leaving the page stuck on the skeleton.
+      // Wrap both in try/catch so a failed config fetch degrades gracefully.
+      try {
+        this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+      } catch (e) {
+        this.plyLsData = []
       }
-    } catch (e) {
-      this.config = null
-    }
-
-    sessionStorage.removeItem('cURL')
-
-    const userId = this.configSvc?.userProfile?.userId || ''
-
-    // Handle route params
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      if (params['courseType'] === 'formatForYouCourses') {
-        this.selectedIndex = 1
-      } else if (params['courseType'] === 'completed') {
-        this.selectedIndex = 2
+  
+      try {
+        let res = this.playlistSvc.selectedTabConfig()
+        if (res == '') {
+          res = await this.playlistSvc.loadPlaylistData()
+          this.config = res?.LAYOUT_BODY?.sections?.courseTab
+        } else {
+          this.config = res
+        }
+      } catch (e) {
+        this.config = null
       }
-    })
-
-    // Fetch user courses - pending request 1
-    this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe({
-      next: courses => {
-        this.userEnrolledCourse = courses
-        this.processUserCourses(courses)
-        this.updateTabData()
-        this.decrementPending()
-      },
-      error: () => {
-        this.decrementPending()
-      },
-    })
-
-    // Handle professional details - pending request 2
-    this.handleProfessionalCourses()
+  
+      sessionStorage.removeItem('cURL')
+  
+      const userId = this.configSvc?.userProfile?.userId || ''
+  
+      // Handle route params
+      this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+        if (params['courseType'] === 'formatForYouCourses') {
+          this.selectedIndex = 1
+        } else if (params['courseType'] === 'completed') {
+          this.selectedIndex = 2
+        }
+      })
+  
+      // Fetch user courses - pending request 1
+      this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe({
+        next: courses => {
+          this.userEnrolledCourse = courses
+          this.processUserCourses(courses)
+          this.updateTabData()
+          this.decrementPending()
+        },
+        error: () => {
+          this.decrementPending()
+        },
+      })
+  
+      // Handle professional details - pending request 2
+      this.handleProfessionalCourses()
+    })()
   }
 
   private decrementPending() {
@@ -163,12 +166,19 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     const roleCheck = (roles: string[]) =>
       roles?.some(r => r.toLowerCase() === designation.toLowerCase())
 
+    // Join key per section comes from the section's own `playlistConfigId` (backend
+    // web_layout config) rather than a hardcoded playlistId — falls back to the known
+    // default only if that section/config isn't present.
+    const yourPlansConfigId = this.playlistSvc.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')
+    const competencyConfigId = this.playlistSvc.getPlaylistConfigId('COMPETENCY_PLAYLIST')
+
     let matchedElements = this.plyLsData?.filter(element =>
-      element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === 'YOUR_PLANS_PLAYLIST' && element.language === this.lang)
+      element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === yourPlansConfigId && element.language === this.lang)
 
     if (matchedElements.length === 0) {
       matchedElements = this.plyLsData?.filter(element =>
-        element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
+        element.orgId === rootOrgId && roleCheck(element.role) &&
+        (element.playlistId === competencyConfigId || element.playlistId === 'SEARCH_PLAYLIST'))
 
       const listOfEnrolledCourseId = (this.userEnrolledCourse || [])
         .filter(course => course?.content?.identifier && !course?.content?.competency)
@@ -179,7 +189,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       let sourceName: string[] = []
 
       matchedElements?.forEach(element => {
-        if (element.playlistId === 'COMPETENCY_PLAYLIST') {
+        if (element.playlistId === competencyConfigId) {
           competencySearchArray.push(
             ...this.buildCompetencySearchArray(element?.dataSource?.payload)
           )
@@ -285,7 +295,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   }
 
   courseTrackBy(index: number, item: any): string {
-    return item?.identifier || index
+    return item?.identifier || String(index)
   }
 
 
@@ -320,19 +330,23 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     }
     const competencySearchArray: string[] = []
     competencyPayload.forEach(competencyObj => {
-      Object.keys(competencyObj).forEach(key => {
-        const competency = competencyObj[key]
-        const competencyId = competency?.id
-        if (!competencyId) return
+      const levels = Array.isArray(competencyObj?.levels)
+      const comp = levels || competencyObj?.additionalProperties
+        ? competencyObj
+        : Object.values(competencyObj || {})[0] as any
 
-        const levelDescriptions = competency?.additionalProperties?.competencyLevelDescription || []
+      const competencyId = comp?.id
+      if (!competencyId) return
 
-        levelDescriptions.forEach((levelDesc: any) => {
-          const level = levelDesc?.level
-          if (level) {
-            competencySearchArray.push(`${competencyId}-${level}`)
-          }
-        })
+      const levelDescriptions = levels
+        ? comp?.levels || []
+        : comp?.additionalProperties?.competencyLevelDescription || []
+
+      levelDescriptions.forEach((levelDesc: any) => {
+        const level = levelDesc?.level
+        if (level) {
+          competencySearchArray.push(`${competencyId}-${level}`)
+        }
       })
     })
     return competencySearchArray
@@ -359,7 +373,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         return processedCourses
       }),
       catchError(err => {
-        console.error("Error fetching recommendation", err)
+        this.logger.error('Error fetching recommendation', err)
         return of([])
       })
     )

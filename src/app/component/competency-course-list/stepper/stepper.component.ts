@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
+import { LoggerService } from '@ws-widget/utils'
 
 @Component({
   standalone: false,
@@ -11,11 +12,11 @@ export class StepperComponent implements OnInit {
   @Input() completedLevels: number[] = []
   @Input() failedLevels: number[] = []
   @Input() currentLevel!: number
-  constructor() {
-
+  constructor(private readonly logger: LoggerService) {
+    // Intentionally empty
   }
   ngOnInit() {
-    console.log("stepper data", this.levels, this.completedLevels, this.failedLevels, this.currentLevel)
+    this.logger.log('stepper data', this.levels, this.completedLevels, this.failedLevels, this.currentLevel)
   }
 
 }

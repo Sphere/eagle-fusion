@@ -526,5 +526,87 @@ describe('NewTncComponent', () => {
       component.acceptTnc()
       expect(component.termsAccepted).toBe('v2')
     })
+
+    it('sets dob when orgSelectiveConfig orgId matches rootOrgId', async () => {
+      mockConfigSvc.userProfile = { ...mockConfigSvc.userProfile, rootOrgId: 'org-1' }
+      ;(mockConfigSvc as any).orgSelectiveCourseConfig = { orgId: 'org-1' }
+      mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: {} } },
+      }))
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({ userId: 'result-user-1', tncStatus: false })
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: '', assign: jest.fn(), origin: 'https://test.com' },
+      })
+      component.tncData = {
+        termsAndConditions: [{ name: 'Generic T&C', language: 'en', version: 'v1' }],
+      } as any
+      await component.ngOnInit()
+      component.acceptTnc()
+      await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+      const constructReqMock = require('../profile-view/request-util').constructReq
+      const returned = constructReqMock.mock.results[0].value
+      expect(returned.profileReq.personalDetails['dob']).toBe('01/01/2000')
+    })
+  })
+
+  describe('updateUser navigation branches', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: '', assign: jest.fn(), origin: 'https://test.com' },
+      })
+    })
+
+    async function initWith(tncStatus: boolean) {
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({ userId: 'result-user-1', tncStatus })
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: { tncAccepted: false } } },
+      }))
+      await component.ngOnInit()
+    }
+
+    const reqUpdate = { request: { userId: 'result-user-1', profileDetails: {}, tncAcceptedVersion: 'v1', tncAcceptedOn: 1 } }
+
+    it('navigates to about-you when background incomplete and url_before_login present', async () => {
+      await initWith(true)
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      mockUserProfileSvc.isBackgroundDetailsFilled.mockReturnValue(false)
+      localStorage.setItem('url_before_login', '/app/course/123')
+      component.updateUser(reqUpdate)
+      await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/about-you'], { queryParams: { redirect: '/app/course/123' } })
+    })
+
+    it('navigates to home when background incomplete and no url_before_login', async () => {
+      await initWith(true)
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      mockUserProfileSvc.isBackgroundDetailsFilled.mockReturnValue(false)
+      localStorage.removeItem('url_before_login')
+      component.updateUser(reqUpdate)
+      await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+      expect(window.location.assign).toHaveBeenCalled()
+    })
+
+    it('redirects to url_before_login when background complete', async () => {
+      await initWith(true)
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      mockUserProfileSvc.isBackgroundDetailsFilled.mockReturnValue(true)
+      localStorage.setItem('url_before_login', '/app/course/456')
+      component.updateUser(reqUpdate)
+      await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+      expect(window.location.href).toBe('/app/course/456')
+    })
+
+    it('navigates to home directly when tncStatus is false', async () => {
+      await initWith(false)
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      component.updateUser(reqUpdate)
+      await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+      expect(window.location.assign).toHaveBeenCalled()
+    })
   })
 })

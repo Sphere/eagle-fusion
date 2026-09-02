@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service.service'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
-//import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
     standalone: false,
     selector: 'ws-maternity-callback',
@@ -12,17 +11,15 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 export class MaternityCallbackComponent implements OnInit {
   isLoading = false
   constructor(
-    private orgService: OrgServiceService,
-    private logger: LoggerService
+    private readonly orgService: OrgServiceService,
+    private readonly logger: LoggerService
     //private authSvc: AuthKeycloakService,
   ) { }
 
   ngOnInit() {
     const maternity_token = sessionStorage.getItem('maternity_token') || null
-    //const maternity_moduleId = sessionStorage.getItem('maternity_moduleId') || null
     if (maternity_token) {
       this.isLoading = true
-      //this.checkMaternityCallback(maternity_token, maternity_moduleId)
       this.checkMaternityCallback(maternity_token)
     }
   }
@@ -35,16 +32,18 @@ export class MaternityCallbackComponent implements OnInit {
     }
     try {
       //setTimeout(() => {
-      this.orgService.setMaternyId(data).subscribe(async (res: any) => {
-        const loc = await res
-        this.logger.log(loc, 'oo')
-        localStorage.setItem('loc', JSON.stringify(loc))
-        if (loc.message === 'success') {
-          location.href = '/app/org-details?orgId=Maternity%20Foundation'
-          //window.location = loc.resRedirectUrl
-        }
-        // tslint:disable-next-line:no-console
-        this.logger.log('maternity component.ts', res.resRedirectUrl)
+      this.orgService.setMaternyId(data).subscribe((res: any) => {
+        void (async () => {
+          const loc = await res
+          this.logger.log(loc, 'oo')
+          localStorage.setItem('loc', JSON.stringify(loc))
+          if (loc.message === 'success') {
+            location.href = '/app/org-details?orgId=Maternity%20Foundation'
+            //window.location = loc.resRedirectUrl
+          }
+          // tslint:disable-next-line:no-console
+          this.logger.log('maternity component.ts', res.resRedirectUrl)
+        })()
       }, (err: any) => {
         // tslint:disable-next-line:no-console
         this.logger.log(err)

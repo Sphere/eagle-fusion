@@ -34,7 +34,7 @@ import { TranslateService } from '@ngx-translate/core'
 
 })
 export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   invalidDob = false
@@ -82,19 +82,19 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   formConfig: any
   address = ''
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly router: Router,
+    private readonly matSnackBar: MatSnackBar,
     public dialog: MatDialog,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private UserAgentResolverService: UserAgentResolverService,
-    private http: HttpClient,
-    private fb: FormBuilder,
-    private langSvc: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly http: HttpClient,
+    private readonly fb: FormBuilder,
+    private readonly langSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService
   ) {
     this.initializeForm()
   }
@@ -218,7 +218,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       const filterValue = name.map(n => n.toLowerCase())
       return this.masterLanguagesEntries.filter(option => {
         // option.name.toLowerCase().includes(filterValue))
-        filterValue.map(f => {
+        filterValue.forEach(f => {
           return option.name.toLowerCase().includes(f)
         })
       })
@@ -256,35 +256,37 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
-          if (data) {
-            this.isEditableForSphere = this.data?.isEditable ?? false
-            if (this.isEditableForSphere) {
-              this.personalDetailForm.enable()
-              // Keep mobile and email disabled even when form is enabled
-              this.personalDetailForm.get('mobile')?.disable()
-              this.personalDetailForm.get('email')?.disable()
-            } else {
-              this.personalDetailForm.disable()
-            }
-            this.userProfileData = data.profileDetails.profileReq
-            this.userlang = data
-            this.logger.log(data.profileDetails.profileReq.personalDetails.dob, ';')
-            this.updateForm()
-            if (data?.profileDetails?.preferences?.language === 'hi') {
-              this.personalDetailForm.patchValue({
-                knownLanguage: 'हिंदी',
-              })
+        (data: any) => {
+          void (async () => {
+            if (data) {
+              this.isEditableForSphere = this.data?.isEditable ?? false
+              if (this.isEditableForSphere) {
+                this.personalDetailForm.enable()
+                // Keep mobile and email disabled even when form is enabled
+                this.personalDetailForm.get('mobile')?.disable()
+                this.personalDetailForm.get('email')?.disable()
+              } else {
+                this.personalDetailForm.disable()
+              }
               this.userProfileData = data.profileDetails.profileReq
               this.userlang = data
+              this.logger.log(data.profileDetails.profileReq.personalDetails.dob, ';')
               this.updateForm()
-              const lang = data.profileDetails?.preferences?.language === 'hi' ? 'हिंदी' : 'English'
-              this.personalDetailForm.patchValue({
-                knownLanguage: lang,
-              })
-              this.populateChips(this.userProfileData)
+              if (data?.profileDetails?.preferences?.language === 'hi') {
+                this.personalDetailForm.patchValue({
+                  knownLanguage: 'हिंदी',
+                })
+                this.userProfileData = data.profileDetails.profileReq
+                this.userlang = data
+                this.updateForm()
+                const lang = data.profileDetails?.preferences?.language === 'hi' ? 'हिंदी' : 'English'
+                this.personalDetailForm.patchValue({
+                  knownLanguage: lang,
+                })
+                this.populateChips(this.userProfileData)
+              }
             }
-          }
+          })()
         },
         (err: any) => {
           this.logger.error('Error fetching user details:', err)
@@ -330,7 +332,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
 
   private populateChips(data: any) {
     if (data.personalDetails.knownLanguages && data.personalDetails.knownLanguages.length) {
-      data.personalDetails.knownLanguages.map((lang: ILanguages) => {
+      data.personalDetails.knownLanguages.forEach((lang: ILanguages) => {
         if (lang) {
           this.selectedKnowLangs.push(lang)
         }
@@ -408,68 +410,78 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       const data = this.userProfileData
 
       if (data.personalDetails && data) {
-        this.logger.log(data)
-        this.logger.log(this.userlang)
-        this.personalDetailForm.patchValue({
-          // userName: this.profileUserName,
-          firstname: data.personalDetails.firstname,
-          surname: data.personalDetails.surname,
-          dob: data.personalDetails.dob ? this.getDateFromText(data.personalDetails.dob) : '',
-          regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
-          nationality: data.personalDetails.nationality,
-          domicileMedium: data.personalDetails.domicileMedium,
-          gender: data.personalDetails.gender,
-          maritalStatus: data.personalDetails.maritalStatus,
-          knownLanguages: data.personalDetails.knownLanguages,
-          mobile: data.personalDetails.mobile !== undefined ? data.personalDetails.mobile : this.userlang.phone,
-          email: data.personalDetails.primaryEmail,
-          postalAddress: data.personalDetails.postalAddress,
-          pincode: data.personalDetails.pincode,
-        })
-        if (data.personalDetails!.postalAddress) {
-          this.countryName = data.personalDetails!.postalAddress!.includes('India')
-        }
-
-        this.logger.log(this.countryName)
-        if (data.personalDetails!.postalAddress) {
-          if (this.countryName) {
-            const cName = data.personalDetails.postalAddress
-            const csplit = cName.split(',')
-            this.stateSelect(csplit[1].trim())
-            this.personalDetailForm.patchValue({
-              country: csplit[0],
-              state: csplit[1].trim(),
-              distict: csplit[2].trim(),
-            })
-            this.selectDisable = true
-          } else {
-            const cName = data.personalDetails.postalAddress
-            const csplit = cName.split(',')
-            this.personalDetailForm.patchValue({
-              country: csplit[0],
-            })
-            this.selectDisable = false
-          }
-        }
+        this.applyPersonalDetailsToForm(data)
+        this.applyPostalAddressToForm(data)
       }
       if (data && data.professionalDetails) {
-        (data.professionalDetails[0].orgType === 'Others' && data.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
-        (data.professionalDetails[0].profession === 'Others' && data.professionalDetails[0].professionOtherSpecify) ? this.professionOtherField = true : this.professionOtherField = false;
-        (data.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
-        data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
-        this.personalDetailForm.patchValue({
-          profession: data.professionalDetails[0].profession,
-          professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
-          orgType: data.professionalDetails[0].orgType,
-          orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,
-          organizationName: data.professionalDetails[0].name,
-          block: data.professionalDetails[0].block,
-          subcentre: data.professionalDetails[0].subcentre,
-          designation: data.professionalDetails[0].designation,
-        })
+        this.applyProfessionalDetailsToForm(data)
       }
     }
     this.loadDob = this.userProfileData.personalDetails.dob ? true : false
+  }
+
+  private applyPersonalDetailsToForm(data: any): void {
+    this.logger.log(data)
+    this.logger.log(this.userlang)
+    this.personalDetailForm.patchValue({
+      // userName: this.profileUserName,
+      firstname: data.personalDetails.firstname,
+      surname: data.personalDetails.surname,
+      dob: data.personalDetails.dob ? this.getDateFromText(data.personalDetails.dob) : '',
+      regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
+      nationality: data.personalDetails.nationality,
+      domicileMedium: data.personalDetails.domicileMedium,
+      gender: data.personalDetails.gender,
+      maritalStatus: data.personalDetails.maritalStatus,
+      knownLanguages: data.personalDetails.knownLanguages,
+      mobile: data.personalDetails.mobile !== undefined ? data.personalDetails.mobile : this.userlang.phone,
+      email: data.personalDetails.primaryEmail,
+      postalAddress: data.personalDetails.postalAddress,
+      pincode: data.personalDetails.pincode,
+    })
+    if (data.personalDetails!.postalAddress) {
+      this.countryName = data.personalDetails!.postalAddress!.includes('India')
+    }
+    this.logger.log(this.countryName)
+  }
+
+  private applyPostalAddressToForm(data: any): void {
+    if (!data.personalDetails!.postalAddress) {
+      return
+    }
+    const cName = data.personalDetails.postalAddress
+    const csplit = cName.split(',')
+    if (this.countryName) {
+      this.stateSelect(csplit[1].trim())
+      this.personalDetailForm.patchValue({
+        country: csplit[0],
+        state: csplit[1].trim(),
+        distict: csplit[2].trim(),
+      })
+      this.selectDisable = true
+    } else {
+      this.personalDetailForm.patchValue({
+        country: csplit[0],
+      })
+      this.selectDisable = false
+    }
+  }
+
+  private applyProfessionalDetailsToForm(data: any): void {
+    this.orgOthersField = Boolean(data.professionalDetails[0].orgType === 'Others' && data.professionalDetails[0].orgOtherSpecify)
+    this.professionOtherField = Boolean(data.professionalDetails[0].profession === 'Others' && data.professionalDetails[0].professionOtherSpecify)
+    this.showDesignation = Boolean(data.professionalDetails[0].designation)
+    this.rnShow = data.professionalDetails[0].profession === 'Healthcare Worker'
+    this.personalDetailForm.patchValue({
+      profession: data.professionalDetails[0].profession,
+      professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
+      orgType: data.professionalDetails[0].orgType,
+      orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,
+      organizationName: data.professionalDetails[0].name,
+      block: data.professionalDetails[0].block,
+      subcentre: data.professionalDetails[0].subcentre,
+      designation: data.professionalDetails[0].designation,
+    })
   }
 
   private getDateFromText(dateString: string): any {
@@ -501,15 +513,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   onSubmit(form: any) {
-    // if (form.value.dob) {
-    //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
-    // }
     this.userProfileData = this.userData
     const local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
 
 
     if (form.value.dob.includes('undefined')) {
-      const data = form.value.dob.replace(/\/undefined/g, '')
+      const data = form.value.dob.replaceAll('/undefined', '')
       form.value.dob = data
     }
     form.value.knownLanguages = this.selectedKnowLangs

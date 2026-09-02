@@ -4,15 +4,22 @@ describe('VideoPopupComponent', () => {
   let component: VideoPopupComponent
   let mockDialogRef: any
   let mockData: any
-  let mockSanitizer: any
+  let mockSafeResourceUrlSvc: any
 
   beforeEach(() => {
     mockDialogRef = { close: jest.fn() }
     mockData = { url: 'https://youtube.com/embed/abc123' }
-    mockSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockImplementation((url: string) => ({ trustedUrl: url })),
+    mockSafeResourceUrlSvc = {
+      trustFromAllowlist: jest.fn().mockImplementation((url: string, hosts: string[]) => {
+        try {
+          const { hostname, protocol } = new URL(url)
+          return protocol === 'https:' && hosts.includes(hostname) ? { trustedUrl: url } : null
+        } catch {
+          return null
+        }
+      }),
     }
-    component = new VideoPopupComponent(mockDialogRef, mockData, mockSanitizer)
+    component = new VideoPopupComponent(mockDialogRef, mockData, mockSafeResourceUrlSvc)
   })
 
   afterEach(() => {
@@ -33,24 +40,33 @@ describe('VideoPopupComponent', () => {
 
   it('should set autoplayUrl with ?autoplay=1 appended on ngOnInit', () => {
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
+    expect(mockSafeResourceUrlSvc.trustFromAllowlist).toHaveBeenCalledWith(
       'https://youtube.com/embed/abc123?autoplay=1',
+      expect.any(Array),
     )
     expect(component.autoplayUrl).toEqual({ trustedUrl: 'https://youtube.com/embed/abc123?autoplay=1' })
   })
 
-  it('should use changingThisBreaksApplicationSecurity when url is a SafeResourceUrl object', () => {
-    component['data'] = { url: { changingThisBreaksApplicationSecurity: 'https://trusted.url/embed/xyz' } }
+  it('should use changingThisBreaksApplicationSecurity when url is an allow-listed SafeResourceUrl object', () => {
+    component['data'] = { url: { changingThisBreaksApplicationSecurity: 'https://youtube.com/embed/xyz' } }
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
-      'https://trusted.url/embed/xyz?autoplay=1',
+    expect(mockSafeResourceUrlSvc.trustFromAllowlist).toHaveBeenCalledWith(
+      'https://youtube.com/embed/xyz?autoplay=1',
+      expect.any(Array),
     )
   })
 
-  it('should use empty string when data has no url', () => {
+  it('should block a SafeResourceUrl object pointing at a non-allow-listed host', () => {
+    component['data'] = { url: { changingThisBreaksApplicationSecurity: 'https://trusted.url/embed/xyz' } }
+    component.ngOnInit()
+    expect(component.autoplayUrl).toBeNull()
+  })
+
+  it('should not call the sanitizer when data has no url', () => {
     component['data'] = {}
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('?autoplay=1')
+    expect(mockSafeResourceUrlSvc.trustFromAllowlist).not.toHaveBeenCalled()
+    expect(component.autoplayUrl).toBeNull()
   })
 
   it('should call dialogRef.close on close()', () => {

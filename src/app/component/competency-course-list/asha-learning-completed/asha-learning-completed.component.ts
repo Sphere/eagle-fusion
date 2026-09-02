@@ -11,15 +11,12 @@ export class AshaLearningCompletedComponent implements OnInit {
   @Input() ashaData: any
   @Input() completedCount = 0
 
-  constructor(private router: Router) { }
+  constructor(private readonly router: Router) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // Intentionally empty
+  }
 
-  // navigateToCourse(): void {
-  //   if (this.ashaData?.contentId) {
-  //     this.router.navigate([`/app/toc/${this.ashaData.contentId}/overview`])
-  //   }
-  // }
 
   viewCourses(data) {
     if (data.competencyID) {
@@ -30,10 +27,10 @@ export class AshaLearningCompletedComponent implements OnInit {
             `${data.competencyID}-2`,
             `${data.competencyID}-3`,
             `${data.competencyID}-4`,
-            `${data.competencyID}-5`
+            `${data.competencyID}-5`,
           ],
           competency: true,
-          redirect: 'page/home'
+          redirect: 'page/home',
         },
         queryParamsHandling: 'merge',
       })

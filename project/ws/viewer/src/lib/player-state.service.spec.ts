@@ -1,4 +1,4 @@
-import { buildPlayerStateForResource, IPlayerQueueNode } from './player-state.service'
+import { buildPlayerStateForResource, IPlayerQueueNode, PlayerStateService } from './player-state.service'
 
 /**
  * Covers the Next-button completion sync. buildPlayerStateForResource() is the pure
@@ -69,5 +69,121 @@ describe('buildPlayerStateForResource', () => {
     expect(state.currentPercentage).toBeNull()
     expect(state.firstResource).toBeNull()
     expect(state.isValid).toBe(false)
+  })
+})
+
+describe('PlayerStateService', () => {
+  let service: PlayerStateService
+
+  beforeEach(() => {
+    service = new PlayerStateService()
+  })
+
+  it('should create', () => {
+    expect(service).toBeTruthy()
+  })
+
+  it('setState pushes a fully mapped state onto playerState', done => {
+    service.playerState.subscribe(state => {
+      expect(state).toEqual({
+        tocAvailable: true,
+        nextResource: '/viewer/pdf/res-2',
+        prevResource: '/viewer/pdf/res-1',
+        previousTitle: 'res-1',
+        nextResTitle: 'res-2',
+        currentCompletionPercentage: 40,
+        prevCompletionPercentage: 100,
+        nextContentId: 'res-2',
+        firstResource: '/viewer/pdf/res-1',
+      })
+      done()
+    })
+    service.setState({
+      isValid: true,
+      prev: '/viewer/pdf/res-1',
+      prevTitle: 'res-1',
+      nextTitle: 'res-2',
+      next: '/viewer/pdf/res-2',
+      currentPercentage: 40,
+      prevPercentage: 100,
+      nextContentId: 'res-2',
+      firstResource: '/viewer/pdf/res-1',
+    })
+  })
+
+  it('getCurrentCompletionPercentage returns the last currentCompletionPercentage emitted', () => {
+    service.setState({
+      isValid: true, prev: null, prevTitle: null, nextTitle: null, next: null,
+      currentPercentage: 100, prevPercentage: null, nextContentId: null, firstResource: null,
+    })
+    expect(service.getCurrentCompletionPercentage()).toBe(100)
+  })
+
+  it('getCurrentCompletionPercentage stays undefined when no truthy percentage was ever emitted', () => {
+    service.setState({
+      isValid: true, prev: null, prevTitle: null, nextTitle: null, next: null,
+      currentPercentage: null, prevPercentage: null, nextContentId: null, firstResource: null,
+    })
+    expect(service.getCurrentCompletionPercentage()).toBeUndefined()
+  })
+
+  it('getPrevCompletionPercentage returns the last prevCompletionPercentage emitted', () => {
+    service.setState({
+      isValid: true, prev: null, prevTitle: null, nextTitle: null, next: null,
+      currentPercentage: null, prevPercentage: 55, nextContentId: null, firstResource: null,
+    })
+    expect(service.getPrevCompletionPercentage()).toBe(55)
+  })
+
+  it('getPrevResource returns the prevResource and marks trigger$ once, on first call', () => {
+    service.setState({
+      isValid: true, prev: '/viewer/pdf/res-1', prevTitle: 't', nextTitle: null, next: null,
+      currentPercentage: null, prevPercentage: null, nextContentId: null, firstResource: null,
+    })
+    expect(service.getPrevResource()).toBe('/viewer/pdf/res-1')
+    expect(service.trigger$.getValue()).toBe('/viewer/pdf/res-1')
+  })
+
+  it('getPrevResource returns undefined once trigger$ already has a value', () => {
+    service.trigger$.next('triggered')
+    expect(service.getPrevResource()).toBeUndefined()
+  })
+
+  it('getNextResource returns the nextResource from the latest state', () => {
+    service.setState({
+      isValid: true, prev: null, prevTitle: null, nextTitle: null, next: '/viewer/pdf/res-3',
+      currentPercentage: null, prevPercentage: null, nextContentId: 'res-3', firstResource: null,
+    })
+    expect(service.getNextResource()).toBe('/viewer/pdf/res-3')
+  })
+
+  it('getNextResource returns empty string when no nextResource was set', () => {
+    service.setState({
+      isValid: true, prev: null, prevTitle: null, nextTitle: null, next: null,
+      currentPercentage: null, prevPercentage: null, nextContentId: null, firstResource: null,
+    })
+    expect(service.getNextResource()).toBe('')
+  })
+
+  it('isResourceCompleted returns true when currentCompletionPercentage is 100', () => {
+    service.setState({
+      isValid: true, prev: null, prevTitle: null, nextTitle: null, next: null,
+      currentPercentage: 100, prevPercentage: null, nextContentId: null, firstResource: null,
+    })
+    expect(service.isResourceCompleted()).toBe(true)
+  })
+
+  it('isResourceCompleted returns false and flips trigger$ to not-triggered when percentage is not 100', () => {
+    service.setState({
+      isValid: true, prev: null, prevTitle: null, nextTitle: null, next: null,
+      currentPercentage: 40, prevPercentage: null, nextContentId: null, firstResource: null,
+    })
+    expect(service.isResourceCompleted()).toBe(false)
+    expect(service.trigger$.getValue()).toBe('not-triggered')
+  })
+
+  it('isResourceCompleted short-circuits to false once trigger$ is "triggered"', () => {
+    service.trigger$.next('triggered')
+    expect(service.isResourceCompleted()).toBe(false)
   })
 })

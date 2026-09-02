@@ -135,7 +135,8 @@ describe('WorkInfoEditComponent', () => {
     expect(component.showbackButton).toBe(true)
   })
 
-  it('should subscribe to workMessage on construction', () => {
+  it('should subscribe to workMessage on ngOnInit', () => {
+    component.ngOnInit()
     expect(mockContentSvc.workMessage.subscribe).toHaveBeenCalled()
   })
 
@@ -166,7 +167,7 @@ describe('WorkInfoEditComponent', () => {
           }),
         },
       }
-      new WorkInfoEditComponent(
+      const comp = new WorkInfoEditComponent(
         mockConfigSvc,
         mockUserProfileSvc,
         mockRouter,
@@ -179,6 +180,7 @@ describe('WorkInfoEditComponent', () => {
         mockLogger,
         { instant: jest.fn() } as any,
       )
+      comp.ngOnInit()
       capturedCallback({ edit: true })
       await Promise.resolve()
       await Promise.resolve()
@@ -189,6 +191,7 @@ describe('WorkInfoEditComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe workMessage subscription', () => {
+      component.ngOnInit()
       component.ngOnDestroy()
       expect(mockUnsubscribe).toHaveBeenCalled()
     })

@@ -38,7 +38,15 @@ export class ViewerDataService {
   status: TStatus = 'none'
   resourceChangedSubject = new Subject<string>()
   scromChangeSubject = new Subject<any>()
-  changedSubject = new ReplaySubject(1)
+  // Shared mutex-style flag for the course-completion congrats/rating-confirm flow.
+  // viewer-toc.component.ts and quiz.component.ts each independently detect course
+  // completion (via different signals — currentMessage/scorm events vs player-state/batch
+  // list) and each show their own congrats-popup + rating-confirm-modal + navigate sequence.
+  // Both components are mounted at the same time in the viewer (see viewer.component.html),
+  // so without a shared flag, one flow's "is a dialog already open" check can't see the
+  // other flow starting up before its dialog is actually registered — letting them race and
+  // navigate away before the user's rating is submitted. Set true the instant either flow
+  // begins, false once its dialog chain fully resolves.
   isCourseCompletionFlowActive = false
   // Set to a course identifier the instant a rating is genuinely CONFIRMED-submitted for it
   // (viewer-toc.component.ts / quiz.component.ts, right where they call
@@ -49,6 +57,7 @@ export class ViewerDataService {
   // to null) after one use means a later, unrelated visit to the same course overview page
   // doesn't keep forcing redundant refetches.
   lastRatingSubmittedCourseId: string | null = null
+  changedSubject = new ReplaySubject(1)
   tocChangeSubject = new ReplaySubject<IViewerTocChangeEvent>(1)
   navSupportForResource = new ReplaySubject<IViewerResourceOptions>(1)
   fullScreenResource = new Subject<boolean>()

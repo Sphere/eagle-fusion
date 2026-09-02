@@ -58,8 +58,6 @@ export class ConditionCheckService {
         return isLocalPassed
       })
     } catch (ex) {
-      // tslint:disable-next-line: no-console
-      // this.logger.log(ex)
       return false
     }
   }

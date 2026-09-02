@@ -24,48 +24,50 @@ export class ProgramHome implements OnInit {
   programDisplayConfig: any = {}
   enrollmentData: any[] = []
   constructor(
-    private valueSvc: ValueService,
-    private playlistSvc: PlaylistService,
-    private userSvc: WidgetUserService,
-    private configSvc: ConfigurationsService
+    private readonly valueSvc: ValueService,
+    private readonly playlistSvc: PlaylistService,
+    private readonly userSvc: WidgetUserService,
+    private readonly configSvc: ConfigurationsService
   ) {
   }
 
-  async ngOnInit() {
-    console.log("[ProgramHome] Init started with configData:", this.configData)
-    const plyLsData = await this.playlistSvc.getPlaylistConfig()
+  ngOnInit() {
+    void (async () => {
+      console.log("[ProgramHome] Init started with configData:", this.configData)
+      const plyLsData = await this.playlistSvc.getPlaylistConfig()
 
-    // Set display config for program cards (shows programStatus)
-    this.programDisplayConfig = {
-      ...this.configData?.cardDisplayConfig,
-      displayType: 'card-program',
-    }
-
-    // Fetch enrollment data with progress info for program status calculation
-    const userId = this.configSvc.userProfile?.userId
-
-    if (userId) {
-      try {
-        this.enrollmentData = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
-        console.log('[ProgramHome] Fetched enrollment with progress:', this.enrollmentData, 'courses')
-      } catch (error) {
-        console.warn('[ProgramHome] Failed to fetch enrollment with progress, using fallback:', error)
-        this.enrollmentData = []
+      // Set display config for program cards (shows programStatus)
+      this.programDisplayConfig = {
+        ...this.configData?.cardDisplayConfig,
+        displayType: 'card-program',
       }
-    } else {
-      console.log('[ProgramHome] No userId, using fallback enrollment data')
-    }
 
-    console.log('[ProgramHome] Final enrollmentData to use:', this.enrollmentData?.length, 'courses')
+      // Fetch enrollment data with progress info for program status calculation
+      const userId = this.configSvc.userProfile?.userId
 
-    const enricher = this.enrichProgramWithCount(plyLsData, 'en')
-    const enrichedPrograms = this.configData?.programs?.map((program: any) =>
-      enricher(program, this.enrollmentData)
-    )
+      if (userId) {
+        try {
+          this.enrollmentData = await firstValueFrom(this.userSvc.fetchUserEnrollmentWithProgress(userId))
+          console.log('[ProgramHome] Fetched enrollment with progress:', this.enrollmentData, 'courses')
+        } catch (error) {
+          console.warn('[ProgramHome] Failed to fetch enrollment with progress, using fallback:', error)
+          this.enrollmentData = []
+        }
+      } else {
+        console.log('[ProgramHome] No userId, using fallback enrollment data')
+      }
 
-    console.log('[ProgramHome] Enriched programs:', enrichedPrograms)
-    this.programData.set(enrichedPrograms)
-    this.isLoading.set(false)
+      console.log('[ProgramHome] Final enrollmentData to use:', this.enrollmentData?.length, 'courses')
+
+      const enricher = this.enrichProgramWithCount(plyLsData, 'en')
+      const enrichedPrograms = this.configData?.programs?.map((program: any) =>
+        enricher(program, this.enrollmentData)
+      )
+
+      console.log('[ProgramHome] Enriched programs:', enrichedPrograms)
+      this.programData.set(enrichedPrograms)
+      this.isLoading.set(false)
+    })()
   }
 
   enrichProgramWithCount = (playlists: any[], defaultLang: string) => (program: any, enrollmentData: any = null): any => {
@@ -82,9 +84,7 @@ export class ProgramHome implements OnInit {
       })
     } else if (program.type === 'competency') {
       playlist = this.getCompetencyPlaylistForLang(playlists, program.playlistConfigId)
-      // Extract course IDs from competency levels
-      payload = playlist?.dataSource?.payload ?? []
-      // payload = this.extractCourseIdsFromCompetency(playlist)
+      payload = this.extractCourseIdsFromCompetency(playlist?.dataSource?.payload ?? [])
       console.log(`[ProgramHome] Competency program "${program.title}":`, {
         playlistConfigId: program.playlistConfigId,
         playlistFound: !!playlist,
@@ -170,6 +170,26 @@ export class ProgramHome implements OnInit {
     }
 
     return ''
+  }
+
+  extractCourseIdsFromCompetency = (payload: any[]): string[] => {
+    const ids = new Set<string>()
+    for (const raw of payload || []) {
+      if (!raw || typeof raw !== 'object') continue
+
+      if (Array.isArray(raw.levels)) {
+        raw.levels.forEach((l: any) => { if (l?.courseId) ids.add(l.courseId) })
+        continue
+      }
+
+      const inner: any = raw.additionalProperties ? raw : Object.values(raw)[0]
+      const levelDescs: any[] = inner?.additionalProperties?.competencyLevelDescription || []
+      levelDescs.forEach((l: any) => {
+        const courses: any[] = Array.isArray(l.course) ? l.course : []
+        courses.forEach((c: any) => { if (c?.id) ids.add(c.id) })
+      })
+    }
+    return Array.from(ids)
   }
 
   getStaticPlaylistForLang = (playlists: any[], playlistConfigId: string, defaultLang: string): any | null => {

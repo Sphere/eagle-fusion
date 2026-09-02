@@ -2,52 +2,47 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { NSSearch } from '@ws-widget/collection'
 import { ConfigurationsService, EventService, LoggerService, WsEvents } from '@ws-widget/utils'
-import { Observable, of } from 'rxjs'
-// import { KnowledgeHubApiService } from '../../infy/routes/knowledge-hub/apis/knowledge-hub-api.service'
-// import { IKhubAutoMation, IKhubFilterObj, IKhubItemTile, IKhubKshop, IKhubProject, IKhubViewResultDocs, IKhubViewResultProject, ISearchObjForSearch } from '../../infy/routes/knowledge-hub/models/knowledgeHub.model'
+import { Observable, of, BehaviorSubject } from 'rxjs'
 import { SearchApiService } from '../apis/search-api.service'
-// import { IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequest,
-// ISearchRequestV2, ISearchSocialSearchPartialRequest, ISocialSearchRequest } from '../models/search.model'
 import {
   IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequestV2, ISearchRequestV3,
   ISearchSocialSearchPartialRequest, ISocialSearchRequest,
 } from '../models/search.model'
 import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
+import { IProgressHash, ISearchConfig, IFilterSet, IFilterHandleResult } from './search-service.model'
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchServService {
-  progressHash: { [id: string]: number } = {}
-  progressHashSubject: any
+  progressHash: IProgressHash = {}
+  progressHashSubject: BehaviorSubject<IProgressHash> | null = null
   isFetchingProgress = false
-  searchConfig: any = null
+  searchConfig: ISearchConfig | null = null
   constructor(
-    private events: EventService,
-    // private contentApi: WidgetContentService,
-    // private khubApiSvc: KnowledgeHubApiService,
-    private searchApi: SearchApiService,
-    private configSrv: ConfigurationsService,
-    private http: HttpClient,
-    private logger: LoggerService
+    readonly events: EventService,
+    readonly searchApi: SearchApiService,
+    readonly configSrv: ConfigurationsService,
+    readonly http: HttpClient,
+    readonly logger: LoggerService
   ) { }
 
   get defaultFiltersTranslated() {
     return { en: {}, all: {} }
   }
 
-  async getSearchConfig(): Promise<any> {
+  async getSearchConfig(): Promise<ISearchConfig> {
     if (!this.searchConfig) {
-      this.searchConfig = {}
+      this.searchConfig = {} as ISearchConfig
       try {
-        this.searchConfig = await this.http.get<any>(`fusion-assets/files/search.json`).toPromise()
+        this.searchConfig = await this.http.get<ISearchConfig>(`fusion-assets/files/search.json`).toPromise() as ISearchConfig
       } catch (err) {
-        this.logger.log(err)
+        this.logger.error('Error loading search config', err)
       }
 
     }
-    return of(this.searchConfig).toPromise()
+    return of(this.searchConfig).toPromise() as Promise<ISearchConfig>
   }
 
   async getApplyPhraseSearch(): Promise<boolean> {
@@ -74,7 +69,7 @@ export class SearchServService {
   getsearchLearning(request: ISearchRequestV3): Observable<NSSearch.ISearchV6ApiResultV3> {
     return this.searchV7Wrapper(request)
   }
-  searchV7Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV3> {
+  searchV7Wrapper(request: ISearchRequestV3): Observable<NSSearch.ISearchV6ApiResultV3> {
     // publicSearch/getCourses (Sunbird content/v1/search) requires a request.filters object —
     // unlike the old recommendation endpoint, a bare { query } is rejected ("Error while public search").
     const v7Request: any = {
@@ -94,15 +89,7 @@ export class SearchServService {
     }
     return this.searchApi.getSearchV7Results(v7Request)
   }
-  searchV6Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV2> {
-    // this.searchConfig.search['visibleFiltersV2'] = {
-    //   primaryCategory: {
-    //     displayName: 'Primary Category',
-    //   },
-    //   mimeType: {
-    //     displayName: 'Mime Type',
-    //   },
-    // }
+  searchV6Wrapper(request: ISearchRequestV2): Observable<NSSearch.ISearchV6ApiResultV2> {
     this.logger.log(request.request)
     request.request.filters['status'] = ['Live']
     const v6Request: any = {
@@ -112,119 +99,12 @@ export class SearchServService {
         sort_by: {
           lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
         },
-        facets: Object.keys(this.searchConfig.search.visibleFilters),
+        facets: Object.keys(this.searchConfig?.search?.visibleFilters || {}),
         fields: request.request.fields,
       },
     }
-    return this.searchApi.getSearchV6Results(v6Request, this.searchConfig.defaultsearch)
+    return this.searchApi.getSearchV6Results(v6Request, this.searchConfig?.defaultsearch)
   }
-
-  // getLearning(request: ISearchRequest): Observable<NSSearch.ISearchV6ApiResult> {
-  //   request.locale = (request.locale && request.locale.length && request.locale[0] !== 'all') ? request.locale : []
-
-  //   this.getSearchConfig().then(config => {
-  //     request.visibleFilters = config.search.visibleFilters
-  //     request.excludeSourceFields = config.search.excludeSourceFields
-  //   }).catch(_err => { })
-  //   // return this.searchV6Wrapper(request)
-  //   if (request.filters) {
-  //     request.filters['contentType'] = ['Course', 'Program']
-  //   } else {
-  //     request.filters = {
-  //       contentType: ['Course', 'Program'],
-  //     }
-  //   }
-  //   const v6Request: NSSearch.ISearchV6Request = {
-  //     locale: request.locale,
-  //     pageNo: request.pageNo || undefined,
-  //     pageSize: request.pageSize || undefined,
-  //     query: request.query,
-  //     didYouMean: request.didYouMean,
-  //     filters: [
-  //       {
-  //         andFilters: Object.keys(request.filters || {}).map(key => {
-  //           return { [key]: request.filters[key] }
-  //         }),
-  //       },
-  //     ],
-  //     visibleFilters: request.visibleFilters,
-  //     includeSourceFields: ['creatorLogo'],
-  //     isStandAlone: request.hasOwnProperty('isStandAlone') ? request.isStandAlone : undefined,
-  //     sort: request.hasOwnProperty('sort') ? request.sort && request.sort.length ? request.sort : undefined : undefined,
-  //   }
-  //   return this.searchApi.getSearchV6Results(v6Request)
-  // }
-
-  // searchV6Wrapper(request: ISearchRequest): Observable<NSSearch.ISearchV6ApiResult> {
-  //   if (request.filters) {
-  //     request.filters['contentType'] = ['Course', 'Program']
-  //   } else {
-  //     request.filters = {
-  //       contentType: ['Course', 'Program'],
-  //     }
-  //   }
-
-  //   const v6Request: NSSearch.ISearchV6Request = {
-  //     locale: request.locale,
-  //     pageNo: request.pageNo || undefined,
-  //     pageSize: request.pageSize || undefined,
-  //     query: request.query,
-  //     didYouMean: request.didYouMean,
-  //     filters: [
-  //       {
-  //         andFilters: Object.keys(request.filters || {}).map(key => {
-  //           return { [key]: request.filters[key] }
-  //         }),
-  //       },
-  //     ],
-  //     visibleFilters: request.visibleFilters,
-  //     includeSourceFields: ['creatorLogo'],
-  //     isStandAlone: request.hasOwnProperty('isStandAlone') ? request.isStandAlone : undefined,
-  //     sort: request.hasOwnProperty('sort') ? request.sort && request.sort.length ? request.sort : undefined : undefined,
-  //   }
-
-  //   // if (v6Request.visibleFilters) {
-  //   // v6Request.visibleFilters = {
-  //   //   "learningMode": {
-  //   //     "displayName": "Mode"
-  //   //   },
-  //   //   "duration": {
-  //   //     "displayName": "Duration"
-  //   //   },
-  //   //   "exclusiveContent": {
-  //   //     "displayName": "Costs"
-  //   //   },
-  //   //   "complexityLevel": {
-  //   //     "displayName": "Level"
-  //   //   },
-  //   //   "catalogPaths": {
-  //   //     "displayName": "Catalog",
-  //   //     "order": [
-  //   //       {
-  //   //         "_key": "asc"
-  //   //       }
-  //   //     ]
-  //   //   },
-  //   //   "sourceShortName": {
-  //   //     "displayName": "Source"
-  //   //   },
-  //   //   "resourceType": {
-  //   //     "displayName": "Format"
-  //   //   },
-  //   //   "region": {
-  //   //     "displayName": "Region"
-  //   //   },
-  //   //   "concepts": {
-  //   //     "displayName": "Concepts"
-  //   //   },
-  //   //   "lastUpdatedOn": {
-  //   //     "displayName": "Published Date"
-  //   //   }
-  //   // }
-  //   // }
-  //   // this.logger.log('v6Request', v6Request)
-  //   return this.searchApi.getSearchV6Results(v6Request)
-  // }
 
   fetchSocialSearchUsers(request: ISearchSocialSearchPartialRequest) {
     const req: ISocialSearchRequest = {
@@ -235,14 +115,7 @@ export class SearchServService {
     return this.searchApi.getSearchResults(req)
   }
 
-  // fetchSearchDataDocs(request: ISearchObjForSearch): Observable<IKhubViewResultDocs> {
-  //   return this.khubApiSvc.fetchSearchDataDocs(request)
-  // }
-  // fetchSearchDataProjects(request: ISearchObjForSearch): Observable<IKhubViewResultProject> {
-  //   return this.khubApiSvc.fetchSearchDataProject(request)
-  // }
-
-  updateSelectedFiltersSet(filters: { [key: string]: string[] }) {
+  updateSelectedFiltersSet(filters: { [key: string]: string[] }): IFilterSet {
     const valuesForSet: string[] = []
     let filtersResetAble = false
     Object.keys(filters || {}).forEach(key => {
@@ -292,7 +165,7 @@ export class SearchServService {
     selectedFilterSet: Set<string>,
     selectedFilters: { [key: string]: string[] },
     showContentType?: boolean,
-  ) {
+  ): IFilterHandleResult {
 
     let concepts: IFilterUnitItem[] = []
     const filtersResponse: IFilterUnitResponse[] = filters
@@ -341,98 +214,6 @@ export class SearchServService {
     }
   }
 
-  // tslint:disable-next-line: prefer-array-literal
-  // setTilesDocs(response: Array<IKhubKshop | IKhubAutoMation>) {
-  //   try {
-  //     const tiles: IKhubItemTile[] = []
-  //     response.map((cur: IKhubKshop | IKhubAutoMation) => {
-  //       const tile: IKhubItemTile = {
-  //         author: cur.authors || [],
-  //         category: cur.category || '',
-  //         description: cur.description || '',
-  //         itemId: cur.itemId,
-  //         itemType: cur.itemType || '',
-  //         noOfViews: cur.noOfViews || 0,
-  //         restricted: cur.isAccessRestricted || 'N',
-  //         source: cur.source,
-  //         title: cur.title || '',
-  //         topics: cur.topics || [],
-  //         url: cur.url || '',
-  //         dateCreated: cur.dateCreated ? new Date(cur.dateCreated) : new Date(),
-  //         color: cur.source.toLowerCase() === 'kshop' ? '3px solid #f26522' : '3px solid #28a9b2',
-  //         sourceId: cur.sourceId || 0,
-  //       }
-  //       tiles.push(tile)
-  //     })
-  //     return tiles
-  //   } catch (e) {
-  //     throw e
-  //   }
-  // }
-
-  // setTileProject(response: IKhubProject[]) {
-  //   try {
-  //     const tilesProject: IKhubItemTile[] = []
-  //     response.map((cur: IKhubProject) => {
-  //       const tile: IKhubItemTile = {
-  //         pm: cur.pm || [],
-  //         dm: cur.dm || [],
-  //         objectives: cur.mstInfyObjectives || '',
-  //         risks: cur.risks || [],
-  //         contribution: cur.contributions || [],
-  //         category: 'Project',
-  //         // description: '',
-  //         projectScope: cur.mstProjectScope,
-  //         businessContext: cur.mstBusinessContext,
-  //         itemId: cur.itemId,
-  //         restricted: cur.isAccessRestricted || 'N',
-  //         source: 'PROMT',
-  //         title: cur.mstProjectName || '',
-  //         topics: cur.topics || [],
-  //         url: '',
-  //         dateCreated: new Date(cur.dateStartDate),
-  //         color: '3px solid #e94a48',
-  //         sourceId: 0,
-  //       }
-  //       tilesProject.push(tile)
-  //     })
-  //     return tilesProject
-  //   } catch (e) {
-  //     throw e
-  //   }
-  // }
-
-  // formatKhubFilters(filters: { [key: string]: IKhubFilterObj[] }) {
-  //   try {
-  //     const returnArr: IFilterUnitResponse[] = []
-  //     for (const key in filters) {
-  //       if (key) {
-  //         const filterObj: IFilterUnitResponse = {
-  //           type: key,
-  //           displayName: this.getDisplayName(key),
-  //           content: this.fetchContentOfFilter(filters[key]),
-  //         }
-  //         returnArr.push(filterObj)
-  //       }
-  //     }
-  //     return returnArr
-  //   } catch (e) {
-  //     throw e
-  //   }
-  // }
-
-  // fetchContentOfFilter(filter: IKhubFilterObj[]) {
-  //   const filterItemArr: IFilterUnitItem[] = []
-  //   filter.map((cur: IKhubFilterObj) => {
-  //     const obj = {
-  //       count: cur.doc_count,
-  //       displayName: cur.key,
-  //       type: cur.key,
-  //     }
-  //     filterItemArr.push(obj)
-  //   })
-  //   return filterItemArr
-  // }
   formatFilterForSearch(filters: { [type: string]: string[] }) {
     try {
       let filterStr = ''
@@ -441,7 +222,7 @@ export class SearchServService {
         if (key) {
           let str = ''
           const count = filters[key].length
-          filters[key].map((cur: string, i: number) => {
+          filters[key].forEach((cur: string, i: number) => {
             if (i !== count - 1) {
               str += `"${cur}",`
             } else {
@@ -515,7 +296,7 @@ export class SearchServService {
     return name
   }
 
-  raiseSearchEvent(query: string, filters: any, locale: any) {
+  raiseSearchEvent(query: string, filters: Record<string, any>, locale: string | string[]) {
     this.events.dispatchEvent<WsEvents.IWsEventTelemetryInteract>({
       eventType: WsEvents.WsEventType.Telemetry,
       eventLogLevel: WsEvents.WsEventLogLevel.Warn,
@@ -534,7 +315,7 @@ export class SearchServService {
     })
   }
 
-  raiseSearchResponseEvent(query: string, filters: any, totalHits: number, locale: any) {
+  raiseSearchResponseEvent(query: string, filters: Record<string, any>, totalHits: number, locale: string | string[]) {
     this.events.dispatchEvent<WsEvents.IWsEventTelemetrySearch>({
       eventType: WsEvents.WsEventType.Telemetry,
       eventLogLevel: WsEvents.WsEventLogLevel.Warn,
@@ -550,13 +331,12 @@ export class SearchServService {
       to: 'telemetry',
     })
   }
-  raiseNewSearchResponseEvent(query: string, totalHits: number, locale: any) {
+  raiseNewSearchResponseEvent(query: string, totalHits: number, locale: string | string[]) {
     this.events.dispatchEvent<WsEvents.IWsEventTelemetrySearch>({
       eventType: WsEvents.WsEventType.Telemetry,
       eventLogLevel: WsEvents.WsEventLogLevel.Warn,
       data: {
         query,
-        // filters,
         locale,
         eventSubType: WsEvents.EnumTelemetrySubType.Search,
         size: totalHits,
@@ -567,18 +347,18 @@ export class SearchServService {
     })
   }
 
-  async translateSearchFilters(lang: string): Promise<any> {
+  async translateSearchFilters(lang: string): Promise<Record<string, any>> {
     const filtersTranslation = JSON.parse(localStorage.getItem('filtersTranslation') || JSON.stringify(this.defaultFiltersTranslated))
     if (lang.split(',').length === 1) {
       if (!filtersTranslation.hasOwnProperty(lang)) {
         filtersTranslation[lang] = {}
         localStorage.setItem('filtersTranslation', JSON.stringify(filtersTranslation))
-        filtersTranslation[lang] = await this.http.get(API_END_POINTS.translateFilters(lang)).toPromise()
+        filtersTranslation[lang] = await this.http.get<Record<string, any>>(API_END_POINTS.translateFilters(lang)).toPromise()
         localStorage.setItem('filtersTranslation', JSON.stringify(filtersTranslation))
       }
-      return of(filtersTranslation[lang]).toPromise()
+      return of(filtersTranslation[lang]).toPromise() as Promise<Record<string, any>>
     }
-    return of(filtersTranslation['en'] || {}).toPromise()
+    return of(filtersTranslation['en'] || {}).toPromise() as Promise<Record<string, any>>
 
   }
 }

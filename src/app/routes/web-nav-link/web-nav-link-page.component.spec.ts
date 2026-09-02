@@ -53,6 +53,7 @@ jest.mock('../../services/theme.service', () => ({
 }))
 
 import { Subject } from 'rxjs'
+import { NavigationEnd } from '@angular/router'
 import { WebNavLinkPageComponent } from './web-nav-link-page.component'
 
 describe('WebNavLinkPageComponent', () => {
@@ -330,6 +331,99 @@ describe('WebNavLinkPageComponent', () => {
       ;(component as any).syncMenuWithUrl()
       const searchItem = component.menuItems.find(i => i.title === 'Search')
       expect(searchItem?.active).toBe(true)
+    })
+
+    it('should call updatedMenuItems("My Courses") for my_courses path', () => {
+      const spy = jest.spyOn(component, 'updatedMenuItems')
+      mockLocation.path.mockReturnValue('/app/user/my_courses')
+      ;(component as any).syncMenuWithUrl()
+      expect(spy).toHaveBeenCalledWith('My Courses')
+    })
+
+    it('should call updatedMenuItems("Competency") for competency path', () => {
+      const spy = jest.spyOn(component, 'updatedMenuItems')
+      mockLocation.path.mockReturnValue('/app/competency')
+      ;(component as any).syncMenuWithUrl()
+      expect(spy).toHaveBeenCalledWith('Competency')
+    })
+
+    it('should call updatedMenuItems("Notification") for notification path', () => {
+      const spy = jest.spyOn(component, 'updatedMenuItems')
+      mockLocation.path.mockReturnValue('/app/notification')
+      ;(component as any).syncMenuWithUrl()
+      expect(spy).toHaveBeenCalledWith('Notification')
+    })
+
+    it('should default to "Home" for an unknown path', () => {
+      const spy = jest.spyOn(component, 'updatedMenuItems')
+      mockLocation.path.mockReturnValue('/some/unknown/path')
+      ;(component as any).syncMenuWithUrl()
+      expect(spy).toHaveBeenCalledWith('Home')
+    })
+  })
+
+  describe('router events / navbar subscriptions', () => {
+    it('should syncMenuWithUrl and detectChanges on NavigationEnd', () => {
+      component.ngOnInit()
+      const spy = jest.spyOn(component as any, 'syncMenuWithUrl')
+      mockLocation.path.mockReturnValue('/page/home')
+      routerEvents$.next(new NavigationEnd(1, '/page/home', '/page/home'))
+      expect(spy).toHaveBeenCalled()
+      expect(mockCd.detectChanges).toHaveBeenCalled()
+    })
+
+    it('should ignore non-NavigationEnd router events', () => {
+      const spy = jest.spyOn(component as any, 'syncMenuWithUrl')
+      routerEvents$.next({ some: 'event' })
+      expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('should syncMenuWithUrl when navOption emits "search" during construction', () => {
+      mockLocation.path.mockReturnValue('/page/home')
+      const searchNavOption = { currentOption: { subscribe: jest.fn((cb: any) => cb('search')) } }
+      const comp = new WebNavLinkPageComponent(
+        mockDialog, mockConfigSvc, mockRouter, mockSignupService, mockLocation,
+        searchNavOption as any, mockStorage, mockEvents, mockPlaylistSvc, mockCd, mockLogger, mockThemeService,
+      )
+      comp.menuItems = [
+        { id: 'home', title: 'Home', show: false, active: false, redirect: '/page/home' },
+      ]
+      // trigger the subscribed callback again now that menuItems exist
+      searchNavOption.currentOption.subscribe.mock.calls[0][0]('search')
+      expect(comp.menuItems[0].active).toBe(true)
+    })
+  })
+
+  describe('redirect - home with org config', () => {
+    let originalLocation: any
+    beforeEach(() => {
+      originalLocation = window.location
+      delete (window as any).location
+      ;(window as any).location = { href: '' }
+    })
+    afterEach(() => {
+      ;(window as any).location = originalLocation
+    })
+
+    it('should redirect via window.location for home when orgId matches rootOrgId (leading slash stripped)', async () => {
+      mockConfigSvc.orgSelectiveCourseConfig = { orgId: 'org-1', redirectUrl: '/custom/home' }
+      const item = { id: 'home', title: 'Home', redirect: '/page/home', active: false, show: false }
+      await component.redirect(item)
+      expect((window as any).location.href).toBe('custom/home')
+    })
+
+    it('should use redirectUrl as-is when it has no leading slash', async () => {
+      mockConfigSvc.orgSelectiveCourseConfig = { orgId: 'org-1', redirectUrl: 'https://ext.example' }
+      const item = { id: 'home', title: 'Home', redirect: '/page/home', active: false, show: false }
+      await component.redirect(item)
+      expect((window as any).location.href).toBe('https://ext.example')
+    })
+
+    it('should fall back to item.redirect when orgConfig has no redirectUrl', async () => {
+      mockConfigSvc.orgSelectiveCourseConfig = { orgId: 'org-1', redirectUrl: '' }
+      const item = { id: 'home', title: 'Home', redirect: '/page/home', active: false, show: false }
+      await component.redirect(item)
+      expect((window as any).location.href).toBe('page/home')
     })
   })
 })

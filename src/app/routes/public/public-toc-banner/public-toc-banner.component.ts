@@ -38,9 +38,9 @@ export class PublicTocBannerComponent implements OnInit {
     return (first && first.name) || (this.content ? this.content.creator : '') || ''
   }
   constructor(
-    private http: HttpClient,
-    private signUpSvc: SignupService,
-    private router: Router,
+    private readonly http: HttpClient,
+    private readonly signUpSvc: SignupService,
+    private readonly router: Router,
   ) {
   }
 

@@ -1,31 +1,26 @@
 import {
-  Component, OnInit,
-  //AfterViewInit,
-  OnDestroy, ViewChild, ElementRef,
+  Component, OnInit, ViewChild, ElementRef,
 } from '@angular/core'
-import { DomSanitizer } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapter.service'
-import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, SafeResourceUrlService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-    standalone: false,
-    selector: 'ws-scrom-player',
-    templateUrl: './scrom-player.component.html',
-    styleUrls: ['./scrom-player.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-scrom-player',
+  templateUrl: './scrom-player.component.html',
+  styleUrls: ['./scrom-player.component.scss'],
+
 })
-export class ScromPlayerComponent implements OnInit,
-  //AfterViewInit,
-  OnDestroy {
+export class ScromPlayerComponent implements OnInit {
   iframeUrl: any
   isLandscapeModeEnforced = false
   @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
   constructor(
     public route: ActivatedRoute,
-    private domSanitizer: DomSanitizer,
-    private scormAdapterService: MobileScromAdapterService,
-    private logger: LoggerService
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly scormAdapterService: MobileScromAdapterService,
+    private readonly logger: LoggerService
   ) {
     (window as any).API = this.scormAdapterService
     window.addEventListener('message', this.receiveMessage.bind(this))
@@ -61,18 +56,17 @@ export class ScromPlayerComponent implements OnInit,
 
   }
 
-  // ngAfterViewInit() {
-  // }
-
-  ngOnDestroy() {
-    // this.releaseLandscapeModeLock()
-  }
 
 
 
   createIframeUrl(scormUrl: any) {
     this.logger.log(scormUrl)
-    this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(scormUrl)
+    const safeUrl = this.safeResourceUrlSvc.trust(typeof scormUrl === 'string' ? scormUrl : undefined)
+    if (!safeUrl) {
+      this.logger.log('Blocked unsafe scormUrl', scormUrl)
+      return
+    }
+    this.iframeUrl = safeUrl
   }
 
   receiveMessage(msg: any) {

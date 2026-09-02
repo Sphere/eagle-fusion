@@ -32,25 +32,21 @@ export class PdfComponent implements OnInit {
   > | null = null
   isTypeOfCollection = false
   isRestricted = false
-  // prevResourceUrl: string | null = null
-  // nextResourceUrl: string | null = null
   viewerDataServiceSubscription: any
   currentCompletionPercentage: number | null = null
   collectionType: any
-  // prevTitle: string | null | undefined
-  // nextTitle: string | null | undefined
   @ViewChild('navpdf', { static: false }) navpdf!: ElementRef
   isSmall = false
   collectionIdentifier: any
 
-  constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-    private viewerDataSvc: PlayerStateService, private valueSvc: ValueService) {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isSmall = isXSmall
-    })
+  constructor(private readonly activatedRoute: ActivatedRoute, private readonly configSvc: ConfigurationsService,
+    private readonly viewerDataSvc: PlayerStateService, private readonly valueSvc: ValueService) {
   }
 
   ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isSmall = isXSmall
+    })
     if (this.configSvc.restrictedFeatures) {
       this.isRestricted =
         !this.configSvc.restrictedFeatures.has('disscussionForum')
@@ -60,10 +56,6 @@ export class PdfComponent implements OnInit {
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
-      // this.prevTitle = data.previousTitle
-      // this.nextTitle = data.nextResTitle
-      // this.prevResourceUrl = data.prevResource
-      // this.nextResourceUrl = data.nextResource
       this.currentCompletionPercentage = data.currentCompletionPercentage
     })
 
@@ -77,7 +69,4 @@ export class PdfComponent implements OnInit {
     }
     return true
   }
-  // stopPropagation() {
-  //   return
-  // }
 }

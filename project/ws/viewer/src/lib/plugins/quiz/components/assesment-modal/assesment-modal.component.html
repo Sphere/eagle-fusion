@@ -1,16 +1,13 @@
 <div class="position-relative">
   <ng-container *ngIf="(isXSmall$ | async) === true">
-    <div [ngClass]="{'arrow-back': tabIndex ==0, 'result-arrow-back' : tabIndex === 1 }" (click)="closePopup()"
+    <div [ngClass]="{'arrow-back': tabIndex ==0, 'result-arrow-back' : tabIndex === 1 }" tabindex="0" role="button"
+      (click)="closePopup()" (keydown.enter)="closePopup()" (keydown.space)="closePopup(); $event.preventDefault()"
       *ngIf="(isXSmall$ | async) === true">
       <mat-icon>keyboard_arrow_left</mat-icon>
     </div>
   </ng-container>
 </div>
 <div class="assesment-container mt-3 mb-3">
-  <!-- <div class="gif-wrapper" *ngIf="isShownGrif && isCompetencyComplted">
-    <img src="fusion-assets/icons/celebration-top.gif" class="gif-top" />
-    <img src="fusion-assets/icons/celebration-bottom.gif" class="gif-bottom" />
-  </div> -->
   <ng-container *ngIf="(isXSmall$ | async) === false">
     <button type="button" class="close" (click)="closePopup()">&times;</button>
   </ng-container>
@@ -160,8 +157,6 @@
           <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()" mat-raised-button>
             {{"Continue" | translate}}</button>
         </div>
-
-
       </ng-container>
     </div>
 

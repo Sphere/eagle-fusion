@@ -1,7 +1,7 @@
 <div class="popup-container">
   <div class="gif-wrapper">
-    <img src="/fusion-assets/icons/celebration-top.gif" class="gif-top" />
-    <img src="/fusion-assets/icons/celebration-bottom.gif" class="gif-bottom" />
+    <img src="/fusion-assets/icons/celebration-top.gif" class="gif-top" alt="" />
+    <img src="/fusion-assets/icons/celebration-bottom.gif" class="gif-bottom" alt="" />
   </div>
 
   <div class="popup-content">
@@ -10,7 +10,8 @@
 
     <div class="trophy-wrapper">
       <img [ngClass]="earnedBadge ? 'trophy' : 'completed-bg'"
-        [src]="earnedBadge ? '/fusion-assets/icons/trophy.png' : '/fusion-assets/icons/completed.png'" />
+        [src]="earnedBadge ? '/fusion-assets/icons/trophy.png' : '/fusion-assets/icons/completed.png'"
+        [alt]="earnedBadge ? 'Trophy' : 'Completed'" />
     </div>
 
     <button *ngIf="earnedBadge" ion-button class="badge-btn" (click)="close()">

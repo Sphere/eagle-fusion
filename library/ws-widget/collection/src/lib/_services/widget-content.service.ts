@@ -15,13 +15,13 @@ import { CourseHierarchyCacheService } from './course-hierarchy-cache.service'
   providedIn: 'root',
 })
 export class WidgetContentService {
-  private messageSource = new Subject<any>()
+  private readonly messageSource = new Subject<any>()
   public currentMessage = this.messageSource.asObservable()
 
-  private backSource = new Subject<any>()
+  private readonly backSource = new Subject<any>()
   public backMessage = this.backSource.asObservable()
 
-  private workSource = new Subject<any>()
+  private readonly workSource = new Subject<any>()
   public workMessage = this.workSource.asObservable()
 
   public _updateValue = new BehaviorSubject<any>(undefined)
@@ -29,22 +29,20 @@ export class WidgetContentService {
   updateValue$ = this._updateValue.asObservable()
   _showConformation: any
 
-  private isAshaSubject = new BehaviorSubject<any>(false);
+  private readonly isAshaSubject = new BehaviorSubject<any>(false)
   // Observable to expose to other components
-  isAsha$ = this.isAshaSubject.asObservable();
+  isAsha$ = this.isAshaSubject.asObservable()
 
-  private currentAshaCardSubject = new BehaviorSubject<any>(false);
+  private readonly currentAshaCardSubject = new BehaviorSubject<any>(false)
   // Observable to expose to other components
-  isCurrentAshaCard$ = this.currentAshaCardSubject.asObservable();
+  isCurrentAshaCard$ = this.currentAshaCardSubject.asObservable()
 
-  // Request deduplication cache for progress API
-  // private progressRequestCache: Map<string, Observable<any>> = new Map()
   constructor(
-    private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private languageSvc: LanguageService,
-    private logger: LoggerService,
-    private cacheService: CourseHierarchyCacheService
+    private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly languageSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly cacheService: CourseHierarchyCacheService
   ) { }
 
   fetchMarkAsCompleteMeta(identifier: string): Promise<any> {
@@ -216,45 +214,9 @@ export class WidgetContentService {
     const courseId = req.request.courseId
     return this.http.post<NsContent.IContinueLearningData>(`${API_END_POINTS.CONTENT_HISTORYV2}/${courseId}`, req)
   }
-  // async continueLearning(id: string, collectionId?: string, collectionType?: string): Promise<any> {
-  //   return new Promise(async resolve => {
-  //     if (collectionType &&
-  //       collectionType.toLowerCase() === 'playlist') {
-  //       const reqBody = {
-  //         contextPathId: collectionId ? collectionId : id,
-  //         resourceId: id,
-  //         data: JSON.stringify({
-  //           timestamp: Date.now(),
-  //           contextFullPath: [collectionId, id],
-  //         }),
-  //         dateAccessed: Date.now(),
-  //         contextType: 'playlist',
-  //       }
-  //       await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-  //         resolve(true)
-  //       }
-  //       )
-  //     } else {
-  //       const reqBody = {
-  //         contextPathId: collectionId ? collectionId : id,
-  //         resourceId: id,
-  //         data: JSON.stringify({ timestamp: Date.now() }),
-  //         dateAccessed: Date.now(),
-  //       }
-  //       await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-  //         resolve(true)
-  //       })
-  //     }
-  //   })
-  // }
-  // saveContinueLearning(content: NsContent.IViewerContinueLearningRequest): Observable<any> {
-  //   const url = API_END_POINTS.USER_CONTINUE_LEARNING
-  //   return this.http.post<any>(url, content)
-  // }
 
   setS3Cookie(
     contentId: string,
-    // _path: string,
   ): Observable<any> {
     return this.http
       .post(API_END_POINTS.SET_S3_COOKIE, { contentId })
@@ -424,7 +386,7 @@ export class WidgetContentService {
       request: {
         filters: {
           primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'],
-          identifier: contentId
+          identifier: contentId,
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }

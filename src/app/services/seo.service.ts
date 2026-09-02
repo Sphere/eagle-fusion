@@ -31,10 +31,10 @@ export class SeoService {
   private jsonLdEl: HTMLScriptElement | null = null
 
   constructor(
-    @Inject(DOCUMENT) private doc: Document,
-    private titleSvc: Title,
-    private metaSvc: Meta,
-    private router: Router,
+    @Inject(DOCUMENT) private readonly doc: Document,
+    private readonly titleSvc: Title,
+    private readonly metaSvc: Meta,
+    private readonly router: Router,
   ) {}
 
   update(config: ISeoConfig = {}) {
@@ -43,7 +43,7 @@ export class SeoService {
     const ogTitle = config.ogTitle || title
     const ogDescription = config.ogDescription || description
     const ogImage = config.ogImage || DEFAULT_OG_IMAGE
-    const ogUrl = config.ogUrl || `${BASE_URL}${this.router.url.split('?')[0]}`
+    const ogUrl = this.toServedForm(config.ogUrl || `${BASE_URL}${this.router.url.split('?')[0]}`)
     const ogType = config.ogType || 'website'
 
     this.titleSvc.setTitle(title)
@@ -75,11 +75,34 @@ export class SeoService {
     }
 
     // Canonical and JSON-LD — use injected DOCUMENT so these work during SSR/prerender too
-    this.setCanonical(config.canonicalUrl || ogUrl)
+    this.setCanonical(this.toServedForm(config.canonicalUrl || ogUrl))
     this.setJsonLd(config.jsonLd || null)
   }
 
+  /**
+   * The CDN 301-redirects every extension-less path to its trailing-slash form
+   * (`/public/home` -> `/public/home/`). A canonical or og:url pointing at the
+   * non-slash form therefore points at a redirect, so Google discards it and picks
+   * its own canonical — which is why Search Console reports `/public/home` and
+   * `/public/home/` as two separate pages and flags 265 URLs as "Page with redirect".
+   * Emit the form the server actually serves with a 200.
+   *
+   * Query-string URLs (`/app/org-details?orgId=…`) and file-like paths are served
+   * as-is by the CDN, so they are left untouched.
+   */
+  private toServedForm(url: string): string {
+    const queryOrHashAt = url.search(/[?#]/)
+    if (queryOrHashAt !== -1) { return url }
+    if (url.endsWith('/') || /\.[a-z0-9]+$/i.test(url)) { return url }
+    return `${url}/`
+  }
+
   private setCanonical(url: string) {
+    if (!this.canonicalEl) {
+      // Reuse a canonical already in the document (e.g. emitted by a previous
+      // prerender pass) instead of appending a second, competing tag.
+      this.canonicalEl = this.doc.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    }
     if (!this.canonicalEl) {
       this.canonicalEl = this.doc.createElement('link')
       this.canonicalEl.setAttribute('rel', 'canonical')

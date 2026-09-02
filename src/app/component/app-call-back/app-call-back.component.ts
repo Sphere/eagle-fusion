@@ -4,11 +4,11 @@ import { AppCallBackService } from '../../services/app-call-back.service'
 import { get } from 'lodash'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-call-back',
-    templateUrl: './app-call-back.component.html',
-    styleUrls: ['./app-call-back.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-call-back',
+  templateUrl: './app-call-back.component.html',
+  styleUrls: ['./app-call-back.component.scss'],
+
 })
 export class AppCallBackComponent implements OnInit {
 
@@ -17,8 +17,11 @@ export class AppCallBackComponent implements OnInit {
 
   constructor(
     public activated: ActivatedRoute,
-    private appCallBackService: AppCallBackService
+    private readonly appCallBackService: AppCallBackService
   ) {
+  }
+
+  ngOnInit() {
     this.activated.queryParamMap.subscribe(queryParams => {
       if (get(queryParams, 'params.x-authenticated-user-token')) {
         this.isLoading = true
@@ -26,9 +29,6 @@ export class AppCallBackComponent implements OnInit {
         this.webviewCookieSet()
       }
     })
-  }
-
-  ngOnInit() {
   }
 
   webviewCookieSet() {

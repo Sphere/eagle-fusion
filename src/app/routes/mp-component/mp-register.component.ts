@@ -10,11 +10,11 @@ import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
-    standalone: false,
-    selector: 'ws-mp-register',
-    templateUrl: './mp-register.component.html',
-    styleUrls: ['./mp-register.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-mp-register',
+  templateUrl: './mp-register.component.html',
+  styleUrls: ['./mp-register.component.scss'],
+
 })
 export class MpRegisterComponent implements OnInit {
   anmRegistrationForm: FormGroup
@@ -45,11 +45,11 @@ export class MpRegisterComponent implements OnInit {
     public userProfileSvc: UserProfileService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly formBuilder: FormBuilder,
+    private readonly dialog: MatDialog,
+    private readonly loader: LoaderService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.anmRegistrationForm = this.createFormGroup()
   }
@@ -103,24 +103,6 @@ export class MpRegisterComponent implements OnInit {
 
   /** Form change subscriptions */
   private setupFormSubscriptions(): void {
-    // Role change → load S3 JSON
-    // this.anmRegistrationForm.get('role')?.valueChanges.subscribe(role => {
-    //   // if (role) {
-    //   //   this.anmRegistrationForm.patchValue({
-    //   //     district: '',
-    //   //     block: '',
-    //   //     facilityType: '',
-    //   //     facilityName: '',
-    //   //     facilityCode: ''
-    //   //   })
-    //   //   this.districts = []
-    //   //   this.blocks = []
-    //   //   this.facilityTypes = []
-    //   //   this.availableFacilities = []
-    //   // }
-    // })
-
-    // District change → populate blocks
     this.anmRegistrationForm.get('district')?.valueChanges.subscribe(selectedDistrict => {
       if (selectedDistrict && this.biharDistrictData[selectedDistrict]) {
         this.blocks = Object.keys(this.biharDistrictData[selectedDistrict])
@@ -292,7 +274,7 @@ export class MpRegisterComponent implements OnInit {
         }
       })
     }
-    return Array.from(allTypes).sort()
+    return Array.from(allTypes).sort((a, b) => a.localeCompare(b))
   }
 
   // ---------- Form Submission ----------

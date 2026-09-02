@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { get, filter, toLower } from 'lodash'
+import { get, filter, toLower } from 'lodash-es'
 import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
@@ -17,52 +17,63 @@ export class QuizService {
   public updateMtf = new BehaviorSubject<any>(undefined)
   public updateMtf$ = this.updateMtf.asObservable()
   constructor(
-    private http: HttpClient,
-    private configservice: ConfigurationsService,
-    private onlineIndexedDbService: IndexedDBService,
-    private logger: LoggerService
+    private readonly http: HttpClient,
+    private readonly configservice: ConfigurationsService,
+    private readonly onlineIndexedDbService: IndexedDBService,
+    private readonly logger: LoggerService
   ) {
 
   }
   submitQuizV2(req: any): Observable<NSQuiz.IQuizSubmitResponse> {
     this.logger.log(req, 'req')
-    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe(record => {
-      this.logger.log(record, '36')
-
-      const cUrl = window.location.href
-      this.logger.log(cUrl.split('/'))
-      const id = cUrl.split('/')[5]
-      this.logger.log(id)
-      this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.courseId).subscribe(
-        (message: any) => { // 'next' callback
-          this.logger.log('Record deleted successfully', message)
-
-          this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
-            async (dat: any) => {
-              this.logger.log('Data inserted successfully2', dat)
-              const msg = await dat
-              if (msg) {
-              }
-            },
-            (error: any) => { // 'error' callback for insertProgressData
-              this.logger.error('Error inserting progress data:', error)
-            }
-          )
-        },
-        (error: any) => { // 'error' callback for deleteRecordByKey
-          this.logger.error('Error deleting record:', error)
-        }
-      )
-    }, error => {
-      this.logger.log(error, '63')
-      this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
-        (dat: any) => {
-          this.logger.log('Data inserted successfully1', dat)
-
-        })
-    })
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe(
+      record => this.onRecordFetched(record, req),
+      error => this.onRecordFetchError(error, req),
+    )
 
     return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.ASSESSMENT_SUBMIT_V2, req)
+  }
+
+  private onRecordFetched(record: any, req: any) {
+    this.logger.log(record, '36')
+
+    const cUrl = window.location.href
+    this.logger.log(cUrl.split('/'))
+    const id = cUrl.split('/')[5]
+    this.logger.log(id)
+    this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.courseId).subscribe(
+      (message: any) => this.onRecordDeleted(message, req),
+      (error: any) => this.logger.error('Error deleting record:', error),
+    )
+  }
+
+  private onRecordDeleted(message: any, req: any) {
+    this.logger.log('Record deleted successfully', message)
+    this.insertProgressData(req, this.onProgressInsertedAfterDelete.bind(this))
+  }
+
+  private onProgressInsertedAfterDelete(dat: any) {
+    this.logger.log('Data inserted successfully2', dat)
+  }
+
+  private onRecordFetchError(error: any, req: any) {
+    this.logger.log(error, '63')
+    this.insertProgressData(req, dat => this.logger.log('Data inserted successfully1', dat))
+  }
+
+  private insertProgressData(req: any, onSuccess: (dat: any) => void, onError?: (error: any) => void) {
+    this.onlineIndexedDbService.insertProgressData(
+      this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req,
+    ).subscribe(
+      (dat: any) => onSuccess(dat),
+      (error: any) => {
+        if (onError) {
+          onError(error)
+        } else {
+          this.logger.error('Error inserting progress data:', error)
+        }
+      },
+    )
   }
   competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
     return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2, req)
@@ -87,7 +98,7 @@ export class QuizService {
       identifier,
       title,
     }
-    quizWithAnswers.questions.map(question => {
+    quizWithAnswers.questions.forEach(question => {
       if (
         question.questionType === undefined ||
         question.questionType === 'mcq-mca' ||
@@ -101,7 +112,7 @@ export class QuizService {
           }
           return option
         })
-      } if (question.questionType === 'fitb') {
+      } else if (question.questionType === 'fitb') {
         for (let i = 0; i < question.options.length; i += 1) {
           if (questionAnswerHash[question.questionId]) {
             question.options[i].response = questionAnswerHash[question.questionId][0].split(',')[i]
@@ -122,7 +133,7 @@ export class QuizService {
   ) {
     const userSelectedAnswer: any = quiz.questions[questionAnswerHash['qslideIndex']]
     userSelectedAnswer['isCorrect'] = false
-    userSelectedAnswer.options.map((option: any) => {
+    userSelectedAnswer.options.forEach((option: any) => {
       if (option.isCorrect) {
         userSelectedAnswer['answer'] = option.text
       }
@@ -176,7 +187,7 @@ export class QuizService {
     // 2. It compared `source.innerText` against `option.text` directly. innerText returns the
     //    *rendered* text, and CSS collapses runs of whitespace — option text in the authored
     //    content frequently contains double spaces, so the two never matched.
-    const normalize = (value: string) => (value || '').replace(/\s+/g, ' ').trim()
+    const normalize = (value: string) => (value || '').replaceAll(/\s+/g, ' ').trim()
     userSelectedAnswer.options.forEach((option: any) => {
       const connection = connections.find(
         (item: any) => item && item.source && normalize(item.source.innerText) === normalize(option.text)
@@ -184,7 +195,7 @@ export class QuizService {
       option.response = connection ? connection.target.innerText : ''
     })
     const matchHintDisplay: any = []
-    quiz.questions[questionAnswerHash['qslideIndex']].options.map(option => (option.matchForView = option.match))
+    quiz.questions[questionAnswerHash['qslideIndex']].options.forEach(option => (option.matchForView = option.match))
     const array = quiz.questions[questionAnswerHash['qslideIndex']].options.map(elem => elem.match)
     const arr = this.shuffle(array)
     for (let i = 0; i < quiz.questions[questionAnswerHash['qslideIndex']].options.length; i += 1) {

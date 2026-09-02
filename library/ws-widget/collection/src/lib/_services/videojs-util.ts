@@ -83,16 +83,12 @@ function generateEventDispatcherHelper(
   dispatcher: any,
   widgetSubType: string,
 ) {
-  // let activityStartedAt: Date | null = null
   return (
     eventType: WsEvents.EnumTelemetrySubType,
     widgetData: IWidgetsPlayerMediaData,
     playerState: WsEvents.EnumTelemetryMediaActivity,
     mimeType: NsContent.EMimeTypes,
   ) => {
-    // if (eventType === WsEvents.EnumTelemetrySubType.Loaded) {
-    //   activityStartedAt = new Date()
-    // }
     eventDispatchHelper(
       passThroughData,
       dispatcher,
@@ -104,21 +100,6 @@ function generateEventDispatcherHelper(
     )
   }
 }
-// function saveContinueLearning(
-//   widgetData: IWidgetsPlayerMediaData,
-//   // saveCLearning: saveContinueLearningFunction,
-//   currentTime: any,
-// ) {
-//   const data = {
-//     resourceId: widgetData.identifier,
-//     dateAccessed: Date.now(),
-//     data: JSON.stringify({
-//       progress: currentTime,
-//       timestamp: Date.now(),
-//     }),
-//   }
-//   // saveCLearning(data)
-// }
 function fireRealTimeProgress(
   mimeT: string,
   widgetData: IWidgetsPlayerMediaData,
@@ -138,11 +119,339 @@ function fireRealTimeProgress(
   }
 }
 
+// ==========================================
+// 🎯 VIDEO PLAYBACK STATE — bundled so the event handlers below can be plain
+// module-level functions (keeps each handler's branching out of
+// videoJsInitializer's own cognitive complexity) while still sharing state.
+// ==========================================
+interface VideoPlaybackState {
+  heartBeatSubscription: Subscription | null
+  currentTimeInterval: Subscription | null
+  loaded: boolean
+  currTime: number
+  maxWatchedTime: number
+  seekRestrictionEnabled: boolean
+  progressUnlocked: boolean
+  lastKnownTime: number
+  lastReportedBoundary: number // Track last 5% boundary reported (0, 5, 10, 15...)
+}
+
+// 🔥 CRITICAL: Defensive player validity checks — prevents "Cannot read
+// properties of null" errors from a disposed/uninitialized player.
+function isVideoPlayerUsable(player: any): boolean {
+  if (!player) {
+    console.warn("[Progress] Player is null")
+    return false
+  }
+  if (player.isDisposed && player.isDisposed()) {
+    console.warn("[Progress] Player disposed")
+    return false
+  }
+  if (!player.tech_ || !player.tech_.el_) {
+    console.warn("[Progress] Player tech unavailable")
+    return false
+  }
+  if (
+    typeof player.duration !== "function" ||
+    typeof player.currentTime !== "function"
+  ) {
+    console.warn("[Progress] Player methods unavailable")
+    return false
+  }
+  return true
+}
+
+function getSafeVideoPlayerTimes(player: any): { duration: number; currentTime: number } | null {
+  try {
+    return { duration: player.duration(), currentTime: player.currentTime() }
+  } catch (err) {
+    console.warn("[Progress] Error accessing player time:", err)
+    return null
+  }
+}
+
+// ==========================================
+// 🎯 SINGLE SOURCE OF TRUTH: reportVideoProgress()
+// ==========================================
+function reportVideoProgress(
+  player: any,
+  state: VideoPlaybackState,
+  mimeType: NsContent.EMimeTypes,
+  widgetData: IWidgetsPlayerMediaData,
+  fireRProgress: fireRealTimeProgressFunction,
+  source = "timeupdate",
+): void {
+  try {
+    if (!isVideoPlayerUsable(player)) {
+      return
+    }
+
+    const times = getSafeVideoPlayerTimes(player)
+    if (!times) {
+      return
+    }
+    const { duration, currentTime } = times
+
+    if (
+      !duration ||
+      Number.isNaN(Number(duration)) ||
+      duration <= 0 ||
+      Number.isNaN(Number(currentTime)) ||
+      currentTime < 0
+    ) {
+      return
+    }
+
+    const currentPercentage = (currentTime / duration) * 100
+
+    // Math.floor for strict 5% boundaries
+    const currentBoundary = Math.floor(currentPercentage / 5) * 5
+    const clampedBoundary = Math.max(0, Math.min(100, currentBoundary))
+
+    // Monotonic check: only forward progress
+    if (clampedBoundary > state.lastReportedBoundary) {
+      state.lastReportedBoundary = clampedBoundary
+      state.currTime = currentTime
+
+      console.log(
+        `[Progress] ${source} | Boundary: ${clampedBoundary}% | ` +
+        `Time: ${currentTime.toFixed(2)}s/${duration.toFixed(2)}s | ` +
+        `Speed: ${player.playbackRate()}x | Raw: ${currentPercentage.toFixed(
+          2
+        )}%`
+      )
+
+      fireRealTimeProgress(
+        mimeType,
+        widgetData,
+        fireRProgress,
+        currentTime,
+        duration
+      )
+    } else if (clampedBoundary < state.lastReportedBoundary) {
+      console.log(
+        `[Progress] ${source} | Backward seek detected: ` +
+        `${clampedBoundary}% < ${state.lastReportedBoundary}% (skipping duplicate fire)`
+      )
+    }
+  } catch (err) {
+    console.error("[Progress] Error:", err)
+  }
+}
+
+function enableVideoProgressControl(player: any): void {
+  player?.controlBar?.progressControl?.enable()
+  const progressEl = player?.controlBar?.progressControl?.el()
+  if (progressEl) {
+    (progressEl as HTMLElement).style.pointerEvents = "auto";
+    (progressEl as HTMLElement).style.cursor = "pointer"
+  }
+  const seekBar = player?.controlBar?.progressControl?.seekBar
+  seekBar?.enable()
+
+  if (seekBar?.el()) {
+    const el = seekBar.el() as HTMLElement
+    el.style.pointerEvents = "auto"
+    el.style.cursor = "pointer"
+  }
+}
+
+function disableVideoProgressControl(player: any): void {
+  const progressControl = player?.controlBar?.progressControl
+  const seekBar = progressControl?.seekBar
+
+  progressControl?.disable()
+  seekBar?.disable()
+
+  if (seekBar?.el()) {
+    const el = seekBar.el() as HTMLElement
+    el.style.pointerEvents = "none"
+    el.style.cursor = "default"
+  }
+}
+
+// Resume from saved position — must work regardless of telemetry setting
+// Handle both cases: loadeddata not yet fired, or already fired (src in template)
+function applyVideoResumePoint(player: any, resumePoint: number): void {
+  try {
+    if (resumePoint) {
+      const start = Number(resumePoint)
+      if (!Number.isNaN(Number(start)) && start > 0) {
+        player.currentTime(start)
+      }
+    }
+  } catch (err) { /* ignore resume-point seek failure, playback continues from start */ }
+}
+
+function handleVideoEnded(
+  player: any,
+  state: VideoPlaybackState,
+  eventDispatcher: (eventType: any, widgetData: any, playerState: any, mimeType: any) => void,
+  widgetData: IWidgetsPlayerMediaData,
+  mimeType: NsContent.EMimeTypes,
+  fireRProgress: fireRealTimeProgressFunction,
+): void {
+  if (!state.loaded) {
+    return
+  }
+  reportVideoProgress(player, state, mimeType, widgetData, fireRProgress, "ended")
+  eventDispatcher(WsEvents.EnumTelemetrySubType.Unloaded, widgetData, WsEvents.EnumTelemetryMediaActivity.ENDED, mimeType)
+  state.loaded = false
+  state.heartBeatSubscription?.unsubscribe()
+  state.currentTimeInterval?.unsubscribe()
+}
+
+function handleVideoPlay(
+  player: any,
+  state: VideoPlaybackState,
+  eventDispatcher: (eventType: any, widgetData: any, playerState: any, mimeType: any) => void,
+  widgetData: IWidgetsPlayerMediaData,
+  mimeType: NsContent.EMimeTypes,
+  fireRProgress: fireRealTimeProgressFunction,
+): void {
+  if (!state.loaded) {
+    eventDispatcher(WsEvents.EnumTelemetrySubType.Loaded, widgetData, WsEvents.EnumTelemetryMediaActivity.PLAYED, mimeType)
+    state.heartBeatSubscription = interval(2 * 60000).subscribe(_ => {
+      eventDispatcher(WsEvents.EnumTelemetrySubType.HeartBeat, widgetData, WsEvents.EnumTelemetryMediaActivity.PLAYED, mimeType)
+    })
+    state.loaded = true
+  }
+  state.currentTimeInterval = interval(500).subscribe(_ => {
+    const currPercentage = (player.currentTime() / player.duration()) * 100
+    const roundedPercentage = Math.round(currPercentage / 5) * 5
+    if (roundedPercentage !== state.currTime) {
+      state.currTime = roundedPercentage
+      fireRealTimeProgress(mimeType, widgetData, fireRProgress, player.currentTime(), player.duration())
+    }
+  })
+}
+
+// ==========================================
+// 🎯 SINGLE DRIVER: timeupdate
+// This is the ONLY place progress is tracked during playback
+// Fires naturally at appropriate rate for all playback speeds
+// ==========================================
+function handleVideoTimeUpdate(
+  player: any,
+  state: VideoPlaybackState,
+  mimeType: NsContent.EMimeTypes,
+  widgetData: IWidgetsPlayerMediaData,
+  fireRProgress: fireRealTimeProgressFunction,
+): void {
+  try {
+    const currentTime = player.currentTime()
+    state.lastKnownTime = currentTime
+    //  Only enforce frontier snap-back if restriction is ON
+    if (state.seekRestrictionEnabled) {
+      const playbackRate = player.playbackRate() || 1
+      const dynamicBuffer = playbackRate * 1.5
+      if (currentTime > state.maxWatchedTime + dynamicBuffer) {
+        player.currentTime(state.maxWatchedTime)
+        disableVideoProgressControl(player)
+        setTimeout(() => enableVideoProgressControl(player), 300)
+        return
+      }
+    }
+    if (!player.paused() && !player.ended()) {
+      if (currentTime > state.maxWatchedTime) {
+        state.maxWatchedTime = currentTime
+      }
+      if (state.seekRestrictionEnabled && !state.progressUnlocked) {
+        enableVideoProgressControl(player)
+        state.progressUnlocked = true
+      }
+      reportVideoProgress(player, state, mimeType, widgetData, fireRProgress, "timeupdate")
+    }
+  } catch (err) {
+    console.error("[Player] Error in timeupdate:", err)
+  }
+}
+
+// ==========================================
+// 🎯 SEEKED: Only for seek detection
+// Reports progress immediately after user seeks
+// Monotonic check prevents backward seek duplicates
+// ==========================================
+function handleVideoSeeking(player: any, state: VideoPlaybackState): void {
+  try {
+    if (!player || player.isDisposed?.()) return
+    if (!state.seekRestrictionEnabled) return
+    if (!state.progressUnlocked) {
+      console.log(
+        "[Seek Block] Playback not started yet — blocking seek"
+      )
+      player.currentTime(state.maxWatchedTime) // snap back to 0
+      return
+    }
+    const seekTarget = player.currentTime()
+    const delta = Math.abs(seekTarget - state.lastKnownTime)
+    if (player.paused()) {
+      const seekTarget = player.currentTime()
+      if (seekTarget > state.maxWatchedTime) {
+        console.log("[Seek Block] Forward seek blocked while paused")
+        player.currentTime(state.maxWatchedTime)
+        disableVideoProgressControl(player)
+        setTimeout(() => enableVideoProgressControl(player), 300)
+      }
+      return
+    }
+    const buffer = 1 // 1 second tolerance to avoid flickering at boundary
+    if (delta <= 10.5) {
+      if (seekTarget > state.maxWatchedTime) {
+        state.maxWatchedTime = seekTarget
+      }
+      // Tap backward → always allow (seekTarget < lastKnownTime)
+      return
+    }
+    if (seekTarget > state.maxWatchedTime + buffer) {
+      player.currentTime(state.maxWatchedTime)
+    }
+  } catch (err) {
+    console.error("[Seek Block] Error:", err)
+  }
+}
+
+function handleVideoSeeked(
+  player: any,
+  state: VideoPlaybackState,
+  mimeType: NsContent.EMimeTypes,
+  widgetData: IWidgetsPlayerMediaData,
+  fireRProgress: fireRealTimeProgressFunction,
+): void {
+  try {
+    const seekedTo = player.currentTime()
+    if (player.paused()) return
+    console.log(`[Player] Seeked to: ${seekedTo}s`)
+    if (!state.seekRestrictionEnabled || seekedTo <= state.maxWatchedTime) {
+      reportVideoProgress(player, state, mimeType, widgetData, fireRProgress, "seeked")
+    }
+  } catch (err) {
+    console.error("[Player] Error in seeked:", err)
+  }
+}
+
+function handleVideoPause(
+  player: any,
+  state: VideoPlaybackState,
+  eventDispatcher: (eventType: any, widgetData: any, playerState: any, mimeType: any) => void,
+  widgetData: IWidgetsPlayerMediaData,
+  mimeType: NsContent.EMimeTypes,
+  fireRProgress: fireRealTimeProgressFunction,
+): void {
+  if (state.loaded) {
+    reportVideoProgress(player, state, mimeType, widgetData, fireRProgress, "pause")
+    eventDispatcher(WsEvents.EnumTelemetrySubType.Unloaded, widgetData, WsEvents.EnumTelemetryMediaActivity.PAUSED, mimeType)
+    state.loaded = false
+    state.heartBeatSubscription?.unsubscribe()
+    state.currentTimeInterval?.unsubscribe()
+  }
+  state.currTime = player.currentTime()
+}
+
 export function videoJsInitializer(
   elem: HTMLVideoElement | HTMLAudioElement,
   config: videoJs.PlayerOptions,
   dispatcher: telemetryEventDispatcherFunction,
-  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -160,311 +469,47 @@ export function videoJsInitializer(
   const eventDispatcher = enableTelemetry
     ? generateEventDispatcherHelper(passThroughData, dispatcher, widgetSubType)
     : () => undefined
-  let heartBeatSubscription: Subscription
-  let currentTimeInterval: Subscription
-  let loaded = false
   const readyToRaise = false
-  let currTime = 0
-  let maxWatchedTime: number = resumePoint || 0
 
-  const seekRestrictionEnabled = !isSeekingEnable
-  let progressUnlocked = resumePoint > 0
-  let lastKnownTime = resumePoint || 0
-  // ==========================================
-  // 🎯 PROGRESS TRACKING STATE (STRICT 5% BOUNDARY + MONOTONIC)
-  // ==========================================
-  let lastReportedBoundary = -1 // Track last 5% boundary reported (0, 5, 10, 15...)
-
-  // ==========================================
-  // 🎯 SINGLE SOURCE OF TRUTH: reportProgress()
-  // WITH DEFENSIVE PLAYER VALIDITY CHECKS
-  // ==========================================
-  const reportProgress = (source = "timeupdate"): void => {
-    try {
-      // ==========================================
-      // 🔥 CRITICAL: Defensive player validity checks
-      // Prevents "Cannot read properties of null" errors
-      // ==========================================
-
-      // Check 1: Player exists
-      if (!player) {
-        console.warn("[Progress] Player is null")
-        return
-      }
-
-      // Check 2: Player not disposed
-      if (player.isDisposed && player.isDisposed()) {
-        console.warn("[Progress] Player disposed")
-        return
-      }
-
-      // Check 3: Tech layer exists (can be null after dispose)
-      if (!player.tech_ || !player.tech_.el_) {
-        console.warn("[Progress] Player tech unavailable")
-        return
-      }
-
-      // Check 4: Methods exist
-      if (
-        typeof player.duration !== "function" ||
-        typeof player.currentTime !== "function"
-      ) {
-        console.warn("[Progress] Player methods unavailable")
-        return
-      }
-
-      // Now safely get values
-      let duration, currentTime
-
-      try {
-        duration = player.duration()
-        currentTime = player.currentTime()
-      } catch (err) {
-        console.warn("[Progress] Error accessing player time:", err)
-        return
-      }
-
-      if (
-        !duration ||
-        isNaN(duration) ||
-        duration <= 0 ||
-        isNaN(currentTime) ||
-        currentTime < 0
-      ) {
-        return
-      }
-
-      const currentPercentage = (currentTime / duration) * 100
-
-      // Math.floor for strict 5% boundaries
-      const currentBoundary = Math.floor(currentPercentage / 5) * 5
-      const clampedBoundary = Math.max(0, Math.min(100, currentBoundary))
-
-      // Monotonic check: only forward progress
-      if (clampedBoundary > lastReportedBoundary) {
-        lastReportedBoundary = clampedBoundary
-        currTime = currentTime
-
-        console.log(
-          `[Progress] ${source} | Boundary: ${clampedBoundary}% | ` +
-          `Time: ${currentTime.toFixed(2)}s/${duration.toFixed(2)}s | ` +
-          `Speed: ${player.playbackRate()}x | Raw: ${currentPercentage.toFixed(
-            2
-          )}%`
-        )
-
-        fireRealTimeProgress(
-          mimeType,
-          widgetData,
-          fireRProgress,
-          currentTime,
-          duration
-        )
-      } else if (clampedBoundary < lastReportedBoundary) {
-        console.log(
-          `[Progress] ${source} | Backward seek detected: ` +
-          `${clampedBoundary}% < ${lastReportedBoundary}% (skipping duplicate fire)`
-        )
-      }
-    } catch (err) {
-      console.error("[Progress] Error:", err)
-    }
+  const state: VideoPlaybackState = {
+    heartBeatSubscription: null,
+    currentTimeInterval: null,
+    loaded: false,
+    currTime: 0,
+    maxWatchedTime: resumePoint || 0,
+    seekRestrictionEnabled: !isSeekingEnable,
+    progressUnlocked: resumePoint > 0,
+    lastKnownTime: resumePoint || 0,
+    lastReportedBoundary: -1, // Track last 5% boundary reported (0, 5, 10, 15...)
   }
 
-  const enableProgressControl = () => {
-    player?.controlBar?.progressControl?.enable()
-    const progressEl = player?.controlBar?.progressControl?.el()
-    if (progressEl) {
-      (progressEl as HTMLElement).style.pointerEvents = "auto";
-      (progressEl as HTMLElement).style.cursor = "pointer"
-    }
-    const seekBar = player?.controlBar?.progressControl?.seekBar
-    seekBar?.enable()
-
-    if (seekBar?.el()) {
-      const el = seekBar.el() as HTMLElement
-      el.style.pointerEvents = "auto"
-      el.style.cursor = "pointer"
-    }
-  }
-  const disableProgressControl = () => {
-    const progressControl = player?.controlBar?.progressControl
-    const seekBar = progressControl?.seekBar
-
-    progressControl?.disable()
-    seekBar?.disable()
-
-    if (seekBar?.el()) {
-      const el = seekBar.el() as HTMLElement
-      el.style.pointerEvents = "none"
-      el.style.cursor = "default"
-    }
-  }
-  // Resume from saved position — must work regardless of telemetry setting
-  // Handle both cases: loadeddata not yet fired, or already fired (src in template)
-  const applyResume = () => {
-    try {
-      if (resumePoint) {
-        const start = Number(resumePoint)
-        if (!isNaN(start) && start > 0) {
-          player.currentTime(start)
-        }
-      }
-    } catch (err) { }
-  }
-
-  player.on(videojsEventNames.loadeddata, applyResume)
+  player.on(videojsEventNames.loadeddata, () => applyVideoResumePoint(player, resumePoint))
 
   // If the video data is already loaded (src was set in the template), seek immediately
   if (player.readyState() >= 2 && resumePoint) {
-    applyResume()
+    applyVideoResumePoint(player, resumePoint)
   }
 
   if (enableTelemetry) {
-    player.on(videojsEventNames.ended, () => {
-      if (loaded) {
-        reportProgress("ended")
-        eventDispatcher(WsEvents.EnumTelemetrySubType.Unloaded, widgetData, WsEvents.EnumTelemetryMediaActivity.ENDED, mimeType)
-        loaded = false
-        heartBeatSubscription.unsubscribe()
-        currentTimeInterval.unsubscribe()
-      }
-    })
-    player.on(videojsEventNames.play, () => {
-      if (!loaded) {
-        eventDispatcher(WsEvents.EnumTelemetrySubType.Loaded, widgetData, WsEvents.EnumTelemetryMediaActivity.PLAYED, mimeType)
-        heartBeatSubscription = interval(2 * 60000).subscribe(_ => {
-          eventDispatcher(WsEvents.EnumTelemetrySubType.HeartBeat, widgetData, WsEvents.EnumTelemetryMediaActivity.PLAYED, mimeType)
-        })
-        loaded = true
-      }
-      currentTimeInterval = interval(500).subscribe(_ => {
-        const currPercentage = (player.currentTime() / player.duration()) * 100
-        const roundedPercentage = Math.round(currPercentage / 5) * 5
-        if (roundedPercentage !== currTime) {
-          currTime = roundedPercentage
-          fireRealTimeProgress(mimeType, widgetData, fireRProgress, player.currentTime(), player.duration())
-        }
-      })
-
-
-    })
-    // ==========================================
-    // 🎯 SINGLE DRIVER: timeupdate
-    // This is the ONLY place progress is tracked during playback
-    // Fires naturally at appropriate rate for all playback speeds
-    // ==========================================
-    player.on("timeupdate", () => {
-      try {
-
-        const currentTime = player.currentTime()
-        lastKnownTime = currentTime
-        //  Only enforce frontier snap-back if restriction is ON
-        if (seekRestrictionEnabled) {
-          const playbackRate = player.playbackRate() || 1
-          const dynamicBuffer = playbackRate * 1.5
-          if (currentTime > maxWatchedTime + dynamicBuffer) {
-            player.currentTime(maxWatchedTime)
-            disableProgressControl()
-            setTimeout(() => enableProgressControl(), 300)
-            return
-          }
-        }
-        if (!player.paused() && !player.ended()) {
-          if (currentTime > maxWatchedTime) {
-            maxWatchedTime = currentTime
-          }
-          if (seekRestrictionEnabled && !progressUnlocked) {
-            enableProgressControl()
-            progressUnlocked = true
-          }
-          reportProgress("timeupdate")
-        }
-
-      } catch (err) {
-        console.error("[Player] Error in timeupdate:", err)
-      }
-    })
-    // ==========================================
-    // 🎯 SEEKED: Only for seek detection
-    // Reports progress immediately after user seeks
-    // Monotonic check prevents backward seek duplicates
-    // ==========================================
-    player.on(videojsEventNames.seeking, () => {
-      try {
-        if (!player || player.isDisposed?.()) return
-        if (!seekRestrictionEnabled) return
-        if (!progressUnlocked) {
-          console.log(
-            "[Seek Block] Playback not started yet — blocking seek"
-          )
-          player.currentTime(maxWatchedTime) // snap back to 0
-          return
-        }
-        const seekTarget = player.currentTime()
-        const delta = Math.abs(seekTarget - lastKnownTime)
-        if (player.paused()) {
-          const seekTarget = player.currentTime()
-          if (seekTarget > maxWatchedTime) {
-            console.log("[Seek Block] Forward seek blocked while paused")
-            player.currentTime(maxWatchedTime)
-            disableProgressControl()
-            setTimeout(() => enableProgressControl(), 300)
-          }
-          return
-        }
-        const buffer = 1 // 1 second tolerance to avoid flickering at boundary
-        if (delta <= 10.5) {
-          if (seekTarget > maxWatchedTime) {
-            maxWatchedTime = seekTarget
-          }
-          // Tap backward → always allow (seekTarget < lastKnownTime)
-          return
-        }
-        if (seekTarget > maxWatchedTime + buffer) {
-          player.currentTime(maxWatchedTime)
-        }
-      } catch (err) {
-        console.error("[Seek Block] Error:", err)
-      }
-    })
-    player.on(videojsEventNames.seeked, () => {
-      try {
-        const seekedTo = player.currentTime()
-        if (player.paused()) return
-        console.log(`[Player] Seeked to: ${seekedTo}s`)
-        if (!seekRestrictionEnabled || seekedTo <= maxWatchedTime) {
-          reportProgress("seeked")
-        }
-      } catch (err) {
-        console.error("[Player] Error in seeked:", err)
-      }
-    })
-
-    player.on(videojsEventNames.pause, () => {
-      if (loaded) {
-        reportProgress("pause")
-        eventDispatcher(WsEvents.EnumTelemetrySubType.Unloaded, widgetData, WsEvents.EnumTelemetryMediaActivity.PAUSED, mimeType)
-        loaded = false
-        heartBeatSubscription.unsubscribe()
-        currentTimeInterval.unsubscribe()
-      }
-      currTime = player.currentTime()
-    })
+    player.on(videojsEventNames.ended, () => handleVideoEnded(player, state, eventDispatcher, widgetData, mimeType, fireRProgress))
+    player.on(videojsEventNames.play, () => handleVideoPlay(player, state, eventDispatcher, widgetData, mimeType, fireRProgress))
+    player.on("timeupdate", () => handleVideoTimeUpdate(player, state, mimeType, widgetData, fireRProgress))
+    player.on(videojsEventNames.seeking, () => handleVideoSeeking(player, state))
+    player.on(videojsEventNames.seeked, () => handleVideoSeeked(player, state, mimeType, widgetData, fireRProgress))
+    player.on(videojsEventNames.pause, () => handleVideoPause(player, state, eventDispatcher, widgetData, mimeType, fireRProgress))
   }
   const dispose = () => {
-    // saveContinueLearning(widgetData, currTime)
-    if (heartBeatSubscription) {
-      heartBeatSubscription.unsubscribe()
+    if (state.heartBeatSubscription) {
+      state.heartBeatSubscription.unsubscribe()
     }
-    if (currentTimeInterval) {
-      currentTimeInterval.unsubscribe()
+    if (state.currentTimeInterval) {
+      state.currentTimeInterval.unsubscribe()
     }
-    if (loaded) {
+    if (state.loaded) {
       eventDispatcher(WsEvents.EnumTelemetrySubType.Unloaded, widgetData, WsEvents.EnumTelemetryMediaActivity.ENDED, mimeType)
     }
     if (readyToRaise) {
-      fireRealTimeProgress(mimeType, widgetData, fireRProgress, currTime, player.duration())
+      fireRealTimeProgress(mimeType, widgetData, fireRProgress, state.currTime, player.duration())
     }
   }
   return { player, dispose }
@@ -472,7 +517,6 @@ export function videoJsInitializer(
 export function videoInitializer(
   elem: HTMLVideoElement,
   dispatcher: telemetryEventDispatcherFunction,
-  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -537,7 +581,6 @@ export function videoInitializer(
     })
   }
   const dispose = () => {
-    // saveContinueLearning(widgetData, saveCLearning, currTime)
     if (heartBeatSubscription) {
       heartBeatSubscription.unsubscribe()
     }
@@ -567,7 +610,6 @@ export function youtubeInitializer(
   elem: HTMLElement,
   youtubeId: string,
   dispatcher: telemetryEventDispatcherFunction,
-  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -642,7 +684,6 @@ export function youtubeInitializer(
     }
   }
   const dispose = () => {
-    // saveContinueLearning(widgetData, saveCLearning, currTime)
     if (heartBeatSubscription) {
       heartBeatSubscription.unsubscribe()
     }

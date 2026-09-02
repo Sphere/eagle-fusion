@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service.service'
 import { TnnmcConfirmComponent } from '../component/tnnmc-dialog-confirm/tnnmc-confirm.component'
-//import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
@@ -15,19 +14,17 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 export class TnnmcCallbackComponent implements OnInit {
   isLoading = false
   constructor(
-    private orgService: OrgServiceService,
+    private readonly orgService: OrgServiceService,
     //private authSvc: AuthKeycloakService,
-    private dialog: MatDialog,
-    private router: Router,
-    private logger: LoggerService
+    private readonly dialog: MatDialog,
+    private readonly router: Router,
+    private readonly logger: LoggerService
   ) { }
 
   ngOnInit() {
     const tnnmc_token = sessionStorage.getItem('tnnmc_token') || null
-    //const maternity_moduleId = sessionStorage.getItem('maternity_moduleId') || null
     if (tnnmc_token) {
       this.isLoading = true
-      //this.checkTnnmcCallback(maternity_token, maternity_moduleId)
       this.checkTnnmcCallback(tnnmc_token)
     }
   }
@@ -40,15 +37,17 @@ export class TnnmcCallbackComponent implements OnInit {
     }
     try {
       //setTimeout(() => {
-      this.orgService.setTnnmcToken(data).subscribe(async (res: any) => {
-        const loc = await res
-        this.logger.log(loc, 'oo')
-        localStorage.setItem('loc', JSON.stringify(loc))
-        if (loc.message === 'success') {
-          this.logger.log("loc.message", loc.message)
-          location.href = '/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council%20(TNNMC)'
-          //window.location = loc.resRedirectUrl
-        }
+      this.orgService.setTnnmcToken(data).subscribe((res: any) => {
+        void (async () => {
+          const loc = await res
+          this.logger.log(loc, 'oo')
+          localStorage.setItem('loc', JSON.stringify(loc))
+          if (loc.message === 'success') {
+            this.logger.log("loc.message", loc.message)
+            location.href = '/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council%20(TNNMC)'
+            //window.location = loc.resRedirectUrl
+          }
+        })()
       }, (err: any) => {
         // tslint:disable-next-line:no-console
         this.logger.log(err)

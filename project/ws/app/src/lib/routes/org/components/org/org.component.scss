@@ -221,12 +221,6 @@ color: var(--theme-text, #000);
 /* Display 2 */
 font-size: 28px;
 font-family: Roboto, sans-serif;
-line-height: 36px;
-letter-spacing: -0.8px;
-color: var(--theme-text, #000);
-/* Display 2 */
-font-family: Roboto, sans-serif;
-font-size: 28px;
 font-style: normal;
 font-weight: 400;
 line-height: 36px;
@@ -290,7 +284,6 @@ align-items: center;
   margin-right: 2rem !important;
   // height: 100%;
   box-sizing: border-box;
-  box-shadow: transparent 0 0 !important;
   float: left;
   //margin-top: 15px;
   border-radius: 9.398px !important;
@@ -320,8 +313,6 @@ align-items: center;
 
     .source-icon {
       border-radius: 8px;
-      margin-right: auto;
-      margin-left: auto;
       display: block;
       margin: auto;
       max-width: 72px;
@@ -391,7 +382,7 @@ align-items: center;
   $description-line-height: 1.5em;
 
   .description-text {
-    font: 400 14px/20px Roboto;
+    font: 400 14px/20px Roboto, sans-serif;
     // font-size: 15px;
     position: relative;
     overflow: hidden;
@@ -411,7 +402,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
 }
 
 .heading-title {
-  font: 500 20px/32px Roboto;
+  font: 500 20px/32px Roboto, sans-serif;
   margin: 0 0 8px;
 }
 
@@ -772,8 +763,6 @@ background-color: #fff;
     // padding-left: 15px;
 }
 .org-desc{
-   font-size: 14px;
-    line-height: 20px;
     color: var(--theme-text, #000);
 font-family: Roboto, sans-serif;
 font-size: 14px;
@@ -846,7 +835,6 @@ align-items: center;
 height: 25px;
 font-size: 12px;
   border-radius: 15px;
-background: #519DB2;
 background: var(--theme-ellipse, #519DB2);
 color: var(--theme-text, #FFF);
 margin: 0px;
@@ -916,7 +904,6 @@ font-weight: 400;
 line-height: 13.53px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #747474;
 color: var(--theme-text-soft, #747474);
 padding-top: 3px !important;
 
@@ -949,7 +936,6 @@ cursor: pointer;
     line-height: 18.75px;
     text-align: left;
     display: flex;
-  justify-content: center;
 
     margin: auto;
 
@@ -975,7 +961,7 @@ gap: 0px;
     color: var(--theme-text, #000) !important;
     width: 125;
 height: 19;
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-weight: 400;
 font-style: Regular;
 font-size: 16px;

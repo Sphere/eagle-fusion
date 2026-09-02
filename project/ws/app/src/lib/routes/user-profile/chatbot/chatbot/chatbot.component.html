@@ -23,7 +23,7 @@
     <div *ngIf="showLoader" class="text-center loader-spin">
       <mat-spinner [diameter]="50"></mat-spinner>
     </div>
-    <img src="/fusion-assets/images/typing.gif" style="width: 40px;" [class.hide]="showTypingIcon" />
+    <img src="/fusion-assets/images/typing.gif" style="width: 40px;" [class.hide]="showTypingIcon" alt="Typing indicator" />
     <div class="option-section ml-5">
       <div *ngIf="!skipButton && showOptionFields">
         <div class="user-message user-message-option" *ngFor="let option of options">
@@ -146,14 +146,14 @@
 
         <ng-container *ngIf="!showDatePicker">
           <input #myInput type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
-            formControlName="replymsg" [readonly]="inputMsgEnabled">{{ myInput.focus() }}
+            aria-label="Enter the message" formControlName="replymsg" [readonly]="inputMsgEnabled">{{ myInput.focus() }}
         </ng-container>
 
         <ng-container *ngIf="showDatePicker">
           <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
           <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="replymsg"
-            placeholder="Choose Date of Birth" name="replymsg" class="user-input" (click)="picker.open()" readonly>
+            placeholder="Choose Date of Birth" aria-label="Choose Date of Birth" name="replymsg" class="user-input" (click)="picker.open()" readonly>
         </ng-container>
 
         <button mat-button type="submit" class="btn-chat-reply" [disabled]="!createChatForm.valid">Send</button>

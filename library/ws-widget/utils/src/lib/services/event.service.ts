@@ -5,12 +5,10 @@ import { WsEvents } from './event.model'
   providedIn: 'root',
 })
 export class EventService {
-  private eventsSubject = new Subject<WsEvents.IWsEvents<any>>()
+  private readonly eventsSubject = new Subject<WsEvents.IWsEvents<any>>()
   public events$ = this.eventsSubject.asObservable()
 
-  constructor() {
-    // this.focusChangeEventListener()
-  }
+  constructor() { }
 
   dispatchEvent<T>(event: WsEvents.IWsEvents<T>) {
     this.eventsSubject.next(event)
@@ -33,13 +31,4 @@ export class EventService {
       to: 'Telemetry',
     })
   }
-
-  // private focusChangeEventListener() {
-  //   fromEvent(window, 'focus').subscribe(() => {
-  //     this.raiseInteractTelemetry('focus', 'gained', {})
-  //   })
-  //   fromEvent(window, 'blur').subscribe(() => {
-  //     this.raiseInteractTelemetry('focus', 'lost', {})
-  //   })
-  // }
 }

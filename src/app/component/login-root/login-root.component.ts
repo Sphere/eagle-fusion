@@ -13,7 +13,7 @@ export class LoginRootComponent implements OnInit {
 
   @ViewChild(LoginRootDirective, { static: true }) wsLoginRoot!: LoginRootDirective
   constructor(
-    private loginRootSvc: LoginRootService,
+    private readonly loginRootSvc: LoginRootService,
   ) { }
 
   loadComponent() {

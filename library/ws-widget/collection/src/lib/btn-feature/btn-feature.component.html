@@ -50,7 +50,7 @@
 <!-- TEMPLATES -->
 <ng-template #buttonContent let-actionBtn="actionBtn" let-config="config">
   <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="actionBtn"></ng-container>
-  <span id="widgetInstanceId" *ngIf="!config.hideTitle" [ngClass]="{ 'ml-2': actionBtn.icon }">{{ actionBtn.name
+  <span *ngIf="!config.hideTitle" [ngClass]="{ 'ml-2': actionBtn.icon }">{{ actionBtn.name
     }}</span>
 </ng-template>
 
@@ -59,11 +59,9 @@
 </ng-template>
 
 <ng-template #cardFull let-actionBtn="actionBtn" let-config="config">
-  <mat-card class="card-full mr-4" id="{{actionBtn?.id}}">
+  <mat-card class="card-full mr-4" id="cardFull-{{actionBtn?.id}}">
     <a [href]="actionBtn.url" [url]="actionBtn.url" [wsWidgetUrlResolver]="actionBtn.isExternal" matRipple
       class="feature">
-      <!-- <mat-icon class="feature-status-icon" *ngIf="featureStatusColor" [color]="featureStatusColor">brightness_1
-      </mat-icon> -->
       <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
           iconType: actionBtn.iconType,
           icon: actionBtn.icon,
@@ -87,7 +85,6 @@
             iconType: actionBtn.iconType,
             icon: actionBtn.icon
           }"></ng-container>
-    <!-- <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon> -->
     <span *ngIf="!config.hideTitle">{{ actionBtn.name }}</span>
   </a>
 </ng-template>
@@ -95,9 +92,6 @@
 <ng-template #cardSmall let-actionBtn="actionBtn" let-config="config">
   <a [href]="actionBtn.url" [url]="actionBtn.url" [wsWidgetUrlResolver]="actionBtn.isExternal" matRipple
     class="feature card-small mat-card">
-    <!-- <mat-icon class="feature-status-icon" *ngIf="featureStatusColor" [color]="featureStatusColor">
-      brightness_1
-    </mat-icon> -->
     <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
         iconType: actionBtn.iconType,
         icon: actionBtn.icon,
@@ -107,9 +101,10 @@
   </a>
 </ng-template>
 <ng-template #cardMini let-actionBtn="actionBtn" let-config="config">
-  <a role="button" *ngIf="local === 'en'"
+  <a role="button" *ngIf="local === 'en'" tabindex="0"
     [style.visibility]="!(actionBtn.name === 'Competency' && isSashakth === true) &&  !(actionBtn.name === 'Search' && isSashakth === true)  ? 'visible' : 'hidden'"
-    matRipple (click)="redirect(actionBtn)" active [wsWidgetUrlResolver]="actionBtn.isExternal"
+    matRipple (click)="redirect(actionBtn)" (keydown.enter)="redirect(actionBtn)"
+    (keydown.space)="redirect(actionBtn); $event.preventDefault()" active [wsWidgetUrlResolver]="actionBtn.isExternal"
     routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box"
     style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === actionBtn.name }">
     <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
@@ -117,7 +112,7 @@
     </ng-container>
     <ng-container *ngIf="actionBtn.iconType === 'image'">
       <div style="display: inline-block; position: relative;">
-        <img class="feature-icon-img" [src]="actionBtn.src">
+        <img class="feature-icon-img" [src]="actionBtn.src" [alt]="actionBtn.name">
         <span *ngIf="(actionBtn?.name === 'Notification'||actionBtn?.name ==='अधिसूचना') && numberOfNotification"
           class="badge">{{numberOfNotification}}</span>
       </div>
@@ -125,67 +120,12 @@
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
       'mat-caption'">{{ actionBtn.name }}</span>
   </a>
-  <!-- <a role="button" *ngIf="actionBtn.name === 'home' || actionBtn.name === 'होम'" matRipple (click)="redirect(actionBtn)"
-    active [wsWidgetUrlResolver]="actionBtn.isExternal" routerLinkActive="ws-mat-accent-text"
-    class="flex items-center flex-col px-2 box-sizing-box" style="cursor: pointer;"
-    [ngClass]="{'ws-mat-accent-text': currentText === 'home' }">
-    <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
-      <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
-    </ng-container>
-    <ng-container *ngIf="actionBtn.iconType === 'image'">
-      <img class="feature-icon-img" [src]="actionBtn.src">
-    </ng-container>
-    <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-          'mat-caption'" i18n>{{ actionBtn.name }}</span>
-  </a>
-  <a role="button" *ngIf="actionBtn.name === 'competency' || actionBtn.name === 'योग्यता'" matRipple
-    (click)="redirect(actionBtn)" active [wsWidgetUrlResolver]="actionBtn.isExternal"
-    routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box"
-    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === 'competency' }">
-    <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
-      <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
-    </ng-container>
-    <ng-container *ngIf="actionBtn.iconType === 'image'">
-      <img class="feature-icon-img" [src]="actionBtn.src">
-    </ng-container>
-    <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-              'mat-caption'" i18n>{{ actionBtn.name }}</span>
-  </a>
-  <a role="button" *ngIf="actionBtn.name === 'search'" matRipple (click)="redirect(actionBtn)" active
-    [wsWidgetUrlResolver]="actionBtn.isExternal" routerLinkActive="ws-mat-accent-text"
-    class="flex items-center flex-col px-2 box-sizing-box" style="cursor: pointer;"
-    [ngClass]="{'ws-mat-accent-text': currentText === 'search' }">
-    <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
-      <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
-    </ng-container>
-    <ng-container *ngIf="actionBtn.iconType === 'image'">
-      <img class="feature-icon-img" [src]="actionBtn.src">
-    </ng-container>
-    <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-                  'mat-caption'" i18n>{{ actionBtn.name }}</span>
-  </a>
-  <a role="button" *ngIf="actionBtn.name === 'Account' || actionBtn.name === 'अकाउंट'" matRipple
-    (click)="redirect(actionBtn)" active [wsWidgetUrlResolver]="actionBtn.isExternal"
-    routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box"
-    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === 'Account' }">
-    <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
-      <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
-    </ng-container>
-    <ng-container *ngIf="actionBtn.iconType === 'image'">
-      <img class="feature-icon-img" [src]="actionBtn.src">
-    </ng-container>
-    <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-                      'mat-caption'" i18n>{{ actionBtn.name }}</span>
-  </a> -->
 </ng-template>
 <ng-template #featureItem let-actionBtn="actionBtn" let-config="config">
-  <div class="relative py-2" id="{{actionBtn?.id}}" *ngIf="desktopVisible" [ngClass]="{
+  <div class="relative py-2" id="featureItem-{{actionBtn?.id}}" *ngIf="desktopVisible" [ngClass]="{
       'mat-card rounded py-6 h-full box-sizing-box': config?.treatAsCard,
       greyOut: actionBtn.greyOut
     }">
-    <!-- <mat-icon class="feature-status-icon" *ngIf="featureStatusColor" [color]="featureStatusColor">
-      brightness_1
-    </mat-icon> -->
 
     <a class="text-center block" [href]="actionBtn.url" [url]="actionBtn.url"
       [wsWidgetUrlResolver]="actionBtn.isExternal" [mobileAppFunction]="actionBtn.mobileAppFunction">
@@ -201,8 +141,9 @@
       </div>
     </a>
 
-    <mat-icon role="button" class="feature-pin" color="accent" *ngIf="!config?.hidePin && isPinFeatureAvailable"
-      (click)="togglePin(actionBtn?.id, $event)">{{ isPinned ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+    <mat-icon role="button" tabindex="0" class="feature-pin" color="accent" *ngIf="!config?.hidePin && isPinFeatureAvailable"
+      (click)="togglePin(actionBtn?.id, $event)" (keydown.enter)="togglePin(actionBtn?.id, $event)"
+      (keydown.space)="togglePin(actionBtn?.id, $event); $event.preventDefault()">{{ isPinned ? 'bookmark' : 'bookmark_border' }}</mat-icon>
   </div>
 </ng-template>
 <ng-template #icon let-iconType="iconType" let-icon="icon" let-scale="scale" let-color="color">

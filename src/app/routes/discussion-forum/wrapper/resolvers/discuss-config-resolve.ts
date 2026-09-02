@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core'
 
 import { DiscussUtilsService } from '../service/discuss-utils.service'
 import { ConfigurationsService } from '@ws-widget/utils'
-// import { DiscussUtilsService } from '../services/discuss-util.service'
 
 @Injectable({ providedIn: 'root' })
 export class DiscussConfigResolve {
   constructor(
-    private discussUtilitySvc: DiscussUtilsService,
+    private readonly discussUtilitySvc: DiscussUtilsService,
     public configSvc: ConfigurationsService) {
     this.setConfig()
 

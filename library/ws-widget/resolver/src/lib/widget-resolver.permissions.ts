@@ -53,6 +53,51 @@ function permissionTest(
   return false
 }
 
+function toAccessValuesSet(
+  matchAgainst?: Set<string> | string[] | string | null | undefined,
+): Set<string> {
+  if (matchAgainst instanceof Set) {
+    return matchAgainst
+  }
+  if (Array.isArray(matchAgainst) && isStringArray(matchAgainst)) {
+    return new Set(matchAgainst)
+  }
+  if (typeof matchAgainst === 'string') {
+    return new Set([matchAgainst])
+  }
+  return new Set()
+}
+
+function checkObjectPermission(
+  requiredPermission: NsWidgetResolver.UnitPermissionPrimitive[] | { all?: any, some?: any, none?: any },
+  accessValues: Set<string>,
+  isRestrictive: boolean,
+): boolean {
+  if (Array.isArray(requiredPermission)) {
+    return permissionTest('all', requiredPermission, accessValues, isRestrictive)
+  }
+  return (
+    permissionTest(
+      'all',
+      'all' in requiredPermission ? requiredPermission.all : null,
+      accessValues,
+      isRestrictive,
+    ) &&
+    permissionTest(
+      'some',
+      'some' in requiredPermission ? requiredPermission.some : null,
+      accessValues,
+      isRestrictive,
+    ) &&
+    permissionTest(
+      'none',
+      'none' in requiredPermission ? requiredPermission.none : null,
+      accessValues,
+      isRestrictive,
+    )
+  )
+}
+
 export function hasUnitPermission(
   requiredPermission: NsWidgetResolver.UnitPermission,
   matchAgainst?: Set<string> | string[] | string | null | undefined,
@@ -61,39 +106,10 @@ export function hasUnitPermission(
   if (!isCheckRequired(requiredPermission)) {
     return true
   }
-  const accessValues: Set<string> =
-    matchAgainst instanceof Set
-      ? matchAgainst
-      : Array.isArray(matchAgainst) && isStringArray(matchAgainst)
-        ? new Set(matchAgainst)
-        : typeof matchAgainst === 'string'
-          ? new Set([matchAgainst])
-          : new Set()
+  const accessValues = toAccessValuesSet(matchAgainst)
 
   if (typeof requiredPermission === 'object' && requiredPermission !== null) {
-    if (Array.isArray(requiredPermission)) {
-      return permissionTest('all', requiredPermission, accessValues, isRestrictive)
-    }
-    return (
-      permissionTest(
-        'all',
-        'all' in requiredPermission ? requiredPermission.all : null,
-        accessValues,
-        isRestrictive,
-      ) &&
-      permissionTest(
-        'some',
-        'some' in requiredPermission ? requiredPermission.some : null,
-        accessValues,
-        isRestrictive,
-      ) &&
-      permissionTest(
-        'none',
-        'none' in requiredPermission ? requiredPermission.none : null,
-        accessValues,
-        isRestrictive,
-      )
-    )
+    return checkObjectPermission(requiredPermission, accessValues, isRestrictive)
   }
   return false
 }

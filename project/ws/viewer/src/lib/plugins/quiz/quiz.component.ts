@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
-  OnChanges, OnDestroy, OnInit,
+  OnChanges, OnDestroy,
   QueryList,
   SimpleChanges,
   ViewChild, ViewChildren,
@@ -50,7 +50,7 @@ import { HttpClient } from '@angular/common/http'
   styleUrls: ['./quiz.component.scss'],
 
 })
-export class QuizComponent implements OnInit, OnChanges, OnDestroy {
+export class QuizComponent implements OnChanges, OnDestroy {
   [x: string]: any
 
   @Input() identifier = ''
@@ -118,34 +118,31 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
-  isAsha = false;
-  private isAshaSubscription: Subscription
-  private isCurrentcardDataSubscribe: Subscription
+  isAsha = false
+  private readonly isAshaSubscription: Subscription
+  private readonly isCurrentcardDataSubscribe: Subscription
+  overviewData: any = {}
   constructor(
-    private events: EventService,
+    private readonly events: EventService,
     public dialog: MatDialog,
-    private quizSvc: QuizService,
-    private viewerSvc: ViewerUtilService,
+    private readonly quizSvc: QuizService,
+    private readonly viewerSvc: ViewerUtilService,
     public route: ActivatedRoute,
     public location: Location,
     public viewerDataSvc: ViewerDataService,
     public playerStateService: PlayerStateService,
     public router: Router,
-    private contentSvc: WidgetContentService,
-    private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService,
-    private http: HttpClient,
-    private viewSvc: ViewerUtilService
+    private readonly contentSvc: WidgetContentService,
+    private readonly loggerSvc: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly http: HttpClient,
+    private readonly viewSvc: ViewerUtilService
   ) {
 
   }
 
-  ngOnInit() {
-  }
   openOverviewDialog() {
-    let overviewData: any = {}
-    // this.viewerSvc.competencyAsessment.next(false)
-    overviewData = {
+    this.overviewData = {
       learningObjective: this.learningObjective,
       complexityLevel: this.complexityLevel,
       duration: this.duration,
@@ -165,83 +162,55 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         panelClass: 'overview-modal',
         backdropClass: 'overview-backdrop',
         disableClose: true,
-        data: overviewData,
+        data: this.overviewData,
       })
 
-      this.dialogOverview.afterClosed().subscribe(async (result: any) => {
-        // Release the ref as soon as the overview closes, otherwise the `!this.dialogOverview`
-        // guard above turns every later call into a no-op for the life of this component —
-        // which is why "Yes, Restart" never reopened the overview.
+      this.dialogOverview.afterClosed().subscribe((result: any) => {
         this.dialogOverview = null
-        if (result.event === 'close-overview') {
-          if (result.competency) {
-            this.router.navigate([`/app/user/competency`])
-          } else if (result.asha) {
-            this.router.navigate([`page/home`])
-          } else {
-            this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-              if (isNull(data.nextResource)) {
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.route.snapshot.queryParams.batchId,
-                  },
-                })
-                // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
-              } else {
-                if (isNull(data.prevResource)) {
-                  if (this.viewerDataSvc.gatingEnabled) {
-                    if (data.currentCompletionPercentage === 100) {
-                      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                    } else {
-                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                        queryParams: {
-                          primaryCategory: 'Course',
-                          batchId: this.route.snapshot.queryParams.batchId,
-                        },
-                      })
-                    }
-
-                  } else {
-                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                  }
-
-                } else {
-                  if (this.viewerDataSvc.gatingEnabled) {
-                    if (data.currentCompletionPercentage === 100) {
-                      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                    } else {
-                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                        queryParams: {
-                          primaryCategory: 'Course',
-                          batchId: this.route.snapshot.queryParams.batchId,
-                        },
-                      })
-                    }
-
-                  } else {
-                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                  }
-                  // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
-                }
-              }
-              return
-            })
-          }
-        } else {
-          let res = await this.transformQuiz(this.artifactUrl)
-          this.quizJson.questions = res.questions
-          if (get(this.quizJson, 'isAssessment')) {
-            this.openAssesmentDialog()
-          } else {
-            this.openQuizDialog()
-          }
-
-        }
+        this.handleOverviewDialogClose(result)
       })
     }
   }
 
+  private async handleOverviewDialogClose(result: any): Promise<void> {
+    if (result.event !== 'close-overview') {
+      let res = await this.transformQuiz(this.artifactUrl)
+      this.quizJson.questions = res.questions
+      if (get(this.quizJson, 'isAssessment')) {
+        this.openAssesmentDialog()
+      } else {
+        this.openQuizDialog()
+      }
+      return
+    }
+    if (result.competency) {
+      this.router.navigate([`/app/user/competency`])
+      return
+    }
+    if (result.asha) {
+      this.router.navigate([`page/home`])
+      return
+    }
+    this.navigateAfterOverviewClose()
+  }
+
+  private navigateAfterOverviewClose(): void {
+    this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      if (isNull(data.nextResource)) {
+        this.navigateToCourseOverview()
+        return
+      }
+      if (!this.viewerDataSvc.gatingEnabled) {
+        this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+        return
+      }
+      if (data.currentCompletionPercentage === 100) {
+        this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+      } else {
+        this.navigateToCourseOverview()
+      }
+    })
+  }
   private async transformQuiz(url: string): Promise<NSQuiz.IQuiz> {
     const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(url.split('/content')[1])
     let quizJSON: NSQuiz.IQuiz = await this.http
@@ -260,6 +229,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
     return quizJSON
   }
+
   scroll(qIndex: number) {
     if (!this.sidenavOpenDefault) {
       if (this.sideNav) {
@@ -379,7 +349,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               collectionId: this.collectionId,
               gating: this.viewerDataSvc.gatingEnabled,
               mimeType: this.viewerDataSvc?.resource?.mimeType,
-              isCorrectAnswerPopUp: this.viewerDataSvc?.resource?.isCorrectAnswerPopUp || undefined
+              isCorrectAnswerPopUp: this.viewerDataSvc?.resource?.isCorrectAnswerPopUp || undefined,
 
             },
             // **CRITICAL**: Pass existing progress data to modal so it doesn't reset completed assessments
@@ -418,32 +388,39 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     const isAsha = this.route.snapshot.queryParams.isAsha === 'true'
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (isNull(data.nextResource)) {
-        // ASHA course completion is surfaced by the TOC's complete-courses modal (opened
-        // from the progress update just fired), which stays in the viewer — so don't route
-        // to /app/toc here.
-        if (isAsha) {
-          return
-        }
-        // Last resource in the course. If this attempt completes the course, show the
-        // completion congratulations (same flow as the quiz plugin / mobile app) before
-        // routing to the course overview; otherwise route directly.
-        this.handleCourseCompletionOrNavigate(data)
-      } else {
-        // Has next resource
-        if (this.viewerDataSvc.gatingEnabled) {
-          // If gating is enabled, only navigate if passed (completion 100%)
-          if (data.currentCompletionPercentage === 100) {
-            this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-          } else if (!isAsha) {
-            // Gating enabled but not completed - go to TOC overview (ASHA stays in viewer)
-            this.navigateToCourseOverview()
-          }
-        } else {
-          // No gating - always allow navigation to next resource
-          this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-        }
+        this.handleLastResourceNavigation(data, isAsha)
+        return
       }
+      this.navigateToNextResource(data, isAsha)
     })
+  }
+
+  private handleLastResourceNavigation(data: any, isAsha: boolean): void {
+    // ASHA course completion is surfaced by the TOC's complete-courses modal (opened
+    // from the progress update just fired), which stays in the viewer — so don't route
+    // to /app/toc here.
+    if (isAsha) {
+      return
+    }
+    // Last resource in the course. If this attempt completes the course, show the
+    // completion congratulations (same flow as the quiz plugin / mobile app) before
+    // routing to the course overview; otherwise route directly.
+    this.handleCourseCompletionOrNavigate(data)
+  }
+
+  private navigateToNextResource(data: any, isAsha: boolean): void {
+    if (!this.viewerDataSvc.gatingEnabled) {
+      // No gating - always allow navigation to next resource
+      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+      return
+    }
+    // If gating is enabled, only navigate if passed (completion 100%)
+    if (data.currentCompletionPercentage === 100) {
+      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+    } else if (!isAsha) {
+      // Gating enabled but not completed - go to TOC overview (ASHA stays in viewer)
+      this.navigateToCourseOverview()
+    }
   }
 
   /**
@@ -457,57 +434,69 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       userId = this.configSvc.userProfile.userId || ''
     }
     this.contentSvc.fetchUserBatchList(userId).subscribe(
-      (courses: NsContent.ICourse[]) => {
-        if (courses && courses.length) {
-          this.enrolledCourse = courses.find((course: any) => course.courseId === this.collectionId)
-        }
-        // Show the "recently completed" message only if the course was completed just now.
-        if (this.enrolledCourse && this.enrolledCourse.completedOn) {
-          const completedDuration = moment.duration(moment(new Date()).diff(moment(this.enrolledCourse.completedOn)))
-          this.showCompletionMsg = completedDuration.asMinutes() <= 0.5
-        } else {
-          this.showCompletionMsg = false
-        }
-        const courseCompleted =
-          (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100) ||
-          data.currentCompletionPercentage === 100
-        const otherFlowBusy = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
-        if (courseCompleted && this.contentSvc.showConformation && !otherFlowBusy) {
-          this.viewerDataSvc.isCourseCompletionFlowActive = true
-          this.openCongratulationPopup().then((isCompleted: boolean) => {
-            if (isCompleted) {
-              const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                width: '300px',
-                height: '420px',
-                panelClass: 'overview-modal',
-                disableClose: true,
-                data: { request: { courseId: this.collectionId }, message: 'Congratulations!, you have completed the course' },
-              })
-              confirmdialog.afterClosed().subscribe((res: any) => {
-                this.viewerDataSvc.isCourseCompletionFlowActive = false
-                if (res?.event === 'CONFIRMED') {
-                  // Explicit save-and-refresh signal: app-toc-desktop.component.ts consumes this on
-                  // the overview page to force a fresh rating-summary fetch for this exact course.
-                  this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
-                }
-                if (res?.event === 'CONFIRMED' || res?.event === 'close-complete') {
-                  this.navigateToCourseOverview()
-                }
-              })
-            } else {
-              this.viewerDataSvc.isCourseCompletionFlowActive = false
-              this.navigateToCourseOverview()
-            }
-          })
-        } else if (!otherFlowBusy) {
-          this.navigateToCourseOverview()
-        }
-      },
+      (courses: NsContent.ICourse[]) => this.handleBatchListForCourseCompletion(courses, data),
       (error: any) => {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
         this.navigateToCourseOverview()
       }
     )
+  }
+
+  private handleBatchListForCourseCompletion(courses: NsContent.ICourse[], data: any): void {
+    if (courses && courses.length) {
+      this.enrolledCourse = courses.find((course: any) => course.courseId === this.collectionId)
+    }
+    // Show the "recently completed" message only if the course was completed just now.
+    if (this.enrolledCourse && this.enrolledCourse.completedOn) {
+      const completedDuration = moment.duration(moment(new Date()).diff(moment(this.enrolledCourse.completedOn)))
+      this.showCompletionMsg = completedDuration.asMinutes() <= 0.5
+    } else {
+      this.showCompletionMsg = false
+    }
+    const courseCompleted =
+      (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100) ||
+      data.currentCompletionPercentage === 100
+    // viewer-toc.component.ts's own progress-driven flow (handleOnlineProgressRecord) can be
+    // showing its own congrats/rating dialog chain at the same time this fires — both
+    // components are mounted together in the viewer. Checking only this.dialog.openDialogs
+    // isn't enough (the other flow's dialog may not be open *yet*), so also check the shared
+    // viewerDataSvc.isCourseCompletionFlowActive flag before either opening our own popup or
+    // navigating straight past the other flow's in-progress one.
+    const otherFlowBusy = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
+    if (courseCompleted && this.contentSvc.showConformation && !otherFlowBusy) {
+      this.showCourseCompletionPopup()
+    } else if (!otherFlowBusy) {
+      this.navigateToCourseOverview()
+    }
+  }
+
+  private showCourseCompletionPopup(): void {
+    this.viewerDataSvc.isCourseCompletionFlowActive = true
+    this.openCongratulationPopup().then((isCompleted: boolean) => {
+      if (!isCompleted) {
+        this.viewerDataSvc.isCourseCompletionFlowActive = false
+        this.navigateToCourseOverview()
+        return
+      }
+      const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+        width: '300px',
+        height: '420px',
+        panelClass: 'overview-modal',
+        disableClose: true,
+        data: { request: { courseId: this.collectionId }, message: 'Congratulations!, you have completed the course' },
+      })
+      confirmdialog.afterClosed().subscribe((res: any) => {
+        this.viewerDataSvc.isCourseCompletionFlowActive = false
+        if (res?.event === 'CONFIRMED') {
+          // Explicit save-and-refresh signal: app-toc-desktop.component.ts consumes this on
+          // the overview page to force a fresh rating-summary fetch for this exact course.
+          this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
+        }
+        if (res?.event === 'CONFIRMED' || res?.event === 'close-complete') {
+          this.navigateToCourseOverview()
+        }
+      })
+    })
   }
 
   private navigateToCourseOverview(): void {
@@ -523,127 +512,145 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.dialogAssesment.afterClosed().subscribe((result: any) => {
       this.loggerSvc.log(result.event)
       if (result) {
-        if (result.event === "NEXT_COMPETENCY" && result.competency) {
-          this.nextCompetency()
-        }
-        if (result.event === "FAILED_COMPETENCY") {
-          this.router.navigate([`/app/user/competency`])
-        }
-        if (result.event === "VIEW_COURSES") {
-          this.viewCompetencyCourses(result)
-        }
-
-        if (result.event === "FAILED_ASHA") {
-          this.router.navigate([`page/home`])
-        }
-
-        if (result.event === "VIEW_ASHA_COURSES") {
-          this.navigateToAshaCourses(result)
-          // this.viewCompetencyCourses(result)
-        }
-
-        if (result.event === "CLOSE") {
-          if (result.competency) {
-            this.router.navigate([`/app/user/competency`])
-          } else if (result.asha) {
-            this.router.navigate([`page/home`])
-          } else {
-
-            this.closeBtnDialog()
-          }
-        }
-
-        if (result.event === 'RETAKE_QUIZ') {
-          this.openOverviewDialog()
-        } else if (result.event === 'DONE' || result.event === 'DONE_ASHA') {
-          const Id = this.identifier
-          const collectionId = this.collectionId
-          const batchId = this.route.snapshot.queryParams.batchId
-
-          // **CRITICAL**: Check if user failed and only update if new result is better than previous
-          const userResult = result.result || 0
-          const passPercentage = result.passPercentage || 0
-          const userFailed = userResult < passPercentage
-
-          if (userFailed) {
-            // User failed - use stored progress from modal open to avoid redundant fetch
-            const previousCompletion = this.assessmentCurrentProgress?.completionPercentage || 0
-
-            // Update if: first attempt (previousCompletion === 0) OR new result is better than previous
-            if (previousCompletion === 0 || userResult > previousCompletion) {
-              const data2 = {
-                current: userResult,
-                max_size: 100,
-                mime_type: "application/json",
-                completionPercentage: userResult,
-                status: userResult >= 100 ? 2 : 1,  // status 2 only if 100%, otherwise 1
-              }
-              this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
-                () => {
-                  const messageData = {
-                    contentList: [{
-                      contentId: Id,
-                      completionPercentage: userResult,
-                      status: userResult >= 100 ? 2 : 1,  // Consistent with API call
-                    }],
-                    type: 'assessment',
-                  }
-                  this.viewerSvc.generateInteractTelemetry('progress-update-success', {
-                    contentId: Id,
-                    completionPercentage: userResult,
-                    status: userResult >= 100 ? 2 : 1,  // Consistent with API call
-                    mimeType: 'assessment',
-                    batchId: batchId || '',
-                  })
-                  this.contentSvc.changeMessage(messageData)
-                  // **CRITICAL**: Navigate after failed attempt
-                  this.navigateAfterAssessment()
-                },
-                error => { this.loggerSvc.warn('Progress update failed:', error) }
-              )
-            } else {
-              this.loggerSvc.log('Skipping progress update: New result not better than previous', { newResult: userResult, previousCompletion })
-              // Still navigate even if we skip the update
-              this.navigateAfterAssessment()
-            }
-          } else {
-            // User passed - update to 100%
-            const data2 = {
-              current: 10,
-              max_size: 10,
-              mime_type: "application/json",
-              completionPercentage: 100,
-              status: 2,
-            }
-            // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
-            // Send telemetry and changeMessage with pre-calculated data
-            this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
-              () => {
-                const messageData = {
-                  contentList: [{
-                    contentId: Id,
-                    completionPercentage: 100,
-                    status: 2,
-                  }],
-                  type: 'assessment',
-                }
-                this.viewerSvc.generateInteractTelemetry('progress-update-success', {
-                  contentId: Id,
-                  completionPercentage: 100,
-                  status: 2,
-                  mimeType: 'assessment',
-                  batchId: batchId || '',
-                })
-                this.contentSvc.changeMessage(messageData)
-                // **CRITICAL**: Navigate after passing
-                this.navigateAfterAssessment()
-              },
-              error => { this.loggerSvc.warn('Progress update failed:', error) }
-            )
-          }
-        }
+        this.processAssesmentResult(result)
       }
     })
+  }
+
+  private processAssesmentResult(result: any): void {
+    if (result.event === "NEXT_COMPETENCY" && result.competency) {
+      this.nextCompetency()
+    }
+    if (result.event === "FAILED_COMPETENCY") {
+      this.router.navigate([`/app/user/competency`])
+    }
+    if (result.event === "VIEW_COURSES") {
+      this.viewCompetencyCourses(result)
+    }
+
+    if (result.event === "FAILED_ASHA") {
+      this.router.navigate([`page/home`])
+    }
+
+    if (result.event === "VIEW_ASHA_COURSES") {
+      this.navigateToAshaCourses(result)
+    }
+
+    if (result.event === "CLOSE") {
+      this.handleAssesmentCloseEvent(result)
+    }
+
+    if (result.event === 'RETAKE_QUIZ') {
+      this.openOverviewDialog()
+    } else if (result.event === 'DONE' || result.event === 'DONE_ASHA') {
+      this.handleAssessmentDone(result)
+    }
+  }
+
+  private handleAssesmentCloseEvent(result: any): void {
+    if (result.competency) {
+      this.router.navigate([`/app/user/competency`])
+    } else if (result.asha) {
+      this.router.navigate([`page/home`])
+    } else {
+      this.closeBtnDialog()
+    }
+  }
+
+  private handleAssessmentDone(result: any): void {
+    const Id = this.identifier
+    const collectionId = this.collectionId
+    const batchId = this.route.snapshot.queryParams.batchId
+
+    // **CRITICAL**: Check if user failed and only update if new result is better than previous
+    const userResult = result.result || 0
+    const passPercentage = this.overviewData.passPercentage || 0
+    const userFailed = userResult < passPercentage
+
+    if (userFailed) {
+      this.handleAssessmentFailed(Id, collectionId, batchId, userResult)
+    } else {
+      this.handleAssessmentPassed(Id, collectionId, batchId)
+    }
+  }
+
+  private handleAssessmentFailed(Id: string, collectionId: string, batchId: string, userResult: number): void {
+    // User failed - use stored progress from modal open to avoid redundant fetch
+    const previousCompletion = this.assessmentCurrentProgress?.completionPercentage || 0
+
+    // Update if: first attempt (previousCompletion === 0) OR new result is better than previous
+    if (previousCompletion === 0 || userResult > previousCompletion) {
+      const data2 = {
+        current: userResult,
+        max_size: 100,
+        mime_type: "application/json",
+        completionPercentage: userResult,
+        status: userResult >= 100 ? 2 : 1,  // status 2 only if 100%, otherwise 1
+      }
+      this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
+        () => {
+          const messageData = {
+            contentList: [{
+              contentId: Id,
+              completionPercentage: userResult,
+              status: userResult >= 100 ? 2 : 1,  // Consistent with API call
+            }],
+            type: 'assessment',
+          }
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', {
+            contentId: Id,
+            completionPercentage: userResult,
+            status: userResult >= 100 ? 2 : 1,  // Consistent with API call
+            mimeType: 'assessment',
+            batchId: batchId || '',
+          })
+          this.contentSvc.changeMessage(messageData)
+          // **CRITICAL**: Navigate after failed attempt
+          this.navigateAfterAssessment()
+        },
+        error => { this.loggerSvc.warn('Progress update failed:', error) }
+      )
+    } else {
+      this.loggerSvc.log('Skipping progress update: New result not better than previous', { newResult: userResult, previousCompletion })
+      // Still navigate even if we skip the update
+      this.navigateAfterAssessment()
+    }
+  }
+
+  private handleAssessmentPassed(Id: string, collectionId: string, batchId: string): void {
+    // User passed - update to 100%
+    const data2 = {
+      current: 10,
+      max_size: 10,
+      mime_type: "application/json",
+      completionPercentage: 100,
+      status: 2,
+    }
+    // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
+    // Send telemetry and changeMessage with pre-calculated data
+    this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
+      () => {
+        const messageData = {
+          contentList: [{
+            contentId: Id,
+            completionPercentage: 100,
+            status: 2,
+          }],
+          type: 'assessment',
+        }
+        this.viewerSvc.generateInteractTelemetry('progress-update-success', {
+          contentId: Id,
+          completionPercentage: 100,
+          status: 2,
+          mimeType: 'assessment',
+          batchId: batchId || '',
+        })
+        this.contentSvc.changeMessage(messageData)
+        // **CRITICAL**: Navigate after passing
+        this.navigateAfterAssessment()
+      },
+      error => { this.loggerSvc.warn('Progress update failed:', error) }
+    )
   }
 
   navigateToAshaCourses(data) {
@@ -653,19 +660,18 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     console.log("Is ASHA card:", currentData)
 
     if (data.competencyId && data.competencyLevel) {
-      let identifier: any = this.getCourseId(
+      const identifier: any = this.getCourseId(
         data.competencyId,
         data.competencyLevel,
         currentData
       )
 
-      this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe((res) => {
+      this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe(res => {
         console.log(res.result.content[0])
-        // navigationdata = this.getNavigationData(res.result.content, data.competencyLevel, data, currentData)
         const navigationdata = res.result.content[0]
-        let batchId = navigationdata.batches[0].batchId
+        const batchId = navigationdata.batches[0].batchId
 
-        let ashaData = {
+        const ashaData = {
           isAsha: true,
           userid: this.configSvc.userProfile.userId || "",
           batchid: batchId,
@@ -674,7 +680,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           completionpercentage: 0,
           progress: "course",
           competencyid: data.competencyId,
-          competencyName: data?.title
+          competencyName: data?.title,
         }
 
         this.contentSvc.setAshaData(ashaData)
@@ -729,36 +735,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.viewState = 'answer'
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (isNull(data.nextResource)) {
-        // tslint:disable-next-line
-        // if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
-        //   && this.contentSvc.showConformation) {
-        //   const isDialogOpen = this.dialog.openDialogs.length > 0
-        //   if (!isDialogOpen) {
-        //     const data = {
-        //       courseId: this.collectionId,
-        //     }
-        //     this.openCongratulationPopup().then(isCompleted => {
-        //       if (isCompleted) {
-        //         const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-        //           width: '300px',
-        //           height: '420px',
-        //           panelClass: 'overview-modal',
-        //           disableClose: true,
-        //           data: { request: data, message: 'Congratulations!, you have completed the course' },
-        //         })
-
-        //         confirmdialog.afterClosed().subscribe((res: any) => {
-        //           if (res.event === 'CONFIRMED') {
-        //             this.router.navigate([`/app/user/competency`])
-        //           }
-        //         })
-        //       }
-        //     })
-        //   }
-
-        // } else {
         this.router.navigate([`/app/user/competency`])
-        // }
 
       } else {
         // Just navigate. The route container resets isFetchingDataComplete, so the next
@@ -783,44 +760,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         },
         queryParamsHandling: 'merge',
       })
-      // let reqBody = {
-      //   "request": {
-      //     "filters": {
-      //       "competencySearch": [
-      //         `${data.competencyId}-${data.competencyLevel}`,
-      //       ],
-      //       "primaryCategory": [
-      //         "Course"
-      //       ],
-      //       "contentType": [
-      //         "Course"
-      //       ],
-      //       "status": [
-      //         "Live"
-      //       ]
-      //     },
-      //     "sort_by": {
-      //       "lastUpdatedOn": "desc"
-      //     }
-      //   },
-      //   "sort": [
-      //     {
-      //       "lastUpdatedOn": "desc"
-      //     }
-      //   ]
-      // }
-
-      // this.searchSvc.getSearchCompetencyCourses(reqBody).subscribe(
-      //   res => {
-
-      //     // this.router.navigate([`/app/toc/${res.result.content[0].identifier}/overview`], {
-      //     //   queryParams: {
-      //     //     primaryCategory: 'Course',
-      //     //     batchId: res.result.content[0].batches[0].batchId
-      //     //   },
-      //     // })
-      //   }
-      // )
     }
   }
 
@@ -898,139 +837,153 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (result.event === 'RETAKE_QUIZ') {
-          // this.openOverviewDialog(result.event)
           this.closeQuizBtnDialog(result.event)
         } else if (result.event === 'DONE' || result.event === 'DONE_ASHA') {
-
-          const Id = this.identifier
-          const collectionId = this.collectionId
-          const batchId = this.route.snapshot.queryParams.batchId
-
-          const data2 = {
-            current: 10,
-            max_size: 10,
-            mime_type: "application/json",
-            completionPercentage: 100,
-            status: 2,
-          }
-          // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
-          // Send telemetry and changeMessage with pre-calculated data
-          this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
-            () => {
-              const messageData = {
-                contentList: [{
-                  contentId: Id,
-                  completionPercentage: 100,
-                  status: 2,
-                }],
-                type: 'quiz',
-              }
-              this.viewerSvc.generateInteractTelemetry('progress-update-success', {
-                contentId: Id,
-                completionPercentage: 100,
-                status: 2,
-                mimeType: 'quiz',
-                batchId: batchId || '',
-              })
-              this.contentSvc.changeMessage(messageData)
-            },
-            error => { this.loggerSvc.warn('Progress update failed:', error) }
-          )
-
-          let userId
-          if (this.configSvc.userProfile) {
-            userId = this.configSvc.userProfile.userId || ''
-          }
-          this.contentSvc.fetchUserBatchList(userId).subscribe(
-            async (courses: NsContent.ICourse[]) => {
-              if (this.collectionId) {
-                if (courses && courses.length) {
-                  this.enrolledCourse = courses.find(course => {
-                    const identifier = this.collectionId || ''
-                    if (course.courseId !== identifier) {
-                      return undefined
-                    }
-                    return course
-                  })
-                }
-                // tslint:disable-next-line:no-console
-                this.loggerSvc.log(this.enrolledCourse)
-                const customerDate = moment(this.enrolledCourse.completedOn)
-                const dateNow = moment(new Date())
-                const duration = moment.duration(dateNow.diff(customerDate))
-                // tslint:disable-next-line
-                //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
-                if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
-                  this.showCompletionMsg = true
-                } else {
-                  this.showCompletionMsg = false
-                }
-                this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-
-                  if (isNull(data.nextResource)) {
-                    // tslint:disable-next-line
-                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
-                      && this.contentSvc.showConformation) {
-                      const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
-                      if (!isDialogOpen) {
-                        this.openCongratulationPopup().then(isCompleted => {
-                          if (isCompleted) {
-                            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                              width: '300px',
-                              height: '420px',
-                              panelClass: 'overview-modal',
-                              disableClose: true,
-                              data: { request: data, message: 'Congratulations!, you have completed the course' },
-                            })
-
-                            confirmdialog.afterClosed().subscribe((res: any) => {
-                              this.viewerDataSvc.isCourseCompletionFlowActive = false
-                              if (res.event === 'CONFIRMED') {
-                                this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
-                                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                                  queryParams: {
-                                    primaryCategory: 'Course',
-                                    batchId: this.route.snapshot.queryParams.batchId,
-                                  },
-                                })
-                              }
-                            })
-                          } else {
-                            this.viewerDataSvc.isCourseCompletionFlowActive = false
-                            return
-                          }
-                        })
-                      }
-
-                    }
-                    // else {
-                    //   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    //     queryParams: {
-                    //       primaryCategory: 'Course',
-                    //       batchId: this.route.snapshot.queryParams.batchId,
-                    //     },
-                    //   })
-                    // }
-                    // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    //   queryParams: {
-                    //     primaryCategory: 'Course',
-                    //     batchId: this.route.snapshot.queryParams.batchId,
-                    //   },
-                    // })
-                    // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
-                  } else {
-                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                  }
-                  return
-                })
-              }
-            },
-            (error: any) => {
-              this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
-            },
-          )
+          this.handleQuizDone()
         }
       }
+    })
+  }
+
+  private handleQuizDone(): void {
+    const Id = this.identifier
+    const collectionId = this.collectionId
+    const batchId = this.route.snapshot.queryParams.batchId
+
+    this.updateQuizProgressOnDone(Id, collectionId, batchId)
+
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => { this.onQuizUserBatchListLoaded(courses) },
+      (error: any) => {
+        this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+      },
+    )
+  }
+
+  private updateQuizProgressOnDone(Id: string, collectionId: string, batchId: string): void {
+    const data2 = {
+      current: 10,
+      max_size: 10,
+      mime_type: "application/json",
+      completionPercentage: 100,
+      status: 2,
+    }
+    // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
+    // Send telemetry and changeMessage with pre-calculated data
+    this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
+      () => {
+        const messageData = {
+          contentList: [{
+            contentId: Id,
+            completionPercentage: 100,
+            status: 2,
+          }],
+          type: 'quiz',
+        }
+        this.viewerSvc.generateInteractTelemetry('progress-update-success', {
+          contentId: Id,
+          completionPercentage: 100,
+          status: 2,
+          mimeType: 'quiz',
+          batchId: batchId || '',
+        })
+        this.contentSvc.changeMessage(messageData)
+      },
+      error => { this.loggerSvc.warn('Progress update failed:', error) }
+    )
+  }
+
+  private onQuizUserBatchListLoaded(courses: NsContent.ICourse[]): void {
+    if (!this.collectionId) {
+      return
+    }
+    this.findQuizEnrolledCourse(courses)
+    // tslint:disable-next-line:no-console
+    this.loggerSvc.log(this.enrolledCourse)
+    this.updateQuizShowCompletionMsg()
+    this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      this.handleQuizPlayerState(data)
+    })
+  }
+
+  private findQuizEnrolledCourse(courses: NsContent.ICourse[]): void {
+    if (courses && courses.length) {
+      this.enrolledCourse = courses.find(course => {
+        const identifier = this.collectionId || ''
+        if (course.courseId !== identifier) {
+          return undefined
+        }
+        return course
+      })
+    }
+  }
+
+  private updateQuizShowCompletionMsg(): void {
+    // Guard first: enrolledCourse.completedOn was being read before this check, throwing
+    // whenever the current collectionId isn't found in the user's batch list — that silently
+    // killed this subscribe callback and blocked all navigation/completion logic after it.
+    if (!this.enrolledCourse || !this.enrolledCourse.completedOn) {
+      this.showCompletionMsg = false
+      return
+    }
+    const customerDate = moment(this.enrolledCourse.completedOn)
+    const dateNow = moment(new Date())
+    const duration = moment.duration(dateNow.diff(customerDate))
+    this.showCompletionMsg = duration.asMinutes() <= 0.5
+  }
+
+  private handleQuizPlayerState(data: any): void {
+    if (isNull(data.nextResource)) {
+      // tslint:disable-next-line
+      if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
+        && this.contentSvc.showConformation) {
+        // Same shared-flag check as handleBatchListForCourseCompletion — this method fires
+        // from a different signal (player state, not the batch list) but can race the same
+        // way against viewer-toc.component.ts's own in-progress congrats/rating flow.
+        const isDialogOpen = this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive
+        if (!isDialogOpen) {
+          this.showQuizCompletionCongrats(data)
+        }
+      }
+    } else {
+      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+    }
+    return
+  }
+
+  private showQuizCompletionCongrats(data: any): void {
+    this.viewerDataSvc.isCourseCompletionFlowActive = true
+    this.openCongratulationPopup().then(isCompleted => {
+      if (!isCompleted) {
+        this.viewerDataSvc.isCourseCompletionFlowActive = false
+        return
+      }
+      const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+        width: '300px',
+        height: '420px',
+        panelClass: 'overview-modal',
+        disableClose: true,
+        data: { request: data, message: 'Congratulations!, you have completed the course' },
+      })
+
+      confirmdialog.afterClosed().subscribe((res: any) => {
+        this.viewerDataSvc.isCourseCompletionFlowActive = false
+        if (res.event === 'CONFIRMED') {
+          // Explicit save-and-refresh signal: app-toc-desktop.component.ts consumes this on
+          // the overview page to force a fresh rating-summary fetch for this exact course.
+          this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
+          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+            queryParams: {
+              primaryCategory: 'Course',
+              batchId: this.route.snapshot.queryParams.batchId,
+            },
+          })
+        }
+      })
     })
   }
   closeQuizBtnDialog(event: string) {
@@ -1101,7 +1054,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (event === 'start') {
       this.startQuiz()
     } else if (event === 'skip') {
-      // alert('skip quiz TBI')
     }
   }
 
@@ -1230,7 +1182,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.numUnanswered = res.blank
         this.passPercentage = this.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
-        //if (this.result >= this.passPercentage) {
         if (this.result >= 0) {
           this.isCompleted = true
           const Id = this.identifier
@@ -1268,31 +1219,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             error => { this.loggerSvc.warn('Progress update failed:', error) }
           )
         }
-
-        // const result = {
-        //   result: (this.numCorrectAnswers * 100.0) / this.processedContent.quiz.questions.length,
-        //   total: this.processedContent.quiz.questions.length,
-        //   blank: res.blank,
-        //   correct: res.correct,
-        //   inCorrect: res.inCorrect,
-        //   passPercentage: res.passPercent,
-        // }
-        // this.quizSvc.firePlayerTelemetryEvent(
-        //   this.processedContent.content.identifier,
-        //   this.collectionId,
-        //   MIME_TYPE.quiz,
-        //   result,
-        //   this.isCompleted,
-        //   'DONE',
-        //   this.isIdeal,
-        //   true,
-        // )
       },
       (_error: any) => {
         this.fetchingResultsStatus = 'error'
       },
     )
-    // this.fetchingResultsStatus = 'done'
   }
 
   showAnswers() {
@@ -1336,96 +1267,111 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         }
       },
     )
-    // logger.log(correctAnswers);
     this.numCorrectAnswers = 0
     this.numIncorrectAnswers = 0
     correctAnswers.forEach(answer => {
-      const correctOptions = answer.correctOptions
-      const correctMtfOptions = answer.correctMtfOptions
-      let selectedOptions: any =
+      const selectedOptions: any =
         this.questionAnswerHash[answer.questionId] || []
       if (
         answer.questionType === 'fitb' &&
         this.questionAnswerHash[answer.questionId] &&
         this.questionAnswerHash[answer.questionId][0]
       ) {
-        selectedOptions =
-          this.questionAnswerHash[answer.questionId][0].split(',') || []
-        let correctFlag = true
-        let unTouched = false
-        if (selectedOptions.length < 1) {
-          unTouched = true
-        }
-        if (correctOptions.length !== selectedOptions.length) {
-          correctFlag = false
-        }
-        if (correctFlag && !unTouched) {
-          for (let i = 0; i < correctOptions.length; i += 1) {
-            if (
-              correctOptions[i].trim().toLowerCase() !==
-              selectedOptions[i].trim().toLowerCase()
-            ) {
-              correctFlag = false
-            }
-          }
-        }
-        if (correctFlag && !unTouched) {
-          this.numCorrectAnswers += 1
-        } else if (!unTouched) {
-          this.numIncorrectAnswers += 1
-        }
-        this.showFitbAnswers()
+        this.evaluateFitbAnswer(answer)
       } else if (answer.questionType === 'mtf') {
-        let unTouched = false
-        let correctFlag = true
-        if (selectedOptions.length < 1 || selectedOptions[0].length < 1) {
-          unTouched = true
-        } else if (selectedOptions[0].length < correctMtfOptions.length) {
-          correctFlag = false
-        }
-        if (selectedOptions && selectedOptions[0]) {
-          // logger.log(selectedOptions)
-          // logger.log(correctOptions)
-          (selectedOptions[0] as any[]).forEach(element => {
-            const b = element.sourceId
-            if (correctMtfOptions) {
-              const option = correctMtfOptions[(b.slice(-1) as number) - 1] || { match: '' }
-              const match = option.match
-              if (match && match.trim() === element.target.innerHTML.trim()
-              ) {
-                element.setPaintStyle({
-                  stroke: '#357a38',
-                })
-                this.setBorderColor(element, '#357a38')
-              } else {
-                element.setPaintStyle({
-                  stroke: '#f44336',
-                })
-                correctFlag = false
-                this.setBorderColor(element, '#f44336')
-              }
-            }
-          })
-        }
-        if (correctFlag && !unTouched) {
-          this.numCorrectAnswers += 1
-        } else if (!unTouched) {
-          this.numIncorrectAnswers += 1
-        }
+        this.evaluateMtfAnswer(answer, selectedOptions)
       } else {
-        if (
-          correctOptions.sort().join(',') === selectedOptions.sort().join(',')
-        ) {
-          this.numCorrectAnswers += 1
-        } else if (selectedOptions.length > 0) {
-          this.numIncorrectAnswers += 1
-        }
+        this.evaluateDefaultAnswer(answer.correctOptions, selectedOptions)
       }
     })
     this.numUnanswered =
       this.quizJson.questions.length -
       this.numCorrectAnswers -
       this.numIncorrectAnswers
+  }
+
+  private evaluateFitbAnswer(answer: any): void {
+    const correctOptions = answer.correctOptions
+    const selectedOptions =
+      this.questionAnswerHash[answer.questionId][0].split(',') || []
+    let correctFlag = true
+    let unTouched = false
+    if (selectedOptions.length < 1) {
+      unTouched = true
+    }
+    if (correctOptions.length !== selectedOptions.length) {
+      correctFlag = false
+    }
+    if (correctFlag && !unTouched) {
+      for (let i = 0; i < correctOptions.length; i += 1) {
+        if (
+          correctOptions[i].trim().toLowerCase() !==
+          selectedOptions[i].trim().toLowerCase()
+        ) {
+          correctFlag = false
+        }
+      }
+    }
+    if (correctFlag && !unTouched) {
+      this.numCorrectAnswers += 1
+    } else if (!unTouched) {
+      this.numIncorrectAnswers += 1
+    }
+    this.showFitbAnswers()
+  }
+
+  private evaluateMtfAnswer(answer: any, selectedOptions: any): void {
+    const correctMtfOptions = answer.correctMtfOptions
+    let unTouched = false
+    let correctFlag = true
+    if (selectedOptions.length < 1 || selectedOptions[0].length < 1) {
+      unTouched = true
+    } else if (selectedOptions[0].length < correctMtfOptions.length) {
+      correctFlag = false
+    }
+    if (selectedOptions && selectedOptions[0]) {
+      correctFlag = this.paintMtfConnections(selectedOptions[0], correctMtfOptions, correctFlag)
+    }
+    if (correctFlag && !unTouched) {
+      this.numCorrectAnswers += 1
+    } else if (!unTouched) {
+      this.numIncorrectAnswers += 1
+    }
+  }
+
+  private paintMtfConnections(connections: any[], correctMtfOptions: any, correctFlag: boolean): boolean {
+    let flag = correctFlag
+    connections.forEach(element => {
+      const b = element.sourceId
+      if (correctMtfOptions) {
+        const option = correctMtfOptions[(b.slice(-1) as number) - 1] || { match: '' }
+        const match = option.match
+        if (match && match.trim() === element.target.innerHTML.trim()
+        ) {
+          element.setPaintStyle({
+            stroke: '#357a38',
+          })
+          this.setBorderColor(element, '#357a38')
+        } else {
+          element.setPaintStyle({
+            stroke: '#f44336',
+          })
+          flag = false
+          this.setBorderColor(element, '#f44336')
+        }
+      }
+    })
+    return flag
+  }
+
+  private evaluateDefaultAnswer(correctOptions: any, selectedOptions: any): void {
+    if (
+      correctOptions.sort((a: any, b: any) => a.localeCompare(b)).join(',') === selectedOptions.sort((a: any, b: any) => a.localeCompare(b)).join(',')
+    ) {
+      this.numCorrectAnswers += 1
+    } else if (selectedOptions.length > 0) {
+      this.numIncorrectAnswers += 1
+    }
   }
 
   setBorderColor(connection: OnConnectionBindInfo, color: string) {

@@ -103,15 +103,15 @@ export class LearningComponent implements OnInit, OnDestroy {
     },
   }
   constructor(
-    private activated: ActivatedRoute,
-    private router: Router,
-    private valueSvc: ValueService,
-    private searchServ: SearchServService,
-    private configSvc: ConfigurationsService,
-    private utilitySvc: UtilityService,
-    private searchSvc: SearchApiService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef,
+    private readonly activated: ActivatedRoute,
+    private readonly router: Router,
+    private readonly valueSvc: ValueService,
+    private readonly searchServ: SearchServService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly utilitySvc: UtilityService,
+    private readonly searchSvc: SearchApiService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
     effect(() => {
       this.isXSmall = this.valueSvc.isMobile()
@@ -513,7 +513,7 @@ export class LearningComponent implements OnInit, OnDestroy {
 
   private prepareNewSearch(withQuotes?: boolean) {
     this.prepareSearchRequest(withQuotes, true)
-    this.searchServ.raiseSearchEvent(this.newSearchRequestObject.query, '', '')
+    this.searchServ.raiseSearchEvent(this.newSearchRequestObject.query, {}, '')
   }
 
   private prepareSearchRequest(withQuotes: boolean | undefined, useNewRequest: boolean) {
@@ -531,7 +531,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (withQuotes === undefined && query.indexOf(' ') > -1 &&
       !this.exactResult.applied) {
       this.exactResult.applied = true
-      const normalizedQuery = query.replace(/['"]+/g, '')
+      const normalizedQuery = query.replaceAll(/['"]+/g, '')
       if (useNewRequest) {
         this.newSearchRequestObject.query = normalizedQuery
       } else {
@@ -542,7 +542,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       this.exactResult.old = normalizedQuery
     } else if (withQuotes && query.indexOf(' ') > -1) {
       this.exactResult.applied = true
-      const normalizedQuery = query.replace(/['"]+/g, '')
+      const normalizedQuery = query.replaceAll(/['"]+/g, '')
 
       if (useNewRequest) {
         this.newSearchRequestObject.query = normalizedQuery
@@ -586,7 +586,6 @@ export class LearningComponent implements OnInit, OnDestroy {
           value.displayName = value.name
           value.type = value.name
           value.checked = true
-          value.count = value.count
         })
 
         if (facet.name === 'resourceType' || facet.name === 'exclusiveContent') {
@@ -604,55 +603,62 @@ export class LearningComponent implements OnInit, OnDestroy {
     })
   }
 
+  private runFallbackSearch(useLegacyRequest: boolean, didYouMean: boolean, exactFlag?: boolean) {
+    if (useLegacyRequest) {
+      this.getResults(exactFlag, didYouMean)
+    } else {
+      this.getSearchResults(exactFlag, didYouMean)
+    }
+  }
+
+  private handleNoResultsWithSpace(useLegacyRequest: boolean, didYouMean: boolean, withQuotes?: boolean): boolean {
+    if (!this.applyPhraseSearch) {
+      this.noContent = true
+      return false
+    }
+
+    if (withQuotes) {
+      this.noContent = true
+      return false
+    }
+
+    this.runFallbackSearch(useLegacyRequest, didYouMean, true)
+    return true
+  }
+
   private handleEmptyStateAndFallbacks(
     didYouMean: boolean,
     withQuotes?: boolean,
     useLegacyRequest = false,
   ): boolean {
     const query = useLegacyRequest ? this.searchRequestObject.request.query : this.newSearchRequestObject.query
+    const noResults = this.searchResults.result.count === 0
+    const hasSpace = query.indexOf(' ') > -1
 
-    if (this.searchResults.result.count === 0 && this.isDefaultFilterApplied) {
+    if (noResults && this.isDefaultFilterApplied) {
       this.removeDefaultFiltersApplied()
-      useLegacyRequest ? this.getResults(undefined, didYouMean) : this.getSearchResults(undefined, didYouMean)
+      this.runFallbackSearch(useLegacyRequest, didYouMean)
       return true
     }
 
-    if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
+    if (noResults && this.searchAcrossPreferredLang && this.expandToPrefLang) {
       this.searchWithPreferredLanguage()
-      useLegacyRequest ? this.getResults(undefined, didYouMean) : this.getSearchResults(undefined, didYouMean)
+      this.runFallbackSearch(useLegacyRequest, didYouMean)
       return true
     }
 
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') === -1) {
+    if (noResults && !hasSpace) {
       this.noContent = true
       return false
     }
 
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') === -1) {
-      useLegacyRequest
-        ? this.getResults(true, didYouMean)
-        : this.getSearchResults(true, didYouMean)
-      return true
+    if (noResults && hasSpace) {
+      return this.handleNoResultsWithSpace(useLegacyRequest, didYouMean, withQuotes)
     }
 
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && !this.applyPhraseSearch) {
-      this.noContent = true
-      return false
-    }
-
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && withQuotes) {
-      this.noContent = true
-      return false
-    }
-
-    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && this.applyPhraseSearch) {
-      useLegacyRequest ? this.getResults(true, didYouMean) : this.getSearchResults(true, didYouMean)
-      return true
-    }
-
-    if (this.searchResults.result.count > 0 && query.indexOf(' ') > -1 && !this.exactResult.applied) {
+    if (!noResults && hasSpace && !this.exactResult.applied) {
       this.exactResult.show = true
-      this.exactResult.text = query.replace(/['"]+/g, '')
+      this.exactResult.text = query.replaceAll(/['"]+/g, '')
     }
 
     return false
@@ -749,37 +755,29 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   sortOrder(type: string) {
-    try {
-      this.router.navigate([], {
-        queryParams: { sort: type },
-        queryParamsHandling: 'merge',
-        relativeTo: this.activated.parent,
-      })
-    } catch (e) {
+    this.router.navigate([], {
+      queryParams: { sort: type },
+      queryParamsHandling: 'merge',
+      relativeTo: this.activated.parent,
+    }).catch(e => {
       throw e
-    }
+    })
   }
 
   getSortType() {
-    try {
-      return 'desc'
-    } catch (e) {
-      throw e
-    }
+    return 'desc'
   }
 
   searchLanguage(type: string) {
-    try {
-      this.router.navigate([], {
-        queryParams: { lang: type },
-        queryParamsHandling: 'merge',
-        relativeTo: this.activated.parent,
-      }).then(() => {
-        this.expandToPrefLang = false
-      })
-    } catch (e) {
+    this.router.navigate([], {
+      queryParams: { lang: type },
+      queryParamsHandling: 'merge',
+      relativeTo: this.activated.parent,
+    }).then(() => {
+      this.expandToPrefLang = false
+    }).catch(e => {
       throw e
-    }
+    })
   }
 
   didYouMeanSearch(query: string) {
@@ -827,7 +825,6 @@ export class LearningComponent implements OnInit, OnDestroy {
     const trainingLHubEnabled = restrictedFeatures && !restrictedFeatures.has('trainingLHub')
 
     if (trainingLHubEnabled) {
-      // this.trainingSvc.getTrainingCountsForSearchResults(searchResults)
     }
   }
 
@@ -836,7 +833,6 @@ export class LearningComponent implements OnInit, OnDestroy {
     const trainingLHubEnabled = restrictedFeatures && !restrictedFeatures.has('trainingLHub')
 
     if (trainingLHubEnabled) {
-      // this.trainingSvc.getTrainingCountsForSearchResults(searchResults)
     }
   }
 }

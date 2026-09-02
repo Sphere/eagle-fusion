@@ -31,8 +31,8 @@ export class ResourceCollectionComponent implements OnInit {
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
 
-  constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: PlayerStateService) { }
+  constructor(private readonly activatedRoute: ActivatedRoute, private readonly configSvc: ConfigurationsService,
+              private readonly viewerDataSvc: PlayerStateService) { }
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
       this.isRestricted =

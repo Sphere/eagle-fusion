@@ -160,7 +160,6 @@
     max-height: calc(100vh - 125px);
     background: #fff;
          max-width: 100%;
-    margin: auto;
     margin: 0px !important;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 40px 40px 0px 0px;
@@ -181,8 +180,6 @@
     margin: 20px 20px 0px 0px;
         display: flex;
         gap: 12px;
-        width: 22%;
-        height: 36px;
         color: var(--theme-accent, #2E6491);
         border-radius: 63px;
         font-family: Roboto, sans-serif;

@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit, HostListener, ElementRef, ViewChild } fro
 import { ActivatedRoute, Data, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, NsPage, SafeResourceUrlService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
@@ -31,11 +31,11 @@ const flattenItems = (items: any[], key: string | number) => {
   }, [])
 }
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-home',
-    templateUrl: './app-toc-home.component.html',
-    styleUrls: ['./app-toc-home.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-home',
+  templateUrl: './app-toc-home.component.html',
+  styleUrls: ['./app-toc-home.component.scss'],
+
 })
 export class AppTocHomeComponent implements OnInit, OnDestroy {
 
@@ -100,21 +100,20 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private contentSvc: WidgetContentService,
-    private userSvc: WidgetUserService,
-    private tocSvc: AppTocService,
-    private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
-    private authAccessControlSvc: AccessControlService,
-    private discussiConfig: DiscussConfigResolve
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly contentSvc: WidgetContentService,
+    private readonly userSvc: WidgetUserService,
+    private readonly tocSvc: AppTocService,
+    private readonly loggerSvc: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly authAccessControlSvc: AccessControlService,
+    private readonly discussiConfig: DiscussConfigResolve
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
       this.discussionConfig = {
-        // menuOptions: [{ route: 'categories', enable: true }],
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
@@ -129,10 +128,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
     if (this.route) {
       this.routeSubscription = this.route.data.subscribe((data: Data) => {
-
-        // adding mock data
-        // data.content.error = null
-        // data.content.data = this.courseMockData.result.content
 
         // Checking for JSON DATA
         if (data.content.data) {
@@ -236,7 +231,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     this.discussionConfig.contextType = 'course'
     this.matspinner = false
     this.getUserEnrollmentList()
-    this.body = this.domSanitizer.bypassSecurityTrustHtml(
+    this.body = this.safeResourceUrlSvc.trustHtml(
       this.content && this.content.body
         ? this.forPreview
           ? this.authAccessControlSvc.proxyToAuthoringUrl(this.content.body)
@@ -248,7 +243,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
 
   private getUserEnrollmentList() {
     if (this.content && this.content.identifier && this.content.primaryCategory !== 'Course') {
-      // const collectionId = this.isResource ? '' : this.content.identifier
       return this.getContinueLearningData(this.content.identifier)
     }
     this.userEnrollmentList = null
@@ -256,10 +250,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    // this.route.data.subscribe(data => {
-    //   userId = data.profileData.data.userId
-    //   }
-    // )
     this.userSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
         let enrolledCourse: NsContent.ICourse | undefined
@@ -276,7 +266,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
 
           // If current course is present in the list of user enrolled course
           if (enrolledCourse && enrolledCourse.batchId) {
-            // const collectionId = this.isResource ? '' : this.content.identifier
             this.content.completionPercentage = enrolledCourse.completionPercentage || 0
             this.content.completionStatus = enrolledCourse.status || 0
             this.getContinueLearningData(this.content.identifier, enrolledCourse.batchId)
@@ -349,7 +338,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
           filters: {
             courseId: this.content.identifier,
             status: ['0', '1', '2'],
-            // createdBy: 'fca2925f-1eee-4654-9177-fece3fd6afc9',
           },
           sort_by: { createdDate: 'desc' },
         },
@@ -367,7 +355,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
                 [],
                 {
                   relativeTo: this.route,
-                  // queryParams: { batchId: this.getBatchId() },
                   queryParamsHandling: 'merge',
                 })
             }
@@ -386,9 +373,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    // this.route.data.subscribe(data => {
-    //   userId = data.profileData.data.userId
-    // })
     const req: NsContent.IContinueLearningDataReq = {
       request: {
         batchId,
@@ -407,11 +391,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
             const items = filter(flattenItems(get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
             set(rr, 'progressdetails.mimeType', get(first(items), 'mimeType'))
             if (!get(rr, 'completionPercentage')) {
-              if (get(rr, 'status') === 2) {
-                set(rr, 'completionPercentage', rr.completionPercentage)
-              } else {
-                set(rr, 'completionPercentage', rr.completionPercentage)
-              }
+              set(rr, 'completionPercentage', rr.completionPercentage)
             }
             return rr
           })
@@ -426,10 +406,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               })
             }
           }
-          // const percentage = _.toInteger((_.sum(progress) / progress.length))
-          // if (this.content) {
-          //   _.set(this.content, 'completionPercentage', percentage)
-          // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
           this.resumeData = null

@@ -33,14 +33,14 @@ export class WebModuleComponent implements OnInit {
   isSmall = false
   collectionIdentifier: any
 
-  constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: PlayerStateService, private valueSvc: ValueService) {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isSmall = isXSmall
-    })
+  constructor(private readonly activatedRoute: ActivatedRoute, private readonly configSvc: ConfigurationsService,
+              private readonly viewerDataSvc: PlayerStateService, private readonly valueSvc: ValueService) {
   }
 
   ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isSmall = isXSmall
+    })
     if (this.configSvc.restrictedFeatures) {
       this.isRestricted =
         !this.configSvc.restrictedFeatures.has('disscussionForum')

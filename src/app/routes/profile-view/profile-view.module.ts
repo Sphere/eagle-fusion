@@ -13,7 +13,6 @@ import { MatNativeDateModule } from '@angular/material/core'
 import { MatDividerModule } from '@angular/material/divider'
 
 import { MobileProfileDashboardComponent } from './mobile-profile-dashboard/mobile-profile-dashboard.component'
-// import { MobileAboutPopupComponent } from '../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from './profile-select/profile-select.component'
 import { EducationListComponent } from './education-list/education-list.component'
 import { EducationEditComponent } from './education-edit/education-edit.component'

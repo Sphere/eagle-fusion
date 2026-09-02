@@ -9,14 +9,13 @@ import {
   WIDGET_RESOLVER_GLOBAL_CONFIG,
   WIDGET_RESOLVER_SCOPED_CONFIG,
 } from './widget-resolver.constant'
-// import { LoggerService } from '@ws-widget/utils'
 import { NsWidgetResolver } from './widget-resolver.model'
 import { hasPermissions } from './widget-resolver.permissions'
 import { RestrictedComponent } from './restricted/restricted.component'
 import { InvalidRegistrationComponent } from './invalid-registration/invalid-registration.component'
 import { InvalidPermissionComponent } from './invalid-permission/invalid-permission.component'
 import { UnresolvedComponent } from './unresolved/unresolved.component'
-import { DomSanitizer } from '@angular/platform-browser'
+import { SafeResourceUrlService } from '@ws-widget/utils'
 
 @Injectable({
   providedIn: 'root',
@@ -27,12 +26,11 @@ export class WidgetResolverService {
   private restrictedFeatures: Set<string> | null = null
   isInitialized = false
   constructor(
-    private domSanitizer: DomSanitizer,
-    // private loggerSvc: LoggerService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     @Inject(WIDGET_RESOLVER_GLOBAL_CONFIG)
-    private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
+    private readonly globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
     @Inject(WIDGET_RESOLVER_SCOPED_CONFIG)
-    private scopedConfig: null | NsWidgetResolver.IRegistrationConfig[],
+    private readonly scopedConfig: null | NsWidgetResolver.IRegistrationConfig[],
   ) { }
   private availableRegisteredWidgets: Map<
     string,
@@ -75,12 +73,6 @@ export class WidgetResolverService {
     this.availableRegisteredWidgets = registrationConfig
 
     this.isInitialized = true
-    // this.loggerSvc.log(
-    //   `Widget Configurations`,
-    //   this.globalConfig,
-    //   this.scopedConfig,
-    //   this.availableRegisteredWidgets,
-    // )
   }
 
   resolveWidget(
@@ -127,7 +119,7 @@ export class WidgetResolverService {
     compRef.instance.widgetData = compData.widgetData
     if (compRef.instance.updateBaseComponent) {
       const widgetSafeStyle = compData.widgetHostStyle
-        ? this.domSanitizer.bypassSecurityTrustStyle(
+        ? this.safeResourceUrlSvc.trustStyle(
           Object.entries(compData.widgetHostStyle).reduce((s, [k, v]) => `${s}${k}:${v};`, ''),
         )
         : undefined

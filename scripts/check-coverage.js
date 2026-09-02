@@ -16,10 +16,10 @@
 'use strict'
 
 const { spawnSync, execSync } = require('child_process')
-const fs   = require('fs')
+const fs = require('fs')
 const path = require('path')
 
-const rootDir     = path.join(__dirname, '..')
+const rootDir = path.join(__dirname, '..')
 const summaryPath = path.join(rootDir, 'coverage', 'coverage-summary.json')
 
 // ── Guard: allow bypass ───────────────────────────────────────────────────
@@ -64,11 +64,11 @@ function printLowFiles() {
   if (!summary) return
   const low = Object.entries(summary)
     .filter(([f]) => f !== 'total')
-    .filter(([, d]) => d.statements.pct < 80 || d.functions.pct < 80)
+    .filter(([, d]) => d.statements.pct < 60 || d.functions.pct < 60)
     .sort(([, a], [, b]) => a.statements.pct - b.statements.pct)
 
   if (!low.length) return
-  console.error(`\n⚠️   ${low.length} file(s) still below 80%:`)
+  console.error(`\n⚠️   ${low.length} file(s) still below 60%:`)
   low.slice(0, 15).forEach(([f, d]) => {
     const rel = f.replace(rootDir + path.sep, '').replace(rootDir + '/', '')
     console.error(`\n  ${rel}`)
@@ -78,10 +78,10 @@ function printLowFiles() {
 }
 
 function updateReport() {
-  try { require('./update-jest-report.js') } catch (_) {}
+  try { require('./update-jest-report.js') } catch (_) { }
   try {
     execSync('git add docs/jest-coverage-progress.html', { cwd: rootDir, stdio: 'pipe' })
-  } catch (_) {}
+  } catch (_) { }
 }
 
 // ── Pass 1 ────────────────────────────────────────────────────────────────

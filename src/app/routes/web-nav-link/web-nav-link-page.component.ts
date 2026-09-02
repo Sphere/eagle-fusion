@@ -36,29 +36,33 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   userData: any
   isDark = false
   constructor(
-    private dialog: MatDialog,
-    private configSvc: ConfigurationsService,
-    private router: Router,
-    private signupService: SignupService,
+    private readonly dialog: MatDialog,
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly signupService: SignupService,
     public location: Location,
     public navOption: appNavBarService,
     public storage: LocalStorageService,
     private readonly event: Events,
-    private playlistSvc: PlaylistService,
-    private cd: ChangeDetectorRef,
-    private logger: LoggerService,
-    private themeService: ThemeService
+    private readonly playlistSvc: PlaylistService,
+    private readonly cd: ChangeDetectorRef,
+    private readonly logger: LoggerService,
+    private readonly themeService: ThemeService
   ) {
     this.subscribeNavbarChanges()
+  }
+
+  ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.syncMenuWithUrl()
         this.cd.detectChanges()
       }
     })
+    this.initializeNavLink()
   }
 
-  async ngOnInit() {
+  private initializeNavLink(): void {
     this.isDark = this.themeService.isDarkMode()
     this.isDark = this.themeService.isDark()
     this.logger.log(" menuItems ", this.menuItems, this.orgData)
@@ -68,7 +72,11 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     this.event.subscribe('notificationCountUpdated', count => {
       this.updateNotificationCount(count)
     })
-    this.userData = await this.signupService.getUserData()
+    this.signupService.getUserData().then(data => {
+      this.userData = data
+    }).catch(_err => {
+      this.logger.error('Error fetching user data:', _err)
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -142,8 +150,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     const rootOrgId = this.configSvc.userProfile?.rootOrgId
     const orgConfig = this.configSvc.orgSelectiveCourseConfig
     const route = item.redirect
-    const titleKey = item.title.toLowerCase().replace(/\s+/g, '')
-    // this.navOption.changeNavBarActive(titleKey)
+    const titleKey = item.title.toLowerCase().replaceAll(/\s+/g, '')
 
     switch (titleKey) {
       case 'home':

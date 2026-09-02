@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http'
 export class BtnFeatureService {
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
   ) { }
 
   getBadgeCount(endpoint: string) {

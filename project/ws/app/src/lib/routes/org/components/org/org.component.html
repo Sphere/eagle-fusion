@@ -54,8 +54,10 @@
     <div *ngIf="currentOrgData?.headerStyle === 'inc'" id="navy-blue-bg"
       [ngClass]="{'mb-5': currentOrgData?.headerStyle === 'inc'}">
       <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5 flex flex-middle main">
-        <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
-          (click)="goToLink('https://indiannursingcouncil.org/')" alt="inc-logo" />
+        <a href="https://indiannursingcouncil.org/" target="_blank" rel="noopener"
+          style="all: unset; display: contents; cursor: pointer;">
+          <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo" alt="INC logo" />
+        </a>
         <span class="ml-5 mylearning">{{ currentOrgData.title || 'e-Learning for Maternal and Newborn Health Care'
           }}</span>
       </div>
@@ -64,13 +66,13 @@
     <div class="banner-container" *ngIf="currentOrgData?.headerStyle !== 'inc'">
       <div class="banner-image-section">
         <div class="default-banner" *ngIf="!currentOrgData.bgImage">
-          <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" />
+          <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" alt="" />
         </div>
         <!-- Custom banner: shimmer overlay sits on top until the image fires (load) -->
         <ng-container *ngIf="currentOrgData.bgImage">
           <div class="shimmer org-shimmer-banner-img" *ngIf="!bannerLoaded"></div>
           <img [src]="currentOrgData.bgImage" class="banner" [class.org-img-hidden]="!bannerLoaded"
-            (load)="bannerLoaded = true" />
+            (load)="bannerLoaded = true" alt="Organisation banner" />
         </ng-container>
         <!-- Floating circular org logo: shimmer until logo image fires (load) -->
         <div class="banner-logo-wrap" *ngIf="currentOrgData.logo">
@@ -149,7 +151,9 @@
                 section.showAll,
                 section.config.limit || 5)">
               <div class="card-standard-container mb-6 cursor-pointer">
-                <a (click)="gotoOverview(course.identifier)" class="rounded-t py-2" role="link" aria-label="Content">
+                <a (click)="gotoOverview(course.identifier)" (keydown.enter)="gotoOverview(course.identifier)"
+                  (keydown.space)="gotoOverview(course.identifier); $event.preventDefault()" tabindex="0"
+                  class="rounded-t py-2" aria-label="Content">
                   <div class="flex">
                     <img
                       [src]="course.posterImage || course.thumbnail || course.appIcon || '/fusion-assets/images/frame-156.svg'"
@@ -170,7 +174,7 @@
                   </ng-container>
                   <div *ngIf="course.cneName" class="flex cne-container">
                     <div class="flex cne-block mr-1">
-                      <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
+                      <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="">
                       <p class="cne-content mb-0">{{course.cneName}} CNE</p>
                     </div>
                     <p *ngIf="course.issueCertification" class="certified-text">{{'Certified' | translate}}</p>
@@ -179,7 +183,7 @@
                     <hr class="border-content">
                   </div>
                   <div class="competency-block" *ngIf="course.competencies_v1?.length > 0">
-                    <img src="/fusion-assets/icons/ph_medal.svg">
+                    <img src="/fusion-assets/icons/ph_medal.svg" alt="Medal">
                     <div>
                       <ng-container *ngFor="let competency of competencyData; let last = last;">
                         <span *ngIf="competency.identifier === course.identifier">{{competency.name}}, </span>

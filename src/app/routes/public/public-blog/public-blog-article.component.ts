@@ -14,9 +14,9 @@ export class PublicBlogArticleComponent implements OnInit {
   notFound = false
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private seoSvc: SeoService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly seoSvc: SeoService,
   ) {}
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class PublicBlogArticleComponent implements OnInit {
       return
     }
 
-    const canonicalUrl = `https://sphere.aastrika.org/public/blog/${this.article.slug}`
+    const canonicalUrl = `https://sphere.aastrika.org/public/blog/${this.article.slug}/`
 
     this.seoSvc.update({
       title: this.article.metaTitle,

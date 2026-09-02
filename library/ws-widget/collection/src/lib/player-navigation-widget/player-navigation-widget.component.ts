@@ -22,11 +22,11 @@ export class PlayerNavigationWidgetComponent implements OnInit {
   isPlayNextBtnClicked = false
 
   constructor(
-    private viewerDataSvc: PlayerStateService,
-    private viewerData: ViewerDataService,
-    private router: Router,
-    private events: EventService,
-    private cdr: ChangeDetectorRef
+    private readonly viewerDataSvc: PlayerStateService,
+    private readonly viewerData: ViewerDataService,
+    private readonly router: Router,
+    private readonly events: EventService,
+    private readonly cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {

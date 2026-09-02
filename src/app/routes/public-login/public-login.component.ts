@@ -41,7 +41,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
   isLoginLoading = false
   telemetrySessionId = ''
   constructor(
-    private spherFormBuilder: FormBuilder,
+    private readonly spherFormBuilder: FormBuilder,
     public signupService: SignupService,
     public snackBar: MatSnackBar,
     private readonly valueSvc: ValueService,
@@ -49,12 +49,12 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     public configSvc: ConfigurationsService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private seoSvc: SeoService,
-    private telemetrySvc: TelemetryService,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private readonly seoSvc: SeoService,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly ngZone: NgZone
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
@@ -63,18 +63,10 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     this.loginPwdForm = this.spherFormBuilder.group({
       emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
       password: new FormControl('', [Validators.required,
-      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
+      Validators.pattern(/^(?=.{0,64}[a-z])(?=.{0,64}[A-Z])(?=.{0,64}[0-9])(?=.{0,64}[!@#\$%\^&\ *])(?=.{8,64})/g)]),
     })
     this.OTPForm = this.spherFormBuilder.group({
       OTPcode: new FormControl('', [Validators.required]),
-    })
-    this.route.queryParams.subscribe(params => {
-      if (params['ekshamtaLogin']) {
-        this.isEkshamtaLogin = true
-        this.routerLink = '/public/home'
-      } else {
-        this.routerLink = '/public/home'
-      }
     })
     if (localStorage.getItem('isOrgSelectiveCourse') === 'true') {
       this.isOrgSelectiveCourse = true
@@ -83,14 +75,26 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['ekshamtaLogin']) {
+        this.isEkshamtaLogin = true
+        this.routerLink = '/public/home'
+      } else {
+        this.routerLink = '/public/home'
+      }
+    })
     // Initialize telemetry session ID if not present
     this.telemetrySessionId = this.getOrCreateSessionId()
 
+    // Deliberately indexable. "aastrika sphere login", "astrika login" and "aastrika cne login"
+    // are among the highest-volume brand queries and this page is their intended destination
+    // (pos 1.8, 44% CTR). It was previously noindex *and* robots-disallowed, so Google could
+    // never read the noindex and kept the URL indexed with no snippet at all — the
+    // "Indexed, though blocked by robots.txt" issue. Let it rank with a real title/description.
     this.seoSvc.update({
-      title: 'Login - Aastrika Sphere | Free Certified Courses for Healthcare Professionals',
-      description: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.',
-      keywords: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps',
-      noindex: true,
+      title: 'Aastrika Sphere Login | Free CNE Courses for Nurses & Healthcare Workers',
+      description: 'Log in to Aastrika Sphere to continue your free, INC-certified CNE courses. Self-paced training for nurses, ANMs, GNMs, midwives and healthcare workers across India.',
+      keywords: 'Aastrika Sphere login, aastrika login, CNE login, INC e-learning login, nursing course login, healthcare training login',
     })
     sessionStorage.clear()
     localStorage.removeItem('preferedLanguage')
@@ -237,111 +241,107 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
 
 
   submitDetails(form: any) {
-
-    if (form.status === "VALID") {
-      try {
-
-        (window as any).fbq('track', 'SubmitApplication')
-      }
-      catch (e) {
-        this.logger.error("fb pixel error")
-      }
-      let phone = this.loginPwdForm.controls.emailOrMobile.value
-      let type = ''
-      phone = phone.replace(/[^0-9+#]/g, '')
-      if (phone.length >= 10) {
-        type = 'phone'
-      } else {
-        const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
-          this.loginForm.controls.emailOrMobile.value
-        )
-        type = 'email'
-        this.logger.log(check)
-      }
-      let req = {}
-      if (type === 'email') {
-        req = {
-          "userEmail": this.loginPwdForm.controls.emailOrMobile.value,
-          "typeOfLogin": "password",
-          "userPassword": this.loginPwdForm.controls.password.value,
-        }
-      }
-      if (type === 'phone') {
-        req = {
-          "userPhone": this.loginPwdForm.controls.emailOrMobile.value,
-          "typeOfLogin": "password",
-          "userPassword": this.loginPwdForm.controls.password.value,
-        }
-      }
-
-      // Prepare masked sensitive data for telemetry
-      const userInput = this.loginPwdForm.controls.emailOrMobile.value
-      const maskedPhone = type === 'phone' ? this.maskPhone(userInput) : ''
-      const maskedEmail = type === 'email' ? this.maskEmail(userInput) : ''
-
-      // Send telemetry for login submit
-      this.sendLoginSubmitTelemetry(type, maskedPhone, maskedEmail, 'password')
-
-      this.logger.log(type, 'check')
-      this.isLoginLoading = true
-      this.cdr.markForCheck()
-      this.signupService.loginAPI(req).subscribe(res => {
-        this.ngZone.run(() => {
-          this.isLoginLoading = false
-          this.cdr.detectChanges()
-          // Persist only the login status — never the access/refresh tokens (XSS exposure).
-          localStorage.setItem('loginDetailsWithToken', JSON.stringify({ msg: res.msg, status: res.status }))
-          this.logger.log(res.status)
-          this.openSnackbar(this.translate.instant("USER_AUTH_SUCCESS"))
-
-          setTimeout(() => {
-            this.signupService.fetchStartUpDetails().then(async (result: any) => {
-              const res = await result
-              this.logger.log(res, 'res')
-              localStorage.setItem('lang131', JSON.stringify(res))
-
-              // Send login success telemetry after userProfile is populated
-              this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'password', res?.msg || res?.message)
-
-              if (localStorage.getItem('url_before_login')) {
-                const url = localStorage.getItem('url_before_login') || ''
-                location.href = url
-              } else {
-                const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-                const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
-                if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-                  const redirectUrl =
-                    orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
-                  this.logger.log(
-                    `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
-                  )
-                  window.location.href = redirectUrl
-                } else {
-                  window.location.href = '/page/home'
-                }
-              }
-            })
-          }, 500)
-        })
-
-      }, err => {
-        this.ngZone.run(() => {
-          this.isLoginLoading = false
-          this.cdr.detectChanges()
-          this.logger.log(err)
-
-          // Send login failure telemetry
-          this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'password', err?.error?.msg || err?.error?.message || 'Login failed')
-
-          if (err?.error?.message === "User doesn't exists please signup and try again" || err?.error?.msg === "User doesn't exists please signup and try again") {
-            this.userDoesnotExist()
-          }
-          this.openSnackbar(this.translate.instant(err?.error?.msg || err?.error?.error || "Login Failed"))
-        })
-      })
-    } else {
+    if (form.status !== "VALID") {
       this.logger.log('alert')
+      return
     }
+    try {
+      (window as any).fbq('track', 'SubmitApplication')
+    }
+    catch (e) {
+      this.logger.error("fb pixel error")
+    }
+    const type = this.determinePasswordLoginType()
+    const req = this.buildPasswordLoginRequest(type)
+
+    // Prepare masked sensitive data for telemetry
+    const userInput = this.loginPwdForm.controls.emailOrMobile.value
+    const maskedPhone = type === 'phone' ? this.maskPhone(userInput) : ''
+    const maskedEmail = type === 'email' ? this.maskEmail(userInput) : ''
+
+    // Send telemetry for login submit
+    this.sendLoginSubmitTelemetry(type, maskedPhone, maskedEmail, 'password')
+
+    this.logger.log(type, 'check')
+    this.isLoginLoading = true
+    this.cdr.markForCheck()
+    this.signupService.loginAPI(req).subscribe(
+      res => this.handlePasswordLoginSuccess(res, type, maskedPhone, maskedEmail),
+      err => this.handlePasswordLoginError(err, type, maskedPhone, maskedEmail),
+    )
+  }
+
+  private determinePasswordLoginType(): string {
+    let phone = this.loginPwdForm.controls.emailOrMobile.value
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
+    if (phone.length >= 10) {
+      return 'phone'
+    }
+    const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+      this.loginForm.controls.emailOrMobile.value
+    )
+    this.logger.log(check)
+    return 'email'
+  }
+
+  private buildPasswordLoginRequest(type: string): any {
+    if (type === 'email') {
+      return {
+        "userEmail": this.loginPwdForm.controls.emailOrMobile.value,
+        "typeOfLogin": "password",
+        "userPassword": this.loginPwdForm.controls.password.value,
+      }
+    }
+    if (type === 'phone') {
+      return {
+        "userPhone": this.loginPwdForm.controls.emailOrMobile.value,
+        "typeOfLogin": "password",
+        "userPassword": this.loginPwdForm.controls.password.value,
+      }
+    }
+    return {}
+  }
+
+  private handlePasswordLoginSuccess(res: any, type: string, maskedPhone: string, maskedEmail: string): void {
+    this.ngZone.run(() => {
+      this.isLoginLoading = false
+      this.cdr.detectChanges()
+      // Persist only the login status — never the access/refresh tokens (XSS exposure).
+      localStorage.setItem('loginDetailsWithToken', JSON.stringify({ msg: res.msg, status: res.status }))
+      this.logger.log(res.status)
+      this.openSnackbar(this.translate.instant("USER_AUTH_SUCCESS"))
+
+      setTimeout(() => {
+        this.signupService.fetchStartUpDetails().then((result: any) => this.handlePostPasswordLoginStartup(result, type, maskedPhone, maskedEmail))
+      }, 500)
+    })
+  }
+
+  private handlePostPasswordLoginStartup(result: any, type: string, maskedPhone: string, maskedEmail: string): void {
+    const res = result
+    this.logger.log(res, 'res')
+    localStorage.setItem('lang131', JSON.stringify(res))
+
+    // Send login success telemetry after userProfile is populated
+    this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'password', res?.msg || res?.message)
+
+    this.redirectAfterLogin()
+  }
+
+  private handlePasswordLoginError(err: any, type: string, maskedPhone: string, maskedEmail: string): void {
+    this.ngZone.run(() => {
+      this.isLoginLoading = false
+      this.cdr.detectChanges()
+      this.logger.log(err)
+
+      // Send login failure telemetry
+      this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'password', err?.error?.msg || err?.error?.message || 'Login failed')
+
+      if (err?.error?.message === "User doesn't exists please signup and try again" || err?.error?.msg === "User doesn't exists please signup and try again") {
+        this.userDoesnotExist()
+      }
+      this.openSnackbar(this.translate.instant(err?.error?.msg || err?.error?.error || "Login Failed"))
+    })
   }
   resendOTP(form?: any) {
 
@@ -349,7 +349,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     if ((this.loginForm.status === 'VALID')) {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
-      phone = phone.replace(/[^0-9+#]/g, '')
+      phone = phone.replaceAll(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
         type = 'phone'
       } else {
@@ -399,123 +399,140 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     }
   }
   otpSubmit() {
+    if (!((this.loginForm.status === 'VALID') && this.OTPForm.status === 'VALID')) {
+      return
+    }
+    const type = this.determineOtpLoginType()
+    const req = this.buildOtpLoginRequest(type)
 
-    if ((this.loginForm.status === 'VALID') && this.OTPForm.status === 'VALID') {
-      let phone = this.loginForm.controls.emailOrMobile.value
-      let type = ''
-      phone = phone.replace(/[^0-9+#]/g, '')
-      if (phone.length >= 10) {
-        type = 'phone'
-      } else {
-        const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
-          this.loginForm.controls.emailOrMobile.value
-        )
-        type = 'email'
-        this.logger.log(check, 'check')
+    // Prepare masked sensitive data for telemetry
+    const userInput = this.loginForm.controls.emailOrMobile.value
+    const maskedPhone = type === 'phone' ? this.maskPhone(userInput) : ''
+    const maskedEmail = type === 'email' ? this.maskEmail(userInput) : ''
+
+    // Send telemetry for login submit
+    this.sendLoginSubmitTelemetry(type, maskedPhone, maskedEmail, 'otp')
+
+    this.logger.log(req, type)
+    this.isLoginLoading = true
+    this.cdr.markForCheck()
+    this.signupService.loginAPI(req).subscribe(
+      res => this.handleOtpLoginSuccess(res, type, maskedPhone, maskedEmail),
+      err => this.handleOtpLoginError(err, type, maskedPhone, maskedEmail),
+    )
+  }
+
+  private determineOtpLoginType(): string {
+    let phone = this.loginForm.controls.emailOrMobile.value
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
+    if (phone.length >= 10) {
+      return 'phone'
+    }
+    const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+      this.loginForm.controls.emailOrMobile.value
+    )
+    this.logger.log(check, 'check')
+    return 'email'
+  }
+
+  private buildOtpLoginRequest(type: string): any {
+    if (type === 'email') {
+      return {
+        "userEmail": this.loginForm.controls.emailOrMobile.value,
+        "typeOfLogin": "otp",
+        "otp": this.OTPForm.controls.OTPcode.value.trim(),
       }
-      let req = {}
-      if (type === 'email') {
-        req = {
-          "userEmail": this.loginForm.controls.emailOrMobile.value,
-          "typeOfLogin": "otp",
-          "otp": this.OTPForm.controls.OTPcode.value.trim(),
-        }
+    }
+    if (type === 'phone') {
+      return {
+        "userPhone": this.loginForm.controls.emailOrMobile.value,
+        "typeOfLogin": "otp",
+        "otp": this.OTPForm.controls.OTPcode.value.trim(),
       }
-      if (type === 'phone') {
-        req = {
-          "userPhone": this.loginForm.controls.emailOrMobile.value,
-          "typeOfLogin": "otp",
-          "otp": this.OTPForm.controls.OTPcode.value.trim(),
-        }
+    }
+    return {}
+  }
+
+  private handleOtpLoginSuccess(res: any, type: string, maskedPhone: string, maskedEmail: string): void {
+    this.ngZone.run(() => {
+      this.isLoginLoading = false
+      this.cdr.detectChanges()
+      // Persist only the login status — never the access/refresh tokens (XSS exposure).
+      localStorage.setItem('loginDetailsWithToken', JSON.stringify({ msg: res.msg, status: res.status }))
+      this.logger.log(res)
+      this.openSnackbar(this.translate.instant(res.msg ?? res.message))
+      setTimeout(() => {
+        this.signupService.fetchStartUpDetails().then((result: any) => this.handlePostOtpLoginStartup(result, type, maskedPhone, maskedEmail))
+      }, 500)
+    })
+  }
+
+  private handlePostOtpLoginStartup(result: any, type: string, maskedPhone: string, maskedEmail: string): void {
+    const res = result
+    this.logger.log(res, 'res')
+    // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+    localStorage.setItem('res123', JSON.stringify(res))
+    if (!(res && res.status)) {
+      return
+    }
+    if (res.language) {
+      const lang = res.language
+      const obj = {
+        lang: lang,
+        res: res.language,
+        line: 56,
       }
+      localStorage.setItem('lang123', JSON.stringify(obj))
+    }
 
-      // Prepare masked sensitive data for telemetry
-      const userInput = this.loginForm.controls.emailOrMobile.value
-      const maskedPhone = type === 'phone' ? this.maskPhone(userInput) : ''
-      const maskedEmail = type === 'email' ? this.maskEmail(userInput) : ''
+    // Send login success telemetry after userProfile is populated
+    this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'otp', result?.msg || result?.message)
 
-      // Send telemetry for login submit
-      this.sendLoginSubmitTelemetry(type, maskedPhone, maskedEmail, 'otp')
+    localStorage.setItem('res', JSON.stringify(res))
+    this.redirectAfterLogin()
+  }
 
-      this.logger.log(req, type)
-      this.isLoginLoading = true
-      this.cdr.markForCheck()
-      this.signupService.loginAPI(req).subscribe(res => {
-        this.ngZone.run(() => {
-          this.isLoginLoading = false
-          this.cdr.detectChanges()
-          // Persist only the login status — never the access/refresh tokens (XSS exposure).
-          localStorage.setItem('loginDetailsWithToken', JSON.stringify({ msg: res.msg, status: res.status }))
-          this.logger.log(res)
-          this.openSnackbar(this.translate.instant(res.msg ?? res.message))
-          setTimeout(() => {
-            this.signupService.fetchStartUpDetails().then(async (result: any) => {
-              const res = await result
-              this.logger.log(res, 'res')
-              // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
-              localStorage.setItem('res123', JSON.stringify(res))
-              if (res && res.status) {
-                if (res.language) {
-                  const lang = res.language
-                  const obj = {
-                    lang: lang,
-                    res: res.language,
-                    line: 56,
-                  }
-                  localStorage.setItem('lang123', JSON.stringify(obj))
-                }
+  private handleOtpLoginError(err: any, type: string, maskedPhone: string, maskedEmail: string): void {
+    this.ngZone.run(() => {
+      this.isLoginLoading = false
+      this.cdr.detectChanges()
+      this.logger.log(err.error)
 
-                // Send login success telemetry after userProfile is populated
-                this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'otp', result?.msg || result?.message)
+      // Send login failure telemetry
+      this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'otp', err?.error?.msg || err?.error?.message || 'Login failed')
 
-                localStorage.setItem('res', JSON.stringify(res))
-                if (localStorage.getItem('url_before_login')) {
-                  const url = localStorage.getItem('url_before_login') || ''
-                  location.href = url
-                } else {
-                  const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-                  const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
-                  if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-                    const redirectUrl =
-                      orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
-                    this.logger.log(
-                      `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
-                    )
-                    window.location.href = redirectUrl
-                  } else {
-                    window.location.href = '/page/home'
-                  }
-                }
-              }
-            })
-          }, 500)
-        })
-      }, err => {
-        this.ngZone.run(() => {
-          this.isLoginLoading = false
-          this.cdr.detectChanges()
-          this.logger.log(err.error)
+      this.openSnackbar(this.translate.instant(err.error.msg || err.error.message))
+    })
+  }
 
-          // Send login failure telemetry
-          this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'otp', err?.error?.msg || err?.error?.message || 'Login failed')
-
-          this.openSnackbar(this.translate.instant(err.error.msg || err.error.message))
-        })
-      })
+  private redirectAfterLogin(): void {
+    if (localStorage.getItem('url_before_login')) {
+      const url = localStorage.getItem('url_before_login') || ''
+      location.href = url
+      return
+    }
+    const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+    if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+      const redirectUrl =
+        orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
+      this.logger.log(
+        `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
+      )
+      window.location.href = redirectUrl
+    } else {
+      window.location.href = '/page/home'
     }
   }
   otpClick(form: any) {
     if (form.status === "VALID") {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
-      // const validphone = /^[6-9]\d{9}$/.test(phone)
-      phone = phone.replace(/[^0-9+#]/g, '')
+      phone = phone.replaceAll(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
-        // this.otpPage = true
         type = 'phone'
         this.emailPhoneType = 'phone'
       } else {
-        // this.otpPage = true
         const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
@@ -635,7 +652,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
   }
   checkPassword() {
 
-    this.loginPwdForm.controls.password.setValidators([Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)])
+    this.loginPwdForm.controls.password.setValidators([Validators.required, Validators.pattern(/^(?=.{0,64}[a-z])(?=.{0,64}[A-Z])(?=.{0,64}[0-9])(?=.{0,64}[!@#\$%\^&\ *])(?=.{8,64})/g)])
   }
 
   // Generate or retrieve telemetry session ID

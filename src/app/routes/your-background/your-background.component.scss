@@ -2,7 +2,6 @@
 @use 'ws-mixins';
 
 .login-page-content {
-  box-sizing: border-box;
   @extend %page-center;
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;

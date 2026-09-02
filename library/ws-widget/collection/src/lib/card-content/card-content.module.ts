@@ -39,7 +39,7 @@ import { BtnContentShareModule } from '../btn-content-share/btn-content-share.mo
         PipeHtmlTagRemovalModule,
         ContentProgressModule,
         BtnContentShareModule,
-        UserImageModule
+        UserImageModule,
     ],
     exports: [CardContentComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

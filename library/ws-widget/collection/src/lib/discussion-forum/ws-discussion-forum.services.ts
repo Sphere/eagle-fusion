@@ -16,7 +16,7 @@ import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants
   providedIn: 'root',
 })
 export class WsDiscussionForumService {
-  constructor(private http: HttpClient, private apiService: ApiService, private accessService: AccessControlService) { }
+  constructor(private readonly http: HttpClient, private readonly apiService: ApiService, private readonly accessService: AccessControlService) { }
 
   deletePost(postId: string, userId: string) {
     const req: NsDiscussionForum.IPostDeleteRequest = {
@@ -67,7 +67,7 @@ export class WsDiscussionForumService {
     newFormData.append('content', file, fileName)
     return this.apiService.post<NSApiResponse.IFileApiResponse>(
       // tslint:disable-next-line:max-line-length
-      `${CONTENT_BASE}${this.accessService.rootOrg.replace(/ /g, '_')}/${this.accessService.org.replace(/ /g, '_')}/Public/${contentData.contentId.replace('.img', '')}${contentData.contentType}`,
+      `${CONTENT_BASE}${this.accessService.rootOrg.replaceAll(' ', '_')}/${this.accessService.org.replaceAll(' ', '_')}/Public/${contentData.contentId.replace('.img', '')}${contentData.contentType}`,
       newFormData,
       false,
       options,
@@ -81,7 +81,7 @@ export class WsDiscussionForumService {
   ): Observable<NSApiResponse.IFileApiResponse> {
     return this.apiService.post<NSApiResponse.IFileApiResponse>(
       // tslint:disable-next-line:max-line-length
-      `${CONTENT_BASE_ZIP}${this.accessService.rootOrg.replace(/ /g, '_')}/${this.accessService.org.replace(/ /g, '_')}/Public/${contentData.contentId.replace('.img', '')}${contentData.contentType}`,
+      `${CONTENT_BASE_ZIP}${this.accessService.rootOrg.replaceAll(' ', '_')}/${this.accessService.org.replaceAll(' ', '_')}/Public/${contentData.contentId.replace('.img', '')}${contentData.contentType}`,
       data,
       false,
       options,

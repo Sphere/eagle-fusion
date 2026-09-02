@@ -4,72 +4,118 @@ import { forkJoin, Observable, of } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import { API_END_POINTS } from 'src/app/constants/apiConstants'
 import _ from 'lodash-es'
+import {
+  CompetencyInfo,
+  CompetencyLevel,
+  Course,
+  SearchResult,
+  ProgressRecord,
+  CompetencyCourse,
+  AshaDataResponse,
+  AshaProgress,
+  Role,
+} from './mobile-dashboard.model'
 
 @Injectable({ providedIn: 'root' })
 export class MobileDashboardService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getCompetencyInfo(
-    competencyHomeData: any[],
+    competencyHomeData: Role[],
     _rootOrgId: string,
     designation: string,
-    lang: string
-  ): { competencyIds: string[], competencyLevels: any[], isUserDesignationInRoles: boolean } | null {
-    const item = competencyHomeData.find(p => p.playlistId === 'COMPETENCY_PLAYLIST')
+    playlistConfigId?: string
+  ): CompetencyInfo | null {
+    const item = competencyHomeData.find(p => p.playlistId === playlistConfigId)
     if (!item) return null
 
     const rolesInPlaylist: string[] = (item.role || []).map((r: string) => r.toLowerCase())
     const isUserDesignationInRoles = rolesInPlaylist.includes(designation.toLowerCase())
     if (!isUserDesignationInRoles) return null
 
-    const competencies: any[] = item.dataSource?.payload || item?.payload || []
+    const rawCompetencies: any[] = item.dataSource?.payload || item?.payload || []
+    if (!rawCompetencies.length) return null
+    const competencies = rawCompetencies
+      .map(raw => this.normalizeCompetency(raw, item.language))
+      .filter((c): c is { id: any, name: any, levels: any[] } => !!c)
     if (!competencies.length) return null
 
-    const competencyIds: string[] = _.flatMap(competencies, compObj =>
-      Object.keys(compObj).map(key => compObj[key].id)
-    )
-    const competencyLevels: any[] = competencies.flatMap((compObj: any) =>
-      Object.values(compObj).flatMap((comp: any) => {
-        const levels: any[] = comp.additionalProperties?.competencyLevelDescription || []
-        return levels.map((l: any) => ({
-          competencyId: comp.id,
-          // The level keeps its OWN name; the competency name is carried separately
-          // (competencyName) only so the card title can be derived, then stripped.
-          name: l.name || l.levelName,
-          competencyName: comp.name,
-          level: l.level,
-          levelName: l.name || l.levelName,
-          description: l.description,
-          langHiName: l[`lang-${lang}-name`],
-          langHiDescription: l[`lang-${lang}-description`],
-          course: l.course || [],
-        }))
-      })
-    )
+    const competencyIds: string[] = _.flatMap(competencies, compObj => compObj.id)
+    const competencyLevels: any[] = competencies.flatMap((compObj: any) => {
+      return compObj.levels.map((l: any) => ({
+        competencyId: compObj.id,
+        // The level keeps its OWN name; the competency name is carried separately
+        // (competencyName) only so the card title can be derived, then stripped.
+        name: l.name || l.levelName,
+        competencyName: compObj.name,
+        level: l.level,
+        levelName: l.name || l.levelName,
+        description: l.description,
+        course: l.course || '',
+      }))
+    })
 
     return { competencyIds, competencyLevels, isUserDesignationInRoles }
   }
 
+  private normalizeCompetency(raw: any, lang?: string): { id: any, name: any, levels: any[] } | null {
+    if (!raw || typeof raw !== 'object') return null
+
+    if (Array.isArray(raw.levels)) {
+      return {
+        id: raw.id,
+        name: raw.name,
+        levels: raw.levels.map((l: any) => ({
+          name: l.name,
+          levelName: l.name,
+          level: l.level,
+          description: l.description,
+          course: l.courseId,
+        })),
+      }
+    }
+
+    const inner = raw.additionalProperties ? raw : Object.values(raw)[0] as any
+    const levelDescs: any[] = inner?.additionalProperties?.competencyLevelDescription
+    if (!inner?.id || !Array.isArray(levelDescs)) return null
+
+    return {
+      id: inner.id,
+      name: inner.name,
+      levels: levelDescs.map((l: any) => {
+        const courses: any[] = Array.isArray(l.course) ? l.course : []
+        const matched = courses.find((c: any) => c?.lang === lang) || courses[0]
+        return {
+          name: l.name,
+          levelName: l.name || l.levelName,
+          level: l.level,
+          description: l.description,
+          course: matched?.id,
+        }
+      }),
+    }
+  }
+
   getAshaData(
     lang: string,
-    competencyLevels: any[],
+    competencyLevels: CompetencyLevel[],
     competencyIds: string[],
     userId: string
-  ): Observable<{ ashaData: any[], completedCourses: any[], inProgressCourses: any[] }> {
-    const empty = { ashaData: [], completedCourses: [], inProgressCourses: [] }
+  ): Observable<AshaDataResponse> {
+    const empty: AshaDataResponse = { ashaData: [], completedCourses: [], inProgressCourses: [] }
 
     if (!competencyIds.length || !competencyLevels.length) return of(empty)
 
     // Build all competencies from playlist — guarantees count stays at 16
-    const competencyMap = new Map<string, any>()
+    const competencyMap = new Map<string, CompetencyCourse>()
     for (const level of competencyLevels) {
       const key = String(level.competencyId)
       if (!competencyMap.has(key)) {
         competencyMap.set(key, {
           title: level.competencyName || level.name,
           competencyID: String(level.competencyId),
-          contentId: level.course?.[0]?.id || '',
+          contentId: level.course || '',
           batchId: '',
           isAsha: 'true',
           levels: [],
@@ -98,8 +144,8 @@ export class MobileDashboardService {
     }
 
     return forkJoin({
-      searchResult: this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, searchPayload).pipe(catchError(() => of(null))),
-      progress: this.http.get<any>(API_END_POINTS.GET_ASHA_PROGRESS(userId)).pipe(catchError(() => of(null))),
+      searchResult: this.http.post<SearchResult>(API_END_POINTS.SEARCH_V7PUBLIC, searchPayload).pipe(catchError(() => of(null))),
+      progress: this.http.get<{ data: ProgressRecord[] }>(API_END_POINTS.GET_ASHA_PROGRESS(userId)).pipe(catchError(() => of(null))),
     }).pipe(
       map(({ searchResult, progress }) => {
         // Enrich titles from search results — never reduces count
@@ -136,15 +182,15 @@ export class MobileDashboardService {
   }
 
   private getFormattedCompetencyCoursesWithFilter(
-    courses: any[],
-    competencyLevels: any[],
+    courses: Course[],
+    competencyLevels: CompetencyLevel[],
     competencyIds: string[]
-  ): any[] {
+  ): CompetencyCourse[] {
     const uniqueIds = competencyIds.map(String)
     return courses
       .map(course => {
         const matchedLevel = competencyLevels.find(l =>
-          (l.course || []).some((c: any) => c.id === course.identifier)
+          (l.course == course.identifier)
         )
         let competencyID = matchedLevel?.competencyId
         if (competencyID === undefined || competencyID === null) {
@@ -173,114 +219,132 @@ export class MobileDashboardService {
           competencyID,
           levels,
           lang: course.lang || course.language,
+          isAsha: 'true',
         }
       })
       .filter(Boolean)
   }
 
-  private mergeProgressData(courses: any[], progressRecords: any[]): any[] {
-    const merged = courses.map(course => {
-      const courseKey = String(course.competencyID || '').toLowerCase()
-      // The API returns 'competencylevel' as the level field; normalize to numeric 'levelId'.
-      const rawProgress: any[] = (progressRecords || [])
-        .filter(p => {
-          const pid = p.competencyid ?? p.competencyId ?? ''
-          return String(pid).toLowerCase() === courseKey
-        })
-        .map(p => ({ ...p, levelId: p.levelId ?? p.competencylevel }))
-
-      if (!course.levels?.length) {
-        return { ...course, progress: [] }
-      }
-
-      // Map every course id (across all languages) to the level numbers it appears in
-      // (mirrors mobile groupLevelsByCourse — iterates ALL courses, not just course[0]).
-      const courseGroups = new Map<string, string[]>()
-      for (const level of course.levels) {
-        ; (level.course || []).forEach((c: any) => {
-          if (!c?.id) {
-            return
-          }
-          if (!courseGroups.has(c.id)) {
-            courseGroups.set(c.id, [])
-          }
-          courseGroups.get(c.id)!.push(String(level.level))
-        })
-      }
-
-      // Identify completed courses (a Pass on a 'course' content type) by their level.
-      const completedCourseIds = new Set<string>()
-      rawProgress.forEach(p => {
-        if (p.passFailStatus === 'Pass' && p.contentType?.toLowerCase() === 'course') {
-          const matchingLevel = course.levels.find((l: any) => String(l.level) === String(p.levelId))
-          const levelCourseId = matchingLevel?.course?.[0]?.id
-          if (levelCourseId) {
-            completedCourseIds.add(levelCourseId)
-          }
-        }
-      })
-
-      // Keep original per-level progress, then expand each completed course across all the
-      // levels that course covers. NO sequential inference (matches mobile) — only the
-      // levels actually tied to a completed course are marked Pass.
-      const finalProgress = new Map<string, any>()
-      rawProgress.forEach(p => finalProgress.set(String(p.levelId), p))
-
-      completedCourseIds.forEach(completedCourseId => {
-        const baseProgress = rawProgress.find(p => {
-          const lvl = course.levels.find((l: any) => String(l.level) === String(p.levelId))
-          return lvl?.course?.[0]?.id === completedCourseId && p.passFailStatus === 'Pass'
-        })
-          ; (courseGroups.get(completedCourseId) || []).forEach(levelNum => {
-            finalProgress.set(levelNum, {
-              levelId: Number(levelNum),
-              competencyId: course.competencyID,
-              completionpercentage: 100,
-              passFailStatus: 'Pass',
-              attemptcount: baseProgress?.attemptcount || 1,
-              contentType: 'course',
-            })
-          })
-      })
-
-      const nonCourseProgress = rawProgress.filter(p => p.contentType?.toLowerCase() !== 'course')
-      const mergedProgress = [...nonCourseProgress, ...Array.from(finalProgress.values())]
-      const deduped = _.uniqBy(mergedProgress, (p: any) => `${p.levelId}-${p.contentType}-${p.passFailStatus}`)
-
-      // Slim each record to the normalized shape the card/UI expects.
-      const progress = deduped.map((p: any) => ({
-        attemptcount: p.attemptcount ?? 0,
-        competencyId: p.competencyId ?? p.competencyid ?? course.competencyID,
-        completionpercentage: p.completionpercentage ?? 0,
-        contentType: p.contentType,
-        levelId: Number(p.levelId ?? p.competencylevel),
-        passFailStatus: p.passFailStatus,
-      }))
-
-      // The self-assessment lives in its OWN course (the courseid on a selfAssessment progress
-      // record), NOT the per-level learning course. Point contentId there so the guard fetches
-      // the course that holds the assessment quiz. Fall back to the existing contentId when
-      // there's no self-assessment progress yet.
-      const selfAssessmentCourseId = rawProgress
-        .find((p: any) => p.contentType?.toLowerCase() === 'selfassessment' && p.courseid)?.courseid
-
-      return {
-        ...course,
-        ...(selfAssessmentCourseId ? { contentId: selfAssessmentCourseId } : {}),
-        progress,
-      }
-    })
-
+  private mergeProgressData(courses: CompetencyCourse[], progressRecords: ProgressRecord[]): CompetencyCourse[] {
+    const merged = courses.map(course => this.mergeCourseProgress(course, progressRecords))
     return _.sortBy(merged, (item: any) => Number(item.competencyID))
   }
 
-  private setCoursesState(courses: any[]): { ashaData: any[], completedCourses: any[], inProgressCourses: any[] } {
+  private mergeCourseProgress(course: CompetencyCourse, progressRecords: ProgressRecord[]): CompetencyCourse {
+    const courseKey = String(course.competencyID || '').toLowerCase()
+    // The API returns 'competencylevel' as the level field; normalize to numeric 'levelId'.
+    const rawProgress: ProgressRecord[] = (progressRecords || [])
+      .filter(p => {
+        const pid = p.competencyid ?? p.competencyId ?? ''
+        return String(pid).toLowerCase() === courseKey
+      })
+      .map(p => ({ ...p, levelId: p.levelId ?? p.competencylevel }))
+
+    if (!course.levels?.length) {
+      return { ...course, progress: [] }
+    }
+
+    // Map every course id (across all languages) to the level numbers it appears in
+    // (mirrors mobile groupLevelsByCourse — iterates ALL courses, not just course[0]).
+    const courseGroups = this.buildCourseGroupsByCourseId(course)
+    const completedCourseIds = this.findCompletedCourseIds(rawProgress, course)
+    const finalProgress = this.buildFinalProgressMap(course, rawProgress, courseGroups, completedCourseIds)
+
+    const nonCourseProgress = rawProgress.filter(p => p.contentType?.toLowerCase() !== 'course')
+    const mergedProgress = [...nonCourseProgress, ...Array.from(finalProgress.values())]
+    const deduped = _.uniqBy(mergedProgress, (p: ProgressRecord) => `${p.levelId}-${p.contentType}-${p.passFailStatus}`)
+
+    // Slim each record to the normalized shape the card/UI expects.
+    const progress = deduped.map((p: ProgressRecord): AshaProgress => ({
+      attemptcount: p.attemptcount ?? 0,
+      competencyId: p.competencyId ?? p.competencyid ?? course.competencyID,
+      completionpercentage: p.completionpercentage ?? 0,
+      contentType: p.contentType,
+      levelId: Number(p.levelId ?? p.competencylevel),
+      passFailStatus: p.passFailStatus,
+    }))
+
+    // The self-assessment lives in its OWN course (the courseid on a selfAssessment progress
+    // record), NOT the per-level learning course. Point contentId there so the guard fetches
+    // the course that holds the assessment quiz. Fall back to the existing contentId when
+    // there's no self-assessment progress yet.
+    const selfAssessmentCourseId = rawProgress
+      .find((p: any) => p.contentType?.toLowerCase() === 'selfassessment' && p.courseid)?.courseid
+
+    return {
+      ...course,
+      ...(selfAssessmentCourseId ? { contentId: selfAssessmentCourseId } : {}),
+      progress,
+    }
+  }
+
+  private buildCourseGroupsByCourseId(course: CompetencyCourse): Map<string, string[]> {
+    const courseGroups = new Map<string, string[]>()
+    for (const level of course.levels) {
+      const courseId = level.course // Direct courseId from new structure
+      if (courseId) {
+        if (!courseGroups.has(courseId)) {
+          courseGroups.set(courseId, [])
+        }
+        courseGroups.get(courseId)!.push(String(level.level))
+      }
+    }
+    return courseGroups
+  }
+
+  private findCompletedCourseIds(rawProgress: ProgressRecord[], course: CompetencyCourse): Set<string> {
+    // Identify completed courses (a Pass on a 'course' content type) by their level.
+    const completedCourseIds = new Set<string>()
+    rawProgress.forEach(p => {
+      if (p.passFailStatus === 'Pass' && p.contentType?.toLowerCase() === 'course') {
+        const matchingLevel = course.levels.find((l: any) => String(l.level) === String(p.levelId))
+        const levelCourseId = matchingLevel?.course // Use courseId from new structure
+        if (levelCourseId) {
+          completedCourseIds.add(levelCourseId)
+        }
+      }
+    })
+    return completedCourseIds
+  }
+
+  private buildFinalProgressMap(
+    course: CompetencyCourse,
+    rawProgress: ProgressRecord[],
+    courseGroups: Map<string, string[]>,
+    completedCourseIds: Set<string>,
+  ): Map<string, ProgressRecord> {
+    // Keep original per-level progress, then expand each completed course across all the
+    // levels that course covers. NO sequential inference (matches mobile) — only the
+    // levels actually tied to a completed course are marked Pass.
+    const finalProgress = new Map<string, ProgressRecord>()
+    rawProgress.forEach(p => finalProgress.set(String(p.levelId), p))
+
+    completedCourseIds.forEach(completedCourseId => {
+      const baseProgress = rawProgress.find(p => {
+        const lvl = course.levels.find((l: any) => String(l.level) === String(p.levelId))
+        return lvl?.course === completedCourseId && p.passFailStatus === 'Pass'
+      })
+        ; (courseGroups.get(completedCourseId) || []).forEach(levelNum => {
+          finalProgress.set(levelNum, {
+            levelId: Number(levelNum),
+            competencyId: course.competencyID,
+            completionpercentage: 100,
+            passFailStatus: 'Pass',
+            attemptcount: baseProgress?.attemptcount || 1,
+            contentType: 'course',
+          })
+        })
+    })
+    return finalProgress
+  }
+
+  private setCoursesState(courses: CompetencyCourse[]): AshaDataResponse {
     const TOTAL_LEVELS = 5
-    const completedCourses: any[] = []
-    const inProgressCourses: any[] = []
+    const completedCourses: CompetencyCourse[] = []
+    const inProgressCourses: CompetencyCourse[] = []
 
     courses.forEach(course => {
-      const completedLevels = (course.progress || []).filter((p: any) => p.passFailStatus === 'Pass').length
+      const completedLevels = (course.progress || []).filter((p: ProgressRecord) => p.passFailStatus === 'Pass').length
       const totalPercentage = Math.min((completedLevels / TOTAL_LEVELS) * 100, 100)
       const enriched = { ...course, completedLevels, totalPercentage }
       if (totalPercentage === 100) completedCourses.push(enriched)

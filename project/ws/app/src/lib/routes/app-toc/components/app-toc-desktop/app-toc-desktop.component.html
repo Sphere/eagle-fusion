@@ -16,7 +16,9 @@
     <div class="title"><span style="word-wrap: break-word;" [title]="content?.name">
         {{ content?.name }} </span></div>
     <div class="details mb-3" *ngIf="content?.creator"><span>{{ 'By' | translate }}</span>: <span
-        class="blue-link cursor-pointer" (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</span>
+        class="blue-link cursor-pointer" tabindex="0" role="button" (click)="showOrgprofile(content?.sourceName)"
+        (keydown.enter)="showOrgprofile(content?.sourceName)"
+        (keydown.space)="showOrgprofile(content?.sourceName); $event.preventDefault()">{{content?.sourceName}}</span>
     </div>
 
     <div class="rating-block mb-2">
@@ -27,7 +29,9 @@
       <span *ngIf="totalRatings>0" class="total-rating">( {{totalRatings}} )</span>
       <div *ngIf="(content?.completionPercentage === 100 || optmisticPercentage === 100) && averageRating > 0"
         class="flex flex-col gap-1 justify-content-center align-items-center">
-        <mat-icon class="float-right pencil cursor-pointer" (click)="openRating(content?.identifier)"
+        <mat-icon class="float-right pencil cursor-pointer" tabindex="0" (click)="openRating(content?.identifier)"
+          (keydown.enter)="openRating(content?.identifier)"
+          (keydown.space)="openRating(content?.identifier); $event.preventDefault()"
           matTooltip="Edit Rating">edit</mat-icon>
       </div>
     </div>

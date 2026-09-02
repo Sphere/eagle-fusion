@@ -37,12 +37,12 @@ export class ProfileSelectComponent implements OnInit {
   ]
 
   constructor(public dialogRef: MatDialogRef<ProfileSelectComponent>,
-    private snackBar: MatSnackBar,
-    private userProfileSvc: UserProfileService,
-    private configSvc: ConfigurationsService,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    private UserAgentResolverService: UserAgentResolverService,
+    private readonly snackBar: MatSnackBar,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly dialog: MatDialog,
+    private readonly loader: LoaderService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
   ) {
     this.createUserForm = new UntypedFormGroup({
       photo: new UntypedFormControl('', []),
@@ -59,7 +59,7 @@ export class ProfileSelectComponent implements OnInit {
 
   uploadProfileImg(file: File) {
     const formdata = new FormData()
-    const fileName = file.name.replace(/[^A-Za-z0-9.]/g, '')
+    const fileName = file.name.replaceAll(/[^A-Za-z0-9.]/g, '')
     if (
       !(
         IMAGE_SUPPORT_TYPES.indexOf(

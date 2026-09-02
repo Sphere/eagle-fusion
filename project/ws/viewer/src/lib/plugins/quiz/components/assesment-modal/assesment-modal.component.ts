@@ -1,9 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-// import { HttpClient } from '@angular/common/http'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
-import { interval, Subject, Subscription } from 'rxjs'
+import { firstValueFrom, interval, Subject, Subscription } from 'rxjs'
 import { first, map, takeUntil } from 'rxjs/operators'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
@@ -24,8 +23,6 @@ import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 import { TranslateService } from '@ngx-translate/core'
 import { HttpClient } from '@angular/common/http'
-// import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
-// declare var Telemetry: any
 @Component({
   standalone: false,
   selector: 'viewer-assesment-modal',
@@ -69,33 +66,30 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   nextCompetencyLevel = 0
   isShownGrif = false
   courseID: any
-  progress = 40;
+  progress = 40
   public unsubscribe = new Subject<void>()
 
-  // Organizations where View Answers should not be shown if isCorrectAnswerPopUp is not present
-  // Fetched from S3 configuration
-  // private restrictedOrgIds: string[] = []
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public quizService: QuizService,
     public route: ActivatedRoute,
-    private valueSvc: ValueService,
-    private snackBar: MatSnackBar,
+    private readonly valueSvc: ValueService,
+    private readonly snackBar: MatSnackBar,
     public viewerDataSvc: ViewerDataService,
-    private configSvc: ConfigurationsService,
-    private telemetrySvc: TelemetryService,
-    private viewerSvc: ViewerUtilService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly viewerSvc: ViewerUtilService,
     public playerStateService: PlayerStateService,
-    private contentSvc: WidgetContentService,
-    private events: EventService,
-    private dialog: MatDialog,
-    private http: HttpClient,
-    private logger: LoggerService,
-    private plylsSvc: PlaylistService,
-    private translate: TranslateService,
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef,
+    private readonly contentSvc: WidgetContentService,
+    private readonly events: EventService,
+    private readonly dialog: MatDialog,
+    private readonly logger: LoggerService,
+    private readonly plylsSvc: PlaylistService,
+    private readonly translate: TranslateService,
+    private readonly ngZone: NgZone,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly http: HttpClient,
   ) { }
 
   ngOnInit() {
@@ -108,13 +102,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.timer(this.timeLeft)
     this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
-    // this.progressbarValue = this.totalQuestion
     this.progressbarValue += 100 / this.totalQuestion
     this.proficiencyLevel = this.assesmentdata.generalData.name
       .replace('Proficency', 'Proficiency').split('Proficiency')[1]
     this.isCompetency = this.route.snapshot.queryParams.competency
     this.isAshaHome = this.route.snapshot.queryParams.isAsha
-    // this.fetchRestrictedOrgIds()
     // **CRITICAL**: Check current progress before sending update to avoid resetting completed assessments
     this.updateProgress()
   }
@@ -204,25 +196,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   /**
-   * Fetch restricted organization names from S3 configuration file
-   */
-  // private fetchRestrictedOrgIds(): void {
-  //   const s3ConfigUrl = S3_END_POINTS.QUIZ_CONFIG
-
-  //   this.http.get<any>(s3ConfigUrl).subscribe(
-  //     (config: any) => {
-  //       if (config && Array.isArray(config.restrictedOrgIds)) {
-  //         this.restrictedOrgIds = config.restrictedOrgIds
-  //         this.logger.log('Restricted org names loaded from S3:', this.restrictedOrgIds)
-  //       }
-  //     },
-  //     (error: any) => {
-  //       this.logger.warn('Failed to load restricted org names from S3:', error)
-  //     }
-  //   )
-  // }
-
-  /**
    * Check if View Answers button should be shown based on resource property and organization
    *
    * Logic:
@@ -253,7 +226,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   closePopup() {
-    // console.log("close competenct", this.isCompetency)
     if (this.isCompetency) {
       if (this.isAshaHome) {
         this.dialogRef.close({
@@ -328,12 +300,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
    */
   private async populateAnswersFromArtifact(): Promise<void> {
     const artifactUrl = this.assesmentdata.generalData.artifactUrl
-    const quizJSON: any = await this.http
-      .get<any>(artifactUrl || '')
-      .toPromise()
-      .catch((_err: any) => {
-      })
-    const quizQuestions = quizJSON && quizJSON.questions ? quizJSON.questions : []
+    const quizJSON: any = await firstValueFrom(this.http.get<any>(artifactUrl || '')).catch((_err: any) => {
+    })
+    const quizQuestions = quizJSON?.questions ?? []
     this.assesmentdata.questions.questions.forEach((question: any) => {
       const matchedQuestion = quizQuestions.find((qq: any) => qq.questionId === question.questionId)
       if (matchedQuestion) {
@@ -577,127 +546,158 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
   submitCompetencyQuizV2(sanitizedRequestData: any) {
     this.quizService.competencySubmitQuizV2(sanitizedRequestData).subscribe(
-      (res: NSQuiz.IQuizSubmitResponse) => {
-        const data1: any = {
-          id: this.assesmentdata.generalData.identifier,
-          type: "competency",
-          version: "",
-          "rollup": {
-            "l1": this.assesmentdata.generalData.collectionId,
-            "l2": this.assesmentdata.generalData.identifier,
-          },
-        }
-        const extras: any = {
-          values: [{
-            courseID: this.assesmentdata.generalData.collectionId,
-            contentId: this.assesmentdata.generalData.identifier,
-            name: this.assesmentdata.generalData.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-          }],
-        }
-        this.telemetrySvc.end('competency', 'competency-submit', 'player', data1, extras)
-        window.scrollTo(0, 0)
-        if (this.assesmentdata.questions.isAssessment) {
-          this.isIdeal = true
-        }
-        this.fetchingResultsStatus = 'done'
-        this.numCorrectAnswers = res.correct
-        this.numIncorrectAnswers = res.inCorrect
-        this.numUnanswered = res.blank
-        /* tslint:disable-next-line:max-line-length */
-        this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
-        this.result = round(res.result)
-        this.tabIndex = 1
-        this.tabActive = true
-        this.assesmentActive = false
-        this.cdr.detectChanges()
-        if (this.result >= this.passPercentage) {
-          this.isCompleted = true
-          this.isCompetencyComplted = true
-          this.isShownGrif = true
-          setTimeout(() => {
-            this.isShownGrif = false
-            this.cdr.detectChanges()
-          }, 4000)
-        } else {
-          this.disableNext = true
-        }
-        this.isCompetency = this.route.snapshot.queryParams.competency
-        this.isAshaHome = this.route.snapshot.queryParams.isAsha
-        if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
-          this.disableContinue = true
-        }
-        const data = localStorage.getItem('competency_meta_data')
-        let competency_meta_data: any
-        let competencyLevelId
-        if (data) {
-          competency_meta_data = JSON.parse(data)[0]
-          forEach(JSON.parse(data), (item: any) => {
-            if (item.competencyIds) {
-              competencyLevelId = this.getCompetencyId(item.competencyIds)
-              this.competencyLevelId = competencyLevelId ?? ''
-            }
-          })
-        }
-        this.competencyId = competency_meta_data.competencyId
-        let userId = ''
-        if (this.configSvc.userProfile) {
-          userId = this.configSvc.userProfile.userId || ''
-        }
-        if (this.isCompetencyComplted) {
-          const formatedData = {
-            request: {
-              userId,
-              typeName: 'competency',
-              competencyDetails: [
-                {
-                  competencyId: competency_meta_data.competencyId,
-                  additionalParams: {
-                    competencyName: competency_meta_data.competencyName,
-                  },
-                  acquiredDetails: {
-                    acquiredChannel: 'selfAssessment',
-                    competencyLevelId,
-                    // effectiveDate: "2023-02-09 9:46:12",
-                    additionalParams: {
-                      competencyName: competency_meta_data.competencyName,
-                      courseId: this.assesmentdata.generalData.collectionId,
-                      ResourseId: this.assesmentdata.generalData.identifier,
-                    },
-                  },
-                },
-              ],
-            },
-          }
-          this.quizService.updatePassbook(formatedData).subscribe(() => {
-          })
-          this.updateNextResourses()
-        }
-        // ASHA-home extra flow: record the self-assessment result (pass or fail) against
-        // the learner path so the ASHA home progress (level highlight / next action)
-        // reflects this attempt. Runs for ASHA users regardless of pass/fail.
-        if (this.isAshaHome) {
-          this.courseID = sanitizedRequestData.courseId
-          const ashaReq = {
-            userid: userId,
-            courseid: sanitizedRequestData.courseId,
-            batchid: sanitizedRequestData.batchId,
-            contentid: sanitizedRequestData.contentId,
-            competencylevel: this.competencyLevelId,
-            completionpercentage: this.result >= this.passPercentage ? 100 : 0,
-            contentType: 'selfAssessment',
-            competencyid: this.competencyId,
-          }
-          this.quizService.updateAshaAssessment(ashaReq).subscribe(
-            (ashaRes: any) => { this.logger.log('asha assessment updated', ashaRes) },
-            (err: any) => { this.logger.warn('asha assessment update failed', err) },
-          )
-        }
-      },
+      (res: NSQuiz.IQuizSubmitResponse) => this.handleCompetencyQuizSubmitSuccess(res, sanitizedRequestData),
       (_error: any) => {
         this.openSnackbar(this.translate.instant("SUBMIT_ERR"))
         this.fetchingResultsStatus = 'error'
       },
+    )
+  }
+
+  private handleCompetencyQuizSubmitSuccess(res: NSQuiz.IQuizSubmitResponse, sanitizedRequestData: any): void {
+    this.raiseCompetencySubmitTelemetry()
+    this.applyQuizResult(res)
+
+    this.isCompetency = this.route.snapshot.queryParams.competency
+    this.isAshaHome = this.route.snapshot.queryParams.isAsha
+    if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
+      this.disableContinue = true
+    }
+
+    const { competency_meta_data, competencyLevelId } = this.loadCompetencyMetaData()
+    this.competencyId = competency_meta_data.competencyId
+    const userId = this.getCurrentUserId()
+
+    if (this.isCompetencyComplted) {
+      this.recordCompetencyCompletion(userId, competency_meta_data, competencyLevelId)
+    }
+    // ASHA-home extra flow: record the self-assessment result (pass or fail) against
+    // the learner path so the ASHA home progress (level highlight / next action)
+    // reflects this attempt. Runs for ASHA users regardless of pass/fail.
+    if (this.isAshaHome) {
+      this.recordAshaAssessmentResult(userId, sanitizedRequestData)
+    }
+  }
+
+  private raiseCompetencySubmitTelemetry(): void {
+    const data1: any = {
+      id: this.assesmentdata.generalData.identifier,
+      type: "competency",
+      version: "",
+      "rollup": {
+        "l1": this.assesmentdata.generalData.collectionId,
+        "l2": this.assesmentdata.generalData.identifier,
+      },
+    }
+    const extras: any = {
+      values: [{
+        courseID: this.assesmentdata.generalData.collectionId,
+        contentId: this.assesmentdata.generalData.identifier,
+        name: this.assesmentdata.generalData.name,
+        moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+      }],
+    }
+    this.telemetrySvc.end('competency', 'competency-submit', 'player', data1, extras)
+  }
+
+  private applyQuizResult(res: NSQuiz.IQuizSubmitResponse): void {
+    window.scrollTo(0, 0)
+    if (this.assesmentdata.questions.isAssessment) {
+      this.isIdeal = true
+    }
+    this.fetchingResultsStatus = 'done'
+    this.numCorrectAnswers = res.correct
+    this.numIncorrectAnswers = res.inCorrect
+    this.numUnanswered = res.blank
+    /* tslint:disable-next-line:max-line-length */
+    this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
+    this.result = round(res.result)
+    this.tabIndex = 1
+    this.tabActive = true
+    this.assesmentActive = false
+    this.cdr.detectChanges()
+    if (this.result >= this.passPercentage) {
+      this.isCompleted = true
+      this.isCompetencyComplted = true
+      this.isShownGrif = true
+      setTimeout(() => {
+        this.isShownGrif = false
+        this.cdr.detectChanges()
+      }, 4000)
+    } else {
+      this.disableNext = true
+    }
+  }
+
+  private loadCompetencyMetaData(): { competency_meta_data: any; competencyLevelId: any } {
+    const data = localStorage.getItem('competency_meta_data')
+    let competency_meta_data: any
+    let competencyLevelId
+    if (data) {
+      competency_meta_data = JSON.parse(data)[0]
+      forEach(JSON.parse(data), (item: any) => {
+        if (item.competencyIds) {
+          competencyLevelId = this.getCompetencyId(item.competencyIds)
+          this.competencyLevelId = competencyLevelId ?? ''
+        }
+      })
+    }
+    return { competency_meta_data, competencyLevelId }
+  }
+
+  private getCurrentUserId(): string {
+    let userId = ''
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    return userId
+  }
+
+  private recordCompetencyCompletion(userId: string, competency_meta_data: any, competencyLevelId: any): void {
+    const formatedData = {
+      request: {
+        userId,
+        typeName: 'competency',
+        competencyDetails: [
+          {
+            competencyId: competency_meta_data.competencyId,
+            additionalParams: {
+              competencyName: competency_meta_data.competencyName,
+            },
+            acquiredDetails: {
+              acquiredChannel: 'selfAssessment',
+              competencyLevelId,
+              // effectiveDate: "2023-02-09 9:46:12",
+              additionalParams: {
+                competencyName: competency_meta_data.competencyName,
+                courseId: this.assesmentdata.generalData.collectionId,
+                ResourseId: this.assesmentdata.generalData.identifier,
+              },
+            },
+          },
+        ],
+      },
+    }
+    this.quizService.updatePassbook(formatedData).subscribe(() => {
+    })
+    this.updateNextResourses()
+  }
+
+  private recordAshaAssessmentResult(userId: string, sanitizedRequestData: any): void {
+    this.courseID = sanitizedRequestData.courseId
+    const ashaReq = {
+      userid: userId,
+      courseid: sanitizedRequestData.courseId,
+      batchid: sanitizedRequestData.batchId,
+      contentid: sanitizedRequestData.contentId,
+      competencylevel: this.competencyLevelId,
+      completionpercentage: this.result >= this.passPercentage ? 100 : 0,
+      contentType: 'selfAssessment',
+      competencyid: this.competencyId,
+    }
+    this.quizService.updateAshaAssessment(ashaReq).subscribe(
+      (ashaRes: any) => { this.logger.log('asha assessment updated', ashaRes) },
+      (err: any) => { this.logger.warn('asha assessment update failed', err) },
     )
   }
 
@@ -733,90 +733,109 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.numCorrectAnswers = 0
     this.numIncorrectAnswers = 0
     correctAnswers.forEach((answer: any) => {
-      const correctOptions = answer.correctOptions
-      const correctMtfOptions = answer.correctMtfOptions
-      let selectedOptions: any =
-        this.questionAnswerHash[answer.questionId] ?? []
-      if (
-        answer.questionType === 'fitb' &&
-        this.questionAnswerHash[answer.questionId] &&
-        this.questionAnswerHash[answer.questionId][0]
-      ) {
-        selectedOptions =
-          this.questionAnswerHash[answer.questionId][0].split(',') ?? []
-        let correctFlag = true
-        let unTouched = false
-        if (selectedOptions.length < 1) {
-          unTouched = true
-        }
-        if (correctOptions.length !== selectedOptions.length) {
-          correctFlag = false
-        }
-        if (correctFlag && !unTouched) {
-          for (let i = 0; i < correctOptions.length; i += 1) {
-            if (
-              correctOptions[i].trim().toLowerCase() !==
-              selectedOptions[i].trim().toLowerCase()
-            ) {
-              correctFlag = false
-            }
-          }
-        }
-        if (correctFlag && !unTouched) {
-          this.numCorrectAnswers += 1
-        } else if (!unTouched) {
-          this.numIncorrectAnswers += 1
-        }
-
-      } else if (answer.questionType === 'mtf') {
-        let unTouched = false
-        let correctFlag = true
-        if (selectedOptions.length < 1 || selectedOptions[0].length < 1) {
-          unTouched = true
-        } else if (selectedOptions[0].length < correctMtfOptions.length) {
-          correctFlag = false
-        }
-        if (selectedOptions && selectedOptions[0]) {
-          (selectedOptions[0] as any[]).forEach(element => {
-            const b = element.sourceId
-            if (correctMtfOptions) {
-              const option = correctMtfOptions[(b.slice(-1) as number) - 1] ?? { match: '' }
-              const match = option.match
-              if (match && match.trim() === element.target.innerHTML.trim()
-              ) {
-                element.setPaintStyle({
-                  stroke: '#357a38',
-                })
-
-              } else {
-                element.setPaintStyle({
-                  stroke: '#f44336',
-                })
-                correctFlag = false
-
-              }
-            }
-          })
-        }
-        if (correctFlag && !unTouched) {
-          this.numCorrectAnswers += 1
-        } else if (!unTouched) {
-          this.numIncorrectAnswers += 1
-        }
-      } else {
-        if (
-          correctOptions.sort().join(',') === selectedOptions.sort().join(',')
-        ) {
-          this.numCorrectAnswers += 1
-        } else if (selectedOptions.length > 0) {
-          this.numIncorrectAnswers += 1
-        }
-      }
+      this.scoreAnswer(answer)
     })
     this.numUnanswered =
       this.assesmentdata.questions.length -
       this.numCorrectAnswers -
       this.numIncorrectAnswers
+  }
+
+  private scoreAnswer(answer: any) {
+    const correctOptions = answer.correctOptions
+    const correctMtfOptions = answer.correctMtfOptions
+    const selectedOptions: any =
+      this.questionAnswerHash[answer.questionId] ?? []
+
+    if (
+      answer.questionType === 'fitb' &&
+      this.questionAnswerHash[answer.questionId] &&
+      this.questionAnswerHash[answer.questionId][0]
+    ) {
+      this.scoreFitbAnswer(correctOptions, this.questionAnswerHash[answer.questionId][0])
+    } else if (answer.questionType === 'mtf') {
+      this.scoreMtfAnswer(correctMtfOptions, selectedOptions)
+    } else {
+      this.scoreDefaultAnswer(correctOptions, selectedOptions)
+    }
+  }
+
+  private scoreFitbAnswer(correctOptions: any[], rawSelectedOptions: string) {
+    const selectedOptions: any = rawSelectedOptions.split(',') ?? []
+    let correctFlag = true
+    let unTouched = false
+    if (selectedOptions.length < 1) {
+      unTouched = true
+    }
+    if (correctOptions.length !== selectedOptions.length) {
+      correctFlag = false
+    }
+    if (correctFlag && !unTouched) {
+      for (let i = 0; i < correctOptions.length; i += 1) {
+        if (
+          correctOptions[i].trim().toLowerCase() !==
+          selectedOptions[i].trim().toLowerCase()
+        ) {
+          correctFlag = false
+        }
+      }
+    }
+    this.applyScoreFlag(correctFlag, unTouched)
+  }
+
+  private scoreMtfElement(element: any, correctMtfOptions: any[]): boolean {
+    const b = element.sourceId
+    if (!correctMtfOptions) {
+      return true
+    }
+    const option = correctMtfOptions[(b.slice(-1) as number) - 1] ?? { match: '' }
+    const match = option.match
+    if (match && match.trim() === element.target.innerHTML.trim()) {
+      element.setPaintStyle({
+        stroke: '#357a38',
+      })
+      return true
+    }
+    element.setPaintStyle({
+      stroke: '#f44336',
+    })
+    return false
+  }
+
+  private scoreMtfAnswer(correctMtfOptions: any[], selectedOptions: any) {
+    let unTouched = false
+    let correctFlag = true
+    if (selectedOptions.length < 1 || selectedOptions[0].length < 1) {
+      unTouched = true
+    } else if (selectedOptions[0].length < correctMtfOptions.length) {
+      correctFlag = false
+    }
+    if (selectedOptions && selectedOptions[0]) {
+      (selectedOptions[0] as any[]).forEach(element => {
+        if (!this.scoreMtfElement(element, correctMtfOptions)) {
+          correctFlag = false
+        }
+      })
+    }
+    this.applyScoreFlag(correctFlag, unTouched)
+  }
+
+  private scoreDefaultAnswer(correctOptions: any[], selectedOptions: any) {
+    if (
+      correctOptions.sort((a, b) => a.localeCompare(b)).join(',') === selectedOptions.sort((a, b) => a.localeCompare(b)).join(',')
+    ) {
+      this.numCorrectAnswers += 1
+    } else if (selectedOptions.length > 0) {
+      this.numIncorrectAnswers += 1
+    }
+  }
+
+  private applyScoreFlag(correctFlag: boolean, unTouched: boolean) {
+    if (correctFlag && !unTouched) {
+      this.numCorrectAnswers += 1
+    } else if (!unTouched) {
+      this.numIncorrectAnswers += 1
+    }
   }
 
   updateNextResourses() {
@@ -876,7 +895,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.quizService.questionState.active_slide_index
       === (this.quizService.questionState.slides.length - 1)) {
       this.disableNext = true
-      // this.quizService.questionState.active_slide_index += 1
       this.showSubmit = true
       this.proceedToSubmit()
       this.updateQuestionType(false)
@@ -902,14 +920,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       })
     })
     // tslint:disable-next-line: max-line-length
-    // if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
-    //   const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-    //   let userAnswer: any = {}
-    //   userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
-    //   this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
-    // }
-
-    // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
       this.updateQuestionType(true)
     } else {
@@ -931,13 +941,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       return
     }
 
-    // if (
-    //   this.quizService.questionState.active_slide_index
-    //   === (this.quizService.questionState.slides.length - 1)) {
-    //   this.diablePrevious = false
-    //   this.showSubmit = false
-    //   this.proceedToSubmit()
-    // }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()

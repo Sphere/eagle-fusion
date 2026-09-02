@@ -12,8 +12,10 @@
 
     <mat-form-field class="font-size-select" *ngIf="!screenSizeIsXSmall">
       <mat-select [(ngModel)]="defaultFontSize" placeholder="Font Size">
-        <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize"
-          (click)="modifyIframeStyle('fontSize', fontSize + 'px')">
+        <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize" tabindex="0"
+          (click)="modifyIframeStyle('fontSize', fontSize + 'px')"
+          (keydown.enter)="modifyIframeStyle('fontSize', fontSize + 'px')"
+          (keydown.space)="modifyIframeStyle('fontSize', fontSize + 'px'); $event.preventDefault()">
           {{ fontSize }}
         </mat-option>
       </mat-select>
@@ -55,8 +57,10 @@
       </mat-action-list>
       <mat-form-field class="margin-left-m" *ngIf="screenSizeIsXSmall">
         <mat-select [(ngModel)]="defaultFontSize" placeholder="Font Size">
-          <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize"
-            (click)="modifyIframeStyle('fontSize', fontSize + 'px')">
+          <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize" tabindex="0"
+            (click)="modifyIframeStyle('fontSize', fontSize + 'px')"
+            (keydown.enter)="modifyIframeStyle('fontSize', fontSize + 'px')"
+            (keydown.space)="modifyIframeStyle('fontSize', fontSize + 'px'); $event.preventDefault()">
             {{ fontSize }}
           </mat-option>
         </mat-select>

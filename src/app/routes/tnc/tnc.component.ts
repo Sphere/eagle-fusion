@@ -37,30 +37,36 @@ export class TncComponent implements OnInit, OnDestroy {
     },
   }
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private tncProtectedSvc: TncAppResolverService,
-    private tncPublicSvc: TncPublicResolverService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly tncProtectedSvc: TncAppResolverService,
+    private readonly tncPublicSvc: TncPublicResolverService,
     public configSvc: ConfigurationsService,
-    private signupService: SignupService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly signupService: SignupService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initializeTnc()
+  }
+
+  private initializeTnc(): void {
     this.logger.log(this.configSvc)
-    this.result = await this.signupService.fetchStartUpDetails()
-    this.logger.log(this.result)
+    this.signupService.fetchStartUpDetails().then(result => {
+      this.result = result
+      this.logger.log(this.result)
+    }).catch(err => {
+      this.logger.error('Error fetching startup details:', err)
+    })
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
-        // this.configSvc.isNewUser = Boolean(this.tncData && this.tncData.isNewUser)
         this.isPublic = response.isPublic || false
         this.cdr.markForCheck()
       } else {
         this.router.navigate(['error-service-unavailable'])
-        // this.errorFetchingTnc = true
       }
     })
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails) {
@@ -68,24 +74,10 @@ export class TncComponent implements OnInit, OnDestroy {
     } else {
       this.userId = false
     }
-    // this.createUserForm = this.createTncFormFields()
   }
   homePage() {
     this.logger.log(this.configSvc)
   }
-  // createTncFormFields() {
-  //   return new FormGroup({
-  //     tncAccepted: new FormControl(''),
-  //     firstname: new FormControl('', []),
-  //     middlename: new FormControl('', []),
-  //     surname: new FormControl('', []),
-  //     mobile: new FormControl('', []),
-  //     telephone: new FormControl('', []),
-  //     primaryEmail: new FormControl('', []),
-  //     primaryEmailType: new FormControl('', []),
-  //     dob: new FormControl('', []),
-  //   })
-  // }
 
   ngOnDestroy() {
     if (this.routeSubscription) {

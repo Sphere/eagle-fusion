@@ -30,7 +30,7 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, AfterView
   private scrollObserver: Subscription | null = null
   private mutationObserver: MutationObserver | null = null
 
-  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) { }
+  constructor(private readonly ngZone: NgZone, private readonly cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     if (this.horizontalScrollElem) {
@@ -88,10 +88,7 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, AfterView
   }
   showPrev() {
     if (this.horizontalScrollElem) {
-      // const elem = this.horizontalScrollElem.nativeElement
-      // elem.scrollLeft -= 0.20 * elem.clientWidth
       if (this.horizontalScrollElem) {
-        // const clientWidth = (this.horizontalScrollElem.nativeElement.clientWidth * 0.24)
         const clientWidth = (this.horizontalScrollElem.nativeElement.clientWidth)
         this.horizontalScrollElem.nativeElement.scrollTo({
           left: this.horizontalScrollElem.nativeElement.scrollLeft - clientWidth,
@@ -102,10 +99,7 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, AfterView
   }
   showNext() {
     if (this.horizontalScrollElem) {
-      // const elem = this.horizontalScrollElem.nativeElement
-      // elem.scrollLeft += 0.20 * elem.clientWidth
       if (this.horizontalScrollElem) {
-        // const clientWidth = (this.horizontalScrollElem.nativeElement.clientWidth * 0.24)
         const clientWidth = (this.horizontalScrollElem.nativeElement.clientWidth)
         this.horizontalScrollElem.nativeElement.scrollTo({
           left: (this.horizontalScrollElem.nativeElement.scrollLeft + clientWidth) - 45,

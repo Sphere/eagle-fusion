@@ -21,7 +21,7 @@ export class AppTocService {
   resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
   resumeDataSubscription: Subscription | null = null
   gatingEnabled = false
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService, private logger: LoggerService) { }
+  constructor(private readonly http: HttpClient, private readonly configSvc: ConfigurationsService, private readonly logger: LoggerService) { }
   private data: any
 
   getcontentForWidget() {
@@ -108,7 +108,7 @@ export class AppTocService {
 
   mapCompletionPercentage(content: NsContent.IContent | null, dataResult: any) {
     if (content && content.children) {
-      content.children.map(child => {
+      content.children.forEach(child => {
         const foundContent = dataResult.find((el: any) => el.contentId === child.identifier)
         if (foundContent) {
           child.completionPercentage = foundContent.completionPercentage
@@ -127,63 +127,71 @@ export class AppTocService {
     content: NsContent.IContent,
     tocStructure: NsAppToc.ITocStructure,
   ): NsAppToc.ITocStructure {
-    if (
-      content &&
-      !(content.contentType === 'Resource' || content.contentType === 'Knowledge Artifact')
-    ) {
-      if (content.contentType === 'Course') {
-        tocStructure.course += 1
-      } else if (content.contentType === 'Collection') {
-        tocStructure.learningModule += 1
-      }
-      content.children.forEach(child => {
-        // tslint:disable-next-line: no-parameter-reassignment
-        tocStructure = this.getTocStructure(child, tocStructure)
-      })
-    } else if (
-      content &&
-      (content.contentType === 'Resource' || content.contentType === 'Knowledge Artifact')
-    ) {
-      switch (content.mimeType) {
-        case NsContent.EMimeTypes.HANDS_ON:
-          tocStructure.handsOn += 1
-          break
-        case NsContent.EMimeTypes.MP3:
-          tocStructure.podcast += 1
-          break
-        case NsContent.EMimeTypes.MP4:
-        case NsContent.EMimeTypes.M3U8:
-          tocStructure.video += 1
-          break
-        case NsContent.EMimeTypes.INTERACTION:
-          tocStructure.interactiveVideo += 1
-          break
-        case NsContent.EMimeTypes.PDF:
-          tocStructure.pdf += 1
-          break
-        case NsContent.EMimeTypes.HTML:
-          tocStructure.webPage += 1
-          break
-        case NsContent.EMimeTypes.QUIZ:
-          if (content.resourceType === 'Assessment') {
-            tocStructure.assessment += 1
-          } else {
-            tocStructure.quiz += 1
-          }
-          break
-        case NsContent.EMimeTypes.WEB_MODULE:
-          tocStructure.webModule += 1
-          break
-        case NsContent.EMimeTypes.YOUTUBE:
-          tocStructure.youtube += 1
-          break
-        default:
-          tocStructure.other += 1
-          break
-      }
+    if (!content) {
       return tocStructure
     }
+    const isResource = content.contentType === 'Resource' || content.contentType === 'Knowledge Artifact'
+    if (!isResource) {
+      return this.applyContainerNode(content, tocStructure)
+    }
+    this.tallyResourceMimeType(content, tocStructure)
     return tocStructure
+  }
+
+  private applyContainerNode(
+    content: NsContent.IContent,
+    tocStructure: NsAppToc.ITocStructure,
+  ): NsAppToc.ITocStructure {
+    if (content.contentType === 'Course') {
+      tocStructure.course += 1
+    } else if (content.contentType === 'Collection') {
+      tocStructure.learningModule += 1
+    }
+    content.children.forEach(child => {
+      // tslint:disable-next-line: no-parameter-reassignment
+      tocStructure = this.getTocStructure(child, tocStructure)
+    })
+    return tocStructure
+  }
+
+  private tallyResourceMimeType(content: NsContent.IContent, tocStructure: NsAppToc.ITocStructure): void {
+    switch (content.mimeType) {
+      case NsContent.EMimeTypes.HANDS_ON:
+        tocStructure.handsOn += 1
+        break
+      case NsContent.EMimeTypes.MP3:
+        tocStructure.podcast += 1
+        break
+      case NsContent.EMimeTypes.MP4:
+      case NsContent.EMimeTypes.M3U8:
+        tocStructure.video += 1
+        break
+      case NsContent.EMimeTypes.INTERACTION:
+        tocStructure.interactiveVideo += 1
+        break
+      case NsContent.EMimeTypes.PDF:
+        tocStructure.pdf += 1
+        break
+      case NsContent.EMimeTypes.HTML:
+        tocStructure.webPage += 1
+        break
+      case NsContent.EMimeTypes.QUIZ:
+        if (content.resourceType === 'Assessment') {
+          tocStructure.assessment += 1
+        } else {
+          tocStructure.quiz += 1
+        }
+        break
+      case NsContent.EMimeTypes.WEB_MODULE:
+        tocStructure.webModule += 1
+        break
+      case NsContent.EMimeTypes.YOUTUBE:
+        tocStructure.youtube += 1
+        break
+      default:
+        tocStructure.other += 1
+        break
+    }
   }
 
   filterToc(

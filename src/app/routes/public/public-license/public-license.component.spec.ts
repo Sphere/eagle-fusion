@@ -48,9 +48,10 @@ describe('PublicLicenseComponent', () => {
     expect(component.loadLicense).toBe(true)
   })
 
-  it('should set isXSmall from valueSvc subscription in constructor', () => {
+  it('should set isXSmall from valueSvc subscription in ngOnInit', () => {
     mockValueSvc.isXSmall$.subscribe = jest.fn((cb: any) => cb(true))
     component = new PublicLicenseComponent(mockValueSvc, mockTocSvc)
+    component.ngOnInit()
     expect(component.isXSmall).toBe(true)
   })
 

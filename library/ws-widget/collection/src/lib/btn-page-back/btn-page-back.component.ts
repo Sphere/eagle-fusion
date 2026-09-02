@@ -17,8 +17,8 @@ export class BtnPageBackComponent extends WidgetBaseComponent
   presentUrl = ''
   showBackIcon = false
   constructor(
-    private btnBackSvc: BtnPageBackService,
-    private router: Router,
+    private readonly btnBackSvc: BtnPageBackService,
+    private readonly router: Router,
   ) {
     super()
   }
@@ -54,7 +54,7 @@ export class BtnPageBackComponent extends WidgetBaseComponent
         queryParams: this.btnBackSvc.getLastUrl(2).queryParams,
         routeUrl: this.btnBackSvc.getLastUrl(2).route,
       }
-    } if (this.widgetData.url === 'back') {
+    } else if (this.widgetData.url === 'back') {
       return {
         fragment: this.btnBackSvc.getLastUrl().fragment,
         queryParams: this.btnBackSvc.getLastUrl().queryParams,

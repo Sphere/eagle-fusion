@@ -230,5 +230,131 @@ describe('MpRegisterComponent', () => {
       component.anmRegistrationForm.get('facilityName')?.setValue('Others')
       expect(component.showCustomFacilityInput).toBe(true)
     })
+
+    it('populates availableFacilities across all blocks when block is Others', () => {
+      component.biharDistrictData = {
+        D: { B1: { PHC: [{ name: 'a', code: '1' }] }, B2: { PHC: [{ name: 'b', code: '2' }] } },
+      }
+      component.anmRegistrationForm.patchValue({ district: 'D', blockOthers: 'Others' })
+      component.anmRegistrationForm.get('facilityType')?.setValue('PHC')
+      expect(component.availableFacilities.length).toBe(2)
+    })
+
+    it('populates availableFacilities from a normal block', () => {
+      component.biharDistrictData = { D: { B1: { PHC: [{ name: 'a', code: '1' }] } } }
+      component.anmRegistrationForm.patchValue({ district: 'D', block: 'B1' })
+      component.anmRegistrationForm.get('facilityType')?.setValue('PHC')
+      expect(component.availableFacilities).toEqual([{ name: 'a', code: '1' }])
+    })
+
+    it('sets facilityCode when a non-Others facility name is selected', () => {
+      component.biharDistrictData = { D: { B1: { PHC: [{ name: 'FacA', code: 'C1' }] } } }
+      component.anmRegistrationForm.patchValue({ district: 'D', block: 'B1', facilityType: 'PHC' })
+      component.anmRegistrationForm.get('facilityName')?.setValue('FacA')
+      expect(component.anmRegistrationForm.get('facilityCode')?.value).toBe('C1')
+    })
+  })
+
+  describe('setupResponsiveLayout', () => {
+    it('sets showbackButton from the isXSmall$ stream', () => {
+      const comp = new MpRegisterComponent(
+        {} as any,
+        { isXSmall$: { subscribe: (cb: any) => cb(true) } } as any,
+        { mpSendOtp: jest.fn(), mpRegistration: jest.fn() } as any,
+        mockSnackBar,
+        { get: jest.fn().mockReturnValue(of([])) } as any,
+        new FormBuilder(),
+        mockDialog,
+        mockLoader,
+        mockLogger,
+        { detectChanges: jest.fn() } as any,
+      )
+      comp.ngOnInit()
+      expect(comp.showbackButton).toBe(true)
+    })
+  })
+
+  describe('resetDropdownsBelow', () => {
+    it('clears availableFacilities for the facilityType field', () => {
+      component.availableFacilities = [{ name: 'x' }] as any
+      component['resetDropdownsBelow']('facilityType')
+      expect(component.availableFacilities).toEqual([])
+    })
+  })
+
+  describe('onSubmit conditional and submission paths', () => {
+    const fillValidForm = () =>
+      component.anmRegistrationForm.patchValue({
+        firstName: 'John', lastName: 'Doe', phone: '9876543210', role: 'ANM',
+        district: 'D', block: 'B', facilityType: 'PHC', facilityName: 'F',
+      })
+
+    it('shows a snackbar when facility name input is required but empty', () => {
+      component.showFacilityNameAsInput = true
+      component.anmRegistrationForm.patchValue({ facilityType: 'PHC', customFacilityName: '' })
+      component.onSubmit()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Facility Name is required', 'X', expect.any(Object))
+    })
+
+    it('opens the otp page on a successful send', () => {
+      const svc = { mpSendOtp: jest.fn().mockReturnValue(of({ status: 'success', message: 'OTP sent' })), mpRegistration: jest.fn() }
+      component['userProfileSvc'] = svc
+      fillValidForm()
+      component.onSubmit()
+      expect(svc.mpSendOtp).toHaveBeenCalled()
+      expect(component.otpPage).toBe(true)
+    })
+
+    it('shows the response message when send responds with a non-success status', () => {
+      const svc = { mpSendOtp: jest.fn().mockReturnValue(of({ status: 'fail', message: 'Failed to send' })), mpRegistration: jest.fn() }
+      component['userProfileSvc'] = svc
+      fillValidForm()
+      component.onSubmit()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Failed to send', 'X', expect.any(Object))
+    })
+
+    it('shows the error message when send errors', () => {
+      const { throwError } = require('rxjs')
+      const svc = { mpSendOtp: jest.fn().mockReturnValue(throwError(() => ({ error: { message: 'boom' } }))), mpRegistration: jest.fn() }
+      component['userProfileSvc'] = svc
+      fillValidForm()
+      component.onSubmit()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('boom', 'X', expect.any(Object))
+    })
+
+    it('logs required-field warnings when the form is invalid after conditional checks', () => {
+      component.anmRegistrationForm.patchValue({ facilityType: 'PHC' })
+      component.onSubmit()
+      expect(mockLogger.warn).toHaveBeenCalled()
+    })
+  })
+
+  describe('createUser facility name resolution', () => {
+    const successSvc = () => {
+      const svc = { mpSendOtp: jest.fn(), mpRegistration: jest.fn().mockReturnValue(of({ status: 'SUCCESS' })) }
+      component['userProfileSvc'] = svc
+      return svc
+    }
+
+    it('uses customFacilityName when facilityNameOthers is Others', () => {
+      const svc = successSvc()
+      component.anmRegistrationForm.patchValue({ blockOthers: '', facilityNameOthers: 'Others', customFacilityName: 'Cust' })
+      component.createUser()
+      expect(svc.mpRegistration.mock.calls[0][0].request.formValues.facilityName).toBe('Cust')
+    })
+
+    it('concatenates facility name and code when both are present', () => {
+      const svc = successSvc()
+      component.anmRegistrationForm.patchValue({ blockOthers: '', facilityNameOthers: '', facilityName: 'FacA', facilityCode: 'C1' })
+      component.createUser()
+      expect(svc.mpRegistration.mock.calls[0][0].request.formValues.facilityName).toBe('FacA - C1')
+    })
+
+    it('shows a snackbar when registration responds with a non-SUCCESS status', () => {
+      const svc = { mpSendOtp: jest.fn(), mpRegistration: jest.fn().mockReturnValue(of({ status: 'FAIL', message: 'nope' })) }
+      component['userProfileSvc'] = svc
+      component.createUser()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('nope', 'X', expect.any(Object))
+    })
   })
 })

@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs'
 export class appNavBarService {
 
   initial = ''
-  private navOption = new BehaviorSubject(this.initial)
+  private readonly navOption = new BehaviorSubject(this.initial)
   currentOption = this.navOption.asObservable()
 
   changeNavBarActive(name: string) {

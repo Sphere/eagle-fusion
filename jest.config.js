@@ -27,11 +27,8 @@ module.exports = {
   },
   coverageDirectory: '<rootDir>/coverage/',
   coverageReporters: ['text', 'lcov', 'html'],
-  // TEMPORARY: library and project folders blocked — src only
   testPathIgnorePatterns: [
     '/node_modules/',
-    '<rootDir>/library/',
-    '<rootDir>/project/',
   ],
   collectCoverage: true,
   coverageThreshold: {
@@ -44,12 +41,30 @@ module.exports = {
   },
   collectCoverageFrom: [
     'src/**/*.ts',
-    '!src/**/*.spec.ts',
-    '!src/main.ts',
-    '!src/polyfills.ts',
+    'project/**/*.ts',
+    'library/**/*.ts'
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
+    'src/.*\\.data\\.ts$',
+    'src/app/workers/',
+    '\\.d\\.ts$',
+    'src/environments/',
+    'src/.*\\.module\\.ts$',
+    'src/.*/mocks/.*\\.ts$',
+    'src/.*index\\.ts$',
+    'src/main\\.ts$',
+    'src/main\\.server\\.ts$',
+    'src/polyfills\\.ts$',
+    'src/server\\.polyfills\\.ts$',
+    'src/test-import\\.ts$',
+    'project/.*\\.spec\\.ts$',
+    'project/.*\\.model\\.ts$',
+    'project/.*\\.module\\.ts$',
+    'library/.*\\.spec\\.ts$',
+    'library/.*\\.model\\.ts$',
+    'library/.*\\.module\\.ts$',
+    '.*-api\\.ts$'
   ],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
@@ -89,10 +104,12 @@ module.exports = {
     '@ws/author/src/lib/services/auth-nav-bar-toggle.service': '<rootDir>/project/ws/author/src/lib/services/auth-nav-bar-toggle.service.ts',
     '@ws/author/src/lib/routing/modules/editor/shared/services/upload.service': '<rootDir>/project/ws/author/src/lib/routing/modules/editor/shared/services/upload.service.ts',
     '@ws-widget/collection/src/lib/_services/widget-content.model': '<rootDir>/library/ws-widget/collection/src/lib/_services/widget-content.model.ts',
+    '@ws-widget/collection/src/lib/_services/widget-content.service': '<rootDir>/library/ws-widget/collection/src/lib/_services/widget-content.service.ts',
     '@ws-widget/collection/src/lib/_constants/widget-content.constants': '<rootDir>/library/ws-widget/collection/src/lib/_constants/widget-content.constants.ts',
     '@ws/author/src/public-api': '<rootDir>/project/ws/author/src/public-api.ts',
     '@ws/author$': '<rootDir>/project/ws/author/src/public-api.ts',
     '@ws-widget/utils/src/lib/services/utility.service': '<rootDir>/library/ws-widget/utils/src/lib/services/utility.service.ts',
+    '@ws-widget/collection/src/lib/btn-profile/btn-profile.service': '<rootDir>/library/ws-widget/collection/src/lib/btn-profile/btn-profile.service.ts',
     '^project/ws/app/src/lib/routes/org/org-service.service': '<rootDir>/project/ws/app/src/lib/routes/org/org-service.service.ts',
     '^src/(.*)$': '<rootDir>/src/$1',
     '^project/(.*)$': '<rootDir>/project/$1',

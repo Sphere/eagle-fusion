@@ -1,16 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef, effect } from '@angular/core'
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { SafeResourceUrl } from '@angular/platform-browser'
 import { ScrollService } from '../../services/scroll.service'
 import { VideoPopupComponent } from '../how-does-it-works-popup/how-does-it-works-popup.component'
 import { MatDialog } from '@angular/material/dialog'
-import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { SafeResourceUrlService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-    standalone: false,
-    selector: 'ws-how-does-work',
-    templateUrl: './web-how-does-work.component.html',
-    styleUrls: ['./web-how-does-work.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-how-does-work',
+  templateUrl: './web-how-does-work.component.html',
+  styleUrls: ['./web-how-does-work.component.scss'],
+
 })
 export class WebHowDoesWorkComponent implements OnInit {
   @Input() config: any = {}
@@ -19,11 +19,11 @@ export class WebHowDoesWorkComponent implements OnInit {
   videoData: any[] = []
   isXSmall$ = false
   constructor(
-    private scrollService: ScrollService,
-    private elementRef: ElementRef,
+    private readonly scrollService: ScrollService,
+    private readonly elementRef: ElementRef,
     public dialog: MatDialog,
-    private sanitizer: DomSanitizer,
-    private valueSvc: ValueService
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly valueSvc: ValueService
   ) {
     effect(() => {
       this.isXSmall$ = this.valueSvc?.isMobile() ? true : false
@@ -31,7 +31,7 @@ export class WebHowDoesWorkComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.config.data) {
+    if (!this.config.data || this.config.data.length === 0) {
       this.config = JSON.parse(localStorage.getItem('videoData'))
     }
     this.config?.data.forEach((element: any) => {
@@ -47,8 +47,10 @@ export class WebHowDoesWorkComponent implements OnInit {
     })
   }
 
+  private static readonly ALLOWED_VIDEO_HOSTS = ['www.youtube.com', 'youtube.com', 'www.youtube-nocookie.com']
+
   sanitizeUrl(url?: string): SafeResourceUrl | null {
-    return url ? this.sanitizer.bypassSecurityTrustResourceUrl(url) : null
+    return this.safeResourceUrlSvc.trustFromAllowlist(url, WebHowDoesWorkComponent.ALLOWED_VIDEO_HOSTS)
   }
   openVideoPopup(url: string) {
     this.dialog.open(VideoPopupComponent, {

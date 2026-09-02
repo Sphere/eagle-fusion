@@ -24,7 +24,9 @@
       <a mat-tab-link (click)="toggleComponent('license')" [routerLink]="'./license'" [queryParams]="{license: license}"
         [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll>{{'License' |
         translate}}</a>
-      <a mat-tab-link (click)="redirectTo()" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'discuss'}"
+      <a mat-tab-link (click)="redirectTo()" (keydown.enter)="redirectTo()"
+        (keydown.space)="redirectTo(); $event.preventDefault()" tabindex="0"
+        [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'discuss'}"
         id="license-link" wsAppRetainScroll>{{'Discuss' | translate}}</a>
 
     </nav>

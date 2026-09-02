@@ -28,7 +28,8 @@ yarn start
 
 | Command | Description |
 |---|---|
-| `yarn start` | Dev server on `:3000` with live proxy |
+| `yarn start` | Dev server on `:3000`, proxied to **Sphere** |
+| `yarn start:ekshamata` | Dev server on `:3000`, proxied to **Ekshamata** ([see below](#running-sphere-vs-ekshamata-locally)) |
 | `yarn run build` | Production build (gzip + brotli compressed) |
 | `yarn run build:local` | Production build without compression |
 | `yarn run build:fast` | Dev build with vendor chunk (faster iteration) |
@@ -188,6 +189,39 @@ The app renders two distinct UI branches detected at runtime from `window.locati
 | `sphere.aastrika.org` (default) | Sphere | Full layout: public nav, featured courses, footer |
 | `*.ekshamata.*` | Ekshamata | Simplified layout: logged-in nav only, no public featured section |
 
+### Running Sphere vs Ekshamata locally
+
+Which portal you get is decided by **two independent things**, and they must be set together:
+
+1. **Where the data comes from** — the dev proxy. `assets/configurations/host.config.json` is fetched as a relative URL and supplies `rootOrg` / `org`, which then ride on every API call, so the proxy target decides the org config, branding and content.
+2. **What the frontend thinks it is** — `window.location.hostname`, read in `app-routing.module.ts` (titles), `root.component.ts` (`isEkshamata`, drives the whole layout) and `app-nav-bar.component.ts`. On localhost that is always `localhost`, so without an override the app can only ever be Sphere.
+
+**Sphere** (default):
+
+```bash
+yarn start
+# then, if you previously switched: http://localhost:3000/page/home?portal=reset
+```
+
+**Ekshamata:**
+
+```bash
+yarn start:ekshamata
+# then open once: http://localhost:3000/page/home?portal=ekshamata
+```
+
+The `?portal=` value is stored in `localStorage` (`devPortalHost`), so pass it once and browse normally afterwards.
+
+| Param | Effect |
+|---|---|
+| `?portal=ekshamata` | Treat the app as `ekshamata.aastrika.org` |
+| `?portal=sphere` | Treat the app as `sphere.aastrika.org` |
+| `?portal=reset` | Clear the override, fall back to the real hostname |
+
+**Gotcha:** the two halves are independent. Running `yarn start` while the `?portal=ekshamata` override is still set renders Ekshamata's layout over Sphere's content — it looks like a bug but isn't. Always pair the command with the matching param.
+
+**Production is unaffected.** `getPortalHost()` ([`src/app/constants/portal.ts`](src/app/constants/portal.ts)) returns `window.location.hostname` immediately unless the host is `localhost` / `127.0.0.1` / `::1`, so the query param does nothing on a deployed domain. Proxy files are an `ng serve` concern only and are never part of a build.
+
 ---
 
 ## Feature Flags & Runtime Config
@@ -205,13 +239,16 @@ configSvc.isAuthenticated     // authentication state
 
 ## Dev Proxy
 
-`proxy/localhost.proxy.json` routes all API calls during local development:
+Two proxy files route API calls during local development — one per portal:
 
-| Path | Target |
-|---|---|
-| `/apis/**` | `https://sphere.aastrika.org` (uses hardcoded auth cookie — update when it expires) |
-| `/content-api/**` | `http://localhost:3004` |
-| `/assets/**` | `https://sphere.aastrika.org` |
+| File | Used by | `/apis/**` and `/assets/**` target |
+|---|---|---|
+| `proxy/localhost.proxy.json` | `yarn start` | `https://sphere.aastrika.org` (hardcoded auth cookie — update when it expires) |
+| `proxy/ekshamata.proxy.json` | `yarn start:ekshamata` | `https://ekshamata.aastrika.org` (hardcoded auth cookie — update when it expires) |
+
+Both route the local service paths identically (`/content-api/**` → `:3004`, `/content-store/**` → `:3005`, `/chat-bot/**` → `:3006`, `/mobile-apps/**` → `:3007`, `/LA/**` → `:3008`).
+
+> `.gitignore` excludes the whole `/proxy` directory — `localhost.proxy.json` is only tracked because it predates that rule. Create `proxy/ekshamata.proxy.json` locally by copying `localhost.proxy.json` and repointing the `/apis/**` and `/assets/**` targets at `https://ekshamata.aastrika.org`.
 
 ---
 

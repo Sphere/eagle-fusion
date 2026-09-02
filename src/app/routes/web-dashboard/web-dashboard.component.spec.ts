@@ -21,8 +21,17 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LanguageService } from 'src/app/services/language.service'
 import { PlaylistService } from '../../services/playlist.service'
-import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
+
+// ngOnInit wraps its body in a fire-and-forget IIFE, so it no longer returns a
+// promise. Call it, then flush microtask ticks for the internal awaits to settle.
+const runNgOnInit = async (component: WebDashboardComponent) => {
+  component.ngOnInit()
+  for (let i = 0; i < 5; i++) {
+    await Promise.resolve()
+  }
+}
 
 describe('WebDashboardComponent', () => {
   let component: WebDashboardComponent
@@ -176,7 +185,7 @@ describe('WebDashboardComponent', () => {
   it('ngOnInit should start carousel and set preferedLanguage', async () => {
     jest.useFakeTimers()
     component.configData = null
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.preferedLanguage.id).toBe('en')
     jest.useRealTimers()
   })
@@ -187,7 +196,7 @@ describe('WebDashboardComponent', () => {
     configSvc.unMappedUser = { id: 'user123', profileDetails: { preferences: { language: 'hi' } } }
     configSvc.userProfile = null
     component.configData = null
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.lang).toBe('hi')
     jest.useRealTimers()
   })
@@ -206,7 +215,7 @@ describe('WebDashboardComponent', () => {
     configSvc.hostedInfo = { org: 'ekshamata' }
     component.isEkshamata = true
     component.configData = null
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.bannerFirstImage).toBe('/fusion-assets/images/ekshamata-logo.svg')
   })
 
@@ -222,7 +231,7 @@ describe('WebDashboardComponent', () => {
       { identifier: 'course1', completionPercentage: 100 },
       { identifier: 'course2', completionPercentage: 50 },
     ]
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.noOfBadges).toBe(1)
   })
 
@@ -230,15 +239,16 @@ describe('WebDashboardComponent', () => {
     const plylsSvc = TestBed.inject(PlaylistService) as any
     plylsSvc.getPlaylistConfig = jest.fn().mockRejectedValue(new Error('Fetch failed'))
     component.configData = [{ badges: { showCompletedCourses: true } }]
-    await component.ngOnInit()
+    await runNgOnInit(component)
     expect(component.noOfBadges).toBe(0)
   })
 
-  it('constructor should navigate to /organisations/home when orgValue is nhsrc', () => {
+  it('should navigate to /organisations/home on init when orgValue is nhsrc', () => {
     const router = TestBed.inject(Router)
     const navSpy = jest.spyOn(router, 'navigateByUrl').mockImplementation(jest.fn() as any)
     localStorage.setItem('orgValue', 'nhsrc')
-    TestBed.createComponent(WebDashboardComponent)
+    const fixture = TestBed.createComponent(WebDashboardComponent)
+    fixture.detectChanges()
     expect(navSpy).toHaveBeenCalledWith('/organisations/home')
     localStorage.removeItem('orgValue')
     navSpy.mockRestore()
@@ -249,5 +259,56 @@ describe('WebDashboardComponent', () => {
     fixture.detectChanges()
     expect(themeSvc.isDark).toHaveBeenCalled()
     expect(component.isDark).toBe(false)
+  })
+
+  it('effect should set dark ekshamata banner and mobile flag when isDark and isMobile are true', () => {
+    const themeSvc = TestBed.inject(ThemeService) as any
+    themeSvc.isDark.mockReturnValue(true)
+    const valueSvc = TestBed.inject(ValueService) as any
+    jest.spyOn(valueSvc, 'isMobile').mockReturnValue(true)
+    component.isEkshamata = true
+    fixture.detectChanges()
+    expect(component.isDark).toBe(true)
+    expect(component.isXsmall).toBe(true)
+    expect(component.bannerSecondImage).toBe('/fusion-assets/images/ekshamata-group-dark.svg')
+  })
+
+  it('ngOnInit should set ekshamata logo via domain branch when hostedInfo is absent', async () => {
+    const configSvc = TestBed.inject(ConfigurationsService) as any
+    configSvc.hostedInfo = undefined
+    component.isEkshamata = true
+    component.configData = null
+    const originalLocation = window.location
+    Object.defineProperty(window, 'location', {
+      value: { ...originalLocation, hostname: 'app.ekshamata.example.com' },
+      configurable: true,
+    })
+    await runNgOnInit(component)
+    expect(component.bannerFirstImage).toBe('/fusion-assets/images/ekshamata-logo.svg')
+    Object.defineProperty(window, 'location', { value: originalLocation, configurable: true })
+  })
+
+  it('ngOnInit should set Hindi preferred language when current language is hi', async () => {
+    jest.useFakeTimers()
+    const langSvc = TestBed.inject(LanguageService) as any
+    langSvc.getCurrentLanguage = jest.fn().mockReturnValue('hi')
+    component.configData = null
+    await runNgOnInit(component)
+    expect(component.preferedLanguage.lang).toBe('हिंदी')
+    jest.useRealTimers()
+  })
+
+  it('calculateBadges should default playListIds to [] when no language match and fall back to en', async () => {
+    const plylsSvc = TestBed.inject(PlaylistService) as any
+    plylsSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+      { language: 'fr', dataSource: { payload: ['x'] } },
+    ])
+    const configSvc = TestBed.inject(ConfigurationsService) as any
+    configSvc.userProfile = null
+    component.configData = [{ badges: { showCompletedCourses: true } }]
+    component.userEnrolledCourse = [{ identifier: 'x', completionPercentage: 100 }]
+    await runNgOnInit(component)
+    expect(component.playListIds).toEqual([])
+    expect(component.noOfBadges).toBe(0)
   })
 })

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
 
 import { QuizComponent } from './quiz.component'
-// import { OverviewComponent } from './components/overview/overview.component'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
 
@@ -37,12 +36,10 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
 import { ViewAnswerComponent } from './components/view-answer/view-answer.component'
 import { CongratulationsPopupComponent } from './components/congratulations-popup/congratulations-popup.component'
 import { CompleteCoursesModalComponent } from './components/complete-courses-modal/complete-courses-modal.component'
-// import { ConfirmmodalComponent } from './confirm-modal-component'
 
 @NgModule({
   declarations: [
     QuizComponent,
-    // OverviewComponent,
     QuestionComponent,
     SubmitQuizDialogComponent,
     AssesmentOverviewComponent,
@@ -57,7 +54,6 @@ import { CompleteCoursesModalComponent } from './components/complete-courses-mod
     CloseQuizModalComponent,
     CongratulationsPopupComponent,
     CompleteCoursesModalComponent,
-    // ConfirmmodalComponent,
   ],
   imports: [
     CommonModule,

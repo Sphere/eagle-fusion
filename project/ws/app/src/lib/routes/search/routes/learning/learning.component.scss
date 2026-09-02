@@ -77,8 +77,12 @@
 .lang-icon {
     background-image: url('/fusion-assets/icons/lang-icon.png');
     background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
+    // Was `contain` + `center`, sized for an empty control back when the "All"
+    // option had no label. Now that it reads "All", a centred full-height icon
+    // sits directly under the text — pin it left and reserve room for the label.
+    background-size: 18px 18px;
+    background-position: left 8px center;
+    padding-left: 32px;
 }
 .filter-lang {
     float: right;
@@ -174,6 +178,24 @@
 
   .lang-icon {
     filter: var(--theme-icon-filter, none);
+  }
+
+  // The native select and its popup list default to the OS light palette, so the
+  // open dropdown was a white sheet with a blue highlight over a dark page.
+  .lang-select {
+    background-color: var(--theme-surface, #0D0D0D);
+    color: var(--theme-text, #E0E0E0);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+
+    option {
+      background-color: var(--theme-surface, #0D0D0D);
+      color: var(--theme-text, #E0E0E0);
+    }
+
+    option:checked {
+      background-color: var(--theme-accent, #2E6491);
+      color: #ffffff;
+    }
   }
 
   ::ng-deep mat-chip {

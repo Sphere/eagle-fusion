@@ -43,10 +43,13 @@
       </span>
 
       <ng-container *ngIf="userId === reply.postCreator.postCreatorId">
-        <img loading="lazy" alt="logo" (click)="editMode = true" class="action-icons"
-          src="/fusion-assets/icons/edit.png">
-        <span class="material-icons del-reply opac-7" name="discussion-post-delete-button" type="button"
-          (click)="deletePost(deleteFailMsg.value)">
+        <button type="button" style="all: unset; display: contents; cursor: pointer;" aria-label="Edit"
+          (click)="editMode = true">
+          <img loading="lazy" alt="" class="action-icons" src="/fusion-assets/icons/edit.png">
+        </button>
+        <span class="material-icons del-reply opac-7" name="discussion-post-delete-button" type="button" tabindex="0" role="button"
+          (click)="deletePost(deleteFailMsg.value)" (keydown.enter)="deletePost(deleteFailMsg.value)"
+          (keydown.space)="deletePost(deleteFailMsg.value); $event.preventDefault()">
           delete
         </span>
       </ng-container>
@@ -54,9 +57,6 @@
 
   </div>
   <div *ngIf="editMode" class="margin-top-s padding-s mat-primary-border">
-    <!-- [minLength]="'10'" -->
-    <!-- <ws-widget-editor-quill [htmlText]="reply.postContent.body" (textData)="onReplyTextChange($event)">
-    </ws-widget-editor-quill> -->
     <div class="text-right">
       <button name="discussion-reply-update-button" type="button" class="margin-top-s" [disabled]="!replyPostEnabled"
         mat-raised-button color="primary" (click)="editReply(editFailMsg.value)">
@@ -70,12 +70,6 @@
   </div>
 
 </div>
-
-<!-- <mat-menu #editMenu="matMenu">
-  <ng-template matMenuContent>
-
-  </ng-template>
-</mat-menu> -->
 
 <input type="hidden" i8n-value value="Something went wrong! Unable to delete." #deleteFailMsg />
 <input type="hidden" i8n-value value="Something went wrong! Unable to post." #editFailMsg />

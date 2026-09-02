@@ -31,11 +31,11 @@ export class DowntimeFullComponent implements OnInit, OnDestroy {
   isLoading = true
   currentDowntimeState: any = null
 
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
 
   constructor(
-    private downtimeService: DowntimeConfigService,
-    private languageService: LanguageService,
+    private readonly downtimeService: DowntimeConfigService,
+    private readonly languageService: LanguageService,
   ) { }
 
   ngOnInit(): void {

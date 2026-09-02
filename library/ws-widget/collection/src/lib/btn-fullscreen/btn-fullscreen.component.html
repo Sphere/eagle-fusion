@@ -1,8 +1,6 @@
 <button mat-icon-button (click)="toggleFs()" aria-label="FullScreen Toggle" id="fullscreen-toggle-icon" i18n-aria-label
   [ngClass]="{'disabled': containsQuizAssessment, 'enabled': !containsQuizAssessment}" i18n-matTooltip
   matTooltip="FullScreen Toggle" class="action-button">
-  <!-- <mat-icon>{{ isInFs ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon> -->
-  <!-- <img src="/assets/images/expand.png" class="action-icons"/> -->
   <img alt="logo" loading="lazy"
     [src]="isInFs ? '/fusion-assets/icons/shrink-1.png' : '/fusion-assets/icons/expand.png'" class="action-icons">
 </button>

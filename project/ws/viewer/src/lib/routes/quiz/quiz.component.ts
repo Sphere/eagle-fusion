@@ -29,68 +29,62 @@ export class QuizComponent implements OnInit, OnDestroy {
     passPercentage: 60
   }
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private http: HttpClient,
-    private contentSvc: WidgetContentService,
-    private eventSvc: EventService,
-    private viewSvc: ViewerUtilService,
-    private cdr: ChangeDetectorRef,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly http: HttpClient,
+    private readonly contentSvc: WidgetContentService,
+    private readonly eventSvc: EventService,
+    private readonly viewSvc: ViewerUtilService,
+    private readonly cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.dataSubscription = this.activatedRoute.data.subscribe(
-      async data => {
-        // Tear down the quiz plugin for each new resource: without this,
-        // isFetchingDataComplete stays true across navigation, the plugin is reused, and
-        // its overview can open on a stale snapshot (e.g. the previous resource's
-        // subtitle/name) before the new inputs finish binding. Resetting forces a fresh
-        // recreate once BOTH quizData (name) and quizJson are ready in the finally block.
-        this.isFetchingDataComplete = false
-        this.cdr.detectChanges()
-        try {
-          this.quizData = data.content.data
-          if (this.alreadyRaised && this.oldData) {
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-          }
-          if (this.quizData && this.quizData.artifactUrl.indexOf('content-store') >= 0) {
-            await this.setS3Cookie(this.quizData.identifier)
-          }
-          if (this.quizData) {
-            this.quizJson = await this.transformQuiz(this.quizData)
-          }
-          if (this.quizData) {
-            this.oldData = this.quizData
-            this.alreadyRaised = true
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.quizData)
-          }
-        } catch (_e) {
-          // transformQuiz can fail if the quiz artifact URL is unreachable; keep going so the quiz shell renders
-        } finally {
-          this.isFetchingDataComplete = true
+      data => {
+        void (async () => {
+          // Tear down the quiz plugin for each new resource: without this,
+          // isFetchingDataComplete stays true across navigation, the plugin is reused, and
+          // its overview can open on a stale snapshot (e.g. the previous resource's
+          // subtitle/name) before the new inputs finish binding. Resetting forces a fresh
+          // recreate once BOTH quizData (name) and quizJson are ready in the finally block.
+          this.isFetchingDataComplete = false
           this.cdr.detectChanges()
-        }
+          try {
+            this.quizData = data.content.data
+            if (this.alreadyRaised && this.oldData) {
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+            }
+            if (this.quizData && this.quizData.artifactUrl.indexOf('content-store') >= 0) {
+              await this.setS3Cookie(this.quizData.identifier)
+            }
+            if (this.quizData) {
+              this.quizJson = await this.transformQuiz(this.quizData)
+            }
+            if (this.quizData) {
+              this.oldData = this.quizData
+              this.alreadyRaised = true
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.quizData)
+            }
+          } catch (_e) {
+            // transformQuiz can fail if the quiz artifact URL is unreachable; keep going so the quiz shell renders
+          } finally {
+            this.isFetchingDataComplete = true
+            this.cdr.detectChanges()
+          }
+        })()
       },
       () => { },
     )
   }
 
-  async ngOnDestroy() {
-    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
-    //   this.activatedRoute.snapshot.queryParams.collectionType
-    //   && this.quizData) {
-    //   await this.contentSvc.continueLearning(this.quizData.identifier,
-    //     this.activatedRoute.snapshot.queryParams.collectionId,
-    //     this.activatedRoute.snapshot.queryParams.collectionType,
-    //   )
-    // } else if (this.quizData) {
-    //   await this.contentSvc.continueLearning(this.quizData.identifier)
-    // }
-    if (this.quizData) {
-      this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.quizData)
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe()
-    }
+  ngOnDestroy() {
+    void (async () => {
+      if (this.quizData) {
+        this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.quizData)
+      }
+      if (this.dataSubscription) {
+        this.dataSubscription.unsubscribe()
+      }
+    })()
   }
 
   raiseEvent(state: WsEvents.EnumTelemetrySubType, data: NsContent.IContent) {
@@ -117,33 +111,8 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   private async transformQuiz(content: NsContent.IContent): Promise<NSQuiz.IQuiz> {
     if (this.activatedRoute.snapshot.queryParams.competency) {
-      let artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
-      )
-      if (artifactUrl.includes('/hi/')) {
-        artifactUrl = artifactUrl.replace('hi/', '')
-      }
-      if (window.location.origin.indexOf('http://localhost:') === -1) {
-        artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
-      }
-      // this.logger.log(artifactUrl)
-      let quizJSON: NSQuiz.IQuiz = await this.http
-        .get<any>(artifactUrl || '')
-        .toPromise()
-        .catch((_err: any) => {
-          // throw new DataResponseError('MANIFEST_FETCH_FAILED');
-        })
-      if (this.forPreview && quizJSON) {
-        quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
-      }
-      if (quizJSON && quizJSON.questions) {
-        quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-          if (question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-mca'
-          } else if (!question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-sca'
-          }
-        })
-      }
+      const artifactUrl = this.buildCompetencyArtifactUrl(content)
+      const quizJSON = await this.fetchAndNormalizeQuiz(artifactUrl)
       if (!quizJSON.hasOwnProperty('passPercentage') || quizJSON.passPercentage === 0) {
         quizJSON.passPercentage = 60
       }
@@ -153,35 +122,53 @@ export class QuizComponent implements OnInit, OnDestroy {
       const artifactUrl = this.forPreview
         ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
         : this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1])
-      let quizJSON: NSQuiz.IQuiz = await this.http
-        .get<any>(artifactUrl || '')
-        .toPromise()
-        .catch((_err: any) => {
-          // throw new DataResponseError('MANIFEST_FETCH_FAILED');
-        })
-      if (this.forPreview && quizJSON) {
-        quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
-      }
-      if (quizJSON && quizJSON.questions) {
-        quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-          if (question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-mca'
-          } else if (!question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-sca'
-          }
-        })
-        quizJSON.isAssessment = content.isAssessment ?? true
-      }
-      return quizJSON
+      const res = await this.fetchAndNormalizeQuiz(artifactUrl)
+      res.isAssessment = content.isAssessment ?? true
+      return res
     }
+  }
 
+  private buildCompetencyArtifactUrl(content: NsContent.IContent): string {
+    let artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
+    )
+    if (artifactUrl.includes('/hi/')) {
+      artifactUrl = artifactUrl.replace('hi/', '')
+    }
+    if (window.location.origin.indexOf('http://localhost:') === -1) {
+      artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
+    }
+    return artifactUrl
+  }
+
+  private async fetchAndNormalizeQuiz(artifactUrl: string): Promise<NSQuiz.IQuiz> {
+    let quizJSON: NSQuiz.IQuiz = await this.http
+      .get<any>(artifactUrl || '')
+      .toPromise()
+      .catch((_err: any) => {
+      })
+    if (this.forPreview && quizJSON) {
+      quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
+    }
+    if (quizJSON && quizJSON.questions) {
+      this.normalizeQuestionTypes(quizJSON.questions)
+    }
+    return quizJSON
+  }
+
+  private normalizeQuestionTypes(questions: NSQuiz.IQuestion[]): void {
+    questions.forEach((question: NSQuiz.IQuestion) => {
+      if (question.multiSelection && question.questionType === undefined) {
+        question.questionType = 'mcq-mca'
+      } else if (!question.multiSelection && question.questionType === undefined) {
+        question.questionType = 'mcq-sca'
+      }
+    })
   }
   private async setS3Cookie(contentId: string) {
     await this.contentSvc
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }

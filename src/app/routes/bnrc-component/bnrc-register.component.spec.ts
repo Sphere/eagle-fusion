@@ -433,4 +433,101 @@ describe('BnrcRegisterComponent', () => {
       expect(spy).toHaveBeenCalledWith('Server error')
     })
   })
+
+  describe('onSubmit — error and invalid-form branches', () => {
+    it('should handle bnrcSendOtp error callback', () => {
+      const { throwError } = require('rxjs')
+      mockUserProfileSvc.bnrcSendOtp = jest.fn().mockReturnValue(throwError(() => ({ error: { message: 'OTP failed' } })))
+      component.bnrcDetailForm.patchValue({
+        firstName: 'Test', lastName: 'User', phone: '9876543210', role: 'Student', district: 'Patna',
+      })
+      jest.spyOn(component, 'checkInstitute').mockImplementation(() => {})
+      const spy = jest.spyOn(component, 'openSnackbar')
+      component.onSubmit()
+      expect(spy).toHaveBeenCalledWith('OTP failed')
+      expect(component.isSubmitting).toBe(false)
+    })
+
+    it('should list missing required fields when form has required error', () => {
+      jest.spyOn(component, 'checkInstitute').mockImplementation(() => {})
+      component.bnrcDetailForm.reset()
+      component.bnrcDetailForm.setErrors({ required: true })
+      const spy = jest.spyOn(component, 'openSnackbar')
+      component.onSubmit()
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining('The following fields are required:'))
+    })
+
+    it('should show generic message when form required error but no control required errors', () => {
+      jest.spyOn(component, 'checkInstitute').mockImplementation(() => {})
+      component.bnrcDetailForm.patchValue({
+        firstName: 'Test', lastName: 'User', phone: '9876543210', role: 'Student', district: 'Patna',
+      })
+      Object.keys(component.bnrcDetailForm.controls).forEach(name => {
+        component.bnrcDetailForm.get(name)?.setErrors(null)
+      })
+      component.bnrcDetailForm.setErrors({ required: true })
+      const spy = jest.spyOn(component, 'openSnackbar')
+      component.onSubmit()
+      expect(spy).toHaveBeenCalledWith('Some fields are required. Please check the form.')
+    })
+  })
+
+  describe('ngOnInit — isXSmall false and filteredInstitutes callbacks', () => {
+    it('should set showbackButton=false when isXSmall is false', () => {
+      component['valueSvc'] = { isXSmall$: { subscribe: jest.fn((cb: any) => cb(false)) } } as any
+      mockHttp.get.mockReturnValue(of([]))
+      component.ngOnInit()
+      expect(component.showbackButton).toBe(false)
+      expect(component.showLogOutIcon).toBe(false)
+    })
+
+    it('should clear instituteName and set error when no institute matches filter', () => {
+      mockHttp.get.mockImplementation((url: string) => {
+        if (url.includes('institutes')) return of({ Patna: ['Institute A'] })
+        return of([])
+      })
+      component.ngOnInit()
+      component.currentDistrictInstitutes = []
+      component.filteredInstitutes.subscribe()
+      component.bnrcDetailForm.get('instituteName')?.setValue('NonMatching')
+      expect(component.bnrcDetailForm.get('instituteName')?.value).toBeNull()
+      expect(component.bnrcDetailForm.get('instituteName')?.errors).toEqual({ invalidInstitute: true })
+    })
+
+    it('should clear errors when institutes match filter', () => {
+      mockHttp.get.mockImplementation((url: string) => {
+        if (url.includes('institutes')) return of({ Patna: ['Institute A'] })
+        return of([])
+      })
+      component.ngOnInit()
+      component.currentDistrictInstitutes = [{ name: 'Institute A' }]
+      component.filteredInstitutes.subscribe()
+      component.bnrcDetailForm.get('instituteName')?.setValue('Institute A')
+      expect(component.bnrcDetailForm.get('instituteName')?.errors).toBeNull()
+    })
+
+    it('should filter institutes via _filter after district change', () => {
+      mockHttp.get.mockReturnValue(of([]))
+      component.ngOnInit()
+      component.institutesData = { Patna: ['Alpha', 'Beta'] }
+      component.biharDistrictData = { Patna: { Block1: [] } }
+      component.bnrcDetailForm.get('district')?.setValue('Patna')
+      const results: any[] = []
+      component.filteredInstitutes.subscribe(v => results.push(v))
+      component.bnrcDetailForm.get('instituteName')?.setValue('alp')
+      expect(results[results.length - 1]).toEqual([{ name: 'Alpha' }])
+    })
+  })
+
+  describe('_filter', () => {
+    it('should return all institutes when value is empty', () => {
+      component.currentDistrictInstitutes = [{ name: 'X' }, { name: 'Y' }]
+      expect(component['_filter']('')).toEqual([{ name: 'X' }, { name: 'Y' }])
+    })
+
+    it('should filter institutes by value ignoring commas and case', () => {
+      component.currentDistrictInstitutes = [{ name: 'Hello,World' }, { name: 'Other' }]
+      expect(component['_filter']('helloworld')).toEqual([{ name: 'Hello,World' }])
+    })
+  })
 })

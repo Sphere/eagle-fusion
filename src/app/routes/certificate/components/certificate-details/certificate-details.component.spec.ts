@@ -2,7 +2,7 @@ jest.mock('lodash', () => ({
   trim: (s: string) => (s || '').trim(),
   upperCase: (s: string) => {
     // replicate lodash upperCase: 'aastrika' → 'AASTRIKA', 'nhsrc' → 'NHSRC'
-    return (s || '').replace(/([a-z])([A-Z])/g, '$1 $2').trim().toUpperCase()
+    return (s || '').replaceAll(/([a-z])([A-Z])/g, '$1 $2').trim().toUpperCase()
   },
   get: (obj: any, path: string | string[], defaultValue?: any) => {
     const keys = Array.isArray(path) ? path : (path as string).split('.')
@@ -51,7 +51,7 @@ describe('CertificateDetailsComponent', () => {
     mockCertSvc = { validateCertificate: jest.fn().mockReturnValue(of({})) }
     mockConfigSvc = { rootOrg: 'aastrika' }
     mockSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockImplementation(url => ({ safe: url })),
+      trust: jest.fn().mockImplementation(url => ({ safe: url })),
     }
     mockApiService = { get: jest.fn().mockReturnValue(of({})) }
     mockRouter = { navigate: jest.fn() }
@@ -95,7 +95,7 @@ describe('CertificateDetailsComponent', () => {
 
   it('should set appIcon on ngOnInit', () => {
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
+    expect(mockSanitizer.trust).toHaveBeenCalledWith(
       'fusion-assets/images/Sphere_Logo_4.svg',
     )
     expect(component.appIcon).toBeTruthy()

@@ -9,7 +9,6 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { IWidgetsPlayerMediaData } from '../_models/player-media.model'
 import { fireRealTimeProgressFunction, telemetryEventDispatcherFunction, videoJsInitializer, youtubeInitializer } from '../_services/videojs-util'
 import { NsContent } from '../_services/widget-content.model'
-// import { WidgetContentService } from '../_services/widget-content.service'
 interface IYTOptions extends videoJs.PlayerOptions {
   youtube: {
     ytControls: 0 | 1 | 2
@@ -61,11 +60,10 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
   private player: videoJs.Player | null = null
   private dispose: (() => void) | null = null
   constructor(
-    private eventSvc: EventService,
-    // private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private activatedRoute: ActivatedRoute,
-    private valueSvc: ValueService,
+    private readonly eventSvc: EventService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly valueSvc: ValueService,
   ) {
     super()
   }
@@ -107,44 +105,6 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    // const saveCLearning: saveContinueLearningFunction = data => {
-    //   if (this.widgetData.identifier) {
-    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-    //           this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-    //         resourceId: data.resourceId,
-    //         contextType: 'playlist',
-    //         dateAccessed: Date.now(),
-    //         data: JSON.stringify({
-    //           progress: data.progress,
-    //           timestamp: Date.now(),
-    //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-    //         }),
-    //       }
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     } else {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-    //           this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-    //         resourceId: data.resourceId,
-    //         dateAccessed: Date.now(),
-    //         data: JSON.stringify({
-    //           progress: data.progress,
-    //           timestamp: Date.now(),
-    //         }),
-    //       }
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     }
-    //   }
-    // }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
       if (this.widgetData.identifier) {
         this.viewerSvc
@@ -160,7 +120,6 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
       this.youtubeTag.nativeElement,
       videoId,
       dispatcher,
-      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,
@@ -177,44 +136,6 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    // const saveCLearning: saveContinueLearningFunction = data => {
-    //   if (this.widgetData.identifier) {
-    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-    //           this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-    //         resourceId: data.resourceId,
-    //         contextType: 'playlist',
-    //         dateAccessed: Date.now(),
-    //         data: JSON.stringify({
-    //           progress: data.progress,
-    //           timestamp: Date.now(),
-    //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-    //         }),
-    //       }
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     } else {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-    //           this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-    //         resourceId: data.resourceId,
-    //         dateAccessed: Date.now(),
-    //         data: JSON.stringify({
-    //           progress: data.progress,
-    //           timestamp: Date.now(),
-    //         }),
-    //       }
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     }
-    //   }
-    // }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
@@ -244,7 +165,6 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
           ],
         },
         dispatcher,
-        // saveCLearning,
         fireRProgress,
         this.widgetData.passThroughData,
         ROOT_WIDGET_CONFIG.player.video,

@@ -110,24 +110,10 @@
 
 .fade-left {
   left: 0;
-  // background: linear-gradient(
-  //   to right,
-  //   var(--theme-bg, #f5f5f5) 0%,
-  //   var(--theme-bg, #f5f5f5) 20%,
-  //   rgba(245, 245, 245, 0.5) 65%,
-  //   transparent 100%
-  // );
 }
 
 .fade-right {
   right: 0;
-  // background: linear-gradient(
-  //   to left,
-  //   var(--theme-bg, #f5f5f5) 0%,
-  //   var(--theme-bg, #f5f5f5) 20%,
-  //   rgba(245, 245, 245, 0.5) 65%,
-  //   transparent 100%
-  // );
 }
 
 .horizontal-scroll-content {

@@ -15,7 +15,7 @@ jest.mock('@ws-widget/collection', () => ({
 }))
 
 jest.mock('@ws-widget/utils', () => ({
-  ConfigurationsService: class {},
+  ConfigurationsService: class { },
   ValueService: class {
     isMobile = jest.fn().mockReturnValue(false)
   },
@@ -34,15 +34,25 @@ jest.mock('../../../../project/ws/app/src/lib/routes/org/org-service.service', (
 }))
 
 jest.mock('../../services/playlist.service', () => ({
-  PlaylistService: class {},
+  PlaylistService: class { },
 }))
 
 jest.mock('../../services/language.service', () => ({
-  LanguageService: class {},
+  LanguageService: class { },
 }))
 
 import { BehaviorSubject, Subject, of, throwError } from 'rxjs'
 import { MyCoursesComponent } from './my-courses.component'
+
+// ngOnInit is fire-and-forget (wraps its async body in an IIFE) so it no longer
+// returns a promise. Call it, then flush enough microtask ticks for the internal
+// awaits (getPlaylistConfig / loadPlaylistData) and subscribe callbacks to settle.
+const runNgOnInit = async (component: MyCoursesComponent) => {
+  component.ngOnInit()
+  for (let i = 0; i < 5; i++) {
+    await Promise.resolve()
+  }
+}
 
 describe('MyCoursesComponent', () => {
   let component: MyCoursesComponent
@@ -56,6 +66,7 @@ describe('MyCoursesComponent', () => {
   let mockLangSvc: any
   let mockOrgService: any
   let mockCdr: any
+  let mockLogger: any
   let queryParamsSubject: Subject<any>
 
   beforeEach(() => {
@@ -93,6 +104,10 @@ describe('MyCoursesComponent', () => {
       selectedTabConfig: jest.fn().mockReturnValue(''),
       orgDetails: jest.fn().mockReturnValue(''),
       headerConfig: jest.fn().mockReturnValue(null),
+      getPlaylistConfigId: jest.fn((sectionId: string) => ({
+        YOUR_PLANS_PLAYLIST: 'Playlist_Course',
+        COMPETENCY_PLAYLIST: 'COMPETENCY_PLAYLIST_V2',
+      }[sectionId])),
     }
 
     mockLangSvc = {
@@ -107,6 +122,8 @@ describe('MyCoursesComponent', () => {
       detectChanges: jest.fn(),
       markForCheck: jest.fn(),
     }
+
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
   })
 
   const createComponent = () =>
@@ -121,6 +138,7 @@ describe('MyCoursesComponent', () => {
       mockLangSvc,
       mockOrgService,
       mockCdr,
+      mockLogger,
     )
 
   afterEach(() => jest.clearAllMocks())
@@ -168,60 +186,60 @@ describe('MyCoursesComponent', () => {
     it('should set lang from langSvc.getCurrentLanguage()', async () => {
       mockLangSvc.getCurrentLanguage.mockReturnValue('hi')
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.lang).toBe('hi')
     })
 
     it('should call getPlaylistConfig on init', async () => {
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(mockPlaylistSvc.getPlaylistConfig).toHaveBeenCalled()
     })
 
     it('should handle getPlaylistConfig rejection gracefully', async () => {
       mockPlaylistSvc.getPlaylistConfig.mockRejectedValue(new Error('network fail'))
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.plyLsData).toEqual([])
     })
 
     it('should handle loadPlaylistData rejection gracefully', async () => {
       mockPlaylistSvc.loadPlaylistData.mockRejectedValue(new Error('fail'))
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.config).toBeNull()
     })
 
     it('should call fetchUserBatchList with userId', async () => {
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(mockContentSvc.fetchUserBatchList).toHaveBeenCalledWith('user123')
     })
 
     it('should set isLoading false after completion', async () => {
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.isLoading).toBe(false)
     })
 
     it('should set isLoading false on fetchUserBatchList error', async () => {
       mockContentSvc.fetchUserBatchList.mockReturnValue(throwError(() => new Error('API error')))
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.isLoading).toBe(false)
     })
 
     it('should set selectedIndex 1 when courseType is formatForYouCourses', async () => {
       mockRoute.queryParams = new BehaviorSubject({ courseType: 'formatForYouCourses' }).asObservable()
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.selectedIndex).toBe(1)
     })
 
     it('should set selectedIndex 2 when courseType is completed', async () => {
       mockRoute.queryParams = new BehaviorSubject({ courseType: 'completed' }).asObservable()
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.selectedIndex).toBe(2)
     })
   })
@@ -242,7 +260,7 @@ describe('MyCoursesComponent', () => {
       ]
       mockContentSvc.fetchUserBatchList.mockReturnValue(of(courses))
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.startedCourse).toHaveLength(1)
       expect(component.startedCourse[0].identifier).toBe('c1')
       expect(component.completedCourse).toHaveLength(1)
@@ -255,7 +273,7 @@ describe('MyCoursesComponent', () => {
       ]
       mockContentSvc.fetchUserBatchList.mockReturnValue(of(courses))
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.startedCourse).toHaveLength(0)
     })
 
@@ -269,7 +287,7 @@ describe('MyCoursesComponent', () => {
       ]
       mockContentSvc.fetchUserBatchList.mockReturnValue(of(courses))
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.startedCourse).toHaveLength(0)
     })
 
@@ -288,7 +306,7 @@ describe('MyCoursesComponent', () => {
       ]
       mockContentSvc.fetchUserBatchList.mockReturnValue(of(courses))
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.startedCourse[0].identifier).toBe('c2')
     })
   })
@@ -346,7 +364,7 @@ describe('MyCoursesComponent', () => {
 
     it('should return index when identifier is absent', () => {
       component = createComponent()
-      expect(component.courseTrackBy(3, {})).toBe(3)
+      expect(component.courseTrackBy(3, {})).toBe('3')
     })
   })
 
@@ -381,6 +399,23 @@ describe('MyCoursesComponent', () => {
       const payload = [{ comp1: { additionalProperties: { competencyLevelDescription: [{ level: 1 }] } } }]
       const result = component.buildCompetencySearchArray(payload)
       expect(result).toHaveLength(0)
+    })
+
+    it('should build competency-level strings from the current (v2) flat payload', () => {
+      const payload = [
+        { id: 'C2', levels: [{ level: 1 }, { level: 2 }] },
+      ]
+      const result = component.buildCompetencySearchArray(payload)
+      expect(result).toEqual(['C2-1', 'C2-2'])
+    })
+
+    it('should handle a payload mixing both shapes together', () => {
+      const payload = [
+        { comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } } },
+        { id: 'C2', levels: [{ level: 1 }] },
+      ]
+      const result = component.buildCompetencySearchArray(payload)
+      expect(result).toEqual(['C1-1', 'C2-1'])
     })
   })
 
@@ -441,7 +476,7 @@ describe('MyCoursesComponent', () => {
   describe('ngOnDestroy', () => {
     it('should complete without error after ngOnInit', async () => {
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(() => component.ngOnDestroy()).not.toThrow()
     })
   })
@@ -496,17 +531,17 @@ describe('MyCoursesComponent', () => {
         profileDetails: { profileReq: { professionalDetails: [{ designation: 'Nurse' }] } },
       }
       mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
-        { orgId: 'org1', role: ['Nurse'], playlistId: 'YOUR_PLANS_PLAYLIST', language: 'en', dataSource: { payload: ['do_123'] } },
+        { orgId: 'org1', role: ['Nurse'], playlistId: 'Playlist_Course', language: 'en', dataSource: { payload: ['do_123'] } },
       ])
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(mockOrgService.getTopLiveSearchResults).toHaveBeenCalled()
     })
 
     it('should set coursesForYou empty when no professional details', async () => {
       mockConfigSvc.unMappedUser = null
       component = createComponent()
-      await component.ngOnInit()
+      await runNgOnInit(component)
       expect(component.coursesForYou).toEqual([])
     })
   })
@@ -590,6 +625,120 @@ describe('MyCoursesComponent', () => {
       component = createComponent()
       await component.navigateToToc('do_123')
       expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('config from selectedTabConfig and updateTabData', () => {
+    it('uses the selectedTabConfig result and populates Started/Completed tab data', async () => {
+      const config = { tabMenu: [{ label: 'For You' }, { label: 'Started' }, { label: 'Completed' }] }
+      mockPlaylistSvc.selectedTabConfig = jest.fn().mockReturnValue(config)
+      mockContentSvc.fetchUserBatchList = jest.fn().mockReturnValue(of([
+        { content: { identifier: 'c1', name: 'A' }, dateTime: '2020-01-01', completionPercentage: 50 },
+        { content: { identifier: 'c2', name: 'B' }, dateTime: '2020-01-02', completionPercentage: 100 },
+      ]))
+      component = createComponent()
+      await runNgOnInit(component)
+      expect(component.config).toBe(config)
+      expect((config.tabMenu.find(t => t.label === 'Started') as any).data.length).toBe(1)
+      expect((config.tabMenu.find(t => t.label === 'Completed') as any).data.length).toBe(1)
+      expect(component.displayLimit[0]).toBe(component['PAGE_SIZE'])
+    })
+
+    it('returns early from updateTabData when config has no tabMenu', async () => {
+      mockPlaylistSvc.selectedTabConfig = jest.fn().mockReturnValue({})
+      component = createComponent()
+      await runNgOnInit(component)
+    })
+  })
+
+  describe('handleProfessionalCourses — competency/search playlist branch', () => {
+    it('searches by competencies when COMPETENCY_PLAYLIST matches and no YOUR_PLANS match', async () => {
+      mockConfigSvc.unMappedUser = {
+        profileDetails: { profileReq: { professionalDetails: [{ designation: 'Nurse' }] } },
+      }
+      mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+        {
+          orgId: 'org1', role: ['Nurse'], playlistId: 'COMPETENCY_PLAYLIST_V2',
+          dataSource: { payload: [{ c: { id: 'COMP1', additionalProperties: { competencyLevelDescription: [{ level: '1' }] } } }] },
+        },
+        {
+          orgId: 'org1', role: ['Nurse'], playlistId: 'SEARCH_PLAYLIST',
+          dataSource: { payload: { request: { filters: { sourceName: ['SRC'] } } } },
+        },
+      ])
+      mockContentSvc.getCouseByContentSearch = jest.fn().mockReturnValue(
+        of({ result: { content: [{ identifier: 'r1', name: 'R', sourceName: 'SRC' }] } }),
+      )
+      component = createComponent()
+      await runNgOnInit(component)
+      expect(mockContentSvc.getCouseByContentSearch).toHaveBeenCalled()
+      expect(component.coursesForYou).toEqual([expect.objectContaining({ identifier: 'r1' })])
+    })
+
+    it('skips the search and updates tabs when the competency array is empty', async () => {
+      mockConfigSvc.unMappedUser = {
+        profileDetails: { profileReq: { professionalDetails: [{ profession: 'Doctor' }] } },
+      }
+      mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+        { orgId: 'org1', role: ['Doctor'], playlistId: 'COMPETENCY_PLAYLIST_V2', dataSource: { payload: [] } },
+      ])
+      component = createComponent()
+      await runNgOnInit(component)
+      expect(mockContentSvc.getCouseByContentSearch).not.toHaveBeenCalled()
+      expect(component.coursesForYou).toEqual([])
+    })
+
+    it('decrements pending when the competency search errors', async () => {
+      mockConfigSvc.unMappedUser = {
+        profileDetails: { profileReq: { professionalDetails: [{ designation: 'Nurse' }] } },
+      }
+      mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+        {
+          orgId: 'org1', role: ['Nurse'], playlistId: 'COMPETENCY_PLAYLIST_V2',
+          dataSource: { payload: [{ c: { id: 'COMP1', additionalProperties: { competencyLevelDescription: [{ level: '1' }] } } }] },
+        },
+      ])
+      mockContentSvc.getCouseByContentSearch = jest.fn().mockReturnValue(throwError(() => new Error('fail')))
+      component = createComponent()
+      await runNgOnInit(component)
+      expect(component.coursesForYou).toEqual([])
+    })
+  })
+
+  describe('handleProfessionalCourses — YOUR_PLANS result processing', () => {
+    it('dedupes and filters getTopLiveSearchResults content by identifier', async () => {
+      mockConfigSvc.unMappedUser = {
+        profileDetails: { profileReq: { professionalDetails: [{ designation: 'Nurse' }] } },
+      }
+      mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+        { orgId: 'org1', role: ['Nurse'], playlistId: 'Playlist_Course', language: 'en', dataSource: { payload: ['do_1', 'do_2'] } },
+      ])
+      mockOrgService.getTopLiveSearchResults = jest.fn().mockReturnValue(of({
+        result: {
+          content: [
+            { identifier: 'do_1', name: 'One' },
+            { identifier: 'do_1', name: 'Dup' },
+            { identifier: 'do_999', name: 'NotInPlan' },
+          ],
+        },
+      }))
+      component = createComponent()
+      await runNgOnInit(component)
+      expect(component.coursesForYou.length).toBe(1)
+      expect(component.coursesForYou[0].identifier).toBe('do_1')
+    })
+
+    it('handles a getTopLiveSearchResults error gracefully', async () => {
+      mockConfigSvc.unMappedUser = {
+        profileDetails: { profileReq: { professionalDetails: [{ designation: 'Nurse' }] } },
+      }
+      mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
+        { orgId: 'org1', role: ['Nurse'], playlistId: 'YOUR_PLANS_PLAYLIST', language: 'en', dataSource: { payload: ['do_1'] } },
+      ])
+      mockOrgService.getTopLiveSearchResults = jest.fn().mockReturnValue(throwError(() => new Error('fail')))
+      component = createComponent()
+      await runNgOnInit(component)
+      expect(component.coursesForYou).toEqual([])
     })
   })
 })

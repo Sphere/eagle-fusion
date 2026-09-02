@@ -10,7 +10,7 @@ import {
 export class LocalStorageService {
   numberOfNotificatios = 0
 
-  constructor(public configSvc: ConfigurationsService, private logger: LoggerService) { }
+  constructor(public configSvc: ConfigurationsService, private readonly logger: LoggerService) { }
 
   async setLocalStorage(key: string, value: any): Promise<void> {
     try {

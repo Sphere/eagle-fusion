@@ -3,7 +3,8 @@
     <h1 id="choose-bg-heading">{{ 'Choose your background' | translate }}</h1>
     <div class="content">
       <div class="content-wrapper" *ngFor="let img of professions; let i = index">
-        <div class="column" (click)="imgSelect(img)" tabindex="-1">
+        <div class="column" (click)="imgSelect(img)" tabindex="0" role="button" (keydown.enter)="imgSelect(img)"
+          (keydown.space)="imgSelect(img); $event.preventDefault()">
           <a>
             <h4>{{img.name | translate}}</h4>
             <img [src]="img.image" height="80" alt="{{img.name | translate}}" />

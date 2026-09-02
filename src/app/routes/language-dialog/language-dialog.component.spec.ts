@@ -85,4 +85,20 @@ describe('LanguageDialogComponent', () => {
       expect(mockLogger.log).toHaveBeenCalledWith('en')
     })
   })
+
+  describe('constructor with different selectedData', () => {
+    it('handles selectedData with null selected', () => {
+      mockDialogData.selected = null
+      const c = new LanguageDialogComponent(mockDialogRef, mockLogger, mockDialogData)
+      c.ngOnInit()
+      expect(c.preferredLanguage).toBeNull()
+    })
+
+    it('handles selectedData with false checkbox', () => {
+      mockDialogData.checkbox = false
+      const c = new LanguageDialogComponent(mockDialogRef, mockLogger, mockDialogData)
+      c.ngOnInit()
+      expect(c.languageCheckbox).toBe(false)
+    })
+  })
 })

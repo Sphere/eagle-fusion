@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button'
 import { MatTabsModule } from '@angular/material/tabs'
 import { BtnPageBackModule, UserImageModule } from '@ws-widget/collection'
-import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule, RetainScrollModule } from '@ws-widget/utils'
+import { HorizontalScrollerModule, PipeDurationTransformModule, RetainScrollModule } from '@ws-widget/utils'
 import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
@@ -79,7 +79,6 @@ import { MatMenuModule } from '@angular/material/menu'
     MatMenuModule,
     MatButtonModule,
     HorizontalScrollerModule,
-    PipeSafeSanitizerModule,
     WidgetResolverModule,
     PipeDurationTransformModule,
     RouterModule,

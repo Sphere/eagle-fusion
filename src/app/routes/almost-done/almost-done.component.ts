@@ -11,11 +11,11 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-    standalone: false,
-    selector: 'ws-almost-done',
-    templateUrl: './almost-done.component.html',
-    styleUrls: ['./almost-done.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-almost-done',
+  templateUrl: './almost-done.component.html',
+  styleUrls: ['./almost-done.component.scss'],
+
 })
 export class AlmostDoneComponent implements OnInit {
 
@@ -56,23 +56,36 @@ export class AlmostDoneComponent implements OnInit {
   result: any
   constructor(
     public configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
+    private readonly userProfileSvc: UserProfileService,
     public snackBar: MatSnackBar,
-    private fb: UntypedFormBuilder,
-    private activateRoute: ActivatedRoute,
-    private http: HttpClient,
+    private readonly fb: UntypedFormBuilder,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly http: HttpClient,
     public UserAgentResolverService: UserAgentResolverService,
-    private signupService: SignupService,
-    private logger: LoggerService,
-    private translate: TranslateService
+    private readonly signupService: SignupService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService
   ) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initializeAlmostDone()
+  }
+
+  private initializeAlmostDone(): void {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
-    this.result = await this.signupService.fetchStartUpDetails()
-    this.logger.log(this.result)
+    this.signupService.fetchStartUpDetails().then(result => {
+      this.result = result
+      this.logger.log(this.result)
+      this.setupAlmostDoneForm()
+    }).catch(err => {
+      this.logger.error('Error fetching startup details:', err)
+      this.setupAlmostDoneForm()
+    })
+  }
+
+  private setupAlmostDoneForm(): void {
     if (this.yourBackground.value.country !== 'India') {
       this.hideAsha = true
     } else {
@@ -82,7 +95,7 @@ export class AlmostDoneComponent implements OnInit {
       this.almostDoneForm.controls.professSelected.setValue('ASHA')
       this.enableSubmit = true
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-        statesdata.states.map((item: any) => {
+        statesdata.states.forEach((item: any) => {
           if (item.state === this.yourBackground.value.state) {
             this.disticts = item.districts
           }
@@ -103,7 +116,7 @@ export class AlmostDoneComponent implements OnInit {
       this.enableSubmit = true
       if (this.yourBackground && this.yourBackground.value) {
         this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-          statesdata.states.map((item: any) => {
+          statesdata.states.forEach((item: any) => {
             if (item.state === this.yourBackground.value.state) {
               this.disticts = item.districts
             }
@@ -229,7 +242,6 @@ export class AlmostDoneComponent implements OnInit {
 
     if (option === 'Others') {
       this.orgOthersField = true
-      // this.createUserForm.controls.orgOtherSpecify.setValue(null)
       this.almostDoneForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
     } else {
       this.orgOthersField = false
@@ -251,6 +263,12 @@ export class AlmostDoneComponent implements OnInit {
 
   assignFields(qid: any, data: any, event: any) {
     const value = data.trim()
+    this.applyFieldValue(qid, value)
+    this.updateSubmitEnablement(event)
+    this.logger.log(this.backgroundSelect, this.selectedBg)
+  }
+
+  private applyFieldValue(qid: any, value: string): void {
     switch (qid) {
       case 'profession':
       case 'designation':
@@ -278,40 +296,24 @@ export class AlmostDoneComponent implements OnInit {
         this.almostDoneForm.controls.locationselect.setValue(value)
         break
       case 'block':
-        if (value && value !== '') {
-          this.blockEntered = true
-        } else {
-          this.blockEntered = false
-        }
+        this.blockEntered = Boolean(value && value !== '')
         break
       case 'subcentre':
-        if (value && value !== '') {
-          this.subcentreEntered = true
-        } else {
-          this.subcentreEntered = false
-        }
+        this.subcentreEntered = Boolean(value && value !== '')
         break
       default:
         break
     }
-    if (this.blockEntered && this.subcentreEntered) {
-      this.enableSubmit = false
-    } else {
-      this.enableSubmit = true
-    }
+  }
+
+  private updateSubmitEnablement(event: any): void {
+    this.enableSubmit = !(this.blockEntered && this.subcentreEntered)
 
     if (this.backgroundSelect === 'Healthcare Volunteer' || this.backgroundSelect === 'Healthcare Worker') {
       // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
-        if (value.professSelected || value.professionOtherSpecify || value.orgOtherSpecify && value.orgType && value.orgName) {
-          this.enableSubmit = false
-        } else {
-          this.enableSubmit = true
-        }
+        this.enableSubmit = !(value.professSelected || value.professionOtherSpecify || value.orgOtherSpecify && value.orgType && value.orgName)
       })
-      // if (this.almostDoneForm.value.professSelected && this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
-      //   this.enableSubmit = false
-      // }
     }
     if (this.backgroundSelect === 'ASHA') {
       const block = this.almostDoneForm.controls['block'].value
@@ -321,41 +323,28 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'Student') {
       // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
-        if (value.instituteName) {
-          this.enableSubmit = false
-        } else {
-          this.enableSubmit = true
-        }
+        this.enableSubmit = !value.instituteName
       })
     }
 
-    // if (this.backgroundSelect === 'Healthcare Worker') {
-    //   this.almostDoneForm.valueChanges.subscribe(value => {
-    //     if (value.professSelected || value.professionOtherSpecify && value.orgOtherSpecify && value.orgType && value.orgName) {
-    //       this.enableSubmit = false
-    //     } else {
-    //       this.enableSubmit = true
-    //     }
-    //   })
-
-    //   // if (this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
-    //   //   this.enableSubmit = false
-    //   // }
-    // }
-    if (this.profession === 'student' && this.studentInstitute) {
-      this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
-      this.degrees.removeAt(0)
-      this.degrees.push(this.fb.group({
-        degree: new UntypedFormControl(this.studentCourse, []),
-        instituteName: new UntypedFormControl(this.studentInstitute, []),
-        yop: new UntypedFormControl('', []),
-      }))
-    }
+    this.updateStudentDegrees()
 
     if (Object.keys(event).length && this.almostDoneForm.dirty && this.backgroundSelect !== 'ASHA') {
       this.enableSubmit = false
     }
-    this.logger.log(this.backgroundSelect, this.selectedBg)
+  }
+
+  private updateStudentDegrees(): void {
+    if (!(this.profession === 'student' && this.studentInstitute)) {
+      return
+    }
+    this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
+    this.degrees.removeAt(0)
+    this.degrees.push(this.fb.group({
+      degree: new UntypedFormControl(this.studentCourse, []),
+      instituteName: new UntypedFormControl(this.studentInstitute, []),
+      yop: new UntypedFormControl('', []),
+    }))
   }
 
   public getOrganisationsHistory() {
@@ -476,22 +465,7 @@ export class AlmostDoneComponent implements OnInit {
     }
 
     this.logger.log(this.userId, this.result.userId)
-    //const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-    //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
-    const obj = {
-      preferences: {
-        language: this.configSvc &&
-          this.configSvc.unMappedUser &&
-          this.configSvc.unMappedUser.profileDetails &&
-          this.configSvc.unMappedUser.profileDetails.preferences &&
-          this.configSvc.unMappedUser.profileDetails.preferences.language
-          ? this.configSvc.unMappedUser.profileDetails.preferences.language
-          : 'en',
-      },
-      userSource: this.configSvc?.unMappedUser?.profileDetails?.userSource,
-      // personalDetails: profileRequest.profileReq.personalDetails
-    }
-    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest = Object.assign(profileRequest, this.buildProfilePreferencesPatch())
 
     const reqUpdate = {
       request: {
@@ -502,30 +476,50 @@ export class AlmostDoneComponent implements OnInit {
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
-      this.logger.log(data, 'data')
-      const status = await data.params.status
-      if (data && status === 'SUCCESS') {
-        this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
-        localStorage.removeItem('preferedLanguage')
-        this.activateRoute.queryParams.subscribe(params => {
-          this.logger.log(params.redirect, 'redirect')
-          const url1 = params.redirect
-          let url3 = `${document.baseURI}`
-          if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
-            localStorage.removeItem('url_before_login')
-            url3 = `${url3}${url1}`
-            this.logger.log(url3)
-            location.href = url3
-          } else {
-            let url = `${document.baseURI}`
-            url = `${url}/page/home`
-            this.logger.log(url)
-            location.href = url
-          }
-        })
-      }
-    })
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => this.handleProfileUpdateResponse(data))
+  }
+
+  private buildProfilePreferencesPatch(): any {
+    return {
+      preferences: {
+        language: this.configSvc &&
+          this.configSvc.unMappedUser &&
+          this.configSvc.unMappedUser.profileDetails &&
+          this.configSvc.unMappedUser.profileDetails.preferences &&
+          this.configSvc.unMappedUser.profileDetails.preferences.language
+          ? this.configSvc.unMappedUser.profileDetails.preferences.language
+          : 'en',
+      },
+      userSource: this.configSvc?.unMappedUser?.profileDetails?.userSource,
+    }
+  }
+
+  private handleProfileUpdateResponse(data: any): void {
+    this.logger.log(data, 'data')
+    const status = data.params.status
+    if (!(data && status === 'SUCCESS')) {
+      return
+    }
+    this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
+    localStorage.removeItem('preferedLanguage')
+    this.activateRoute.queryParams.subscribe(params => this.redirectAfterProfileUpdate(params))
+  }
+
+  private redirectAfterProfileUpdate(params: any): void {
+    this.logger.log(params.redirect, 'redirect')
+    const url1 = params.redirect
+    let url3 = `${document.baseURI}`
+    if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
+      localStorage.removeItem('url_before_login')
+      url3 = `${url3}${url1}`
+      this.logger.log(url3)
+      location.href = url3
+    } else {
+      let url = `${document.baseURI}`
+      url = `${url}/page/home`
+      this.logger.log(url)
+      location.href = url
+    }
   }
 
   public openSnackbar(primaryMsg: string, duration = 2000) {

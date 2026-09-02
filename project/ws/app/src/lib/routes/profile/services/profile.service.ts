@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { NSProfileData } from '../models/profile.model'
-// import { ITimeSpent } from '../routes/learning/models/learning.models'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
@@ -16,7 +15,7 @@ export class ProfileService {
     }),
   }
   baseUrl = this.configSvc.sitePath
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private readonly http: HttpClient, private readonly configSvc: ConfigurationsService) { }
 
   fetchConfigFile(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/feature/profile.json`).pipe()
@@ -45,11 +44,4 @@ export class ProfileService {
       this.httpOptions,
     )
   }
-
-  // getDashBoard(startDate: string, endDate: string): Observable<ITimeSpent> {
-  //   // tslint:disable-next-line:max-line-length
-  //   return this.http.get<ITimeSpent>(
-  //     `${LA_API_END_POINTS.USER_ORG_GRAPH}?startdate=${startDate}&enddate=${endDate}`,
-  //   )
-  // }
 }

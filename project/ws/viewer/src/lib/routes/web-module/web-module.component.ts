@@ -16,7 +16,7 @@ import { ViewerUtilService } from '../../viewer-util.service'
 })
 export class WebModuleComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
-  private telemetryIntervalSubscription: Subscription | null = null
+  private readonly telemetryIntervalSubscription: Subscription | null = null
   forPreview = window.location.href.includes('/author/') || window.location.href.includes('?preview=true')
   isFetchingDataComplete = false
   isErrorOccured = false
@@ -28,62 +28,51 @@ export class WebModuleComponent implements OnInit, OnDestroy {
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private http: HttpClient,
-    private eventSvc: EventService,
-    private viewSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly http: HttpClient,
+    private readonly eventSvc: EventService,
+    private readonly viewSvc: ViewerUtilService,
   ) { }
 
   ngOnInit() {
     this.dataSubscription = this.viewSvc
       .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
       .subscribe(
-        // this.dataSubscription = this.activatedRoute.data.subscribe(
-
-        async data => {
-          // this.webmoduleData = data.content.data
-          this.webmoduleData = data
-          if (this.alreadyRaised && this.oldData) {
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-          }
-          if (this.webmoduleData) {
-            this.formDiscussionForumWidget(this.webmoduleData)
-          }
-          if (!this.forPreview && this.webmoduleData && this.webmoduleData.artifactUrl.indexOf('content-store') >= 0) {
-            await this.setS3Cookie(this.webmoduleData.identifier)
-          }
-          if (
-            this.webmoduleData &&
-            (this.webmoduleData.mimeType === NsContent.EMimeTypes.WEB_MODULE ||
-              this.webmoduleData.mimeType === NsContent.EMimeTypes.WEB_MODULE_EXERCISE)
-          ) {
-            this.webmoduleManifest = await this.transformWebmodule(this.webmoduleData)
-          }
-          if (this.webmoduleData && this.webmoduleData.identifier) {
-            this.webmoduleData.resumePage = 1
-            // if (this.activatedRoute.snapshot.queryParams.collectionId) {
-            //   await this.fetchContinueLearning(this.activatedRoute.snapshot.queryParams.collectionId, this.webmoduleData.identifier)
-            // } else {
-            //   await this.fetchContinueLearning(this.webmoduleData.identifier, this.webmoduleData.identifier)
-            // }
-          }
-          if (this.webmoduleData && this.webmoduleManifest) {
-            this.oldData = this.webmoduleData
-            this.alreadyRaised = true
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.webmoduleData)
-            this.isFetchingDataComplete = true
-          } else {
-            this.isErrorOccured = true
-          }
+        data => {
+          void (async () => {
+            this.webmoduleData = data
+            if (this.alreadyRaised && this.oldData) {
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+            }
+            if (this.webmoduleData) {
+              this.formDiscussionForumWidget(this.webmoduleData)
+            }
+            if (!this.forPreview && this.webmoduleData && this.webmoduleData.artifactUrl.indexOf('content-store') >= 0) {
+              await this.setS3Cookie(this.webmoduleData.identifier)
+            }
+            if (
+              this.webmoduleData &&
+              (this.webmoduleData.mimeType === NsContent.EMimeTypes.WEB_MODULE ||
+                this.webmoduleData.mimeType === NsContent.EMimeTypes.WEB_MODULE_EXERCISE)
+            ) {
+              this.webmoduleManifest = await this.transformWebmodule(this.webmoduleData)
+            }
+            if (this.webmoduleData && this.webmoduleData.identifier) {
+              this.webmoduleData.resumePage = 1
+            }
+            if (this.webmoduleData && this.webmoduleManifest) {
+              this.oldData = this.webmoduleData
+              this.alreadyRaised = true
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.webmoduleData)
+              this.isFetchingDataComplete = true
+            } else {
+              this.isErrorOccured = true
+            }
+          })()
         },
         () => { },
       )
-    // this.telemetryIntervalSubscription = interval(30000).subscribe(() => {
-    //   if (this.webmoduleData && this.webmoduleData.identifier) {
-    //     this.raiseEvent(WsEvents.EnumTelemetrySubType.HeartBeat)
-    //   }
-    // })
   }
 
   ngOnDestroy() {
@@ -146,32 +135,11 @@ export class WebModuleComponent implements OnInit, OnDestroy {
     }
     this.eventSvc.dispatchEvent(event)
   }
-  // async fetchContinueLearning(collectionId: string, webModuleId: string): Promise<boolean> {
-  //   return new Promise(resolve => {
-  //     this.contentSvc.fetchContentHistory(collectionId).subscribe(
-  //       data => {
-  //         if (data) {
-  //           if (
-  //             data.identifier === webModuleId
-  //             && data.continueData
-  //             && data.continueData.progress
-  //             && this.webmoduleData
-  //           ) {
-  //             this.webmoduleData.resumePage = Number(data.continueData.progress)
-  //           }
-  //         }
-  //         resolve(true)
-  //       },
-  //       () => resolve(true))
-  //   })
-  // }
-
   private async setS3Cookie(contentId: string) {
     await this.contentSvc
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }

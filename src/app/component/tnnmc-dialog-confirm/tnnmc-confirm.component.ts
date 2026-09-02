@@ -13,8 +13,8 @@ export class TnnmcConfirmComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { title: string, body: string },
-    private dialogRef: MatDialogRef<TnnmcConfirmComponent>,
-    private router: Router,
+    private readonly dialogRef: MatDialogRef<TnnmcConfirmComponent>,
+    private readonly router: Router,
   ) { }
 
   confirmed() {

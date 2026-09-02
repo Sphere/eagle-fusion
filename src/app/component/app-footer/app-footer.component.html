@@ -34,7 +34,8 @@
             </span></mat-list-item>
           <mat-list-item class="mt-2" style="margin-top: 10px;" *ngFor="let link of configData?.menuItems?.[0]?.links"
             style="list-style: none;">
-            <a class="list-item" (click)="redirect(link?.routerLink)">{{link?.label | translate}}</a>
+            <a class="list-item" (click)="redirect(link?.routerLink)" (keydown.enter)="redirect(link?.routerLink)"
+              (keydown.space)="redirect(link?.routerLink); $event.preventDefault()" tabindex="0">{{link?.label | translate}}</a>
           </mat-list-item>
         </mat-list>
         <mat-list class="list mt-10 list-items" [ngClass]="{'ml-12': !isXSmall}">
@@ -50,7 +51,7 @@
         <mat-list class="list mt-10 list-items" [ngClass]="{'ml-12': !isXSmall}">
           <mat-list-item>
             <a *ngIf="configData?.menuItems?.[2]?.email || configData?.menuItems?.[2]?.contact"
-              [href]="configData?.menuItems?.[2]?.href" target="_blank" id="footer-help-contact"
+              [href]="configData?.menuItems?.[2]?.href" target="_blank" id="footer-help-contact-info"
               class="link-header">{{configData?.menuItems?.[2]?.heading |
               translate}}</a>
           </mat-list-item>
@@ -59,7 +60,7 @@
           </mat-list-item>
         </mat-list>
         <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
-          <mat-list-item><a id="footer-help-contact" class="link-header">
+          <mat-list-item><a id="footer-help-social" class="link-header">
               {{configData?.menuItems?.[3]?.heading | translate}}</a></mat-list-item>
           <div class="flex" style="gap: 10px;">
             <mat-list-item style="margin-top: 10px;" *ngFor="let link of configData?.menuItems?.[3]?.links">

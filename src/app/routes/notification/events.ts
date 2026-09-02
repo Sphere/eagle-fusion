@@ -9,7 +9,7 @@ export type EventHandler = (...args: any[]) => any
 export class Events {
     private readonly c = new Map<string, EventHandler[]>()
 
-    constructor(private logger: LoggerService) { }
+    constructor(private readonly logger: LoggerService) { }
 
     subscribe(topic: string, ...handlers: EventHandler[]) {
         let topics = this.c.get(topic)

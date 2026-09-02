@@ -12,6 +12,10 @@
   // width: 276px;
   // height: 100%;
   width: 312px;
+  // never wider than the slot it sits in (grid cell / flex item) — a fixed
+  // width alone makes cards overlap and clip inside percentage-width parents
+  max-width: 100%;
+  box-sizing: border-box;
   min-height: 260px;
   overflow: visible;
   margin-right: 23px;
@@ -59,7 +63,7 @@
 
 .course-container .appIcon {
   // .mat-card-image {
-  width: calc(100% + 32px) !important;
+  width: 100% !important;
   // margin: 0 -16px 16px -16px;
   // }
   // min-width: 276px;
@@ -106,7 +110,7 @@
 }
 
 .course-container .description {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -263,7 +267,6 @@ margin: 0px !important;
 .fitsizeMini {
 box-shadow: 0px 0px 3px 0px #00000073;
 
-  border-radius: 4px !important;
   width: 145px;
 height: 109px;
 top: 16px;
@@ -606,7 +609,6 @@ a {
   box-shadow: transparent 0 0 !important;
 
   .progress-bar {
-    display: block;
     width: calc(100% + #{2 * $card-padding} + 2px);
     margin-left: -#{$card-padding};
     // margin-top: -$card-padding;
@@ -637,8 +639,6 @@ a {
 
     .source-icon {
       border-radius: 8px;
-      margin-right: auto;
-      margin-left: auto;
       display: block;
       margin: auto;
       max-width: 72px;
@@ -720,7 +720,7 @@ a {
   $description-line-height: 1.5em;
 
   .description-text {
-    font: 400 14px/20px Roboto;
+    font: 400 14px/20px Roboto, sans-serif;
     // font-size: 15px;
     position: relative;
     overflow: hidden;
@@ -891,7 +891,7 @@ $title-line-count: 2;
 }
 
 .mat-typography {
-  font: 400 14px/20px Roboto;
+  font: 400 14px/20px Roboto, sans-serif;
 }
 
 .orange-text {

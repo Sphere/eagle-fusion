@@ -37,15 +37,15 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
   langDialog: any
 
   constructor(
-    private fb: UntypedFormBuilder,
-    private snackBar: MatSnackBar,
+    private readonly fb: UntypedFormBuilder,
+    private readonly snackBar: MatSnackBar,
     public signupService: SignupService,
     private readonly valueSvc: ValueService,
     public dialog: MatDialog,
-    private logger: LoggerService,
-    private translate: TranslateService,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly ngZone: NgZone
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForm()
@@ -56,7 +56,7 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
     if (this.signUpdata || this.loginData) {
       sessionStorage.setItem('fromOTPpage', 'true')
       let phone = this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username
-      phone = phone.replace(/[^0-9+#]/g, '')
+      phone = phone.replaceAll(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
         this.emailPhoneType = 'phone'
       } else {
@@ -171,7 +171,7 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
     let request: any = []
     let phone = this.signUpdata.value.emailOrMobile
     this.logger.log(this.signUpdata.value)
-    phone = phone.replace(/[^0-9+#]/g, '')
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
     const organisationId = this.organisationId
     // at least 10 in number
     if (phone.length >= 10) {
@@ -199,7 +199,6 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
       ? this.signupService.ssoValidateOrgOTP(request)
       : this.signupService.ssoValidateOTP(request)
 
-    //this.signupService.validateOtp(request).subscribe(
     otpService$.subscribe(
       (res: any) => {
         const url = `${document.baseURI}`
@@ -242,14 +241,15 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
       ? this.signupService.ssoValidateOrgOTP(request)
       : this.signupService.ssoValidateOTP(request)
 
-    //this.signupService.validateOtp(request).subscribe(
     otpService$.subscribe(
-      async (res: any) => {
-        this.logger.log(res, '2')
-        this.openSnackbar(this.translate.instant(res.message))
-        // localStorage.removeItem('preferedLanguage')
-        //location.href = '/page/home'
-        return res
+      (res: any) => {
+        void (async () => {
+          this.logger.log(res, '2')
+          this.openSnackbar(this.translate.instant(res.message))
+          // localStorage.removeItem('preferedLanguage')
+          //location.href = '/page/home'
+          return res
+        })()
       },
       (err: any) => {
         this.openSnackbar(this.translate.instant(err.error.error || err.error.message))
@@ -278,14 +278,16 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
       code: '',
     })
     this.signupService.generateOtp(requestBody).subscribe(
-      async (res: any) => {
-        this.loginOtpForm.patchValue({ code: '' })
-        this.isLoading = false
-        const str = res.msg ?? res.message
-        const parts = str.split(" ")
-        const lastValue = parts[parts.length - 1]
-        const message = parts.slice(0, -1).join(" ")
-        this.openSnackbar(this.translate.instant(message, { value: lastValue }))
+      (res: any) => {
+        void (async () => {
+          this.loginOtpForm.patchValue({ code: '' })
+          this.isLoading = false
+          const str = res.msg ?? res.message
+          const parts = str.split(" ")
+          const lastValue = parts[parts.length - 1]
+          const message = parts.slice(0, -1).join(" ")
+          this.openSnackbar(this.translate.instant(message, { value: lastValue }))
+        })()
       },
       (err: any) => {
         this.isLoading = false

@@ -16,7 +16,7 @@
 }
 
 .congrats-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
@@ -26,7 +26,7 @@
 }
 
 .better-luck {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
@@ -38,7 +38,7 @@
 }
 
 .correct-answer {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -50,7 +50,7 @@
 }
 
 .answer-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -87,7 +87,6 @@
   flex: 0 0 28% !important;
   width: 28% !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   word-break: break-word;
   -ms-hyphens: auto;
   -moz-hyphens: auto;

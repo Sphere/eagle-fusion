@@ -36,13 +36,15 @@
                 {{ tab?.fallbackState?.button.label | translate }}</button>
             </div>
           </div>
-          <div [class]="tab.className"
-            *ngFor="let data of tab?.data | slice:0:(displayLimit[i] || 10); let last = last; trackBy: courseTrackBy"
-            [ngClass]="{'last-child1': last && i % 2 === 0,'last-child2': last && i % 2 !== 0}">
-            <ws-mobile-course-view *ngIf="isXSmall" [displayConfig]="tab?.displayConfig"
-              [courseData]="data"></ws-mobile-course-view>
-            <ws-web-course-card *ngIf="!isXSmall" [displayConfig]="tab?.displayConfigWeb"
-              [courseData]="data"></ws-web-course-card>
+          <div class="course-grid" [class.course-list]="tab?.displayConfigWeb?.displayType === 'card-mini'">
+            <div [class]="tab.className"
+              *ngFor="let data of tab?.data | slice:0:(displayLimit[i] || 10); let last = last; trackBy: courseTrackBy"
+              [ngClass]="{'last-child1': last && i % 2 === 0,'last-child2': last && i % 2 !== 0}">
+              <ws-mobile-course-view *ngIf="isXSmall" [displayConfig]="tab?.displayConfig"
+                [courseData]="data"></ws-mobile-course-view>
+              <ws-web-course-card *ngIf="!isXSmall" [displayConfig]="tab?.displayConfigWeb"
+                [courseData]="data"></ws-web-course-card>
+            </div>
           </div>
           <div class="text-center show-more-container" *ngIf="tab?.data?.length > (displayLimit[i] || 10)">
             <button class="outline-btn cursor-pointer" (click)="showMore(i, tab.data.length)">

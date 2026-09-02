@@ -11,6 +11,7 @@ import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
+import { getPortalHost } from '../../constants/portal'
 @Component({
   standalone: false,
   selector: 'ws-dashboard',
@@ -38,21 +39,21 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   isDark: boolean = false
   isXsmall: boolean = false
   constructor(
-    public router: Router,
-    public dialog: MatDialog,
-    public scrollService: ScrollService,
-    public configSvc: ConfigurationsService,
-    public userProfileSvc: UserProfileService,
-    private languageSvc: LanguageService,
-    private plylsSvc: PlaylistService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef,
-    private themeSvc: ThemeService,
-    private valueSvc: ValueService
+    public readonly router: Router,
+    public readonly dialog: MatDialog,
+    public readonly scrollService: ScrollService,
+    public readonly configSvc: ConfigurationsService,
+    public readonly userProfileSvc: UserProfileService,
+    private readonly languageSvc: LanguageService,
+    private readonly plylsSvc: PlaylistService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly themeSvc: ThemeService,
+    private readonly valueSvc: ValueService
   ) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
-      this.isXsmall = this.valueSvc.isMobile() ? true : false
+      this.isXsmall = this.valueSvc.isMobile()
       this.bannerSecondImage = this.isDark && this.isEkshamata ? "/fusion-assets/images/ekshamata-group-dark.svg" : '/fusion-assets/images/ekshamata-group.svg'
     })
     this.firstName = toSignal(
@@ -61,9 +62,6 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
       ),
       { initialValue: '' }
     )
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.router.navigateByUrl('/organisations/home')
-    }
   }
 
   get shouldShowBadges(): boolean {
@@ -71,33 +69,38 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     return this.uiConfig?.badges?.showCompletedCourses === true && this.noOfBadges > 0
   }
 
-  async ngOnInit() {
-    this.logger.log(this.configData, 'configData ****** ')
-    this.uiConfig = this.configData?.[0]
-    this.dataCarousel = this.uiConfig?.data
-    this.imgsLoaded = (this.dataCarousel || []).map(() => false)
-    if (this.isEkshamata) {
-      this.domain = window.location.hostname
-      this.logger.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-        this.logger.log("yes here2 ", this.configSvc.hostedInfo)
-        this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
-        this.logger.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+  ngOnInit() {
+    void (async () => {
+      if (localStorage.getItem('orgValue') === 'nhsrc') {
+        this.router.navigateByUrl('/organisations/home')
       }
-    }
-    if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
-      this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
-    } else {
-      this.lang = this.languageSvc.getCurrentLanguage()
-    }
-    this.startCarousel()
+      this.logger.log(this.configData, 'configData ****** ')
+      this.uiConfig = this.configData?.[0]
+      this.dataCarousel = this.uiConfig?.data
+      this.imgsLoaded = (this.dataCarousel || []).map(() => false)
+      if (this.isEkshamata) {
+        this.domain = getPortalHost()
+        this.logger.log("yes here", this.isEkshamata)
+        if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+          this.logger.log("yes here2 ", this.configSvc.hostedInfo)
+          this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
+          this.logger.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+        }
+      }
+      if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
+        this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
+      } else {
+        this.lang = this.languageSvc.getCurrentLanguage()
+      }
+      this.startCarousel()
 
-    // Set preferred language from LanguageService
-    this.preferedLanguage = {
-      id: this.languageSvc.getCurrentLanguage(),
-      lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English',
-    }
-    await this.calculateBadges()
+      // Set preferred language from LanguageService
+      this.preferedLanguage = {
+        id: this.languageSvc.getCurrentLanguage(),
+        lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English',
+      }
+      await this.calculateBadges()
+    })()
   }
 
   ngOnDestroy(): void {

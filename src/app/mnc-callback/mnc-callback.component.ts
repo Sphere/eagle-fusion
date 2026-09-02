@@ -14,8 +14,8 @@ export class MNCCallbackComponent implements OnInit {
   isLoading = false
 
   constructor(
-    private orgService: OrgServiceService,
-    private logger: LoggerService,
+    private readonly orgService: OrgServiceService,
+    private readonly logger: LoggerService,
   ) { }
 
   ngOnInit() {

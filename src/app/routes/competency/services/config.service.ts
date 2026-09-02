@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
   userProfileData: any
   constructor(
-    public configSvc: ConfigurationsService,
+    public readonly configSvc: ConfigurationsService,
+    private readonly logger: LoggerService,
   ) {
   }
 
   setConfig(profileData: any, profileDetails: any) {
-    console.log(profileDetails)
+    this.logger.log(profileDetails)
     const config = {
       userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       profileData: (profileData.professionalDetails),

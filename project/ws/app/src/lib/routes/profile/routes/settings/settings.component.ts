@@ -14,8 +14,7 @@ import {
   UserPreferenceService,
   UtilityService,
 } from '@ws-widget/utils'
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
-import { BtnSettingsService } from '@ws-widget/collection'
+import { debounceTime } from 'rxjs/operators'
 import { UntypedFormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
@@ -27,11 +26,11 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
+
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   @ViewChild('successToast', { static: true }) successToast!: ElementRef<any>
@@ -47,7 +46,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   contentLangForm: UntypedFormControl = new UntypedFormControl()
   showContentLang = false
   intranetContentForm = new UntypedFormControl(false)
-  // darkModeForm = new UntypedFormControl(false)
   activeThemeKey = ''
   activeFontClass = ''
   activeLocaleClass = ''
@@ -62,20 +60,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isIntranetAllowed = true
   showIntranetSettings = false
   isLanguageEnabled = true
-  // showProfileSettings = false
 
   constructor(
-    // todo mobile settings removed
-    private router: Router,
-    private configSvc: ConfigurationsService,
-    private btnSettingsSvc: BtnSettingsService,
-    private userPrefSvc: UserPreferenceService,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private utilitySvc: UtilityService,
-    private userProfileSvc: UserProfileService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private languageSvc: LanguageService,
+    private readonly router: Router,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userPrefSvc: UserPreferenceService,
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
+    private readonly utilitySvc: UtilityService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly languageSvc: LanguageService,
   ) { }
 
   ngOnInit() {
@@ -83,15 +78,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     if (this.configSvc.restrictedFeatures) {
       this.showIntranetSettings =
         this.utilitySvc.isMobile && !this.configSvc.restrictedFeatures.has('showIntranetMobile')
-      // this.showProfileSettings = !this.configSvc.restrictedFeatures.has('personProfile')
     }
     switch (tab) {
       case 'notifications':
         this.selectedIndex = 1
         break
-      /*  case 'profile':
-         this.selectedIndex = 2
-         break */
       default:
         this.selectedIndex = 0
         break
@@ -129,21 +120,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
         },
         {},
       )
-      // Set the initial value for Themes
-      // this.darkModeForm.setValue(this.configSvc.isDarkMode)
       this.intranetContentForm.setValue(this.isIntranetAllowed)
       this.updateActiveStatus()
-      // Events Subscription
-      // this.modeChangeSubs = this.darkModeForm.valueChanges
-      //   .pipe(distinctUntilChanged(), debounceTime(150))
-      //   .subscribe((isDark: boolean) => {
-      //     // this.btnSettingsSvc.applyThemeMode(isDark)
-      //   })
-      this.modeChangeSubs = this.intranetContentForm.valueChanges
-        .pipe(distinctUntilChanged(), debounceTime(150))
-        .subscribe((isIntranet: boolean) => {
-          this.btnSettingsSvc.intranetContentMode(isIntranet)
-        })
       this.prefChangeSubs = this.configSvc.prefChangeNotifier
         .pipe(debounceTime(100))
         .subscribe(() => {
@@ -162,7 +140,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   isLocaleAvailable(langPath: string): boolean {
-    // this.loggerSvc.log('Locale', this.allowedLangCode[langPath].isAvailable)
     return this.allowedLangCode[langPath] && this.allowedLangCode[langPath].isAvailable
   }
   isLocaleEnabled(langPath: string): boolean {
@@ -195,19 +172,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     return 'not_interested'
   }
 
-  // change font
-  changeFont(fontClass: string) {
-    // this.loggerSvc.log('Font', fontClass)
-    this.btnSettingsSvc.changeFont(fontClass)
-  }
-  // Change theme
-  changeTheme(themeKey: string) {
-    // this.loggerSvc.log('theme', themeKey)
-    this.btnSettingsSvc.changeTheme(themeKey)
-  }
-
   private updateActiveStatus() {
-    // this.darkModeForm.setValue(this.configSvc.isDarkMode)
     this.intranetContentForm.setValue(this.configSvc.isIntranetAllowed)
     if (this.configSvc.activeThemeObject) {
       this.activeThemeKey = this.configSvc.activeThemeObject.themeClass
@@ -291,9 +256,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
       case 1:
         tab = 'notifications'
         break
-      /*  case 2:
-         tab = 'profile'
-         break */
     }
     this.router.navigate([], { queryParams: { tab } })
   }

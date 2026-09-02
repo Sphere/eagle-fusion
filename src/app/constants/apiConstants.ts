@@ -105,8 +105,8 @@ export const API_END_POINTS = {
 
   FETCH_GENERAL_RC_CERTIFICATE: () =>
     `${PROTECTED_SLAG_V8}/rcCert/user/enrollment/list/adhocCertificates?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  GET_ASHA_PROGRESS: (userId: string) => `${PROTECTED_SLAG_V8}/learnerpath?userId=${userId}`,
-  UPDATE_ASHA_PROGRESS: `${PROTECTED_SLAG_V8}/learnerpath`,
+  GET_ASHA_PROGRESS: (userId: string) => `${PROTECTED_SLAG_V8}/learnerpathV2?userId=${userId}`,
+  UPDATE_ASHA_PROGRESS: `${PROTECTED_SLAG_V8}/learnerpathV2`,
   BATCH_CERT_ISSUE: `${PROXY_SLAG_V8}/course/batch/cert/v1/issue/`,
   DOWNLOAD_CERTIFICATE: (certificateId: string) => `${PROXY_SLAG_V8}/certreg/v2/certs/download/${certificateId}`,
   FETCH_USER_ENROLLMENT_LIST_CERT: (userId: string | undefined) =>

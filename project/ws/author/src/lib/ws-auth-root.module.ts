@@ -1,25 +1,13 @@
-import { ZipJSResolverService } from './services/zip-js-resolve.service'
 import { AuthInitService } from './services/init.service'
-import { ContentAndDataReadMultiLangTOCResolver } from './services/content-and-data-read-multi-lang.service'
-import { InitResolver } from './services/init-resolve.service'
 import { LoaderService } from './services/loader.service'
-import { NgModule, ErrorHandler } from '@angular/core'
+import { NgModule } from '@angular/core'
 import { CommonModule, APP_BASE_HREF, PlatformLocation } from '@angular/common'
 
 import { WsAuthorRootRoutingModule } from './ws-auth-root-routing.module'
 import { AuthRootComponent } from './components/root/root.component'
 import { SharedModule } from './modules/shared/shared.module'
-import { AuthNavigationComponent } from './components/auth-navigation/auth-navigation.component'
-import { ContentTOCResolver } from './services/content-resolve.service'
-// import { TocComponent } from './routing/components/toc/toc.component'
-import { CreateModule } from './routing/modules/create/create.module'
-import { AuthoringErrorHandler } from './services/error-handler.service'
-import { ViewerComponent } from './routing/components/viewer/viewer.component'
-import { PipeSafeSanitizerModule } from '@ws-widget/utils/src/public-api'
 import { BtnPageBackModule } from '@ws-widget/collection'
 import { ApiService } from './modules/shared/services/api.service'
-import { CKEditorResolverService } from './services/ckeditor-resolve.service'
-import { AuthNavBarToggleService } from './services/auth-nav-bar-toggle.service'
 import { WorkFlowService } from './services/work-flow.service'
 
 /**
@@ -38,36 +26,24 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
 }
 
 @NgModule({
-  declarations: [AuthRootComponent, AuthNavigationComponent, // TocComponent,
-    ViewerComponent],
+  declarations: [AuthRootComponent
+  ],
   imports: [
-    // ReactiveFormsModule,
-    // FormsModule,
-    // RouterModule,
     CommonModule,
     SharedModule,
-    CreateModule,
     WsAuthorRootRoutingModule,
-    PipeSafeSanitizerModule,
     BtnPageBackModule,
   ],
   providers: [
     AuthInitService,
-    CKEditorResolverService,
-    ZipJSResolverService,
-    ContentTOCResolver,
     ApiService,
-    ContentAndDataReadMultiLangTOCResolver,
     LoaderService,
-    InitResolver,
     WorkFlowService,
-    { provide: ErrorHandler, useClass: AuthoringErrorHandler },
     {
       provide: APP_BASE_HREF,
       useFactory: getBaseHref,
       deps: [PlatformLocation],
     },
-    AuthNavBarToggleService,
   ],
 })
 export class WsAuthorRootModule { }

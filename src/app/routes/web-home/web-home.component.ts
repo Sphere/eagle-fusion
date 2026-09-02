@@ -26,17 +26,17 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   isXsmall = false
   isDark: boolean
   constructor(
-    @Inject(PLATFORM_ID) private platformId: object,
-    private router: Router,
-    private valueSvc: ValueService,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
+    private readonly router: Router,
+    private readonly valueSvc: ValueService,
     public configSvc: ConfigurationsService,
-    private scrollService: ScrollService,
-    private elementRef: ElementRef,
-    private languageSvc: LanguageService,
-    private playlsSvc: PlaylistService,
-    private logger: LoggerService,
-    private themeSvc: ThemeService,
-    private cdr: ChangeDetectorRef
+    private readonly scrollService: ScrollService,
+    private readonly elementRef: ElementRef,
+    private readonly languageSvc: LanguageService,
+    private readonly playlsSvc: PlaylistService,
+    private readonly logger: LoggerService,
+    private readonly themeSvc: ThemeService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -50,14 +50,30 @@ export class WebHomeComponent implements OnInit, OnDestroy {
     })
   }
 
-  async ngOnInit() {
-    const res = this.playlsSvc.bodyConfig()
-    if (res == '') {
-      const res = await this.playlsSvc.loadPlaylistData()
-      this.config = res?.LAYOUT_BODY[0]
+  ngOnInit() {
+    this.initializeHomeData()
+  }
+
+  private initializeHomeData(): void {
+    // playlsSvc.sections() normalizes both the before-login (array) and after-login
+    // (`{ sections: { homeTab: [...] } }`) LAYOUT_BODY shapes into one object shape —
+    // see PlaylistService.normalizeLayoutBody — so both branches read the same path.
+    const homeTab = this.playlsSvc.sections()?.homeTab
+    if (homeTab?.length) {
+      this.config = homeTab[0]
+      this.setupUIAfterConfigLoad()
     } else {
-      this.config = res[0]
+      this.playlsSvc.loadPlaylistData().then(() => {
+        this.config = this.playlsSvc.sections()?.homeTab?.[0]
+        this.setupUIAfterConfigLoad()
+      }).catch(_err => {
+        this.config = null
+        this.setupUIAfterConfigLoad()
+      })
     }
+  }
+
+  private setupUIAfterConfigLoad(): void {
     if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {

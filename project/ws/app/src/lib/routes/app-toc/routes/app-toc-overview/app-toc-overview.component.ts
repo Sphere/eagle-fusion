@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy, ChangeDetectorRef } from '@angular/core'
-import { AppTocOverviewDirective } from './app-toc-overview.directive'
+import { Component, OnInit, Input, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { AccessControlService } from '@ws/author'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
-import { ActivatedRoute, Data, Router } from '@angular/router'
+import { SafeHtml } from '@angular/platform-browser'
+import { ActivatedRoute, Data } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { Observable, Subscription, Subject } from 'rxjs'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { takeUntil } from 'rxjs/operators'
 import { NsWidgetResolver } from '@ws-widget/resolver'
+import { SafeResourceUrlService } from '@ws-widget/utils'
 
 @Component({
   standalone: false,
@@ -18,8 +18,6 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 
 })
 export class AppTocOverviewComponent implements OnInit, OnDestroy {
-
-  @ViewChild(AppTocOverviewDirective, { static: true }) wsAppAppTocOverview!: AppTocOverviewDirective
   content: NsContent.IContent | null = null
   routeSubscription: Subscription | null = null
   tocStructure: NsAppToc.ITocStructure | null = null
@@ -46,15 +44,13 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
 */
   public unsubscribe = new Subject<void>()
   constructor(
-    private route: ActivatedRoute,
-    private tocSharedSvc: AppTocService,
-    private domSanitizer: DomSanitizer,
-    private authAccessControlSvc: AccessControlService,
-    private router: Router,
-    private widgetContentSvc: WidgetContentService,
-    private cdr: ChangeDetectorRef
+    private readonly route: ActivatedRoute,
+    private readonly tocSharedSvc: AppTocService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly authAccessControlSvc: AccessControlService,
+    private readonly widgetContentSvc: WidgetContentService,
+    private readonly cdr: ChangeDetectorRef
   ) {
-    // this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
   }
 
   ngOnInit() {
@@ -112,7 +108,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSharedSvc.initData(data)
     this.content = initData.content
-    this.body = this.domSanitizer.bypassSecurityTrustHtml(
+    this.body = this.safeResourceUrlSvc.trustHtml(
       this.content?.body
         ? this.forPreview
           ? this.authAccessControlSvc.proxyToAuthoringUrl(this.content.body)
@@ -122,9 +118,6 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     this.contentParents = {}
   }
 
-  goToProfile(id: string) {
-    this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
-  }
   ngOnDestroy() {
     this.unsubscribe.next()
     this.unsubscribe.complete()

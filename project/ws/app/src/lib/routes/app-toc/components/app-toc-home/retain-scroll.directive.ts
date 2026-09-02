@@ -1,16 +1,19 @@
-import { Directive, HostListener } from '@angular/core'
+import { Directive, HostListener, OnInit } from '@angular/core'
 import { ValueService } from '@ws-widget/utils'
 
 @Directive({
     standalone: false,
     selector: '[wsAppRetainScroll]',
-    
+
 })
-export class RetainScrollDirective {
+export class RetainScrollDirective implements OnInit {
   currentPosition = 0
   isXSmall = false
 
-  constructor(private valueSvc: ValueService) {
+  constructor(private readonly valueSvc: ValueService) {
+  }
+
+  ngOnInit() {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })

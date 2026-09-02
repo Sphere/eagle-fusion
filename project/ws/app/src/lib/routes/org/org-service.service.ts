@@ -1,4 +1,3 @@
-// import { map, catchError } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, BehaviorSubject } from 'rxjs'
@@ -16,7 +15,7 @@ export class OrgServiceService {
   private orgConfigCachedAt = 0
   private readonly ORG_CONFIG_TTL_MS = 5 * 60 * 1000 // 5 minutes
 
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService, private logger: LoggerService) { }
+  constructor(private readonly http: HttpClient, private readonly configSvc: ConfigurationsService, private readonly logger: LoggerService) { }
 
   getOrgConfig(): Observable<any> {
     const now = Date.now()
@@ -38,18 +37,6 @@ export class OrgServiceService {
     }
     return this.orgConfigCache$
   }
-
-  resolve(): any {
-    // return this.getOrgMetadata().pipe(
-    //   map((data: any) => ({ data, error: null })),
-    //   catchError((error: any) => of({ error, data: null })),
-    // )
-  }
-
-  // getOrgMetadata() {
-  //   const orgMeta = this.http.get(`${this.sitePath}/orgmeta.config.json`)
-  //   return orgMeta
-  // }
 
   getSearchResults(source?: any): Observable<any> {
     // tslint:disable-next-line:max-line-length

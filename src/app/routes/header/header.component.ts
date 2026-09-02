@@ -13,12 +13,12 @@ import {
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    private router: Router,
+    private readonly router: Router,
     public configSvc: ConfigurationsService,
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.logger.log(this.configSvc)
   }
   homePage() {

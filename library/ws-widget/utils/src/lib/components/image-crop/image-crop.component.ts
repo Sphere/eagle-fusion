@@ -39,11 +39,11 @@ export class ImageCropComponent implements OnInit {
   isThumbnail = true
 
   constructor(
-    private dialogRef: MatDialogRef<ImageCropComponent>,
-    private configSvc: ConfigurationsService,
-    private snackBar: MatSnackBar,
-    private valueSvc: ValueService,
-    private translate: TranslateService,
+    private readonly dialogRef: MatDialogRef<ImageCropComponent>,
+    private readonly configSvc: ConfigurationsService,
+    private readonly snackBar: MatSnackBar,
+    private readonly valueSvc: ValueService,
+    private readonly translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) data: {
       isRoundCrop: boolean,
       imageFile: File,
@@ -137,7 +137,6 @@ export class ImageCropComponent implements OnInit {
     // extract content type and base64 payload from original string
 
     const pos = str.indexOf(';base64,')
-    // var type = str.substring(5, pos);
     const b64 = str.substr(pos + 8)
     // decode base64
     const imageContent = atob(b64)
@@ -146,7 +145,7 @@ export class ImageCropComponent implements OnInit {
     const view = new Uint8Array(buffer)
     // fill the view, using the decoded base64
     for (let n = 0; n < imageContent.length; n = n + 1) {
-      view[n] = imageContent.charCodeAt(n)
+      view[n] = imageContent.codePointAt(n)
     }
     // convert ArrayBuffer to Blob
     const blob = new Blob([view], { type: 'image/png' })

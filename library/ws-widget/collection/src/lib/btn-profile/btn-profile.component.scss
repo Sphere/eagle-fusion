@@ -17,7 +17,7 @@
 }
 
 .profile-text {
-    font: 400 12px/20px Roboto;
+    font: 400 12px/20px Roboto, sans-serif;
     @include ws-common.breakpoint-gt-xs {
         display: none;
     }
@@ -54,10 +54,9 @@ section {
     padding-bottom: 0 !important;
 
     .mat-menu-item {
-        line-height: 30px;
         height: 38px;
         padding: 0 6px;
-        font: 400 14px/28px Roboto !important
+        font: 400 14px/28px Roboto, sans-serif !important
     }
 }
 ::ng-deep.circle-m {

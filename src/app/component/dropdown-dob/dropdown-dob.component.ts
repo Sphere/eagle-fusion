@@ -27,22 +27,20 @@ export class DropdownDobComponent implements OnInit {
   ]
   yearsValue: number[] = []
 
-  constructor(public cdr: ChangeDetectorRef, private logger: LoggerService) {
+  constructor(public cdr: ChangeDetectorRef, private readonly logger: LoggerService) {
     this.dobForm = new FormGroup({
       dateField: new FormControl('', Validators.required),
       monthField: new FormControl('', Validators.required),
       yearField: new FormControl('', Validators.required),
     })
+  }
 
+  ngOnInit() {
     this.dobForm.get('monthField')?.valueChanges.subscribe(month => this.updateDays(month))
     this.dobForm.get('yearField')?.valueChanges.subscribe(() => {
       const month = this.dobForm.get('monthField')!.value
       if (month) this.updateDays(month)
     })
-
-  }
-
-  ngOnInit() {
     this.initYear()
     setTimeout(() => {
       this.updateForm()

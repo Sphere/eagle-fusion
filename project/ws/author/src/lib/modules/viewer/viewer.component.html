@@ -17,8 +17,8 @@
     </mat-form-field>
   </mat-toolbar>
   <div style="display: flex; justify-content: center; overflow: hidden; padding: 8px;" class="mat-toolbar">
-    <iframe style="overflow: auto;" class="iframe" [src]="iframeUrl | pipeSafeSanitizer: 'resourceUrl'"
-      [width]="selected.width">
+    <iframe style="overflow: auto;" class="iframe" [src]="iframeUrl"
+      [width]="selected.width" title="Content preview">
     </iframe>
   </div>
 </div>

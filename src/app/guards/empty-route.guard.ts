@@ -9,7 +9,7 @@ import { DowntimeConfigService } from '../services/downtime-config.service'
 })
 export class EmptyRouteGuard {
   constructor(
-    private downtimeService: DowntimeConfigService,
+    private readonly downtimeService: DowntimeConfigService,
   ) { }
 
   canActivate(

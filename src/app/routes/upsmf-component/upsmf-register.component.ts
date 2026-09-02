@@ -66,12 +66,12 @@ export class UpsmfRegisterComponent implements OnInit {
     public userProfileSvc: UserProfileService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private loader: LoaderService,
-    private route: ActivatedRoute,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private readonly formBuilder: FormBuilder,
+    private readonly dialog: MatDialog,
+    private readonly loader: LoaderService,
+    private readonly route: ActivatedRoute,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.anmRegistrationForm = this.createInServiceFormGroup()
     this.preServiceForm = this.createPreServiceFormGroup()
@@ -339,17 +339,6 @@ export class UpsmfRegisterComponent implements OnInit {
     // Reset facility selection
     this.anmRegistrationForm.get('facilityName')?.reset()
   }
-
-  // onFacilityNameChange(selectedFacility: any): void {
-  //   this.logger.log('Selected facility:', selectedFacility)
-
-  //   // Set facility code based on selected facility
-  //   if (selectedFacility && selectedFacility.code) {
-  //     this.anmRegistrationForm.get('facilityCode')?.setValue(selectedFacility.code)
-  //   }
-
-  //   this.logger.log('Facility code set to:', this.anmRegistrationForm.get('facilityCode')?.value)
-  // }
 
   private resetFormValidation(): void {
     const governmentFields = ['serviceType', 'hrmsId', 'district', 'block', 'facilityType', 'facilityName']

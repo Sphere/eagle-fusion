@@ -103,6 +103,41 @@ describe('EducationListComponent', () => {
     expect(sessionStorage.getItem('onListPage')).toBe('true')
   })
 
+  it('should remove existing academic from sessionStorage on ngOnInit', () => {
+    sessionStorage.setItem('academic', JSON.stringify({ old: true }))
+    component.ngOnInit()
+    expect(sessionStorage.getItem('academic')).toBeNull()
+  })
+
+  it('should set academicsArray from registry data on ngOnInit', () => {
+    component.ngOnInit()
+    expect(component.academicsArray.length).toBe(2)
+  })
+
+  it('should set isEditableForSphere from data input when available', () => {
+    component.data = { isEditable: true }
+    component.ngOnInit()
+    expect(component.isEditableForSphere).toBe(true)
+  })
+
+  it('should default isEditableForSphere to false when data is undefined', () => {
+    component.data = undefined
+    component.ngOnInit()
+    expect(component.isEditableForSphere).toBe(false)
+  })
+
+  it('should not set academicsArray when registry data has no academics', () => {
+    mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({ profileDetails: {} }))
+    component.ngOnInit()
+    expect(component.academicsArray).toEqual([])
+  })
+
+  it('should not set academicsArray when registry returns null', () => {
+    mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of(null))
+    component.ngOnInit()
+    expect(component.academicsArray).toEqual([])
+  })
+
   describe('hasValidAcademics getter', () => {
     it('should return true when any academic has nameOfInstitute', () => {
       component.academicsArray = [{ nameOfInstitute: 'AIIMS' }, { nameOfInstitute: '' }]
@@ -134,6 +169,17 @@ describe('EducationListComponent', () => {
       component.redirectTo(false, academic)
       const stored = JSON.parse(sessionStorage.getItem('academic') || '{}')
       expect(stored.type).toBe('academic')
+    })
+
+    it('should remove existing onListPage and academic before storing on redirectTo', () => {
+      sessionStorage.setItem('onListPage', 'true')
+      sessionStorage.setItem('academic', JSON.stringify({ old: true }))
+      const academic = { nameOfInstitute: 'PGI' }
+      component.redirectTo(true, academic)
+      expect(sessionStorage.getItem('onListPage')).toBeNull()
+      const stored = JSON.parse(sessionStorage.getItem('academic') || '{}')
+      expect(stored.type).toBe('academic')
+      expect(stored).not.toHaveProperty('old')
     })
   })
 })

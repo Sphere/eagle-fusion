@@ -2,8 +2,6 @@ import { APP_BASE_HREF } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { MatIconRegistry } from '@angular/material/icon'
-import { DomSanitizer } from '@angular/platform-browser'
-import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
@@ -15,6 +13,7 @@ import {
   LoggerService,
   NsAppsConfig,
   NsInstanceConfig,
+  SafeResourceUrlService,
   UserPreferenceService,
 } from '@ws-widget/utils'
 import { environment } from '../../environments/environment'
@@ -33,22 +32,21 @@ interface IFeaturePermissionConfigs {
   providedIn: 'root',
 })
 export class InitService {
-  private orgSelectiveConfig: any | null = null
+  private readonly orgSelectiveConfig: any | null = null
 
   domain = ''
   constructor(
-    private logger: LoggerService,
-    private configSvc: ConfigurationsService,
-    private widgetResolverService: WidgetResolverService,
-    private settingsSvc: BtnSettingsService,
-    private userPreference: UserPreferenceService,
-    private http: HttpClient,
+    private readonly logger: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly widgetResolverService: WidgetResolverService,
+    private readonly userPreference: UserPreferenceService,
+    private readonly http: HttpClient,
     private readonly authSvc: AuthKeycloakService,
-    @Inject(APP_BASE_HREF) private baseHref: string,
-    domSanitizer: DomSanitizer,
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
+    safeResourceUrlSvc: SafeResourceUrlService,
     iconRegistry: MatIconRegistry,
-    private userDataCacheSvc: UserDataCacheService,
-    private configCacheSvc: ConfigCacheService,
+    private readonly userDataCacheSvc: UserDataCacheService,
+    private readonly configCacheSvc: ConfigCacheService,
   ) {
     this.configSvc.isProduction = environment.production
 
@@ -56,35 +54,25 @@ export class InitService {
     // Usage: <mat-icon svgIcon="pin"></mat-icon>
     iconRegistry.addSvgIcon(
       'pin',
-      domSanitizer.bypassSecurityTrustResourceUrl('fusion-assets/icons/pin.svg'),
+      safeResourceUrlSvc.trust('fusion-assets/icons/pin.svg')!,
     )
     iconRegistry.addSvgIcon(
       'facebook',
-      domSanitizer.bypassSecurityTrustResourceUrl('fusion-assets/icons/facebook.svg'),
+      safeResourceUrlSvc.trust('fusion-assets/icons/facebook.svg')!,
     )
     iconRegistry.addSvgIcon(
       'linked-in',
-      domSanitizer.bypassSecurityTrustResourceUrl('fusion-assets/icons/linked-in.svg'),
+      safeResourceUrlSvc.trust('fusion-assets/icons/linked-in.svg')!,
     )
     iconRegistry.addSvgIcon(
       'twitter',
-      domSanitizer.bypassSecurityTrustResourceUrl('fusion-assets/icons/twitter.svg'),
+      safeResourceUrlSvc.trust('fusion-assets/icons/twitter.svg')!,
     )
   }
 
   async init() {
     const authenticated = await this.authSvc.initAuth()
-    const loginData = localStorage.getItem('loginDetailsWithToken')
-    if (authenticated) {
-      if (loginData) {
-        const parsedData = JSON.parse(loginData)
-        // Gate on the persisted login status, not a stored token (tokens are no longer persisted).
-        if (parsedData.status !== 'success')
-          this.authSvc.logout()
-      } else {
-        this.authSvc.logout()
-      }
-    }
+    this.logoutIfSessionInvalid(authenticated)
 
     await this.fetchDefaultConfig()
     try {
@@ -95,25 +83,47 @@ export class InitService {
       if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
         await this.loadUserDataIfAvailable()
         await this.fetchStartUpDetails() // detail: depends only on userID
-        // this.domain = window.location.hostname
-        // if (this.domain.includes('ekshamata')) {
-        //   await this.fetchHostedConfig()
-        // }
       }
 
     } catch (e) {
-      this.settingsSvc.initializePrefChanges(environment.production)
       this.updateNavConfig()
       this.logger.info('Not Authenticated')
       // window.location.reload() // can do this
       return false
 
     }
+
+    await this.initializeAppConfig()
+
+    this.updateNavConfig()
+    return true
+  }
+
+  private logoutIfSessionInvalid(authenticated: boolean): void {
+    if (!authenticated) {
+      return
+    }
+    const loginData = localStorage.getItem('loginDetailsWithToken')
+    if (!loginData) {
+      this.authSvc.logout()
+      return
+    }
+    const parsedData = JSON.parse(loginData)
+    // Gate on the persisted login status, not a stored token (tokens are no longer persisted).
+    if (parsedData.status !== 'success') {
+      this.authSvc.logout()
+    }
+  }
+
+  private async initializeAppConfig(): Promise<void> {
     try {
       this.reloadAccordingToLocale()
       const appsConfigPromise = await this.fetchAppsConfig()
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
       const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
+      // backstop: if an await below throws before these settle, their rejections would otherwise be unhandled
+      instanceConfigPromise.catch(() => undefined)
+      widgetStatusPromise.catch(() => undefined)
       await this.fetchFeaturesStatus() // feature: depends only on details
       /**
        * Wait for the widgets and get the list of restricted widgets
@@ -142,7 +152,6 @@ export class InitService {
       }
 
       // Apply the settings using settingsService
-      this.settingsSvc.initializePrefChanges(environment.production)
       this.userPreference.initialize()
 
     } catch (e) {
@@ -150,12 +159,7 @@ export class InitService {
         'Initialization process encountered some error. Application may not work as expected',
         e,
       )
-      this.settingsSvc.initializePrefChanges(environment.production)
     }
-
-
-    this.updateNavConfig()
-    return true
   }
   /** Fetches config once and caches it */
   private async fetchOrgSelectiveConfig(): Promise<void> {
@@ -190,10 +194,10 @@ export class InitService {
           if (orgNameFromUrl) {
             // Decode + sanitize URL param
             orgNameFromUrl = decodeURIComponent(orgNameFromUrl)
-              .replace(/\+/g, ' ')
+              .replaceAll('+', ' ')
               .trim()
               .toLowerCase()
-              .replace(/&/g, 'and')
+              .replaceAll('&', 'and')
 
             this.logger.log('Normalized Org from URL:', orgNameFromUrl)
 
@@ -203,7 +207,7 @@ export class InitService {
                 const orgNameNormalized = (org.orgName || '')
                   .toLowerCase()
                   .trim()
-                  .replace(/&/g, 'and')
+                  .replaceAll('&', 'and')
                 return orgNameNormalized === orgNameFromUrl
               })
               if (found) {
@@ -277,29 +281,6 @@ export class InitService {
       this.logger.log('[InitService] orgHomeRedirectMap loaded:', this.configSvc.orgHomeRedirectMap)
     }
   }
-  // private async fetchHostedConfig(): Promise<any> {
-  //   // use the rootOrg and org to fetch the instance
-  //   const hostConfig = await this.http
-  //     .get<any>(S3_END_POINTS.EKSHAMATA_ORG_CONFIG)
-  //     .toPromise()
-  //   if (hostConfig) {
-  //     if (this.configSvc.userProfile) {
-  //       const rootOrgId = this.configSvc.userProfile.rootOrgId
-  //       this.logger.log("rootOrgId: ", rootOrgId, hostConfig)
-  //       const orgDetails = hostConfig.orgNames
-  //       // Find the matching object
-  //       const result = orgDetails.find(item => item.channelId === rootOrgId)
-
-  //       if (result) {
-  //         this.configSvc.hostedInfo = result
-  //         this.logger.log('Channel found:', result)
-  //       } else {
-  //         this.logger.log('Channel not found')
-  //       }
-  //     }
-  //   }
-  //   this.logger.log("hostConfig", hostConfig)
-  // }
 
   private reloadAccordingToLocale() {
     if (window.location.origin.indexOf('http://localhost:') > -1) {
@@ -423,8 +404,8 @@ export class InitService {
   }
 
   get locale(): string {
-    return this.baseHref && this.baseHref.replace(/\//g, '')
-      ? this.baseHref.replace(/\//g, '')
+    return this.baseHref && this.baseHref.replaceAll('/', '')
+      ? this.baseHref.replaceAll('/', '')
       : 'en'
   }
 
@@ -453,7 +434,6 @@ export class InitService {
   }
 
   private async fetchStartUpDetails(): Promise<any> {
-    // const userRoles: string[] = []
     if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
       let userPidProfile: any | null = null
       try {
