@@ -167,6 +167,7 @@ describe('AssesmentModalComponent', () => {
 
   it('canShowViewAnswers should return true when isCorrectAnswerPopUp explicitly true', () => {
     mockViewerDataSvc.resource = { isCorrectAnswerPopUp: true }
+    mockAssesmentdata.generalData.isCorrectAnswerPopUp = true
     expect(component.canShowViewAnswers()).toBe(true)
   })
 
@@ -235,6 +236,7 @@ describe('AssesmentModalComponent', () => {
 
   it('retakeQuiz should open ViewAnswerComponent dialog when passed', async () => {
     mockViewerDataSvc.resource = { isCorrectAnswerPopUp: true }
+    mockAssesmentdata.generalData.isCorrectAnswerPopUp = true
     component.result = 80
     component.passPercentage = 60
     await component.retakeQuiz()
@@ -487,6 +489,7 @@ describe('AssesmentModalComponent', () => {
 
     it('should show answers when the resource opts in explicitly', () => {
       mockViewerDataSvc.resource = { isCorrectAnswerPopUp: true }
+      mockAssesmentdata.generalData.isCorrectAnswerPopUp = true
       mockPlylsSvc.orgDetails.mockReturnValue({ assessmentConfig: { isCorrectAnswerPopUp: false } })
       expect(component.canShowViewAnswers()).toBe(true)
     })
@@ -506,6 +509,7 @@ describe('AssesmentModalComponent', () => {
     it('should show answers when the user has no organisation', () => {
       mockViewerDataSvc.resource = {}
       mockConfigSvc.userProfile = { userId: 'u1' }
+      mockAssesmentdata.generalData.isCorrectAnswerPopUp = true
       mockPlylsSvc.orgDetails.mockReturnValue({ assessmentConfig: { isCorrectAnswerPopUp: false } })
       expect(component.canShowViewAnswers()).toBe(true)
     })
@@ -514,6 +518,7 @@ describe('AssesmentModalComponent', () => {
       mockViewerDataSvc.resource = null
       mockPlylsSvc.orgDetails.mockReturnValue(null)
       mockConfigSvc.userProfile = null
+      mockAssesmentdata.generalData.isCorrectAnswerPopUp = true
       expect(component.canShowViewAnswers()).toBe(true)
     })
   })
@@ -616,6 +621,7 @@ describe('AssesmentModalComponent', () => {
       component.assesmentdata = mockAssesmentdata
       component.passPercentage = 60
       mockViewerDataSvc.resource = { isCorrectAnswerPopUp: true }
+      mockAssesmentdata.generalData.isCorrectAnswerPopUp = true
     })
 
     it('should request a retake when the learner failed', async () => {

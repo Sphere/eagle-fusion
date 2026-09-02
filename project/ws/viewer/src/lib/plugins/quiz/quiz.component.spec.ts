@@ -742,12 +742,16 @@ describe('QuizComponent', () => {
 
   describe('handleAssessmentDone', () => {
     it('should take the failed path when the score is below the pass mark', () => {
+      // handleAssessmentDone reads the pass mark from overviewData (populated by
+      // openOverviewDialog), not from the result payload — seed it directly here.
+      component.overviewData = { passPercentage: 60 }
       const spy = jest.spyOn(component as any, 'handleAssessmentFailed').mockImplementation(() => { })
       component['handleAssessmentDone']({ result: 40, passPercentage: 60 })
       expect(spy).toHaveBeenCalledWith('id1', 'c1', undefined, 40)
     })
 
     it('should take the passed path when the score meets the pass mark', () => {
+      component.overviewData = { passPercentage: 60 }
       const spy = jest.spyOn(component as any, 'handleAssessmentPassed').mockImplementation(() => { })
       component['handleAssessmentDone']({ result: 60, passPercentage: 60 })
       expect(spy).toHaveBeenCalledWith('id1', 'c1', undefined)
