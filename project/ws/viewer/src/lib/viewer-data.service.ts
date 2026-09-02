@@ -58,6 +58,16 @@ export class ViewerDataService {
   // doesn't keep forcing redundant refetches.
   lastRatingSubmittedCourseId: string | null = null
   changedSubject = new ReplaySubject(1)
+  isCourseCompletionFlowActive = false
+  // Set to a course identifier the instant a rating is genuinely CONFIRMED-submitted for it
+  // (viewer-toc.component.ts / quiz.component.ts, right where they call
+  // completeCourseNavigation()/navigateToCourseOverview()). app-toc-desktop.component.ts
+  // reads and consumes (nulls out) this field on init/content-change to force a fresh
+  // rating-summary fetch for that exact course, instead of relying only on the implicit
+  // "navigating here always remounts the component" assumption. Consuming it (setting back
+  // to null) after one use means a later, unrelated visit to the same course overview page
+  // doesn't keep forcing redundant refetches.
+  lastRatingSubmittedCourseId: string | null = null
   tocChangeSubject = new ReplaySubject<IViewerTocChangeEvent>(1)
   navSupportForResource = new ReplaySubject<IViewerResourceOptions>(1)
   fullScreenResource = new Subject<boolean>()

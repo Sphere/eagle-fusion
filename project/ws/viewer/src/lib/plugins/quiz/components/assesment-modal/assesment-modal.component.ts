@@ -313,7 +313,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       }
     })
   }
-
   CompetencyDashboard() {
     this.dialogRef.close({
       event: 'FAILED_COMPETENCY',

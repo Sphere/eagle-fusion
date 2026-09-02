@@ -180,6 +180,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               if (!(isNull(nextResource) || isEmpty(nextResource))) {
                 this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
                 this.playerStateService.trigger$.complete()
+              } else if (this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive) {
+                // This SCORM-driven completion check runs independently of the
+                // currentMessage-driven congrats/rating flow (handleOnlineProgressRecord)
+                // and used to navigate/close-all unconditionally on its own fixed 500ms
+                // timer — racing past that flow's still-open dialog and abandoning the
+                // rating before the user could submit it. If that flow is already in
+                // progress, do nothing here: its own confirmdialog.afterClosed() handler
+                // will call completeCourseNavigation() once it resolves.
 
               } else if (this.dialog.openDialogs.length > 0 || this.viewerDataSvc.isCourseCompletionFlowActive) {
                 // This SCORM-driven completion check runs independently of the

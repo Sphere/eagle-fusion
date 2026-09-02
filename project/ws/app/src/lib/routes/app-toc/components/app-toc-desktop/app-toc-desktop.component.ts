@@ -533,6 +533,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         }
       })
     })
+    this.refreshRatingSummaryIfNeeded()
   }
   private getBatchId(): string {
     let batchId = ''
@@ -544,7 +545,22 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return batchId
   }
 
-
+  private refreshRatingSummaryIfNeeded() {
+    const identifier = this.content?.identifier
+    if (!identifier) {
+      return
+    }
+    if (this.viewerDataSvc.lastRatingSubmittedCourseId === identifier) {
+      this.viewerDataSvc.lastRatingSubmittedCourseId = null
+      this.ratingSummaryFetchedForId = identifier
+      this.readCourseRatingSummary()
+      return
+    }
+    if (identifier !== this.ratingSummaryFetchedForId) {
+      this.ratingSummaryFetchedForId = identifier
+      this.readCourseRatingSummary()
+    }
+  }
   redirectPage(updatedContentFound: any) {
     this.telemetrySvc.interact('redirect-clicked', 'click', 'toc-page', { id: this.content!.identifier, type: 'course', version: "", rollup: {} })
     if (updatedContentFound === undefined) {
