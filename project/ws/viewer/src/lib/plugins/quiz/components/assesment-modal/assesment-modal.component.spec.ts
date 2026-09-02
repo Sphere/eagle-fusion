@@ -85,7 +85,7 @@ describe('AssesmentModalComponent', () => {
     mockTranslate = { instant: jest.fn((k: string) => k) }
     mockNgZone = { runOutsideAngular: (fn: any) => fn(), run: (fn: any) => fn() }
     mockCdr = { markForCheck: jest.fn(), detectChanges: jest.fn() }
-    mockHttp = { get: jest.fn().mockReturnValue({ toPromise: jest.fn().mockResolvedValue({ questions: [] }) }) }
+    mockHttp = { get: jest.fn().mockReturnValue(of({ questions: [] })) }
 
     component = new AssesmentModalComponent(
       mockDialogRef,
@@ -664,13 +664,11 @@ describe('AssesmentModalComponent', () => {
         { questionId: 'q1', questionType: 'mcq-sca', options: [{ optionId: 'o1', isCorrect: false }] },
         { questionId: 'q2', questionType: 'mcq-sca', options: [{ optionId: 'o2', isCorrect: false }] },
       ]
-      mockHttp.get.mockReturnValue({
-        toPromise: jest.fn().mockResolvedValue({
-          questions: [
-            { questionId: 'q1', options: [{ optionId: 'o1', isCorrect: true }] },
-          ],
-        }),
-      })
+      mockHttp.get.mockReturnValue(of({
+        questions: [
+          { questionId: 'q1', options: [{ optionId: 'o1', isCorrect: true }] },
+        ],
+      }))
       component.result = 80
 
       await component.retakeQuiz()
@@ -683,7 +681,7 @@ describe('AssesmentModalComponent', () => {
 
     it('should leave the questions unchanged when the fetch fails', async () => {
       const originalQuestions = JSON.parse(JSON.stringify(mockAssesmentdata.questions.questions))
-      mockHttp.get.mockReturnValue({ toPromise: jest.fn().mockRejectedValue(new Error('network error')) })
+      mockHttp.get.mockReturnValue(throwError(() => new Error('network error')))
       component.result = 80
 
       await component.retakeQuiz()

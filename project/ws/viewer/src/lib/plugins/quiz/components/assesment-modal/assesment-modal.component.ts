@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, NgZone, OnDestroy,
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
-import { interval, Subject, Subscription } from 'rxjs'
+import { firstValueFrom, interval, Subject, Subscription } from 'rxjs'
 import { first, map, takeUntil } from 'rxjs/operators'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
@@ -300,12 +300,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
    */
   private async populateAnswersFromArtifact(): Promise<void> {
     const artifactUrl = this.assesmentdata.generalData.artifactUrl
-    const quizJSON: any = await this.http
-      .get<any>(artifactUrl || '')
-      .toPromise()
-      .catch((_err: any) => {
-      })
-    const quizQuestions = quizJSON && quizJSON.questions ? quizJSON.questions : []
+    const quizJSON: any = await firstValueFrom(this.http.get<any>(artifactUrl || '')).catch((_err: any) => {
+    })
+    const quizQuestions = quizJSON?.questions ?? []
     this.assesmentdata.questions.questions.forEach((question: any) => {
       const matchedQuestion = quizQuestions.find((qq: any) => qq.questionId === question.questionId)
       if (matchedQuestion) {
