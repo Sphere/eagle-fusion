@@ -210,16 +210,18 @@ export class GeneralGuard {
           // this.logger.log("came here 6")
 
           if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
-            if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
-              if (data.profileDetails!.profileReq!.personalDetails!.dob !== undefined) {
-                this.logger.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
-              }
-            } else {
-              if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
-                // this.logger.log('true')
-                this.router.navigate(['app', 'new-tnc'])
-              }
+            // Acceptance alone decides whether to prompt. This previously also required
+            // dob === undefined, so any user who had a date of birth but no acceptance flag
+            // was let straight through and never saw the terms - migrated accounts in
+            // particular, which carry a default dob of 01/01/1970.
+            //
+            // The platform's own fields are not usable as the signal here: promptTnC is
+            // returned as true even for users who have accepted, and tncAcceptedVersion
+            // ("4.0") and tncLatestVersion ("v1") use different formats, so neither a flag
+            // check nor a version comparison distinguishes accepted from not.
+            if (data.profileDetails!.profileReq!.personalDetails!.tncAccepted !== 'true') {
+              // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+              this.router.navigate(['app', 'new-tnc'])
             }
           } else {
             // this.logger.log("afdssssssssssssss")
