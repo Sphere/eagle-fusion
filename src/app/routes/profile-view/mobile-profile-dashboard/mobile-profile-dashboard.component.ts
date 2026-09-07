@@ -386,7 +386,9 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
             if (res) {
               _.forEach(this.certificates, cvalue => {
                 if (res[cvalue.identifier]) {
-                  cvalue['image'] = this.safeResourceUrlSvc.trustUrl(res[cvalue.identifier])
+                  // Certificates arrive as data:image/svg+xml, which trustUrl() rejects -
+                  // it would return null and every card would render with an empty image.
+                  cvalue['image'] = this.safeResourceUrlSvc.trustImageSrc(res[cvalue.identifier])
                   cvalue['printUri'] = res[cvalue.identifier]
                 }
               })

@@ -53,7 +53,10 @@ export class AppTocCertificateModalComponent implements OnInit, OnDestroy {
         if (!src) {
           throw new Error('Certificate printUri was not a usable image source')
         }
-        this.img = this.sanitizer.trustUrl(src)
+        // trustUrl() rejects data:image/svg+xml, which is what a rendered certificate is,
+        // and returns null - binding null to [src] leaves the image empty. trustImageSrc()
+        // permits it for <img> only, where SVG cannot execute script.
+        this.img = this.sanitizer.trustImageSrc(src)
         this.isLoading = false
       })
       .catch((err: any) => {

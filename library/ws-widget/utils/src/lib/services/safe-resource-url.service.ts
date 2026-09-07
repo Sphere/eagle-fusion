@@ -49,6 +49,29 @@ export class SafeResourceUrlService {
   }
 
   /**
+   * Trusts a value destined for an <img src> only.
+   *
+   * This additionally permits data:image/svg+xml, which trustUrl() deliberately rejects.
+   * That is safe in this one context and nowhere else: the HTML spec requires an image
+   * referenced by <img> to be rendered in a restricted, non-interactive mode - scripts do
+   * not run, external resources are not fetched, and event handlers are inert. The same
+   * SVG in <object>, <embed>, <iframe>, or as a navigation target IS dangerous, so those
+   * must keep using trust() / trustUrl().
+   *
+   * Needed for server-rendered certificates, which arrive as a 650 KB
+   * "data:image/svg+xml,<percent-encoded markup>" printUri.
+   */
+  trustImageSrc(url: string | null | undefined): SafeUrl | null {
+    if (!url) {
+      return null
+    }
+    if (SafeResourceUrlService.SAFE_IMG_SRC.test(url) || this.isHttpOrHttps(url)) {
+      return this.sanitizer.bypassSecurityTrustUrl(url)
+    }
+    return null
+  }
+
+  /**
    * Trusts a CSS value (e.g. a background-image url()). Style injection can't execute
    * script directly, but this still disables Angular's built-in CSS sanitization.
    */
@@ -85,6 +108,10 @@ export class SafeResourceUrlService {
   // Only raster formats, and only base64-encoded — excludes svg+xml (can embed <script>)
   // and excludes non-base64 data: URIs (which could carry literal markup/JS as text).
   private static readonly SAFE_DATA_IMAGE = /^data:image\/(png|jpe?g|gif|webp);base64,/i
+
+  // Wider set, permitted ONLY by trustImageSrc() — see the rationale there. svg+xml and
+  // non-base64 payloads are included because <img> rendering is script-free by spec.
+  private static readonly SAFE_IMG_SRC = /^data:image\/(png|jpe?g|gif|webp|svg\+xml)[;,]/i
 
   private isHttpOrHttps(url: string): boolean {
     if (SafeResourceUrlService.SAFE_DATA_IMAGE.test(url)) {
