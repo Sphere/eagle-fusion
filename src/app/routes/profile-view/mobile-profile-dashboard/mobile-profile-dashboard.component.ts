@@ -7,9 +7,9 @@ import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/s
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 // import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
-import { from } from 'rxjs'
+import { from, of } from 'rxjs'
 import { DomSanitizer } from '@angular/platform-browser'
-import { map, mergeMap, finalize } from 'rxjs/operators'
+import { map, mergeMap, finalize, catchError } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
 import { FormControl, FormGroup } from '@angular/forms'
@@ -347,7 +347,16 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
         return certId
       }),
       mergeMap(certId =>
-        this.contentSvc.getCertificateAPI(certId)
+        // Isolate each download. Without this, one failing certificate errors the whole
+        // stream, mergeMap unsubscribes every in-flight request, and none of the
+        // successful downloads reach updateValue$ - so every card loses its image and
+        // renders as nothing. One bad certificate should cost one certificate.
+        this.contentSvc.getCertificateAPI(certId).pipe(
+          catchError((err: any) => {
+            this.logger.error('[MobileProfileDashboard] certificate download failed: ' + certId, err)
+            return of(null)
+          })
+        )
       ),
       finalize(() => {
         // This runs after all certificates are processed
