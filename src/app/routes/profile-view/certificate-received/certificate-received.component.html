@@ -1,7 +1,13 @@
-<div class="column py-2 px-0  position-relative " *ngIf="certificateData.image">
+<!-- The card no longer hides itself when the preview is missing. A certificate whose
+     thumbnail failed to load is still a certificate the learner earned: show its name
+     and keep the download available, since the download can succeed even when the
+     preview did not. -->
+<div class="column py-2 px-0  position-relative " *ngIf="certificateData">
   <div class="flex">
     <div class="">
-      <img alt="Certificate" [src]="certificateData.image" width="100px" height="auto" loading="lazy" />
+      <img *ngIf="certificateData.image" alt="Certificate" [src]="certificateData.image"
+        width="100px" height="auto" loading="lazy" />
+      <div *ngIf="!certificateData.image" class="cert-thumb-fallback" aria-hidden="true"></div>
     </div>
     <div class="mx-0">
       <p class="text-base mb-0 name">{{certificateData.name}}</p>
