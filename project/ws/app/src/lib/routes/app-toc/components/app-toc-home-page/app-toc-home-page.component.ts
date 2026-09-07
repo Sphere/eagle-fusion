@@ -3,7 +3,8 @@ import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, LoggerService, NsPage, SafeResourceUrlService } from '@ws-widget/utils'
-import { Subscription } from 'rxjs'
+import { Subject, Subscription } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { SafeHtml } from '@angular/platform-browser'
@@ -56,6 +57,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   resumeData: any = null
   resumeResource: any = null
   routeSubscription: Subscription | null = null
+  // Guards every subscribe() in this component. Without it, an in-flight response (e.g.
+  // fetchContentHistoryV2/fetchCourseBatches/fetchUserBatchList) that lands after the user has
+  // already navigated elsewhere still runs its callback — including router.navigate() calls that
+  // use `relativeTo: this.route`, which silently re-navigates back to this (stale) route.
+  private readonly destroyed$ = new Subject<void>()
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   isCohortsRestricted = false
   isInIframe = false
@@ -145,10 +151,10 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
 
     this.currentFragment = 'overview'
-    this.route.fragment.subscribe((fragment: string | null) => {
+    this.route.fragment.pipe(takeUntil(this.destroyed$)).subscribe((fragment: string | null) => {
       this.currentFragment = fragment || 'overview'
     })
-    this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(
+    this.batchSubscription = this.tocSvc.batchReplaySubject.pipe(takeUntil(this.destroyed$)).subscribe(
       () => {
         this.fetchBatchDetails()
       },
@@ -164,7 +170,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   // ASHA-home flow: capture the asha context (isAsha + competency/level/course params)
   // passed in the query string so this course page can drive asha-specific navigation.
   private subscribeToAshaQueryParams(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
+    this.route.queryParams.pipe(takeUntil(this.destroyed$)).subscribe((queryParams: any) => {
       this.ashaData = queryParams || {}
       this.navigateAshaHome = this.ashaData.isAsha === 'true'
     })
@@ -240,7 +246,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       this.visibleTabs.push('references')
     }
     this.visibleTabs.push('discuss')
-    this.router.events.subscribe(event => {
+    this.router.events.pipe(takeUntil(this.destroyed$)).subscribe(event => {
       if (event instanceof NavigationEnd) {
         const route = this.route.firstChild?.snapshot?.url[0]?.path
         this.selectedIndex = this.visibleTabs.indexOf(route || 'overview')
@@ -322,6 +328,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe()
     }
+    if (this.batchSubscription) {
+      this.batchSubscription.unsubscribe()
+    }
+    this.destroyed$.next()
+    this.destroyed$.complete()
   }
 
   private initData(data: Data) {
@@ -395,7 +406,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    this.userSvc.fetchUserBatchList(userId).subscribe(
+    this.userSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroyed$)).subscribe(
       (courses: NsContent.ICourse[]) => this.handleUserBatchList(courses),
       (error: any) => {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
@@ -502,7 +513,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           sort_by: { createdDate: 'desc' },
         },
       }
-      this.contentSvc.fetchCourseBatches(req).subscribe(
+      this.contentSvc.fetchCourseBatches(req).pipe(takeUntil(this.destroyed$)).subscribe(
         (data: NsContent.IBatchListResponse) => {
           if (data.content) {
             const batchList = data.content.filter((obj: any) => obj.endDate >= moment(new Date()).format('YYYY-DD-MM'))
@@ -545,7 +556,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         fields: ['progressdetails'],
       },
     }
-    this.contentSvc.fetchContentHistoryV2(req).subscribe(
+    console.log("Progress update api call")
+    this.contentSvc.fetchContentHistoryV2(req).pipe(takeUntil(this.destroyed$)).subscribe(
       data => this.handleContinueLearningResponse(data, userId, courseId),
       (error: any) => {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
@@ -603,7 +615,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   }
 
   private subscribeProgressRecord(userId: string, courseId: string, contentList: any) {
-    this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
+    this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).pipe(takeUntil(this.destroyed$)).subscribe(record => {
       this.applyProgressRecord(record, contentList)
     }, error => {
       this.loggerSvc.error('Error:', error, contentList)
@@ -624,7 +636,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   }
 
   private insertAndRefetchProgress(userId: string, courseId: string, contentList: any) {
-    this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', contentList).subscribe(
+    this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', contentList).pipe(takeUntil(this.destroyed$)).subscribe(
       (dat: any) => {
         this.loggerSvc.log('Data inserted successfully1', dat)
         this.refetchProgressRecord(userId, courseId, contentList)
@@ -636,7 +648,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   }
 
   private refetchProgressRecord(userId: string, courseId: string, contentList: any) {
-    this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(record => {
+    this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).pipe(takeUntil(this.destroyed$)).subscribe(record => {
       this.applyProgressRecordAfterInsert(record, contentList)
     }, error => {
       this.loggerSvc.error('Error:', error)
@@ -675,7 +687,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       }
     })
     this.loggerSvc.log(arr1, 'arr1')
-    this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).subscribe(
+    this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).pipe(takeUntil(this.destroyed$)).subscribe(
       () => {
         this.loggerSvc.log('Data inserted successfully2')
       },
@@ -721,6 +733,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+        // Promise-based, so takeUntil(this.destroyed$) doesn't apply — guard manually in case
+        // the user navigated away (e.g. to my-courses/home) while this call was in flight.
+        if (this.destroyed$.closed) {
+          return
+        }
         if (data && data.result && data.result.response === 'SUCCESS') {
           this.getUserEnrollmentList()
           this.router.navigate(
@@ -731,6 +748,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
               queryParamsHandling: 'merge',
             })
           setTimeout(() => {
+            if (this.destroyed$.closed) {
+              return
+            }
             const query = this.generateQuery('RESUME')
             if (this.resumeDataLink) {
               this.router.navigate([this.resumeDataLink.url], { queryParams: query })
