@@ -12,15 +12,15 @@ import { WidgetContentService } from '../../../../../library/ws-widget/collectio
 import { LanguageService } from '../../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-    standalone: false,
-    selector: 'ws-work-info-edit',
-    templateUrl: './work-info-edit.component.html',
-    styleUrls: ['./work-info-edit.component.scss'],
-    providers: [
-        { provide: DateAdapter, useClass: AppDateAdapter },
-        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
-    ],
-    
+  standalone: false,
+  selector: 'ws-work-info-edit',
+  templateUrl: './work-info-edit.component.html',
+  styleUrls: ['./work-info-edit.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+  ],
+
 })
 export class WorkInfoEditComponent implements OnInit, OnDestroy {
   maxDate = new Date()
@@ -136,7 +136,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
       // personalDetails: profileRequest.profileReq.personalDetails,
     }
-    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest = { ...profileRequest, ...obj }
 
     const reqUpdate = {
       request: {

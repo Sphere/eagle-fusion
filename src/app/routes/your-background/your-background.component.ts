@@ -9,11 +9,11 @@ import { FormGroup } from '@angular/forms'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-    standalone: false,
-    selector: 'ws-your-background',
-    templateUrl: './your-background.component.html',
-    styleUrls: ['./your-background.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-your-background',
+  templateUrl: './your-background.component.html',
+  styleUrls: ['./your-background.component.scss'],
+
 })
 export class YourBackgroundComponent implements OnInit {
   @Input() aboutYou!: FormGroup

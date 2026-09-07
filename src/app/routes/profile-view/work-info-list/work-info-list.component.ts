@@ -529,7 +529,7 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
       },
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
-    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest = { ...profileRequest, ...obj }
     const reqUpdate = {
       request: {
         userId: this.userID,

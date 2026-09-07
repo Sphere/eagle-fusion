@@ -14,11 +14,11 @@ import { constructReq } from '../request-util'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-profile-select',
-    templateUrl: './profile-select.component.html',
-    styleUrls: ['./profile-select.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-profile-select',
+  templateUrl: './profile-select.component.html',
+  styleUrls: ['./profile-select.component.scss'],
+
 })
 export class ProfileSelectComponent implements OnInit {
   imageTypes = IMAGE_SUPPORT_TYPES
@@ -149,7 +149,7 @@ export class ProfileSelectComponent implements OnInit {
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
 
     }
-    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest = { ...profileRequest, ...obj }
     const reqUpdate = {
       request: {
         userId: this.userID,

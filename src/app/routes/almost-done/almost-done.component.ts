@@ -439,7 +439,7 @@ export class AlmostDoneComponent implements OnInit {
     const profileReq = {
       id: this.result.userId,
       userId: this.result.userId,
-      personalDetails: userObject,
+      personalDetails: { ...this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails, ...userObject },
       academics: this.getAcademics(),
       employmentDetails: {},
       professionalDetails: [
@@ -465,7 +465,7 @@ export class AlmostDoneComponent implements OnInit {
     }
 
     this.logger.log(this.userId, this.result.userId)
-    profileRequest = Object.assign(profileRequest, this.buildProfilePreferencesPatch())
+    profileRequest = { ...profileRequest, ...this.buildProfilePreferencesPatch() }
 
     const reqUpdate = {
       request: {

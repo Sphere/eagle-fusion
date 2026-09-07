@@ -154,7 +154,7 @@ export class EducationEditComponent implements OnInit {
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
       // personalDetails: profileRequest.profileReq.personalDetails
     }
-    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest = { ...profileRequest, ...obj }
     const reqUpdate = {
       request: {
         userId: this.userID,

@@ -1015,7 +1015,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
       profileLocation: 'sphere-web/user-profile-on-submit',
     }
-    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest = { ...profileRequest, ...obj }
 
     const reqUpdate = {
       request: {
@@ -1230,7 +1230,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             userCookie,
             userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
           }
-          const userdata = Object.assign(user['profileDetails'], obj)
+          const userdata = { ...user['profileDetails'], ...obj }
           const reqUpdate = {
             request: {
               userId: userid,

@@ -209,7 +209,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           userCookie,
           profileLocation: 'sphere-web/settings',
         }
-        const userdata = Object.assign(user['profileDetails'], obj)
+        const userdata = { ...user['profileDetails'], ...obj }
 
         this.chosenLanguage = path.value
         const reqUpdate = {

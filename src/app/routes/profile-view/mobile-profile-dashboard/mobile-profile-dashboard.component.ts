@@ -479,7 +479,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
 
-    const userdata = Object.assign(this.userInfo?.profileDetails, obj)
+    const userdata = { ...this.userInfo?.profileDetails, ...obj }
     userdata.profileReq.personalDetails["profileLocation"] = 'sphere-web/mobile-profile-dashboard-store-language'
 
     const reqUpdate = {
@@ -524,7 +524,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       },
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
-    const userdata = Object.assign(this.userData['profileDetails'], obj)
+    const userdata = { ...this.userData['profileDetails'], ...obj }
 
     const reqUpdate = {
       request: {

@@ -548,7 +548,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       },
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
-    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest = { ...profileRequest, ...obj }
     this.logger.log("test request", profileRequest)
     const reqUpdate = {
       request: {
@@ -615,7 +615,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
                     browserName: userAgent.browserName,
                     userCookie,
                   }
-                  const userdata = Object.assign(data['profileDetails'], obj)
+                  const userdata = { ...data['profileDetails'], ...obj }
                   const reqUpdate = {
                     request: {
                       userId: userid,
