@@ -698,9 +698,6 @@ export class QuizComponent implements OnChanges, OnDestroy {
     levelId: string,
     ashaData: any
   ): string | null {
-    // Extract the language from the ashaData
-    const language = ashaData.lang
-
     // Iterate over the levels in the ashaData
     for (const level of ashaData.levels) {
       // Check if the competencyId and levelId match
@@ -708,13 +705,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
         level.competencyId.toString() == competencyId &&
         level.level == levelId
       ) {
-        // Iterate over the courses in the matched level
-        for (const course of level.course) {
-          // Check if the course language matches the input language (ashaData.lang)
-          if (course.lang == language) {
-            return course.id // Return the matched course ID
-          }
-        }
+        return level.course // Return the matched course ID
       }
     }
 
