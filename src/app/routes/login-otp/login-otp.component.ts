@@ -1,6 +1,7 @@
 
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core'
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
 import { Observable } from 'rxjs'
@@ -45,7 +46,8 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
     private readonly logger: LoggerService,
     private readonly translate: TranslateService,
     private readonly cdr: ChangeDetectorRef,
-    private readonly ngZone: NgZone
+    private readonly ngZone: NgZone,
+    private readonly router: Router
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForm()
@@ -201,10 +203,9 @@ export class LoginOtpComponent implements OnInit, OnDestroy {
 
     otpService$.subscribe(
       (res: any) => {
-        const url = `${document.baseURI}`
         sessionStorage.setItem('login-btn', 'clicked')
         this.openSnackbar(this.translate.instant(res.msg))
-        window.location.href = `${url}app/new-tnc`
+        this.router.navigate(['/app/new-tnc'])
         this.isLoading = false
       },
       (err: any) => {

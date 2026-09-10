@@ -36,10 +36,12 @@ describe('LoginOtpComponent', () => {
   let mockLogger: any
   let mockCdr: any
   let mockNgZone: any
+  let mockRouter: any
 
   beforeEach(() => {
     jest.useFakeTimers()
     mockSnackBar = { open: jest.fn() }
+    mockRouter = { navigate: jest.fn() }
     mockSignupService = {
       loginAPI: jest.fn(),
       verifyOTP: jest.fn(),
@@ -61,6 +63,7 @@ describe('LoginOtpComponent', () => {
       { instant: jest.fn().mockImplementation((k: string) => k) } as any,
       mockCdr,
       mockNgZone,
+      mockRouter,
     )
     sessionStorage.clear()
     localStorage.clear()
@@ -302,11 +305,18 @@ describe('LoginOtpComponent', () => {
 
   describe('verifyOtp', () => {
     beforeEach(() => {
-      Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
       component.emailPhoneType = 'phone'
       component.initializeForm()
       component.loginOtpForm.patchValue({ otp1: '1', otp2: '2', otp3: '3', otp4: '4' })
       component.updateOtpCode()
+    })
+
+    it('should navigate to /app/new-tnc via the router (not a full page reload) on success', () => {
+      const { of } = require('rxjs')
+      component.signUpdata = { value: { emailOrMobile: '9876543210', password: 'pass' } }
+      mockSignupService.ssoValidateOTP = jest.fn().mockReturnValue(of({ msg: 'Success' }))
+      component.verifyOtp()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/new-tnc'])
     })
 
     it('should call ssoValidateOTP with phone request when emailOrMobile >= 10 digits', () => {
