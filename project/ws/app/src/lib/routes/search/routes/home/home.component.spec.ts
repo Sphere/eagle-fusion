@@ -1,4 +1,4 @@
-import { Subject, of } from 'rxjs'
+import { Subject } from 'rxjs'
 import { HomeComponent } from './home.component'
 
 const pageData = {
@@ -124,7 +124,7 @@ describe('HomeComponent', () => {
       }))
     })
 
-    it('should use searchQuery values when no args passed', async () => {
+    it('should use searchQuery.q when no query arg passed', async () => {
       component.searchQuery.q = 'defq'
       component.searchQuery.l = 'defl'
       component.search()
@@ -133,14 +133,23 @@ describe('HomeComponent', () => {
       expect(mockRouter.navigate).toHaveBeenCalled()
     })
 
-    it('should use lang from url params when present', () => {
-      Object.defineProperty(window, 'location', {
-        value: { href: 'http://localhost/app?lang=fr' },
-        writable: true,
-      })
+    it('should not include lang when the user never selected a language', () => {
+      // searchQuery.l always holds a default (getActivateLocale()), but that must not be
+      // forwarded unless the user actually picked a language via the selector.
+      component.searchQuery.l = 'en'
+      component.lang = ''
       component.search('q')
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/search/home'], expect.objectContaining({
-        queryParams: { lang: 'fr', q: 'q' },
+        queryParams: { q: 'q' },
+      }))
+    })
+
+    it('should include lang when the user previously selected one via the language selector', () => {
+      component.searchQuery.l = 'en'
+      component.lang = 'hi'
+      component.search('q')
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/search/home'], expect.objectContaining({
+        queryParams: { lang: 'hi', q: 'q' },
       }))
     })
   })
@@ -170,6 +179,24 @@ describe('HomeComponent', () => {
     it('should navigate with empty filter when none match', () => {
       component.searchWithFilter({})
       expect(mockRouter.navigate).toHaveBeenCalled()
+    })
+
+    it('should not include lang when the user never selected a language', () => {
+      component.searchQuery.l = 'en'
+      component.lang = ''
+      component.searchWithFilter({ contentType: 'Course' })
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/search/home'], expect.objectContaining({
+        queryParams: { q: '' },
+      }))
+    })
+
+    it('should include lang when the user previously selected one', () => {
+      component.searchQuery.l = 'en'
+      component.lang = 'hi'
+      component.searchWithFilter({ contentType: 'Course' })
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/search/home'], expect.objectContaining({
+        queryParams: { lang: 'hi', q: '' },
+      }))
     })
   })
 

@@ -46,25 +46,25 @@ export class HomeComponent implements OnInit {
   search(query?: string, lang?: string) {
     this.logger.log(lang, query)
     this.logger.log(this.searchQuery.l)
-    const url = window.location.href
-
-    // Extract the query parameters part of the URL
-    const paramsString = url.split('?')[1] || ''
-    const params = new URLSearchParams(paramsString)
-
-    let lang1 = lang || this.searchQuery.l
-    if (params.has('lang')) {
-      lang1 = params.get('lang') || lang1
+    // Only forward a lang param when the user actually picked one (via selectLang/the
+    // language menu, which sets this.lang) - searchQuery.l defaults to getActivateLocale()
+    // on init even when the user never touched the language selector, and forwarding that
+    // default here meant every search silently got a language filter nobody chose.
+    const lang1 = lang || this.lang || undefined
+    const homeQueryParams: { q: string; lang?: string } = { q: query || this.searchQuery.q }
+    const learningQueryParams: { q: string; lang?: string; f: string } = {
+      q: query || this.searchQuery.q,
+      f: JSON.stringify({ contentType: ['Course'] }),
+    }
+    if (lang1) {
+      homeQueryParams.lang = lang1
+      learningQueryParams.lang = lang1
     }
     this.router.navigate(['/app/search/home'], {
-      queryParams: { lang: lang1, q: query || this.searchQuery.q },
+      queryParams: homeQueryParams,
     }).then(() => {
       this.router.navigate(['/app/search/learning'], {
-        queryParams: {
-          q: query || this.searchQuery.q,
-          lang: lang1,
-          f: JSON.stringify({ contentType: ['Course'] }),
-        },
+        queryParams: learningQueryParams,
       })
     })
   }
@@ -86,15 +86,21 @@ export class HomeComponent implements OnInit {
     const objType = filter.contentType ? { contentType: [filter.contentType] } :
       filter.resourceType ? { resourceType: [filter.resourceType] } : filter.combinedType === 'learningContent' ?
         { contentType: ['Collection', 'Learning Path', 'Course'] } : ''
+    // Same rule as search(): only forward lang when the user actually selected one.
+    const homeQueryParams: { q: string; lang?: string } = { q: this.searchQuery.q }
+    const learningQueryParams: { q: string; lang?: string; f: string } = {
+      q: this.searchQuery.q,
+      f: JSON.stringify(objType),
+    }
+    if (this.lang) {
+      homeQueryParams.lang = this.lang
+      learningQueryParams.lang = this.lang
+    }
     this.router.navigate(['/app/search/home'], {
-      queryParams: { lang: this.searchQuery.l, q: this.searchQuery.q },
+      queryParams: homeQueryParams,
     }).then(() => {
       this.router.navigate(['/app/search/learning'], {
-        queryParams: {
-          q: this.searchQuery.q,
-          lang: this.searchQuery.l,
-          f: JSON.stringify(objType),
-        },
+        queryParams: learningQueryParams,
       })
     })
   }
