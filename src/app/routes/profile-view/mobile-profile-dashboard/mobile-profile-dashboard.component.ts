@@ -9,7 +9,7 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 // import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
 import { from, of, Observable, Subscription } from 'rxjs'
-import { map, mergeMap, finalize, catchError } from 'rxjs/operators'
+import { map, mergeMap, finalize, catchError, take } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
 import { FormControl, FormGroup } from '@angular/forms'
@@ -380,22 +380,19 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
         )
       ),
       finalize(() => {
-        // This runs after all certificates are processed
-        setTimeout(() => {
-          this.contentSvc.updateValue$.subscribe((res: any) => {
-            if (res) {
-              _.forEach(this.certificates, cvalue => {
-                if (res[cvalue.identifier]) {
-                  // Certificates arrive as data:image/svg+xml, which trustUrl() rejects -
-                  // it would return null and every card would render with an empty image.
-                  cvalue['image'] = this.safeResourceUrlSvc.trustImageSrc(res[cvalue.identifier])
-                  cvalue['printUri'] = res[cvalue.identifier]
-                }
-              })
-              this.cdr.detectChanges()
-            }
-          })
-        }, 500)
+        this.contentSvc.updateValue$.pipe(take(1)).subscribe((res: any) => {
+          if (res) {
+            _.forEach(this.certificates, cvalue => {
+              if (res[cvalue.identifier]) {
+                // Certificates arrive as data:image/svg+xml, which trustUrl() rejects -
+                // it would return null and every card would render with an empty image.
+                cvalue['image'] = this.safeResourceUrlSvc.trustImageSrc(res[cvalue.identifier])
+                cvalue['printUri'] = res[cvalue.identifier]
+              }
+            })
+            this.cdr.detectChanges()
+          }
+        })
       })
     )
   }
@@ -406,12 +403,18 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   formateRequest(data: CertificateData): Certificate[] {
-    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
+    // courseName lives on each generalCertificates entry (course level), a sibling of
+    // issuedCertificates - not on the individual issued-certificate records. Attach it to
+    // each certificate here, before flattening, or it's lost and value.courseName below
+    // is always undefined.
+    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data.generalCertificates, (course: any) =>
+      (course.issuedCertificates || []).map((certificate: any) => ({ ...certificate, courseName: course.courseName }))
+    ), certificate => {
       return certificate.length > 0
     })), (result: Certificate[], value: any) => {
       result.push({
         identifier: value.identifier,
-        name: value.name,
+        name: value.courseName || value.name,
         rcCertiface: false,
       })
       return result

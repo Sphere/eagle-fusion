@@ -96,6 +96,7 @@ export interface WorkMessage {
 
 export interface GeneralCertificates {
   issuedCertificates: any[]
+  courseName?: string
 }
 
 export interface SunbirdRcCertificate {

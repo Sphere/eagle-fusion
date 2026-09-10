@@ -143,6 +143,35 @@ describe('WidgetContentService', () => {
     req.flush({ result: { printUri: 'uri1' } })
   })
 
+  it('getCertificateAPI should merge into the existing accumulated value instead of replacing it', done => {
+    service.getCertificateAPI('cert1').subscribe(() => {
+      service.getCertificateAPI('cert2').subscribe(() => {
+        expect(service.updateValue$).toBeDefined()
+        const latest: any = (service as any)._updateValue.getValue()
+        expect(latest).toEqual({ cert1: 'uri1', cert2: 'uri2' })
+        done()
+      })
+      const req2 = httpMock.expectOne(API_END_POINTS.DOWNLOAD_CERTIFICATE('cert2'))
+      req2.flush({ result: { printUri: 'uri2' } })
+    })
+    const req1 = httpMock.expectOne(API_END_POINTS.DOWNLOAD_CERTIFICATE('cert1'))
+    req1.flush({ result: { printUri: 'uri1' } })
+  })
+
+  it('getCertificateAPI should not throw when the response has no result/printUri', done => {
+    service.getCertificateAPI('cert3').subscribe({
+      next: res => {
+        expect(res).toEqual({})
+        const latest: any = (service as any)._updateValue.getValue()
+        expect(latest.cert3).toBeUndefined()
+        done()
+      },
+      error: err => done(err),
+    })
+    const req = httpMock.expectOne(API_END_POINTS.DOWNLOAD_CERTIFICATE('cert3'))
+    req.flush({})
+  })
+
   it('fetchContent should return error observable when contentId is undefined', done => {
     service.fetchContent('undefined').subscribe({
       error: err => {

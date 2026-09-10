@@ -118,7 +118,11 @@ export class WidgetContentService {
     const url = API_END_POINTS.DOWNLOAD_CERTIFICATE(certificateId)
     const apiData = this.http
       .get<any>(url)
-      .pipe(retry(1), map(res => this._updateValue.next({ [certificateId]: res.result.printUri })))
+      .pipe(retry(1), map(res => {
+        const printUri = res && res.result ? res.result.printUri : undefined
+        this._updateValue.next({ ...this._updateValue.getValue(), [certificateId]: printUri })
+        return res
+      }))
     return apiData
   }
 
