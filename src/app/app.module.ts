@@ -12,6 +12,7 @@ import {
   ErrorHandler,
   CUSTOM_ELEMENTS_SCHEMA,
   NO_ERRORS_SCHEMA,
+  provideZoneChangeDetection,
 } from '@angular/core'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
 import { MatButtonModule } from '@angular/material/button'
@@ -363,6 +364,15 @@ export function initTranslate(translate: TranslateService) {
     DowntimeFullComponent,
     DowntimeBannerComponent],
   providers: [
+    // Without this the injector hands out NoopNgZone - verified at runtime - so the app
+    // runs zoneless even though zone.js is loaded and nothing asked for zoneless.
+    //
+    // Change detection then only fires for signals, template event bindings and the async
+    // pipe. Any component that mutates a field from a plain subscribe callback updates its
+    // model but never re-renders until an unrelated event happens to trigger a tick. That
+    // is the "new comment only appears when I move the mouse" behaviour in the discussion
+    // widget, and it affects every non-signal async update in the app, not just that one.
+    provideZoneChangeDetection(),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeCompetencyConfig,
