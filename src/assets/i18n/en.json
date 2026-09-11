@@ -1033,5 +1033,10 @@
   "Update Content": "Update Content",
   "Click Here to resend": "Click Here to resend",
   "COMPETENCY_DATA_NOT_AVAILABLE": "Competency details are not available for this course",
-  "LEVELS_DATA_NOT_AVAILABLE": "Levels data not found"
+  "LEVELS_DATA_NOT_AVAILABLE": "Levels data not found",
+  "DISCUSSION_MIN_LENGTH": "Please write at least {{count}} characters.",
+  "DISCUSSION_REPLY_REQUIRED": "Please type a reply before sending.",
+  "DISCUSSION_POST_TOO_SHORT": "Your post is too short. Please write at least 8 characters.",
+  "DISCUSSION_POST_TOO_QUICK": "You are posting too quickly. Please wait a moment and try again.",
+  "DISCUSSION_POST_FAILED": "Your post could not be sent. Please wait a moment and try again."
 }
