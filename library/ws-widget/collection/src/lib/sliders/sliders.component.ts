@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, HostListener } from '@angular/core'
+import { Component, Input, OnInit, HostListener, Inject, PLATFORM_ID } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ICarousel } from './sliders.model'
 import { Subscription, interval } from 'rxjs'
@@ -19,8 +20,15 @@ export class SlidersComponent extends WidgetBaseComponent
   currentIndex = 0
   slideInterval: Subscription | null = null
 
-  constructor(private readonly events: EventService, private readonly router: Router) {
+  private readonly isBrowser: boolean
+
+  constructor(
+    private readonly events: EventService,
+    private readonly router: Router,
+    @Inject(PLATFORM_ID) platformId: object
+  ) {
     super()
+    this.isBrowser = isPlatformBrowser(platformId)
   }
 
   ngOnInit() {
@@ -60,6 +68,12 @@ export class SlidersComponent extends WidgetBaseComponent
   }
 
   reInitiateSlideInterval() {
+    // An rxjs interval is a setInterval inside the Angular zone, so the app never
+    // reports itself stable and prerendering waits out its timeout on every route
+    // that renders a carousel. Auto-advancing slides is meaningless server-side.
+    if (!this.isBrowser) {
+      return
+    }
     if (this.widgetData.length > 1) {
       try {
         if (this.slideInterval) {
