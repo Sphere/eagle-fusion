@@ -9,10 +9,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@aastrika_npmjs/discussions-ui-v8@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@aastrika_npmjs/discussions-ui-v8/-/discussions-ui-v8-5.0.3.tgz#c695e49ca76307bd7fc6c44ec357b97260aaf7b1"
-  integrity sha512-UHtkr9NUUGtxja6V9IijQ/aBxYCJzt4KYAwrWycxZdIx07iqjIwWPZCnWteerhsixpuZYxLBHftz07+f2kxbRw==
+"@aastrika_npmjs/discussions-ui-v8@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@aastrika_npmjs/discussions-ui-v8/-/discussions-ui-v8-5.0.4.tgz#51451c36ec4b0d1a383c705d22c4a3159e98ab6f"
+  integrity sha512-lehH6PSSAMRo78dQbEGLFQ1LTyQwWGGxfI70fqzxA4OiziHpzVzV5LAOaB0YtiWcKjnyi5aMBL1et/G2T2jrbA==
   dependencies:
     tslib "^2.0.0"
 
