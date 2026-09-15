@@ -61,6 +61,10 @@ export class TelemetryService {
   }
 
   get getTelemetrySessionId(): string {
+    // localStorage does not exist during SSR prerendering.
+    if (typeof localStorage === 'undefined') {
+      return ''
+    }
     return localStorage.getItem('telemetrySessionId') || ''
   }
 
@@ -331,19 +335,32 @@ export class TelemetryService {
   }
   async getTelemetryConfig() {
     const publicConfig: NsInstanceConfig.IConfig = await this.configCacheSvc.getHostConfig().toPromise()
-    const instanceConfig = publicConfig
-    this.telemetryConfig = instanceConfig.telemetryConfig
+
+    // getHostConfig() resolves null when there is no backend to answer it - which is
+    // exactly the case during SSR prerendering. Reading .telemetryConfig off that null
+    // threw "Cannot read properties of null (reading 'telemetryConfig')" and failed the
+    // whole prerender step. Telemetry is not meaningful for a prerendered page anyway,
+    // so bail out quietly and leave the existing config untouched.
+    if (!publicConfig || !publicConfig.telemetryConfig) {
+      this.logger.error('Error Initializing Telemetry. Config missing.')
+      return
+    }
+
+    // navigator does not exist on the server either.
+    const pid = typeof navigator !== 'undefined' ? navigator.userAgent : ''
+
+    this.telemetryConfig = publicConfig.telemetryConfig
     this.telemetryConfig = {
       ...this.telemetryConfig,
       pdata: {
         ...this.telemetryConfig.pdata,
-        pid: navigator.userAgent,
+        pid,
       },
       channel: this.rootOrgId || this.telemetryConfig.channel,
       uid: this.configSvc.userProfile && this.configSvc.userProfile.userId,
       sid: this.getTelemetrySessionId,
     }
-    this.pData = instanceConfig.telemetryConfig.pdata
+    this.pData = publicConfig.telemetryConfig.pdata
   }
 
   async publicImpression(param: string, browserName: string, OS: string) {

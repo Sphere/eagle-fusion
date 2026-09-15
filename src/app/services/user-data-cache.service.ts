@@ -1,4 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core'
+import { Injectable, OnDestroy, Inject, PLATFORM_ID } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable, throwError } from 'rxjs'
 import { map, shareReplay, tap, catchError, retry, take } from 'rxjs/operators'
@@ -16,9 +17,23 @@ export class UserDataCacheService implements OnDestroy {
   private cacheTimestamp: number | null = null
   private readonly CACHE_EXPIRATION_TIME = 6 * 60 * 60 * 1000 // 6 hours in milliseconds
 
-  constructor(private readonly http: HttpClient, private readonly logger: LoggerService) {
+  private readonly isBrowser: boolean
+
+  constructor(
+    private readonly http: HttpClient,
+    private readonly logger: LoggerService,
+    @Inject(PLATFORM_ID) platformId: object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId)
+
     // Try to restore from session storage on service initialization
-    this.restoreFromCache();
+    this.restoreFromCache()
+
+    // The debug hooks below and the expiration timer are browser-only. On the server
+    // they are meaningless, and the timer is actively harmful - see setupCacheExpiration.
+    if (!this.isBrowser) {
+      return
+    }
 
     // Debug: expose debug method to window for testing
     (window as any).clearUserCache = () => {
@@ -64,6 +79,15 @@ export class UserDataCacheService implements OnDestroy {
    * Set up automatic cache expiration after 6 hours
    */
   private setupCacheExpiration(): void {
+    // Never arm this on the server. zone.js tracks the 6-hour setTimeout as a pending
+    // macrotask, so the application never reports itself stable, and prerendering waits
+    // out its stability timeout on every one of the ~480 routes before moving on. That
+    // alone pushed the Build stage past 50 minutes. A cache expiry is meaningless in a
+    // process that renders one page and exits.
+    if (!this.isBrowser) {
+      return
+    }
+
     // Clear any existing timeout
     if (this.cacheExpirationTimeout) {
       clearTimeout(this.cacheExpirationTimeout)

@@ -373,7 +373,15 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       this.discussionConfig.categoryObj = {
         category: {
           name: this.content.name,
-          pid: '',
+          // '0' is deliberate, and it must stay a string.
+          //
+          // nodebb-plugin-create-forum validates this field with `data ? false : true`,
+          // so both '' and the number 0 read as missing and the whole request is
+          // rejected with "name, pid and context are required parameters" - which the
+          // middleware then relabels DMW_FGCRT09, so the error never points at pid.
+          // The string '0' is truthy, so it passes that check, and the plugin then does
+          // `parentCid: payload.pid || 0`, giving the top-level category it intended.
+          pid: '0',
           description: this.content.description,
           context: [
             {

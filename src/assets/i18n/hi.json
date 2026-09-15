@@ -1034,5 +1034,10 @@
   "URL is mandatory": "URL अनिवार्य है",
   "Update Content": "सामग्री अपडेट करें",
   "COMPETENCY_DATA_NOT_AVAILABLE": "इस कोर्स के लिए योग्यता विवरण उपलब्ध नहीं है",
-  "LEVELS_DATA_NOT_AVAILABLE": "स्तर की जानकारी नहीं मिली"
+  "LEVELS_DATA_NOT_AVAILABLE": "स्तर की जानकारी नहीं मिली",
+  "DISCUSSION_MIN_LENGTH": "कृपया कम से कम {{count}} अक्षर लिखें।",
+  "DISCUSSION_REPLY_REQUIRED": "भेजने से पहले कृपया उत्तर लिखें।",
+  "DISCUSSION_POST_TOO_SHORT": "आपकी पोस्ट बहुत छोटी है। कृपया कम से कम 8 अक्षर लिखें।",
+  "DISCUSSION_POST_TOO_QUICK": "आप बहुत तेजी से पोस्ट कर रहे हैं। कृपया कुछ देर बाद प्रयास करें।",
+  "DISCUSSION_POST_FAILED": "आपकी पोस्ट भेजी नहीं जा सकी। कृपया कुछ देर बाद प्रयास करें।"
 }
