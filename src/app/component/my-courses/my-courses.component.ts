@@ -58,7 +58,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       this.lang = this.langSvc.getCurrentLanguage()
       this.isLoading = true
       this.pendingRequests = 2 // enrollment list + professional/forYou courses
-  
+
       // Load playlist configs.
       // getPlaylistConfig() and loadPlaylistData() are awaited here — if either
       // throws (e.g. 4xx/5xx from the API), the error propagates out of ngOnInit
@@ -69,7 +69,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       } catch (e) {
         this.plyLsData = []
       }
-  
+
       try {
         let res = this.playlistSvc.selectedTabConfig()
         if (res == '') {
@@ -81,11 +81,11 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       } catch (e) {
         this.config = null
       }
-  
+
       sessionStorage.removeItem('cURL')
-  
+
       const userId = this.configSvc?.userProfile?.userId || ''
-  
+
       // Handle route params
       this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
         if (params['courseType'] === 'formatForYouCourses') {
@@ -94,7 +94,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
           this.selectedIndex = 2
         }
       })
-  
+
       // Fetch user courses - pending request 1
       this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe({
         next: courses => {
@@ -107,7 +107,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
           this.decrementPending()
         },
       })
-  
+
       // Handle professional details - pending request 2
       this.handleProfessionalCourses()
     })()
@@ -170,8 +170,11 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     // web_layout config) rather than a hardcoded playlistId — falls back to the known
     // default only if that section/config isn't present.
     const yourPlansConfigId = this.playlistSvc.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')
-    const competencyConfigId = this.playlistSvc.getPlaylistConfigId('COMPETENCY_PLAYLIST')
-
+    let competencyConfigId = this.playlistSvc.getPlaylistConfigId('COMPETENCY_PLAYLIST')
+    // TODO: Temporray fix - can be removed once the for you for program is confimed
+    if (competencyConfigId == undefined || competencyConfigId == null) {
+      competencyConfigId = 'COMPETENCY_PLAYLIST_V2'
+    }
     let matchedElements = this.plyLsData?.filter(element =>
       element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === yourPlansConfigId && element.language === this.lang)
 
