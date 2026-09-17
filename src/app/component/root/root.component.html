@@ -73,7 +73,7 @@
         'height-on-top':!isXSmall$ && showNavbar && isNavBarRequired && !showProgramDet()}">
     <ws-dashboard [isEkshamata]="isEkshamata" class="mb-6"
       *ngIf="isLoggedIn && isHomePage && bodyConfig && !showProgramDet()" [configData]=" bodyConfig"
-      [userEnrolledCourse]="userEnrollCourse()"></ws-dashboard>
+      [programConfig]="programConfig" [userEnrolledCourse]="userEnrollCourse()"></ws-dashboard>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>

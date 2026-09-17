@@ -8,6 +8,7 @@ import { LanguageService } from '../../services/language.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { Observable, of, Subject } from 'rxjs'
 import { catchError, map, takeUntil } from 'rxjs/operators'
+import { buildCompetencySearchArray as buildCompetencyIds } from '../../utils/competency-search.util'
 
 @Component({
   standalone: false,
@@ -181,6 +182,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     if (matchedElements.length === 0) {
       matchedElements = this.plyLsData?.filter(element =>
         element.orgId === rootOrgId && roleCheck(element.role) &&
+        element.language == this.lang &&
         (element.playlistId === competencyConfigId || element.playlistId === 'SEARCH_PLAYLIST'))
 
       const listOfEnrolledCourseId = (this.userEnrolledCourse || [])
@@ -327,33 +329,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     this.destroy$.complete()
   }
 
-  buildCompetencySearchArray = (competencyPayload: any[]): string[] => {
-    if (!Array.isArray(competencyPayload) || competencyPayload?.length === 0) {
-      return []
-    }
-    const competencySearchArray: string[] = []
-    competencyPayload.forEach(competencyObj => {
-      const levels = Array.isArray(competencyObj?.levels)
-      const comp = levels || competencyObj?.additionalProperties
-        ? competencyObj
-        : Object.values(competencyObj || {})[0] as any
-
-      const competencyId = comp?.id
-      if (!competencyId) return
-
-      const levelDescriptions = levels
-        ? comp?.levels || []
-        : comp?.additionalProperties?.competencyLevelDescription || []
-
-      levelDescriptions.forEach((levelDesc: any) => {
-        const level = levelDesc?.level
-        if (level) {
-          competencySearchArray.push(`${competencyId}-${level}`)
-        }
-      })
-    })
-    return competencySearchArray
-  }
+  buildCompetencySearchArray = (competencyPayload: any[]): string[] => buildCompetencyIds(competencyPayload)
 
   searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
     if (!Array.isArray(competencySearchArray) || competencySearchArray.length === 0) {
@@ -366,7 +342,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     requestBody.request = requestBody.request || {}
     requestBody.request.filters = requestBody.request.filters || {}
-    requestBody.request.filters.competencySearch = competencySearchArray
+    requestBody.request.filters.identifier = competencySearchArray
 
     return this.contentSvc.getCouseByContentSearch(competencySearchArray, true, requestBody).pipe(
       map((res: any) => {

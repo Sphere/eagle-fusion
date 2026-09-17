@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, Signal, ChangeDetectorRef, effect } from '@angular/core'
+import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges, Signal, ChangeDetectorRef, effect } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
@@ -12,6 +12,7 @@ import { PlaylistService } from '../../services/playlist.service'
 import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
 import { getPortalHost } from '../../constants/portal'
+import { buildCompetencySearchArray } from '../../utils/competency-search.util'
 @Component({
   standalone: false,
   selector: 'ws-dashboard',
@@ -19,7 +20,7 @@ import { getPortalHost } from '../../constants/portal'
   styleUrls: ['./web-dashboard.component.scss'],
 
 })
-export class WebDashboardComponent implements OnInit, OnDestroy {
+export class WebDashboardComponent implements OnInit, OnChanges, OnDestroy {
   firstName!: Signal<string>
   preferedLanguage: any = { id: 'en', lang: 'English' }
   @Input() isEkshamata: any
@@ -33,6 +34,7 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   domain!: any
   @Input() configData: any
   @Input() userEnrolledCourse: any = []
+  @Input() programConfig!: any
   uiConfig: any
   playListIds: any[] = []
   noOfBadges = 0
@@ -103,6 +105,12 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     })()
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userEnrolledCourse'] && !changes['userEnrolledCourse'].firstChange) {
+      void this.calculateBadges()
+    }
+  }
+
   ngOnDestroy(): void {
     this.clearInterval()
   }
@@ -143,6 +151,23 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     this.scrollService.scrollToDivEvent.emit(value)
   }
 
+  private handleCompetencyFlow(roleCheck: (roles: string[]) => boolean, plyLsData: any[]): boolean {
+    const competencyConfigId = this.plylsSvc.getPlaylistConfigId('COMPETENCY_PLAYLIST')
+    const competencyPlaylist = plyLsData?.find((element: any) =>
+      element.language === this.lang &&
+      element.playlistId === competencyConfigId &&
+      roleCheck(element.role)
+    )
+    if (!competencyPlaylist) {
+      return false
+    }
+    this.playListIds = buildCompetencySearchArray(competencyPlaylist?.dataSource?.payload || [])
+    if (this.playListIds.length > 0) {
+      return true
+    }
+    return false
+  }
+
   private async calculateBadges(): Promise<void> {
     try {
       if (!this.uiConfig?.badges?.showCompletedCourses) {
@@ -151,10 +176,32 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
         this.logger.log('Badge calculation skipped - disabled in config')
         return
       }
-
       const currentLanguage = this.configSvc?.userProfile?.language || 'en'
       const res = await this.plylsSvc.getPlaylistConfig()
-      this.playListIds = res.find((item: any) => item.language === currentLanguage)?.dataSource?.payload || []
+      const designationLower = (this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || '').toLowerCase()
+      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === designationLower)
+
+      if (!!this.programConfig) {
+        const configIds = (this.programConfig.programs || []).map((item: any) => item.playlistConfigId)
+        this.playListIds = res
+          .filter((item: any) => item.language === currentLanguage && configIds.includes(item.playlistId))
+          .reduce((acc: any[], item: any) => {
+            if (item.dataSource?.type === 'competency') {
+              return acc.concat(buildCompetencySearchArray(item.dataSource?.payload || []))
+            }
+            return acc.concat(item.dataSource?.payload || [])
+          }, [])
+      } else if (this.handleCompetencyFlow(roleCheck, res)) {
+        // Competency user — playListIds already resolved inside handleCompetencyFlow.
+      } else {
+        const yourPlansConfigId = this.plylsSvc.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')
+        this.playListIds = res.find((item: any) =>
+          item.language === currentLanguage &&
+          item.playlistId === yourPlansConfigId &&
+          roleCheck(item.role)
+        )?.dataSource?.payload || []
+      }
+
       const data = this.userEnrolledCourse?.filter(item => this.playListIds?.includes(item.identifier))
       const completedCourses = data?.filter(item => item.completionPercentage === 100)
 
