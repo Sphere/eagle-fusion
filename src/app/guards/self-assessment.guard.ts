@@ -117,7 +117,6 @@ export class SelfAssessmentGuard {
             // Never swallow: this guard always returns false and navigates as a side effect,
             // so an unhandled error here means the user simply stays put with no feedback.
             this.logger.error('Self assessment: could not resolve batch, aborting navigation', err)
-            this.navigateToplayer({ 'batchId': this.batchId })
           },
         })
     }

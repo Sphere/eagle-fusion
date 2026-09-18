@@ -227,6 +227,43 @@ $dark-theme-tokens: (
   color: var(--icon-color);
 }
 
+// Chrome/Safari autofill (`input:-internal-autofill-selected`) paints its own opaque
+// white background + dark text on a matched input, ignoring app theming entirely.
+// `background-color` cannot win against it — the box-shadow inset trick is the only
+// override that does. Global (not component-scoped) so every themed form, not just
+// one page, gets it.
+.light-theme input:-webkit-autofill,
+.light-theme input:-webkit-autofill:hover,
+.light-theme input:-webkit-autofill:focus,
+.light-theme .mat-mdc-input-element:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg, #ffffff) inset !important;
+  -webkit-text-fill-color: var(--theme-text, #101828) !important;
+  caret-color: var(--theme-text, #101828);
+}
+
+.dark-theme input:-webkit-autofill,
+.dark-theme input:-webkit-autofill:hover,
+.dark-theme input:-webkit-autofill:focus,
+.dark-theme .mat-mdc-input-element:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg, #151515) inset !important;
+  -webkit-text-fill-color: var(--theme-text, #ecf3f8) !important;
+  caret-color: var(--theme-text, #ecf3f8);
+}
+
+// Browser default text-selection highlight is a light gray, which on a light-theme
+// input is fine but on a dark-theme input paints light-text-on-light-highlight -
+// same invisible-text problem as the autofill fix above, just triggered by
+// double-click/drag-select instead of autofill.
+.dark-theme input::selection,
+.dark-theme textarea::selection,
+.dark-theme .mat-mdc-input-element::selection {
+  // theme-primary is #E0E0E0 in dark mode - the same value as theme-text, so pairing
+  // them here would just recreate the invisible-text bug. theme-accent is the only
+  // dark-mode token with real contrast against theme-text.
+  background-color: var(--theme-accent, #2E6491);
+  color: var(--theme-text, #E0E0E0);
+}
+
 .link-text, .heading, .banner-sub-heading{
   color: var(--theme-text);
 }

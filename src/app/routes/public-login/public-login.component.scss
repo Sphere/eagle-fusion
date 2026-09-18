@@ -734,24 +734,3 @@ img {
     filter: var(--theme-icon-filter, invert(1) brightness(2)) !important;
   }
 }
-
-
-.dark-theme input:-webkit-autofill,
-.dark-theme input:-webkit-autofill:hover,
-.dark-theme input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg) inset !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-
-.light-theme input:-webkit-autofill,
-.light-theme input:-webkit-autofill:hover,
-.light-theme input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg, #ffffff) inset !important;
-  -webkit-text-fill-color: var(--theme-text, #000000) !important;
-}
-
-::ng-deep .mat-mdc-input-element:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg) inset !important;
-  -webkit-text-fill-color: var(--theme-text, #000000) !important;
-}

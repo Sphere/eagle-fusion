@@ -35,7 +35,8 @@
           <mat-list-item class="mt-2" style="margin-top: 10px;" *ngFor="let link of configData?.menuItems?.[0]?.links"
             style="list-style: none;">
             <a class="list-item" (click)="redirect(link?.routerLink)" (keydown.enter)="redirect(link?.routerLink)"
-              (keydown.space)="redirect(link?.routerLink); $event.preventDefault()" tabindex="0">{{link?.label | translate}}</a>
+              (keydown.space)="redirect(link?.routerLink); $event.preventDefault()" tabindex="0">{{link?.label |
+              translate}}</a>
           </mat-list-item>
         </mat-list>
         <mat-list class="list mt-10 list-items" [ngClass]="{'ml-12': !isXSmall}">
@@ -108,13 +109,13 @@
             <div class="link-header">{{ configData?.menuItems?.[3]?.heading | translate }}</div>
           </mat-list-item>
           <mat-list-item class="foundation-container" style="margin-top: 10px;">
-            <span class="foundation">{{
+            <span class="foundation link-text">{{
               configData?.menuItems?.[3]?.label | translate }}</span>:
             <a target="_blank" class="list-item-link" [href]="configData?.menuItems?.[3]?.href">{{
               configData?.menuItems?.[3]?.href }}</a>
           </mat-list-item>
           <mat-list-item class="social-logo-container">
-            <a *ngFor="let socialLink of configData?.menuItems?.[3]?.socialLinks" class="social-logo-block"
+            <a *ngFor="let socialLink of configData?.menuItems?.[3]?.socialLinks" class="social-logo-block link-text"
               [href]="socialLink.href" target="_blank">
               <img [alt]="socialLink.alt || 'social'" class="fa fa-whatsapp social-logo" [src]="socialLink.icon" />
             </a>

@@ -19,7 +19,7 @@
 }
 
 .form-group {
-  margin-bottom: 0.75rem;
+  margin-bottom: 16px;
 
   label {
     display: block;
@@ -33,18 +33,9 @@
   }
 
   @include ws-mixins.breakpoint-xs {
-    margin-bottom: 0.65rem;
-
     label {
       font-size: 13px;
       margin-bottom: 4px !important;
-    }
-
-    .form-control {
-      height: 42px;
-      padding: 8px 12px;
-      font-size: 14px;
-      margin-top: 0 !important;
     }
   }
 }
@@ -55,6 +46,17 @@
   border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
   background-color: var(--theme-surface, #ffffff) !important;
   border-radius: 8px;
+}
+
+// Match the 44px field height used by education-edit / work-info-list so all
+// three profile-edit forms line up visually.
+input,
+select {
+  height: 44px;
+  padding: 0 12px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
 @media (min-width: 320px) and (max-width: 600px) {
@@ -84,12 +86,6 @@
   width: 100% !important;
 }
 
-::ng-deep .mat-form-field-infix {
-  padding: 5px 0 !important;
-  font-size: 16px;
-  line-height: 14px !important;
-}
-
 .save-btn {
   width: 88px;
   height: 38px;
@@ -107,15 +103,6 @@
   background-color: #BFBFBF;
   color:  var(--theme-inactive, #808080);
   cursor: default;
-}
-
-::ng-deep .mat-form-field-wrapper {
-  padding-bottom: 1rem !important;
-  margin-bottom: 0 !important;
-}
-
-::ng-deep .mat-form-field-flex {
-  height: 45px !important;
 }
 
 .form-control:disabled,

@@ -152,7 +152,7 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
       selectBackground: pd0.selectBackground,
       nameOther: pd0.nameOther,
       instituteName: pd0.instituteName,
-      regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
+      regNurseRegMidwifeNumber: this.normalizeNA(newData.personalDetails.regNurseRegMidwifeNumber),
     })
     this.applyHealthcareWorkerOverrides(pd0, newData)
     this.applyNonIndiaProfessionOptions(newData)
@@ -165,11 +165,21 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
       return
     }
     this.personalDetailForm.patchValue({
-      regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
+      regNurseRegMidwifeNumber: this.normalizeNA(newData.personalDetails.regNurseRegMidwifeNumber),
     })
     if (pd0.designation === 'ANM') {
       this.personalDetailForm.patchValue({ designation: 'ANM/MPW' })
     }
+  }
+
+  // The registry sends a literal "NA"/"N/A" sentinel for an unset RN/RM number rather
+  // than omitting the field, which the generic show-if-truthy field rendering would
+  // otherwise treat as a real value and display the field anyway.
+  private normalizeNA(value: any): any {
+    if (typeof value === 'string' && /^\[?n\/?a\]?$/i.test(value.trim())) {
+      return ''
+    }
+    return value
   }
 
   private applyNonIndiaProfessionOptions(newData: any): void {

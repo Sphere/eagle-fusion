@@ -49,19 +49,16 @@
     [class.form-read-only]="!isEditableForSphere">
     <ng-container *ngFor="let field of data?.formData">
       <div *ngIf="field.type === 'mat-select' && (isEditableForSphere || personalDetailForm.get(field.key)?.value)"
-        [class.read-only-mat-field]="!isEditableForSphere">
+        class="form-group input-box" [class.read-only-mat-field]="!isEditableForSphere">
         <label [for]="field.key" style="display: block;" *ngIf="field.label || !isEditableForSphere">
           {{ (field.label || field.placeholder || field.key) | translate }}
         </label>
-        <mat-form-field *ngIf="isEditableForSphere" appearance="outline" class="field-fullwidth themed-mat-field"
-          style="width: 100%;">
-          <mat-select [formControlName]="field.key" [placeholder]="field.placeholder | translate"
-            (selectionChange)="professionalChange($event.value)">
-            <mat-option [value]="profession" *ngFor="let profession of getOptions(field)">{{profession}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <!-- Read-only: render the stored value directly. A mat-select can only show values that
+        <select *ngIf="isEditableForSphere" [id]="field.key" [formControlName]="field.key"
+          class="form-control select-box" (change)="professionalChange(personalDetailForm.get(field.key)?.value)">
+          <option [value]="''" disabled selected>{{ field.placeholder | translate }}</option>
+          <option *ngFor="let profession of getOptions(field)" [value]="profession">{{ profession }}</option>
+        </select>
+        <!-- Read-only: render the stored value directly. A native select can only show values that
              exist as options, so legacy professions rendered as an empty box. -->
         <input *ngIf="!isEditableForSphere" type="text" class="form-control"
           [value]="personalDetailForm.get(field.key)?.value || ''" readonly disabled />
@@ -71,14 +68,12 @@
           <label [for]="field.key" style="display: block;" *ngIf="field.label || !isEditableForSphere">
             {{ (field.label || field.placeholder || field.key) | translate }}
           </label>
-          <mat-form-field *ngIf="isEditableForSphere" appearance="outline" class="field-fullwidth themed-mat-field"
-            style="width: 100%;">
-            <mat-select [id]="field.key" [formControlName]="field.key" [placeholder]="field.placeholder | translate"
-              [required]="field.required" (selectionChange)="handleChange($event, field)">
-              <mat-option [value]="null" [disabled]="field.disabled">{{ field.placeholder | translate }}</mat-option>
-              <mat-option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <select *ngIf="isEditableForSphere" [id]="field.key" [formControlName]="field.key"
+            class="form-control select-box" [required]="field.required"
+            (change)="handleChange({ value: personalDetailForm.get(field.key)?.value }, field)">
+            <option [value]="null" [disabled]="field.disabled" selected>{{ field.placeholder | translate }}</option>
+            <option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</option>
+          </select>
           <input *ngIf="!isEditableForSphere" type="text" class="form-control" [id]="field.key"
             [value]="personalDetailForm.get(field.key)?.value || ''" readonly disabled />
         </div>

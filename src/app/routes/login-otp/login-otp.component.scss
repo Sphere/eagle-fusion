@@ -29,6 +29,7 @@
  .otp-input-container{
     display: flex !important;
     justify-content: space-between;
+    gap: 18px;
     margin-top: 1rem;
   }
 .login-card {
@@ -154,6 +155,7 @@ color:  var(--theme-inactive, #808080);
   .otp-input-container{
     display: flex !important;
     justify-content: space-between;
+    gap: 18px;
     margin-top: 1rem;
   }
     .top-block{

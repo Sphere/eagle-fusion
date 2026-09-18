@@ -94,7 +94,16 @@ export class EducationEditComponent implements OnInit {
     if (this.workLog === 'true' || this.workLog.edit === true) {
       this.updateForm(this.workLog.academic)
     } else {
-      this.educationForm.reset()
+      // FormGroup.reset() with no args resets every control to null, not back to the ''
+      // each control was constructed with - that null doesn't match the courseDegree
+      // placeholder option's [ngValue]="''", so the select silently fell back to showing
+      // its first real option instead of the placeholder.
+      this.educationForm.reset({
+        courseDegree: '',
+        courseName: '',
+        institutionName: '',
+        yearPassing: '',
+      })
     }
     this.getUserDetails()
     this.route.queryParams.subscribe(params => {
@@ -166,7 +175,14 @@ export class EducationEditComponent implements OnInit {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
-          form.reset()
+          // Same null-vs-'' gotcha as the reset() above: pass explicit defaults so
+          // courseDegree's placeholder still matches after a successful save.
+          form.reset({
+            courseDegree: '',
+            courseName: '',
+            institutionName: '',
+            yearPassing: '',
+          })
           this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           this.userProfileSvc._updateuser.next('true')
           const ob = {
