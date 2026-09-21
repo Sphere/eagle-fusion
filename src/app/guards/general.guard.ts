@@ -165,7 +165,6 @@ export class GeneralGuard {
 
   private handleTncRegistryData(data: any) {
     const personalDetails = data.profileDetails?.profileReq?.personalDetails
-    this.logger.log(data.profileDetails, personalDetails?.dob === undefined)
     this.logger.log(personalDetails)
 
     if (!personalDetails) {
@@ -174,14 +173,11 @@ export class GeneralGuard {
       return
     }
 
-    if (personalDetails.tncAccepted === 'true') {
-      if (personalDetails.dob !== undefined) {
-        this.logger.log(personalDetails.tncAccepted)
-      }
-      return
-    }
-
-    if (personalDetails.dob === undefined) {
+    // tncAccepted is written in exactly one place - the TnC form itself
+    // (new-tnc.component.ts) - so it is the only authoritative signal that a user has
+    // accepted. dob used to stand in for it, which meant any user whose profile already
+    // carried a dob (e.g. seeded at registration) skipped the gate without ever accepting.
+    if (personalDetails.tncAccepted !== 'true') {
       this.router.navigate(['app', 'new-tnc'])
     }
   }

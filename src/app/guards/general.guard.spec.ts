@@ -236,16 +236,25 @@ describe('GeneralGuard', () => {
       expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
     })
 
-    it('does not navigate when tnc is not accepted but dob is present', async () => {
+    it('navigates to new-tnc when tnc is not accepted even though dob is present', async () => {
       const { of } = require('rxjs')
       mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
         profileDetails: { profileReq: { personalDetails: { tncAccepted: 'false', dob: '1990-01-01' } } },
       }))
       await guard.canActivate(makeRoute())
-      expect(mockRouter.navigate).not.toHaveBeenCalled()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
     })
 
-    it('logs but does not navigate when tnc is accepted and dob is undefined', async () => {
+    it('navigates to new-tnc when tncAccepted is missing but the profile is filled in', async () => {
+      const { of } = require('rxjs')
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: { dob: '25/2/1971', postalAddress: 'India,bihar,bihar' } } },
+      }))
+      await guard.canActivate(makeRoute())
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
+    })
+
+    it('does not navigate when tnc is accepted and dob is undefined', async () => {
       const { of } = require('rxjs')
       mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
         profileDetails: { profileReq: { personalDetails: { tncAccepted: 'true' } } },
