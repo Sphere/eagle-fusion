@@ -90,9 +90,13 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     pdfDefaultOptions.assetsFolder = 'bleeding-edge'
   }
 
-  fullScreenState(fsState: { state: boolean }) {
-    this.isInFullScreen = fsState.state
-    if (fsState.state) {
+  // BtnFullscreenComponent declares `@Output() fsState: EventEmitter<boolean>` and emits
+  // a plain boolean. This previously took `{ state: boolean }`, so `fsState.state` was
+  // always undefined and the else branch ran even in fullscreen - leaving the viewer at
+  // calc(100vh - 355px) with dead space below the page.
+  fullScreenState(state: boolean) {
+    this.isInFullScreen = state
+    if (state) {
       this.pdfHeight = '100vh'
       this.pdfMobileHeight = 'calc(100vh - 50px)'
       this.pdfZoom = '40%'
