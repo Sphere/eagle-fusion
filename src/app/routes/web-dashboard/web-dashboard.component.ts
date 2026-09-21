@@ -161,7 +161,7 @@ export class WebDashboardComponent implements OnInit, OnChanges, OnDestroy {
     if (!competencyPlaylist) {
       return false
     }
-    this.playListIds = buildCompetencySearchArray(competencyPlaylist?.dataSource?.payload || [])
+    this.playListIds = buildCompetencySearchArray(competencyPlaylist?.dataSource?.payload || [], 'competencyLevel')
     if (this.playListIds.length > 0) {
       return true
     }
@@ -182,15 +182,17 @@ export class WebDashboardComponent implements OnInit, OnChanges, OnDestroy {
       const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === designationLower)
 
       if (!!this.programConfig) {
-        const configIds = (this.programConfig.programs || []).map((item: any) => item.playlistConfigId)
-        this.playListIds = res
-          .filter((item: any) => item.language === currentLanguage && configIds.includes(item.playlistId))
-          .reduce((acc: any[], item: any) => {
-            if (item.dataSource?.type === 'competency') {
-              return acc.concat(buildCompetencySearchArray(item.dataSource?.payload || []))
-            }
-            return acc.concat(item.dataSource?.payload || [])
-          }, [])
+        // const configIds = (this.programConfig.programs || []).map((item: any) => item.playlistConfigId)
+        // this.playListIds = res
+        //   .filter((item: any) => item.language === currentLanguage && configIds.includes(item.playlistId))
+        //   .reduce((acc: any[], item: any) => {
+        //     if (item.dataSource?.type === 'competency') {
+        //       return acc.concat(buildCompetencySearchArray(item.dataSource?.payload || []))
+        //     }
+        //     return acc.concat(item.dataSource?.payload || [])
+        //   }, [])
+        // TODO: current fix, once confirmed, we can revert the above code and remove the below line
+        this.playListIds = []
       } else if (this.handleCompetencyFlow(roleCheck, res)) {
         // Competency user — playListIds already resolved inside handleCompetencyFlow.
       } else {

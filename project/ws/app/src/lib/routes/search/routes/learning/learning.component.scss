@@ -68,11 +68,23 @@
     right: 14px;
     top: 0px;
     height: 30px !important;
+    padding-right: 26px;
     border-radius: 16px;
     font-size: small;
-    // color: var(--theme-text, #101828);
-    // background-color: var(--theme-surface, #ffffff);
-    // border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
+    // The browser's own dropdown-arrow chrome doesn't take the custom
+    // background-color/border-radius below, so on a fully-rounded pill it shows
+    // through as a squared-off patch — most visible in dark theme where the
+    // native control renders lighter than the custom dark background around it.
+    // Suppress it and draw a themed chevron via .filter-lang::after instead.
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    // Now load-bearing, not cosmetic: appearance:none above drops the native
+    // select's own default white fill/border along with its arrow chrome, so
+    // without these the light-theme pill would render transparent and borderless.
+    color: var(--theme-text, #101828);
+    background-color: var(--theme-surface, #ffffff);
+    border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
 }
 .lang-icon {
     background-image: url('/fusion-assets/icons/lang-icon.png');
@@ -85,8 +97,25 @@
     padding-left: 32px;
 }
 .filter-lang {
+    position: relative;
     float: right;
     width: 268px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      // .lang-select sets z-index: 9, which would otherwise paint over this
+      // pseudo-element regardless of DOM order.
+      z-index: 10;
+      top: 50%;
+      right: 22px;
+      width: 6px;
+      height: 6px;
+      border: solid var(--theme-text-soft, #5f6b7a);
+      border-width: 0 2px 2px 0;
+      transform: translateY(-65%) rotate(45deg);
+      pointer-events: none;
+    }
 }
 .hide-filter-btn {
   visibility: hidden;
@@ -176,8 +205,12 @@
     background-size: 600px 100%;
   }
 
+  // lang-icon.png is a solid blue (#1c5d95) icon, not a black/white line icon, so the
+  // generic invert(1) brightness(2) used for monochrome icons elsewhere turns its blue
+  // into an inverted orange/gold - brightness-only keeps the hue and just lightens it
+  // enough to read against the dark pill.
   .lang-icon {
-    filter: var(--theme-icon-filter, none);
+    filter: brightness(1.8);
   }
 
   // The native select and its popup list default to the OS light palette, so the

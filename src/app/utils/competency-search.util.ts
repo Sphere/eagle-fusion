@@ -1,4 +1,9 @@
-export function buildCompetencySearchArray(competencyPayload: any[]): string[] {
+export type TCompetencySearchFormat = 'courseId' | 'competencyLevel'
+
+export function buildCompetencySearchArray(
+  competencyPayload: any[],
+  format: TCompetencySearchFormat = 'courseId',
+): string[] {
   if (!Array.isArray(competencyPayload) || competencyPayload?.length === 0) {
     return []
   }
@@ -17,9 +22,16 @@ export function buildCompetencySearchArray(competencyPayload: any[]): string[] {
       : comp?.additionalProperties?.competencyLevelDescription || []
 
     levelDescriptions.forEach((levelDesc: any) => {
-      const level = levelDesc?.courseId
-      if (level) {
-        competencyIdentifiers.push(`${level}`)
+      if (format === 'competencyLevel') {
+        const level = levelDesc?.level
+        if (level) {
+          competencyIdentifiers.push(`${competencyId}-${level}`)
+        }
+      } else {
+        const level = levelDesc?.courseId
+        if (level) {
+          competencyIdentifiers.push(`${level}`)
+        }
       }
     })
   })

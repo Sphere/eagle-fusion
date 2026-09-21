@@ -113,6 +113,8 @@
                 {{'GO_BACK_TO_HOME' | translate}}</button>
             </div>
             <div class="mt-4 d-flex gap-5 flex-col align-items-center w-full" *ngIf="nextCompetencyLevel===6">
+              <button class="asha-btn-retake" *ngIf="!isCompetencyComplted" (click)="viewAshaCourses()">
+                {{'Start Learning' | translate}}</button>
               <button class="asha-btn-retake  mt-5 mb-3" (click)="goToAshaHome()">
                 <img src="fusion-assets/icons/home_blue_bg.svg" alt="home" />
                 {{'GO_BACK_TO_HOME' | translate}}

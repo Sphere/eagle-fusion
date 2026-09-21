@@ -21,7 +21,7 @@
     </div>
   </ng-container>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
-    <div class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
+    <div class="mb-2" [ngStyle]="{'padding-top': '0px'}"
       [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
       <!-- result.count is the API total; content.length is only what is loaded so
            far (the list pages via "View More"), so it under-reported the total
@@ -37,7 +37,8 @@
           translate}}</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text" tabindex="0" role="button"
           *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)"
-          (keydown.enter)="searchLanguage(lang)" (keydown.space)="searchLanguage(lang); $event.preventDefault()">{{lang | uppercase}}
+          (keydown.enter)="searchLanguage(lang)" (keydown.space)="searchLanguage(lang); $event.preventDefault()">{{lang
+          | uppercase}}
         </span>
       </span>
       <div class="filter-lang" *ngIf="!isXSmall">
@@ -53,7 +54,8 @@
       <ng-container *ngIf=" searchResults?.doYouMean || searchResults?.queryUsed">
         <span>.</span><span>&nbsp;</span>
         <span *ngIf="searchResults?.doYouMean"><span>{{'Did you mean' | translate}} </span><span>&nbsp;“</span><span
-            [innerHTML]="searchResults?.doYouMean" tabindex="0" role="button" (click)="didYouMeanSearch(searchResults?.doYouMean)"
+            [innerHTML]="searchResults?.doYouMean" tabindex="0" role="button"
+            (click)="didYouMeanSearch(searchResults?.doYouMean)"
             (keydown.enter)="didYouMeanSearch(searchResults?.doYouMean)"
             (keydown.space)="didYouMeanSearch(searchResults?.doYouMean); $event.preventDefault()"
             class="cursor-pointer ws-mat-primary-text cursor-pointer"></span>”
@@ -69,7 +71,8 @@
         <span>{{'for the exact match on' | translate}}</span>
         <span>{{ searchRequestObject?.query }}, </span>
         <a (click)="getResults(true)" (keydown.enter)="getResults(true)"
-          (keydown.space)="getResults(true); $event.preventDefault()" tabindex="0" class="ws-mat-primary-text cursor-pointer">{{'Click here' | translate}}</a>
+          (keydown.space)="getResults(true); $event.preventDefault()" tabindex="0"
+          class="ws-mat-primary-text cursor-pointer">{{'Click here' | translate}}</a>
         <span>{{'to explore more.' | translate}}</span>
       </ng-container>
     </div>

@@ -342,7 +342,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     requestBody.request = requestBody.request || {}
     requestBody.request.filters = requestBody.request.filters || {}
-    requestBody.request.filters.identifier = competencySearchArray
+    requestBody.request.filters.competencySearch = competencySearchArray
 
     return this.contentSvc.getCouseByContentSearch(competencySearchArray, true, requestBody).pipe(
       map((res: any) => {
