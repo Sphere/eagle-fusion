@@ -83,13 +83,13 @@ describe('PlayerPdfComponent', () => {
 
   describe('fullScreenState', () => {
     it('sets fullscreen dimensions when state true', () => {
-      component.fullScreenState({ state: true })
+      component.fullScreenState(true)
       expect(component.isInFullScreen).toBe(true)
       expect(component.pdfHeight).toBe('100vh')
     })
 
     it('resets dimensions when state false', () => {
-      component.fullScreenState({ state: false })
+      component.fullScreenState(false)
       expect(component.isInFullScreen).toBe(false)
       expect(component.pdfHeight).toBe('calc(100vh - 355px)')
     })
