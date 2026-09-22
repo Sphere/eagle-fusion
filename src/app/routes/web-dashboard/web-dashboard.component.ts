@@ -161,7 +161,7 @@ export class WebDashboardComponent implements OnInit, OnChanges, OnDestroy {
     if (!competencyPlaylist) {
       return false
     }
-    this.playListIds = buildCompetencySearchArray(competencyPlaylist?.dataSource?.payload || [], 'competencyLevel')
+    this.playListIds = buildCompetencySearchArray(competencyPlaylist?.dataSource?.payload || [])
     if (this.playListIds.length > 0) {
       return true
     }

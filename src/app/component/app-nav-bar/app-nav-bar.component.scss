@@ -107,8 +107,6 @@
   // the dark variant came out smaller. Size by height with the width free, so
   // both variants land on the same visual height whatever their dimensions.
   width: auto;
-  height: 44px;
-  max-height: 44px;
   object-fit: contain;
 }
 .site-description {

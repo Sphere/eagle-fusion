@@ -1416,10 +1416,13 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const nextLevel = (currentAshaCardData.levels || []).find(
         (level: any) => String(level.competencyId) === String(competencyId) && Number(level.level) === nextLevelId
       )
-      if (nextLevel) {
-        const course = (nextLevel.course || []).find((c: any) => c.lang === currentLang)
-        // Fall back to the first course for the level if there's no exact language match.
-        nextCourseId = course ? course.id : (nextLevel.course && nextLevel.course[0] ? nextLevel.course[0].id : null)
+      // `level.course` is usually a plain course id string (see asha-learning.component.ts#getCourseId),
+      // but older ASHA card data can still carry an array of per-language variants — support both.
+      if (Array.isArray(nextLevel?.course)) {
+        const course = nextLevel.course.find((c: any) => c.lang === currentLang)
+        nextCourseId = course ? course.id : (nextLevel.course[0] ? nextLevel.course[0].id : null)
+      } else {
+        nextCourseId = nextLevel ? nextLevel.course : null
       }
     }
     if (!nextCourseId) {

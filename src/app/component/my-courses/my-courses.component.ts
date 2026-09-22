@@ -191,7 +191,6 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
       const competencySearchArray: string[] = []
       let baseQuery: any = {}
-      let sourceName: string[] = []
 
       matchedElements?.forEach(element => {
         if (element.playlistId === competencyConfigId) {
@@ -205,17 +204,17 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
           baseQuery.request ??= {}
           baseQuery.request.filters ??= {}
 
-          baseQuery.request.offset = this.currentOffset
+          baseQuery.request.offset = 0
           baseQuery.request.limit = this.pageLimit
-          sourceName = baseQuery.request.filters.sourceName || []
         }
       })
-
-      this.currentOffset += this.initialPageLimit
-      this.pageLimit += this.initialPageLimit
+      if (baseQuery.request.filters) {
+        delete baseQuery.request.filters.sourceName
+        delete baseQuery.request.filters.lang
+      }
 
       if (competencySearchArray.length > 0) {
-        this.searchContentByCompetencies$(baseQuery, competencySearchArray, sourceName, listOfEnrolledCourseId).subscribe({
+        this.searchContentByCompetencies$(baseQuery, competencySearchArray, listOfEnrolledCourseId).subscribe({
           next: (res: any) => {
             this.coursesForYou = res || []
             this.updateTabData()
@@ -331,7 +330,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
   buildCompetencySearchArray = (competencyPayload: any[]): string[] => buildCompetencyIds(competencyPayload)
 
-  searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
+  searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
     if (!Array.isArray(competencySearchArray) || competencySearchArray.length === 0) {
       return of([])
     }
@@ -342,13 +341,13 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     requestBody.request = requestBody.request || {}
     requestBody.request.filters = requestBody.request.filters || {}
-    requestBody.request.filters.competencySearch = competencySearchArray
+    requestBody.request.filters.identifier = competencySearchArray
 
     return this.contentSvc.getCouseByContentSearch(competencySearchArray, true, requestBody).pipe(
       map((res: any) => {
         const content = res?.result?.content ?? []
 
-        const processedCourses = this.processRecommendedCourses(content, requiredSourceName, listOfEnrolledCourseId)
+        const processedCourses = this.processRecommendedCourses(content, listOfEnrolledCourseId)
         return processedCourses
       }),
       catchError(err => {
@@ -373,10 +372,9 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       }))
 
 
-  processRecommendedCourses = (courseList: any[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): any[] => {
+  processRecommendedCourses = (courseList: any[], listOfEnrolledCourseId: string[]): any[] => {
     const seen = new Set()
     const enrolledSet = new Set(listOfEnrolledCourseId || [])
-    const sourceSet = new Set(requiredSourceName || [])
 
     return this.recommendedCourse(courseList)
       .filter(item => {
@@ -384,7 +382,6 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         seen.add(item.identifier)
         return true
       })
-      .filter(item => sourceSet.has(item.sourceName))
       .filter(item => !enrolledSet.has(item.identifier))
   }
 }
