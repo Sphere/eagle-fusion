@@ -1,4 +1,3 @@
-// @import '../../../../../../../../../src/styles/ws-mixins';
 @use 'ws-mixins';
 
 .assesment-container {
@@ -193,7 +192,7 @@
   width: auto !important;
   min-height: 38px !important;
   height: 40px !important;
-  color: var(--theme-accent, #1c5d95) !important;
+  color: var(--theme-primary, #1c5d95) !important;
   border: 1px solid var(--theme-accent, #1c5d95) !important;
   background: transparent;
   white-space: nowrap;
@@ -215,14 +214,6 @@
   color: var(--theme-disabled) !important;
   border-color: var(--theme-border) !important;
 }
-
-// ::ng-deep mat-mdc-progress-bar .mat-mdc-progress-bar-buffer {
-//   background: #E4E8EB !important;
-// }
-
-// ::ng-deep .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
-//   background: var(--theme-primary) !important;
-// }
 .audio-progress-bar {
   &.mat-mdc-progress-bar {
     width: 128.03px;
@@ -311,42 +302,19 @@
 }
 
 .timer {
-  // position: relative;
-  // top: 30px;
   background: var(--theme-bg);
   border-radius: 16.5px;
   width: 101px;
   place-self: end;
 
   @include ws-mixins.breakpoint-xs {
-    // position: relative;
-    // left: 247px;
-    // top: 5px;
     margin-left: 0px !important;
     z-index: 9999;
     background: var(--theme-bg);
     border-radius: 16.5px;
     width: 101px;
   }
-
-  // @include breakpoint-s {
-  //   left: 218px;
-  // }
-
-  // @media only screen and (min-width: 320px) and (max-width: 380px) {
-  //   left: 209px;
-  // }
 }
-
-// @media only screen and (max-width: 599px) {
-//   .timer {
-//     position: relative;
-//     left: 19px;
-//     __<<ngThemingMigrationEscapedComment1>>__
-//     top: 82px;
-//     margin-left: 0px !important;
-//   }
-// }
 
 ::ng-deep .mat-mdc-progress-bar {
   width: 128.03px;
@@ -695,15 +663,6 @@ mat-progress-bar {
   letter-spacing: -0.02em;
   color: rgba(107, 150, 71, 1);
 }
-
-// .banner-img{
-//     position: fixed;
-//     left: 0px;
-//     right: 0px;
-//     bottom: 8px;
-//     width: 76%;
-//     margin-inline: auto;
-// }
 
 .progress-bar {
   width: 100px;
