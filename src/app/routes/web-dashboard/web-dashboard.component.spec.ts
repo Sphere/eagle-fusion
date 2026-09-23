@@ -70,6 +70,10 @@ describe('WebDashboardComponent', () => {
             orgDetails: jest.fn().mockReturnValue({}),
             footerConfig: jest.fn().mockReturnValue({}),
             setEarnedBadges: jest.fn(),
+            getPlaylistConfigId: jest.fn((sectionId: string) => ({
+              YOUR_PLANS_PLAYLIST: 'Playlist_Course',
+              COMPETENCY_PLAYLIST: 'COMPETENCY_PLAYLIST_V2',
+            }[sectionId])),
           },
         },
         {
@@ -222,7 +226,7 @@ describe('WebDashboardComponent', () => {
   it('ngOnInit calculateBadges should count completed courses matching playlist', async () => {
     const plylsSvc = TestBed.inject(PlaylistService) as any
     plylsSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
-      { language: 'en', dataSource: { payload: ['course1', 'course2'] } },
+      { language: 'en', playlistId: 'Playlist_Course', role: [''], dataSource: { payload: ['course1', 'course2'] } },
     ])
     const configSvc = TestBed.inject(ConfigurationsService) as any
     configSvc.userProfile = { language: 'en' }

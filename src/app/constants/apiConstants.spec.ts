@@ -30,8 +30,8 @@ describe('API_END_POINTS', () => {
       expect(API_END_POINTS.getLeaderBoardData).toBe(`${PROXY_SLAG_V8}/user/v1/leaderboard`)
     })
 
-    it('points ASHA progress endpoints at learnerpathV2', () => {
-      expect(API_END_POINTS.UPDATE_ASHA_PROGRESS).toBe(`${PROTECTED_SLAG_V8}/learnerpathV2`)
+    it('points ASHA progress endpoints at learnerpath', () => {
+      expect(API_END_POINTS.UPDATE_ASHA_PROGRESS).toBe(`${PROTECTED_SLAG_V8}/learnerpath`)
     })
 
     it('appends cache-busting params to FORM_READ and PLAYLIST_SEARCH', () => {
@@ -58,7 +58,7 @@ describe('API_END_POINTS', () => {
   describe('parameterised endpoints', () => {
     it('builds user-scoped URLs', () => {
       expect(API_END_POINTS.FETCH_USER_GROUPS('u1')).toBe(`${PROTECTED_SLAG_V8}/user/group/fetchUserGroup?userId=u1`)
-      expect(API_END_POINTS.GET_ASHA_PROGRESS('u1')).toBe(`${PROTECTED_SLAG_V8}/learnerpathV2?userId=u1`)
+      expect(API_END_POINTS.GET_ASHA_PROGRESS('u1')).toBe(`${PROTECTED_SLAG_V8}/learnerpath?userId=u1`)
       expect(API_END_POINTS.AUTOCOMPLETE('que')).toBe(`${PROTECTED_SLAG_V8}/user/autocomplete/que`)
     })
 

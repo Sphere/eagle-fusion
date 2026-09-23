@@ -40,7 +40,7 @@ describe('AppTocDesktopModalComponent', () => {
     const competency = JSON.stringify([{ competencyName: 'Leadership', level: 2 }])
     component = createComponent({ type: 'COMPETENCY', competency })
     component.ngOnInit()
-    expect(component.cometencyData).toEqual([{ name: 'Leadership', levels: ' Level 2' }])
+    expect(component.cometencyData).toEqual([{ name: 'Leadership', levels: ['Level 2'] }])
   })
 
   it('should not populate competencyData on init when type is not COMPETENCY', () => {
@@ -49,11 +49,11 @@ describe('AppTocDesktopModalComponent', () => {
     expect(component.cometencyData).toEqual([])
   })
 
-  it('should default to "Levels data not found!" when level is missing', () => {
+  it('returns an empty levels array when level is missing', () => {
     const competency = JSON.stringify([{ competencyName: 'Empathy' }])
     component = createComponent({ type: 'COMPETENCY', competency })
     const result = component.competencyData(competency)
-    expect(result).toEqual([{ name: 'Empathy', levels: 'Levels data not found!' }])
+    expect(result).toEqual([{ name: 'Empathy', levels: [] }])
   })
 
   it('should close dialog and navigate on showOrgprofile', () => {

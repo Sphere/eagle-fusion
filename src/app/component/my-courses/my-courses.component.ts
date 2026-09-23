@@ -208,7 +208,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
           baseQuery.request.limit = this.pageLimit
         }
       })
-      if (baseQuery.request.filters) {
+      if (baseQuery.request?.filters) {
         delete baseQuery.request.filters.sourceName
         delete baseQuery.request.filters.lang
       }

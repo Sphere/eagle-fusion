@@ -210,7 +210,7 @@ describe('QuizComponent', () => {
   it('navigateToAshaCourses should navigate with resolved course id', () => {
     mockContentSvc.getAshaCardData.mockReturnValue({
       lang: 'en',
-      levels: [{ competencyId: 5, level: 'L1', course: [{ lang: 'en', id: 'course1' }] }],
+      levels: [{ competencyId: 5, level: 'L1', course: 'course1' }],
     })
     component['navigateToAshaCourses']({ competencyId: '5', competencyLevel: 'L1', courseid: 'c9', title: 'T' })
     expect(mockContentSvc.getFilteredCourseSearchResults).toHaveBeenCalledWith('course1')
@@ -218,7 +218,7 @@ describe('QuizComponent', () => {
   })
 
   it('getCourseId should return matched course id', () => {
-    const ashaData = { lang: 'en', levels: [{ competencyId: 5, level: 'L1', course: [{ lang: 'en', id: 'course1' }] }] }
+    const ashaData = { lang: 'en', levels: [{ competencyId: 5, level: 'L1', course: 'course1' }] }
     const result = component.getCourseId('5', 'L1', ashaData)
     expect(result).toBe('course1')
   })
@@ -467,73 +467,76 @@ describe('QuizComponent', () => {
     })
   })
 
-  describe('handleBatchListForCourseCompletion', () => {
+  describe('handleCourseCompletionOrNavigate — batch list outcomes', () => {
     it('should navigate to the overview for an incomplete course', () => {
-      component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 40 })
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/c1/overview'], expect.anything())
       expect(component.showCompletionMsg).toBe(false)
     })
 
     it('should pick out the matching enrolment', () => {
-      component['handleBatchListForCourseCompletion'](
-        [{ courseId: 'other' }, { courseId: 'c1', completionPercentage: 40 }] as any,
-        { currentCompletionPercentage: 40 },
+      mockContentSvc.fetchUserBatchList.mockReturnValue(
+        of([{ courseId: 'other' }, { courseId: 'c1', completionPercentage: 40 }] as any),
       )
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
       expect(component.enrolledCourse.courseId).toBe('c1')
     })
 
     it('should flag a course completed within the last half minute', () => {
-      component['handleBatchListForCourseCompletion'](
-        [{ courseId: 'c1', completionPercentage: 40, completedOn: new Date().toISOString() }] as any,
-        { currentCompletionPercentage: 40 },
+      mockContentSvc.fetchUserBatchList.mockReturnValue(
+        of([{ courseId: 'c1', completionPercentage: 40, completedOn: new Date().toISOString() }] as any),
       )
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
       expect(component.showCompletionMsg).toBe(true)
     })
 
     it('should not flag a course completed a while ago', () => {
-      jest.spyOn(component as any, 'showCourseCompletionPopup').mockImplementation(() => { })
+      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
       const anHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
-      component['handleBatchListForCourseCompletion'](
-        [{ courseId: 'c1', completionPercentage: 100, completedOn: anHourAgo }] as any,
-        { currentCompletionPercentage: 40 },
+      mockContentSvc.fetchUserBatchList.mockReturnValue(
+        of([{ courseId: 'c1', completionPercentage: 100, completedOn: anHourAgo }] as any),
       )
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
       expect(component.showCompletionMsg).toBe(false)
     })
 
     it('should open the completion popup when the enrolment reads 100%', () => {
-      const popupSpy = jest.spyOn(component as any, 'showCourseCompletionPopup').mockImplementation(() => { })
-      component['handleBatchListForCourseCompletion'](
-        [{ courseId: 'c1', completionPercentage: 100 }] as any,
-        { currentCompletionPercentage: 40 },
-      )
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([{ courseId: 'c1', completionPercentage: 100 }] as any))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
       expect(popupSpy).toHaveBeenCalled()
     })
 
     it('should open the completion popup when the current attempt reaches 100%', () => {
-      const popupSpy = jest.spyOn(component as any, 'showCourseCompletionPopup').mockImplementation(() => { })
-      component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 100 })
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 100 })
       expect(popupSpy).toHaveBeenCalled()
     })
 
     it('should skip the popup when confirmation is turned off', () => {
       mockContentSvc.showConformation = false
-      const popupSpy = jest.spyOn(component as any, 'showCourseCompletionPopup').mockImplementation(() => { })
-      component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 100 })
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 100 })
       expect(popupSpy).not.toHaveBeenCalled()
       expect(mockRouter.navigate).toHaveBeenCalled()
     })
 
     it('should skip the popup when a dialog is already open', () => {
       mockDialog.openDialogs = [{}]
-      const popupSpy = jest.spyOn(component as any, 'showCourseCompletionPopup').mockImplementation(() => { })
-      component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 100 })
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 100 })
       expect(popupSpy).not.toHaveBeenCalled()
     })
 
     it('should skip both the popup and the direct navigate when viewer-toc.component.ts already started its own flow', () => {
       mockViewerDataSvc.isCourseCompletionFlowActive = true
-      const popupSpy = jest.spyOn(component as any, 'showCourseCompletionPopup').mockImplementation(() => { })
-      component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 100 })
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 100 })
       expect(popupSpy).not.toHaveBeenCalled()
       expect(mockRouter.navigate).not.toHaveBeenCalled()
     })
@@ -543,317 +546,266 @@ describe('QuizComponent', () => {
       // same completion event — even though this reading (currentCompletionPercentage: 40)
       // looks incomplete, we must not navigate out from under it; it will navigate itself.
       mockViewerDataSvc.isCourseCompletionFlowActive = true
-      component['handleBatchListForCourseCompletion']([], { currentCompletionPercentage: 40 })
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([]))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
       expect(mockRouter.navigate).not.toHaveBeenCalled()
     })
-  })
 
-  describe('showCourseCompletionPopup', () => {
-    it('should navigate straight to the overview when the popup is dismissed', async () => {
+    it('should navigate straight to the overview when the congratulation popup is dismissed', async () => {
       jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
-      await component['showCourseCompletionPopup']()
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([{ courseId: 'c1', completionPercentage: 100 }] as any))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
+      await Promise.resolve()
+      await Promise.resolve()
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/c1/overview'], expect.anything())
     })
 
     it('should navigate once the confirm dialog is confirmed', async () => {
       jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
       mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'CONFIRMED' }) })
-      await component['showCourseCompletionPopup']()
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([{ courseId: 'c1', completionPercentage: 100 }] as any))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
       await Promise.resolve()
+      await Promise.resolve()
+      expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBe('c1')
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/c1/overview'], expect.anything())
     })
 
     it('should navigate when the confirm dialog reports close-complete', async () => {
       jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
       mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'close-complete' }) })
-      await component['showCourseCompletionPopup']()
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([{ courseId: 'c1', completionPercentage: 100 }] as any))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
+      await Promise.resolve()
       await Promise.resolve()
       expect(mockRouter.navigate).toHaveBeenCalled()
     })
 
-    it('should stay put when the confirm dialog is dismissed', async () => {
+    it('should stay put when the confirm dialog is dismissed without an event', async () => {
       jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
       mockDialog.open.mockReturnValue({ afterClosed: () => of(undefined) })
-      await component['showCourseCompletionPopup']()
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of([{ courseId: 'c1', completionPercentage: 100 }] as any))
+      component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 40 })
+      await Promise.resolve()
       await Promise.resolve()
       expect(mockRouter.navigate).not.toHaveBeenCalled()
-    })
-
-    it('should set the shared busy flag immediately and clear it once the popup is dismissed', async () => {
-      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
-      const promise = component['showCourseCompletionPopup']()
-      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(true)
-      await promise
-      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
-    })
-
-    it('should save the submitted-rating signal for app-toc-desktop and clear the busy flag on confirm', async () => {
-      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
-      mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'CONFIRMED' }) })
-      await component['showCourseCompletionPopup']()
-      await Promise.resolve()
-      expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBe('c1')
-      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
-    })
-
-    it('should not save the submitted-rating signal when the dialog is merely dismissed', async () => {
-      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
-      mockDialog.open.mockReturnValue({ afterClosed: () => of(undefined) })
-      await component['showCourseCompletionPopup']()
-      await Promise.resolve()
       expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBeUndefined()
     })
   })
 
-  describe('handleQuizPlayerState', () => {
+  describe('handleQuizDialogClose (via the DONE branch of the quiz plugin)', () => {
+    const closeQuizDialogWith = (courses: any[]) => {
+      component.dialogQuiz = { afterClosed: () => of({ event: 'DONE' }) } as any
+      mockContentSvc.fetchUserBatchList.mockReturnValue(of(courses))
+      component['handleQuizDialogClose']()
+    }
+
     it('should navigate to the next resource when one is present', () => {
-      component['handleQuizPlayerState']({ nextResource: '/next-res' })
+      closeQuizDialogWith([{ courseId: 'c1', completionPercentage: 40, completedOn: new Date().toISOString() }])
+      mockPlayerStateService.playerState.next({ nextResource: '/next-res' })
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/next-res'], { queryParamsHandling: 'preserve' })
     })
 
     it('should show the completion congrats when the course is complete and no dialog is open', () => {
-      component.enrolledCourse = { completionPercentage: 100 } as any
-      mockContentSvc.showConformation = true
-      const congratsSpy = jest.spyOn(component as any, 'showQuizCompletionCongrats').mockImplementation(() => { })
-      component['handleQuizPlayerState']({ nextResource: null })
-      expect(congratsSpy).toHaveBeenCalled()
+      closeQuizDialogWith([{ courseId: 'c1', completionPercentage: 100, completedOn: new Date().toISOString() }])
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      mockPlayerStateService.playerState.next({ nextResource: null })
+      expect(popupSpy).toHaveBeenCalled()
     })
 
     it('should skip the completion congrats when a dialog is already open', () => {
-      component.enrolledCourse = { completionPercentage: 100 } as any
-      mockContentSvc.showConformation = true
+      closeQuizDialogWith([{ courseId: 'c1', completionPercentage: 100, completedOn: new Date().toISOString() }])
       mockDialog.openDialogs = [{}]
-      const congratsSpy = jest.spyOn(component as any, 'showQuizCompletionCongrats').mockImplementation(() => { })
-      component['handleQuizPlayerState']({ nextResource: null })
-      expect(congratsSpy).not.toHaveBeenCalled()
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      mockPlayerStateService.playerState.next({ nextResource: null })
+      expect(popupSpy).not.toHaveBeenCalled()
     })
 
     it('should skip the completion congrats when viewer-toc.component.ts already started its own flow', () => {
-      component.enrolledCourse = { completionPercentage: 100 } as any
-      mockContentSvc.showConformation = true
+      closeQuizDialogWith([{ courseId: 'c1', completionPercentage: 100, completedOn: new Date().toISOString() }])
       mockViewerDataSvc.isCourseCompletionFlowActive = true
-      const congratsSpy = jest.spyOn(component as any, 'showQuizCompletionCongrats').mockImplementation(() => { })
-      component['handleQuizPlayerState']({ nextResource: null })
-      expect(congratsSpy).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('showQuizCompletionCongrats', () => {
-    it('should set the shared busy flag immediately and clear it once the popup is dismissed', async () => {
-      jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
-      const promise = component['showQuizCompletionCongrats']({})
-      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(true)
-      await promise
-      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
+      const popupSpy = jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(false)
+      mockPlayerStateService.playerState.next({ nextResource: null })
+      expect(popupSpy).not.toHaveBeenCalled()
     })
 
-    it('should save the submitted-rating signal, clear the busy flag, and navigate on confirm', async () => {
+    it('should save the submitted-rating signal and navigate to the overview on confirm', async () => {
+      closeQuizDialogWith([{ courseId: 'c1', completionPercentage: 100, completedOn: new Date().toISOString() }])
       jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
       mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'CONFIRMED' }) })
-      await component['showQuizCompletionCongrats']({})
+      mockPlayerStateService.playerState.next({ nextResource: null })
+      await Promise.resolve()
       await Promise.resolve()
       expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBe('c1')
-      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/c1/overview'], expect.anything())
     })
 
-    it('should clear the busy flag without saving or navigating when the confirm dialog is dismissed', async () => {
+    it('should not save the rating signal or navigate when the confirm dialog is merely dismissed', async () => {
+      closeQuizDialogWith([{ courseId: 'c1', completionPercentage: 100, completedOn: new Date().toISOString() }])
       jest.spyOn(component, 'openCongratulationPopup').mockResolvedValue(true)
       mockDialog.open.mockReturnValue({ afterClosed: () => of({ event: 'DISMISSED' }) })
-      await component['showQuizCompletionCongrats']({})
+      mockPlayerStateService.playerState.next({ nextResource: null })
+      await Promise.resolve()
       await Promise.resolve()
       expect(mockViewerDataSvc.lastRatingSubmittedCourseId).toBeUndefined()
-      expect(mockViewerDataSvc.isCourseCompletionFlowActive).toBe(false)
       expect(mockRouter.navigate).not.toHaveBeenCalled()
     })
   })
 
-  describe('processAssesmentResult', () => {
+  describe('handleAssesmentDialogClose', () => {
+    const closeAssesmentWith = (result: any) => {
+      component.dialogAssesment = { afterClosed: () => of(result) } as any
+      component['handleAssesmentDialogClose']()
+    }
+
     it('should advance to the next competency', () => {
       const spy = jest.spyOn(component, 'nextCompetency').mockImplementation(() => { })
-      component['processAssesmentResult']({ event: 'NEXT_COMPETENCY', competency: { id: 1 } })
+      closeAssesmentWith({ event: 'NEXT_COMPETENCY', competency: { id: 1 } })
       expect(spy).toHaveBeenCalled()
     })
 
     it('should ignore a next-competency event with no competency', () => {
       const spy = jest.spyOn(component, 'nextCompetency').mockImplementation(() => { })
-      component['processAssesmentResult']({ event: 'NEXT_COMPETENCY' })
+      closeAssesmentWith({ event: 'NEXT_COMPETENCY' })
       expect(spy).not.toHaveBeenCalled()
     })
 
     it('should route to the competency page on a failed competency', () => {
-      component['processAssesmentResult']({ event: 'FAILED_COMPETENCY' })
+      closeAssesmentWith({ event: 'FAILED_COMPETENCY' })
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/user/competency'])
     })
 
     it('should show the competency courses', () => {
       const spy = jest.spyOn(component, 'viewCompetencyCourses').mockImplementation(() => { })
-      component['processAssesmentResult']({ event: 'VIEW_COURSES' })
+      closeAssesmentWith({ event: 'VIEW_COURSES' })
       expect(spy).toHaveBeenCalled()
     })
 
     it('should route home on a failed ASHA assessment', () => {
-      component['processAssesmentResult']({ event: 'FAILED_ASHA' })
+      closeAssesmentWith({ event: 'FAILED_ASHA' })
       expect(mockRouter.navigate).toHaveBeenCalledWith(['page/home'])
     })
 
     it('should show the ASHA courses', () => {
       const spy = jest.spyOn(component, 'navigateToAshaCourses').mockImplementation(() => { })
-      component['processAssesmentResult']({ event: 'VIEW_ASHA_COURSES' })
+      closeAssesmentWith({ event: 'VIEW_ASHA_COURSES' })
       expect(spy).toHaveBeenCalled()
     })
 
     it('should reopen the overview dialog on a retake', () => {
       const spy = jest.spyOn(component, 'openOverviewDialog').mockImplementation(() => { })
-      component['processAssesmentResult']({ event: 'RETAKE_QUIZ' })
+      closeAssesmentWith({ event: 'RETAKE_QUIZ' })
       expect(spy).toHaveBeenCalled()
     })
 
-    it('should finish the assessment on done', () => {
-      const spy = jest.spyOn(component as any, 'handleAssessmentDone').mockImplementation(() => { })
-      component['processAssesmentResult']({ event: 'DONE' })
-      expect(spy).toHaveBeenCalled()
-    })
-
-    it('should finish the assessment on an ASHA done', () => {
-      const spy = jest.spyOn(component as any, 'handleAssessmentDone').mockImplementation(() => { })
-      component['processAssesmentResult']({ event: 'DONE_ASHA' })
-      expect(spy).toHaveBeenCalled()
-    })
-  })
-
-  describe('handleAssesmentCloseEvent', () => {
-    it('should route to the competency page for a competency assessment', () => {
-      component['handleAssesmentCloseEvent']({ competency: true })
+    it('should route to the competency page for a CLOSE with a competency flag', () => {
+      closeAssesmentWith({ event: 'CLOSE', competency: true })
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/user/competency'])
     })
 
-    it('should route home for an ASHA assessment', () => {
-      component['handleAssesmentCloseEvent']({ asha: true })
+    it('should route home for a CLOSE with an asha flag', () => {
+      closeAssesmentWith({ event: 'CLOSE', asha: true })
       expect(mockRouter.navigate).toHaveBeenCalledWith(['page/home'])
     })
 
-    it('should just close the dialog otherwise', () => {
+    it('should just close the dialog for a plain CLOSE', () => {
       const spy = jest.spyOn(component, 'closeBtnDialog').mockImplementation(() => { })
-      component['handleAssesmentCloseEvent']({})
+      closeAssesmentWith({ event: 'CLOSE' })
       expect(spy).toHaveBeenCalled()
     })
-  })
 
-  describe('handleAssessmentDone', () => {
-    it('should take the failed path when the score is below the pass mark', () => {
-      const spy = jest.spyOn(component as any, 'handleAssessmentFailed').mockImplementation(() => { })
-      component['handleAssessmentDone']({ result: 40, passPercentage: 60 })
-      expect(spy).toHaveBeenCalledWith('id1', 'c1', undefined, 40)
-    })
+    describe('DONE / DONE_ASHA progress handling', () => {
+      it('should record a first attempt and navigate on when failed', () => {
+        const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        component.assessmentCurrentProgress = null as any
+        closeAssesmentWith({ event: 'DONE', result: 40, passPercentage: 60 })
 
-    it('should take the passed path when the score meets the pass mark', () => {
-      const spy = jest.spyOn(component as any, 'handleAssessmentPassed').mockImplementation(() => { })
-      component['handleAssessmentDone']({ result: 60, passPercentage: 60 })
-      expect(spy).toHaveBeenCalledWith('id1', 'c1', undefined)
-    })
+        expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+          'id1', expect.objectContaining({ completionPercentage: 40, status: 1 }), 'c1', undefined,
+        )
+        expect(mockContentSvc.changeMessage).toHaveBeenCalled()
+        expect(navSpy).toHaveBeenCalled()
+      })
 
-    it('should treat missing scores as a pass at zero', () => {
-      const spy = jest.spyOn(component as any, 'handleAssessmentPassed').mockImplementation(() => { })
-      component['handleAssessmentDone']({})
-      expect(spy).toHaveBeenCalled()
-    })
-  })
+      it('should record an improved failing score', () => {
+        jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        component.assessmentCurrentProgress = { completionPercentage: 30 } as any
+        closeAssesmentWith({ event: 'DONE', result: 40, passPercentage: 60 })
+        expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalled()
+      })
 
-  describe('handleAssessmentFailed', () => {
-    it('should record a first attempt and navigate on', () => {
-      const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      component.assessmentCurrentProgress = null as any
-      component['handleAssessmentFailed']('id1', 'c1', 'b1', 40)
+      it('should mark a perfect-but-failing score as complete', () => {
+        jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        component.assessmentCurrentProgress = null as any
+        closeAssesmentWith({ event: 'DONE', result: 100, passPercentage: 150 })
+        expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+          'id1', expect.objectContaining({ status: 2 }), 'c1', undefined,
+        )
+      })
 
-      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
-        'id1', expect.objectContaining({ completionPercentage: 40, status: 1 }), 'c1', 'b1',
-      )
-      expect(mockContentSvc.changeMessage).toHaveBeenCalled()
-      expect(navSpy).toHaveBeenCalled()
-    })
+      it('should skip the update when the new failing score is not an improvement', () => {
+        const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        component.assessmentCurrentProgress = { completionPercentage: 80 } as any
+        closeAssesmentWith({ event: 'DONE', result: 40, passPercentage: 60 })
 
-    it('should record an improved score', () => {
-      jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      component.assessmentCurrentProgress = { completionPercentage: 30 } as any
-      component['handleAssessmentFailed']('id1', 'c1', 'b1', 40)
-      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalled()
-    })
+        expect(mockViewerSvc.realTimeProgressUpdateV3).not.toHaveBeenCalled()
+        expect(navSpy).toHaveBeenCalled()
+      })
 
-    it('should mark a perfect-but-failing score as complete', () => {
-      jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      component.assessmentCurrentProgress = null as any
-      component['handleAssessmentFailed']('id1', 'c1', 'b1', 100)
-      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
-        'id1', expect.objectContaining({ status: 2 }), 'c1', 'b1',
-      )
-    })
+      it('should default a missing batch id to a blank string in telemetry for a failed attempt', () => {
+        jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        component.assessmentCurrentProgress = null as any
+        mockRoute.snapshot.queryParams = {}
+        closeAssesmentWith({ event: 'DONE', result: 40, passPercentage: 60 })
+        expect(mockViewerSvc.generateInteractTelemetry).toHaveBeenCalledWith(
+          'progress-update-success', expect.objectContaining({ batchId: '' }),
+        )
+      })
 
-    it('should skip the update when the new score is not an improvement', () => {
-      const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      component.assessmentCurrentProgress = { completionPercentage: 80 } as any
-      component['handleAssessmentFailed']('id1', 'c1', 'b1', 40)
+      it('should warn without navigating when the failed-path update fails', () => {
+        const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        mockViewerSvc.realTimeProgressUpdateV3.mockReturnValue(throwError(() => new Error('down')))
+        component.assessmentCurrentProgress = null as any
+        closeAssesmentWith({ event: 'DONE', result: 40, passPercentage: 60 })
 
-      expect(mockViewerSvc.realTimeProgressUpdateV3).not.toHaveBeenCalled()
-      expect(navSpy).toHaveBeenCalled()
-    })
+        expect(mockLoggerSvc.warn).toHaveBeenCalledWith('Progress update failed:', expect.any(Error))
+        expect(navSpy).not.toHaveBeenCalled()
+      })
 
-    it('should default a missing batch id to a blank string in telemetry', () => {
-      jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      component.assessmentCurrentProgress = null as any
-      component['handleAssessmentFailed']('id1', 'c1', undefined as any, 40)
-      expect(mockViewerSvc.generateInteractTelemetry).toHaveBeenCalledWith(
-        'progress-update-success', expect.objectContaining({ batchId: '' }),
-      )
-    })
+      it('should record a full completion and navigate on when passed', () => {
+        const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        closeAssesmentWith({ event: 'DONE', result: 60, passPercentage: 60 })
 
-    it('should warn without navigating when the update fails', () => {
-      const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      mockViewerSvc.realTimeProgressUpdateV3.mockReturnValue(throwError(() => new Error('down')))
-      component.assessmentCurrentProgress = null as any
-      component['handleAssessmentFailed']('id1', 'c1', 'b1', 40)
+        expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+          'id1', expect.objectContaining({ completionPercentage: 100, status: 2 }), 'c1', undefined,
+        )
+        expect(mockContentSvc.changeMessage).toHaveBeenCalledWith(expect.objectContaining({ type: 'assessment' }))
+        expect(navSpy).toHaveBeenCalled()
+      })
 
-      expect(mockLoggerSvc.warn).toHaveBeenCalledWith('Progress update failed:', expect.any(Error))
-      expect(navSpy).not.toHaveBeenCalled()
-    })
-  })
+      it('should treat missing scores as a pass at zero', () => {
+        const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        closeAssesmentWith({ event: 'DONE' })
+        expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
+          'id1', expect.objectContaining({ completionPercentage: 100, status: 2 }), 'c1', undefined,
+        )
+        expect(navSpy).toHaveBeenCalled()
+      })
 
-  describe('handleAssessmentPassed', () => {
-    it('should record a full completion and navigate on', () => {
-      const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      component['handleAssessmentPassed']('id1', 'c1', 'b1')
+      it('should warn without navigating when the passed-path update fails', () => {
+        const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        mockViewerSvc.realTimeProgressUpdateV3.mockReturnValue(throwError(() => new Error('down')))
+        closeAssesmentWith({ event: 'DONE', result: 60, passPercentage: 60 })
 
-      expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
-        'id1', expect.objectContaining({ completionPercentage: 100, status: 2 }), 'c1', 'b1',
-      )
-      expect(mockContentSvc.changeMessage).toHaveBeenCalledWith(expect.objectContaining({ type: 'assessment' }))
-      expect(navSpy).toHaveBeenCalled()
-    })
+        expect(mockLoggerSvc.warn).toHaveBeenCalledWith('Progress update failed:', expect.any(Error))
+        expect(navSpy).not.toHaveBeenCalled()
+      })
 
-    it('should default a missing batch id to a blank string in telemetry', () => {
-      jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      component['handleAssessmentPassed']('id1', 'c1', undefined as any)
-      expect(mockViewerSvc.generateInteractTelemetry).toHaveBeenCalledWith(
-        'progress-update-success', expect.objectContaining({ batchId: '' }),
-      )
-    })
-
-    it('should warn without navigating when the update fails', () => {
-      const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
-      mockViewerSvc.realTimeProgressUpdateV3.mockReturnValue(throwError(() => new Error('down')))
-      component['handleAssessmentPassed']('id1', 'c1', 'b1')
-
-      expect(mockLoggerSvc.warn).toHaveBeenCalledWith('Progress update failed:', expect.any(Error))
-      expect(navSpy).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('handleAssesmentDialogClose', () => {
-    it('should process the dialog result', () => {
-      const spy = jest.spyOn(component as any, 'processAssesmentResult').mockImplementation(() => { })
-      component.dialogAssesment = { afterClosed: () => of({ event: 'CLOSE' }) } as any
-      component['handleAssesmentDialogClose']()
-      expect(spy).toHaveBeenCalledWith({ event: 'CLOSE' })
+      it('should finish an ASHA assessment the same way as DONE', () => {
+        const navSpy = jest.spyOn(component as any, 'navigateAfterAssessment').mockImplementation(() => { })
+        closeAssesmentWith({ event: 'DONE_ASHA', result: 60, passPercentage: 60 })
+        expect(navSpy).toHaveBeenCalled()
+      })
     })
   })
 })

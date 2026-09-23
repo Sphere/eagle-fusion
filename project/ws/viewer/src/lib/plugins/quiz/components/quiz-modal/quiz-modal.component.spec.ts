@@ -115,9 +115,15 @@ describe('QuizModalComponent', () => {
       expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'CLOSE' })
     })
 
-    it('should close with DONE event', () => {
+    it('should close with DONE event once the score has been recorded', () => {
+      component.fetchingResultsStatus = 'done'
       component.closeDone()
       expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'DONE' })
+    })
+
+    it('should close with CLOSE event when the score has not been recorded yet', () => {
+      component.closeDone()
+      expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'CLOSE' })
     })
 
     it('should close with RETAKE_QUIZ event', () => {

@@ -379,43 +379,43 @@ describe('MyCoursesComponent', () => {
       expect(component.buildCompetencySearchArray([])).toEqual([])
     })
 
-    it('should build competency-level strings from payload', () => {
+    it('should build course id strings from payload', () => {
       const payload = [
         {
           comp1: {
             id: 'C1',
             additionalProperties: {
-              competencyLevelDescription: [{ level: 1 }, { level: 2 }],
+              competencyLevelDescription: [{ courseId: 'course1' }, { courseId: 'course2' }],
             },
           },
         },
       ]
       const result = component.buildCompetencySearchArray(payload)
-      expect(result).toContain('C1-1')
-      expect(result).toContain('C1-2')
+      expect(result).toContain('course1')
+      expect(result).toContain('course2')
     })
 
     it('should skip competency objects without id', () => {
-      const payload = [{ comp1: { additionalProperties: { competencyLevelDescription: [{ level: 1 }] } } }]
+      const payload = [{ comp1: { additionalProperties: { competencyLevelDescription: [{ courseId: 'course1' }] } } }]
       const result = component.buildCompetencySearchArray(payload)
       expect(result).toHaveLength(0)
     })
 
-    it('should build competency-level strings from the current (v2) flat payload', () => {
+    it('should build course id strings from the current (v2) flat payload', () => {
       const payload = [
-        { id: 'C2', levels: [{ level: 1 }, { level: 2 }] },
+        { id: 'C2', levels: [{ courseId: 'course1' }, { courseId: 'course2' }] },
       ]
       const result = component.buildCompetencySearchArray(payload)
-      expect(result).toEqual(['C2-1', 'C2-2'])
+      expect(result).toEqual(['course1', 'course2'])
     })
 
     it('should handle a payload mixing both shapes together', () => {
       const payload = [
-        { comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ level: 1 }] } } },
-        { id: 'C2', levels: [{ level: 1 }] },
+        { comp1: { id: 'C1', additionalProperties: { competencyLevelDescription: [{ courseId: 'course1' }] } } },
+        { id: 'C2', levels: [{ courseId: 'course2' }] },
       ]
       const result = component.buildCompetencySearchArray(payload)
-      expect(result).toEqual(['C1-1', 'C2-1'])
+      expect(result).toEqual(['course1', 'course2'])
     })
   })
 
@@ -427,18 +427,8 @@ describe('MyCoursesComponent', () => {
         { identifier: 'c1', appIcon: '', thumbnail: '', name: 'C1', sourceName: 'SRC', issueCertification: false },
         { identifier: 'c2', appIcon: '', thumbnail: '', name: 'C2', sourceName: 'SRC', issueCertification: false },
       ]
-      const result = component.processRecommendedCourses(courses, ['SRC'], ['c1'])
+      const result = component.processRecommendedCourses(courses, ['c1'])
       expect(result.map(r => r.identifier)).toEqual(['c2'])
-    })
-
-    it('should filter by sourceName', () => {
-      const courses = [
-        { identifier: 'c1', appIcon: '', thumbnail: '', name: 'C1', sourceName: 'ALLOWED', issueCertification: false },
-        { identifier: 'c2', appIcon: '', thumbnail: '', name: 'C2', sourceName: 'BLOCKED', issueCertification: false },
-      ]
-      const result = component.processRecommendedCourses(courses, ['ALLOWED'], [])
-      expect(result).toHaveLength(1)
-      expect(result[0].identifier).toBe('c1')
     })
 
     it('should deduplicate by identifier', () => {
@@ -446,7 +436,7 @@ describe('MyCoursesComponent', () => {
         { identifier: 'c1', appIcon: '', thumbnail: '', name: 'C1', sourceName: 'SRC', issueCertification: false },
         { identifier: 'c1', appIcon: '', thumbnail: '', name: 'C1 dup', sourceName: 'SRC', issueCertification: false },
       ]
-      const result = component.processRecommendedCourses(courses, ['SRC'], [])
+      const result = component.processRecommendedCourses(courses, [])
       expect(result).toHaveLength(1)
     })
   })
@@ -658,11 +648,11 @@ describe('MyCoursesComponent', () => {
       }
       mockPlaylistSvc.getPlaylistConfig = jest.fn().mockResolvedValue([
         {
-          orgId: 'org1', role: ['Nurse'], playlistId: 'COMPETENCY_PLAYLIST_V2',
-          dataSource: { payload: [{ c: { id: 'COMP1', additionalProperties: { competencyLevelDescription: [{ level: '1' }] } } }] },
+          orgId: 'org1', role: ['Nurse'], playlistId: 'COMPETENCY_PLAYLIST_V2', language: 'en',
+          dataSource: { payload: [{ c: { id: 'COMP1', additionalProperties: { competencyLevelDescription: [{ courseId: 'course1' }] } } }] },
         },
         {
-          orgId: 'org1', role: ['Nurse'], playlistId: 'SEARCH_PLAYLIST',
+          orgId: 'org1', role: ['Nurse'], playlistId: 'SEARCH_PLAYLIST', language: 'en',
           dataSource: { payload: { request: { filters: { sourceName: ['SRC'] } } } },
         },
       ])

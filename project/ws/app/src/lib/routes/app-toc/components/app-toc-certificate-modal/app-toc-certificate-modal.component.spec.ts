@@ -25,10 +25,12 @@ const mockContentSvc: Partial<WidgetContentService> = {
 
 const mockSanitizer: Partial<SafeResourceUrlService> = {
   trustUrl: jest.fn().mockReturnValue('trusted-url'),
+  trustImageSrc: jest.fn().mockReturnValue('trusted-url'),
 }
 
 const mockLogger: Partial<LoggerService> = {
   log: jest.fn(),
+  error: jest.fn(),
 }
 
 const mockCdr: Partial<ChangeDetectorRef> = {
@@ -67,20 +69,25 @@ describe('AppTocCertificateModalComponent', () => {
     component.ngOnInit()
     await Promise.resolve()
     await Promise.resolve()
-    expect(mockLogger.log).toHaveBeenCalledWith(mockContent)
-    expect(mockSanitizer.trustUrl).toHaveBeenCalledWith('http://example.com/cert.png')
+    await Promise.resolve()
+    expect(mockSanitizer.trustImageSrc).toHaveBeenCalledWith('http://example.com/cert.png')
     expect(component.img).toBe('trusted-url')
     expect(component.isLoading).toBe(false)
+    expect(component.hasError).toBe(false)
     expect(mockCdr.detectChanges).toHaveBeenCalled()
   })
 
-  it('should not update state when responseCode is missing on init', async () => {
+  it('should set hasError and isLoading false when the response carries no printUri', async () => {
     ;(mockContentSvc.downloadCertificateAPI as jest.Mock).mockReturnValue(of({ responseCode: undefined }))
     component = createComponent()
     component.ngOnInit()
     await Promise.resolve()
-    expect(component.isLoading).toBe(true)
-    expect(mockCdr.detectChanges).not.toHaveBeenCalled()
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(component.isLoading).toBe(false)
+    expect(component.hasError).toBe(true)
+    expect(mockLogger.error).toHaveBeenCalled()
+    expect(mockCdr.detectChanges).toHaveBeenCalled()
   })
 
   it('should call downloadCertificateAPI when downloadCertificate is invoked', async () => {

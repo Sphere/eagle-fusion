@@ -25,7 +25,7 @@ describe('UserDataCacheService', () => {
       get: jest.fn().mockReturnValue(of({ result: { response: { userId: 'user-1', name: 'Test' } } })),
     }
     mockLogger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
-    service = new UserDataCacheService(mockHttp, mockLogger)
+    service = new UserDataCacheService(mockHttp, mockLogger, 'browser')
   })
 
   afterEach(() => {
@@ -89,14 +89,14 @@ describe('UserDataCacheService', () => {
 
   it('restores data from sessionStorage on init when userId is present', () => {
     sessionStorage.setItem('userDataCache', JSON.stringify({ userId: 'cached-user' }))
-    const svc2 = new UserDataCacheService(mockHttp, mockLogger)
+    const svc2 = new UserDataCacheService(mockHttp, mockLogger, 'browser')
     expect(svc2.getCachedUserData()).toEqual({ userId: 'cached-user' })
     svc2.ngOnDestroy()
   })
 
   it('ignores invalid sessionStorage data gracefully', () => {
     sessionStorage.setItem('userDataCache', 'not-valid-json')
-    expect(() => new UserDataCacheService(mockHttp, mockLogger)).not.toThrow()
+    expect(() => new UserDataCacheService(mockHttp, mockLogger, 'browser')).not.toThrow()
   })
 
   it('ngOnDestroy does not throw', () => {
@@ -153,7 +153,7 @@ describe('UserDataCacheService', () => {
   describe('restoreFromCache without userId', () => {
     it('should clear sessionStorage when cached JSON has no userId', () => {
       sessionStorage.setItem('userDataCache', JSON.stringify({ name: 'no-uid' }))
-      const svc = new UserDataCacheService(mockHttp, mockLogger)
+      const svc = new UserDataCacheService(mockHttp, mockLogger, 'browser')
       expect(sessionStorage.getItem('userDataCache')).toBeNull()
       svc.ngOnDestroy()
     })
@@ -243,7 +243,7 @@ describe('UserDataCacheService', () => {
 
     it('restores Spark-shaped data (id only) from sessionStorage on init', () => {
       sessionStorage.setItem('userDataCache', JSON.stringify({ id: 'spark-user-1', identifier: 'spark-user-1' }))
-      const svc = new UserDataCacheService(mockHttp, mockLogger)
+      const svc = new UserDataCacheService(mockHttp, mockLogger, 'browser')
       expect(svc.getCachedUserData()).toEqual({ id: 'spark-user-1', identifier: 'spark-user-1' })
       svc.ngOnDestroy()
     })

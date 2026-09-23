@@ -515,6 +515,10 @@ describe('WorkInfoListComponent', () => {
   })
 
   describe('shouldShowField additional branches', () => {
+    beforeEach(() => {
+      component.isEditableForSphere = true
+    })
+
     it('should skip selectBackground key when profession is not Others', () => {
       component.personalDetailForm.patchValue({ profession: 'ASHA' })
       expect(component.shouldShowField({ showIf: { profession: ['ASHA'], selectBackground: 'x' } })).toBe(true)

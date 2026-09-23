@@ -9,7 +9,7 @@ function createComponent(url = '/page/home'): SlidersComponent {
   const mockRouter: Partial<Router> = {
     url,
   }
-  return new SlidersComponent(mockEvents as EventService, mockRouter as Router)
+  return new SlidersComponent(mockEvents as EventService, mockRouter as Router, 'browser')
 }
 
 describe('SlidersComponent', () => {

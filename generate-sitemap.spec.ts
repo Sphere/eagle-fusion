@@ -18,10 +18,10 @@ describe('generate-sitemap slug helpers', () => {
       expect(slugify('  Post-partum   Haemorrhage (PPH)!  ')).toBe('post-partum-haemorrhage-pph')
     })
 
-    it('keeps Devanagari letters and matras intact instead of stripping them', () => {
+    it('transliterates Devanagari to a readable Latin slug instead of stripping it', () => {
       // Regression: [^a-z0-9] wiped Devanagari to '', causing the /<id>/<id> duplication.
-      expect(slugify('सक्रिय प्रबंधन')).toBe('सक्रिय-प्रबंधन')
-      expect(slugify('नवजात शिशु की देखभाल')).toBe('नवजात-शिशु-की-देखभाल')
+      expect(slugify('सक्रिय प्रबंधन')).toBe('sakriy-prabandhan')
+      expect(slugify('नवजात शिशु की देखभाल')).toBe('navajaat-shishu-kee-dekhabhaal')
     })
 
     it('returns empty string for a title with no sluggable characters', () => {
@@ -36,9 +36,12 @@ describe('generate-sitemap slug helpers', () => {
       expect(truncateSlug('care-of-sick-newborn')).toBe('care-of-sick-newborn')
     })
 
-    it('caps a long Devanagari slug under the byte limit, on a word boundary', () => {
-      // Real-world longest title from the sitemap (261 bytes) — exceeds the 255-byte folder limit.
-      const long = slugify('गर्भवती महिला को परामर्श देने और संस्थागत प्रसव हेतु उसे प्रोत्साहित करने के लिए उसके घर विजिट करना')
+    it('caps a long multi-byte slug under the byte limit, on a word boundary', () => {
+      // Devanagari titles are transliterated to (single-byte) Latin by slugify, so they can no
+      // longer exceed the byte cap here. Non-transliterated scripts (e.g. CJK) still pass through
+      // slugify's \p{L} filter untouched and can be multiple bytes per character, so truncateSlug's
+      // byte-safety still matters for them.
+      const long = slugify(Array(30).fill('测试关键词').join(' '))
       const result = truncateSlug(long)
       expect(bytes(long)).toBeGreaterThan(MAX_SLUG_BYTES)
       expect(bytes(result)).toBeLessThanOrEqual(MAX_SLUG_BYTES)
@@ -53,7 +56,7 @@ describe('generate-sitemap slug helpers', () => {
     })
 
     it('keeps the resulting slug a valid path segment well under the 255-byte filesystem limit', () => {
-      const long = slugify('संक्रमण की रोकथाम एवं नियंत्रण के लिए स्वास्थ्य कार्यकर्ता हेतु विस्तृत प्रशिक्षण मॉड्यूल पाठ्यक्रम')
+      const long = slugify(Array(30).fill('测试关键词').join(' '))
       expect(bytes(truncateSlug(long))).toBeLessThan(255)
     })
   })
@@ -70,9 +73,9 @@ describe('generate-sitemap slug helpers', () => {
         .toBe('/public/toc/overview/do_999/course')
     })
 
-    it('produces a readable Devanagari slug for a Hindi course', () => {
+    it('produces a readable transliterated slug for a Hindi course', () => {
       expect(coursePath({ identifier: 'do_456', name: 'सक्रिय प्रबंधन' }))
-        .toBe('/public/toc/overview/do_456/सक्रिय-प्रबंधन')
+        .toBe('/public/toc/overview/do_456/sakriy-prabandhan')
     })
   })
 })
