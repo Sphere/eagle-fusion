@@ -363,10 +363,16 @@ describe('OrgComponent', () => {
 
   describe('onPopState', () => {
     it('logs the event and navigates when a stored URL exists', () => {
+      const originalLocation = window.location
+      delete (window as any).location
+      ;(window as any).location = { href: '' }
+
       sessionStorage.setItem('currentURL', '/some/path')
       component.onPopState({ type: 'popstate' } as any)
       expect(mockLogger.log).toHaveBeenCalled()
+      expect(window.location.href).toBe('/some/path')
       sessionStorage.removeItem('currentURL')
+      ;(window as any).location = originalLocation
     })
 
     it('does nothing extra when there is no stored URL', () => {

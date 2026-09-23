@@ -356,8 +356,13 @@ describe('ChatbotComponent', () => {
     })
 
     it('should validate dob when before today and pattern matches', () => {
+      // validateDobResponse parses the raw string with plain moment(msg) before the
+      // 'DD/MM/YYYY' pass below — moment.js logs its ambiguous-format deprecation warning
+      // for that first call (once per process, since moment dedupes repeat warnings).
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
       const obj = { id: 'dob', data: { type: ['string'], regex: true, regexPattern: /\d{2}\/\d{2}\/\d{4}/ }, action: { error: 'bad dob' } }
       expect(component.validateResponse(obj, '01/01/2000')).toBe(true)
+      warnSpy.mockRestore()
     })
 
     it('should fail dob validation for future date', () => {

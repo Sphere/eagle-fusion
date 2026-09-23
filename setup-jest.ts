@@ -1,4 +1,12 @@
-import 'jest-preset-angular/setup-jest'
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone'
+
+setupZoneTestEnv()
+
+// videojs-markers calls the deprecated videojs.plugin() as a side effect of being imported
+// (see player-video.component.ts), which logs a console.warn on every spec that transitively
+// pulls in that component (e.g. via the collection/app public-api barrels). Stub it globally —
+// no spec exercises the markers plugin itself, only player-video.component.spec.ts mocks it locally.
+jest.mock('videojs-markers', () => ({}))
 
 Object.defineProperty(window, 'fcWidget', {
   value: {

@@ -230,10 +230,22 @@ describe('CreateAccountComponent', () => {
   })
 
   describe('redirect', () => {
+    let origLocation: Location
+
+    beforeEach(() => {
+      origLocation = window.location
+      Object.defineProperty(window, 'location', { value: { href: '' }, configurable: true })
+    })
+
+    afterEach(() => {
+      Object.defineProperty(window, 'location', { value: origLocation, configurable: true })
+    })
+
     it('should set langPage true for lang val', () => {
       component.redirect('lang')
       jest.runAllTimers()
       expect(component.langPage).toBe(true)
+      expect(window.location.href).toBe('/public/home')
     })
 
     it('should set langPage true for createAccount val', () => {
@@ -403,10 +415,23 @@ describe('CreateAccountComponent', () => {
   })
 
   describe('gotoHome', () => {
-    it('should call router.navigate with /page/home', () => {
+    let origLocation: Location
+
+    beforeEach(() => {
+      origLocation = window.location
+      Object.defineProperty(window, 'location', { value: { reload: jest.fn() }, configurable: true })
+    })
+
+    afterEach(() => {
+      Object.defineProperty(window, 'location', { value: origLocation, configurable: true })
+    })
+
+    it('should call router.navigate with /page/home', async () => {
       mockRouter.navigate = jest.fn().mockReturnValue(Promise.resolve(true))
       component.gotoHome()
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/page/home'])
+      await Promise.resolve()
+      expect(window.location.reload).toHaveBeenCalled()
     })
   })
 

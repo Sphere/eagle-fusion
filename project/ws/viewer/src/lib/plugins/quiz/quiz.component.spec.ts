@@ -208,6 +208,7 @@ describe('QuizComponent', () => {
   })
 
   it('navigateToAshaCourses should navigate with resolved course id', () => {
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => undefined)
     mockContentSvc.getAshaCardData.mockReturnValue({
       lang: 'en',
       levels: [{ competencyId: 5, level: 'L1', course: 'course1' }],
@@ -215,6 +216,7 @@ describe('QuizComponent', () => {
     component['navigateToAshaCourses']({ competencyId: '5', competencyLevel: 'L1', courseid: 'c9', title: 'T' })
     expect(mockContentSvc.getFilteredCourseSearchResults).toHaveBeenCalledWith('course1')
     expect(mockRouter.navigate).toHaveBeenCalled()
+    logSpy.mockRestore()
   })
 
   it('getCourseId should return matched course id', () => {
@@ -369,12 +371,14 @@ describe('QuizComponent', () => {
   })
 
   it('submitQuiz should submit and process response for non-assessment quiz', () => {
+    const scrollSpy = jest.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
     component.quizJson.isAssessment = false
     component.questionAnswerHash = { q1: ['o1'] }
     component.submitQuiz()
     expect(component.viewState).toBe('review')
     expect(component.numCorrectAnswers).toBe(1)
     expect(component.isCompleted).toBe(true)
+    scrollSpy.mockRestore()
   })
 
   it('submitQuiz should set error status on submit failure', () => {

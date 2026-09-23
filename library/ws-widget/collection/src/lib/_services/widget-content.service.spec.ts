@@ -95,18 +95,24 @@ describe('WidgetContentService', () => {
   })
 
   it('readContentV2 should return error observable when id is undefined', done => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined)
     service.readContentV2('undefined').subscribe({
       error: err => {
         expect(err.message).toBe('Content ID is required')
+        expect(errorSpy).toHaveBeenCalledWith('[Content] Error: readContentV2 called with undefined id')
+        errorSpy.mockRestore()
         done()
       },
     })
   })
 
   it('readContentV2 should return error observable when id is empty', done => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined)
     service.readContentV2('').subscribe({
       error: err => {
         expect(err.message).toBe('Content ID is required')
+        expect(errorSpy).toHaveBeenCalledWith('[Content] Error: readContentV2 called with undefined id')
+        errorSpy.mockRestore()
         done()
       },
     })
@@ -173,9 +179,12 @@ describe('WidgetContentService', () => {
   })
 
   it('fetchContent should return error observable when contentId is undefined', done => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined)
     service.fetchContent('undefined').subscribe({
       error: err => {
         expect(err.message).toBe('Content ID is required')
+        expect(errorSpy).toHaveBeenCalledWith('[Content] Error: fetchContent called with undefined contentId')
+        errorSpy.mockRestore()
         done()
       },
     })
@@ -496,13 +505,18 @@ describe('WidgetContentService', () => {
   })
 
   it('setAshaData/getAshaData should update and read isAshaSubject', () => {
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => undefined)
     service.setAshaData(true)
     expect(service.getAshaData()).toBe(true)
+    expect(logSpy).toHaveBeenCalledWith('set data', true)
+    logSpy.mockRestore()
   })
 
   it('isAsha$ should emit updates from setAshaData', done => {
+    const logSpy = jest.spyOn(console, 'log').mockImplementation(() => undefined)
     service.isAsha$.subscribe(val => {
       if (val === true) {
+        logSpy.mockRestore()
         done()
       }
     })

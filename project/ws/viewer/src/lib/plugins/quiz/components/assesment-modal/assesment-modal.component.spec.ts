@@ -109,10 +109,12 @@ describe('AssesmentModalComponent', () => {
       mockCdr,
       mockHttp
     )
+    jest.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
   })
 
   afterEach(() => {
     jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   it('should create', () => {

@@ -56,8 +56,10 @@ describe('WebEkshamataPublicComponent', () => {
   })
 
   it('should redirect to login_url when it exists in localStorage', () => {
+    Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
     localStorage.setItem('login_url', 'https://ekshamata.example.com/login')
     component.login()
+    expect(window.location.href).toBe('https://ekshamata.example.com/login')
     expect(mockRouter.navigate).not.toHaveBeenCalled()
   })
 

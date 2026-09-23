@@ -158,13 +158,19 @@ describe('UserProfileComponent', () => {
     })
 
     it('should handle nationality error', () => {
+      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined)
       userProfileSvc.getMasterNationlity = jest.fn(() => throwError(() => new Error('fail')))
       expect(() => component.fetchMeta()).not.toThrow()
+      expect(errorSpy).toHaveBeenCalledWith('Error loading nationalities', expect.any(Error))
+      errorSpy.mockRestore()
     })
 
     it('should handle language error', () => {
+      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined)
       userProfileSvc.getMasterLanguages = jest.fn(() => throwError(() => new Error('fail')))
       expect(() => component.fetchMeta()).not.toThrow()
+      expect(errorSpy).toHaveBeenCalledWith('Error loading languages', expect.any(Error))
+      errorSpy.mockRestore()
     })
   })
 
@@ -410,8 +416,11 @@ describe('UserProfileComponent', () => {
     })
 
     it('handles registry error', () => {
+      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined)
       userProfileSvc.getUserdetailsFromRegistry = jest.fn(() => throwError(() => new Error('fail')))
       expect(() => component.getUserDetails()).not.toThrow()
+      expect(errorSpy).toHaveBeenCalledWith('Error loading user details from registry', expect.any(Error))
+      errorSpy.mockRestore()
     })
 
     it('handles preferedLanguage default when no language set', () => {

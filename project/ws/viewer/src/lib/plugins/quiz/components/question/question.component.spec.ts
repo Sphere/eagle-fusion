@@ -254,6 +254,7 @@ describe('QuestionComponent', () => {
 
   describe('matchShowAnswer', () => {
     it('should connect matching options for mtf', () => {
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => undefined)
       component.question = buildQuestion({
         questionType: 'mtf',
         options: [{ optionId: 'o1', match: 'm1', text: '', isCorrect: false }],
@@ -263,6 +264,7 @@ describe('QuestionComponent', () => {
       component.jsPlumbInstance = mockJsPlumbInstance
       component.matchShowAnswer()
       expect(mockJsPlumbInstance.connect).toHaveBeenCalled()
+      alertSpy.mockRestore()
     })
 
     it('should do nothing for non-mtf questions', () => {

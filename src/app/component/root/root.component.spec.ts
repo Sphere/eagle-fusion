@@ -288,6 +288,7 @@ describe('RootComponent', () => {
   let showNavbarDisplay$: Subject<boolean>
   let hideHeaderFooter$: Subject<boolean>
   let mocks: ReturnType<typeof buildMocks>
+  let originalLocation: Location
 
   beforeEach(() => {
     routerEvents$ = new Subject()
@@ -295,12 +296,24 @@ describe('RootComponent', () => {
     hideHeaderFooter$ = new Subject()
     mocks = buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$ })
     component = mocks.comp
+    // Default mock router.url is '/page/home' with unMappedUser null, which trips the
+    // `window.location.href = 'public/home'` redirect in applyNavigationEndUiState on
+    // every NavigationEnd a test doesn't explicitly steer away from it — stub location
+    // globally so that redirect never hits jsdom's real (unimplemented) navigation.
+    originalLocation = window.location
+    delete (window as any).location
+    ;(window as any).location = { href: originalLocation.href, hostname: originalLocation.hostname }
+    // buildEnrolledCourses logs raw debug output via console.log on every call — stub it
+    // so specs exercising that path (directly or via the toSignal map callback) stay quiet.
+    jest.spyOn(console, 'log').mockImplementation(() => undefined)
   })
 
   afterEach(() => {
     jest.clearAllMocks()
+    jest.restoreAllMocks()
     localStorage.clear()
     sessionStorage.clear()
+    ;(window as any).location = originalLocation
   })
 
   it('should create', () => {

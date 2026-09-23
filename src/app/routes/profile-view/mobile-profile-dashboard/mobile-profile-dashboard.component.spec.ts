@@ -279,10 +279,12 @@ describe('MobileProfileDashboardComponent', () => {
     })
 
     it('should handle certificates case', () => {
+      const scrollSpy = jest.spyOn(window, 'scroll').mockImplementation(() => undefined)
       mockContentSvc.fetchGeneralAndRcCertificates = jest.fn().mockReturnValue({
         pipe: jest.fn().mockReturnValue({ subscribe: jest.fn() }),
       })
       expect(() => component.changeFunction({ name: 'certificates', data: null, text: 'Certs' })).not.toThrow()
+      scrollSpy.mockRestore()
     })
 
     it('should set hideData true when showMobileView is true', () => {

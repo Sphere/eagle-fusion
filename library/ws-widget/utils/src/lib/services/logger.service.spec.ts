@@ -71,6 +71,7 @@ describe('LoggerService', () => {
 
     it('should leave console.log usable', () => {
       service.removeConsoleAccess()
+      jest.spyOn(console, 'log').mockImplementation(() => undefined)
       expect(() => console.log('x')).not.toThrow()
     })
   })

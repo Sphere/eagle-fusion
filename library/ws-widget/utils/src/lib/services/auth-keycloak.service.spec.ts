@@ -257,6 +257,18 @@ describe('AuthKeycloakService', () => {
   })
 
   describe('logout', () => {
+    let originalLocation: Location
+
+    beforeEach(() => {
+      originalLocation = window.location
+      delete (window as any).location
+      ;(window as any).location = { href: '' }
+    })
+
+    afterEach(() => {
+      ;(window as any).location = originalLocation
+    })
+
     it('should clear storage, keep the theme and redirect to the public home', async () => {
       localStorage.setItem('theme', 'light')
       localStorage.setItem('tocData', 'x')

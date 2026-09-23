@@ -14,6 +14,9 @@ describe('CertificateReceivedComponent', () => {
   beforeEach(() => {
     mockLogger = { log: jest.fn(), error: jest.fn() }
     component = new CertificateReceivedComponent(mockLogger)
+    // jsdom doesn't respect the `download` attribute and attempts a real (deferred)
+    // navigation on anchor.click(), logging a "Not implemented: navigation" error.
+    jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => { })
   })
 
   afterEach(() => {

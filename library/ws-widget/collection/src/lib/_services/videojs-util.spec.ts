@@ -23,6 +23,9 @@ describe('videojs-util', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    // Playback progress/seek handlers log verbose debug output via console.log on every
+    // event — stub it so specs that drive those handlers stay quiet.
+    jest.spyOn(console, 'log').mockImplementation(() => undefined)
     handlers = {}
     mockPlayer = {
       volume: jest.fn(),
@@ -54,6 +57,10 @@ describe('videojs-util', () => {
       tech_: { el_: {} },
     };
     (videoJs as unknown as jest.Mock).mockReturnValue(mockPlayer)
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   const fire = (event: string) => {

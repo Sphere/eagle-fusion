@@ -680,6 +680,17 @@ describe('PersonalDetailEditComponent', () => {
   })
 
   describe('changeLanguage', () => {
+    let originalLocation: Location
+
+    beforeEach(() => {
+      originalLocation = window.location
+      Object.defineProperty(window, 'location', { writable: true, value: { origin: 'https://example.com', assign: jest.fn() } })
+    })
+
+    afterEach(() => {
+      Object.defineProperty(window, 'location', { writable: true, value: originalLocation })
+    })
+
     it('should not change anything when the dialog closes without a result', () => {
       mockDialog.open.mockReturnValue({ afterClosed: () => of(null) })
       component.changeLanguage()
@@ -708,6 +719,7 @@ describe('PersonalDetailEditComponent', () => {
       expect(req.request.profileDetails.osName).toBe('TestOS')
       expect(req.request.profileDetails.browserName).toBe('TestBrowser')
       expect(req.request.profileDetails.userCookie).toBe('gen-cookie')
+      expect(window.location.assign).toHaveBeenCalledWith('https://example.com/page/home')
     })
 
     it('should log an error when the language update fails', () => {

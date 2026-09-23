@@ -1183,6 +1183,9 @@ describe('ViewerTocComponent', () => {
     })
 
     it('performs an external redirect for scorm content with a completed, non-Scrom foundObject', async () => {
+      const originalLocation = window.location
+      delete (window as any).location
+      ;(window as any).location = { href: '' }
       jest.useFakeTimers()
       jest.spyOn(component, 'processData').mockResolvedValue(undefined)
       mockOnlineIndexedDbService.getRecordFromTable.mockReturnValue(
@@ -1200,6 +1203,7 @@ describe('ViewerTocComponent', () => {
       jest.advanceTimersByTime(60)
       jest.useRealTimers()
       expect(component.isLoading).toBe(false)
+      ;(window as any).location = originalLocation
     })
   })
 

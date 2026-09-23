@@ -17,6 +17,7 @@ describe('MaternityCallbackComponent', () => {
   let component: MaternityCallbackComponent
   let mockOrgService: any
   let mockLogger: any
+  let originalLocation: Location
 
   beforeEach(() => {
     mockOrgService = { setMaternyId: jest.fn().mockReturnValue(of({ message: 'success' })) }
@@ -24,12 +25,16 @@ describe('MaternityCallbackComponent', () => {
     component = new MaternityCallbackComponent(mockOrgService, mockLogger)
     sessionStorage.clear()
     localStorage.clear()
+    originalLocation = window.location
+    delete (window as any).location
+    ;(window as any).location = { href: '' }
   })
 
   afterEach(() => {
     sessionStorage.clear()
     localStorage.clear()
     jest.clearAllMocks()
+    ;(window as any).location = originalLocation
   })
 
   it('should create', () => {

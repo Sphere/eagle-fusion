@@ -40,8 +40,11 @@ describe('AlmostDoneComponent', () => {
   const mockTranslateService = { instant: jest.fn().mockReturnValue('') } as any
 
   const fb = new FormBuilder()
+  let originalLocation: Location
 
   beforeEach(() => {
+    originalLocation = window.location
+    Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
     component = new AlmostDoneComponent(
       mockConfigService,
       mockUserProfileService,
@@ -61,6 +64,7 @@ describe('AlmostDoneComponent', () => {
 
   afterEach(() => {
     jest.clearAllMocks()
+    Object.defineProperty(window, 'location', { writable: true, value: originalLocation })
   })
 
   it('should create the component', () => {
