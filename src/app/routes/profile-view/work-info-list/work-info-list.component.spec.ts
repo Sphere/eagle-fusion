@@ -452,6 +452,20 @@ describe('WorkInfoListComponent', () => {
       const call = mockUserProfileService.updateProfileDetails.mock.calls[0][0]
       expect(call.request.profileDetails.preferences.language).toBe('hi')
     })
+
+    it('carries tcStatus true forward when the fetched registry record already has it accepted', () => {
+      component.ekshamataData = { tcStatus: 'true' }
+      component.onSubmit(component.personalDetailForm)
+      const call = mockUserProfileService.updateProfileDetails.mock.calls[0][0]
+      expect(call.request.tcStatus).toBe('true')
+    })
+
+    it('defaults tcStatus to false when the fetched registry record has no tcStatus at all', () => {
+      component.ekshamataData = undefined
+      component.onSubmit(component.personalDetailForm)
+      const call = mockUserProfileService.updateProfileDetails.mock.calls[0][0]
+      expect(call.request.tcStatus).toBe('false')
+    })
   })
 
   describe('openSnackbar', () => {

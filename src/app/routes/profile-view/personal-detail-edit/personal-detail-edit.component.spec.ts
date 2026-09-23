@@ -678,6 +678,24 @@ describe('PersonalDetailEditComponent', () => {
       const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
       expect(req.request.userId).toBe('')
     })
+
+    it('carries tcStatus true forward when the fetched registry record already has it accepted', () => {
+      (component as any).userlang = { tcStatus: 'true' }
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ ok: true }))
+      const form: any = { value: { firstname: 'F', surname: 'S', dob: '01/02/1990', country: 'France' } }
+      component.onSubmit(form)
+      const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('true')
+    })
+
+    it('defaults tcStatus to false when the fetched registry record has no tcStatus at all', () => {
+      (component as any).userlang = undefined
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ ok: true }))
+      const form: any = { value: { firstname: 'F', surname: 'S', dob: '01/02/1990', country: 'France' } }
+      component.onSubmit(form)
+      const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('false')
+    })
   })
 
   describe('changeLanguage', () => {

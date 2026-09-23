@@ -188,5 +188,19 @@ describe('YourBackgroundComponent', () => {
       component.updateProfile()
       expect(mockSnackBar.open).toHaveBeenCalled()
     })
+
+    it('carries tcStatus true forward when unMappedUser already has it accepted', () => {
+      mockConfigSvc.unMappedUser = { profileDetails: { userSource: null }, tcStatus: 'true' }
+      component.updateProfile()
+      const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('true')
+    })
+
+    it('defaults tcStatus to false when unMappedUser has no tcStatus at all', () => {
+      mockConfigSvc.unMappedUser = { profileDetails: { userSource: null } }
+      component.updateProfile()
+      const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('false')
+    })
   })
 })

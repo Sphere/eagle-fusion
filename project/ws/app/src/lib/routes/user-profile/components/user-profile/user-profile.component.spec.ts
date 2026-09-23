@@ -642,6 +642,20 @@ describe('UserProfileComponent', () => {
       await component.onSubmit(component.createUserForm)
       expect(userProfileSvc.updateProfileDetails).toHaveBeenCalled()
     })
+
+    it('carries tcStatus true forward when the fetched registry record already has it accepted', async () => {
+      (component as any).rawRegistryData = { tcStatus: 'true' }
+      await component.onSubmit(component.createUserForm)
+      const req = (userProfileSvc.updateProfileDetails as jest.Mock).mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('true')
+    })
+
+    it('defaults tcStatus to false when the fetched registry record has no tcStatus at all', async () => {
+      (component as any).rawRegistryData = undefined
+      await component.onSubmit(component.createUserForm)
+      const req = (userProfileSvc.updateProfileDetails as jest.Mock).mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('false')
+    })
   })
 
   describe('updateBtnProfileName', () => {
@@ -819,6 +833,26 @@ describe('UserProfileComponent', () => {
       const assignSpy = jest.fn()
       Object.defineProperty(window, 'location', { value: { assign: assignSpy, origin: 'http://x' }, writable: true })
       expect(() => component.changeLanguage()).not.toThrow()
+    })
+
+    it('carries tcStatus true forward when the raw registry response already has it accepted', () => {
+      dialog.open = jest.fn(() => ({ afterClosed: () => of({ id: 'en' }) }))
+      userProfileSvc.getUserdetailsFromRegistry = jest.fn(() => of({ tcStatus: 'true', profileDetails: {} }))
+      const assignSpy = jest.fn()
+      Object.defineProperty(window, 'location', { value: { assign: assignSpy, origin: 'http://x' }, writable: true })
+      component.changeLanguage()
+      const req = (userProfileSvc.updateProfileDetails as jest.Mock).mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('true')
+    })
+
+    it('defaults tcStatus to false when the raw registry response has no tcStatus at all', () => {
+      dialog.open = jest.fn(() => ({ afterClosed: () => of({ id: 'en' }) }))
+      userProfileSvc.getUserdetailsFromRegistry = jest.fn(() => of({ profileDetails: {} }))
+      const assignSpy = jest.fn()
+      Object.defineProperty(window, 'location', { value: { assign: assignSpy, origin: 'http://x' }, writable: true })
+      component.changeLanguage()
+      const req = (userProfileSvc.updateProfileDetails as jest.Mock).mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('false')
     })
   })
 

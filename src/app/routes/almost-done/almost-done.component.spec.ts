@@ -234,6 +234,26 @@ describe('AlmostDoneComponent', () => {
     expect(mockUserProfileService.updateProfileDetails).toHaveBeenCalled()
   })
 
+  it('carries tcStatus true forward when unMappedUser already has it accepted', () => {
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990-01-01', countryCode: '+91' } }
+    ;(mockConfigService as any).unMappedUser = { id: 'unmapped-99', tcStatus: 'true' }
+    component.updateProfile()
+    const call = mockUserProfileService.updateProfileDetails.mock.calls[
+      mockUserProfileService.updateProfileDetails.mock.calls.length - 1
+    ][0]
+    expect(call.request.tcStatus).toBe('true')
+  })
+
+  it('defaults tcStatus to false when unMappedUser has no tcStatus at all', () => {
+    component.yourBackground = { value: { country: 'India', state: 'UP', distict: 'Dist', dob: '1990-01-01', countryCode: '+91' } }
+    ;(mockConfigService as any).unMappedUser = { id: 'unmapped-99' }
+    component.updateProfile()
+    const call = mockUserProfileService.updateProfileDetails.mock.calls[
+      mockUserProfileService.updateProfileDetails.mock.calls.length - 1
+    ][0]
+    expect(call.request.tcStatus).toBe('false')
+  })
+
   it('should set hideAsha true when country is not India', async () => {
     component.yourBackground = { value: { country: 'USA', state: '', distict: '' } }
     await component.ngOnInit()
