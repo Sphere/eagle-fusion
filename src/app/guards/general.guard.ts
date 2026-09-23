@@ -173,11 +173,13 @@ export class GeneralGuard {
       return
     }
 
-    // tncAccepted is written in exactly one place - the TnC form itself
-    // (new-tnc.component.ts) - so it is the only authoritative signal that a user has
-    // accepted. dob used to stand in for it, which meant any user whose profile already
-    // carried a dob (e.g. seeded at registration) skipped the gate without ever accepting.
-    if (personalDetails.tncAccepted !== 'true') {
+    // tcStatus (top-level on the user object, not under personalDetails) is written in
+    // exactly one place - the TnC form itself (new-tnc.component.ts) - so it is the only
+    // authoritative signal that a user has accepted. tncAccepted used to gate this, but
+    // every profile update now carries tcStatus, so it is the field kept in sync across
+    // all profile writes. Older records predating this field simply won't have it -
+    // treat missing/null the same as 'false' and send the user through the TnC flow.
+    if (data?.tcStatus !== 'true') {
       this.router.navigate(['app', 'new-tnc'])
     }
   }

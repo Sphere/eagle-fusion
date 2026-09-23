@@ -473,6 +473,10 @@ export class AlmostDoneComponent implements OnInit {
         profileDetails: {
           ...profileRequest, profileLocation: 'sphere-web/almost-done',
         },
+        // tcStatus is a top-level field the general.guard checks for the new-tnc
+        // redirect - carry it forward on every update. configSvc.unMappedUser mirrors
+        // the raw registry response; older records may lack the field, default to 'false'.
+        tcStatus: this.configSvc?.unMappedUser?.tcStatus === 'true' ? 'true' : 'false',
       },
     }
 

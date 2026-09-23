@@ -167,7 +167,8 @@ describe('GeneralGuard', () => {
     mockConfigSvc.userProfile = { language: 'en', userId: 'u1' }
     mockConfigSvc.unMappedUser = { id: 'u1' }
     mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
-      profileDetails: { profileReq: { personalDetails: { tncAccepted: 'true', dob: '1990-01-01' } } },
+      tcStatus: 'true',
+      profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } },
     }))
     await guard.canActivate(makeRoute())
     expect(mockLogger.log).toHaveBeenCalled()
@@ -230,7 +231,8 @@ describe('GeneralGuard', () => {
     it('navigates to new-tnc when tnc is not accepted and dob is undefined', async () => {
       const { of } = require('rxjs')
       mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
-        profileDetails: { profileReq: { personalDetails: { tncAccepted: 'false' } } },
+        tcStatus: 'false',
+        profileDetails: { profileReq: { personalDetails: {} } },
       }))
       await guard.canActivate(makeRoute())
       expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
@@ -239,13 +241,14 @@ describe('GeneralGuard', () => {
     it('navigates to new-tnc when tnc is not accepted even though dob is present', async () => {
       const { of } = require('rxjs')
       mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
-        profileDetails: { profileReq: { personalDetails: { tncAccepted: 'false', dob: '1990-01-01' } } },
+        tcStatus: 'false',
+        profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } },
       }))
       await guard.canActivate(makeRoute())
       expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
     })
 
-    it('navigates to new-tnc when tncAccepted is missing but the profile is filled in', async () => {
+    it('navigates to new-tnc when tcStatus is missing but the profile is filled in', async () => {
       const { of } = require('rxjs')
       mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
         profileDetails: { profileReq: { personalDetails: { dob: '25/2/1971', postalAddress: 'India,bihar,bihar' } } },
@@ -257,7 +260,8 @@ describe('GeneralGuard', () => {
     it('does not navigate when tnc is accepted and dob is undefined', async () => {
       const { of } = require('rxjs')
       mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
-        profileDetails: { profileReq: { personalDetails: { tncAccepted: 'true' } } },
+        tcStatus: 'true',
+        profileDetails: { profileReq: { personalDetails: {} } },
       }))
       await guard.canActivate(makeRoute())
       expect(mockRouter.navigate).not.toHaveBeenCalled()

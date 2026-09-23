@@ -558,6 +558,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         profileDetails: {
           ...profileRequest, profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
         },
+        // tcStatus is a top-level field (sibling of profileDetails) that general.guard
+        // checks to gate the new-tnc redirect - every profile update must carry it
+        // forward or the guard falls back to sending the user through TnC again.
+        // this.userlang holds the raw registry response the field arrived on;
+        // it may be absent on older records, so default to 'false'.
+        tcStatus: this.userlang?.tcStatus === 'true' ? 'true' : 'false',
       },
     }
     this.logger.log("reqUpdate", reqUpdate)

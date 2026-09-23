@@ -26,6 +26,7 @@ export class EducationEditComponent implements OnInit {
   cName = ''
   workLog: any
   change: any
+  userlang: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
   isEditableForSphere = false
@@ -138,6 +139,7 @@ export class EducationEditComponent implements OnInit {
                 this.educationForm.disable()
               }
               this.userProfileData = data.profileDetails.profileReq
+              this.userlang = data
             }
           })()
         })
@@ -170,6 +172,10 @@ export class EducationEditComponent implements OnInit {
         profileDetails: {
           ...profileRequest, profileLocation: 'sphere-web/education-edit',
         },
+        // tcStatus is a top-level field the general.guard checks for the new-tnc
+        // redirect - carry it forward on every update. this.userlang is the raw
+        // registry response; older records may lack the field, default to 'false'.
+        tcStatus: this.userlang?.tcStatus === 'true' ? 'true' : 'false',
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

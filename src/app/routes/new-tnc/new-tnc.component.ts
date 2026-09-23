@@ -102,10 +102,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
         (userDetails: any) => {
           this.userData = userDetails
           this.loggerSvc.log("this.userData", this.userData)
-          // Check if tncAccepted is undefined (not accepted yet)
-          const tncAccepted = userDetails.profileDetails?.profileReq?.personalDetails?.tncAccepted
-          this.showAcceptbtn = tncAccepted === undefined || tncAccepted === null || tncAccepted === false
-          this.loggerSvc.log("TNC Accepted:", tncAccepted, "Show Button:", this.showAcceptbtn)
+          // Check if tcStatus is undefined (not accepted yet)
+          const tcStatus = userDetails.tcStatus
+          this.showAcceptbtn = tcStatus === undefined || tcStatus === null || tcStatus !== 'true'
+          this.loggerSvc.log("TNC Accepted:", tcStatus, "Show Button:", this.showAcceptbtn)
         },
         (error: any) => {
           this.loggerSvc.error('Error fetching user details:', error)
@@ -387,6 +387,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
         profileDetails: { ...profileRequest, profileLocation: 'sphere-web/new-tnc' },
         tncAcceptedVersion: this.termsAccepted,
         tncAcceptedOn: new Date().getTime(),
+        // tcStatus is the top-level field the general.guard checks to decide whether
+        // to redirect back to new-tnc - it must be set here (not just tncAccepted,
+        // which lives under personalDetails) or the guard will loop the user back.
+        tcStatus: 'true',
       },
     }
     this.loggerSvc.log(reqUpdate, 'sss')

@@ -83,6 +83,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   isEditEnabled = false
   isEditable = false
   tncAccepted = false
+  rawRegistryData: Record<string, any> | undefined
   isOfficialEmail = false
   invalidDob = false
   maxDate = new Date()
@@ -582,6 +583,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private handleRegistryUserDetails(data: Record<string, any>): void {
     const userData = data.profileDetails.profileReq
+    this.rawRegistryData = data
     if (data && userData) {
       this.isEditable = true
       const academics = this.populateAcademics(userData)
@@ -1023,6 +1025,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         profileDetails: {
           ...profileRequest, profileLocation: 'sphere-web/user-profile-on-submit',
         },
+        // tcStatus is a top-level field the general.guard checks for the new-tnc
+        // redirect - carry it forward on every update. this.rawRegistryData holds the
+        // raw registry response; older records may lack the field, default to 'false'.
+        tcStatus: this.rawRegistryData?.tcStatus === 'true' ? 'true' : 'false',
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
@@ -1235,6 +1241,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             request: {
               userId: userid,
               profileDetails: userdata,
+              // tcStatus is a top-level field the general.guard checks for the new-tnc
+              // redirect - carry it forward on every update. `user` is the raw registry
+              // response; older records may lack the field, default to 'false'.
+              tcStatus: user.tcStatus === 'true' ? 'true' : 'false',
             },
           }
           this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

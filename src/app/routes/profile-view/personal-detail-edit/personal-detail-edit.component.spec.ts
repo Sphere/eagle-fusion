@@ -636,6 +636,7 @@ describe('PersonalDetailEditComponent', () => {
       expect(req.request.profileDetails.profileReq.professionalDetails[0].locationselect).toBe('Bangalore')
       expect(req.request.profileDetails.preferences.language).toBe('en')
       expect(req.request.profileDetails.userSource).toBe('web')
+      expect(req.request.tcStatus).toBe('false')
       expect(mockSnackBar.open).toHaveBeenCalledWith('USER_UPDATE_SUCCESS')
       expect(emitSpy).toHaveBeenCalledWith({ firstname: 'F', surname: 'S' })
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/profile-view'])

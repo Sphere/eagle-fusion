@@ -142,6 +142,10 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       request: {
         userId: this.userID,
         profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-edit' },
+        // tcStatus is a top-level field the general.guard checks for the new-tnc
+        // redirect - carry it forward on every update. this.userlang is the raw
+        // registry response; older records may lack the field, default to 'false'.
+        tcStatus: this.userlang?.tcStatus === 'true' ? 'true' : 'false',
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

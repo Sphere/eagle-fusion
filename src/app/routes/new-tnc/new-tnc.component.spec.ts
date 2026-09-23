@@ -296,7 +296,7 @@ describe('NewTncComponent', () => {
       expect(mockUserProfileSvc.getUserdetailsFromRegistry).toHaveBeenCalledWith('unmapped-1')
     })
 
-    it('should set showAcceptbtn true when tncAccepted is undefined', async () => {
+    it('should set showAcceptbtn true when tcStatus is undefined', async () => {
       mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
       mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({
         profileDetails: { profileReq: { personalDetails: {} } },
@@ -305,9 +305,20 @@ describe('NewTncComponent', () => {
       expect(component.showAcceptbtn).toBe(true)
     })
 
-    it('should set showAcceptbtn false when tncAccepted is true', async () => {
+    it('should set showAcceptbtn true when tcStatus is false', async () => {
       mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
       mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({
+        tcStatus: 'false',
+        profileDetails: { profileReq: { personalDetails: {} } },
+      }))
+      await component.ngOnInit()
+      expect(component.showAcceptbtn).toBe(true)
+    })
+
+    it('should set showAcceptbtn false when tcStatus is true', async () => {
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({
+        tcStatus: 'true',
         profileDetails: { profileReq: { personalDetails: { tncAccepted: true } } },
       }))
       await component.ngOnInit()
@@ -549,6 +560,29 @@ describe('NewTncComponent', () => {
       const constructReqMock = require('../profile-view/request-util').constructReq
       const returned = constructReqMock.mock.results[0].value
       expect(returned.profileReq.personalDetails['dob']).toBe('01/01/2000')
+    })
+
+    it('sends tcStatus true at the top level of the update request on accept', async () => {
+      mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(of({
+        tcStatus: 'false',
+        profileDetails: { profileReq: { personalDetails: {} } },
+      }))
+      mockUserProfileSvc.updateProfileDetails.mockReturnValue(of({ result: { response: 'SUCCESS' } }))
+      mockSignupService.fetchStartUpDetails = jest.fn().mockResolvedValue({ userId: 'result-user-1', tncStatus: false })
+      mockRoute.data.subscribe = jest.fn((cb: any) => cb({ tnc: { data: null } }))
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: '', assign: jest.fn(), origin: 'https://test.com' },
+      })
+      component.tncData = {
+        termsAndConditions: [{ name: 'Generic T&C', language: 'en', version: 'v1' }],
+      } as any
+      await component.ngOnInit()
+      component.acceptTnc()
+      await Promise.resolve(); await Promise.resolve(); await Promise.resolve()
+      expect(mockUserProfileSvc.updateProfileDetails).toHaveBeenCalledWith(
+        expect.objectContaining({ request: expect.objectContaining({ tcStatus: 'true' }) }),
+      )
     })
   })
 

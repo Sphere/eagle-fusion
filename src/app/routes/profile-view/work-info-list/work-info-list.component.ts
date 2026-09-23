@@ -544,6 +544,10 @@ export class WorkInfoListComponent implements OnInit, OnDestroy {
       request: {
         userId: this.userID,
         profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-list' },
+        // tcStatus is a top-level field the general.guard checks for the new-tnc
+        // redirect - carry it forward on every update. this.ekshamataData holds the
+        // raw registry response; older records may lack the field, default to 'false'.
+        tcStatus: this.ekshamataData?.tcStatus === 'true' ? 'true' : 'false',
       },
     }
     this.logger.log('request update', reqUpdate, get(form.value, 'profession'))
