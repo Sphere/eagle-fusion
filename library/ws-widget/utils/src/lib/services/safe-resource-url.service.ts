@@ -60,12 +60,17 @@ export class SafeResourceUrlService {
    *
    * Needed for server-rendered certificates, which arrive as a 650 KB
    * "data:image/svg+xml,<percent-encoded markup>" printUri.
+   *
+   * blob: is permitted for the same reason. Certificates migrated by the legacy job come back
+   * as *raw* SVG markup rather than a data: URI, so the caller wraps them with
+   * URL.createObjectURL() before binding. A blob: URL can only be minted by same-origin script
+   * from a payload that script already holds, so it grants no reach a data: URI would not.
    */
   trustImageSrc(url: string | null | undefined): SafeUrl | null {
     if (!url) {
       return null
     }
-    if (SafeResourceUrlService.SAFE_IMG_SRC.test(url) || this.isHttpOrHttps(url)) {
+    if (SafeResourceUrlService.SAFE_IMG_SRC.test(url) || this.isBlob(url) || this.isHttpOrHttps(url)) {
       return this.sanitizer.bypassSecurityTrustUrl(url)
     }
     return null
@@ -112,6 +117,11 @@ export class SafeResourceUrlService {
   // Wider set, permitted ONLY by trustImageSrc() — see the rationale there. svg+xml and
   // non-base64 payloads are included because <img> rendering is script-free by spec.
   private static readonly SAFE_IMG_SRC = /^data:image\/(png|jpe?g|gif|webp|svg\+xml)[;,]/i
+
+  // Only for trustImageSrc() — an object URL this app minted for an <img>, never a navigation target.
+  private isBlob(url: string): boolean {
+    return /^blob:/i.test(url)
+  }
 
   private isHttpOrHttps(url: string): boolean {
     if (SafeResourceUrlService.SAFE_DATA_IMAGE.test(url)) {

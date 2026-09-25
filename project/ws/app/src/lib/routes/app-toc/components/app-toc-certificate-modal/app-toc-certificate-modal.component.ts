@@ -57,6 +57,11 @@ export class AppTocCertificateModalComponent implements OnInit, OnDestroy {
         // and returns null - binding null to [src] leaves the image empty. trustImageSrc()
         // permits it for <img> only, where SVG cannot execute script.
         this.img = this.sanitizer.trustImageSrc(src)
+        if (!this.img) {
+          // The sanitizer rejected the scheme. Without this the <img> binds null and the
+          // dialog shows a broken image with no retry, instead of the error state.
+          throw new Error(`Certificate image source was rejected by the sanitizer: ${src.slice(0, 40)}`)
+        }
         this.isLoading = false
       })
       .catch((err: any) => {
@@ -183,16 +188,31 @@ export class AppTocCertificateModalComponent implements OnInit, OnDestroy {
    *
    * URLs and data URIs are passed through untouched, so this keeps working if the service is
    * ever changed to return one.
+   *
+   * Every shape certreg is known to return has to end up rendering rather than erroring, because
+   * they differ per issuing path: newly issued certificates carry a `data:image/svg+xml,` URI,
+   * prod-migrated rows carry an https cloud URL, and legacy-migrated rows carry raw markup —
+   * sometimes percent-encoded, and not always opening with `<svg` (an XML prolog, DOCTYPE or
+   * comment can come first). Anything that is not recognisable markup is treated as a URL or a
+   * relative path and handed to the browser to resolve.
    */
   private toImageSource(printUri: string): string {
-    const value = (printUri || '').trim()
+    let value = (printUri || '').trim().replace(/^﻿/, '')
     if (!value) {
       return ''
     }
-    if (/^(?:data:|blob:|https?:|\/)/i.test(value)) {
+    if (/^(?:data:|blob:|https?:|\/\/|\/)/i.test(value)) {
       return value
     }
-    if (value.startsWith('<svg') || value.startsWith('<?xml')) {
+    // Percent-encoded markup ("%3Csvg...") — decode it so the markup test below sees it.
+    if (/^%3C/i.test(value)) {
+      try {
+        value = decodeURIComponent(value)
+      } catch {
+        // Malformed escape sequence — fall through and let it be treated as a path.
+      }
+    }
+    if (value.startsWith('<')) {
       const objectUrl = URL.createObjectURL(new Blob([value], { type: 'image/svg+xml' }))
       this.objectUrls.push(objectUrl)
       return objectUrl
