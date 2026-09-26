@@ -501,8 +501,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     if (includes(this.router.url, 'overview')) {
       this.toggleComponent('overview')
     } else if (includes(this.router.url, 'chapters')) {
+      // toggleComponent('chapters') already enrols when the user is not enrolled yet.
+      // Calling it again here sent a second, unguarded enrol POST on every navigation.
       this.toggleComponent('chapters')
-      this.enrollUser(this.batchData)
     } else if (includes(this.router.url, 'references')) {
       this.toggleComponent('references')
     } else {
@@ -524,10 +525,23 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       this.contentSvc.fetchCourseBatches(req).pipe(takeUntil(this.destroyed$)).subscribe(
         (data: NsContent.IBatchListResponse) => {
           if (data.content) {
-            const batchList = data.content.filter((obj: any) => obj.endDate >= moment(new Date()).format('YYYY-DD-MM'))
+            // A batch with no endDate never expires. The comparison below is a string
+            // compare, and `null >= '2026-09-25'` is false, so open-ended batches -- which is
+            // what auto batch creation produces -- were dropped from the list entirely. That
+            // left content[0] undefined and the enrol request went out without courseId or
+            // batchId, which the API rejects with
+            // "Mandatory parameter courseId/collectionId is missing."
+            const today = moment(new Date()).format('YYYY-MM-DD')
+            const batchList = data.content.filter((obj: any) => !obj.endDate || obj.endDate >= today)
             this.batchData = {
               content: batchList,
               enrolled: false,
+            }
+            // checkRoute() runs from ngOnInit, before this fetch has returned, so a direct
+            // navigation to /chapters saw batchData as null and never enrolled. Enrol here
+            // instead, once the batch is actually known.
+            if (includes(this.router.url, 'chapters') && !this.batchData.enrolled) {
+              this.enrollUser(this.batchData)
             }
             if (this.getBatchId()) {
               this.router.navigate(
@@ -729,15 +743,20 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   enrollUser(batchData: any) {
     let userId = ''
-    if (batchData) {
+    // Requires a real batch, not just a truthy batchData. The fields below are read off
+    // content[0], and when the list is empty they resolve to undefined -- which
+    // JSON.stringify drops, sending {"request":{"userId":"..."}} and getting back
+    // "Mandatory parameter courseId/collectionId is missing."
+    const batch = batchData && batchData.content ? batchData.content[0] : undefined
+    if (batch && batch.batchId && batch.courseId) {
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
       }
       const req = {
         request: {
           userId,
-          courseId: batchData.content[0]?.courseId,
-          batchId: batchData.content[0]?.batchId,
+          courseId: batch.courseId,
+          batchId: batch.batchId,
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
@@ -752,7 +771,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             [],
             {
               relativeTo: this.route,
-              queryParams: { batchId: batchData.content[0].batchId },
+              queryParams: { batchId: batch.batchId },
               queryParamsHandling: 'merge',
             })
           setTimeout(() => {

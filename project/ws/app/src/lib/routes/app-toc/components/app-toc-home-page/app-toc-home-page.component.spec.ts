@@ -315,6 +315,53 @@ describe('AppTocHomePageComponent', () => {
     expect(component.batchData?.content.length).toBe(1)
   })
 
+  it('fetchBatchDetails should keep an open-ended batch', () => {
+    // Auto batch creation produces batches with no endDate. The filter compares
+    // endDate against today as a string, and null >= '2026-09-25' is false, so these
+    // were dropped -- leaving the enrol request without courseId or batchId.
+    component.content = { identifier: 'id-1' } as any
+    ;(mockContentSvc.fetchCourseBatches as jest.Mock).mockReturnValue(
+      of({ content: [{ endDate: null, batchId: 'b1', courseId: 'id-1' }] }),
+    )
+    component.fetchBatchDetails()
+    expect(component.batchData?.content.length).toBe(1)
+    expect(component.batchData?.content[0].batchId).toBe('b1')
+  })
+
+  it('fetchBatchDetails should enrol when the user landed straight on chapters', () => {
+    // checkRoute() runs before this fetch returns, so on a direct /chapters navigation
+    // batchData was still null and nobody enrolled the user.
+    ;(mockRouter as any).url = '/app/toc/course-1/chapters'
+    component.content = { identifier: 'id-1' } as any
+    ;(mockContentSvc.fetchCourseBatches as jest.Mock).mockReturnValue(
+      of({ content: [{ endDate: null, batchId: 'b1', courseId: 'id-1' }] }),
+    )
+    component.fetchBatchDetails()
+    expect(mockContentSvc.enrollUserToBatch).toHaveBeenCalledWith({
+      request: { userId: 'user-1', courseId: 'id-1', batchId: 'b1' },
+    })
+    ;(mockRouter as any).url = '/app/toc/course-1/overview'
+  })
+
+  it('fetchBatchDetails should not enrol while the user is on overview', () => {
+    ;(mockRouter as any).url = '/app/toc/course-1/overview'
+    component.content = { identifier: 'id-1' } as any
+    ;(mockContentSvc.fetchCourseBatches as jest.Mock).mockReturnValue(
+      of({ content: [{ endDate: null, batchId: 'b1', courseId: 'id-1' }] }),
+    )
+    component.fetchBatchDetails()
+    expect(mockContentSvc.enrollUserToBatch).not.toHaveBeenCalled()
+  })
+
+  it('fetchBatchDetails should still drop a batch that has already ended', () => {
+    component.content = { identifier: 'id-1' } as any
+    ;(mockContentSvc.fetchCourseBatches as jest.Mock).mockReturnValue(
+      of({ content: [{ endDate: '2000-01-01', batchId: 'old' }] }),
+    )
+    component.fetchBatchDetails()
+    expect(component.batchData?.content.length).toBe(0)
+  })
+
   it('show should create tables when they do not exist', async () => {
     ;(mockIndexedDbService.checkDatabaseTablesExists as jest.Mock).mockResolvedValue(false)
     const createSpy = jest.fn().mockResolvedValue(undefined)
@@ -538,11 +585,17 @@ describe('AppTocHomePageComponent', () => {
       })
     })
 
-    it('should tolerate batch data with an empty content list', () => {
+    it('should not enrol when the content list is empty', () => {
+      // It used to post {request:{userId}} here, because courseId/batchId resolved to
+      // undefined and JSON.stringify drops undefined keys. The API answers
+      // "Mandatory parameter courseId/collectionId is missing."
       component.enrollUser({ content: [] })
-      expect(mockContentSvc.enrollUserToBatch).toHaveBeenCalledWith({
-        request: { userId: 'user-1', courseId: undefined, batchId: undefined },
-      })
+      expect(mockContentSvc.enrollUserToBatch).not.toHaveBeenCalled()
+    })
+
+    it('should not enrol when the batch carries no batchId', () => {
+      component.enrollUser({ content: [{ courseId: 'course-1' }] })
+      expect(mockContentSvc.enrollUserToBatch).not.toHaveBeenCalled()
     })
   })
 })
