@@ -82,7 +82,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
       const array = this.question.options.map(elem => elem.match)
       const arr = this.shuffle(array)
       for (let i = 0; i < this.question.options.length; i += 1) {
-        this.question.options[i].matchForView = arr[i].trim()
+        this.question.options[i].matchForView = arr[i]
       }
       const matchHintDisplayLocal = [...this.question.options]
       matchHintDisplayLocal.forEach(element => {
