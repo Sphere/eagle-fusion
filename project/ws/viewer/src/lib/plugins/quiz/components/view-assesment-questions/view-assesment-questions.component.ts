@@ -8,11 +8,11 @@ import { isUndefined, toLower } from 'lodash'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 @Component({
-    standalone: false,
-    selector: 'viewer-view-assesment-questions',
-    templateUrl: './view-assesment-questions.component.html',
-    styleUrls: ['./view-assesment-questions.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-view-assesment-questions',
+  templateUrl: './view-assesment-questions.component.html',
+  styleUrls: ['./view-assesment-questions.component.scss'],
+
 })
 export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() artifactUrl = ''
@@ -94,20 +94,31 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
     this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe(
       // tslint:disable-next-line:no-shadowed-variable
       (res: any) => {
-        if (!isUndefined(res)) {
-          if (res) {
-            this.initJsPlump()
-          } else {
-            if (this.jsPlumbInstance) {
-              this.jsPlumbInstance.reset()
-              this.jsPlumbInstance.deleteEveryConnection()
-            }
-
-          }
+        if (isUndefined(res)) {
+          return
         }
-
+        if (res) {
+          this.initJsPlump()
+          return
+        }
+        this.destroyJsPlumb()
       })
   }
+  /**
+   * `reset()` alone clears the instance's source definitions but leaves the `mousedown` listeners that
+   * `makeSource` attached to the question boxes. The next click then runs a stale listener that reads
+   * `sourceEndpointDefinitions[id].default` on undefined. Unmake sources/targets first so the listeners go too.
+   */
+  private destroyJsPlumb() {
+    if (!this.jsPlumbInstance) {
+      return
+    }
+    this.jsPlumbInstance.deleteEveryConnection()
+    this.jsPlumbInstance.unmakeEverySource()
+    this.jsPlumbInstance.unmakeEveryTarget()
+    this.jsPlumbInstance.reset()
+  }
+
   initFitb() {
     if (this.question.questionType === 'fitb') {
       const iterationNumber = (this.question.question.match(/<input/g) || []).length
