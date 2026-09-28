@@ -53,6 +53,9 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   academicsArray: Academic[] = []
   certificates: Certificate[] = []
   imgURI: string[] = []
+  // Object URLs minted for certificate thumbnails; revoked in ngOnDestroy so they do not
+  // leak for the lifetime of the tab.
+  certObjectUrls: string[] = []
   certificateThumbnail: CertificateImage[] = []
   photoUrl: string | null = null
   loader = true
@@ -384,10 +387,14 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
           if (res) {
             _.forEach(this.certificates, cvalue => {
               if (res[cvalue.identifier]) {
-                // Certificates arrive as data:image/svg+xml, which trustUrl() rejects -
-                // it would return null and every card would render with an empty image.
-                cvalue['image'] = this.safeResourceUrlSvc.trustImageSrc(res[cvalue.identifier])
-                cvalue['printUri'] = res[cvalue.identifier]
+                // Certificates arrive as data:image/svg+xml, which trustUrl() rejects - it would
+                // return null and every card would render with an empty image. Since rendering
+                // moved to sunbird-rc they can also arrive as raw SVG markup, which trustImageSrc()
+                // would wrongly accept as a relative URL and the <img> would fail to load, so run
+                // it through toImageSource() first.
+                const src = this.safeResourceUrlSvc.toImageSource(res[cvalue.identifier], this.certObjectUrls)
+                cvalue['image'] = this.safeResourceUrlSvc.trustImageSrc(src)
+                cvalue['printUri'] = src
               }
             })
             this.cdr.detectChanges()
@@ -635,6 +642,8 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     if (this.gotData) {
       this.gotData.unsubscribe()
     }
+    this.certObjectUrls.forEach(objectUrl => URL.revokeObjectURL(objectUrl))
+    this.certObjectUrls = []
   }
   getLeaderBoardList(): void {
     this.logger.log('this.configsvc', this.configSvc.unMappedUser)

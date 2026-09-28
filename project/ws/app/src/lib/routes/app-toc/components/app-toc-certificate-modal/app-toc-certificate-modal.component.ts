@@ -173,51 +173,12 @@ export class AppTocCertificateModalComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Turns whatever certreg put in `result.printUri` into something an <img> can actually load.
-   *
-   * The service returns the certificate as **raw SVG markup** ("<svg width=...>"), not a URL.
-   * Assigning that straight to img.src made the browser resolve ~1.9MB of markup as a relative
-   * path, and the request died at the first "#" — the certificate's own `fill="url(#gradient)"`
-   * reference, which starts a URL fragment. Result: a request to
-   * `/%3Csvg%20width=...fill=%22url(` blocked by the browser, and a broken-image icon in the
-   * preview and an unusable download.
-   *
-   * Wrap the markup in an object URL rather than a `data:` URI: at this size percent-encoding
-   * would balloon the string to several megabytes in the DOM, and a blob is same-origin so the
-   * canvas that downloadCertificate() draws into stays untainted.
-   *
-   * URLs and data URIs are passed through untouched, so this keeps working if the service is
-   * ever changed to return one.
-   *
-   * Every shape certreg is known to return has to end up rendering rather than erroring, because
-   * they differ per issuing path: newly issued certificates carry a `data:image/svg+xml,` URI,
-   * prod-migrated rows carry an https cloud URL, and legacy-migrated rows carry raw markup —
-   * sometimes percent-encoded, and not always opening with `<svg` (an XML prolog, DOCTYPE or
-   * comment can come first). Anything that is not recognisable markup is treated as a URL or a
-   * relative path and handed to the browser to resolve.
+   * Delegates to SafeResourceUrlService.toImageSource, which owns the shape handling for every
+   * printUri form certreg returns. It lived here first; it was moved to the service after the
+   * same defect turned up in the My Certificates list, which had no conversion at all.
    */
   private toImageSource(printUri: string): string {
-    let value = (printUri || '').trim().replace(/^﻿/, '')
-    if (!value) {
-      return ''
-    }
-    if (/^(?:data:|blob:|https?:|\/\/|\/)/i.test(value)) {
-      return value
-    }
-    // Percent-encoded markup ("%3Csvg...") — decode it so the markup test below sees it.
-    if (/^%3C/i.test(value)) {
-      try {
-        value = decodeURIComponent(value)
-      } catch {
-        // Malformed escape sequence — fall through and let it be treated as a path.
-      }
-    }
-    if (value.startsWith('<')) {
-      const objectUrl = URL.createObjectURL(new Blob([value], { type: 'image/svg+xml' }))
-      this.objectUrls.push(objectUrl)
-      return objectUrl
-    }
-    return value
+    return this.sanitizer.toImageSource(printUri, this.objectUrls)
   }
 
   private releaseObjectUrls(): void {

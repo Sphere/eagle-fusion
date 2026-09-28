@@ -77,6 +77,46 @@ export class SafeResourceUrlService {
   }
 
   /**
+   * Turns whatever the certificate service put in `result.printUri` into something an <img>
+   * can actually load, and must be called before trustImageSrc() on any certificate value.
+   *
+   * The shapes differ per issuing path and per environment: newly issued certificates used to
+   * carry a `data:image/svg+xml,` URI, prod-migrated rows carry an https cloud URL, and since
+   * rendering moved to sunbird-rc the service returns **raw SVG markup**. Raw markup assigned to
+   * an <img> is resolved by the browser as a relative path, so it silently passes the http(s)
+   * check in trustImageSrc() and then fails to load - a broken image with no error anywhere.
+   *
+   * Markup is wrapped in an object URL rather than a data: URI: at ~700KB percent-encoding
+   * would balloon the string in the DOM, and a blob is same-origin so a canvas drawn from it
+   * stays untainted. Any object URL created is pushed onto `objectUrlSink`; the caller must
+   * revoke those in ngOnDestroy.
+   */
+  toImageSource(printUri: string | null | undefined, objectUrlSink: string[]): string {
+    let value = (printUri || '').trim().replace(/^﻿/, '')
+    if (!value) {
+      return ''
+    }
+    if (/^(?:data:|blob:|https?:|\/\/|\/)/i.test(value)) {
+      return value
+    }
+    // Percent-encoded markup ("%3Csvg...") - decode so the markup test below sees it.
+    if (/^%3C/i.test(value)) {
+      try {
+        value = decodeURIComponent(value)
+      } catch {
+        // Malformed escape sequence - fall through and treat it as a path.
+      }
+    }
+    // Any markup, not just "<svg": an XML prolog, DOCTYPE or comment can come first.
+    if (value.startsWith('<')) {
+      const objectUrl = URL.createObjectURL(new Blob([value], { type: 'image/svg+xml' }))
+      objectUrlSink.push(objectUrl)
+      return objectUrl
+    }
+    return value
+  }
+
+  /**
    * Trusts a CSS value (e.g. a background-image url()). Style injection can't execute
    * script directly, but this still disables Angular's built-in CSS sanitization.
    */
