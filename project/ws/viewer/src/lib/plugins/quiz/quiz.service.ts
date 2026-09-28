@@ -87,7 +87,7 @@ export class QuizService {
       identifier,
       title,
     }
-    quizWithAnswers.questions.map(question => {
+    quizWithAnswers.questions.map((question, index) => {
       if (
         question.questionType === undefined ||
         question.questionType === 'mcq-mca' ||
@@ -108,11 +108,25 @@ export class QuizService {
           }
         }
       } else if (question.questionType === 'mtf') {
-        question.options = questionAnswerHash[question.questionId]
+        question.options = this.resolveMtfOptions(quizWithAnswers, questionAnswerHash, index)
       }
       return question
     })
     return quizWithAnswers
+  }
+
+  /**
+   * An MTF answer is stored as `[jsPlumb connections[]]` until `checkMtfAnswer` resolves it on Next/Check.
+   * Those connections reference the jsPlumb instance, which references them back, so an MTF question that
+   * reaches submit unresolved (or any MTF in quiz.component, which never resolves) put a circular structure
+   * into the request and `JSON.stringify` threw. Resolve it here so the payload only holds plain options.
+   */
+  private resolveMtfOptions(quiz: NSQuiz.IQuiz, questionAnswerHash: any, index: number) {
+    const stored = questionAnswerHash[quiz.questions[index].questionId]
+    if (!Array.isArray(stored) || !Array.isArray(stored[0])) {
+      return stored
+    }
+    return this.checkMtfAnswer(quiz, { ...questionAnswerHash, qslideIndex: index }).answer
   }
 
   /* check each question is it correct or wrong */
