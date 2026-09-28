@@ -128,7 +128,7 @@
 
     <div (scroll)="repaintEveryThing()" (resize)="repaintEveryThing()">
       <div style="height:auto">
-        <div style="display: flex;flex-direction: column;" [id]="question.questionId">
+        <div style="display: flex;flex-direction: column;position: relative;" [id]="question.questionId">
           <div *ngFor="let option of question.options; let i = index">
             <div style="display: flex;justify-content: space-around;flex-wrap: wrap;  height:auto;">
               <div [class]="'question' + question.questionId + ' question'" [id]="'c1' + question.questionId + (i + 1)">

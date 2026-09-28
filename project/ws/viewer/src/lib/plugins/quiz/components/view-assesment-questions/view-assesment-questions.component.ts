@@ -9,11 +9,11 @@ import { SafeResourceUrlService } from '@ws-widget/utils'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 @Component({
-    standalone: false,
-    selector: 'viewer-view-assesment-questions',
-    templateUrl: './view-assesment-questions.component.html',
-    styleUrls: ['./view-assesment-questions.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-view-assesment-questions',
+  templateUrl: './view-assesment-questions.component.html',
+  styleUrls: ['./view-assesment-questions.component.scss'],
+
 })
 export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() artifactUrl = ''
@@ -102,11 +102,23 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
           this.initJsPlump()
           return
         }
-        if (this.jsPlumbInstance) {
-          this.jsPlumbInstance.reset()
-          this.jsPlumbInstance.deleteEveryConnection()
-        }
+        this.destroyJsPlumb()
       })
+  }
+
+  /**
+   * `reset()` alone clears the instance's source definitions but leaves the `mousedown` listeners that
+   * `makeSource` attached to the question boxes. The next click then runs a stale listener that reads
+   * `sourceEndpointDefinitions[id].default` on undefined. Unmake sources/targets first so the listeners go too.
+   */
+  private destroyJsPlumb() {
+    if (!this.jsPlumbInstance) {
+      return
+    }
+    this.jsPlumbInstance.deleteEveryConnection()
+    this.jsPlumbInstance.unmakeEverySource()
+    this.jsPlumbInstance.unmakeEveryTarget()
+    this.jsPlumbInstance.reset()
   }
   initFitb() {
     if (this.question.questionType === 'fitb') {
@@ -134,7 +146,12 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
   }
   initJsPlump() {
     if (this.question.questionType === 'mtf') {
+      // Tear down the previous instance before creating a new one, or its listeners stay on the boxes
+      this.destroyJsPlumb()
+      const container = this.elementRef.nativeElement
+        .querySelector(`[id="${this.question.questionId}"]`)
       this.jsPlumbInstance = jsPlumb.getInstance({
+        ...(container ? { Container: container } : {}),
         DragOptions: {
           cursor: 'pointer',
         },
@@ -448,6 +465,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
     }
   }
   ngOnDestroy() {
+    this.destroyJsPlumb()
     this.unsubscribe.next()
     this.unsubscribe.complete()
   }

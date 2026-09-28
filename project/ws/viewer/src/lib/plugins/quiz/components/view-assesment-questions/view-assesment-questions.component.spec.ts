@@ -8,6 +8,8 @@ const mockJsPlumbInstance = {
   repaintEverything: jest.fn(),
   deleteEveryConnection: jest.fn(),
   reset: jest.fn(),
+  unmakeEverySource: jest.fn(),
+  unmakeEveryTarget: jest.fn(),
   connect: jest.fn(),
 }
 
@@ -82,6 +84,24 @@ describe('ViewAssesmentQuestionsComponent', () => {
       expect(mockJsPlumbInstance.deleteEveryConnection).toHaveBeenCalled()
     })
 
+    it('should unmake sources and targets before reset when updateMtf$ emits false', () => {
+      component.ngOnInit()
+      component.jsPlumbInstance = mockJsPlumbInstance
+      updateMtf$.next(false)
+      expect(mockJsPlumbInstance.unmakeEverySource).toHaveBeenCalled()
+      expect(mockJsPlumbInstance.unmakeEveryTarget).toHaveBeenCalled()
+      const unmakeOrder = mockJsPlumbInstance.unmakeEverySource.mock.invocationCallOrder[0]
+      const resetOrder = mockJsPlumbInstance.reset.mock.invocationCallOrder[0]
+      expect(unmakeOrder).toBeLessThan(resetOrder)
+    })
+
+    it('should not throw when updateMtf$ emits false without a jsPlumb instance', () => {
+      component.ngOnInit()
+      component.jsPlumbInstance = undefined
+      expect(() => updateMtf$.next(false)).not.toThrow()
+      expect(mockJsPlumbInstance.reset).not.toHaveBeenCalled()
+    })
+
     it('should ignore undefined emissions', () => {
       component.ngOnInit()
       expect(() => updateMtf$.next(undefined)).not.toThrow()
@@ -109,6 +129,37 @@ describe('ViewAssesmentQuestionsComponent', () => {
       component.question = buildQuestion({ questionType: 'mtf' })
       component.initJsPlump()
       expect(mockJsPlumbInstance.makeSource).toHaveBeenCalled()
+    })
+
+    it('should tear down the previous instance before creating a new one', () => {
+      mockJsPlumbInstance.getSelector.mockReturnValue(['a'])
+      component.question = buildQuestion({ questionType: 'mtf' })
+      component.jsPlumbInstance = mockJsPlumbInstance
+      component.initJsPlump()
+      expect(mockJsPlumbInstance.unmakeEverySource).toHaveBeenCalled()
+      expect(mockJsPlumbInstance.unmakeEveryTarget).toHaveBeenCalled()
+      expect(mockJsPlumbInstance.reset).toHaveBeenCalled()
+      const teardownOrder = mockJsPlumbInstance.reset.mock.invocationCallOrder[0]
+      const makeSourceOrder = mockJsPlumbInstance.makeSource.mock.invocationCallOrder[0]
+      expect(teardownOrder).toBeLessThan(makeSourceOrder)
+    })
+
+    it('should scope the jsPlumb instance to the question container when it exists', () => {
+      const { jsPlumb } = jest.requireMock('jsplumb')
+      const container = document.createElement('div')
+      nativeElement.querySelector.mockReturnValue(container)
+      component.question = buildQuestion({ questionType: 'mtf' })
+      component.initJsPlump()
+      expect(nativeElement.querySelector).toHaveBeenCalledWith('[id="q1"]')
+      expect(jsPlumb.getInstance).toHaveBeenCalledWith(expect.objectContaining({ Container: container }))
+    })
+
+    it('should omit Container when the question container is not rendered', () => {
+      const { jsPlumb } = jest.requireMock('jsplumb')
+      nativeElement.querySelector.mockReturnValue(null)
+      component.question = buildQuestion({ questionType: 'mtf' })
+      component.initJsPlump()
+      expect(jsPlumb.getInstance.mock.calls[0][0]).not.toHaveProperty('Container')
     })
 
     it('should skip bindings when no answers exist for mtf', () => {
@@ -409,6 +460,20 @@ describe('ViewAssesmentQuestionsComponent', () => {
       component.ngOnDestroy()
       expect(nextSpy).toHaveBeenCalled()
       expect(completeSpy).toHaveBeenCalled()
+    })
+
+    it('should tear down the jsPlumb instance so no listeners stay on the boxes', () => {
+      component.jsPlumbInstance = mockJsPlumbInstance
+      component.ngOnDestroy()
+      expect(mockJsPlumbInstance.deleteEveryConnection).toHaveBeenCalled()
+      expect(mockJsPlumbInstance.unmakeEverySource).toHaveBeenCalled()
+      expect(mockJsPlumbInstance.unmakeEveryTarget).toHaveBeenCalled()
+      expect(mockJsPlumbInstance.reset).toHaveBeenCalled()
+    })
+
+    it('should not throw without a jsPlumb instance', () => {
+      component.jsPlumbInstance = undefined
+      expect(() => component.ngOnDestroy()).not.toThrow()
     })
   })
 })
