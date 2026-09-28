@@ -57,6 +57,11 @@ export class AppTocCertificateModalComponent implements OnInit, OnDestroy {
         // and returns null - binding null to [src] leaves the image empty. trustImageSrc()
         // permits it for <img> only, where SVG cannot execute script.
         this.img = this.sanitizer.trustImageSrc(src)
+        if (!this.img) {
+          // The sanitizer rejected the scheme. Without this the <img> binds null and the
+          // dialog shows a broken image with no retry, instead of the error state.
+          throw new Error(`Certificate image source was rejected by the sanitizer: ${src.slice(0, 40)}`)
+        }
         this.isLoading = false
       })
       .catch((err: any) => {
@@ -168,36 +173,12 @@ export class AppTocCertificateModalComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Turns whatever certreg put in `result.printUri` into something an <img> can actually load.
-   *
-   * The service returns the certificate as **raw SVG markup** ("<svg width=...>"), not a URL.
-   * Assigning that straight to img.src made the browser resolve ~1.9MB of markup as a relative
-   * path, and the request died at the first "#" — the certificate's own `fill="url(#gradient)"`
-   * reference, which starts a URL fragment. Result: a request to
-   * `/%3Csvg%20width=...fill=%22url(` blocked by the browser, and a broken-image icon in the
-   * preview and an unusable download.
-   *
-   * Wrap the markup in an object URL rather than a `data:` URI: at this size percent-encoding
-   * would balloon the string to several megabytes in the DOM, and a blob is same-origin so the
-   * canvas that downloadCertificate() draws into stays untainted.
-   *
-   * URLs and data URIs are passed through untouched, so this keeps working if the service is
-   * ever changed to return one.
+   * Delegates to SafeResourceUrlService.toImageSource, which owns the shape handling for every
+   * printUri form certreg returns. It lived here first; it was moved to the service after the
+   * same defect turned up in the My Certificates list, which had no conversion at all.
    */
   private toImageSource(printUri: string): string {
-    const value = (printUri || '').trim()
-    if (!value) {
-      return ''
-    }
-    if (/^(?:data:|blob:|https?:|\/)/i.test(value)) {
-      return value
-    }
-    if (value.startsWith('<svg') || value.startsWith('<?xml')) {
-      const objectUrl = URL.createObjectURL(new Blob([value], { type: 'image/svg+xml' }))
-      this.objectUrls.push(objectUrl)
-      return objectUrl
-    }
-    return value
+    return this.sanitizer.toImageSource(printUri, this.objectUrls)
   }
 
   private releaseObjectUrls(): void {

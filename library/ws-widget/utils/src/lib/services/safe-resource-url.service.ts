@@ -60,15 +60,60 @@ export class SafeResourceUrlService {
    *
    * Needed for server-rendered certificates, which arrive as a 650 KB
    * "data:image/svg+xml,<percent-encoded markup>" printUri.
+   *
+   * blob: is permitted for the same reason. Certificates migrated by the legacy job come back
+   * as *raw* SVG markup rather than a data: URI, so the caller wraps them with
+   * URL.createObjectURL() before binding. A blob: URL can only be minted by same-origin script
+   * from a payload that script already holds, so it grants no reach a data: URI would not.
    */
   trustImageSrc(url: string | null | undefined): SafeUrl | null {
     if (!url) {
       return null
     }
-    if (SafeResourceUrlService.SAFE_IMG_SRC.test(url) || this.isHttpOrHttps(url)) {
+    if (SafeResourceUrlService.SAFE_IMG_SRC.test(url) || this.isBlob(url) || this.isHttpOrHttps(url)) {
       return this.sanitizer.bypassSecurityTrustUrl(url)
     }
     return null
+  }
+
+  /**
+   * Turns whatever the certificate service put in `result.printUri` into something an <img>
+   * can actually load, and must be called before trustImageSrc() on any certificate value.
+   *
+   * The shapes differ per issuing path and per environment: newly issued certificates used to
+   * carry a `data:image/svg+xml,` URI, prod-migrated rows carry an https cloud URL, and since
+   * rendering moved to sunbird-rc the service returns **raw SVG markup**. Raw markup assigned to
+   * an <img> is resolved by the browser as a relative path, so it silently passes the http(s)
+   * check in trustImageSrc() and then fails to load - a broken image with no error anywhere.
+   *
+   * Markup is wrapped in an object URL rather than a data: URI: at ~700KB percent-encoding
+   * would balloon the string in the DOM, and a blob is same-origin so a canvas drawn from it
+   * stays untainted. Any object URL created is pushed onto `objectUrlSink`; the caller must
+   * revoke those in ngOnDestroy.
+   */
+  toImageSource(printUri: string | null | undefined, objectUrlSink: string[]): string {
+    let value = (printUri || '').trim().replace(/^﻿/, '')
+    if (!value) {
+      return ''
+    }
+    if (/^(?:data:|blob:|https?:|\/\/|\/)/i.test(value)) {
+      return value
+    }
+    // Percent-encoded markup ("%3Csvg...") - decode so the markup test below sees it.
+    if (/^%3C/i.test(value)) {
+      try {
+        value = decodeURIComponent(value)
+      } catch {
+        // Malformed escape sequence - fall through and treat it as a path.
+      }
+    }
+    // Any markup, not just "<svg": an XML prolog, DOCTYPE or comment can come first.
+    if (value.startsWith('<')) {
+      const objectUrl = URL.createObjectURL(new Blob([value], { type: 'image/svg+xml' }))
+      objectUrlSink.push(objectUrl)
+      return objectUrl
+    }
+    return value
   }
 
   /**
@@ -112,6 +157,11 @@ export class SafeResourceUrlService {
   // Wider set, permitted ONLY by trustImageSrc() — see the rationale there. svg+xml and
   // non-base64 payloads are included because <img> rendering is script-free by spec.
   private static readonly SAFE_IMG_SRC = /^data:image\/(png|jpe?g|gif|webp|svg\+xml)[;,]/i
+
+  // Only for trustImageSrc() — an object URL this app minted for an <img>, never a navigation target.
+  private isBlob(url: string): boolean {
+    return /^blob:/i.test(url)
+  }
 
   private isHttpOrHttps(url: string): boolean {
     if (SafeResourceUrlService.SAFE_DATA_IMAGE.test(url)) {

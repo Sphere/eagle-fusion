@@ -353,7 +353,14 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       this.contentSvc.fetchCourseBatches(req).subscribe(
         (data: NsContent.IBatchListResponse) => {
           if (data.content) {
-            const batchList = data.content.filter((obj: any) => obj.endDate >= moment(new Date()).format('YYYY-DD-MM'))
+            // A batch with no endDate never expires. The comparison below is a string
+            // compare, and `null >= '2026-09-25'` is false, so open-ended batches -- which is
+            // what auto batch creation produces -- were dropped from the list entirely. That
+            // left content[0] undefined and the enrol request went out without courseId or
+            // batchId, which the API rejects with
+            // "Mandatory parameter courseId/collectionId is missing."
+            const today = moment(new Date()).format('YYYY-MM-DD')
+            const batchList = data.content.filter((obj: any) => !obj.endDate || obj.endDate >= today)
             this.batchData = {
               content: batchList,
               enrolled: false,
