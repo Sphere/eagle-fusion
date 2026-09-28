@@ -145,7 +145,14 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
   }
   initJsPlump() {
     if (this.question.questionType === 'mtf') {
+      // Anchor the connectors to the element that holds the boxes (same fix as view-quiz-question).
+      // Without an explicit Container jsPlumb appends its SVGs to document.body, so they outlive the
+      // question slide and stay painted over the result tab when an MTF is the last question.
+      // Attribute selector, not `#id`: content ids like `do_114…` are not always valid bare CSS identifiers.
+      const container = this.elementRef.nativeElement
+        .querySelector(`[id="${this.question.questionId}"]`)
       this.jsPlumbInstance = jsPlumb.getInstance({
+        ...(container ? { Container: container } : {}),
         DragOptions: {
           cursor: 'pointer',
         },
@@ -451,6 +458,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
     }
   }
   ngOnDestroy() {
+    this.destroyJsPlumb()
     this.unsubscribe.next()
     this.unsubscribe.complete()
   }
