@@ -166,7 +166,19 @@ export class QuizService {
   }
   checkMtfAnswer(quiz: NSQuiz.IQuiz, questionAnswerHash: any) {
     const userSelectedAnswer: any = quiz.questions[questionAnswerHash['qslideIndex']]
-    const connections: any[] = (questionAnswerHash[userSelectedAnswer.questionId] || [])[0] || []
+    // The hash entry is `[jsPlumb connections[]]` on first answer, but callers overwrite it with
+    // `userAnswer.answer` (a flat array of option objects) after this runs — so `[0]` is not
+    // always an array.
+    const stored = questionAnswerHash[userSelectedAnswer.questionId]
+    const first = Array.isArray(stored) ? stored[0] : undefined
+    // Already resolved by an earlier call (e.g. Next pressed again while `qslideIndex` still points
+    // here). Re-resolving would find no connections and wipe every `response`, so keep it as is.
+    if (Array.isArray(stored) && stored.length && !Array.isArray(first)) {
+      userSelectedAnswer['answer'] = stored
+      userSelectedAnswer['isExplanation'] = true
+      return userSelectedAnswer
+    }
+    const connections: any[] = Array.isArray(first) ? first : []
     // Resolve each option to the box the learner actually connected it to, for the Response
     // column of the review table. Two bugs used to leave this permanently blank:
     //
@@ -192,9 +204,13 @@ export class QuizService {
     }
     const matchHintDisplayLocal = [...quiz.questions[questionAnswerHash['qslideIndex']].options]
     matchHintDisplayLocal.forEach(element => {
-
+      element.text = normalize(element.text)
+      element.matchForView = normalize(element.matchForView)
+      element.match = normalize(element.match)
+      element.response = normalize(element.response)
+      // A pair is correct only when the learner connected something and it equals the expected match
+      element.isCorrect = !!element.response && toLower(element.response) === toLower(element.match)
       matchHintDisplay.push(element)
-
     })
     userSelectedAnswer['answer'] = matchHintDisplay
     userSelectedAnswer['isExplanation'] = true
