@@ -504,6 +504,8 @@ const routes: Routes = [
       ),
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
+  // Keycloak's forgot-password action token redirects here (redirect URI is set server-side)
+  { path: 'password-reset-success', redirectTo: 'public/home', pathMatch: 'full' },
   {
     path: 'public/about',
     // component: PublicAboutComponent,
