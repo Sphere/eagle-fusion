@@ -14,8 +14,8 @@
           <div class="img-shimmer-wrapper">
             <div class="img-shimmer" [class.img-shimmer-hide]="imgLoaded"></div>
             <img alt="" class="appIcon fitsize"
-              src="{{courseData.posterImage? courseData.posterImage : courseData.appIcon}}" (load)="imgLoaded = true"
-              (error)="imgLoaded = true">
+              src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}"
+              (load)="imgLoaded = true" (error)="imgLoaded = true">
           </div>
           <ng-container>
             <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
