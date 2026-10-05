@@ -124,6 +124,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     },
   }
   enumContentTypes = NsContent.EDisplayContentTypes
+  // lowercased content.type → TOC row icon; types not listed render their type name as text
+  readonly contentTypeIcons: Record<string, { src: string, alt: string }> = {
+    pdf: { src: './fusion-assets/icons/pdf-icon.png', alt: 'PDF' },
+    lecture: { src: './fusion-assets/icons/pdf-icon.png', alt: 'PDF' },
+    video: { src: './fusion-assets/icons/video-icon.png', alt: 'Video' },
+    scorm: { src: './fusion-assets/icons/video-icon.png', alt: 'Video' },
+    link: { src: './fusion-assets/icons/link-icon.png', alt: 'Link' },
+  }
   collectionCard: ICollectionCard | null = null
   isErrorOccurred = false
   private paramSubscription: Subscription | null = null
