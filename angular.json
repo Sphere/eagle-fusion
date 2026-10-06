@@ -31,6 +31,11 @@
               "src/.htaccess",
               "src/assets",
               {
+                "glob": "**/*",
+                "input": "src/.well-known",
+                "output": ".well-known"
+              },
+              {
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
                 "output": "./assets/discussion-ui"
