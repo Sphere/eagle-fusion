@@ -21,6 +21,19 @@ console.log('Mounted assets path:', fs.existsSync(mountedAssetsPath) ? 'EXISTS' 
 // Enable compression
 app.use(compression())
 
+// App Links / Universal Links verification (assetlinks.json, apple-app-site-association).
+// Must be served as JSON with no redirect — the AASA file has no extension, and without this
+// route a missing file would fall through to the SPA index.html and break deep-link verification.
+app.get('/.well-known/:file', (req, res) => {
+  const filePath = path.join(distPath, '.well-known', path.basename(req.params.file))
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('Not found')
+  }
+  res.type('application/json')
+  res.set('Cache-Control', 'public, max-age=3600')
+  return res.sendFile(filePath, { dotfiles: 'allow' })
+})
+
 // Hashed filenames (main.abc123.js) match this pattern — safe to cache 1 year
 const HASHED_FILE = /\.[a-f0-9]{8,20}\.(js|css|mjs)$/
 
