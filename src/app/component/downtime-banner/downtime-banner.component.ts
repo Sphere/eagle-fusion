@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
 import { Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
 import { DowntimeConfigService } from '../../services/downtime-config.service'
@@ -19,7 +21,7 @@ import { LanguageService } from '../../services/language.service'
  */
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule],
   selector: 'app-downtime-banner',
   templateUrl: './downtime-banner.component.html',
   styleUrls: ['./downtime-banner.component.scss'],
