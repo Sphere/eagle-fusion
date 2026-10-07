@@ -154,6 +154,35 @@ export class PublicTocComponent implements OnInit {
       .trim()
   }
 
+  // CNE credit hours exist only on INC-approved courses, so INC/CNE wording is claimed
+  // only when the course carries cneName; the certificate line only when it issues one.
+  private get cneHours(): string {
+    return String(this.tocData?.cneName ?? '').trim()
+  }
+
+  private get issuesCertificate(): boolean {
+    return this.tocData?.issueCertification === true || this.tocData?.issueCertification === 'Yes'
+  }
+
+  private buildTocTitleTag(): string {
+    if (this.cneHours) {
+      return 'Free CNE Course'
+    }
+    return this.issuesCertificate ? 'Free Certificate Course' : 'Free Online Course'
+  }
+
+  private buildTocOffer(providerName: string): string {
+    const certificate = this.issuesCertificate
+    if (this.cneHours) {
+      const earn = certificate
+        ? `Earn ${this.cneHours} CNE credit hours and a certificate on completion.`
+        : `Earn ${this.cneHours} CNE credit hours.`
+      return `Free INC-approved course by ${providerName}. ${earn} No fees, self-paced.`
+    }
+    const certLine = certificate ? ' Get a certificate on completion.' : ''
+    return `Free online course by ${providerName}.${certLine} No fees, self-paced.`
+  }
+
   private buildTocKeywords(): string {
     const subjectArr: string[] = Array.isArray(this.tocData?.subject)
       ? this.tocData.subject
@@ -166,8 +195,8 @@ export class PublicTocComponent implements OnInit {
       ...subjectArr,
       ...keywordArr,
       this.tocData?.sourceName,
-      'INC certificate',
-      'CNE credits',
+      ...(this.cneHours ? ['INC certificate', 'CNE credits'] : []),
+      ...(this.issuesCertificate ? ['certificate course'] : []),
       'Aastrika Sphere',
     ].filter(Boolean).join(', ')
   }
@@ -205,12 +234,12 @@ export class PublicTocComponent implements OnInit {
     const description = this.extractTocDescription()
     const keywords = this.buildTocKeywords()
     const providerName = this.tocData?.sourceName || 'Aastrika Sphere'
+    const offer = this.buildTocOffer(providerName)
 
     this.seoSvc.update({
-      title: `${this.tocData?.name} | Free INC Course — ${providerName} | Aastrika Sphere`,
-      description: description
-        ? `${description} — Free INC-certified course by ${providerName}. Earn CNE points. No fees, no deadline.`.slice(0, 260)
-        : `${this.tocData?.name} — Free INC-certified online course by ${providerName} on Aastrika Sphere. Earn CNE points. No fees, no deadline.`,
+      title: `${this.tocData?.name} | ${this.buildTocTitleTag()} — ${providerName} | Aastrika Sphere`,
+      // Trim the course text, not the offer, so the CNE/certificate claim is never cut off
+      description: `${(description || this.tocData?.name || '').slice(0, 257 - offer.length).trim()} — ${offer}`,
       keywords,
       ogType: 'article',
       ogUrl: courseUrl,

@@ -93,7 +93,7 @@ export class PublicLoginComponent implements OnInit, OnDestroy {
     // "Indexed, though blocked by robots.txt" issue. Let it rank with a real title/description.
     this.seoSvc.update({
       title: 'Aastrika Sphere Login | Free CNE Courses for Nurses & Healthcare Workers',
-      description: 'Log in to Aastrika Sphere to continue your free, INC-certified CNE courses. Self-paced training for nurses, ANMs, GNMs, midwives and healthcare workers across India.',
+      description: 'Log in to Aastrika Sphere to continue your free courses, including INC-approved CNE courses. Self-paced training for nurses, ANMs, GNMs, midwives and healthcare workers across India.',
       keywords: 'Aastrika Sphere login, aastrika login, CNE login, INC e-learning login, nursing course login, healthcare training login',
     })
     sessionStorage.clear()
