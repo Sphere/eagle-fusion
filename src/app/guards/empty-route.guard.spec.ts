@@ -1,5 +1,5 @@
 jest.mock('../services/downtime-config.service', () => ({
-  DowntimeConfigService: class { getDowntimeState = jest.fn() },
+  DowntimeConfigService: class { getDowntimeState = jest.fn(); isBypassed = jest.fn().mockReturnValue(false) },
 }))
 
 import { of } from 'rxjs'

@@ -22,8 +22,8 @@ export class EmptyRouteGuard {
     return this.downtimeService.getDowntimeState().pipe(
       take(1),
       map(downtimeState => {
-        // Block navigation during full downtime
-        if (downtimeState.isDowntime && downtimeState.type === 'full') {
+        // Block navigation during full downtime, except for bypassOrgs testers
+        if (downtimeState.isDowntime && downtimeState.type === 'full' && !this.downtimeService.isBypassed()) {
           return false
         }
         // Allow navigation if no downtime

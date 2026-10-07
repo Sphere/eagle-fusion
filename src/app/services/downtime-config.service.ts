@@ -12,6 +12,32 @@ import { API_END_POINTS } from '../constants/apiConstants'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { getPortalHost } from '../constants/portal'
 
+const DOWNTIME_BYPASS_PARAM = 'downtimeBypass'
+const DOWNTIME_BYPASS_STORAGE_KEY = 'sphere-downtime-bypass'
+
+/**
+ * Stores ?downtimeBypass=<code> for this tab. Called from APP_INITIALIZER, before the router
+ * can redirect and drop the query string; sessionStorage keeps it across the login redirect.
+ */
+export function rememberDowntimeBypassCode(): void {
+  try {
+    const code = new URLSearchParams(window.location.search).get(DOWNTIME_BYPASS_PARAM)
+    if (code) {
+      sessionStorage.setItem(DOWNTIME_BYPASS_STORAGE_KEY, code.trim())
+    }
+  } catch {
+    // Storage can be unavailable (private mode, blocked site data); the bypass then just does not apply
+  }
+}
+
+function readDowntimeBypassCode(): string | null {
+  try {
+    return sessionStorage.getItem(DOWNTIME_BYPASS_STORAGE_KEY)
+  } catch {
+    return null
+  }
+}
+
 /**
  * DowntimeConfigService
  *
@@ -95,13 +121,20 @@ export class DowntimeConfigService implements OnDestroy {
   }
 
   /**
-   * Returns true if the current user or browser should bypass downtime.
-   * Checks org-based bypass first (works on web + mobile), then falls back
-   * to the localStorage flag (web-only, useful for logged-out test scenarios).
+   * True when this browser or user may use the portal as normal during a downtime:
+   * - the tab was opened with ?downtimeBypass=<bypassCode> (works before login, so a
+   *   tester can sign in and test end to end), or
+   * - the signed-in user's rootOrgId is in bypassOrgs.
+   * Same contract as CBP, so one form section shape serves both portals.
    */
   public isBypassed(): boolean {
-    const bypassOrgs = this.currentConfig?.bypassOrgs || []
-    if (bypassOrgs.length === 0) return false
+    const config = this.currentConfig
+    if (!config) return false
+    const code = (config.bypassCode || '').trim()
+    if (code && readDowntimeBypassCode() === code) {
+      return true
+    }
+    const bypassOrgs = config.bypassOrgs || []
     const userOrgId = this.configSvc.userProfile?.rootOrgId
     return !!userOrgId && bypassOrgs.includes(userOrgId)
   }

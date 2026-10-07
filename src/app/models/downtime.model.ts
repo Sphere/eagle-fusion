@@ -57,6 +57,12 @@ export interface AppDowntimeConfig {
   type: DowntimeType
   refreshInterval: number // seconds
   bypassOrgs?: string[]  // rootOrgId values whose users skip downtime (for testing)
+  /**
+   * Lets testers in before signing in: opening the portal with `?downtimeBypass=<code>`
+   * skips the downtime for that browser tab. Change it per maintenance window; leave it
+   * empty to allow no code bypass.
+   */
+  bypassCode?: string
   content: DowntimeContent
 }
 

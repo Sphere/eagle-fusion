@@ -138,12 +138,14 @@ import { UserProfileService } from '../../project/ws/app/src/lib/routes/user-pro
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
 // Downtime components imports
 import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
+import { rememberDowntimeBypassCode } from './services/downtime-config.service'
 import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
 import { RouterModule } from '@angular/router'
 import { CompetencyCourseListModule } from './component/competency-course-list/competency-course-list.module'
 import { ProgramHome } from './program/program-home/program-home'
 
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
+  rememberDowntimeBypassCode()
   try {
     await initSvc.init()
   } catch (error) {
