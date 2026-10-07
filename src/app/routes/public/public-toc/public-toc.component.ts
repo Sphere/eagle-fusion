@@ -214,7 +214,9 @@ export class PublicTocComponent implements OnInit {
       keywords,
       ogType: 'article',
       ogUrl: courseUrl,
-      ogImage: this.tocData?.appIcon || this.tocData?.posterImage,
+      // posterImage first: publishing replaces appIcon with a small thumbnail, which link
+      // previews (WhatsApp, Teams, LinkedIn) stretch to card size and show blurred.
+      ogImage: this.tocData?.posterImage || this.tocData?.appIcon,
       canonicalUrl: courseUrl,
       jsonLd: this.buildTocJsonLd(courseUrl, description, providerName),
     })

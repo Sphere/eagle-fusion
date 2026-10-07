@@ -352,9 +352,11 @@ function buildSitemap(courses) {
         : TODAY
       // encodeURI keeps the path valid per the sitemap spec when the slug contains
       // non-ASCII (e.g. Devanagari) characters; ASCII slugs pass through unchanged.
+      // servedUrl: course pages are prerendered directories, so the slash-less form 301s
+      // and Search Console reported every course in the sitemap as "Page with redirect".
       return `
   <url>
-    <loc>${encodeURI(`${BASE_URL}${coursePath(c)}`)}</loc>
+    <loc>${encodeURI(`${BASE_URL}${servedUrl(coursePath(c))}`)}</loc>
     <lastmod>${lastmod}</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>

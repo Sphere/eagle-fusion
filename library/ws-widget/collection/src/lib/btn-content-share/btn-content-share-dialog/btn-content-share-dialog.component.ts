@@ -7,6 +7,8 @@ import { WidgetContentShareService } from '../../_services/widget-content-share.
 import { NsContent } from '../../_services/widget-content.model'
 import { ICommon } from '../../_models/common.model'
 import * as htmlToImage from 'html-to-image'
+import { TranslateService } from '@ngx-translate/core'
+import { courseSlug } from '../../../../../../../src/app/constants/courseSlug'
 
 @Component({
   standalone: false,
@@ -31,15 +33,11 @@ export class BtnContentShareDialogComponent implements OnInit {
     public shareSvc: WidgetContentShareService,
     public configSvc: ConfigurationsService,
     private readonly cdr: ChangeDetectorRef,
+    private readonly translate: TranslateService,
   ) { }
 
   ngOnInit() {
-    const cUrl = window.location.href
-    const id = cUrl.split('/')[5]
-    const newUrl = `${document.baseURI}`
-    const url = `public/toc/overview?courseId=${id}`
-
-    this.qrdata = `${newUrl}${url}`
+    this.qrdata = this.publicUrl
 
     this.shareSvc.fetchConfigFile().subscribe((data: ICommon) => {
       if (data && data.shareMessage) {
@@ -69,6 +67,17 @@ export class BtnContentShareDialogComponent implements OnInit {
       })
   }
 
+  /**
+   * The course's public page, the URL the sitemap and canonical tag use. Shared links and
+   * the QR point here rather than at /app/toc, which needs a login and is not prerendered,
+   * so link previews (WhatsApp, Teams, LinkedIn) would only see the portal's home tags.
+   */
+  get publicUrl(): string {
+    const content = this.data.content
+    const slug = courseSlug(content.name) || content.identifier
+    return `${location.origin}/public/toc/overview/${content.identifier}/${slug}/`
+  }
+
   get detailUrl() {
     let locationOrigin = location.origin
     if (this.configSvc.activeLocale && this.configSvc.activeLocale.path) {
@@ -79,12 +88,17 @@ export class BtnContentShareDialogComponent implements OnInit {
         return `${locationOrigin}${this.data.content.artifactUrl}`
       case NsContent.EContentTypes.KNOWLEDGE_BOARD:
         return `${locationOrigin}/app/knowledge-board/${this.data.content.identifier}`
-      case NsContent.EContentTypes.KNOWLEDGE_ARTIFACT:
-
-        return `${locationOrigin}/app/toc/${this.data.content.identifier}/overview`
       default:
-        return `${locationOrigin}/app/toc/${this.data.content.identifier}/overview`
+        return this.publicUrl
     }
+  }
+
+  copyLink() {
+    const done = (key: string) => this.snackBar.open(this.translate.instant(key), undefined, { duration: 3000 })
+    navigator.clipboard.writeText(this.publicUrl).then(
+      () => done('LINK_COPIED'),
+      () => done('COPY_LINK_FAILED'),
+    )
   }
 
   raiseTelemetry() {

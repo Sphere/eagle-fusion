@@ -1,5 +1,5 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
-import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
+import { APP_BASE_HREF, LocationStrategy, PlatformLocation } from '@angular/common'
 import { CommonModule } from '@angular/common'
 import {
   HTTP_INTERCEPTORS, HttpClient, HttpClientModule,
@@ -76,6 +76,7 @@ import { ForgotPasswordComponent } from './routes/forgot-password/forgot-passwor
 import { AppInterceptorService } from './services/app-interceptor.service'
 import { AppRetryInterceptorService } from './services/app-retry-interceptor.service'
 import { AssetCacheInterceptorService } from './services/asset-cache-interceptor.service'
+import { PublicTrailingSlashLocationStrategy } from './services/public-trailing-slash-location.strategy'
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -414,6 +415,7 @@ export function initTranslate(translate: TranslateService) {
       useFactory: getBaseHref,
       deps: [PlatformLocation],
     },
+    { provide: LocationStrategy, useClass: PublicTrailingSlashLocationStrategy },
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
     Title,
