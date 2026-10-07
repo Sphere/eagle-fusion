@@ -66,6 +66,59 @@
   margin: 0 0 12px;
 }
 
+// ─── Copy link row ───────────────────────────────────────────────────────────
+.share-link-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.share-link-input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  background: #f8f9fa;
+  color: var(--theme-text, #101828);
+  font-size: 13px;
+  text-overflow: ellipsis;
+
+  &:focus {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 1px;
+  }
+}
+
+.share-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--theme-accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 2px;
+  }
+}
+
 // ─── Social row ──────────────────────────────────────────────────────────────
 .share-social-row {
   display: flex;

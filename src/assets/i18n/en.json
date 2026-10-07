@@ -1038,5 +1038,9 @@
   "DISCUSSION_REPLY_REQUIRED": "Please type a reply before sending.",
   "DISCUSSION_POST_TOO_SHORT": "Your post is too short. Please write at least 8 characters.",
   "DISCUSSION_POST_TOO_QUICK": "You are posting too quickly. Please wait a moment and try again.",
-  "DISCUSSION_POST_FAILED": "Your post could not be sent. Please wait a moment and try again."
+  "DISCUSSION_POST_FAILED": "Your post could not be sent. Please wait a moment and try again.",
+  "COPY_LINK": "Copy link",
+  "COPY": "Copy",
+  "LINK_COPIED": "Link copied",
+  "COPY_LINK_FAILED": "Could not copy the link. Please copy it from the box."
 }
