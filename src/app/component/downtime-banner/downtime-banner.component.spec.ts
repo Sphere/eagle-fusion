@@ -1,6 +1,9 @@
 import { Subject, of } from 'rxjs'
+import { TestBed } from '@angular/core/testing'
 import { DowntimeBannerComponent } from './downtime-banner.component'
 import { DowntimeState } from '../../models/downtime.model'
+import { DowntimeConfigService } from '../../services/downtime-config.service'
+import { LanguageService } from '../../services/language.service'
 
 const makeState = (overrides: Partial<DowntimeState> = {}): DowntimeState => ({
   isDowntime: false,
@@ -333,6 +336,28 @@ describe('DowntimeBannerComponent', () => {
       component.isVisible = true
       component.dismissBanner()
       expect(component.isVisible).toBe(false)
+    })
+  })
+
+  describe('template rendering', () => {
+    it('should render the close button as a Material icon button', async () => {
+      mockDowntimeService.getCurrentDowntimeState.mockReturnValue(makeState({ isDowntime: true }))
+      await TestBed.configureTestingModule({
+        imports: [DowntimeBannerComponent],
+        providers: [
+          { provide: DowntimeConfigService, useValue: mockDowntimeService },
+          { provide: LanguageService, useValue: mockLanguageService },
+        ],
+      }).compileComponents()
+
+      const fixture = TestBed.createComponent(DowntimeBannerComponent)
+      fixture.detectChanges()
+
+      const closeIcon: HTMLElement = fixture.nativeElement.querySelector('.banner-close mat-icon')
+      expect(closeIcon).toBeTruthy()
+      expect(closeIcon.classList).toContain('mat-icon')
+      expect(closeIcon.classList).toContain('material-icons')
+      expect(closeIcon.textContent.trim()).toBe('close')
     })
   })
 })
