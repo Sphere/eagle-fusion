@@ -25,6 +25,12 @@ export namespace NsInstanceConfig {
     defaultFontsize: string
     defaultThemeClass: string
     defaultLocale: string
+    /**
+     * Certificate QR verification: true once every old cert-registry certificate is in
+     * Sunbird RC, so an id found in neither RC lookup is reported invalid. Absent/false
+     * keeps the old access-code check as the fallback.
+     */
+    certificateMigrationCompleted?: boolean
     disablePidCheck?: boolean
     fontSizes: IFontSize[]
     isContentDownloadAvailable: boolean

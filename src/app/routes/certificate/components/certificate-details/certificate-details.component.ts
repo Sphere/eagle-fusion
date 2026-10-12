@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core'
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { trim, get, upperCase } from 'lodash'
 import moment from 'moment'
@@ -6,8 +6,19 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { ApiService } from '@ws/author/src/public-api'
-import { CertificateService } from '../../services/certificate.service'
+import {
+  CertificateService,
+  ICertificateVerifyResponse,
+  IVerifiedCertificate,
+} from '../../services/certificate.service'
 import { SafeUrl } from '@angular/platform-browser'
+
+/**
+ * What the page shows for the scanned id:
+ * checking -> RC lookup in progress; verified -> certificate card;
+ * code -> old access-code check (not in RC, migration not marked complete); invalid.
+ */
+export type CertificatePageStage = 'checking' | 'verified' | 'code' | 'invalid'
 
 @Component({
   standalone: false,
@@ -16,8 +27,13 @@ import { SafeUrl } from '@angular/platform-browser'
   styleUrls: ['./certificate-details.component.scss'],
 
 })
-export class CertificateDetailsComponent implements OnInit {
+export class CertificateDetailsComponent implements OnInit, OnDestroy {
   appIcon: SafeUrl | null = null
+  stage: CertificatePageStage = 'checking'
+  issuerName = ''
+  certificateImage: SafeUrl | null = null
+  /** blob: URLs created for the rendered certificate; revoked on destroy. */
+  private readonly objectUrls: string[] = []
   loader!: boolean
   viewCertificate!: boolean
   error = false
@@ -63,6 +79,72 @@ export class CertificateDetailsComponent implements OnInit {
     this.appIcon = this.safeResourceUrlSvc.trust(
       'fusion-assets/images/Sphere_Logo_4.svg',
     )
+    this.verifyFromQr()
+  }
+
+  ngOnDestroy() {
+    this.objectUrls.forEach(url => URL.revokeObjectURL(url))
+  }
+
+  /** Every old cert-registry certificate is in RC, so "not found" can be reported as invalid. */
+  get migrationCompleted(): boolean {
+    return this.configService.instanceConfig?.certificateMigrationCompleted === true
+  }
+
+  /**
+   * QR scans land here with the certificate id (and, for RC certificates, ?entity=).
+   * Sunbird RC is checked first - by id, then as the oldId of a migrated certificate -
+   * so new, migrated and pre-migration printed certificates verify without a code.
+   */
+  verifyFromQr() {
+    const id = this.activatedRoute.snapshot.params.uuid
+    const entity = this.activatedRoute.snapshot.queryParamMap?.get('entity')
+    this.stage = 'checking'
+    this.loader = true
+    this.certificateService.verifyCertificate(id, entity).subscribe(
+      (response: ICertificateVerifyResponse) => this.handleVerifyResponse(response),
+      (error: any) => {
+        // 400 = not a certificate id at all. Anything else (RC unreachable) must not be
+        // reported as invalid: fall back to the access code, which still works.
+        this.stage = get(error, 'status') === 400 ? 'invalid' : 'code'
+        this.loader = false
+        this.cdr.detectChanges()
+      },
+    )
+  }
+
+  private handleVerifyResponse(response: ICertificateVerifyResponse) {
+    const certificate = response?.found ? response.certificate : undefined
+    if (certificate && !certificate.revoked) {
+      this.showRcCertificate(certificate, response.printUri)
+    } else if (certificate) {
+      this.stage = 'invalid'
+    } else {
+      this.stage = this.migrationCompleted ? 'invalid' : 'code'
+    }
+    this.loader = false
+    this.cdr.detectChanges()
+  }
+
+  private showRcCertificate(certificate: IVerifiedCertificate, printUri?: string) {
+    this.recipient = certificate.recipientName
+    this.courseName = certificate.courseName
+    this.issuedOn = this.formatIssuedOn(certificate.issuedOn)
+    this.issuerName = certificate.issuerName
+    this.maskedEmail = ''
+    this.maskedPhone = ''
+    if (printUri) {
+      // printUri is raw SVG for RC certificates: never bind it directly (see SafeResourceUrlService).
+      const src = this.safeResourceUrlSvc.toImageSource(printUri, this.objectUrls)
+      this.certificateImage = this.safeResourceUrlSvc.trustImageSrc(src)
+    }
+    this.viewCertificate = true
+    this.stage = 'verified'
+  }
+
+  /** Course certificates already carry the printed date; event and older records a timestamp. */
+  private formatIssuedOn(value: string): string {
+    return /^\d{4}-\d{2}-\d{2}/.test(value || '') ? moment(value).format('DD MMM YYYY') : value || ''
   }
 
   /** It will call the validate cert. api and course_details api (after taking courseId) */
@@ -77,6 +159,7 @@ export class CertificateDetailsComponent implements OnInit {
         const certData = get(data, 'response.json')
         this.loader = false
         this.viewCertificate = true
+        this.stage = 'verified'
         this.recipient = get(certData, 'recipient.name')
         this.courseName = get(certData, 'badge.name')
         this.issuedOn = moment(new Date(get(certData, 'issuedOn'))).format('DD MMM YYYY')

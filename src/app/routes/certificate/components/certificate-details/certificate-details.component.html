@@ -12,6 +12,15 @@
       </div>
       <img src="fusion-assets/images/certificate.png" class="sb-certificatePage-desc-img" alt="Certificate Desc" />
     </div>
+    @if (stage === 'invalid') {
+    <div class="sb-certificatePage-invalid" role="alert">
+      <mat-icon class="sb-certificatePage-invalid-icon" aria-hidden="true">gpp_bad</mat-icon>
+      <h4 class="sb-certificatePage-invalid-title">{{ 'CERT_VERIFY_INVALID_TITLE' | translate }}</h4>
+      <p class="sb-certificatePage-invalid-desc">{{ 'CERT_VERIFY_INVALID_DESC' | translate }}</p>
+    </div>
+    }
+    <!-- Old access-code check: only for ids Sunbird RC does not know (see verifyFromQr). -->
+    @if (stage === 'code') {
     <div class="sb-certificatePage-form">
       <div class="sb-form-field-group">
         <label *ngIf="!wrongCertificateCode" class="sb-certificatePage-label" for="certificate">
@@ -35,6 +44,7 @@
         </div>
       </div>
     </div>
+    }
   </div>
   <div *ngIf="viewCertificate">
     <div class="sb-certificatePage sb-certificate-view sb-certificatePage-flexHeight">
@@ -44,6 +54,7 @@
       <div class="sb-certificatePage-holder-details">
 
         <img src="fusion-assets/images/badge.svg" class="sb-icon-badge mb-8" alt="Badge" />
+        <p class="sb-certificatePage-verified-label">{{ 'CERT_VERIFY_VERIFIED' | translate }}</p>
         <p *ngIf="recipient" class="sb-certificatePage-holder-desc sb-certificatePage-holder-desc-primary">
           <!-- {{resourceService?.frmelmnts?.lbl?.certificateIssuedTo}} -->
           {{'Certificate issued to '}}
@@ -64,6 +75,14 @@
             <strong> {{issuedOn}}</strong>
           </span>
         </p>
+        @if (issuerName) {
+        <p class="sb-certificatePage-holder-desc">
+          {{ 'CERT_VERIFY_ISSUED_BY' | translate }} <strong>{{ issuerName }}</strong>
+        </p>
+        }
+        @if (certificateImage) {
+        <img [src]="certificateImage" class="sb-certificatePage-image" [alt]="'Certificate' | translate" />
+        }
 
       </div>
 

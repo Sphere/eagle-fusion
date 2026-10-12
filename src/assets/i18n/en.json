@@ -1042,5 +1042,9 @@
   "COPY_LINK": "Copy link",
   "COPY": "Copy",
   "LINK_COPIED": "Link copied",
-  "COPY_LINK_FAILED": "Could not copy the link. Please copy it from the box."
+  "COPY_LINK_FAILED": "Could not copy the link. Please copy it from the box.",
+  "CERT_VERIFY_VERIFIED": "Verified certificate",
+  "CERT_VERIFY_ISSUED_BY": "Issued by",
+  "CERT_VERIFY_INVALID_TITLE": "This certificate could not be verified",
+  "CERT_VERIFY_INVALID_DESC": "Make sure you scanned the QR code printed on the certificate. If the problem continues, contact the organisation that issued it."
 }
