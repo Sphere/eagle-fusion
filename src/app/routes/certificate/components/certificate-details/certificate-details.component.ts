@@ -30,7 +30,6 @@ export type CertificatePageStage = 'checking' | 'verified' | 'code' | 'invalid'
 export class CertificateDetailsComponent implements OnInit, OnDestroy {
   appIcon: SafeUrl | null = null
   stage: CertificatePageStage = 'checking'
-  issuerName = ''
   certificateImage: SafeUrl | null = null
   /** blob: URLs created for the rendered certificate; revoked on destroy. */
   private readonly objectUrls: string[] = []
@@ -130,7 +129,8 @@ export class CertificateDetailsComponent implements OnInit, OnDestroy {
     this.recipient = certificate.recipientName
     this.courseName = certificate.courseName
     this.issuedOn = this.formatIssuedOn(certificate.issuedOn)
-    this.issuerName = certificate.issuerName
+    // issuer.name is not shown: batch cert templates carry a placeholder ("in"), sealed into
+    // every signed certificate. The certificate image shows the real issuer.
     this.maskedEmail = ''
     this.maskedPhone = ''
     if (printUri) {

@@ -78,11 +78,6 @@
             <strong> {{issuedOn}}</strong>
           </span>
         </p>
-        @if (issuerName) {
-        <p class="sb-certificatePage-holder-desc">
-          {{ 'CERT_VERIFY_ISSUED_BY' | translate }} <strong>{{ issuerName }}</strong>
-        </p>
-        }
         @if (certificateImage) {
         <img [src]="certificateImage" class="sb-certificatePage-image" [alt]="'Certificate' | translate" />
         }
