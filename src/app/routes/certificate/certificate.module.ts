@@ -6,6 +6,7 @@ import { CertificateDetailsComponent } from './components/index'
 import { CertificateService } from './services/certificate.service'
 import { ApiService } from '@ws/author/src/public-api'
 import { MatIconModule } from '@angular/material/icon'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { TranslateModule } from '@ngx-translate/core'
 
 @NgModule({
@@ -17,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core'
     CertificateRoutingModule,
     FormsModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     TranslateModule,
   ],
   providers: [CertificateService, ApiService],
