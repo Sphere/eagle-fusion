@@ -9,11 +9,11 @@ import { FormGroup } from '@angular/forms'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-    standalone: false,
-    selector: 'ws-your-background',
-    templateUrl: './your-background.component.html',
-    styleUrls: ['./your-background.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-your-background',
+  templateUrl: './your-background.component.html',
+  styleUrls: ['./your-background.component.scss'],
+
 })
 export class YourBackgroundComponent implements OnInit {
   @Input() aboutYou!: FormGroup
@@ -29,15 +29,15 @@ export class YourBackgroundComponent implements OnInit {
   selectedAddress: any
   professionUrl = '../../../fusion-assets/files/professions.json'
   constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef,
-    private activateRoute: ActivatedRoute,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private translate: TranslateService
+    private readonly http: HttpClient,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -115,6 +115,10 @@ export class YourBackgroundComponent implements OnInit {
             personalDetails: userObject,
           },
         },
+        // tcStatus is a top-level field the general.guard checks for the new-tnc
+        // redirect - carry it forward on every update. configSvc.unMappedUser mirrors
+        // the raw registry response; older records may lack the field, default to 'false'.
+        tcStatus: this.configSvc.unMappedUser?.tcStatus === 'true' ? 'true' : 'false',
       },
     }
 

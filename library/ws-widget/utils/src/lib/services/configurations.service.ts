@@ -5,10 +5,8 @@ import { NsAppsConfig, NsInstanceConfig, NsPage, NsUser } from '../resolvers/con
 import { IUserPreference } from './user-preference.model'
 
 let instanceConfigPath: string | null = window.location.host
-// let locationHost: string | null = window.location.host
 
 if (!environment.production && Boolean(environment.sitePath)) {
-  // locationHost = environment.sitePath
   instanceConfigPath = environment.sitePath
 }
 @Injectable({
@@ -23,11 +21,6 @@ export class ConfigurationsService {
   baseUrl = 'assets/configurations'
   sitePath = 'assets/configurations'
   localSitePath = 'fusion-assets/files'
-  // baseUrl = `assets/configurations/${(locationHost || window.location.host).replace(':', '_')}`
-  // sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
-  //   ':',
-  //   '_',
-  // )}`
   hostPath = (instanceConfigPath || window.location.host).replace(':', '_')
 
   userRoles: Set<string> | null = null

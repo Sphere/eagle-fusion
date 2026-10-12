@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Data } from '@angular/router'
 import { Subject, Subscription } from 'rxjs'
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
+import { SafeStyle } from '@angular/platform-browser'
 import { NsContent, viewerRouteGenerator, ROOT_WIDGET_CONFIG, WidgetContentService } from '@ws-widget/collection'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { takeUntil } from 'rxjs/operators'
 import { get, last } from 'lodash'
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-contents',
-    templateUrl: './app-toc-contents.component.html',
-    styleUrls: ['./app-toc-contents.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-contents',
+  templateUrl: './app-toc-contents.component.html',
+  styleUrls: ['./app-toc-contents.component.scss'],
+
 })
 export class AppTocContentsComponent implements OnInit, OnDestroy {
   content: NsContent.IContent | null = null
@@ -31,17 +31,13 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   contextId!: string
   contextPath!: string
   loadContent = true
-  // viewChildren = false
-  /*
-* to unsubscribe the observable
-*/
   public unsubscribe = new Subject<void>()
   constructor(
-    private route: ActivatedRoute,
-    private sanitizer: DomSanitizer,
-    private tocSvc: AppTocService,
-    private configSvc: ConfigurationsService,
-    private contentSvc: WidgetContentService
+    private readonly route: ActivatedRoute,
+    private readonly sanitizer: SafeResourceUrlService,
+    private readonly tocSvc: AppTocService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly contentSvc: WidgetContentService
   ) { }
 
   ngOnInit() {
@@ -114,11 +110,10 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         this.contextId = this.content.identifier
         this.contextPath = this.content.contentType
       }
-      // this.fetchContentParents(this.content.identifier)
       this.populateContentPlayWidget(this.content)
     }
     if (this.content && this.content.gatingEnabled && this.content.children) {
-      this.content.children.map((child1: any, index: any, element: any) => {
+      this.content.children.forEach((child1: any, index: any, element: any) => {
         if (child1['children']) {
           child1['children'].map((child2: any, cindex: any) => {
             if (get(child2, 'completionPercentage') === 100) {
@@ -166,11 +161,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     this.contentSvc.showConformation = percentage
   }
 
-  // private fetchContentParents(contentId: string) {
-  //   this.tocSvc.fetchContentParents(contentId).subscribe(contents => {
-  //     this.contentParents = contents || []
-  //   })
-  // }
   private populateContentPlayWidget(content: NsContent.IContent) {
     if (
       content.contentType === NsContent.EContentTypes.RESOURCE ||
@@ -221,7 +211,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     this.isPlayable = true
   }
   sanitizedBackgroundImage(url: string): SafeStyle {
-    return this.sanitizer.bypassSecurityTrustStyle(`url(${url})`)
+    return this.sanitizer.trustStyle(`url(${url})`)
   }
   resourceLink(resource: NsContent.IContent): { url: string; queryParams: { [key: string]: any } } {
     return viewerRouteGenerator(resource.identifier, resource.mimeType)
@@ -240,10 +230,5 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         return true
     }
   }
-
-  // ExpandViewChild(data: any) {
-  //   this.viewChildren = !this.viewChildren
-  //   this.logger.log(data, this.viewChildren)
-  // }
 
 }

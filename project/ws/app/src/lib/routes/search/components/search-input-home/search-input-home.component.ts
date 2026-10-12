@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, ViewChild, ViewEncapsulation } from '@angular/core'
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core'
 import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
@@ -8,15 +8,14 @@ import { ISearchAutoComplete } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-search-input-home',
-    templateUrl: './search-input-home.component.html',
-    styleUrls: ['./search-input-home.component.scss'],
-    // tslint:disable-next-line
-    encapsulation: ViewEncapsulation.None,
-    
+  standalone: false,
+  selector: 'ws-app-search-input-home',
+  templateUrl: './search-input-home.component.html',
+  styleUrls: ['./search-input-home.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+
 })
-export class SearchInputHomeComponent implements OnInit, OnChanges {
+export class SearchInputHomeComponent implements OnInit {
   @Input() placeHolder = ''
   @Input() ref = ''
   @Output() closed: EventEmitter<boolean> = new EventEmitter()
@@ -34,11 +33,11 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
   lang = ''
 
   constructor(
-    private activated: ActivatedRoute,
-    private router: Router,
-    private searchServSvc: SearchServService,
-    private configSvc: ConfigurationsService,
-    private route: ActivatedRoute
+    private readonly activated: ActivatedRoute,
+    private readonly router: Router,
+    private readonly searchServSvc: SearchServService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly route: ActivatedRoute
   ) {
   }
   autoFilter() {
@@ -65,26 +64,13 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
         this.queryControl.setValue(queryParam.get('q') || '')
       } else {
         this.queryControl.setValue('')
-        // this.updateQuery('all')
       }
-      // if (queryParam.has('lang')) {
-      //   this.searchLocale = queryParam.get('lang') || this.getActiveLocale()
-      // } else {
-      //   this.searchLocale = this.getActiveLocale()
-      // }
-      // const isAutoCompleteAllowed = this.route.snapshot.data.searchPageData ?
-      //   this.route.snapshot.data.searchPageData.data.search.isAutoCompleteAllowed
-      //   : false
-      // if (typeof isAutoCompleteAllowed === 'undefined' ||
-      //   (typeof isAutoCompleteAllowed === 'boolean' && isAutoCompleteAllowed)) {
-      //   this.getSearchAutoCompleteResults(this.queryControl.value)
-      // }
     })
     this.languageSearch = this.route?.snapshot?.data?.searchPageData?.data?.search?.languageSearch?.map(
       (u: string) => u.toLowerCase(),
     )
     if (this.languageSearch?.length > 0) {
-      this.languageSearch = this.languageSearch?.sort()
+      this.languageSearch = this.languageSearch?.sort((a: string, b: string) => a.localeCompare(b))
       this.swapRemove(this.languageSearch, this.languageSearch?.indexOf('all'), 0)
       if (this.preferredLanguages && this.preferredLanguages.split(',').length > 1) {
         this.languageSearch?.splice(1, 0, this.preferredLanguages)
@@ -93,26 +79,13 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // if (!this.activated.snapshot.data.searchPageData) {
     this.searchServSvc.getSearchConfig().then(data => {
       this.activated.snapshot.data = {
         searchPageData: { data },
       }
     }).then(() => {
-      // this.autoFilter()
       this.init()
     })
-    // } else {
-    //   this.autoFilter();
-    //   this.init();
-    // }
-  }
-  ngOnChanges() {
-    for (const change in SimpleChange) {
-      if (change === 'placeHolder') {
-        this.placeHolder = this.placeHolder
-      }
-    }
   }
 
   swapRemove(langArray: string[], from: number, to: number) {

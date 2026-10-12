@@ -328,12 +328,12 @@ describe('MobileScromAdapterService', () => {
       expect(service.LMSCommit()).toBe(false)
     })
 
-    it('should return false for data with other lesson status (calls updateScromProgress)', () => {
+    it('should return true for data with other lesson status (calls updateScromProgress)', () => {
       const { of } = require('rxjs')
       mockStore.getItem.mockReturnValue(true)
       mockStore.getAll.mockReturnValue({ 'cmi.core.lesson_status': 'unknown', 'cmi.core.session_time': '0:01:00.0' })
       service['http'] = { post: jest.fn().mockReturnValue(of({ result: {} })) } as any
-      expect(service.LMSCommit()).toBe(false)
+      expect(service.LMSCommit()).toBe(true)
     })
 
     it('should call telemetry methods for incomplete lesson_status', () => {

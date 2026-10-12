@@ -31,7 +31,8 @@
   <div class="flex flex-between">
     <mat-icon class=" ws-mat-primary-text margin-bottom-xxs">crop</mat-icon>
     <p mat-dialog-title class="text-3xl font-weight-bold ws-mat-primary-text">Profile Photo</p>
-    <mat-icon class="float-right flex-end cursor-pointer" (click)="close()">close</mat-icon>
+    <mat-icon class="float-right flex-end cursor-pointer" tabindex="0" (click)="close()" (keydown.enter)="close()"
+      (keydown.space)="close(); $event.preventDefault()">close</mat-icon>
 
   </div>
   <mat-dialog-content class="p-0 overflow-hidden " *ngIf="isRoundCrop">
@@ -67,7 +68,8 @@
     <div class="flex flex-between">
       <mat-icon class=" ws-mat-primary-text margin-bottom-xxs">crop</mat-icon>
       <p mat-dialog-title class="text-3xl title-margin font-weight-bold ws-mat-primary-text">Edit Image</p>
-      <mat-icon class="float-right flex-end cursor-pointer" (click)="close()">
+      <mat-icon class="float-right flex-end cursor-pointer" tabindex="0" (click)="close()" (keydown.enter)="close()"
+        (keydown.space)="close(); $event.preventDefault()">
         close</mat-icon>
     </div>
     <mat-dialog-content *ngIf="!isRoundCrop">
@@ -102,7 +104,7 @@
         </div>
         <mat-card class="ws-mat-primary-border-top-bolder mat-elevation-z6 margin-bottom-l button-text"
           *ngIf="isThumbnail">
-          <img [src]="imageFileBase64" height="auto" width="100%" (error)="changeToDefaultImg($event)" />
+          <img [src]="imageFileBase64" height="auto" width="100%" (error)="changeToDefaultImg($event)" alt="Preview" />
           <div class="flex flex-middle justify-center margin-bottom-s padding-top-s">
             <mat-icon class="ws-mat-primary-text padding-right-s">image</mat-icon>
             <b class="mat-title margin-remove ws-mat-primary-text">Preview</b>
@@ -110,10 +112,6 @@
         </mat-card>
       </div>
       <div class="edit-feature-window heightwidth">
-        <!-- <div class="flex flex-middle margin-left-l margin-bottom-s padding-top-s">
-          <mat-icon class="ws-mat-primary-text padding-right-s">swap_horiz</mat-icon>
-          <b class="mat-body margin-remove " >Cropped dimensions: {{ opWidth }} * {{ opHeight }} px</b>
-        </div> -->
         <div class="flex flex-middle margin-left-l margin-bottom-s padding-top-s">
           <mat-icon class="ws-mat-primary-text padding-right-s">swap_horiz</mat-icon>
           <b class="mat-body margin-remove ">
@@ -135,9 +133,6 @@
   </ng-container>
   <mat-dialog-actions align="end" *ngIf="!isNotOfRequiredSize ">
     <div class="flex flex-end margin-bottom-s">
-      <!--  <button mat-raised-button type="button" (click)=" reset()">
-        <span >Reset</span>
-      </button> -->
       <button mat-raised-button type="button" class="text-white ws-mat-primary-background text-white"
         (click)=" croppingImage()">
         <span class="text-white">Apply</span>

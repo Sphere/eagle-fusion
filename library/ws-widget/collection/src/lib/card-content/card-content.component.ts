@@ -11,13 +11,14 @@ import { delay, mergeMap } from 'rxjs/operators'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { Title } from '@angular/platform-browser'
 import { get, forEach } from 'lodash'
+import { parseCompetencies } from '@ws/app/src/lib/routes/app-toc/utils/competency.util'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-card-content',
-    templateUrl: './card-content.component.html',
-    styleUrls: ['./card-content.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-card-content',
+  templateUrl: './card-content.component.html',
+  styleUrls: ['./card-content.component.scss'],
+
 })
 export class CardContentComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsCardContent.ICard> {
@@ -42,13 +43,13 @@ export class CardContentComponent extends WidgetBaseComponent
   userDetails: any
   cometencyData: { name: any; levels: string }[] = []
   constructor(
-    private configSvc: ConfigurationsService,
-    private utilitySvc: UtilityService,
-    private snackBar: MatSnackBar,
-    private authSvc: AuthKeycloakService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private titleService: Title
+    private readonly configSvc: ConfigurationsService,
+    private readonly utilitySvc: UtilityService,
+    private readonly snackBar: MatSnackBar,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly router: Router,
+    private readonly titleService: Title
   ) {
     super()
     this.offSetXValue = 290
@@ -57,9 +58,6 @@ export class CardContentComponent extends WidgetBaseComponent
 
   ngOnInit() {
     const url = window.location.href
-    // if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 && !this.authSvc.isAuthenticated) {
-    //   this.showLoggedInCard = true
-    // }
     if (url.indexOf('/public/home') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
@@ -82,11 +80,8 @@ export class CardContentComponent extends WidgetBaseComponent
     }
 
     if (this.widgetData) {
-      // this.cometencyData = JSON.parse(get(this.widgetData, 'content.competencies_v1', ''))
-      // this.logger.log("this.widgetData", this.widgetData, get(this.widgetData, 'content.competencies_v1'))
-
       if (this.widgetData.content.competencies_v1 && Object.keys(this.widgetData.content.competencies_v1).length > 0) {
-        forEach(JSON.parse(get(this.widgetData, 'content.competencies_v1')), (value: any) => {
+        forEach(parseCompetencies(get(this.widgetData, 'content.competencies_v1')), (value: any) => {
           if (value.level) {
             this.cometencyData.push(
               {
@@ -120,8 +115,6 @@ export class CardContentComponent extends WidgetBaseComponent
       if (this.target) {
         this.target!.targetOffsetX = event.clientX + 1
       }
-    } else {
-      // this.logger.log('this.showEndPopup', this.showEndPopup)
     }
   }
   clickToRedirect(data: any) {
@@ -202,11 +195,13 @@ export class CardContentComponent extends WidgetBaseComponent
   }
   slugify(text: string): string {
     return text
+      .slice(0, 200)
       .toLowerCase()
       .trim()
-      .replace(/&/g, 'and')
-      .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
-      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
+      .replaceAll('&', 'and')
+      .replaceAll(/[^a-z0-9]+/g, '-')          // Replace spaces/symbols with hyphen
+      .replace(/^-{1,1000}/, '')             // Remove starting hyphens
+      .replace(/-{1,1000}$/, '')             // Remove ending hyphens
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
@@ -216,19 +211,9 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   ngAfterViewInit() {
-    // this.assignThumbnail()
     this.offSetXValue = 290
     this.offSetYValue = -340
   }
-
-  // private get defaultRedirectUrl(): string {
-  //   try {
-  //     const baseUrl = document.baseURI
-  //     return baseUrl || location.origin
-  //   } catch (error) {
-  //     return location.origin
-  //   }
-  // }
 
   get checkDisplayName(): string {
     if (this.widgetData.content.creatorDetails && this.widgetData.content.creatorDetails.length) {
@@ -301,28 +286,6 @@ export class CardContentComponent extends WidgetBaseComponent
     this.widgetData.content.averageRating = this.widgetData.content.averageRating || 0
   }
 
-  // private assignThumbnail() {
-  //   const thumbnailElement = document.getElementById(`card_${this.widgetData.content.identifier}`) as HTMLImageElement
-  //   if (thumbnailElement) {
-  //     try {
-  //       const observer = new IntersectionObserver(
-  //         entries => {
-  //           entries.forEach(entry => {
-  //             const { isIntersecting } = entry
-  //             if (isIntersecting) {
-  //               thumbnailElement.src = this.widgetData.content.appIcon
-  //               observer.disconnect()
-  //             }
-  //           })
-  //         },
-  //       )
-  //       observer.observe(thumbnailElement)
-  //     } catch (e) {
-  //       thumbnailElement.src = this.widgetData.content.appIcon
-  //     }
-  //   }
-  // }
-
   get isKnowledgeBoard() {
     return (
       (this.widgetData.content && this.widgetData.content.contentType) ===
@@ -336,11 +299,6 @@ export class CardContentComponent extends WidgetBaseComponent
         return of(data)
       })).subscribe((userDetails: any) => {
         if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
-          // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-          //   contentId: this.widgetData.content.identifier,
-          //   contentType: this.widgetData.content.contentType,
-          //   context: this.widgetData.context,
-          // })
           this.router.navigateByUrl(`/app/toc/${this.widgetData.content.identifier}/overview?primaryCategory=Course`)
         } else {
           const url = `/app/toc/${this.widgetData.content.identifier}/overview`
@@ -413,5 +371,4 @@ export class CardContentComponent extends WidgetBaseComponent
     return false
   }
 
-  openComment() { }
 }

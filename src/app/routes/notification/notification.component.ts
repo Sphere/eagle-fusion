@@ -27,61 +27,6 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
   dropdownContent = false
   readNotificationList: any = []
   unReadNotificationList: any = []
-  // allnotificationList = [
-  //   {
-  //     status: "read",
-  //     createdon: "2025-02-24T15:30:00Z",
-  //     data: {
-  //       actionData: {
-  //         actionType: "course",
-  //         identifier: "do_11413970065553817612",
-  //         logo: "https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com/collection/do_11413970065553817612/artifact/do_11413970085802803213_1726037703072_do114064734579908608151716886545860certificate117168865445991726037701451.thumb.jpg",
-  //         title: "Course Updated",
-  //         description: "The Oncology Nursing course has been updated with new modules.",
-  //       }
-  //     }
-  //   },
-  //   {
-  //     status: "unread",
-  //     createdon: "2025-02-23T08:45:00Z",
-  //     data: {
-  //       actionData: {
-  //         actionType: "certificate",
-  //         identifier: "do_11413970065553817612",
-  //         logo: "https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com/collection/do_11413970065553817612/artifact/do_11413970085802803213_1726037703072_do114064734579908608151716886545860certificate117168865445991726037701451.thumb.jpg",
-  //         title: "Upcoming Webinar",
-  //         description: "Join our upcoming webinar on Postpartum Care this weekend.",
-  //       }
-  //     }
-  //   },
-  //   {
-  //     status: "unread",
-  //     createdon: "2025-02-21T09:30:00Z",
-  //     data: {
-  //       actionData: {
-  //         actionType: "certificateUpdate",
-  //         identifier: "do_1134170689871134721450",
-  //         logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1134170689871134721450/artifact/do_1134172312759009281507_1637848523570_normallabourandbirthalt1620746178335.thumb.png",
-  //         title: "Normal Labour & Birth and AMTSL",
-  //         description: "Congratulations! You have successfully completed the course",
-  //       }
-  //     }
-  //   },
-  //   {
-  //     status: "unread",
-  //     createdon: "2025-02-19T17:20:00Z",
-  //     data: {
-  //       actionData: {
-  //         actionType: "courseUpdate",
-  //         identifier: "do_1134170690099118081470",
-  //         logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1134172312759009281507/artifact/do_1134172312759009281507_1637848567343_fernandezfoundationprimarylogo20191599049077665.jpg",
-  //         title: "Respectful Maternity Care (M1-S1-U4)",
-  //         description: "Ram Kumar has commented on your post.",
-  //       }
-  //     }
-  //   },
-
-  // ];
   allnotificationList: any = []
   access_token = ''
   user_id = ''
@@ -99,11 +44,11 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
     private readonly storage: LocalStorageService,
     private readonly router: Router,
     private readonly renderer: Renderer2,
-    public configSvc: ConfigurationsService,
+    public readonly configSvc: ConfigurationsService,
     private readonly valueSvc: ValueService,
     private readonly dialogRef: MatDialogRef<NotificationsComponent>,
     private readonly cdr: ChangeDetectorRef,
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) {
     this.logger.log('NotificationsComponent constructor called')
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -114,16 +59,6 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
     this.logger.log('ngOnInit called')
 
     this.user_id = this.configSvc.userProfile?.userId ?? ''
-
-    // this.getAccessToken().then(() => {
-    //   this.getReadNotifications()
-
-    //   if (!(this.socket?.connected)) {
-    //     this.connectSocket().then(() => this.getNotification())
-    //   } else {
-    //     this.getNotification()
-    //   }
-    // })
   }
 
 
@@ -231,8 +166,6 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
 
   async connectSocket() {
     const url = `wss://${environment.sitePath}`
-    // const baseUrl = "wss://aastrika-stage.tarento.com"
-    // const url = baseUrl
     const token = this.access_token ? this.access_token : await this.getAccessToken()
     this.socket = io(url, {
       auth: { token },
@@ -275,8 +208,6 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
       if (item.data.actionData.actionType.includes('course') || item.data.actionData.actionType.includes('certificate')) {
         const url = `/app/toc/` + `${item.data.actionData.identifier}` + `/overview`
         this.router.navigate([url], { replaceUrl: true })
-      } else if (item.data.actionData.actionType.includes('other')) {
-        // navigation for other actions
       }
     }
     if (this.dialogRef && typeof this.dialogRef.close === 'function')
@@ -323,7 +254,7 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngAfterViewInit() {
     this.renderer.listen('document', 'click', (_event: Event) => {
-
+      // Close dropdown when clicking outside
     })
   }
 
@@ -332,9 +263,6 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
       this.dropdownContent = false
     }
   }
-
-  // ========== new code
-  // Minimum swipe distance to reveal delete button
 
   onTouchStart(event: TouchEvent, _element: HTMLElement) {
     this.startX = event.touches[0].clientX

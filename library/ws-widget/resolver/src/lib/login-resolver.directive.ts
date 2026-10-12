@@ -12,9 +12,9 @@ import { LoginResolverService } from './login-resolver.service'
 export class LoginResolverDirective implements OnChanges {
   @Input() wsLoginResolverWidget: NsWidgetResolver.IRenderConfigWithAnyData | null = null
   constructor(
-    private viewContainerRef: ViewContainerRef,
-    private loginResolverSvc: LoginResolverService,
-    private logger: LoggerService,
+    private readonly viewContainerRef: ViewContainerRef,
+    private readonly loginResolverSvc: LoginResolverService,
+    private readonly logger: LoggerService,
   ) {}
 
   ngOnChanges() {

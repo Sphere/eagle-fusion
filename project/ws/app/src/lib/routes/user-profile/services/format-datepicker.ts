@@ -8,7 +8,6 @@ export class AppDateAdapter extends NativeDateAdapter {
       let month: string = (date.getMonth() + 1).toString()
       month = +month < 10 ? `0${month}` : month
       const year = date.getFullYear()
-      // return `${year}-${month}-${day}`
       return `${day}-${month}-${year}`
     }
     return date.toDateString()
@@ -35,7 +34,6 @@ export function changeformat(date: Date): string {
   let month: string = (date.getMonth() + 1).toString()
   month = +month < 10 ? `0${month}` : month
   const year = date.getFullYear()
-  // return `${year}-${month}-${day}`
   return `${day}-${month}-${year}`
 }
 

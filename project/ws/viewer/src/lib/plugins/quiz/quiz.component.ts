@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
-  OnChanges, OnDestroy, OnInit,
+  OnChanges, OnDestroy,
   QueryList,
   SimpleChanges,
   ViewChild, ViewChildren,
@@ -50,7 +50,7 @@ import { HttpClient } from '@angular/common/http'
   styleUrls: ['./quiz.component.scss'],
 
 })
-export class QuizComponent implements OnInit, OnChanges, OnDestroy {
+export class QuizComponent implements OnChanges, OnDestroy {
   [x: string]: any
 
   @Input() identifier = ''
@@ -118,34 +118,31 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
-  isAsha = false;
-  private isAshaSubscription: Subscription
-  private isCurrentcardDataSubscribe: Subscription
+  isAsha = false
+  private readonly isAshaSubscription: Subscription
+  private readonly isCurrentcardDataSubscribe: Subscription
+  overviewData: any = {}
   constructor(
-    private events: EventService,
+    private readonly events: EventService,
     public dialog: MatDialog,
-    private quizSvc: QuizService,
-    private viewerSvc: ViewerUtilService,
+    private readonly quizSvc: QuizService,
+    private readonly viewerSvc: ViewerUtilService,
     public route: ActivatedRoute,
     public location: Location,
     public viewerDataSvc: ViewerDataService,
     public playerStateService: PlayerStateService,
     public router: Router,
-    private contentSvc: WidgetContentService,
-    private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService,
-    private http: HttpClient,
-    private viewSvc: ViewerUtilService
+    private readonly contentSvc: WidgetContentService,
+    private readonly loggerSvc: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly http: HttpClient,
+    private readonly viewSvc: ViewerUtilService
   ) {
 
   }
 
-  ngOnInit() {
-  }
   openOverviewDialog() {
-    let overviewData: any = {}
-    // this.viewerSvc.competencyAsessment.next(false)
-    overviewData = {
+    this.overviewData = {
       learningObjective: this.learningObjective,
       complexityLevel: this.complexityLevel,
       duration: this.duration,
@@ -165,83 +162,84 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         panelClass: 'overview-modal',
         backdropClass: 'overview-backdrop',
         disableClose: true,
-        data: overviewData,
+        data: this.overviewData,
       })
 
       this.dialogOverview.afterClosed().subscribe(async (result: any) => {
-        // Release the ref as soon as the overview closes, otherwise the `!this.dialogOverview`
-        // guard above turns every later call into a no-op for the life of this component —
-        // which is why "Yes, Restart" never reopened the overview.
         this.dialogOverview = null
-        if (result.event === 'close-overview') {
-          if (result.competency) {
-            this.router.navigate([`/app/user/competency`])
-          } else if (result.asha) {
-            this.router.navigate([`page/home`])
-          } else {
-            this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-              if (isNull(data.nextResource)) {
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.route.snapshot.queryParams.batchId,
-                  },
-                })
-                // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
-              } else {
-                if (isNull(data.prevResource)) {
-                  if (this.viewerDataSvc.gatingEnabled) {
-                    if (data.currentCompletionPercentage === 100) {
-                      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                    } else {
-                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                        queryParams: {
-                          primaryCategory: 'Course',
-                          batchId: this.route.snapshot.queryParams.batchId,
-                        },
-                      })
-                    }
-
-                  } else {
-                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                  }
-
-                } else {
-                  if (this.viewerDataSvc.gatingEnabled) {
-                    if (data.currentCompletionPercentage === 100) {
-                      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                    } else {
-                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                        queryParams: {
-                          primaryCategory: 'Course',
-                          batchId: this.route.snapshot.queryParams.batchId,
-                        },
-                      })
-                    }
-
-                  } else {
-                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-                  }
-                  // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
-                }
-              }
-              return
-            })
-          }
-        } else {
-          let res = await this.transformQuiz(this.artifactUrl)
-          this.quizJson.questions = res.questions
-          if (get(this.quizJson, 'isAssessment')) {
-            this.openAssesmentDialog()
-          } else {
-            this.openQuizDialog()
-          }
-
-        }
+        await this.handleOverviewDialogClose(result)
       })
     }
   }
 
+  private async handleOverviewDialogClose(result: any): Promise<void> {
+    if (result.event !== 'close-overview') {
+      let res = await this.transformQuiz(this.artifactUrl)
+      this.quizJson.questions = res.questions
+      if (get(this.quizJson, 'isAssessment')) {
+        this.openAssesmentDialog()
+      } else {
+        this.openQuizDialog()
+      }
+      return
+    }
+    if (result.competency) {
+      this.router.navigate([`/app/user/competency`])
+    } else if (result.asha) {
+      this.router.navigate([`page/home`])
+    } else {
+      this.navigateAfterOverviewClose()
+    }
+  }
+
+  private navigateAfterOverviewClose(): void {
+    this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      if (isNull(data.nextResource)) {
+        this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+          queryParams: {
+            primaryCategory: 'Course',
+            batchId: this.route.snapshot.queryParams.batchId,
+          },
+        })
+      } else {
+        if (isNull(data.prevResource)) {
+          if (this.viewerDataSvc.gatingEnabled) {
+            if (data.currentCompletionPercentage === 100) {
+              this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+            } else {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.route.snapshot.queryParams.batchId,
+                },
+              })
+            }
+
+          } else {
+            this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+          }
+
+        } else {
+          if (this.viewerDataSvc.gatingEnabled) {
+            if (data.currentCompletionPercentage === 100) {
+              this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+            } else {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.route.snapshot.queryParams.batchId,
+                },
+              })
+            }
+
+          } else {
+            this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+          }
+        }
+      }
+      return
+    })
+  }
   private async transformQuiz(url: string): Promise<NSQuiz.IQuiz> {
     const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(url.split('/content')[1])
     let quizJSON: NSQuiz.IQuiz = await this.http
@@ -260,6 +258,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
     return quizJSON
   }
+
   scroll(qIndex: number) {
     if (!this.sidenavOpenDefault) {
       if (this.sideNav) {
@@ -379,7 +378,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               collectionId: this.collectionId,
               gating: this.viewerDataSvc.gatingEnabled,
               mimeType: this.viewerDataSvc?.resource?.mimeType,
-              isCorrectAnswerPopUp: this.viewerDataSvc?.resource?.isCorrectAnswerPopUp || undefined
+              isCorrectAnswerPopUp: this.viewerDataSvc?.resource?.isCorrectAnswerPopUp || undefined,
 
             },
             // **CRITICAL**: Pass existing progress data to modal so it doesn't reset completed assessments
@@ -548,7 +547,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           } else if (result.asha) {
             this.router.navigate([`page/home`])
           } else {
-
             this.closeBtnDialog()
           }
         }
@@ -661,7 +659,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       this.contentSvc.getFilteredCourseSearchResults(identifier).subscribe((res) => {
         console.log(res.result.content[0])
-        // navigationdata = this.getNavigationData(res.result.content, data.competencyLevel, data, currentData)
         const navigationdata = res.result.content[0]
         let batchId = navigationdata.batches[0].batchId
 
@@ -674,7 +671,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           completionpercentage: 0,
           progress: "course",
           competencyid: data.competencyId,
-          competencyName: data?.title
+          competencyName: data?.title,
         }
 
         this.contentSvc.setAshaData(ashaData)
@@ -701,9 +698,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     levelId: string,
     ashaData: any
   ): string | null {
-    // Extract the language from the ashaData
-    const language = ashaData.lang
-
     // Iterate over the levels in the ashaData
     for (const level of ashaData.levels) {
       // Check if the competencyId and levelId match
@@ -711,13 +705,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         level.competencyId.toString() == competencyId &&
         level.level == levelId
       ) {
-        // Iterate over the courses in the matched level
-        for (const course of level.course) {
-          // Check if the course language matches the input language (ashaData.lang)
-          if (course.lang == language) {
-            return course.id // Return the matched course ID
-          }
-        }
+        return level.course // Return the matched course ID
       }
     }
 
@@ -729,36 +717,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.viewState = 'answer'
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (isNull(data.nextResource)) {
-        // tslint:disable-next-line
-        // if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
-        //   && this.contentSvc.showConformation) {
-        //   const isDialogOpen = this.dialog.openDialogs.length > 0
-        //   if (!isDialogOpen) {
-        //     const data = {
-        //       courseId: this.collectionId,
-        //     }
-        //     this.openCongratulationPopup().then(isCompleted => {
-        //       if (isCompleted) {
-        //         const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-        //           width: '300px',
-        //           height: '420px',
-        //           panelClass: 'overview-modal',
-        //           disableClose: true,
-        //           data: { request: data, message: 'Congratulations!, you have completed the course' },
-        //         })
-
-        //         confirmdialog.afterClosed().subscribe((res: any) => {
-        //           if (res.event === 'CONFIRMED') {
-        //             this.router.navigate([`/app/user/competency`])
-        //           }
-        //         })
-        //       }
-        //     })
-        //   }
-
-        // } else {
         this.router.navigate([`/app/user/competency`])
-        // }
 
       } else {
         // Just navigate. The route container resets isFetchingDataComplete, so the next
@@ -783,44 +742,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         },
         queryParamsHandling: 'merge',
       })
-      // let reqBody = {
-      //   "request": {
-      //     "filters": {
-      //       "competencySearch": [
-      //         `${data.competencyId}-${data.competencyLevel}`,
-      //       ],
-      //       "primaryCategory": [
-      //         "Course"
-      //       ],
-      //       "contentType": [
-      //         "Course"
-      //       ],
-      //       "status": [
-      //         "Live"
-      //       ]
-      //     },
-      //     "sort_by": {
-      //       "lastUpdatedOn": "desc"
-      //     }
-      //   },
-      //   "sort": [
-      //     {
-      //       "lastUpdatedOn": "desc"
-      //     }
-      //   ]
-      // }
-
-      // this.searchSvc.getSearchCompetencyCourses(reqBody).subscribe(
-      //   res => {
-
-      //     // this.router.navigate([`/app/toc/${res.result.content[0].identifier}/overview`], {
-      //     //   queryParams: {
-      //     //     primaryCategory: 'Course',
-      //     //     batchId: res.result.content[0].batches[0].batchId
-      //     //   },
-      //     // })
-      //   }
-      // )
     }
   }
 
@@ -898,7 +819,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (result.event === 'RETAKE_QUIZ') {
-          // this.openOverviewDialog(result.event)
           this.closeQuizBtnDialog(result.event)
         } else if (result.event === 'DONE' || result.event === 'DONE_ASHA') {
 
@@ -953,13 +873,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     return course
                   })
                 }
-                // tslint:disable-next-line:no-console
                 this.loggerSvc.log(this.enrolledCourse)
                 const customerDate = moment(this.enrolledCourse.completedOn)
                 const dateNow = moment(new Date())
                 const duration = moment.duration(dateNow.diff(customerDate))
-                // tslint:disable-next-line
-                //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
                 if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
                   this.showCompletionMsg = true
                 } else {
@@ -1003,21 +920,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                       }
 
                     }
-                    // else {
-                    //   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    //     queryParams: {
-                    //       primaryCategory: 'Course',
-                    //       batchId: this.route.snapshot.queryParams.batchId,
-                    //     },
-                    //   })
-                    // }
-                    // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    //   queryParams: {
-                    //     primaryCategory: 'Course',
-                    //     batchId: this.route.snapshot.queryParams.batchId,
-                    //   },
-                    // })
-                    // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
                   } else {
                     this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                   }
@@ -1101,7 +1003,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (event === 'start') {
       this.startQuiz()
     } else if (event === 'skip') {
-      // alert('skip quiz TBI')
     }
   }
 
@@ -1230,7 +1131,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.numUnanswered = res.blank
         this.passPercentage = this.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
-        //if (this.result >= this.passPercentage) {
         if (this.result >= 0) {
           this.isCompleted = true
           const Id = this.identifier
@@ -1268,31 +1168,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             error => { this.loggerSvc.warn('Progress update failed:', error) }
           )
         }
-
-        // const result = {
-        //   result: (this.numCorrectAnswers * 100.0) / this.processedContent.quiz.questions.length,
-        //   total: this.processedContent.quiz.questions.length,
-        //   blank: res.blank,
-        //   correct: res.correct,
-        //   inCorrect: res.inCorrect,
-        //   passPercentage: res.passPercent,
-        // }
-        // this.quizSvc.firePlayerTelemetryEvent(
-        //   this.processedContent.content.identifier,
-        //   this.collectionId,
-        //   MIME_TYPE.quiz,
-        //   result,
-        //   this.isCompleted,
-        //   'DONE',
-        //   this.isIdeal,
-        //   true,
-        // )
       },
       (_error: any) => {
         this.fetchingResultsStatus = 'error'
       },
     )
-    // this.fetchingResultsStatus = 'done'
   }
 
   showAnswers() {
@@ -1336,7 +1216,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         }
       },
     )
-    // logger.log(correctAnswers);
     this.numCorrectAnswers = 0
     this.numIncorrectAnswers = 0
     correctAnswers.forEach(answer => {
@@ -1384,8 +1263,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           correctFlag = false
         }
         if (selectedOptions && selectedOptions[0]) {
-          // logger.log(selectedOptions)
-          // logger.log(correctOptions)
           (selectedOptions[0] as any[]).forEach(element => {
             const b = element.sourceId
             if (correctMtfOptions) {

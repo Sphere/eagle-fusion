@@ -1,16 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { WidgetBaseComponent } from '../widget-base.component'
 @Component({
-    standalone: false,
-    selector: 'ws-resolver-invalid-registration',
-    templateUrl: './invalid-registration.component.html',
-    styleUrls: ['./invalid-registration.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-resolver-invalid-registration',
+  templateUrl: './invalid-registration.component.html',
+  styleUrls: ['./invalid-registration.component.scss'],
+
 })
 export class InvalidRegistrationComponent extends WidgetBaseComponent
-  implements OnInit, NsWidgetResolver.IWidgetData<any> {
+  implements NsWidgetResolver.IWidgetData<any> {
   @Input() widgetData!: any
   showData = true
-  ngOnInit() {}
 }

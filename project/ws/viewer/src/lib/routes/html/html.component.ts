@@ -47,20 +47,16 @@ export class HtmlComponent implements OnInit, OnDestroy {
   hasFiredRealTimeProgress = false
   isPreviewMode = false
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private respondSvc: SubapplicationRespondService,
-    private eventSvc: EventService,
-    private accessControlSvc: AccessControlService,
-    private configSvc: ConfigurationsService
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly respondSvc: SubapplicationRespondService,
+    private readonly eventSvc: EventService,
+    private readonly accessControlSvc: AccessControlService,
+    private readonly configSvc: ConfigurationsService
   ) { }
 
   ngOnInit() {
-
-    // this.activatedRoute.data.subscribe(data => {
-    //   this.uuid = data.profileData.data.userId
-    // })
     this.uuid = this.configSvc.userProfile ? this.configSvc.userProfile.userId : ''
     this.isNotEmbed = !(
       window.location.href.includes('/embed/') ||
@@ -75,189 +71,120 @@ export class HtmlComponent implements OnInit, OnDestroy {
       this.viewerDataSubscription = this.viewerSvc
         .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
         .subscribe(
-          async data => {
-            data.artifactUrl = (data.artifactUrl.startsWith('https://')
-              ? data.artifactUrl
-              : data.artifactUrl.startsWith('http://')
+          data => {
+            void (async () => {
+              data.artifactUrl = (data.artifactUrl.startsWith('https://')
                 ? data.artifactUrl
-                : `https://${data.artifactUrl}`).replace(/ /ig, '').replace(/%20/ig, '').replace(/\n/ig, '')
-            if (this.accessControlSvc.hasAccess(data as any, true)) {
-              if (data && data.artifactUrl.indexOf('content-store') >= 0) {
-                await this.setS3Cookie(data.identifier)
-                this.htmlData = data
-              } else {
-                this.htmlData = data
-              }
+                : data.artifactUrl.startsWith('http://')
+                  ? data.artifactUrl
+                  : `https://${data.artifactUrl}`).replaceAll(' ', '').replaceAll('%20', '').replaceAll('\n', '')
+              if (this.accessControlSvc.hasAccess(data as any, true)) {
+                if (data && data.artifactUrl.indexOf('content-store') >= 0) {
+                  await this.setS3Cookie(data.identifier)
+                  this.htmlData = data
+                } else {
+                  this.htmlData = data
+                }
 
-            }
-            if (this.htmlData) {
-              this.formDiscussionForumWidget(this.htmlData)
-              if (this.discussionForumWidget) {
-                this.discussionForumWidget.widgetData.isDisabled = true
               }
-            }
+              if (this.htmlData) {
+                this.formDiscussionForumWidget(this.htmlData)
+                if (this.discussionForumWidget) {
+                  this.discussionForumWidget.widgetData.isDisabled = true
+                }
+              }
+            })()
           })
     } else {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
-        async data => {
-          data.content.data.artifactUrl =
-            data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
-              ? `${data.content.data.artifactUrl.replace(/%20/g, '')}&Param1=${this.uuid}`
-              : data.content.data.artifactUrl.replace(/%20/g, '')
-          const tempHtmlData = data.content.data
-          if (this.alreadyRaised && this.oldData) {
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-            if (!this.hasFiredRealTimeProgress) {
-              // this.fireRealTimeProgress()
-              if (this.realTimeProgressTimer) {
-                clearTimeout(this.realTimeProgressTimer)
-              }
-            }
-            this.subApp = false
-          }
-          if (tempHtmlData) {
-            this.formDiscussionForumWidget(tempHtmlData)
-          }
-          if (tempHtmlData && tempHtmlData.artifactUrl.indexOf('content-store') >= 0) {
-            await this.setS3Cookie(tempHtmlData.identifier)
-            this.htmlData = tempHtmlData
-          } else {
-            this.htmlData = tempHtmlData
-          }
-          this.raiseRealTimeProgress()
-          if (this.htmlData) {
-            this.oldData = this.htmlData
-            this.alreadyRaised = true
-            this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.htmlData)
-            this.responseSubscription = await fromEvent<MessageEvent>(window, 'message')
-              .pipe(
-                filter(
-                  (event: MessageEvent) =>
-                    Boolean(event) &&
-                    Boolean(event.data) &&
-                    Boolean(event.source && typeof event.source.postMessage === 'function'),
-                ),
-              )
-              .subscribe(async (event: MessageEvent) => {
-                const contentWindow = event.source as Window
-                if (event.data.requestId && this.htmlData) {
-                  switch (event.data.requestId) {
-                    case 'LOADED':
-                      await this.respondSvc.loadedRespond(
-                        contentWindow,
-                        event.data.subApplicationName,
-                        this.htmlData.identifier,
-                      )
-                      if (event.data.subApplicationName === 'RBCP') {
-                        this.subApp = true
-                      }
-                      break
-                    // case 'CONTINUE_LEARNING':
-                    //   await this.respondSvc.continueLearningRespond(
-                    //     this.htmlData.identifier,
-                    //     event.data.data.continueLearning,
-                    //   )
-                    //   break
-                    case 'TELEMETRY':
-                      await this.respondSvc.telemetryEvents(event.data)
-                      break
-                    default:
-                      break
-                  }
+        data => {
+          void (async () => {
+            data.content.data.artifactUrl =
+              data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
+                ? `${data.content.data.artifactUrl.replaceAll('%20', '')}&Param1=${this.uuid}`
+                : data.content.data.artifactUrl.replaceAll('%20', '')
+            const tempHtmlData = data.content.data
+            if (this.alreadyRaised && this.oldData) {
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+              if (!this.hasFiredRealTimeProgress) {
+                if (this.realTimeProgressTimer) {
+                  clearTimeout(this.realTimeProgressTimer)
                 }
-              })
-          }
-          this.isFetchingDataComplete = true
+              }
+              this.subApp = false
+            }
+            if (tempHtmlData) {
+              this.formDiscussionForumWidget(tempHtmlData)
+            }
+            if (tempHtmlData && tempHtmlData.artifactUrl.indexOf('content-store') >= 0) {
+              await this.setS3Cookie(tempHtmlData.identifier)
+              this.htmlData = tempHtmlData
+            } else {
+              this.htmlData = tempHtmlData
+            }
+            this.raiseRealTimeProgress()
+            if (this.htmlData) {
+              this.oldData = this.htmlData
+              this.alreadyRaised = true
+              this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.htmlData)
+              this.responseSubscription = fromEvent<MessageEvent>(window, 'message')
+                .pipe(
+                  filter(
+                    (event: MessageEvent) =>
+                      Boolean(event) &&
+                      Boolean(event.data) &&
+                      Boolean(event.source && typeof event.source.postMessage === 'function'),
+                  ),
+                )
+                .subscribe((event: MessageEvent) => {
+                  void (async () => {
+                    const contentWindow = event.source as Window
+                    if (event.data.requestId && this.htmlData) {
+                      switch (event.data.requestId) {
+                        case 'LOADED':
+                          await this.respondSvc.loadedRespond(
+                            contentWindow,
+                            event.data.subApplicationName,
+                            this.htmlData.identifier,
+                          )
+                          if (event.data.subApplicationName === 'RBCP') {
+                            this.subApp = true
+                          }
+                          break
+                        case 'TELEMETRY':
+                          await this.respondSvc.telemetryEvents(event.data)
+                          break
+                        default:
+                          break
+                      }
+                    }
+                  })()
+                })
+            }
+            this.isFetchingDataComplete = true
+          })()
         },
         () => { },
       )
     }
   }
 
-  // async saveContinueLearning(content: NsContent.IContent | null) {
-  //   return new Promise(async resolve => {
-  //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-  //       content &&
-  //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-  //       const reqBody = {
-  //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-  //           ? this.activatedRoute.snapshot.queryParams.collectionId
-  //           : content
-  //             ? content.identifier
-  //             : '',
-  //         resourceId: content.identifier,
-  //         data: JSON.stringify({
-  //           timestamp: Date.now(),
-  //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, content.identifier],
-  //         }),
-  //         dateAccessed: Date.now(),
-  //         contextType: 'playlist',
-  //       }
-  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-  //         resolve(true)
-  //       }
-  //       )
-  //     } else {
-  //       const reqBody = {
-  //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-  //           ? this.activatedRoute.snapshot.queryParams.collectionId
-  //           : content
-  //             ? content.identifier
-  //             : '',
-  //         resourceId: content ? content.identifier : '',
-  //         data: JSON.stringify({ timestamp: Date.now() }),
-  //         dateAccessed: Date.now(),
-  //       }
-  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-  //         resolve(true)
-  //       }
-  //       )
-  //     }
-  //   })
-  // }
-
-  // generateUrl(oldUrl: string) {
-  //   const chunk = oldUrl.split('/')
-  //   const newChunk = environment.azureHost.split('/')
-  //   const newLink = []
-  //   for (let i = 0; i < chunk.length; i += 1) {
-  //     if (i === 2) {
-  //       newLink.push(newChunk[i])
-  //     } else if (i === 3) {
-  //       newLink.push(environment.azureBucket)
-  //     } else {
-  //       newLink.push(chunk[i])
-  //     }
-  //   }
-  //   const newUrl = newLink.join('/')
-  //   return newUrl
-  // }
-
-  async ngOnDestroy() {
-    // if (this.htmlData) {
-    //   if (!this.subApp || this.activatedRoute.snapshot.queryParams.collectionId) {
-    //     await this.saveContinueLearning(this.htmlData)
-    //   }
-    // }
-    if (this.htmlData) {
-      this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.htmlData)
-    }
-    if (this.routeDataSubscription) {
-      this.routeDataSubscription.unsubscribe()
-    }
-    if (this.responseSubscription) {
-      this.respondSvc.unsubscribeResponse()
-      this.responseSubscription.unsubscribe()
-    }
-    if (this.viewerDataSubscription) {
-      this.viewerDataSubscription.unsubscribe()
-    }
-    // if (!this.hasFiredRealTimeProgress && !this.forPreview) {
-    //   this.fireRealTimeProgress()
-    //   if (this.realTimeProgressTimer) {
-    //     clearTimeout(this.realTimeProgressTimer)
-    //   }
-    // }
+  ngOnDestroy() {
+    void (async () => {
+      if (this.htmlData) {
+        this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.htmlData)
+      }
+      if (this.routeDataSubscription) {
+        this.routeDataSubscription.unsubscribe()
+      }
+      if (this.responseSubscription) {
+        this.respondSvc.unsubscribeResponse()
+        this.responseSubscription.unsubscribe()
+      }
+      if (this.viewerDataSubscription) {
+        this.viewerDataSubscription.unsubscribe()
+      }
+    })()
   }
 
   formDiscussionForumWidget(content: NsContent.IContent) {
@@ -280,7 +207,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }
@@ -359,16 +285,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
       }
     }
     this.realTimeProgressRequest.content_type = this.htmlData ? this.htmlData.contentType : ''
-    // const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-    //           this.activatedRoute.snapshot.queryParams.collectionId : ''
-    //   const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-    //           this.activatedRoute.snapshot.queryParams.batchId : ''
-    // this.viewerSvc.realTimeProgressUpdate(
-    //   this.htmlData ? this.htmlData.identifier : '',
-    //   this.realTimeProgressRequest,
-    //   collectionId,
-    //   batchId
-    // )
     return
   }
 }

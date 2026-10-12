@@ -53,8 +53,11 @@
 
 .search-card {
   display: block;
-  // margin-bottom: $size-xs;
-  border-bottom: solid 1px #f1f1f1;
+  // The cards carry their own outline (see learning-card.component.scss), so the
+  // extra #f1f1f1 border-bottom that used to live here rendered as a second line
+  // between every pair of cards — bright and full-width against the dark theme.
+  // With the margin commented out they also sat flush against each other.
+  margin-bottom: 10px;
 }
 
 .catalog-link {

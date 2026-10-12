@@ -6,7 +6,7 @@ import { NsError } from './error-resolver.model'
   providedIn: 'root',
 })
 export class ErrorResolverService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   async getErrorConfig(path: string): Promise<NsError.IErrorConfig> {
     const errorData: NsError.IErrorConfig = await this.http

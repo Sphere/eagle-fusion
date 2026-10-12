@@ -29,7 +29,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 28.8px;
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
 }
 
@@ -60,7 +60,9 @@
   bottom:50%;
   left: 50%;
   transform: translateX(-50%);
-  width: 112%;
+  // Was 112% — see web-public-container: the 6% overhang past each edge is what
+  // gave page/home a horizontal scrollbar. Third copy of the same divider.
+  width: 100%;
   height: 1px; /* Adjust thickness as needed */
   background-color: #93DAE7; /* Adjust color as needed */
 }

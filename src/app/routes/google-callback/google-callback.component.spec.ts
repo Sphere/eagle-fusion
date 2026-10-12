@@ -19,6 +19,7 @@ describe('GoogleCallbackComponent', () => {
   let mockContentSvc: any
   let mockSignupService: any
   let mockSnackBar: any
+  let originalLocation: Location
 
   beforeEach(() => {
     mockRouter = {
@@ -34,11 +35,18 @@ describe('GoogleCallbackComponent', () => {
     mockSnackBar = { open: jest.fn() }
     component = new GoogleCallbackComponent(mockRouter, mockContentSvc, mockSignupService, mockSnackBar)
     localStorage.clear()
+    // The default fetchStartUpDetails mock resolves with status 200, so ngOnInit's async
+    // callback reaches the `location.href = ...` redirect on every test unless the test
+    // steers away from it — stub location globally to keep jsdom's real navigation out of it.
+    originalLocation = window.location
+    delete (window as any).location
+    ;(window as any).location = { href: '' }
   })
 
   afterEach(() => {
     localStorage.clear()
     jest.clearAllMocks()
+    ;(window as any).location = originalLocation
   })
 
   it('should create', () => {
@@ -74,6 +82,21 @@ describe('GoogleCallbackComponent', () => {
     component.ngOnInit()
     await Promise.resolve()
     expect(mockSnackBar.open).toHaveBeenCalledWith('Session expired', undefined, expect.any(Object))
+  })
+
+  it('should redirect to url_before_login on 200 result with roles', async () => {
+    localStorage.setItem('url_before_login', '/app/toc/123')
+    mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200, roles: ['PUBLIC'] })
+    component.ngOnInit()
+    await new Promise(resolve => setTimeout(resolve))
+    expect(window.location.href).toBe('/app/toc/123')
+  })
+
+  it('should redirect to /page/home on 200 result when no url_before_login', async () => {
+    mockSignupService.fetchStartUpDetails.mockResolvedValue({ status: 200, roles: ['PUBLIC'] })
+    component.ngOnInit()
+    await new Promise(resolve => setTimeout(resolve))
+    expect(window.location.href).toBe('/page/home')
   })
 
   it('should navigate to /app/login on googleAuthenticate error', async () => {

@@ -42,9 +42,9 @@ export class ResourceCollectionComponent implements OnInit {
   }
 
   constructor(
-    private snackBar: MatSnackBar,
-    private resourceSvc: ResourceCollectionService,
-    private dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly resourceSvc: ResourceCollectionService,
+    private readonly dialog: MatDialog,
   ) {
     this.answerControl = new UntypedFormControl('')
   }
@@ -66,38 +66,40 @@ export class ResourceCollectionComponent implements OnInit {
     this.fetchingStatus = 'fetching'
     this.submitData.value = 25
     if (this.currentTabIndex === 1) {
-      if (this.selectedFile) {
-        if ((this.selectedFile.type === 'application/pdf') || (this.selectedFile.type === 'video/mp4')) {
-          this.createContentDirectory(this.selectedFile)
-        } else {
-          this.fetchingStatus = 'fetched'
-          this.submitData.isSubmit = false
-          this.snackBar.open('Invalid File Type', undefined, {
-            duration: 1000,
-          })
-          this.reset()
-
-        }
-
-      } else {
-        this.fetchingStatus = 'fetched'
-        this.submitData.isSubmit = false
-        this.snackBar.open('Please upload your answer', undefined, {
-          duration: 1000,
-        })
-      }
+      this.submitFileTab()
     } else if (this.currentTabIndex === 0) {
-      if (text.length >= 10) {
-        const file = new File([text], 'submission.txt')
-        this.createContentDirectory(file)
-      } else {
-        this.submitData.isSubmit = false
-        this.fetchingStatus = 'fetched'
-        this.snackBar.open('Please enter your answer', undefined, {
-          duration: 1000,
-        })
-      }
+      this.submitTextTab(text)
     }
+  }
+
+  private submitFileTab(): void {
+    if (!this.selectedFile) {
+      this.rejectSubmission('Please upload your answer')
+      return
+    }
+    if (this.selectedFile.type === 'application/pdf' || this.selectedFile.type === 'video/mp4') {
+      this.createContentDirectory(this.selectedFile)
+      return
+    }
+    this.rejectSubmission('Invalid File Type')
+    this.reset()
+  }
+
+  private submitTextTab(text: string): void {
+    if (text.length >= 10) {
+      const file = new File([text], 'submission.txt')
+      this.createContentDirectory(file)
+      return
+    }
+    this.rejectSubmission('Please enter your answer')
+  }
+
+  private rejectSubmission(message: string): void {
+    this.fetchingStatus = 'fetched'
+    this.submitData.isSubmit = false
+    this.snackBar.open(message, undefined, {
+      duration: 1000,
+    })
   }
   reset() {
     if (this.currentTabIndex === 1) {

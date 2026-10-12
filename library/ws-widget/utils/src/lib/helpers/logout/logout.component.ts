@@ -18,9 +18,9 @@ export class LogoutComponent implements OnInit {
   isDownloadableAndroid = false
   constructor(
     public dialogRef: MatDialogRef<LogoutComponent>,
-    private authSvc: AuthKeycloakService,
-    private configSvc: ConfigurationsService,
-    private utilitySvc: UtilityService
+    private readonly authSvc: AuthKeycloakService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly utilitySvc: UtilityService
   ) { }
 
   ngOnInit() {

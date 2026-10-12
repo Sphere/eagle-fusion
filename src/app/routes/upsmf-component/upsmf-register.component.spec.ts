@@ -305,5 +305,188 @@ describe('UpsmfRegisterComponent', () => {
       component.createUser({})
       expect(mockSnackBar.open).toHaveBeenCalledWith('Failed', 'X', expect.any(Object))
     })
+
+    it('should map facilityName object to name and code for government employees', () => {
+      component.isInService = true
+      component.isGovernmentEmployee = true
+      const mockRegistration = jest.fn().mockReturnValue(of({ status: 'SUCCESS' }))
+      component.userProfileSvc = { upsmfRegistration: mockRegistration } as any
+      component.anmRegistrationForm.get('facilityName')?.setValue({ name: 'PHC One', code: 42 })
+      component.createUser({})
+      const sent = mockRegistration.mock.calls[0][0].request.formValues
+      expect(sent.facilityName).toBe('PHC One')
+      expect(sent.facilityCode).toBe('42')
+    })
+
+    it('should send Student role for pre-service students and reset the pre-service form on SUCCESS', () => {
+      component.isInService = false
+      component.isPreService = true
+      component.isStudent = true
+      const mockRegistration = jest.fn().mockReturnValue(of({ status: 'SUCCESS' }))
+      component.userProfileSvc = { upsmfRegistration: mockRegistration } as any
+      component.preServiceForm.patchValue({ firstName: 'Jane', phone: '9876543210' })
+      component.createUser({})
+      const sent = mockRegistration.mock.calls[0][0].request.formValues
+      expect(sent.serviceType).toBe('Student')
+      expect(sent.role).toBe('Student')
+      expect(component.isStudent).toBe(false)
+      expect(component.otpPage).toBe(false)
+    })
+
+    it('should send Faculty role for pre-service faculty', () => {
+      component.isInService = false
+      component.isPreService = true
+      component.isFaculty = true
+      const mockRegistration = jest.fn().mockReturnValue(of({ status: 'FAIL', message: 'nope' }))
+      component.userProfileSvc = { upsmfRegistration: mockRegistration } as any
+      component.createUser({})
+      expect(mockRegistration.mock.calls[0][0].request.formValues.role).toBe('Faculty')
+    })
+
+    it('should send Medical Officer-UP role and reset the medical officer form on SUCCESS', () => {
+      component.isInService = false
+      component.isPreService = false
+      component.isMedicalOfficerUP = true
+      const mockRegistration = jest.fn().mockReturnValue(of({ status: 'SUCCESS' }))
+      component.userProfileSvc = { upsmfRegistration: mockRegistration } as any
+      component.medicalOfficerForm.patchValue({ firstName: 'Max', phone: '9876543210' })
+      component.createUser({})
+      expect(mockRegistration.mock.calls[0][0].request.formValues.role).toBe('Medical Officer-UP')
+      expect(component.medicalOfficerForm.get('firstName')?.value).toBe('')
+    })
+
+    it('should open snackbar with the error message when upsmfRegistration errors', () => {
+      const { throwError } = require('rxjs')
+      component.isInService = true
+      component.isGovernmentEmployee = false
+      component.userProfileSvc = {
+        upsmfRegistration: jest.fn().mockReturnValue(throwError(() => ({ error: { message: 'server down' } }))),
+      } as any
+      component.createUser({})
+      expect(mockSnackBar.open).toHaveBeenCalledWith('server down', 'X', expect.any(Object))
+    })
+  })
+
+  describe('ngOnInit side effects', () => {
+    it('should populate districts from the district config response', () => {
+      mockHttp.get.mockReturnValue(of([{ DistrictA: {}, DistrictB: {} }]))
+      component.ngOnInit()
+      expect(component.districts).toEqual(['DistrictA', 'DistrictB'])
+      expect(component.biharDistrictData).toEqual({ DistrictA: {}, DistrictB: {} })
+    })
+
+    it('should wire district/block/facilityType valueChanges to their handlers', () => {
+      const districtSpy = jest.spyOn(component, 'onDistrictChange')
+      const blockSpy = jest.spyOn(component, 'onBlockChange')
+      const facilitySpy = jest.spyOn(component, 'onFacilityTypeChange')
+      component.biharDistrictData = { UP: { Block1: { PHC: [] } } }
+      component.ngOnInit()
+      component.anmRegistrationForm.get('district')?.setValue('UP')
+      component.anmRegistrationForm.get('block')?.setValue('Block1')
+      component.anmRegistrationForm.get('facilityType')?.setValue('PHC')
+      expect(districtSpy).toHaveBeenCalledWith('UP')
+      expect(blockSpy).toHaveBeenCalledWith('Block1')
+      expect(facilitySpy).toHaveBeenCalledWith('PHC')
+    })
+
+    it('should show the back button on x-small screens', () => {
+      component.valueSvc = { isXSmall$: of(true) } as any
+      component.ngOnInit()
+      expect(component.showbackButton).toBe(true)
+    })
+  })
+
+  describe('onBlockChange fallback', () => {
+    it('should clear facilityTypes when the block is not in the district data', () => {
+      component.biharDistrictData = { UP: {} }
+      component.anmRegistrationForm.get('district')?.setValue('UP')
+      component.facilityTypes = ['stale']
+      component.onBlockChange('MissingBlock')
+      expect(component.facilityTypes).toEqual([])
+    })
+  })
+
+  describe('submit error paths', () => {
+    const { throwError } = require('rxjs')
+
+    const validInService = {
+      firstName: 'John', lastName: 'Doe', phone: '9876543210',
+      dob: '1990-01-01', regNurseRegMidwifeNumber: 'REG001', roleForInService: 'Government',
+    }
+
+    it('onSubmitInService opens snackbar with error message when OTP request errors', () => {
+      component.userProfileSvc = {
+        upsmfSendOtp: jest.fn().mockReturnValue(throwError(() => ({ error: { message: 'otp failed' } }))),
+      } as any
+      component.anmRegistrationForm.patchValue(validInService)
+      component.onSubmitInService()
+      expect(component.isSubmitting).toBe(false)
+      expect(mockSnackBar.open).toHaveBeenCalledWith('otp failed', 'X', expect.any(Object))
+    })
+
+    it('onSubmitPreService opens snackbar with fallback message when OTP status is not success', () => {
+      component.userProfileSvc = {
+        upsmfSendOtp: jest.fn().mockReturnValue(of({ status: 'fail' })),
+      } as any
+      component.preServiceForm.patchValue({
+        firstName: 'Jane', lastName: 'Doe', phone: '9876543210', district: 'UP', role: 'Student',
+      })
+      component.onSubmitPreService()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('Failed to send OTP. Please try again.', 'X', expect.any(Object))
+    })
+
+    it('onSubmitPreService opens snackbar with error message when OTP request errors', () => {
+      component.userProfileSvc = {
+        upsmfSendOtp: jest.fn().mockReturnValue(throwError(() => ({ error: { message: 'pre otp failed' } }))),
+      } as any
+      component.preServiceForm.patchValue({
+        firstName: 'Jane', lastName: 'Doe', phone: '9876543210', district: 'UP', role: 'Student',
+      })
+      component.onSubmitPreService()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('pre otp failed', 'X', expect.any(Object))
+    })
+  })
+
+  describe('onSubmitMedicalOfficer', () => {
+    const validMedicalOfficer = {
+      hrmsId: 'HRMS1', firstName: 'Max', lastName: 'Well', phone: '9876543210',
+      district: 'UP', dob: '1980-01-01', dateOfJoining: '2010-01-01',
+    }
+
+    it('sets otpPage=true when OTP is sent successfully', () => {
+      component.userProfileSvc = {
+        upsmfSendOtp: jest.fn().mockReturnValue(of({ status: 'success', message: 'sent' })),
+      } as any
+      component.medicalOfficerForm.patchValue(validMedicalOfficer)
+      component.onSubmitMedicalOfficer()
+      expect(component.otpPage).toBe(true)
+      expect(mockSnackBar.open).toHaveBeenCalledWith('sent', 'X', expect.any(Object))
+    })
+
+    it('opens snackbar when OTP status is not success', () => {
+      component.userProfileSvc = {
+        upsmfSendOtp: jest.fn().mockReturnValue(of({ status: 'fail', message: 'mo fail' })),
+      } as any
+      component.medicalOfficerForm.patchValue(validMedicalOfficer)
+      component.onSubmitMedicalOfficer()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('mo fail', 'X', expect.any(Object))
+    })
+
+    it('opens snackbar with error message when OTP request errors', () => {
+      const { throwError } = require('rxjs')
+      component.userProfileSvc = {
+        upsmfSendOtp: jest.fn().mockReturnValue(throwError(() => ({ error: { message: 'mo error' } }))),
+      } as any
+      component.medicalOfficerForm.patchValue(validMedicalOfficer)
+      component.onSubmitMedicalOfficer()
+      expect(mockSnackBar.open).toHaveBeenCalledWith('mo error', 'X', expect.any(Object))
+    })
+
+    it('does not call upsmfSendOtp when the form is invalid', () => {
+      const mockSendOtp = jest.fn()
+      component.userProfileSvc = { upsmfSendOtp: mockSendOtp } as any
+      component.onSubmitMedicalOfficer()
+      expect(mockSendOtp).not.toHaveBeenCalled()
+    })
   })
 })

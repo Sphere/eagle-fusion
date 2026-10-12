@@ -12,6 +12,16 @@
   cursor: pointer;
 }
 
+// Stand-in for a certificate whose preview could not be fetched. Uses currentColor so
+// it adapts to both light and dark themes without a second colour definition.
+.cert-thumb-fallback {
+  width: 100px;
+  height: 65px;
+  border: 1px dashed currentColor;
+  border-radius: 2px;
+  opacity: 0.25;
+}
+
 .certficate-container{
   position: relative;
   padding-bottom: 4rem !important;

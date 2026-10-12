@@ -119,8 +119,6 @@ color: var(--theme-text);
     .help-btn{
         display: flex;
         gap: 12px;
-        width: 75px;
-        height: 36px;
         color: var(--theme-accent, #2E6491);
         border-radius: 63px;
         font-family: Roboto, sans-serif;
@@ -326,7 +324,6 @@ color: var(--theme-text);
 
 .login-page-content {
      max-width: 100%;
-    margin: auto;
     margin: 0px !important;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 40px 40px 0px 0px;
@@ -533,7 +530,6 @@ color:  var(--theme-inactive, #808080);
   }
   .otp-page{
     max-width: 100%;
-      margin: auto;
       margin: 0px !important;
       box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
       border-radius: 40px 40px 0px 0px;
@@ -543,11 +539,8 @@ color:  var(--theme-inactive, #808080);
     .help-btn{
         display: flex;
         gap: 12px;
-        width: 22%;
-        height: 36px;
         color: var(--theme-accent, #2E6491);
         border-radius: 63px;
-
         font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;
@@ -740,25 +733,4 @@ img {
   .help-icon {
     filter: var(--theme-icon-filter, invert(1) brightness(2)) !important;
   }
-}
-
-
-.dark-theme input:-webkit-autofill,
-.dark-theme input:-webkit-autofill:hover,
-.dark-theme input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg) inset !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-
-.light-theme input:-webkit-autofill,
-.light-theme input:-webkit-autofill:hover,
-.light-theme input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg, #ffffff) inset !important;
-  -webkit-text-fill-color: var(--theme-text, #000000) !important;
-}
-
-::ng-deep .mat-mdc-input-element:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px var(--theme-bg) inset !important;
-  -webkit-text-fill-color: var(--theme-text, #000000) !important;
 }

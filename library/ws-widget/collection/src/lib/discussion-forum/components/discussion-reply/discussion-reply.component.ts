@@ -25,11 +25,11 @@ export class DiscussionReplyComponent implements OnInit {
   updatedBody: string | undefined
   isSmall = false
   constructor(
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private configSvc: ConfigurationsService,
-    private discussionSvc: WsDiscussionForumService,
-    private breakpointObserver: BreakpointObserver,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly configSvc: ConfigurationsService,
+    private readonly discussionSvc: WsDiscussionForumService,
+    private readonly breakpointObserver: BreakpointObserver,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''

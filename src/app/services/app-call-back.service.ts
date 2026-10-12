@@ -8,7 +8,7 @@ import { API_END_POINTS } from '../constants/apiConstants'
 export class AppCallBackService {
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
   ) { }
 
   webviewCookieSet(token: string) {

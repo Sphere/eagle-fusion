@@ -5,7 +5,9 @@ import { LoginComponent } from '../login/login.component'
   providedIn: 'root',
 })
 export class LoginRootService {
-  constructor() { }
+  constructor() {
+    // Intentionally empty
+  }
 
   getComponent(): Type<any> {
     return LoginComponent

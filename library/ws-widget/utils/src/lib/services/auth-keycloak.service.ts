@@ -22,29 +22,31 @@ const storageKey = 'kc'
   providedIn: 'root',
 })
 export class AuthKeycloakService {
-  private loginChangeSubject = new ReplaySubject<boolean>(1)
+  private readonly loginChangeSubject = new ReplaySubject<boolean>(1)
 
   constructor(
-    private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private keycloakSvc: KeycloakService,
-    private msAuthSvc: AuthMicrosoftService,
-    private logger: LoggerService,
-    private themeSvc: ThemeService
+    private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly keycloakSvc: KeycloakService,
+    private readonly msAuthSvc: AuthMicrosoftService,
+    private readonly logger: LoggerService,
+    private readonly themeSvc: ThemeService
   ) {
-    this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
-      this.configSvc.isAuthenticated = isLoggedIn
-      if (
-        isLoggedIn &&
-        this.configSvc.instanceConfig &&
-        Boolean(this.configSvc.instanceConfig.disablePidCheck)
-      ) {
-        this.configSvc.userProfile = {
-          email: this.userEmail,
-          userName: this.userName,
-          userId: this.userId || '',
+    queueMicrotask(() => {
+      this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
+        this.configSvc.isAuthenticated = isLoggedIn
+        if (
+          isLoggedIn &&
+          this.configSvc.instanceConfig &&
+          Boolean(this.configSvc.instanceConfig.disablePidCheck)
+        ) {
+          this.configSvc.userProfile = {
+            email: this.userEmail,
+            userName: this.userName,
+            userId: this.userId || '',
+          }
         }
-      }
+      })
     })
   }
 
@@ -110,11 +112,7 @@ export class AuthKeycloakService {
           realm: instanceConfig.keycloak.realm,
           clientId: instanceConfig.keycloak.clientId,
         },
-        initOptions: {
-          // ...this.getSavedKcConfig(),
-          // onLoad: instanceConfig.keycloak.onLoad || 'check-sso',
-          // checkLoginIframe: false,
-        },
+        initOptions: {},
         enableBearerInterceptor: true,
         loadUserProfileAtStartUp: false,
         bearerExcludedUrls: instanceConfig.keycloak.bearerExcludedUrls,
@@ -160,7 +158,7 @@ export class AuthKeycloakService {
       const redirectUrl = `${url}public/home`
       window.location.href = redirectUrl
       await this.http.get(API_END_POINTS.LOGOUT_USER).toPromise()
-    } catch (error) { }
+    } catch (error) { /* ignore logout-call failure, redirect already in progress */ }
   }
   private addKeycloakEventListener() {
     this.keycloakSvc.keycloakEvents$.subscribe((event: KeycloakEventLegacy) => {
@@ -180,12 +178,8 @@ export class AuthKeycloakService {
           break
         case KeycloakEventTypeLegacy.OnReady:
           this.loginChangeSubject.next(event?.args as any)
-          if (event.args) {
-            //   this.saveKeycloakConfig()
-          }
           break
         case KeycloakEventTypeLegacy.OnTokenExpired:
-          //  this.keycloakSvc.updateToken(60)
           break
       }
     })

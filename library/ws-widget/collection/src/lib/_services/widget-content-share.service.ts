@@ -13,7 +13,7 @@ import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants
 export class WidgetContentShareService {
   baseUrl = this.configSvc.sitePath
 
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private readonly http: HttpClient, private readonly configSvc: ConfigurationsService) { }
 
   fetchConfigFile(): Observable<ICommon> {
     return this.http.get<ICommon>(`fusion-assets/files/common.json`).pipe()

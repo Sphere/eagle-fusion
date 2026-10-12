@@ -12,9 +12,9 @@ import { LoggerService } from '@ws-widget/utils'
 export class TnaiCallbackComponent implements OnInit {
   isLoading = false
   constructor(
-    private orgService: OrgServiceService,
-    private authSvc: AuthKeycloakService,
-    private logger: LoggerService,
+    private readonly orgService: OrgServiceService,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly logger: LoggerService,
   ) { }
 
   ngOnInit() {
@@ -31,9 +31,9 @@ export class TnaiCallbackComponent implements OnInit {
     }
     try {
       setTimeout(() => {
-        this.orgService.setTnaiToken(data).subscribe(async (res: any) => {
+        this.orgService.setTnaiToken(data).subscribe((res: any) => {
           this.isLoading = false
-          window.location = await res.resRedirectUrl
+          window.location = res.resRedirectUrl
           // tslint:disable-next-line:no-console
           this.logger.log('tnai component.ts', res.resRedirectUrl)
         }, (err: any) => {

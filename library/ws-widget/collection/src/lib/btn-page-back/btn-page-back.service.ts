@@ -10,7 +10,7 @@ export class BtnPageBackService {
   public previousRouteUrls: string[] = []
   private routerSubscription: Subscription | null = null
   constructor(
-    private router: Router,
+    private readonly router: Router,
   ) { }
 
   public initialize() {

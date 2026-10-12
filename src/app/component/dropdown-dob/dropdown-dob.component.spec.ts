@@ -192,12 +192,14 @@ describe('DropdownDobComponent', () => {
 
   describe('monthField valueChanges reactivity', () => {
     it('should call updateDays when monthField value changes', () => {
+      component.ngOnInit()
       jest.spyOn(component, 'updateDays')
       component.dobForm.get('monthField')!.setValue(4)
       expect(component.updateDays).toHaveBeenCalledWith(4)
     })
 
     it('should call updateDays when yearField changes and monthField has a value', () => {
+      component.ngOnInit()
       jest.spyOn(component, 'updateDays')
       component.dobForm.get('monthField')!.setValue(3)
       jest.clearAllMocks()
@@ -206,6 +208,7 @@ describe('DropdownDobComponent', () => {
     })
 
     it('should not call updateDays when yearField changes and monthField is empty', () => {
+      component.ngOnInit()
       jest.spyOn(component, 'updateDays')
       component.dobForm.get('monthField')!.setValue(null)
       jest.clearAllMocks()

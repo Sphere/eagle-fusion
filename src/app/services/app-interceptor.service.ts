@@ -9,9 +9,9 @@ import { catchError } from 'rxjs/operators'
 })
 export class AppInterceptorService implements HttpInterceptor {
   constructor(
-    private configSvc: ConfigurationsService, // private http: HttpClient,
-    private logger: LoggerService,
-    @Inject(LOCALE_ID) private locale: string,
+    private readonly configSvc: ConfigurationsService, // private http: HttpClient,
+    private readonly logger: LoggerService,
+    @Inject(LOCALE_ID) private readonly locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Skip interceptor for external CORS URLs (CloudFront, S3, etc)

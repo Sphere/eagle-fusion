@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core'
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
@@ -24,39 +24,41 @@ export class AuthRootComponent implements OnInit, OnDestroy {
   isWidthMessageShown = false
   router: any
   constructor(
-    private domSanitizer: DomSanitizer,
-    private configSvc: ConfigurationsService,
-    private loader: LoaderService,
-    private changeDetector: ChangeDetectorRef,
-    private snackBar: MatSnackBar,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly loader: LoaderService,
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly snackBar: MatSnackBar,
   ) {
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.router.navigateByUrl('/organisations/home')
-    }
   }
 
-  async ngOnInit() {
-    if (window.innerWidth < 1163 && !this.isWidthMessageShown) {
-      this.isWidthMessageShown = true
-      this.snackBar.openFromComponent(NotificationComponent, {
-        data: {
-          type: Notify.WINDOW_SIZE_ERROR,
+  ngOnInit() {
+    void (async () => {
+      if (localStorage.getItem('orgValue') === 'nhsrc') {
+        this.router.navigateByUrl('/organisations/home')
+      }
+      if (window.innerWidth < 1163 && !this.isWidthMessageShown) {
+        this.isWidthMessageShown = true
+        this.snackBar.openFromComponent(NotificationComponent, {
+          data: {
+            type: Notify.WINDOW_SIZE_ERROR,
+          },
+          duration: NOTIFICATION_TIME * 1000,
+        })
+      }
+      this.loaderSubscription = this.loader.changeLoad.subscribe(
+        data => {
+          this.isLoading = data
+          this.changeDetector.detectChanges()
         },
-        duration: NOTIFICATION_TIME * 1000,
-      })
-    }
-    this.loaderSubscription = this.loader.changeLoad.subscribe(
-      data => {
-        this.isLoading = data
-        this.changeDetector.detectChanges()
-      },
-    )
-    const instanceConfig = await this.configSvc.instanceConfig
-    if (instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        instanceConfig.logos.app,
       )
-    }
+      const instanceConfig = await this.configSvc.instanceConfig
+      if (instanceConfig) {
+        this.appIcon = this.safeResourceUrlSvc.trust(
+          instanceConfig.logos.app,
+        )
+      }
+    })()
   }
 
   ngOnDestroy() {

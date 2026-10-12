@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core'
 export class PipeHtmlTagRemovalPipe implements PipeTransform {
 
   transform(htmlString: string): string {
-    return htmlString ? String(htmlString).replace(/<[^>]+>/gm, '') : ''
+    return htmlString ? String(htmlString).replaceAll(/<[^>]{1,1000}>/g, '') : ''
   }
 
 }

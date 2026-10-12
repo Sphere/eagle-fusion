@@ -44,7 +44,7 @@ export class WidgetBaseComponent implements TWidgetBase, AfterViewInit {
 
   ngAfterViewInit() {
     const hash: any = window.location.hash ? window.location.hash.split('#')[1] : ''
-    if (hash && !isNaN(hash) && hash === this.widgetInstanceId) {
+    if (hash && !Number.isNaN(Number(hash)) && hash === this.widgetInstanceId) {
       setTimeout(
         () => {
           const element = document.getElementById(this.widgetInstanceId || '')

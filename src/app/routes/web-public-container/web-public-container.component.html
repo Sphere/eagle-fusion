@@ -12,7 +12,7 @@
     <div class="top-course-container content" *ngFor="let i of [1, 2, 3]">
       <section class="mt-4 view-all-course-container">
         <!-- Header -->
-        <div class="line-label flex scroller-container">
+        <div class="flex scroller-container">
           <span class="shimmer shimmer-line shimmer-header"></span>
           <button *ngIf="!isXSmall()" class="view-all-course shimmer-button shimmer">
             <span class="shimmer shimmer-line"></span>
@@ -22,9 +22,9 @@
         <!-- Cards -->
         <div class="horizontal-shimmer">
           <div class="shimmer-card" *ngFor="let j of [1, 2, 3, 4]">
-            <div class="shimmer shimmer-image">
-              <div class="shimmer-body">
-              </div>
+            <div class="shimmer shimmer-image"></div>
+            <div class="shimmer-body">
+              <span class="shimmer shimmer-line shimmer-title"></span>
             </div>
           </div>
         </div>

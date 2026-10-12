@@ -15,11 +15,13 @@ import { ConfigurationsService } from '@ws-widget/utils'
 describe('ConfigService', () => {
   let service: ConfigService
   let mockConfigSvc: any
+  let mockLogger: any
 
   beforeEach(() => {
     localStorage.clear()
     mockConfigSvc = new ConfigurationsService()
-    service = new ConfigService(mockConfigSvc)
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
+    service = new ConfigService(mockConfigSvc, mockLogger)
   })
 
   afterEach(() => {
@@ -48,6 +50,45 @@ describe('ConfigService', () => {
   })
 
   it('setConfig sets language from user preferences', () => {
+    service.setConfig({ professionalDetails: [] }, {})
+    const stored = JSON.parse(localStorage.getItem('competency') || '{}')
+    expect(stored.language).toBe('en')
+  })
+
+  it('setConfig defaults userName to empty string when nodebbUserProfile is falsy', () => {
+    mockConfigSvc.nodebbUserProfile = null
+    service.setConfig({ professionalDetails: [] }, {})
+    const stored = JSON.parse(localStorage.getItem('competency') || '{}')
+    expect(stored.userName).toBe('')
+  })
+
+  it('setConfig defaults userName to empty string when username is missing', () => {
+    mockConfigSvc.nodebbUserProfile = {}
+    service.setConfig({ professionalDetails: [] }, {})
+    const stored = JSON.parse(localStorage.getItem('competency') || '{}')
+    expect(stored.userName).toBe('')
+  })
+
+  it('setConfig falls back to "en" when preferences language is undefined and url has no /hi/', () => {
+    mockConfigSvc.unMappedUser = { id: 'user-id-1', profileDetails: { preferences: {} } }
+    service.setConfig({ professionalDetails: [] }, {})
+    const stored = JSON.parse(localStorage.getItem('competency') || '{}')
+    expect(stored.language).toBe('en')
+  })
+
+  it('setConfig falls back to "hi" when preferences language is undefined and url contains /hi/', () => {
+    mockConfigSvc.unMappedUser = { id: 'user-id-1', profileDetails: { preferences: {} } }
+    const originalLocation = window.location
+    delete (window as any).location
+    ;(window as any).location = { href: 'http://localhost/hi/home' }
+    service.setConfig({ professionalDetails: [] }, {})
+    const stored = JSON.parse(localStorage.getItem('competency') || '{}')
+    expect(stored.language).toBe('hi')
+    ;(window as any).location = originalLocation
+  })
+
+  it('setConfig falls back to url language when unMappedUser has no profileDetails', () => {
+    mockConfigSvc.unMappedUser = { id: 'user-id-1' }
     service.setConfig({ professionalDetails: [] }, {})
     const stored = JSON.parse(localStorage.getItem('competency') || '{}')
     expect(stored.language).toBe('en')

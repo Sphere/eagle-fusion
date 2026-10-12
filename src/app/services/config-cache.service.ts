@@ -8,12 +8,12 @@ import { LoggerService } from '@ws-widget/utils'
   providedIn: 'root',
 })
 export class ConfigCacheService {
-  private baseUrl = 'assets/configurations'
+  private readonly baseUrl = 'assets/configurations'
 
   // Cache for language-specific host configs (host.config.json for en, host.config.hi.json for hi)
-  private hostConfigCache: Map<string, { subject: BehaviorSubject<any>, call$: Observable<any> | null }> = new Map()
+  private readonly hostConfigCache: Map<string, { subject: BehaviorSubject<any>, call$: Observable<any> | null }> = new Map()
 
-  constructor(private http: HttpClient, private logger: LoggerService) {
+  constructor(private readonly http: HttpClient, private readonly logger: LoggerService) {
     this.restoreFromCache()
   }
 

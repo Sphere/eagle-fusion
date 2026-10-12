@@ -27,67 +27,61 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private http: HttpClient,
-    private eventSvc: EventService,
-    private viewSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly http: HttpClient,
+    private readonly eventSvc: EventService,
+    private readonly viewSvc: ViewerUtilService,
   ) { }
 
   ngOnInit() {
     this.dataSubscription = this.activatedRoute.data.subscribe(
-      async data => {
-        this.resourceCollectionData = data.content.data
-        if (this.alreadyRaised && this.oldData) {
-          this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-        }
-        if (this.resourceCollectionData) {
-          this.formDiscussionForumWidget(this.resourceCollectionData)
-        }
-        if (
-          this.resourceCollectionData &&
-          this.resourceCollectionData.artifactUrl.indexOf('content-store') >= 0
-        ) {
-          await this.setS3Cookie(this.resourceCollectionData.identifier)
-        }
-        if (
-          this.resourceCollectionData &&
-          this.resourceCollectionData.mimeType === NsContent.EMimeTypes.COLLECTION_RESOURCE
-        ) {
-          this.resourceCollectionManifest = await this.transformResourceCollection(
-            this.resourceCollectionData,
-          )
-        }
-        if (this.resourceCollectionData && this.resourceCollectionManifest) {
-          this.oldData = this.resourceCollectionData
-          this.alreadyRaised = true
-          this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.resourceCollectionData)
-          this.isFetchingDataComplete = true
-        } else {
-          this.isErrorOccured = true
-        }
+      data => {
+        void (async () => {
+          this.resourceCollectionData = data.content.data
+          if (this.alreadyRaised && this.oldData) {
+            this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
+          }
+          if (this.resourceCollectionData) {
+            this.formDiscussionForumWidget(this.resourceCollectionData)
+          }
+          if (
+            this.resourceCollectionData &&
+            this.resourceCollectionData.artifactUrl.indexOf('content-store') >= 0
+          ) {
+            await this.setS3Cookie(this.resourceCollectionData.identifier)
+          }
+          if (
+            this.resourceCollectionData &&
+            this.resourceCollectionData.mimeType === NsContent.EMimeTypes.COLLECTION_RESOURCE
+          ) {
+            this.resourceCollectionManifest = await this.transformResourceCollection(
+              this.resourceCollectionData,
+            )
+          }
+          if (this.resourceCollectionData && this.resourceCollectionManifest) {
+            this.oldData = this.resourceCollectionData
+            this.alreadyRaised = true
+            this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.resourceCollectionData)
+            this.isFetchingDataComplete = true
+          } else {
+            this.isErrorOccured = true
+          }
+        })()
       },
       () => { },
     )
   }
 
-  async ngOnDestroy() {
-    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
-    //   this.activatedRoute.snapshot.queryParams.collectionType
-    //   && this.resourceCollectionData) {
-    //   await this.contentSvc.continueLearning(this.resourceCollectionData.identifier,
-    //                                          this.activatedRoute.snapshot.queryParams.collectionId,
-    //                                          this.activatedRoute.snapshot.queryParams.collectionType,
-    //   )
-    // } else if (this.resourceCollectionData) {
-    //   await this.contentSvc.continueLearning(this.resourceCollectionData.identifier)
-    // }
-    if (this.resourceCollectionData) {
-      this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.resourceCollectionData)
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe()
-    }
+  ngOnDestroy() {
+    void (async () => {
+      if (this.resourceCollectionData) {
+        this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.resourceCollectionData)
+      }
+      if (this.dataSubscription) {
+        this.dataSubscription.unsubscribe()
+      }
+    })()
   }
 
   private async transformResourceCollection(_content: NsContent.IContent) {
@@ -149,7 +143,6 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
       })
     return
   }

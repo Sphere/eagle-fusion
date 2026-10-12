@@ -20,7 +20,7 @@
 
     </div>
   </div>
-  <article *ngIf="showTerms==='privacy'" [innerHTML]="dpTnc?.content | pipeSafeSanitizer: 'html'" class="text-justify">
+  <article *ngIf="showTerms==='privacy'" [innerHTML]="dpTncSafeContent" class="text-justify">
   </article>
 
 </div>

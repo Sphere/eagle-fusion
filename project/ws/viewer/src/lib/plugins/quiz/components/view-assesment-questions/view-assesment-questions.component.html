@@ -1,7 +1,8 @@
 <div>
-  <h3 *ngIf="question.questionType !== 'fitb'" class="m-0 quiz-question" [innerHTML]="question?.question">
-  </h3>
-  <h3 *ngIf="question.questionType === 'fitb'" class="m-0 quiz-question" [innerHTML]="safeQuestion"></h3>
+  <h3 *ngIf="question.questionType !== 'fitb'" class="m-0 quiz-question" [innerHTML]="question?.question"
+    [attr.aria-label]="question?.question">Question</h3>
+  <h3 *ngIf="question.questionType === 'fitb'" class="m-0 quiz-question" [innerHTML]="safeQuestion"
+    [attr.aria-label]="question?.question">Question</h3>
 
   <!-- Show text when multiple answers are possible -->
   <p *ngIf="question?.multiSelection" class="mat-body-2 multi-selection-hint">{{"(More than one answer possible)" |
@@ -86,7 +87,9 @@
               (viewState === 'answer' && option?.isCorrect),
             'incorrect-answer': viewState === 'review' && !option?.isCorrect && isSelected(option)
           }" *ngFor="let option of question?.options">
-        <mat-list-option checkboxPosition="before" (click)="itemSelected.emit(option.optionId)">
+        <mat-list-option checkboxPosition="before" tabindex="0" (click)="itemSelected.emit(option.optionId)"
+          (keydown.enter)="itemSelected.emit(option.optionId)"
+          (keydown.space)="itemSelected.emit(option.optionId); $event.preventDefault()">
           <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
             {{ option?.text }}
           </mat-error>

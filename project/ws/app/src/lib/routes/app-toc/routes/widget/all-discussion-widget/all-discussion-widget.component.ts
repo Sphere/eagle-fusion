@@ -36,7 +36,6 @@ export class AllDiscussionWidgetComponent extends BaseWrapperComponent {
     eventService: EventsService) {
     super(navigationServiceService, eventService, configSvc, discussionService)
   }
-  // @Input() config
 
   wrapperInit() {
     this.state = this.alldiscussPage
@@ -48,8 +47,6 @@ export class AllDiscussionWidgetComponent extends BaseWrapperComponent {
   }
 
   stateChange(event: any) {
-    // debugger
-    // this.logger.log(event)
     this.previousState = this.state
     this.state = event.action
     if (event.action === this.detailsPage) {
@@ -65,7 +62,4 @@ export class AllDiscussionWidgetComponent extends BaseWrapperComponent {
       this.cIds.result = event.cIds
     }
   }
-
-  // protected wrapperEventListener(data: any) {
-  // }
 }

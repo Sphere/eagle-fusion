@@ -13,7 +13,7 @@ export class BtnWhatsappShareComponent implements OnInit {
   @Input() url: SafeResourceUrl | null = null
 
   isSocialMediaWhatsappShareEnabled = false
-  constructor(private cofigSvc: ConfigurationsService) { }
+  constructor(private readonly cofigSvc: ConfigurationsService) { }
 
   ngOnInit() {
     if (this.cofigSvc.restrictedFeatures) {

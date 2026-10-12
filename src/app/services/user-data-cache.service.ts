@@ -1,4 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core'
+import { Injectable, OnDestroy, Inject, PLATFORM_ID } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable, throwError } from 'rxjs'
 import { map, shareReplay, tap, catchError, retry, take } from 'rxjs/operators'
@@ -9,16 +10,30 @@ import { API_END_POINTS } from '../constants/apiConstants'
   providedIn: 'root',
 })
 export class UserDataCacheService implements OnDestroy {
-  private userDataSubject = new BehaviorSubject<any>(null)
+  private readonly userDataSubject = new BehaviorSubject<any>(null)
   public userData$ = this.userDataSubject.asObservable()
   private apiCall$: Observable<any> | null = null
   private cacheExpirationTimeout: any = null
   private cacheTimestamp: number | null = null
   private readonly CACHE_EXPIRATION_TIME = 6 * 60 * 60 * 1000 // 6 hours in milliseconds
 
-  constructor(private http: HttpClient, private logger: LoggerService) {
+  private readonly isBrowser: boolean
+
+  constructor(
+    private readonly http: HttpClient,
+    private readonly logger: LoggerService,
+    @Inject(PLATFORM_ID) platformId: object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId)
+
     // Try to restore from session storage on service initialization
-    this.restoreFromCache();
+    this.restoreFromCache()
+
+    // The debug hooks below and the expiration timer are browser-only. On the server
+    // they are meaningless, and the timer is actively harmful - see setupCacheExpiration.
+    if (!this.isBrowser) {
+      return
+    }
 
     // Debug: expose debug method to window for testing
     (window as any).clearUserCache = () => {
@@ -64,6 +79,15 @@ export class UserDataCacheService implements OnDestroy {
    * Set up automatic cache expiration after 6 hours
    */
   private setupCacheExpiration(): void {
+    // Never arm this on the server. zone.js tracks the 6-hour setTimeout as a pending
+    // macrotask, so the application never reports itself stable, and prerendering waits
+    // out its stability timeout on every one of the ~480 routes before moving on. That
+    // alone pushed the Build stage past 50 minutes. A cache expiry is meaningless in a
+    // process that renders one page and exits.
+    if (!this.isBrowser) {
+      return
+    }
+
     // Clear any existing timeout
     if (this.cacheExpirationTimeout) {
       clearTimeout(this.cacheExpirationTimeout)
@@ -93,7 +117,7 @@ export class UserDataCacheService implements OnDestroy {
     // If data is already cached, return it
     const cachedData = this.userDataSubject.value
     if (cachedData) {
-      this.logger.log('[UserDataCache] Returning existing cached data for userId:', cachedData.userId)
+      this.logger.log('[UserDataCache] Returning existing cached data for userId:', this.getUserIdFromProfile(cachedData))
       return this.userData$.pipe(take(1))
     }
 
@@ -114,7 +138,7 @@ export class UserDataCacheService implements OnDestroy {
           return res && res.result ? res.result.response : null
         }),
         tap((data: any) => {
-          this.logger.log('[UserDataCache] Caching data with userId:', data?.userId)
+          this.logger.log('[UserDataCache] Caching data with userId:', this.getUserIdFromProfile(data))
           this.userDataSubject.next(data)
           this.cacheToSession(data)
           this.cacheTimestamp = Date.now()
@@ -137,6 +161,44 @@ export class UserDataCacheService implements OnDestroy {
    */
   getCachedUserData(): any {
     return this.userDataSubject.value
+  }
+
+  /**
+   * Sunbird Spark's user-read (V3) response omits the top-level `roles` array and only
+   * carries roles nested per-organisation. Old Sunbird's top-level `roles` is a flat array
+   * of role-name strings; Spark's V5 top-level `roles` is an array of raw role records
+   * (`{role, scope, ...}`) instead. Normalize all three shapes down to plain role-name strings.
+   */
+  getRolesFromProfile(userPidProfile: any): string[] {
+    const normalizeRoleEntries = (entries: any[]): string[] =>
+      entries
+        .map((entry: any) => (typeof entry === 'string' ? entry : entry?.role))
+        .filter((role: any): role is string => typeof role === 'string' && role.length > 0)
+
+    if (userPidProfile && Array.isArray(userPidProfile.roles) && userPidProfile.roles.length) {
+      const roles = normalizeRoleEntries(userPidProfile.roles)
+      if (roles.length) {
+        return roles
+      }
+    }
+    const organisations = (userPidProfile && userPidProfile.organisations) || []
+    const roles = new Set<string>()
+    organisations.forEach((org: any) => {
+      (org.roles || []).forEach((role: string) => roles.add(role))
+    })
+    return Array.from(roles)
+  }
+
+  /**
+   * Old Sunbird's user-read response included a redundant top-level `userId` field.
+   * Sunbird Spark's response never sets it (for any read version) — only `id`/`identifier`
+   * are present. Prefer `userId` when present for backward compatibility, else fall back.
+   */
+  getUserIdFromProfile(userPidProfile: any): string | undefined {
+    if (!userPidProfile) {
+      return undefined
+    }
+    return userPidProfile.userId || userPidProfile.id || userPidProfile.identifier
   }
 
   /**
@@ -174,7 +236,7 @@ export class UserDataCacheService implements OnDestroy {
    * Cache user data to session storage for persistence during session
    */
   private cacheToSession(data: any): void {
-    if (data && data.userId) {
+    if (data && this.getUserIdFromProfile(data)) {
       try {
         sessionStorage.setItem('userDataCache', JSON.stringify(data))
         this.logger.log('[UserDataCache] User data cached to session storage')
@@ -193,8 +255,8 @@ export class UserDataCacheService implements OnDestroy {
       if (cached) {
         this.logger.log('[UserDataCache] Found cached data in session storage, attempting to parse...')
         const data = JSON.parse(cached)
-        if (data && data.userId) {
-          this.logger.log('[UserDataCache] Restoring data from session storage for userId:', data.userId)
+        if (data && this.getUserIdFromProfile(data)) {
+          this.logger.log('[UserDataCache] Restoring data from session storage for userId:', this.getUserIdFromProfile(data))
           this.userDataSubject.next(data)
           this.cacheTimestamp = Date.now()
           this.setupCacheExpiration()

@@ -13,7 +13,7 @@
                 <div class="flex justify-between html">
                   <div class="prev-button">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
-                      accesskey="<" [disabled]="!prevResourceUrl">
+                      [disabled]="!prevResourceUrl">
                       <span class="material-icons align-left-arrow">
                         chevron_left
                       </span>
@@ -27,7 +27,7 @@
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
                         Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
-                      accesskey=">" [disabled]="!nextResourceUrl">
+                      [disabled]="!nextResourceUrl">
                       <span class="material-icons align-right-arrow">
                         chevron_right
                       </span>

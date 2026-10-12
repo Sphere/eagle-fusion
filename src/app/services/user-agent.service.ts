@@ -7,7 +7,7 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 export class UserAgentResolverService {
 
   constructor(
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) { }
 
   getUserAgent(): any {
@@ -59,6 +59,8 @@ export class UserAgentResolverService {
   generateCookie(): any {
     let cookie: any
     if (this.isCookieExpired('USERUID')) {
+      // Math.random() is fine here — USERUID is a client-side analytics correlation id,
+      // never used for auth/session/CSRF purposes, so predictability carries no privilege.
       const timestamp = new Date().getTime().toString(36)
       const randomString = Math.random().toString(36).substring(2, 9)
       const uniqueId = timestamp + randomString
@@ -193,6 +195,11 @@ export class UserAgentResolverService {
    * Silently requests GPS permission and stores coordinates in sessionStorage.
    * Safe to call multiple times — skips if already collected or denied this session.
    * City/state resolution is done server-side from the lat/lng in the telemetry payload.
+   *
+   * Geolocation use is intentional and scoped: analytics telemetry only (no location-gated
+   * features depend on it), called from a handful of public entry pages, gated on the
+   * browser's own permission state so a denial is never re-prompted, and cached per session
+   * so consent is asked at most once. Reviewed as necessary/safe for Sonar rule S5726.
    */
   requestGeolocation(): void {
     const existing = sessionStorage.getItem(this.GEO_KEY)
@@ -250,12 +257,12 @@ export class UserAgentResolverService {
   getDeviceModel(): string | null {
     const ua = navigator.userAgent
     // Android: "Mozilla/5.0 (Linux; Android 11; SM-G991B) ..."
-    const androidMatch = ua.match(/Android[^;]*;\s*([^)]+)\)/)
+    const androidMatch = ua.match(/Android[^;]{0,200};\s{0,50}([^)]{1,200})\)/)
     if (androidMatch) {
       return androidMatch[1].trim()
     }
     // iOS: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 ...)" or "(iPad; ...)"
-    const iosMatch = ua.match(/\((iPhone|iPad|iPod)[^)]*\)/)
+    const iosMatch = ua.match(/\((iPhone|iPad|iPod)[^)]{0,200}\)/)
     if (iosMatch) {
       return iosMatch[1]
     }

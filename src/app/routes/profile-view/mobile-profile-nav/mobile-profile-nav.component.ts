@@ -7,11 +7,11 @@ import { LoggerService } from '@ws-widget/utils'
 import { Observable } from 'rxjs'
 
 @Component({
-    standalone: false,
-    selector: 'ws-mobile-profile-nav',
-    templateUrl: './mobile-profile-nav.component.html',
-    styleUrls: ['./mobile-profile-nav.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-mobile-profile-nav',
+  templateUrl: './mobile-profile-nav.component.html',
+  styleUrls: ['./mobile-profile-nav.component.scss'],
+
 })
 export class MobileProfileNavComponent implements OnInit {
   @Input() showbackButton?: boolean
@@ -20,22 +20,21 @@ export class MobileProfileNavComponent implements OnInit {
   @Input() navigateTohome?: boolean = false
   isXSmall$: Observable<boolean>
   constructor(
-    private dialog: MatDialog,
+    private readonly dialog: MatDialog,
     public router: Router,
-    private contentSvc: WidgetContentService,
-    private logger: LoggerService,
-    private valueSvc: ValueService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly logger: LoggerService,
+    private readonly valueSvc: ValueService,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
+  }
+
+  ngOnInit() {
     this.contentSvc.backMessage.subscribe((data: any) => {
       if (data) {
         sessionStorage.setItem('clickedUrl', data)
       }
     })
-
-  }
-
-  ngOnInit() {
   }
 
   logout() {
@@ -50,87 +49,70 @@ export class MobileProfileNavComponent implements OnInit {
     const url3 = `${document.baseURI}`
     this.logger.log(backURL)
     if (backURL) {
-      const ob = {
-        "type": "back",
-        "back": true,
-      }
-      this.contentSvc.changeWork(ob)
+      this.contentSvc.changeWork({ "type": "back", "back": true })
     } else {
-      const orgcheck = sessionStorage.getItem('work')
-      const academicCheck = sessionStorage.getItem('academic')
-      const eduList = sessionStorage.getItem('onListPage')
-      this.logger.log(eduList)
-      this.logger.log(academicCheck)
-      this.logger.log(orgcheck)
-      if (orgcheck) {
-        const ob = {
-          "type": "work",
-          "back": true,
-        }
-        this.contentSvc.changeWork(ob)
-      } else if (academicCheck && eduList === null) {
-        const ob = {
-          "type": "academic",
-          "back": true,
-        }
-        this.contentSvc.changeWork(ob)
-      } else {
-        if (eduList) {
-          const ob = {
-            "type": "onListPage",
-            "back": true,
-          }
-          this.contentSvc.changeWork(ob)
-        }
-      }
+      this.handleNoBackUrl()
     }
-    this.contentSvc.workMessage.subscribe(async (data: any) => {
+    this.contentSvc.workMessage.subscribe((data: any) => {
       this.logger.log(data, 'back')
-      if (data === undefined) {
-
-      }
-      // this.showView = await data
     })
 
     if (this.trigerrNavigation) {
       this.router.navigate(['/app/profile-view'])
     } else {
-      if (this.navigateTohome) {
-        if (localStorage.getItem('orgValue') === 'nhsrc') {
-          this.router.navigateByUrl('/organisations/home')
-        } else {
-          this.logger.log("fasdfasdwew")
-          // this.currentText = text.name
-          const url = '/page/home'
-          location.href = `${url3}${url}`
-          // this.router.navigate(['/page/home'])
-        }
-      } else {
-        const orgcheck = sessionStorage.getItem('work')
-        const academicCheck = sessionStorage.getItem('academic')
-        this.logger.log(academicCheck)
-        this.logger.log(orgcheck)
-        if (orgcheck) {
-          const ob = {
-            "type": "work",
-            "back": true,
-          }
-          this.contentSvc.changeWork(ob)
-        } else if (academicCheck) {
-          const ob = {
-            "type": "academic",
-            "back": true,
-          }
-          this.contentSvc.changeWork(ob)
-        } else {
-          const backURL = sessionStorage.getItem('currentWindow')
-          this.logger.log(backURL)
-          const url = sessionStorage.getItem('clickedUrl') || ''
-          sessionStorage.removeItem('clickedUrl')
-          this.logger.log(url)
-          //this.router.navigateByUrl(url)
-        }
-      }
+      this.handleNavigateAfterBack(url3)
+    }
+  }
+
+  private handleNoBackUrl(): void {
+    const orgcheck = sessionStorage.getItem('work')
+    const academicCheck = sessionStorage.getItem('academic')
+    const eduList = sessionStorage.getItem('onListPage')
+    this.logger.log(eduList)
+    this.logger.log(academicCheck)
+    this.logger.log(orgcheck)
+    if (orgcheck) {
+      this.contentSvc.changeWork({ "type": "work", "back": true })
+    } else if (academicCheck && eduList === null) {
+      this.contentSvc.changeWork({ "type": "academic", "back": true })
+    } else if (eduList) {
+      this.contentSvc.changeWork({ "type": "onListPage", "back": true })
+    }
+  }
+
+  private handleNavigateAfterBack(url3: string): void {
+    if (this.navigateTohome) {
+      this.navigateHome(url3)
+    } else {
+      this.handleWorkOrAcademicBack()
+    }
+  }
+
+  private navigateHome(url3: string): void {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.router.navigateByUrl('/organisations/home')
+    } else {
+      this.logger.log("fasdfasdwew")
+      const url = '/page/home'
+      location.href = `${url3}${url}`
+    }
+  }
+
+  private handleWorkOrAcademicBack(): void {
+    const orgcheck = sessionStorage.getItem('work')
+    const academicCheck = sessionStorage.getItem('academic')
+    this.logger.log(academicCheck)
+    this.logger.log(orgcheck)
+    if (orgcheck) {
+      this.contentSvc.changeWork({ "type": "work", "back": true })
+    } else if (academicCheck) {
+      this.contentSvc.changeWork({ "type": "academic", "back": true })
+    } else {
+      const backURL = sessionStorage.getItem('currentWindow')
+      this.logger.log(backURL)
+      const url = sessionStorage.getItem('clickedUrl') || ''
+      sessionStorage.removeItem('clickedUrl')
+      this.logger.log(url)
     }
   }
 }

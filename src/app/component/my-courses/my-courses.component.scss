@@ -123,7 +123,7 @@ h3 {
 }
 
 :host ::ng-deep .card-long {
-  width: 99% !important;
+  width: 100% !important;
 }
 ::ng-deep .text-block-mini{
   flex: 75%;
@@ -150,7 +150,7 @@ h3 {
   color: var(--theme-text);
   margin-top: 20px;
   margin-bottom: 0px;
-  font: 400 24px / 32px Roboto;
+  font: 400 24px / 32px Roboto, sans-serif;
   @include ws-mixins.breakpoint-xs {
     margin-top: 0px;
   }
@@ -161,6 +161,76 @@ h3 {
 
   @include ws-mixins.breakpoint-xs {
     display: none !important;
+  }
+}
+
+/* ── Card grid ───────────────────────────────────────────────────────────────
+   Replaces the old percentage-width float layout. The shared cards carry a
+   fixed pixel width (sized for the horizontal scrollers on other pages), so a
+   30%/40% float box was narrower than the card itself — cards overlapped each
+   other and the last one in a row was clipped by the tab body.
+   ────────────────────────────────────────────────────────────────────────── */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  align-items: start;
+  gap: 24px;
+  padding: 20px 0 10px;
+
+  // the cell class is API-driven (tab.className) and may carry legacy margins
+  // (.resource-container, .responsiveDiv …) — the gap is the only spacing here
+  > div {
+    min-width: 0;
+    margin: 0 !important;
+    float: none !important;
+    width: auto !important;
+  }
+
+  // custom elements are inline by default — an inline host wrapping a block card
+  // contributes a line box, i.e. a line of leading under every row
+  ws-mobile-course-view,
+  ws-web-course-card {
+    display: block;
+  }
+
+  // card-mini is a full-width horizontal row, not a column card
+  &.course-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    padding: 15px;
+
+    &,
+    &.course-list {
+      gap: 12px;
+    }
+  }
+}
+
+// let the card fill its grid cell instead of keeping its scroller width/margins
+:host ::ng-deep .course-grid {
+  .course-container,
+  .mini-card-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  // the row card's anchor is inline with a fixed width/height — as an inline box
+  // its line box adds phantom vertical space around each card
+  .card-block {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  // spacing between rows comes from the grid gap only, not from card margins
+  .card-long {
+    margin: 0 !important;
   }
 }
 
@@ -175,21 +245,12 @@ h3 {
   #heading {
     margin-left: 15px;
     margin-bottom: 10px;
-    font: 400 24px / 32px Roboto;
+    font: 400 24px / 32px Roboto, sans-serif;
   }
   ::ng-deep .mat-mdc-progress-bar {
     width: 100% !important;
 
   }
-  .responsiveDiv {
-    // margin: 10px auto;
-    // display: table;
-     margin: 20px 15px 10px 15px !important;
-     box-sizing: border-box;
-     width: calc(100% - 30px);
-     min-height: 200px;
-  }
-
   .hideLower {
     display: none !important;
   }
@@ -222,11 +283,6 @@ h3 {
 }
 
 @media (min-width: 768px) and (max-width: 1279px) {
-  .responsiveDiv {
-    width: 40%;
-    min-height: 240px;
-  }
-
   .paddingView {
     padding: 10px 100px 10px 60px;
   }
@@ -244,11 +300,6 @@ h3 {
 }
 
 @media (min-width: 1280px) {
-  .responsiveDiv {
-    width: 30%;
-    min-height: 280px;
-  }
-
   .paddingView {
     padding: 10px 315px 10px 60px;
   }
@@ -270,16 +321,6 @@ h3 {
 }
 
 @media (min-width: 767px) {
-  .responsiveDiv {
-    box-sizing: border-box;
-    float: left;
-    margin: 20px 20px 10px 6px;
-  }
-
-  .show-more-container {
-    clear: both;
-  }
-
   #recommendHeading {
     display: none !important;
   }
@@ -386,7 +427,7 @@ h3 {
     padding-left: 24px !important;
     padding-right: 24px !important;
     .mdc-tab__text-label {
-      font-family: 'Roboto' !important;
+      font-family: 'Roboto', sans-serif !important;
     }
   }
 }

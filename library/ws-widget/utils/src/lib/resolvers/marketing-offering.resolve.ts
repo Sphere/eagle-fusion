@@ -11,7 +11,7 @@ import { IResolveResponse } from '@ws-widget/utils'
 export class MarketingOfferingResolve
    {
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
   ) { }
 
   resolve(

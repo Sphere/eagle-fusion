@@ -18,7 +18,34 @@ jest.mock('../../../../library/ws-widget/utils/src/public-api', () => ({
 }))
 
 jest.mock('../../services/user-data-cache.service', () => ({
-  UserDataCacheService: class { getUserData = jest.fn(); setUserData = jest.fn() },
+  UserDataCacheService: class {
+    getUserData = jest.fn()
+    setUserData = jest.fn()
+    getRolesFromProfile = jest.fn((userPidProfile: any) => {
+      const normalizeRoleEntries = (entries: any[]): string[] =>
+        entries
+          .map((entry: any) => (typeof entry === 'string' ? entry : entry?.role))
+          .filter((role: any): role is string => typeof role === 'string' && role.length > 0)
+      if (userPidProfile && Array.isArray(userPidProfile.roles) && userPidProfile.roles.length) {
+        const roles = normalizeRoleEntries(userPidProfile.roles)
+        if (roles.length) {
+          return roles
+        }
+      }
+      const organisations = (userPidProfile && userPidProfile.organisations) || []
+      const roles = new Set<string>()
+      organisations.forEach((org: any) => {
+        (org.roles || []).forEach((role: string) => roles.add(role))
+      })
+      return Array.from(roles)
+    })
+    getUserIdFromProfile = jest.fn((userPidProfile: any) => {
+      if (!userPidProfile) {
+        return undefined
+      }
+      return userPidProfile.userId || userPidProfile.id || userPidProfile.identifier
+    })
+  },
 }))
 
 jest.mock('../../constants/apiConstants', () => ({
@@ -301,6 +328,31 @@ describe('SignupService', () => {
       const result = await service.fetchStartUpDetails()
       expect(result.userId).toBe('u1')
       expect(mockConfigSvc.userProfile).not.toBeNull()
+    })
+
+    it('sets configSvc.userProfile from a Sunbird Spark shaped profile (roles only under organisations[], id instead of userId)', async () => {
+      const profile = {
+        id: 'spark-u1',
+        identifier: 'spark-u1',
+        firstName: 'Test',
+        lastName: 'User',
+        userName: 'testuser',
+        email: 'test@test.com',
+        organisations: [{ organisationId: 'org1', roles: ['PUBLIC'] }],
+        rootOrgId: 'org1',
+        channel: 'org1',
+        thumbnail: null,
+        isDeleted: false,
+        profileDetails: { preferences: { language: 'en' }, mandatoryFieldsExists: true },
+      }
+      mockConfigSvc.instanceConfig = { someKey: true }
+      mockUserDataCacheSvc.getUserData = jest.fn().mockReturnValue(of(profile))
+      mockHttp.get = jest.fn().mockReturnValue(of(null))
+      const result = await service.fetchStartUpDetails()
+      expect(result.userId).toBe('spark-u1')
+      expect(mockConfigSvc.userProfile).not.toBeNull()
+      expect(mockConfigSvc.userProfile.userId).toBe('spark-u1')
+      expect(mockConfigSvc.userProfileV2.userId).toBe('spark-u1')
     })
 
     it('handles exception and sets userProfile null', async () => {

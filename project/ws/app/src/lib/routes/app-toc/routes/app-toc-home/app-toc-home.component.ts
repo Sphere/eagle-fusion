@@ -19,10 +19,10 @@ export class AppTocHomeComponent implements OnInit {
   mapping: any = []
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private appTocHomeSvc: AppTocHomeService,
-    private telemetrySvc: TelemetryService
+    private readonly http: HttpClient,
+    private readonly router: Router,
+    private readonly appTocHomeSvc: AppTocHomeService,
+    private readonly telemetrySvc: TelemetryService
   ) { }
 
   loadComponent() {

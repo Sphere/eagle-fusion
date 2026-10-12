@@ -14,7 +14,7 @@ export class WebEkshamataPublicComponent implements OnInit {
   isXSmall$ = false
 
   constructor(private readonly router: Router, private readonly valueSvc: ValueService,
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) {
     effect(() => {
       this.isXSmall$ = this.valueSvc.isMobile() ? true : false

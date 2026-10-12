@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, Signal, ChangeDetectorRef, effect } from '@angular/core'
+import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges, Signal, ChangeDetectorRef, effect } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
@@ -11,6 +11,8 @@ import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
+import { getPortalHost } from '../../constants/portal'
+import { buildCompetencySearchArray } from '../../utils/competency-search.util'
 @Component({
   standalone: false,
   selector: 'ws-dashboard',
@@ -18,7 +20,7 @@ import { ThemeService } from '../../services/theme.service'
   styleUrls: ['./web-dashboard.component.scss'],
 
 })
-export class WebDashboardComponent implements OnInit, OnDestroy {
+export class WebDashboardComponent implements OnInit, OnChanges, OnDestroy {
   firstName!: Signal<string>
   preferedLanguage: any = { id: 'en', lang: 'English' }
   @Input() isEkshamata: any
@@ -32,27 +34,28 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   domain!: any
   @Input() configData: any
   @Input() userEnrolledCourse: any = []
+  @Input() programConfig!: any
   uiConfig: any
   playListIds: any[] = []
   noOfBadges = 0
   isDark: boolean = false
   isXsmall: boolean = false
   constructor(
-    public router: Router,
-    public dialog: MatDialog,
-    public scrollService: ScrollService,
-    public configSvc: ConfigurationsService,
-    public userProfileSvc: UserProfileService,
-    private languageSvc: LanguageService,
-    private plylsSvc: PlaylistService,
-    private logger: LoggerService,
-    private cdr: ChangeDetectorRef,
-    private themeSvc: ThemeService,
-    private valueSvc: ValueService
+    public readonly router: Router,
+    public readonly dialog: MatDialog,
+    public readonly scrollService: ScrollService,
+    public readonly configSvc: ConfigurationsService,
+    public readonly userProfileSvc: UserProfileService,
+    private readonly languageSvc: LanguageService,
+    private readonly plylsSvc: PlaylistService,
+    private readonly logger: LoggerService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly themeSvc: ThemeService,
+    private readonly valueSvc: ValueService
   ) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
-      this.isXsmall = this.valueSvc.isMobile() ? true : false
+      this.isXsmall = this.valueSvc.isMobile()
       this.bannerSecondImage = this.isDark && this.isEkshamata ? "/fusion-assets/images/ekshamata-group-dark.svg" : '/fusion-assets/images/ekshamata-group.svg'
     })
     this.firstName = toSignal(
@@ -61,9 +64,6 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
       ),
       { initialValue: '' }
     )
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.router.navigateByUrl('/organisations/home')
-    }
   }
 
   get shouldShowBadges(): boolean {
@@ -71,33 +71,44 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     return this.uiConfig?.badges?.showCompletedCourses === true && this.noOfBadges > 0
   }
 
-  async ngOnInit() {
-    this.logger.log(this.configData, 'configData ****** ')
-    this.uiConfig = this.configData?.[0]
-    this.dataCarousel = this.uiConfig?.data
-    this.imgsLoaded = (this.dataCarousel || []).map(() => false)
-    if (this.isEkshamata) {
-      this.domain = window.location.hostname
-      this.logger.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-        this.logger.log("yes here2 ", this.configSvc.hostedInfo)
-        this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
-        this.logger.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+  ngOnInit() {
+    void (async () => {
+      if (localStorage.getItem('orgValue') === 'nhsrc') {
+        this.router.navigateByUrl('/organisations/home')
       }
-    }
-    if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
-      this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
-    } else {
-      this.lang = this.languageSvc.getCurrentLanguage()
-    }
-    this.startCarousel()
+      this.logger.log(this.configData, 'configData ****** ')
+      this.uiConfig = this.configData?.[0]
+      this.dataCarousel = this.uiConfig?.data
+      this.imgsLoaded = (this.dataCarousel || []).map(() => false)
+      if (this.isEkshamata) {
+        this.domain = getPortalHost()
+        this.logger.log("yes here", this.isEkshamata)
+        if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+          this.logger.log("yes here2 ", this.configSvc.hostedInfo)
+          this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
+          this.logger.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+        }
+      }
+      if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
+        this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
+      } else {
+        this.lang = this.languageSvc.getCurrentLanguage()
+      }
+      this.startCarousel()
 
-    // Set preferred language from LanguageService
-    this.preferedLanguage = {
-      id: this.languageSvc.getCurrentLanguage(),
-      lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English',
+      // Set preferred language from LanguageService
+      this.preferedLanguage = {
+        id: this.languageSvc.getCurrentLanguage(),
+        lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English',
+      }
+      await this.calculateBadges()
+    })()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userEnrolledCourse'] && !changes['userEnrolledCourse'].firstChange) {
+      void this.calculateBadges()
     }
-    await this.calculateBadges()
   }
 
   ngOnDestroy(): void {
@@ -140,6 +151,23 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     this.scrollService.scrollToDivEvent.emit(value)
   }
 
+  private handleCompetencyFlow(roleCheck: (roles: string[]) => boolean, plyLsData: any[]): boolean {
+    const competencyConfigId = this.plylsSvc.getPlaylistConfigId('COMPETENCY_PLAYLIST')
+    const competencyPlaylist = plyLsData?.find((element: any) =>
+      element.language === this.lang &&
+      element.playlistId === competencyConfigId &&
+      roleCheck(element.role)
+    )
+    if (!competencyPlaylist) {
+      return false
+    }
+    this.playListIds = buildCompetencySearchArray(competencyPlaylist?.dataSource?.payload || [])
+    if (this.playListIds.length > 0) {
+      return true
+    }
+    return false
+  }
+
   private async calculateBadges(): Promise<void> {
     try {
       if (!this.uiConfig?.badges?.showCompletedCourses) {
@@ -148,10 +176,34 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
         this.logger.log('Badge calculation skipped - disabled in config')
         return
       }
-
       const currentLanguage = this.configSvc?.userProfile?.language || 'en'
       const res = await this.plylsSvc.getPlaylistConfig()
-      this.playListIds = res.find((item: any) => item.language === currentLanguage)?.dataSource?.payload || []
+      const designationLower = (this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || '').toLowerCase()
+      const roleCheck = (roles: string[]) => roles?.some(r => r.toLowerCase() === designationLower)
+
+      if (!!this.programConfig) {
+        // const configIds = (this.programConfig.programs || []).map((item: any) => item.playlistConfigId)
+        // this.playListIds = res
+        //   .filter((item: any) => item.language === currentLanguage && configIds.includes(item.playlistId))
+        //   .reduce((acc: any[], item: any) => {
+        //     if (item.dataSource?.type === 'competency') {
+        //       return acc.concat(buildCompetencySearchArray(item.dataSource?.payload || []))
+        //     }
+        //     return acc.concat(item.dataSource?.payload || [])
+        //   }, [])
+        // TODO: current fix, once confirmed, we can revert the above code and remove the below line
+        this.playListIds = []
+      } else if (this.handleCompetencyFlow(roleCheck, res)) {
+        // Competency user — playListIds already resolved inside handleCompetencyFlow.
+      } else {
+        const yourPlansConfigId = this.plylsSvc.getPlaylistConfigId('YOUR_PLANS_PLAYLIST')
+        this.playListIds = res.find((item: any) =>
+          item.language === currentLanguage &&
+          item.playlistId === yourPlansConfigId &&
+          roleCheck(item.role)
+        )?.dataSource?.payload || []
+      }
+
       const data = this.userEnrolledCourse?.filter(item => this.playListIds?.includes(item.identifier))
       const completedCourses = data?.filter(item => item.completionPercentage === 100)
 

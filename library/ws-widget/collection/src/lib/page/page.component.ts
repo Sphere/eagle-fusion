@@ -1,11 +1,11 @@
 import { ExploreResolverService } from './../../../../resolver/src/lib/explore-resolver.service'
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { DomSanitizer, Meta, SafeUrl } from '@angular/platform-browser'
+import { Meta, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
   ConfigurationsService, EventService, LoggerService, NsPage,
-  WsEvents, LogoutComponent, ValueService,
+  WsEvents, LogoutComponent, ValueService, SafeResourceUrlService,
 } from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
@@ -41,28 +41,27 @@ export class PageComponent extends WidgetBaseComponent
   isForbiddenError = false
   isClientError = false
   constructor(
-    private activateRoute: ActivatedRoute,
-    private logger: LoggerService,
-    private configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private eventSvc: EventService,
-    private domSanitizer: DomSanitizer,
-    private respondSvc: SubapplicationRespondService,
-    private dialog: MatDialog,
-    private exploreResolverSvc: ExploreResolverService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly logger: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly valueSvc: ValueService,
+    private readonly eventSvc: EventService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly respondSvc: SubapplicationRespondService,
+    private readonly dialog: MatDialog,
+    private readonly exploreResolverSvc: ExploreResolverService,
     public router: Router,
-    private meta: Meta
+    private readonly meta: Meta
   ) {
     super()
+  }
+  ngOnInit() {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
-      // this.links = this.getNavLinks()
     })
-  }
-  ngOnInit() {
     this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' })
 
     // Set authenticated based on user profile existence
@@ -70,8 +69,6 @@ export class PageComponent extends WidgetBaseComponent
 
     if (!this.authenticated && !this.exploreResolverSvc.isInitialized) {
       this.logger.info('Not Authenticated')
-      // this.loginResolverSvc.initialize()
-
     }
     if (!this.exploreResolverSvc.isInitialized) {
       this.exploreResolverSvc.initialize()
@@ -79,9 +76,12 @@ export class PageComponent extends WidgetBaseComponent
 
     if (this.configSvc.instanceConfig) {
       if (this.configSvc.instanceConfig.logos.app) {
-        this.navbarIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+        // Routed through SafeResourceUrlService (validates http/https scheme) instead of
+        // calling DomSanitizer directly, since instanceConfig is backend-driven and this
+        // avoids disabling sanitization for a value with no protocol validation at all.
+        this.navbarIcon = this.safeResourceUrlSvc.trust(
           this.configSvc.instanceConfig.logos.app,
-        )
+        ) || undefined
       }
       if (this.configSvc.restrictedFeatures) {
         this.isHlpMenuXs = this.configSvc.restrictedFeatures.has('helpMenuXs')
@@ -93,88 +93,99 @@ export class PageComponent extends WidgetBaseComponent
         !this.configSvc.restrictedFeatures.has('tourGuide')
       ) {
         this.isTourGuideAvailable = canShow
-        // this.createTour()
       }
     })
     this.activateRoute.data.subscribe(routeData => {
-
-      if (this.alreadyRaised && this.oldData) {
-        this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded)
-      }
-      if (routeData.pageData && routeData.pageData.data) {
-        this.error = null
-        this.pageData = routeData.pageData.data
-        if (this.pageData && this.pageData.navigationBar) {
-          this.navBackground = this.pageData.navigationBar.background || this.configSvc.pageNavBar
-          this.links = this.isXSmall ? this.getNavLinks() : this.getNavLinks().filter(data =>
-            data.widgetData.actionBtnId !== 'channel_how_to')
-        }
-      } else if (this.widgetData) {
-        this.pageData = this.widgetData
-        if (this.pageData && this.pageData.navigationBar) {
-          this.navBackground = this.pageData.navigationBar.background || this.configSvc.pageNavBar
-          this.links = this.isXSmall ? this.getNavLinks() : this.getNavLinks().filter(data =>
-            data.widgetData.actionBtnId !== 'channel_how_to')
-        }
-      } else {
-        this.pageData = null
-        this.error = routeData.pageData.error
-
-        // Determine error type for better user messaging
-        if (routeData.pageData.error && typeof routeData.pageData.error === 'object') {
-          const err = routeData.pageData.error
-          this.isNetworkError = err.type === 'NetworkError' || err.status === 0
-          this.isServerError = err.type === 'ServerError' || (err.status >= 500 && err.status < 600)
-          this.isForbiddenError = err.type === 'Forbidden' || err.status === 403
-          this.isClientError = err.type === 'ClientError' || (err.status >= 400 && err.status < 500)
-
-          // Log error details for debugging
-          this.logger.error('Page resolver error:', {
-            type: err.type,
-            status: err.status,
-            message: err.message,
-            url: window.location.href,
-          })
-        } else {
-          // Legacy error handling (string or simple error)
-          this.isNetworkError = routeData.pageData.error !== 'NoContent'
-        }
-
-        this.logger.warn('No page data available')
-      }
-      if (this.pageData) {
-        this.oldData = this.pageData
-        this.alreadyRaised = true
-        this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded)
-        this.responseSubscription = fromEvent<MessageEvent>(window, 'message')
-          .pipe(
-            filter(
-              (event: MessageEvent) =>
-                Boolean(event) &&
-                Boolean(event.data) &&
-                Boolean(event.source && typeof event.source.postMessage === 'function'),
-            ),
-          )
-          .subscribe(async (event: MessageEvent) => {
-            const contentWindow = event.source as Window
-            if (event.data.requestId) {
-              switch (event.data.requestId) {
-                case 'LOADED':
-                  this.respondSvc.loadedRespond(contentWindow, event.data.subApplicationName)
-                  break
-                default:
-                  break
-              }
-            }
-          })
-      }
-
+      this.handleRouteData(routeData)
     })
+  }
+
+  private handleRouteData(routeData: any) {
+    if (this.alreadyRaised && this.oldData) {
+      this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded)
+    }
+    if (routeData.pageData && routeData.pageData.data) {
+      this.error = null
+      this.pageData = routeData.pageData.data
+      this.updateNavBackgroundAndLinks()
+    } else if (this.widgetData) {
+      this.pageData = this.widgetData
+      this.updateNavBackgroundAndLinks()
+    } else {
+      this.handleNoPageData(routeData)
+    }
+    if (this.pageData) {
+      this.onPageDataReady()
+    }
+  }
+
+  private updateNavBackgroundAndLinks() {
+    if (this.pageData && this.pageData.navigationBar) {
+      this.navBackground = this.pageData.navigationBar.background || this.configSvc.pageNavBar
+      this.links = this.isXSmall ? this.getNavLinks() : this.getNavLinks().filter(data =>
+        data.widgetData.actionBtnId !== 'channel_how_to')
+    }
+  }
+
+  private handleNoPageData(routeData: any) {
+    this.pageData = null
+    this.error = routeData.pageData.error
+
+    // Determine error type for better user messaging
+    if (routeData.pageData.error && typeof routeData.pageData.error === 'object') {
+      const err = routeData.pageData.error
+      this.isNetworkError = err.type === 'NetworkError' || err.status === 0
+      this.isServerError = err.type === 'ServerError' || (err.status >= 500 && err.status < 600)
+      this.isForbiddenError = err.type === 'Forbidden' || err.status === 403
+      this.isClientError = err.type === 'ClientError' || (err.status >= 400 && err.status < 500)
+
+      // Log error details for debugging
+      this.logger.error('Page resolver error:', {
+        type: err.type,
+        status: err.status,
+        message: err.message,
+        url: window.location.href,
+      })
+    } else {
+      // Legacy error handling (string or simple error)
+      this.isNetworkError = routeData.pageData.error !== 'NoContent'
+    }
+
+    this.logger.warn('No page data available')
+  }
+
+  private onPageDataReady() {
+    this.oldData = this.pageData
+    this.alreadyRaised = true
+    this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded)
+    this.responseSubscription = fromEvent<MessageEvent>(window, 'message')
+      .pipe(
+        filter(
+          (event: MessageEvent) =>
+            Boolean(event) &&
+            Boolean(event.data) &&
+            Boolean(event.source && typeof event.source.postMessage === 'function'),
+        ),
+      )
+      .subscribe((event: MessageEvent) => {
+        void (async () => {
+          const contentWindow = event.source as Window
+          if (event.data.requestId) {
+            switch (event.data.requestId) {
+              case 'LOADED':
+                this.respondSvc.loadedRespond(contentWindow, event.data.subApplicationName)
+                break
+              default:
+                break
+            }
+          }
+        })()
+      })
   }
 
   ngAfterViewInit() {
     const hash: any = window.location.hash ? window.location.hash.split('#')[1] : ''
-    if (hash && isNaN(hash)) {
+    if (hash && Number.isNaN(Number(hash))) {
       setTimeout(
         () => {
           const element = document.getElementById(hash)
@@ -187,7 +198,6 @@ export class PageComponent extends WidgetBaseComponent
     }
     if (this.pageData && this.pageData.tourGuide) {
       this.configSvc.tourGuideNotifier.next(true)
-      // this.tour.data = this.pageData.tourGuide
     }
   }
 
@@ -255,7 +265,6 @@ export class PageComponent extends WidgetBaseComponent
     }
   }
   startTour() {
-    // this.tour.startTour()
     if (this.responseSubscription) {
       this.respondSvc.unsubscribeResponse()
       this.responseSubscription.unsubscribe()

@@ -11,7 +11,7 @@ import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants
 export class UserPreferenceService {
   // do changes in the backend and update the store
 
-  constructor(private http: HttpClient, private configurationSvc: ConfigurationsService) { }
+  constructor(private readonly http: HttpClient, private readonly configurationSvc: ConfigurationsService) { }
 
   initialize() {
     this.configurationSvc.prefChangeNotifier

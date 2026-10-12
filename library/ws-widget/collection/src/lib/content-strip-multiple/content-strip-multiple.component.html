@@ -32,11 +32,6 @@
                   *ngIf="stripsResultDataMap[key]?.stripTitle">
                   {{ stripsResultDataMap[key]?.stripTitle }}
                 </h1>
-                <!-- <button *ngIf="stripsResultDataMap[key]?.stripInfo?.icon" type="button" mat-icon-button
-                  (click)="toggleInfo(stripsResultDataMap[key])" i18n-matTooltip matTooltip="info"
-                  class="margin-left-xs">
-                  <mat-icon>{{ stripsResultDataMap[key]?.stripInfo?.icon.icon }}</mat-icon>
-                </button> -->
                 <span class="spacer"></span>
                 <!-- viewAll -->
                 <div
@@ -51,9 +46,10 @@
               <button mat-icon-button (click)="setHiddenForStrip(key)" *ngIf="stripsResultDataMap[key]?.canHideStrip">
                 <mat-icon>close</mat-icon>
               </button>
-              <mat-icon class="cursor-pointer"
+              <mat-icon class="cursor-pointer" tabindex="0"
                 *ngIf="stripsResultDataMap[key]?.mode === 'accordion' && utilitySvc.isMobile"
-                (click)="showAccordionData = !showAccordionData">{{ showAccordionData ? 'expand_less' : 'expand_more' }}
+                (click)="showAccordionData = !showAccordionData" (keydown.enter)="showAccordionData = !showAccordionData"
+                (keydown.space)="showAccordionData = !showAccordionData; $event.preventDefault()">{{ showAccordionData ? 'expand_less' : 'expand_more' }}
               </mat-icon>
             </div>
             <div class="mb-4">
@@ -72,14 +68,6 @@
                 <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsResolverWidget]="widget">
                 </ng-container>
               </ng-container>
-
-              <!-- <div *ngIf="stripsResultDataMap[key]?.viewMoreUrl" class="ml-4 mr-6 mb-2 view-more ws-mat-primary-text">
-                <a [routerLink]="stripsResultDataMap[key]?.viewMoreUrl?.path"
-                  [queryParams]="stripsResultDataMap[key]?.viewMoreUrl?.queryParams">
-                  <mat-icon class="icon">arrow_forward</mat-icon>
-                  <h3 i18n>View All</h3>
-                </a>
-              </div> -->
             </ws-utils-horizontal-scroller>
           </div>
         </div>
@@ -95,20 +83,6 @@
         </ng-container>
       </ws-utils-horizontal-scroller>
     </div>
-
-
-
-    <!--
-      <div class="px-4 sm:px-8 md:px-10ss py-0 my-0 mt-5"
-        *ngIf="stripsResultDataMap[key].showStrip && callPublicApi && explorePage">
-
-        <ws-utils-horizontal-scroller *ngIf="stripsResultDataMap[key]?.widgets?.length " [loadStatus]="'done'">
-
-
-          <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsExploreResolverWidget]="widget">
-          </ng-container>
-        </ws-utils-horizontal-scroller>
-      </div> -->
   </ng-container>
 </ng-template>
 

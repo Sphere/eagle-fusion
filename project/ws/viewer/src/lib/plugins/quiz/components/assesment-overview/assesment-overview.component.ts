@@ -18,7 +18,7 @@ export class AssesmentOverviewComponent implements OnInit {
     public dialogRef: MatDialogRef<AssesmentOverviewComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public route: ActivatedRoute,
-    private events: EventService
+    private readonly events: EventService
   ) { }
 
   ngOnInit() {
@@ -30,7 +30,7 @@ export class AssesmentOverviewComponent implements OnInit {
       if (this.isAshaHome) {
         this.dialogRef.close({
           event: 'close-overview',
-          asha: this.route.snapshot.queryParams.isAsha
+          asha: this.route.snapshot.queryParams.isAsha,
         })
       } else {
         this.dialogRef.close({

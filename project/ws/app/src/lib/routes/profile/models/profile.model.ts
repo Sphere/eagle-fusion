@@ -359,31 +359,6 @@ export namespace NSProfileData {
     actual: number
     text: string
   }
-  // export interface IGraphWidget {
-  //   widgetType: string
-  //   widgetSubType: string
-  //   widgetData: IWidgetGraphData
-  // }
-
-  // type TContentTypes =
-  //   | 'Learning Path'
-  //   | 'Course'
-  //   | 'Collection'
-  //   | 'Resource'
-  //   | 'Knowledge Artifact'
-  //   | 'Knowledge Board'
-  //   | 'Channel'
-  //   | 'Learning Journeys'
-  //   | 'Playlist'
-  //   | 'person'
-  //   | 'tags'
-
-  // const SERVICES: Record<string string> = {
-  //   doorToDoor: 'delivery at door'
-  //   airDelivery: 'flying in'
-  //   specialDelivery: 'special delivery'
-  //   inStore: 'in-store pickup'
-  // }
   export interface IFollowing {
     'Knowledge Board': NsContent.IContentMinimal[]
     Channel: NsContent.IContentMinimal[]

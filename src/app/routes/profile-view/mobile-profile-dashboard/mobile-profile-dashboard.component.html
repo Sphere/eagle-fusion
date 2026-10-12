@@ -17,7 +17,7 @@
       </span>
     </div>
     <div class="badge-container mob-view" *ngIf="earnedBadges$ | async as count">
-      <img src="fusion-assets/icons/badges.png" />
+      <img src="fusion-assets/icons/badges.png" alt="Badges" />
       <span class="label">
         {{ count > 1
         ? ('BADGES_EARNED' | translate:{ count: count })
@@ -28,7 +28,9 @@
 
     <div class="div mobile-div">
       <ng-container *ngFor="let ls of uiConfig">
-        <div *ngIf="ls.id === 'leaderBoard' && totalUsers > 0" class="leaderboard-card" (click)="openLeaderboard()">
+        <div *ngIf="ls.id === 'leaderBoard' && totalUsers > 0" class="leaderboard-card" tabindex="0" role="button"
+          (click)="openLeaderboard()" (keydown.enter)="openLeaderboard()"
+          (keydown.space)="openLeaderboard(); $event.preventDefault()">
           <div class="leaderboard-header">
             <div class="icon">
               <img [src]="ls.img" alt="star" />
@@ -72,10 +74,10 @@
       <div *ngIf="orgDet?.themeConfig?.isDark"
         style="display:flex; justify-content: space-between; margin-left: 0.5rem">
         <div>
-          <img class="themeIcon" src="/fusion-assets/images/dark_mode.png">
-          <label style="margin-left: 1rem;">{{"DARK_MODE" | translate}}</label>
+          <img class="themeIcon" src="/fusion-assets/images/dark_mode.png" alt="Dark mode">
+          <label style="margin-left: 1rem;" for="darkModeToggle">{{"DARK_MODE" | translate}}</label>
         </div>
-        <mat-slide-toggle labelPosition="before" [checked]="isDark()" [color]="'primary'"
+        <mat-slide-toggle id="darkModeToggle" labelPosition="before" [checked]="isDark()" [color]="'primary'"
           (change)="onToggleChange($event)"></mat-slide-toggle>
       </div>
       <div class="margin-top-xs support-copy" *ngIf="!isEkshamata || configSvc.hostedInfo?.email">
@@ -98,7 +100,7 @@
   <!-- web screen left section -->
   <div *ngIf="!showbackButton" [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData">
     <div>
-      <img [src]="photoUrl ? photoUrl : menuItems?.[0]?.img" alt="profile image" width="150px" height="150px"
+      <img [src]="photoUrl ? photoUrl : menuItems?.[0]?.img" alt="Profile" width="150px" height="150px"
         class="profile-border">
     </div>
 
@@ -120,7 +122,7 @@
       </p>
     </div>
     <div class="badge-container" *ngIf="earnedBadges$ | async as count">
-      <img src="fusion-assets/icons/badges.png" />
+      <img src="fusion-assets/icons/badges.png" alt="Badges" />
       <span class="label">
         {{ count > 1
         ? ('BADGES_EARNED' | translate:{ count: count })
@@ -130,7 +132,9 @@
     </div>
     <div class="div">
       <ng-container *ngFor="let ls of uiConfig">
-        <div *ngIf="ls.id ==='leaderBoard' && totalUsers > 0" class="leaderboard-card" (click)="openLeaderboard()">
+        <div *ngIf="ls.id ==='leaderBoard' && totalUsers > 0" class="leaderboard-card" tabindex="0" role="button"
+          (click)="openLeaderboard()" (keydown.enter)="openLeaderboard()"
+          (keydown.space)="openLeaderboard(); $event.preventDefault()">
           <div class="leaderboard-header">
             <div class="icon"><img [src]="ls.img" alt="star" /></div>
             <div class="title">{{ls.text | translate}}</div>
@@ -234,14 +238,18 @@
     </div>
   </div>
   <div *ngIf="!isCommonChatEnabled">
-    <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross image" (click)="backToChatIcon()" />
+    <button type="button" style="all: unset; display: contents; cursor: pointer;" aria-label="Close"
+      (click)="backToChatIcon()">
+      <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="" />
+    </button>
     <a rel="noopener" href="https://wa.me/919632013414?text=Hi" target="_blank">
-      <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp image" />
+      <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp" />
       <div>
         <p class="whtsapp-text">{{ 'Chat with us on WhatsApp' | translate }}</p>
       </div>
     </a>
-    <a class="fcapp-text cursor-pointer" (click)="showChat()">
+    <a class="fcapp-text cursor-pointer" (click)="showChat()" (keydown.enter)="showChat()"
+      (keydown.space)="showChat(); $event.preventDefault()" tabindex="0">
       <img src="/fusion-assets/icons/chat-wa.png" class="whatsapp-icon1" alt="whatsapp" />
       <div>
         <p class="whtsapp-text1">{{ 'Connect with us' | translate }}</p>

@@ -1,6 +1,5 @@
 import {
   Component, OnInit, Input, Output,
-  // ViewChild,
   EventEmitter,
 } from '@angular/core'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
@@ -8,21 +7,19 @@ import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
-// import { EditorQuillComponent } from './../../editor-quill/component/editor-quill/editor-quill.component'
 import { DialogSocialDeletePostComponent } from '../../dialog/dialog-social-delete-post/dialog-social-delete-post.component'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-discussion-post',
-    templateUrl: './discussion-post.component.html',
-    styleUrls: ['./discussion-post.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-discussion-post',
+  templateUrl: './discussion-post.component.html',
+  styleUrls: ['./discussion-post.component.scss'],
+
 })
 export class DiscussionPostComponent implements OnInit {
 
   @Input() post!: NsDiscussionForum.ITimelineResult
   @Output() deleteSuccess = new EventEmitter<boolean>()
-  // @ViewChild('discussionReplyEditor', { static: true }) discussionReplyEditor: EditorQuillComponent | null = null
   editMode = false
   postPublishEnabled = false
   updatedBody: undefined | string
@@ -48,10 +45,10 @@ export class DiscussionPostComponent implements OnInit {
   isNewRepliesAvailable = false
   showReplies = false
   constructor(
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private configSvc: ConfigurationsService,
-    private discussionSvc: WsDiscussionForumService,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly configSvc: ConfigurationsService,
+    private readonly discussionSvc: WsDiscussionForumService,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
@@ -131,9 +128,6 @@ export class DiscussionPostComponent implements OnInit {
         this.fetchPostReplies(true)
         this.isPostingReply = false
         this.replyPlaceholderToggler = !this.replyPlaceholderToggler
-        // if (this.discussionReplyEditor) {
-        //   this.discussionReplyEditor.resetEditor()
-        // }
         this.isValidReply = false
         this.replyBody = undefined
       },
@@ -147,6 +141,10 @@ export class DiscussionPostComponent implements OnInit {
   onReplyTextChange(eventData: { isValid: boolean; htmlText: string }) {
     this.isValidReply = eventData.isValid
     this.replyBody = eventData.htmlText
+  }
+
+  onReplyInput(value: string) {
+    this.onReplyTextChange({ isValid: value.trim().length > 0, htmlText: value })
   }
 
   fetchPostReplies(forceNew = false) {
@@ -186,9 +184,8 @@ export class DiscussionPostComponent implements OnInit {
 
   cancelReply() {
     this.replyPlaceholderToggler = !this.replyPlaceholderToggler
-    // if (this.discussionReplyEditor) {
-    //   this.discussionReplyEditor.resetEditor()
-    // }
+    this.replyBody = undefined
+    this.isValidReply = false
   }
   toggleReplies() {
     this.showReplies = !this.showReplies

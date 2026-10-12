@@ -137,8 +137,8 @@ describe('LeadershipDashboardComponent', () => {
 
     it('should return higher px value for higher points', () => {
       component.maxPoints = 100
-      const h1 = parseInt(component.getBarHeight(100, 1))
-      const h2 = parseInt(component.getBarHeight(50, 1))
+      const h1 = Number.parseInt(component.getBarHeight(100, 1))
+      const h2 = Number.parseInt(component.getBarHeight(50, 1))
       expect(h1).toBeGreaterThan(h2)
     })
   })

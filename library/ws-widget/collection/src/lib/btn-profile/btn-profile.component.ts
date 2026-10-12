@@ -1,19 +1,15 @@
 import {
   Component, Input, OnInit, OnDestroy, HostBinding,
-  // ElementRef, AfterViewInit
 } from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig, ValueService, LoggerService } from '@ws-widget/utils'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
-// import { Router } from '@angular/router'
 import { Location } from '@angular/common'
-// declare const gapi: any
 /* tslint:disable*/
 import { compact, get } from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
-//import { WidgetContentService } from '../_services/widget-content.service'
 import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
 import { Router } from '@angular/router'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -32,23 +28,20 @@ interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
 
 export class BtnProfileComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy,
-  // AfterViewInit,
   NsWidgetResolver.IWidgetData<NsPage.INavLink> {
   public route: string
   public locale = ''
   isXSmall$ = this.valueSvc.isXSmall$
   userData: any
   constructor(
-    private configSvc: ConfigurationsService,
-    private dialog: MatDialog,
-    private accessService: AccessControlService,
-    private valueSvc: ValueService,
-    // private element: ElementRef,
-    private router: Router,
-    // private contentSvc: WidgetContentService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly dialog: MatDialog,
+    private readonly accessService: AccessControlService,
+    private readonly valueSvc: ValueService,
+    private readonly router: Router,
     location: Location,
-    private userProfileSvc: UserProfileService,
-    private logger: LoggerService
+    private readonly userProfileSvc: UserProfileService,
+    private readonly logger: LoggerService
   ) {
     super()
     this.route = location.path()
@@ -65,7 +58,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
     if (this.configSvc.appsConfig) {
       const appsConfig: any = this.configSvc.appsConfig
-      // appsConfig.groups[7].hasRole = []
       const availGroups: NsAppsConfig.IGroup[] = []
       appsConfig.groups.forEach((group: any) => {
         if (group.hasRole.length === 0 || this.accessService.hasRole(group.hasRole)) {
@@ -107,18 +99,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
   @Input() widgetData!: any
   @HostBinding('class')
   public class = 'profile-link'
-  // public isSignedIn = false
-  // public signinURL = ''
-  // private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
-  // private scope = [
-  //   'profile',
-  //   'email',
-  //   'https://www.googleapis.com/auth/plus.me',
-  //   'https://www.googleapis.com/auth/contacts.readonly',
-  //   'https://www.googleapis.com/auth/admin.directory.user.readonly',
-  // ].join(' ')
-
-  // public auth2: any
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
     widgetSubType: 'actionButtonApps',
@@ -140,46 +120,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
   private readonly featuresConfig: IGroupWithFeatureWidgets[] = []
   portalLinks: any[] = []
 
-  // public googleInit() {
-  //   gapi.load('auth2', () => {
-  //     this.auth2 = gapi.auth2.init({
-  //       client_id: this.clientId,
-  //       cookie_policy: 'single_host_origin',
-  //       scope: this.scope,
-  //       ux_mode: 'redirect',
-  //       redirect_uri: `${location.origin}/google/callback`,
-  //     })
-  //     this.attachSignin(this.element.nativeElement.firstChild)
-  //     this.auth2.isSignedIn.listen(this.signinChanged)
-  //     this.auth2.currentUser.listen(this.userChanged)
-  //   })
-  // }
-
-  // public signinChanged(val: any) {
-  //   localStorage.setItem(`google_isSignedIn`, val)
-  // }
-
-  // public userChanged(user: any) {
-  //   localStorage.setItem(`google_token`, user.getAuthResponse().id_token)
-  // }
-
-  // public attachSignin(element: any) {
-  //   this.auth2.attachClickHandler(element, {},
-  //                                 (googleUser: any) => {
-  // @ts-ignore
-  // const profile = googleUser.getBasicProfile()
-  // this.logger.log('Token || ' + googleUser.getAuthResponse().id_token)
-  // this.logger.log(`'ID: ' + profile.getId()`)
-  // this.logger.log('Name: ' + profile.getName())
-  // this.logger.log('Image URL: ' + profile.getImageUrl())
-  // this.logger.log('Email: ' + profile.getEmail())
-  // },
-  // (error: any) => {
-  // tslint:disable-next-line:no-console
-  // this.logger.log(JSON.stringify(error, undefined, 2))
-  // })
-  // }
-
   ngOnInit() {
     this.setPinnedApps()
     if (this.widgetData && this.widgetData.actionBtnId) {
@@ -189,31 +129,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
     if (this.featuresConfig && this.featuresConfig.length > 0) {
       this.getPortalLinks()
     }
-    // const storageItem1 = localStorage.getItem(`google_token`)
-    // const storageItem2 = localStorage.getItem(`google_isSignedIn`)
-    // if (storageItem2 === 'true' && this.route === '/google/callback') {
-    //   this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
-    //   this.isSignedIn = true
-    //   const req = {
-    //     idToken: storageItem1,
-    //   }
-    //   this.contentSvc.googleAuthenticate(req).subscribe(
-    //     (results: any) => {
-    //       // tslint:disable-next-line:no-console
-    //       this.logger.log(results)
-    //     },
-    //     (err: any) => {
-    //       // tslint:disable-next-line:no-console
-    //       this.logger.log(err)
-    //     }
-    //   )
-    //   this.router.navigate(['/page/home'])
-    // }
   }
-
-  // ngAfterViewInit() {
-  //   this.googleInit()
-  // }
 
   ngOnDestroy() {
     if (this.pinnedAppsSubs) {
@@ -228,16 +144,17 @@ export class BtnProfileComponent extends WidgetBaseComponent
   }
   redirect() {
     if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
-        this.logger.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
-        // this.logger.log(this.userData.profileDetails!.profileReq!.personalDetails!.dob)
-        this.userData = await data
-        if (data && data.profileDetails!.profileReq!.personalDetails!.dob) {
-          this.router.navigate(['/app/profile-view'])
-        } else {
-          const url = `/page/home`
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
-        }
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((data: any) => {
+        void (async () => {
+          this.logger.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
+          this.userData = await data
+          if (data && data.profileDetails!.profileReq!.personalDetails!.dob) {
+            this.router.navigate(['/app/profile-view'])
+          } else {
+            const url = `/page/home`
+            this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+          }
+        })()
       })
     }
   }
@@ -271,11 +188,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
           this.portalLinks.push(fw)
         })
       }
-      // else if (feature.id === 'portal_frac' && feature.featureWidgets.length > 0) {
-      //   feature.featureWidgets.forEach((fw: any) => {
-      //     this.portalLinks.push(fw)
-      //   })
-      // }
     })
   }
 }

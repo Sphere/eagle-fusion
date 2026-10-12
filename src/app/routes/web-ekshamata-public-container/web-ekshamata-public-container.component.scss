@@ -59,7 +59,7 @@ height: 132px;
 
 }
 .black-text{
-  color: #000000;
+  color: var(--theme-text, #000000);
 }
 .blue-text{
   color: var(--theme-accent);
@@ -121,7 +121,7 @@ font-weight: 500;
   flex-direction: column;
 }
 .ekshamata-logo{
-    width: 100%;
+    width: auto;
     height: 85px;
     margin: 15px 0px 0px 15px;
 
@@ -135,7 +135,7 @@ font-weight: 500;
     height: 125px;
 }
 .right-container-block-header {
-    padding: 25px 60px 10px 25px;
+    padding: 25px 24px 10px 24px;
 }
 .ekshamata-bottom-leaf {
     width: 100%;
@@ -159,7 +159,7 @@ font-weight: 500;
   font-size: 16px;
   }
   .aastrika-foundation-logo {
-    width: 100%;
+    width: auto;
     height: 50px;
 }
 .font-18{
@@ -168,10 +168,23 @@ font-weight: 500;
 .right-container-block-footer{
   margin-top: 15px;
 }
+.login-btn{
+  width: min(330px, 80%);
+}
 .line-height-24{
   line-height:18px;
 }
 .line-height-34{
   line-height: 29px;
 }
+}
+
+::ng-deep .dark-theme {
+  .left-container-block {
+    background: linear-gradient(180deg, #7cb5e6, #74beb1 100%, #fffcc8) !important;
+  }
+
+  .aastrika-foundation-logo {
+    filter: var(--theme-icon-filter);
+  }
 }

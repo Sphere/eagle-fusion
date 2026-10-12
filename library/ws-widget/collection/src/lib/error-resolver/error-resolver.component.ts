@@ -26,22 +26,24 @@ export class ErrorResolverComponent extends WidgetBaseComponent
     somethingsWrong: 'somethingsWrong',
   }
   constructor(
-    private configService: ConfigurationsService,
-    private errorResolverSvc: ErrorResolverService,
-    private activateRoute: ActivatedRoute,
+    private readonly configService: ConfigurationsService,
+    private readonly errorResolverSvc: ErrorResolverService,
+    private readonly activateRoute: ActivatedRoute,
   ) {
     super()
   }
 
-  async ngOnInit() {
-    if (!this.widgetData) {
-      this.widgetData = {
-        errorType: this.activateRoute.snapshot.data.errorType,
+  ngOnInit() {
+    void (async () => {
+      if (!this.widgetData) {
+        this.widgetData = {
+          errorType: this.activateRoute.snapshot.data.errorType,
+        }
+        this.initialize()
+      } else {
+        this.initialize()
       }
-      this.initialize()
-    } else {
-      this.initialize()
-    }
+    })()
   }
 
   private async initialize() {

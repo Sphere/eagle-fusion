@@ -1,5 +1,5 @@
 <a href="javascript:void(0)" *ngIf="(isXSmall$ | async) === false" mat-icon-button i18n-aria-label title="option"
-  class="new-margin" #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu" role="link">
+  class="new-margin" #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu">
   <span class="profile-content">
     <span class="flex flex-column flex-middle">
       <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
@@ -39,14 +39,14 @@
   </section>
 
   <section class="padding-s border-bottom">
-    <a role="link" (click)="redirect()" class="all-features cursor-pointer" id="viewprofile">
+    <a (click)="redirect()" (keydown.enter)="redirect()" (keydown.space)="redirect(); $event.preventDefault()"
+      tabindex="0" class="all-features cursor-pointer" id="viewprofile">
       <div class="float-left">
-        <!-- <mat-icon>account_circle</mat-icon> -->
         <ws-widget-avatar-photo [name]="givenName" [size]="'m'" [photoUrl]="profileImage"></ws-widget-avatar-photo>
       </div>
       <div class="inline-block margin-left-s pfname">
         <p class="mat-subheading-2">{{ givenName }}</p>
-        <p i18n role="link" class="ws-mat-default-text mat-body-2 font-medium">View Profile</p>
+        <p i18n class="ws-mat-default-text mat-body-2 font-medium">View Profile</p>
       </div>
     </a>
   </section>
@@ -69,11 +69,11 @@
   </section>
 
   <section class="padding-xs">
-    <a mat-menu-item role="link" routerLink="/app/profile/settings" class="all-features">
+    <a mat-menu-item routerLink="/app/profile/settings" class="all-features">
       <span i18n>Settings</span>
     </a>
 
-    <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
+    <a href="javascript:void(0)" mat-menu-item (click)="logout()" class="log-o">
       <span i18n>Sign-out</span>
     </a>
   </section>

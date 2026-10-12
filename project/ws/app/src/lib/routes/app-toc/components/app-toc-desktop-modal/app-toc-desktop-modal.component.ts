@@ -1,22 +1,22 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { forEach } from 'lodash'
 import { Router } from '@angular/router'
 import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
+import { groupCompetenciesByName, ITocCompetencyGroup } from '../../utils/competency.util'
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-desktop-modal',
-    templateUrl: './app-toc-desktop-modal.component.html',
-    styleUrls: ['./app-toc-desktop-modal.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-desktop-modal',
+  templateUrl: './app-toc-desktop-modal.component.html',
+  styleUrls: ['./app-toc-desktop-modal.component.scss'],
+
 })
 export class AppTocDesktopModalComponent implements OnInit {
-  cometencyData: { name: any; levels: string }[] = []
+  cometencyData: ITocCompetencyGroup[] = []
   constructor(
     public dialogRef: MatDialogRef<AppTocDesktopModalComponent>,
-    private router: Router,
+    private readonly router: Router,
     @Inject(MAT_DIALOG_DATA) public content: any,
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -29,16 +29,10 @@ export class AppTocDesktopModalComponent implements OnInit {
     this.router.navigate(['/app/org-details'], { queryParams: { orgId } })
   }
   competencyData(data: any) {
-    // let competencyData: { name: any; levels: string }[] = []
-    forEach(JSON.parse(data), (value: any) => {
-      this.cometencyData.push(
-        {
-          name: value.competencyName,
-
-          levels: value.level ? ` Level ${value.level}` : `Levels data not found!`,
-        }
-      )
-    })
+    // `data` is whatever competencies_v1 held — a JSON string, an array, or nothing usable.
+    // groupCompetenciesByName never throws, so an unparseable value renders the empty state
+    // instead of killing the dialog.
+    this.cometencyData = groupCompetenciesByName(data)
     this.logger.log('inside', this.cometencyData, 'name')
     return this.cometencyData
   }

@@ -14,14 +14,20 @@
         <form [formGroup]="ratingsForm">
             <div class="center-align">
                 <div class="star-rating">
-                    <img *ngFor="let star of stars; let i = index"
-                        [src]="star <= selectedRating ? '/fusion-assets/icons/star-filled.png' : '/fusion-assets/icons/star.png'"
-                        alt="Star" (click)="setRating(i + 1)">
+                    <button type="button" *ngFor="let star of stars; let i = index"
+                        style="all: unset; display: contents; cursor: pointer;"
+                        [attr.aria-label]="'Rate ' + (i + 1) + ' star' + (i > 0 ? 's' : '')"
+                        (click)="setRating(i + 1)">
+                        <img
+                            [src]="star <= selectedRating ? '/fusion-assets/icons/star-filled.png' : '/fusion-assets/icons/star.png'"
+                            alt="">
+                    </button>
                 </div>
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
                 <textarea (input)="setRating(selectedRating)" style="height: 96px;padding: 10px;" rows="4"
-                    matInput [placeholder]="'Tell us more about what you felt' | translate" name=" name"
+                    matInput [placeholder]="'Tell us more about what you felt' | translate"
+                    [attr.aria-label]="'Tell us more about what you felt' | translate" name=" name"
                     formControlName="review" required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
                     {{"Comments is mandatory" | translate}}

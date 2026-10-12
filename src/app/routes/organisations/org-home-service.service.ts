@@ -13,7 +13,7 @@ export class OrgServiceService {
   hideHeaderFooter = new BehaviorSubject<boolean>(false)
   sitePath = `assets/configurations/`
 
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private readonly http: HttpClient, private readonly configSvc: ConfigurationsService) { }
 
   resolve(): Observable<any> {
     return this.getOrgMetadata().pipe(
@@ -62,10 +62,7 @@ export class OrgServiceService {
   }
 
   setConnectSid(authCode: any): Observable<any> {
-    // this.logger.log(authCode)
-
     return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})
-
   }
   fetchUserBatchList(userId: string | undefined): Observable<NsContent.ICourse[]> {
     let path = ''

@@ -16,8 +16,10 @@ box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
   color: var(--theme-text, #101828);
 }
 .course-container .appIcon {
-  min-width: 272px;
-  max-width: 272px;
+  // fluid — a fixed 272px image overflows the card on <=320px screens and
+  // leaves a white gutter on wider ones
+  width: 100%;
+  max-width: 100%;
 }
 
 .course-container .box {
@@ -99,7 +101,7 @@ box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
   font-size:12px;
 }
 .course-container .description {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -122,7 +124,6 @@ box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
 .card-block{
   width: 312px;
 height: 81px;
-gap: 0px;
 border-radius: 10px 0px 0px 0px;
 
 top: 8px;
@@ -309,7 +310,7 @@ height: 16px;
   width: 100%;
   max-width: 100% !important;
   height: 120px;
-  // object-fit: cover;
+  object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   box-shadow: 0px 0px 3px 0px #00000073;

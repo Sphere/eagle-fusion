@@ -10,7 +10,7 @@ export class BtnProfileService {
 
   constructor() { }
 
-  private nameSource = new BehaviorSubject(this.givenName)
+  private readonly nameSource = new BehaviorSubject(this.givenName)
   currentName = this.nameSource.asObservable()
 
   changeName(name: string) {

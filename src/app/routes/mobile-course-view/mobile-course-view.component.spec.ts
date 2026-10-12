@@ -226,6 +226,65 @@ describe('MobileCourseViewComponent', () => {
       component.navigateToToc('do_123')
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/app/toc/do_123/overview')
     })
+
+    it('triggers keycloak login flow when userProfile is null', () => {
+      const keyClockLogin = jest.fn()
+      mockRouter.navigateByUrl = jest.fn()
+      component['configSvc'] = { userProfile: null } as any
+      component['signUpSvc'] = { keyClockLogin } as any
+      component.navigateToToc('do_9')
+      expect(keyClockLogin).toHaveBeenCalled()
+      expect(localStorage.getItem('url_before_login')).toBe('/app/toc/do_9/overview')
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('app/login')
+    })
+
+    it('navigates to about-you when background details are not filled', () => {
+      const { of: rxOf } = require('rxjs')
+      const mockUserProfileSvc = {
+        getUserdetailsFromRegistry: jest.fn().mockReturnValue(rxOf({ profileDetails: { profileReq: {} } })),
+        isBackgroundDetailsFilled: jest.fn().mockReturnValue(false),
+      }
+      mockRouter.navigate = jest.fn()
+      component['configSvc'] = { userProfile: { userId: 'u1' }, unMappedUser: { id: 'u1' } } as any
+      component['userProfileSvc'] = mockUserProfileSvc as any
+      component.navigateToToc('do_123')
+      expect(mockRouter.navigate).toHaveBeenCalledWith(
+        ['/app/about-you'],
+        { queryParams: { redirect: '/app/toc/do_123/overview' } },
+      )
+    })
+
+    it('does nothing when userProfile set but no unMappedUser', () => {
+      mockRouter.navigate = jest.fn()
+      mockRouter.navigateByUrl = jest.fn()
+      component['configSvc'] = { userProfile: { userId: 'u1' }, unMappedUser: null } as any
+      expect(() => component.navigateToToc('do_1')).not.toThrow()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('onProgramClick', () => {
+    it('emits programData', () => {
+      component.programData = { id: 'p1' }
+      const emitSpy = jest.spyOn(component.programClick, 'emit')
+      component.onProgramClick()
+      expect(emitSpy).toHaveBeenCalledWith({ id: 'p1' })
+    })
+  })
+
+  describe('orgCreateAccount with URL org param', () => {
+    it('uses defaults and org name from URL when no cached config', () => {
+      mockConfigSvc.orgSelectiveCourseConfig = null
+      mockRouter.navigateByUrl = jest.fn()
+      const original = window.location
+      delete (window as any).location
+      ;(window as any).location = { search: '?org=MyOrg' }
+      component.orgCreateAccount()
+      ;(window as any).location = original
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
+        expect.stringContaining('/app/create-account/TN/MyOrg/TNNMC-Student'),
+      )
+    })
   })
 
   describe('ngOnInit with competencies_v1', () => {

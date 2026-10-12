@@ -452,4 +452,81 @@ describe('UserAgentResolverService', () => {
       expect(sessionStorage.getItem('telemetryGeoLocation')).toBe('denied')
     })
   })
+
+  describe('chrome browser detection', () => {
+    const setUA = (ua: string) => Object.defineProperty(navigator, 'userAgent', { value: ua, configurable: true })
+
+    it('returns chrome for Chrome UA', () => {
+      const orig = navigator.userAgent
+      setUA('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36')
+      expect(service.getUserAgent().browserName).toBe('chrome')
+      setUA(orig)
+    })
+  })
+
+  describe('isCookieExpired with expires parts', () => {
+    it('returns true when the cookie carries a past expires part', () => {
+      jest.spyOn(service, 'getCookie').mockReturnValue('v;expires=Thu, 01 Jan 1970 00:00:00 GMT')
+      expect(service.isCookieExpired('USERUID')).toBe(true)
+    })
+
+    it('returns false when the cookie expires in the future', () => {
+      const future = new Date(Date.now() + 24 * 60 * 60 * 1000).toUTCString()
+      jest.spyOn(service, 'getCookie').mockReturnValue(`v;expires=${future}`)
+      expect(service.isCookieExpired('USERUID')).toBe(false)
+    })
+  })
+
+  describe('referrer-based attribution', () => {
+    const setReferrer = (url: string) => Object.defineProperty(document, 'referrer', { value: url, configurable: true })
+
+    afterEach(() => {
+      delete (document as any).referrer
+    })
+
+    it('captures an external referrer host as _referrer (www stripped)', () => {
+      setReferrer('https://www.google.com/search?q=sphere')
+      service.setSource({ foo: 'bar' })
+      const stored = JSON.parse(localStorage.getItem('utm_source') || '{}')
+      expect(stored['_referrer']).toBe('google.com')
+    })
+
+    it('ignores internal Sphere referrers and stores nothing', () => {
+      setReferrer('https://sphere.aastrika.org/page/home')
+      service.setSource({ foo: 'bar' })
+      expect(localStorage.getItem('utm_source')).toBeNull()
+    })
+
+    it('recovers orgId attribution from an org-details referrer', () => {
+      setReferrer('https://sphere.aastrika.org/app/org-details?orgId=ORG42')
+      service.setSource({ foo: 'bar' })
+      const stored = JSON.parse(localStorage.getItem('utm_source') || '{}')
+      expect(stored['orgid']).toBe('org42')
+    })
+
+    it('does not let a weaker referrer source overwrite a stored campaign source', () => {
+      localStorage.setItem('utm_source', JSON.stringify({ utm_source: 'newsletter' }))
+      setReferrer('https://www.bing.com/search?q=x')
+      service.setSource({ foo: 'bar' })
+      expect(JSON.parse(localStorage.getItem('utm_source')!)['utm_source']).toBe('newsletter')
+    })
+  })
+
+  describe('malformed stored JSON', () => {
+    it('getStoredGeolocation returns null for unparseable JSON', () => {
+      sessionStorage.setItem('telemetryGeoLocation', '{not-json')
+      expect(service.getStoredGeolocation()).toBeNull()
+    })
+
+    it('getUtmParams returns empty params for unparseable JSON', () => {
+      localStorage.setItem('utm_source', '{not-json')
+      expect(service.getUtmParams()).toEqual({
+        utm_source: null,
+        utm_medium: null,
+        utm_campaign: null,
+        utm_content: null,
+        utm_term: null,
+      })
+    })
+  })
 })

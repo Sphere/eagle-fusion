@@ -79,4 +79,27 @@ describe('ConfigCacheService', () => {
     sessionStorage.setItem('config_hostConfig_en', 'not-json')
     expect(() => new ConfigCacheService(mockHttp, mockLogger)).not.toThrow()
   })
+
+  it('returns the in-progress call$ when a call is already pending for the locale', () => {
+    const first = service.getHostConfig('en')
+    const second = service.getHostConfig('en')
+    expect(second).toBe(first)
+    expect(mockLogger.log).toHaveBeenCalledWith(
+      expect.stringContaining('Host config call already in progress'),
+    )
+  })
+
+  it('logs a warning when caching to sessionStorage throws', done => {
+    const spy = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('quota exceeded')
+    })
+    service.getHostConfig('en').subscribe(() => {
+      expect(mockLogger.warn).toHaveBeenCalledWith(
+        expect.stringContaining('Could not cache config to session storage'),
+        expect.anything(),
+      )
+      spy.mockRestore()
+      done()
+    })
+  })
 })

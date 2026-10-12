@@ -113,9 +113,31 @@ describe('AshaLearningCardComponent', () => {
       expect(comp.extractCourseIds({ courseIds: ['a', '', 'b'] })).toEqual(['a', 'b'])
     })
 
+    it('reads a single courseId string (v2 shape)', () => {
+      expect(comp.extractCourseIds({ courseId: 'do_1' })).toEqual(['do_1'])
+    })
+
     it('returns empty for missing input', () => {
       expect(comp.extractCourseIds(null)).toEqual([])
       expect(comp.extractCourseIds({})).toEqual([])
+    })
+  })
+
+  describe('v2 (current) flat payload end-to-end', () => {
+    it('builds a card and resolves course ids from real v2 shape (courseId, not course/courseIds)', () => {
+      comp.competency = {
+        id: 100,
+        name: 'Pregnancy Identification',
+        levels: [
+          { name: 'Understands anatomy', level: 1, courseId: 'do_1', description: 'd1' },
+          { name: 'Identifies pregnancy', level: 2, courseId: 'do_2', description: 'd2' },
+        ],
+      }
+      comp.buildCard()
+      expect(comp.title).toBe('Pregnancy Identification')
+      expect(comp.levels[0].courseIds).toEqual(['do_1'])
+      expect(comp.levels[1].courseIds).toEqual(['do_2'])
+      expect(comp.ctaLabel).toBe('START_COURSE')
     })
   })
 
@@ -161,6 +183,14 @@ describe('AshaLearningCardComponent', () => {
       })
       comp.buildCard()
       expect(comp.noteLabel).toBe('YOU_CLEAR_ALL_LEVELS')
+    })
+
+    it('getNoteLabel congratulates when no incomplete level even below full progress', () => {
+      comp.levels = [
+        { level: 1, levelName: 'L1', courseIds: ['c1'], completed: true },
+      ]
+      comp.progressPercentage = 50
+      expect(comp.getNoteLabel()).toBe('YOU_CLEAR_ALL_LEVELS')
     })
 
     it('getLevelState reports completed, current, and pending', () => {

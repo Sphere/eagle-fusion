@@ -248,3 +248,313 @@ describe('getOrganisationsHistory', () => {
     expect(result[0].additionalAttributes).toEqual({})
   })
 })
+
+describe('constructReq - personal details fallbacks', () => {
+  const fullProfile = () => ({
+    userId: 'u-1',
+    nationalUniqueId: 'nid',
+    doctorRegNumber: 'drn',
+    instituteName: 'inst',
+    nursingCouncil: 'council',
+    category: 'cat',
+    countryCode: '+91',
+    personalDetails: {
+      firstname: 'Stored', middlename: 'S', surname: 'Name', about: 'about',
+      photo: 'stored.png', dob: '1990-01-01', nationality: 'IN', domicileMedium: 'EN',
+      regNurseRegMidwifeNumber: 'rn-1', gender: 'F', maritalStatus: 'Single',
+      knownLanguages: 'en', mobile: '999', telephone: '011', primaryEmail: 'a@b.com',
+      postalAddress: 'addr', pincode: '560001',
+      osName: 'StoredOS', browserName: 'StoredBrowser', userCookie: 'stored-cookie',
+    },
+  })
+
+  it('should fall back to the stored profile when the form is empty', () => {
+    const { profileReq } = constructReq({ value: {} }, fullProfile(), { OS: 'Mac', browserName: 'Chrome' }, 'cookie')
+    expect(profileReq.personalDetails).toEqual(expect.objectContaining({
+      firstname: 'Stored', middlename: 'S', surname: 'Name', about: 'about',
+      photo: 'stored.png', dob: '1990-01-01', nationality: 'IN', domicileMedium: 'EN',
+      regNurseRegMidwifeNumber: 'rn-1', gender: 'F', maritalStatus: 'Single',
+      knownLanguages: 'en', mobile: '999', postalAddress: 'addr', pincode: '560001',
+    }))
+  })
+
+  it('should prefer every supplied form value over the stored profile', () => {
+    const form = {
+      value: {},
+      firstname: 'F', middlename: 'M', surname: 'S', about: 'A', photo: 'new.png',
+      dob: '2000-01-01', nationality: 'US', domicileMedium: 'HI', regNurseRegMidwifeNumber: 'rn-2',
+      gender: 'M', maritalStatus: 'Married', knownLanguages: 'hi', mobile: '888',
+      postalAddress: 'new addr', pincode: '110001',
+    }
+    const { profileReq } = constructReq(form, fullProfile(), {}, '')
+    expect(profileReq.personalDetails).toEqual(expect.objectContaining({
+      firstname: 'F', middlename: 'M', surname: 'S', about: 'A', photo: 'new.png',
+      dob: '2000-01-01', nationality: 'US', domicileMedium: 'HI', regNurseRegMidwifeNumber: 'rn-2',
+      gender: 'M', maritalStatus: 'Married', knownLanguages: 'hi', mobile: '888',
+      postalAddress: 'new addr', pincode: '110001',
+    }))
+  })
+
+  it('should reject the placeholder photo value and keep the stored one', () => {
+    const { profileReq } = constructReq(
+      { value: {}, photo: 'NaN - NaN - NaN' }, fullProfile(), {}, '',
+    )
+    expect(profileReq.personalDetails.photo).toBe('stored.png')
+  })
+
+  it('should carry the top-level identity fields through untouched', () => {
+    const { profileReq } = constructReq({ value: {} }, fullProfile(), {}, '')
+    expect(profileReq.personalDetails).toEqual(expect.objectContaining({
+      nationalUniqueId: 'nid', doctorRegNumber: 'drn', instituteName: 'inst',
+      nursingCouncil: 'council', category: 'cat', countryCode: '+91',
+      telephone: '011', primaryEmail: 'a@b.com', officialEmail: '', personalEmail: '',
+    }))
+  })
+
+  it('should keep the stored user agent details when they are already recorded', () => {
+    const { profileReq } = constructReq(
+      { value: {} }, fullProfile(), { OS: 'Mac', browserName: 'Chrome' }, 'new-cookie',
+    )
+    expect(profileReq.personalDetails).toEqual(expect.objectContaining({
+      osName: 'StoredOS', browserName: 'StoredBrowser', userCookie: 'stored-cookie',
+    }))
+  })
+
+  it('should record the current user agent when nothing is stored', () => {
+    const profile = fullProfile()
+    profile.personalDetails.osName = ''
+    profile.personalDetails.browserName = ''
+    profile.personalDetails.userCookie = ''
+
+    const { profileReq } = constructReq(
+      { value: {} }, profile, { OS: 'Mac', browserName: 'Chrome' }, 'new-cookie',
+    )
+    expect(profileReq.personalDetails).toEqual(expect.objectContaining({
+      osName: 'Mac', browserName: 'Chrome', userCookie: 'new-cookie',
+    }))
+  })
+
+  it('should fall back to the profile id when there is no userId', () => {
+    const profile: any = { ...fullProfile(), userId: undefined, id: 'alt-id' }
+    expect(constructReq({ value: {} }, profile, {}, '').profileReq.userId).toBe('alt-id')
+  })
+
+  it('should fall back to an empty id when neither is present', () => {
+    const profile: any = { ...fullProfile(), userId: undefined }
+    expect(constructReq({ value: {} }, profile, {}, '').profileReq.userId).toBe('')
+  })
+
+  it('should default the employment, skills and interests blocks', () => {
+    const { profileReq } = constructReq({ value: {} }, fullProfile(), {}, '')
+    expect(profileReq.skills).toEqual({ additionalSkills: '', certificateDetails: '' })
+    expect(profileReq.interests).toEqual({ professional: '', hobbies: '' })
+    expect(profileReq.employmentDetails).toEqual(expect.objectContaining({
+      service: '', cadre: '', payType: '', civilListNo: '',
+    }))
+  })
+
+  it('should carry through the stored employment details', () => {
+    const profile: any = {
+      ...fullProfile(),
+      employmentDetails: {
+        service: 'Health', cadre: 'A', allotmentYearOfService: '2015', dojOfService: '01-02-2015',
+        payType: 'Regular', civilListNo: 'CL1', employeeCode: 'E1',
+        officialPostalAddress: 'Office', pinCode: '110001',
+      },
+      skills: { additionalSkills: 'first-aid', certificateDetails: 'cert' },
+      interests: { professional: 'nursing', hobbies: 'reading' },
+    }
+    const { profileReq } = constructReq({ value: {} }, profile, {}, '')
+    expect(profileReq.employmentDetails.service).toBe('Health')
+    expect(profileReq.employmentDetails.dojOfService).toEqual(new Date('2015-02-01'))
+    expect(profileReq.skills).toEqual({ additionalSkills: 'first-aid', certificateDetails: 'cert' })
+    expect(profileReq.interests).toEqual({ professional: 'nursing', hobbies: 'reading' })
+  })
+
+  it('should build academics from the form when a course degree is chosen', () => {
+    const form = {
+      value: { courseDegree: { type: 'GRADUATE' }, courseName: 'BSc', institutionName: 'Uni', yearPassing: 2015 },
+    }
+    const { profileReq } = constructReq(form, fullProfile(), {}, '')
+    const graduate = profileReq.academics.find((a: any) => a.type === 'GRADUATE')
+    expect(graduate.nameOfQualification).toBe('BSc')
+    expect(graduate.nameOfInstitute).toBe('Uni')
+  })
+})
+
+describe('populateAcademics - stored list branches', () => {
+  const entry = (type: string) => ({ type, nameOfInstitute: `${type} Inst`, yearOfPassing: 2010 })
+
+  it('should map every recognised qualification type', () => {
+    const result = populateAcademics({
+      academics: [entry('X_STANDARD'), entry('XII_STANDARD'), entry('GRADUATE'), entry('POSTGRADUATE')],
+    })
+    expect(result.map((a: any) => a.type)).toEqual(['X_STANDARD', 'XII_STANDARD', 'GRADUATE', 'POSTGRADUATE'])
+    expect(result[0].nameOfInstitute).toBe('X_STANDARD Inst')
+    expect(result[0].yearOfPassing).toBe('2010')
+  })
+
+  it('should skip an unrecognised qualification type', () => {
+    const result = populateAcademics({ academics: [entry('DIPLOMA'), entry('GRADUATE')] })
+    expect(result.map((a: any) => a.type)).toEqual(['GRADUATE'])
+  })
+
+  it('should fall through to the four-slot form when the list is empty', () => {
+    const result = populateAcademics({ academics: [] })
+    expect(result.map((a: any) => a.type)).toEqual(['X_STANDARD', 'XII_STANDARD', 'GRADUATE', 'POSTGRADUATE'])
+  })
+
+  it('should fall through to the four-slot form when there is no list', () => {
+    expect(populateAcademics({})).toHaveLength(4)
+  })
+})
+
+describe('academic slot builders - stored value fallbacks', () => {
+  const stored = {
+    academics: [
+      { type: 'X_STANDARD', nameOfInstitute: 'School 10', yearOfPassing: '2005' },
+      { type: 'XII_STANDARD', nameOfInstitute: 'School 12', yearOfPassing: '2007' },
+      { type: 'GRADUATE', nameOfQualification: 'BSc', nameOfInstitute: 'College', yearOfPassing: '2010' },
+      { type: 'POSTGRADUATE', nameOfQualification: 'MSc', nameOfInstitute: 'PG College', yearOfPassing: '2012' },
+    ],
+  }
+
+  it('should keep the stored class 10 record when another degree is being edited', () => {
+    expect(getClass10({ courseDegree: { type: 'GRADUATE' } }, stored)).toEqual({
+      nameOfQualification: '', type: 'X_STANDARD', nameOfInstitute: 'School 10', yearOfPassing: '2005',
+    })
+  })
+
+  it('should blank the class 10 record when nothing is stored', () => {
+    expect(getClass10({ courseDegree: { type: 'GRADUATE' } }, {})).toEqual({
+      nameOfQualification: '', type: 'X_STANDARD', nameOfInstitute: '', yearOfPassing: '',
+    })
+  })
+
+  it('should keep the stored class 12 record when another degree is being edited', () => {
+    expect(getClass12({ courseDegree: { type: 'GRADUATE' } }, stored).nameOfInstitute).toBe('School 12')
+  })
+
+  it('should blank the class 12 record when nothing is stored', () => {
+    expect(getClass12({ courseDegree: { type: 'GRADUATE' } }, {})).toEqual({
+      nameOfQualification: '', type: 'XII_STANDARD', nameOfInstitute: '', yearOfPassing: '',
+    })
+  })
+
+  it('should keep the stored graduate record when another degree is being edited', () => {
+    expect(getDegree({ courseDegree: { type: 'X_STANDARD' } }, stored)).toEqual({
+      nameOfQualification: 'BSc', type: 'GRADUATE', nameOfInstitute: 'College', yearOfPassing: '2010',
+    })
+  })
+
+  it('should keep the stored graduate details when the form omits them', () => {
+    expect(getDegree({ courseDegree: { type: 'GRADUATE' } }, stored)).toEqual(expect.objectContaining({
+      nameOfQualification: 'BSc', nameOfInstitute: 'College',
+    }))
+  })
+
+  it('should blank the graduate record when nothing is stored', () => {
+    expect(getDegree({ courseDegree: { type: 'X_STANDARD' } }, {})).toEqual({
+      nameOfQualification: '', type: 'GRADUATE', nameOfInstitute: '', yearOfPassing: '',
+    })
+  })
+
+  it('should keep the stored postgraduate record when another degree is being edited', () => {
+    expect(getPostDegree({ courseDegree: { type: 'GRADUATE' } }, stored)).toEqual({
+      nameOfQualification: 'MSc', type: 'POSTGRADUATE', nameOfInstitute: 'PG College', yearOfPassing: '2012',
+    })
+  })
+
+  it('should keep the stored postgraduate qualification when the form omits it', () => {
+    expect(getPostDegree({ courseDegree: { type: 'POSTGRADUATE' }, institutionName: 'New PG', yearPassing: 2020 }, stored))
+      .toEqual(expect.objectContaining({
+        nameOfQualification: 'MSc', nameOfInstitute: 'New PG', yearOfPassing: '2020',
+      }))
+  })
+
+  it('should blank the postgraduate record when nothing is stored', () => {
+    expect(getPostDegree({ courseDegree: { type: 'GRADUATE' } }, {})).toEqual({
+      nameOfQualification: '', type: 'POSTGRADUATE', nameOfInstitute: '', yearOfPassing: '',
+    })
+  })
+
+  it('should tolerate a form with no chosen course degree', () => {
+    expect(getClass10({}, stored).nameOfInstitute).toBe('School 10')
+    expect(getDegree({}, stored).nameOfQualification).toBe('BSc')
+  })
+})
+
+describe('getOrganisationsHistory - stored profile fallbacks', () => {
+  const stored = {
+    professionalDetails: [{
+      orgType: 'Govt', professionOtherSpecify: 'Other prof', orgOtherSpecify: 'Other org',
+      name: 'Stored Org', designation: 'Nurse', profession: 'Nursing', location: 'Delhi',
+      doj: '2015-01-01', osid: 'osid-1', block: 'Block A', subcentre: 'SC-1',
+    }],
+  }
+
+  it('should fall back to the stored professional record', () => {
+    const [org] = getOrganisationsHistory({ value: {} }, stored)
+    expect(org).toEqual(expect.objectContaining({
+      orgType: 'Govt', professionOtherSpecify: 'Other prof', orgOtherSpecify: 'Other org',
+      name: 'Stored Org', designation: 'Nurse', profession: 'Nursing', location: 'Delhi',
+      doj: '2015-01-01', osid: 'osid-1', block: 'Block A', subcentre: 'SC-1',
+    }))
+  })
+
+  it('should prefer every supplied form value', () => {
+    const form = {
+      value: {
+        orgType: 'Private', professionOtherSpecify: 'P', orgOtherSpecify: 'O',
+        organizationName: 'Form Org', orgNameOther: 'Other name', industry: 'Health',
+        industryOther: 'Other industry', designation: 'Doctor', profession: 'Medicine',
+        location: 'Mumbai', doj: '2020-01-01', orgDesc: 'desc', block: 'Block B', subcentre: 'SC-2',
+      },
+    }
+    const [org] = getOrganisationsHistory(form, stored)
+    expect(org).toEqual(expect.objectContaining({
+      orgType: 'Private', professionOtherSpecify: 'P', orgOtherSpecify: 'O',
+      name: 'Form Org', nameOther: 'Other name', industry: 'Health', industryOther: 'Other industry',
+      designation: 'Doctor', profession: 'Medicine', location: 'Mumbai',
+      doj: '2020-01-01', description: 'desc', block: 'Block B', subcentre: 'SC-2',
+    }))
+  })
+
+  it('should blank the form-only fields when the form is empty', () => {
+    const [org] = getOrganisationsHistory({ value: {} }, stored)
+    expect(org).toEqual(expect.objectContaining({
+      nameOther: '', industry: '', industryOther: '', description: '',
+      responsibilities: '', completePostalAddress: '',
+    }))
+  })
+
+  it('should leave the osid undefined when none is stored', () => {
+    const [org] = getOrganisationsHistory({ value: {} }, { professionalDetails: [{}] })
+    expect(org.osid).toBeUndefined()
+  })
+
+  it('should tolerate a profile with no professional details', () => {
+    const [org] = getOrganisationsHistory({ value: {} }, {})
+    expect(org.orgType).toBe('')
+    expect(org.name).toBe('')
+    expect(org.designation).toBeUndefined()
+  })
+})
+
+describe('getDateFromText - additional cases', () => {
+  it('should parse a dd-mm-yyyy string into a Date', () => {
+    expect(getDateFromText('05-08-2026')).toEqual(new Date('2026-08-05'))
+  })
+
+  it('should return an empty string for an empty input', () => {
+    expect(getDateFromText('')).toBe('')
+  })
+})
+
+describe('checkvalue - additional cases', () => {
+  it('should pass through falsy values unchanged', () => {
+    expect(checkvalue('')).toBe('')
+    expect(checkvalue(0)).toBe(0)
+    expect(checkvalue(null)).toBeNull()
+  })
+})

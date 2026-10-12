@@ -12,7 +12,7 @@ import { BLOG_ARTICLES, IBlogArticle } from './blog-articles.data'
 export class PublicBlogListComponent implements OnInit {
   articles: IBlogArticle[] = BLOG_ARTICLES
 
-  constructor(private seoSvc: SeoService, private router: Router) {}
+  constructor(private readonly seoSvc: SeoService, private readonly router: Router) {}
 
   ngOnInit() {
     this.seoSvc.update({
@@ -21,7 +21,7 @@ export class PublicBlogListComponent implements OnInit {
         'Guides and articles for nurses, ANMs, GNMs and healthcare workers in India. Learn about CNE points, INC certification, AMTSL, and free online courses.',
       keywords:
         'healthcare training blog, CNE points guide, INC certification India, nursing education, ANM GNM courses',
-      canonicalUrl: 'https://sphere.aastrika.org/public/blog',
+      canonicalUrl: 'https://sphere.aastrika.org/public/blog/',
     })
   }
 

@@ -6,7 +6,6 @@ import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-conte
 import { AppTocReferencesComponent } from './routes/app-toc-references/app-toc-references.component'
 import { AppTocHomeComponent } from './routes/app-toc-home/app-toc-home.component'
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
-import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
 import { LicenseComponent } from './components/license/license.component'
 import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-widget/all-discussion-widget.component'
 import { DiscussConfigResolve } from '../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
@@ -42,10 +41,6 @@ const routes: Routes = [
         resolve: {
           data: DiscussConfigResolve,
         },
-      },
-      {
-        path: 'details',
-        component: AppTocCohortsComponent,
       },
       {
         path: 'license',

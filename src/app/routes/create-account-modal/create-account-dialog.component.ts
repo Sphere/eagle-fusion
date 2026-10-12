@@ -20,7 +20,7 @@ export class CreateAccountDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,
     @Inject(DOCUMENT) private readonly _document: Document,
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) {
   }
 

@@ -20,7 +20,7 @@ export class ErrorInternalServerComponent implements OnInit, OnDestroy {
 
   private prefChangeSubs: Subscription | null = null
   private routeChangeSubs: Subscription | null = null
-  constructor(private route: ActivatedRoute, private configurationsSvc: ConfigurationsService) {}
+  constructor(private readonly route: ActivatedRoute, private readonly configurationsSvc: ConfigurationsService) {}
   ngOnInit() {
     if (!this.errorData) {
       this.routeChangeSubs = this.route.data.subscribe(response => {

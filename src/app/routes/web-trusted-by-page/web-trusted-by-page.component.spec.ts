@@ -47,10 +47,6 @@ describe('WebTrustedByPageComponent', () => {
     expect(component.isDark).toBe(true)
   })
 
-  it('should complete ngOnInit without error', () => {
-    expect(() => component.ngOnInit()).not.toThrow()
-  })
-
   it('should accept config input', () => {
     component.config = { data: [{ title: 'Partner 1' }] }
     expect(component.config.data[0].title).toBe('Partner 1')

@@ -2,11 +2,12 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, HostListener, ElementR
 import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
-import { Subscription } from 'rxjs'
+import { ConfigurationsService, LoggerService, NsPage, SafeResourceUrlService } from '@ws-widget/utils'
+import { Subject, Subscription } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
@@ -56,6 +57,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   resumeData: any = null
   resumeResource: any = null
   routeSubscription: Subscription | null = null
+  // Guards every subscribe() in this component. Without it, an in-flight response (e.g.
+  // fetchContentHistoryV2/fetchCourseBatches/fetchUserBatchList) that lands after the user has
+  // already navigated elsewhere still runs its callback — including router.navigate() calls that
+  // use `relativeTo: this.route`, which silently re-navigates back to this (stale) route.
+  private readonly destroyed$ = new Subject<void>()
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   isCohortsRestricted = false
   isInIframe = false
@@ -114,87 +120,41 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private contentSvc: WidgetContentService,
-    private userSvc: WidgetUserService,
-    private tocSvc: AppTocService,
-    private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
-    private authAccessControlSvc: AccessControlService,
-    private discussiConfig: DiscussConfigResolve,
-    private onlineIndexedDbService: IndexedDBService,
-    private cdr: ChangeDetectorRef,
-    private translate: TranslateService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly contentSvc: WidgetContentService,
+    private readonly userSvc: WidgetUserService,
+    private readonly tocSvc: AppTocService,
+    private readonly loggerSvc: LoggerService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly authAccessControlSvc: AccessControlService,
+    private readonly discussiConfig: DiscussConfigResolve,
+    private readonly onlineIndexedDbService: IndexedDBService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translate: TranslateService
   ) {
     this.discussiConfig.setConfig()
+  }
+  ngOnInit() {
     if (this.configSvc.userProfile) {
       this.show()
       this.discussionConfig = {
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
-
-  }
-  ngOnInit() {
-    // ASHA-home flow: capture the asha context (isAsha + competency/level/course params)
-    // passed in the query string so this course page can drive asha-specific navigation.
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.ashaData = queryParams || {}
-      this.navigateAshaHome = this.ashaData.isAsha === 'true'
-    })
+    this.subscribeToAshaQueryParams()
     this.checkRoute()
-    try {
-      this.isInIframe = window.self !== window.top
-    } catch (_ex) {
-      this.isInIframe = false
-    }
+    this.detectIframeContext()
     if (this.route) {
-      this.routeSubscription = this.route.data.subscribe((data: Data) => {
-        // Checking for JSON DATA
-        if (data.content.data) {
-          if (this.checkJson(data.content.data.creatorDetails)) {
-            data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
-          }
-
-          if (this.checkJson(data.content.data.reviewer)) {
-            data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
-          }
-        } else {
-          if (localStorage.getItem('url_before_login')) {
-            const url = localStorage.getItem('url_before_login') || ''
-            this.router.navigate([url])
-          } else {
-            this.router.navigate(['/app/login'])
-          }
-        }
-
-        // Safely initialize analytics from pageData
-        if (data.pageData && data.pageData.data) {
-          this.analytics = data.pageData.data.analytics || null
-          this.banners = data.pageData.data.banners
-          this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
-          this.tocSvc.showDescription = data.pageData.data.showDescription || false
-          this.tocConfig = data.pageData.data
-        }
-
-        try {
-
-          (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName ? "CNE" : "Non CNE", value: data.content.data.cneName })
-        }
-        catch (e) {
-          this.loggerSvc.log("fb pixel error")
-        }
-        this.initData(data)
-      })
+      this.subscribeToRouteData()
     }
 
     this.currentFragment = 'overview'
-    this.route.fragment.subscribe((fragment: string | null) => {
+    this.route.fragment.pipe(takeUntil(this.destroyed$)).subscribe((fragment: string | null) => {
       this.currentFragment = fragment || 'overview'
     })
-    this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(
+    this.batchSubscription = this.tocSvc.batchReplaySubject.pipe(takeUntil(this.destroyed$)).subscribe(
       () => {
         this.fetchBatchDetails()
       },
@@ -205,6 +165,73 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     )
     this.updateVisibleTabs()
     this.setTabIndex()
+  }
+
+  // ASHA-home flow: capture the asha context (isAsha + competency/level/course params)
+  // passed in the query string so this course page can drive asha-specific navigation.
+  private subscribeToAshaQueryParams(): void {
+    this.route.queryParams.pipe(takeUntil(this.destroyed$)).subscribe((queryParams: any) => {
+      this.ashaData = queryParams || {}
+      this.navigateAshaHome = this.ashaData.isAsha === 'true'
+    })
+  }
+
+  private detectIframeContext(): void {
+    try {
+      this.isInIframe = window.self !== window.top
+    } catch (_ex) {
+      this.isInIframe = false
+    }
+  }
+
+  private subscribeToRouteData(): void {
+    this.routeSubscription = this.route.data.subscribe((data: Data) => this.handleRouteData(data))
+  }
+
+  private handleRouteData(data: Data): void {
+    this.parseContentJsonFields(data)
+    this.applyPageAnalytics(data)
+    this.raiseFbPixelViewContent(data)
+    this.initData(data)
+  }
+
+  private parseContentJsonFields(data: Data): void {
+    // Checking for JSON DATA
+    if (data.content.data) {
+      if (this.checkJson(data.content.data.creatorDetails)) {
+        data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
+      }
+      if (this.checkJson(data.content.data.reviewer)) {
+        data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
+      }
+      return
+    }
+    if (localStorage.getItem('url_before_login')) {
+      const url = localStorage.getItem('url_before_login') || ''
+      this.router.navigate([url])
+    } else {
+      this.router.navigate(['/app/login'])
+    }
+  }
+
+  private applyPageAnalytics(data: Data): void {
+    // Safely initialize analytics from pageData
+    if (data.pageData && data.pageData.data) {
+      this.analytics = data.pageData.data.analytics || null
+      this.banners = data.pageData.data.banners
+      this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
+      this.tocSvc.showDescription = data.pageData.data.showDescription || false
+      this.tocConfig = data.pageData.data
+    }
+  }
+
+  private raiseFbPixelViewContent(data: Data): void {
+    try {
+      (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName ? "CNE" : "Non CNE", value: data.content.data.cneName })
+    }
+    catch (e) {
+      this.loggerSvc.log("fb pixel error")
+    }
   }
 
   updateVisibleTabs() {
@@ -219,7 +246,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       this.visibleTabs.push('references')
     }
     this.visibleTabs.push('discuss')
-    this.router.events.subscribe(event => {
+    this.router.events.pipe(takeUntil(this.destroyed$)).subscribe(event => {
       if (event instanceof NavigationEnd) {
         const route = this.route.firstChild?.snapshot?.url[0]?.path
         this.selectedIndex = this.visibleTabs.indexOf(route || 'overview')
@@ -301,6 +328,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe()
     }
+    if (this.batchSubscription) {
+      this.batchSubscription.unsubscribe()
+    }
+    this.destroyed$.next()
+    this.destroyed$.complete()
   }
 
   private initData(data: Data) {
@@ -341,7 +373,15 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       this.discussionConfig.categoryObj = {
         category: {
           name: this.content.name,
-          pid: '',
+          // '0' is deliberate, and it must stay a string.
+          //
+          // nodebb-plugin-create-forum validates this field with `data ? false : true`,
+          // so both '' and the number 0 read as missing and the whole request is
+          // rejected with "name, pid and context are required parameters" - which the
+          // middleware then relabels DMW_FGCRT09, so the error never points at pid.
+          // The string '0' is truthy, so it passes that check, and the plugin then does
+          // `parentCid: payload.pid || 0`, giving the top-level category it intended.
+          pid: '0',
           description: this.content.description,
           context: [
             {
@@ -355,7 +395,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     this.discussionConfig.contextType = 'course'
     this.matspinner = false
     this.getUserEnrollmentList()
-    this.body = this.domSanitizer.bypassSecurityTrustHtml(
+    this.body = this.safeResourceUrlSvc.trustHtml(
       this.content && this.content.body
         ? this.forPreview
           ? this.authAccessControlSvc.proxyToAuthoringUrl(this.content.body)
@@ -374,50 +414,56 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    this.userSvc.fetchUserBatchList(userId).subscribe(
-      (courses: NsContent.ICourse[]) => {
-        if (this.content && this.content.identifier && !this.forPreview) {
-          if (courses && courses.length) {
-            this.enrolledCourse = courses.find(course => {
-              const identifier = this.content && this.content.identifier || ''
-              if (course.courseId !== identifier) {
-                return undefined
-              }
-              return course
-            })
-          }
-          // If current course is present in the list of user enrolled course
-          if (this.enrolledCourse && this.enrolledCourse.batchId) {
-            // const collectionId = this.isResource ? '' : this.content.identifier
-            this.content.completionPercentage = this.enrolledCourse.completionPercentage || 0
-            this.content.completionStatus = this.enrolledCourse.status || 0
-            this.getContinueLearningData(this.content.identifier, this.enrolledCourse?.batchId)
-            this.batchData = {
-              content: [this.enrolledCourse.batch],
-              enrolled: true,
-            }
-
-            if (this.getBatchId()) {
-              this.batchId = this.getBatchId()
-              this.router.navigate(
-                [],
-                {
-                  relativeTo: this.route,
-                  queryParams: { batchId: this.getBatchId() },
-                  queryParamsHandling: 'merge',
-                })
-            }
-          } else {
-            // It's understood that user is not already enrolled
-            // Fetch the available batches and present to user
-            this.fetchBatchDetails()
-          }
-        }
-      },
+    this.userSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroyed$)).subscribe(
+      (courses: NsContent.ICourse[]) => this.handleUserBatchList(courses),
       (error: any) => {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
       },
     )
+  }
+
+  private handleUserBatchList(courses: NsContent.ICourse[]): void {
+    if (!(this.content && this.content.identifier && !this.forPreview)) {
+      return
+    }
+    if (courses && courses.length) {
+      this.enrolledCourse = courses.find(course => {
+        const identifier = this.content && this.content.identifier || ''
+        if (course.courseId !== identifier) {
+          return undefined
+        }
+        return course
+      })
+    }
+    // If current course is present in the list of user enrolled course
+    if (this.enrolledCourse && this.enrolledCourse.batchId) {
+      this.applyEnrolledCourseState()
+    } else {
+      // It's understood that user is not already enrolled
+      // Fetch the available batches and present to user
+      this.fetchBatchDetails()
+    }
+  }
+
+  private applyEnrolledCourseState(): void {
+    this.content.completionPercentage = this.enrolledCourse.completionPercentage || 0
+    this.content.completionStatus = this.enrolledCourse.status || 0
+    this.getContinueLearningData(this.content.identifier, this.enrolledCourse?.batchId)
+    this.batchData = {
+      content: [this.enrolledCourse.batch],
+      enrolled: true,
+    }
+
+    if (this.getBatchId()) {
+      this.batchId = this.getBatchId()
+      this.router.navigate(
+        [],
+        {
+          relativeTo: this.route,
+          queryParams: { batchId: this.getBatchId() },
+          queryParamsHandling: 'merge',
+        })
+    }
   }
   public getBatchId(): string {
     let batchId = ''
@@ -455,8 +501,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     if (includes(this.router.url, 'overview')) {
       this.toggleComponent('overview')
     } else if (includes(this.router.url, 'chapters')) {
+      // toggleComponent('chapters') already enrols when the user is not enrolled yet.
+      // Calling it again here sent a second, unguarded enrol POST on every navigation.
       this.toggleComponent('chapters')
-      this.enrollUser(this.batchData)
     } else if (includes(this.router.url, 'references')) {
       this.toggleComponent('references')
     } else {
@@ -471,25 +518,36 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           filters: {
             courseId: this.content.identifier,
             status: ['0', '1', '2'],
-            // createdBy: 'fca2925f-1eee-4654-9177-fece3fd6afc9',
           },
           sort_by: { createdDate: 'desc' },
         },
       }
-      this.contentSvc.fetchCourseBatches(req).subscribe(
+      this.contentSvc.fetchCourseBatches(req).pipe(takeUntil(this.destroyed$)).subscribe(
         (data: NsContent.IBatchListResponse) => {
           if (data.content) {
-            const batchList = data.content.filter((obj: any) => obj.endDate >= moment(new Date()).format('YYYY-DD-MM'))
+            // A batch with no endDate never expires. The comparison below is a string
+            // compare, and `null >= '2026-09-25'` is false, so open-ended batches -- which is
+            // what auto batch creation produces -- were dropped from the list entirely. That
+            // left content[0] undefined and the enrol request went out without courseId or
+            // batchId, which the API rejects with
+            // "Mandatory parameter courseId/collectionId is missing."
+            const today = moment(new Date()).format('YYYY-MM-DD')
+            const batchList = data.content.filter((obj: any) => !obj.endDate || obj.endDate >= today)
             this.batchData = {
               content: batchList,
               enrolled: false,
+            }
+            // checkRoute() runs from ngOnInit, before this fetch has returned, so a direct
+            // navigation to /chapters saw batchData as null and never enrolled. Enrol here
+            // instead, once the batch is actually known.
+            if (includes(this.router.url, 'chapters') && !this.batchData.enrolled) {
+              this.enrollUser(this.batchData)
             }
             if (this.getBatchId()) {
               this.router.navigate(
                 [],
                 {
                   relativeTo: this.route,
-                  // queryParams: { batchId: this.getBatchId() },
                   queryParamsHandling: 'merge',
                 })
             }
@@ -511,9 +569,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
     const courseId = urlParams[3]
-    // this.route.data.subscribe(data => {
-    //   userId = data.profileData.data.userId
-    // })
     const req: NsContent.IContinueLearningDataReq = {
       request: {
         batchId,
@@ -523,94 +578,115 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         fields: ['progressdetails'],
       },
     }
-    this.contentSvc.fetchContentHistoryV2(req).subscribe(
-      data => {
-
-        if (data && data.result && data.result.contentList && data.result.contentList.length) {
-          this.loggerSvc.log('datatta', data)
-          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async record => {
-            this.loggerSvc.log('Record:', record)
-            this.rowData = await record
-            const dat = JSON.parse(this.rowData.data)
-            if (dat && dat.length) {
-              this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
-              this.cdr.detectChanges()
-            }
-          }, error => {
-            this.loggerSvc.error('Error:', error, data.result.contentList)
-            this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
-              (dat: any) => {
-                this.loggerSvc.log('Data inserted successfully1', dat)
-                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async record => {
-                  this.loggerSvc.log('Record:', record)
-                  this.rowData = await record
-                  const dat = JSON.parse(this.rowData.data)
-                  if (dat && dat.length) {
-                    this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
-                    this.cdr.detectChanges()
-                  }
-                }, error => {
-                  this.loggerSvc.error('Error:', error)
-                })
-              },
-              error => {
-                this.loggerSvc.error('Error inserting data:', error)
-              }
-            )
-          })
-
-          this.resumeData = get(data, 'result.contentList')
-          this.resumeData = map(this.resumeData, rr => {
-            // tslint:disable-next-line
-            const items = filter(flattenItems(get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
-            set(rr, 'progressdetails.mimeType', get(first(items), 'mimeType'))
-            if (!get(rr, 'completionPercentage')) {
-              if (get(rr, 'status') === 2) {
-                set(rr, 'completionPercentage', rr.completionPercentage)
-              } else {
-                set(rr, 'completionPercentage', rr.completionPercentage)
-              }
-            }
-            return rr
-          })
-          const progress = map(this.resumeData, 'completionPercentage')
-          this.resumeResource = this.resumeData.filter((item: any) => {
-            return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
-          })
-          this.loggerSvc.log(this.enrolledCourse, 'enrolledCourse')
-          this.loggerSvc.log(this.resumeResource[0], 'me')
-          this.loggerSvc.log(this.resumeData)
-          const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
-          if (progress.length < totalCount) {
-            const diff = totalCount - progress.length
-            if (diff) {
-              // tslint:disable-next-line
-              each(new Array(diff), () => {
-                progress.push(0)
-              })
-            }
-          }
-
-          // const percentage = toInteger((sum(progress) / progress.length))
-          // if (this.content) {
-          //   set(this.content, 'completionPercentage', percentage)
-          // }
-          this.tocSvc.updateResumaData(this.resumeData)
-          this.cdr.detectChanges()
-        } else {
-          this.loggerSvc.log('no data')
-          this.resumeData = null
-          this.cdr.detectChanges()
-        }
-      },
+    console.log("Progress update api call")
+    this.contentSvc.fetchContentHistoryV2(req).pipe(takeUntil(this.destroyed$)).subscribe(
+      data => this.handleContinueLearningResponse(data, userId, courseId),
       (error: any) => {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
       },
     )
+  }
+
+  private handleContinueLearningResponse(data: any, userId: string, courseId: string): void {
+    if (!(data && data.result && data.result.contentList && data.result.contentList.length)) {
+      this.loggerSvc.log('no data')
+      this.resumeData = null
+      this.cdr.detectChanges()
+      return
+    }
+    this.loggerSvc.log('datatta', data)
+    this.subscribeProgressRecord(userId, courseId, data.result.contentList)
+
+    this.resumeData = get(data, 'result.contentList')
+    this.resumeData = map(this.resumeData, rr => this.enrichResumeDataItem(rr))
+    const progress = map(this.resumeData, 'completionPercentage')
+    this.resumeResource = this.resumeData.filter((item: any) => {
+      return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
+    })
+    this.loggerSvc.log(this.enrolledCourse, 'enrolledCourse')
+    this.loggerSvc.log(this.resumeResource[0], 'me')
+    this.loggerSvc.log(this.resumeData)
+    this.padProgressToLeafNodeCount(progress)
+
+    this.tocSvc.updateResumaData(this.resumeData)
+    this.cdr.detectChanges()
+  }
+
+  private enrichResumeDataItem(rr: any): any {
+    // tslint:disable-next-line
+    const items = filter(flattenItems(get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
+    set(rr, 'progressdetails.mimeType', get(first(items), 'mimeType'))
+    if (!get(rr, 'completionPercentage')) {
+      set(rr, 'completionPercentage', rr.completionPercentage)
+    }
+    return rr
+  }
+
+  private padProgressToLeafNodeCount(progress: any[]): void {
+    const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
+    if (progress.length >= totalCount) {
+      return
+    }
+    const diff = totalCount - progress.length
+    if (diff) {
+      // tslint:disable-next-line
+      each(new Array(diff), () => {
+        progress.push(0)
+      })
+    }
+  }
+
+  private subscribeProgressRecord(userId: string, courseId: string, contentList: any) {
+    this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).pipe(takeUntil(this.destroyed$)).subscribe(record => {
+      this.applyProgressRecord(record, contentList)
+    }, error => {
+      this.loggerSvc.error('Error:', error, contentList)
+      this.insertAndRefetchProgress(userId, courseId, contentList)
+    })
+  }
+
+  private applyProgressRecord(record: any, contentList: any) {
+    this.loggerSvc.log('Record:', record)
+    this.rowData = record
+    const dat = JSON.parse(this.rowData.data)
+    if (dat && dat.length) {
+      this.optmisticPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
+      this.finishedPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
+      this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
+      this.cdr.detectChanges()
+    }
+  }
+
+  private insertAndRefetchProgress(userId: string, courseId: string, contentList: any) {
+    this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', contentList).pipe(takeUntil(this.destroyed$)).subscribe(
+      (dat: any) => {
+        this.loggerSvc.log('Data inserted successfully1', dat)
+        this.refetchProgressRecord(userId, courseId, contentList)
+      },
+      error => {
+        this.loggerSvc.error('Error inserting data:', error)
+      }
+    )
+  }
+
+  private refetchProgressRecord(userId: string, courseId: string, contentList: any) {
+    this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).pipe(takeUntil(this.destroyed$)).subscribe(record => {
+      this.applyProgressRecordAfterInsert(record, contentList)
+    }, error => {
+      this.loggerSvc.error('Error:', error)
+    })
+  }
+
+  private applyProgressRecordAfterInsert(record: any, contentList: any) {
+    this.loggerSvc.log('Record:', record)
+    this.rowData = record
+    const dat = JSON.parse(this.rowData.data)
+    if (dat && dat.length) {
+      this.optmisticPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
+      this.finishedPercentage = this.updateKeyIfMatch(dat, contentList, 'completionPercentage')
+      this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
+      this.cdr.detectChanges()
+    }
   }
 
   updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
@@ -618,7 +694,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     const urlParams = targetUrl.split('/')
     const courseId = urlParams[3]
     const userID = this.configSvc.userProfile!.userId
-    //let cId = this.activatedRoute.snapshot.queryParams.contentId
 
     arr2.forEach((obj2: any) => {
       const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
@@ -634,7 +709,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       }
     })
     this.loggerSvc.log(arr1, 'arr1')
-    this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).subscribe(
+    this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).pipe(takeUntil(this.destroyed$)).subscribe(
       () => {
         this.loggerSvc.log('Data inserted successfully2')
       },
@@ -668,29 +743,41 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   enrollUser(batchData: any) {
     let userId = ''
-    if (batchData) {
+    // Requires a real batch, not just a truthy batchData. The fields below are read off
+    // content[0], and when the list is empty they resolve to undefined -- which
+    // JSON.stringify drops, sending {"request":{"userId":"..."}} and getting back
+    // "Mandatory parameter courseId/collectionId is missing."
+    const batch = batchData && batchData.content ? batchData.content[0] : undefined
+    if (batch && batch.batchId && batch.courseId) {
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
       }
       const req = {
         request: {
           userId,
-          courseId: batchData.content[0]?.courseId,
-          batchId: batchData.content[0]?.batchId,
+          courseId: batch.courseId,
+          batchId: batch.batchId,
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+        // Promise-based, so takeUntil(this.destroyed$) doesn't apply — guard manually in case
+        // the user navigated away (e.g. to my-courses/home) while this call was in flight.
+        if (this.destroyed$.closed) {
+          return
+        }
         if (data && data.result && data.result.response === 'SUCCESS') {
           this.getUserEnrollmentList()
           this.router.navigate(
             [],
             {
               relativeTo: this.route,
-              queryParams: { batchId: batchData.content[0].batchId },
+              queryParams: { batchId: batch.batchId },
               queryParamsHandling: 'merge',
             })
-          // this.openSnackbar('Enrolled Successfully!')
           setTimeout(() => {
+            if (this.destroyed$.closed) {
+              return
+            }
             const query = this.generateQuery('RESUME')
             if (this.resumeDataLink) {
               this.router.navigate([this.resumeDataLink.url], { queryParams: query })
@@ -698,8 +785,6 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
           }, 500)
 
-        } else {
-          // this.openSnackbar('Something went wrong, please try again later!')
         }
       })
         .catch((err: any) => {
@@ -714,49 +799,22 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     // Carry the ASHA context onto the viewer route so the player (viewer-toc) can detect an
     // ASHA course and show the complete-courses flow. Without this the flag is lost on the
     // overview → viewer navigation and survives page reloads via the URL.
-    const ashaParams: { [key: string]: string } = this.navigateAshaHome ? {
-      isAsha: this.ashaData.isAsha,
-      competencyid: this.ashaData.competencyid,
-      levelId: this.ashaData.levelId,
-      courseid: this.ashaData.courseid,
-    } : {}
+    const ashaParams = this.getAshaParams()
     if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
-      let qParams: { [key: string]: string } = {
+      return this.finalizeQueryParams({
         ...this.firstResourceLink.queryParams,
         viewMode: type,
         batchId: this.getBatchId(),
         ...ashaParams,
-      }
-      if (this.contextId && this.contextPath) {
-        qParams = {
-          ...qParams,
-          collectionId: this.contextId,
-          collectionType: this.contextPath,
-        }
-      }
-      if (this.forPreview) {
-        delete qParams.viewMode
-      }
-      return qParams
+      })
     }
     if (this.resumeDataLink && type === 'RESUME') {
-      let qParams: { [key: string]: string } = {
+      return this.finalizeQueryParams({
         ...this.resumeDataLink.queryParams,
         batchId: this.getBatchId(),
         viewMode: 'RESUME',
         ...ashaParams,
-      }
-      if (this.contextId && this.contextPath) {
-        qParams = {
-          ...qParams,
-          collectionId: this.contextId,
-          collectionType: this.contextPath,
-        }
-      }
-      if (this.forPreview) {
-        delete qParams.viewMode
-      }
-      return qParams
+      })
     }
     if (this.forPreview) {
       return {}
@@ -766,5 +824,29 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       viewMode: type,
       ...ashaParams,
     }
+  }
+
+  private getAshaParams(): { [key: string]: string } {
+    return this.navigateAshaHome ? {
+      isAsha: this.ashaData.isAsha,
+      competencyid: this.ashaData.competencyid,
+      levelId: this.ashaData.levelId,
+      courseid: this.ashaData.courseid,
+    } : {}
+  }
+
+  private finalizeQueryParams(qParams: { [key: string]: string }): { [key: string]: string } {
+    let result = qParams
+    if (this.contextId && this.contextPath) {
+      result = {
+        ...result,
+        collectionId: this.contextId,
+        collectionType: this.contextPath,
+      }
+    }
+    if (this.forPreview) {
+      delete result.viewMode
+    }
+    return result
   }
 }

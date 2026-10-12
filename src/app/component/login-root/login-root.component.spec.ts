@@ -1,7 +1,6 @@
 import { LoginRootComponent } from './login-root.component'
-import { LoginRootDirective } from './login-root.directive'
 import { LoginRootService } from './login-root.service'
-import { ViewContainerRef, ComponentRef } from '@angular/core'
+import { ViewContainerRef } from '@angular/core'
 
 describe('LoginRootComponent', () => {
   let component: LoginRootComponent
@@ -20,7 +19,7 @@ describe('LoginRootComponent', () => {
       viewContainerRef: mockViewContainerRef,
     }
 
-    mockComponentFactory = class MockComponent {}
+    mockComponentFactory = class MockComponent { }
 
     mockLoginRootSvc = {
       getComponent: jest.fn().mockReturnValue(mockComponentFactory),
@@ -96,7 +95,7 @@ describe('LoginRootComponent', () => {
   })
 
   it('should pass the result of getComponent directly to createComponent', () => {
-    const anotherMockComponent = class AnotherMockComponent {}
+    const anotherMockComponent = class AnotherMockComponent { }
     mockLoginRootSvc.getComponent.mockReturnValue(anotherMockComponent)
 
     component.loadComponent()

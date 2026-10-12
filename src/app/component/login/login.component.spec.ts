@@ -27,7 +27,7 @@ describe('LoginComponent', () => {
   let mockActivatedRoute: any
   let mockAuthSvc: any
   let mockConfigSvc: any
-  let mockDomSanitizer: any
+  let mockSafeResourceUrlSvc: any
   let mockMobileAppsSvc: any
 
   const makeRouteData = (overrides: any = {}) => ({
@@ -73,8 +73,8 @@ describe('LoginComponent', () => {
       pageNavBar: { background: '#fff' },
     }
 
-    mockDomSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockReturnValue('safe-logo-url'),
+    mockSafeResourceUrlSvc = {
+      trust: jest.fn().mockReturnValue('safe-logo-url'),
     }
 
     mockMobileAppsSvc = { init: jest.fn() }
@@ -85,7 +85,7 @@ describe('LoginComponent', () => {
       mockActivatedRoute,
       mockAuthSvc,
       mockConfigSvc,
-      mockDomSanitizer,
+      mockSafeResourceUrlSvc,
       mockMobileAppsSvc,
     )
 
@@ -104,7 +104,7 @@ describe('LoginComponent', () => {
 
     it('should sanitize appTransparent logo URL', () => {
       component = createComponent()
-      expect(mockDomSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
+      expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith(
         'https://example.com/logo.png',
       )
       expect(component.appIcon).toBe('safe-logo-url')

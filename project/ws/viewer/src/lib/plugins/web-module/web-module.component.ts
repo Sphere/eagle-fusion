@@ -9,12 +9,11 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { Subscription, fromEvent } from 'rxjs'
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser'
-import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { SafeResourceUrl, SafeUrl } from '@angular/platform-browser'
+import { ValueService, ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { NsContent } from '@ws-widget/collection'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-// import { ActivatedRoute } from '@angular/router'
 @Component({
     standalone: false,
     selector: 'viewer-plugin-web-module',
@@ -60,13 +59,11 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
   scrollTimeInterval: any
 
   constructor(
-    private events: EventService,
-    private domSanitizer: DomSanitizer,
-    private valueSvc: ValueService,
-    // private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private configurationSvc: ConfigurationsService,
-    // private activatedRoute: ActivatedRoute,
+    private readonly events: EventService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly valueSvc: ValueService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly configurationSvc: ConfigurationsService,
   ) {
     this.iframeElem = {} as ElementRef
   }
@@ -90,7 +87,6 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
       if (prop === 'widgetData') {
         if (this.widgetData.identifier !== this.oldIdentifier) {
           if (this.current.length > 0) {
-            // this.saveContinueLearning(this.oldIdentifier)
             this.fireRealTimeProgress(this.oldIdentifier)
           }
         }
@@ -112,42 +108,11 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
       clearInterval(this.scrollTimeInterval)
       this.scrollTimeInterval = null
     }
-    // this.saveContinueLearning(this.widgetData.identifier)
     if (this.widgetData && this.widgetData.identifier) {
       this.fireRealTimeProgress(this.widgetData.identifier)
     }
   }
 
-  // saveContinueLearning(id: string) {
-  //   if (this.widgetData.mimeType === (NsContent.EMimeTypes.WEB_MODULE || NsContent.EMimeTypes.WEB_MODULE_EXERCISE)) {
-  //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-  //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-  //       const reqBody = {
-  //         contextPathId: this.collectionId ? this.collectionId : id,
-  //         resourceId: id,
-  //         dateAccessed: Date.now(),
-  //         contextType: 'playlist',
-  //         data: JSON.stringify({
-  //           progress: this.currentSlideNumber,
-  //           timestamp: Date.now(),
-  //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, id],
-  //         }),
-  //       }
-  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch()
-  //     } else {
-  //       const reqBody = {
-  //         contextPathId: this.collectionId ? this.collectionId : id,
-  //         resourceId: id,
-  //         dateAccessed: Date.now(),
-  //         data: JSON.stringify({
-  //           progress: this.currentSlideNumber,
-  //           timestamp: Date.now(),
-  //         }),
-  //       }
-  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch()
-  //     }
-  //   }
-  // }
   fireRealTimeProgress(id: string) {
     if (this.widgetData.mimeType === (NsContent.EMimeTypes.WEB_MODULE || NsContent.EMimeTypes.WEB_MODULE_EXERCISE)) {
       if (this.current.length > 0 && this.slides.length > 0) {
@@ -167,12 +132,12 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     if (this.webModuleManifest.resources) {
       this.slides = this.webModuleManifest.resources.map((u: { artifactUrl: string }) => ({
         ...u,
-        safeUrl: this.domSanitizer.bypassSecurityTrustResourceUrl(this.urlPrefix + u.artifactUrl),
+        safeUrl: this.safeResourceUrlSvc.trust(this.urlPrefix + u.artifactUrl),
       }))
     } else {
       this.slides = this.webModuleManifest.map((u: { URL: string }) => ({
         ...u,
-        safeUrl: this.domSanitizer.bypassSecurityTrustResourceUrl(this.urlPrefix + u.URL),
+        safeUrl: this.safeResourceUrlSvc.trust(this.urlPrefix + u.URL),
       }))
     }
     this.setPage(this.widgetData.resumePage ?? 1)
@@ -193,7 +158,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.iframeLoadingInProgress = true
     } else if (this.iframeUrl === null) {
-      this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      this.iframeUrl = this.safeResourceUrlSvc.trust(
         this.urlPrefix + this.slides[0].URL,
       )
       if (this.slides[this.currentSlideNumber - 1].audio) {
@@ -215,7 +180,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
 
   setAudio(audios: { URL: string }[]) {
     if (Array.isArray(audios) && audios.length && audios[0].URL) {
-      this.slideAudioUrl = this.domSanitizer.bypassSecurityTrustUrl(this.urlPrefix + audios[0].URL)
+      this.slideAudioUrl = this.safeResourceUrlSvc.trustUrl(this.urlPrefix + audios[0].URL)
     } else {
       this.slideAudioUrl = (null as unknown) as SafeResourceUrl
     }
@@ -525,9 +490,9 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     return (
       // tslint:disable-next-line: prefer-template
       '#' +
-      ('0' + parseInt(color[0], 10).toString(16)).slice(-2) +
-      ('0' + parseInt(color[1], 10).toString(16)).slice(-2) +
-      ('0' + parseInt(color[2], 10).toString(16)).slice(-2)
+      ('0' + Number.parseInt(color[0], 10).toString(16)).slice(-2) +
+      ('0' + Number.parseInt(color[1], 10).toString(16)).slice(-2) +
+      ('0' + Number.parseInt(color[2], 10).toString(16)).slice(-2)
     )
   }
 

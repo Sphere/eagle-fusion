@@ -1,22 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import * as FileSaver from 'file-saver'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 @Component({
-    standalone: false,
-    selector: 'ws-certificate-received',
-    templateUrl: './certificate-received.component.html',
-    styleUrls: ['./certificate-received.component.scss'],
-    
-})
-export class CertificateReceivedComponent implements OnInit {
-  @Input() certificateData?: any
-  constructor(private logger: LoggerService) { }
+  standalone: false,
+  selector: 'ws-certificate-received',
+  templateUrl: './certificate-received.component.html',
+  styleUrls: ['./certificate-received.component.scss'],
 
-  ngOnInit() {
-  }
+})
+export class CertificateReceivedComponent {
+  @Input() certificateData?: any
+  constructor(private readonly logger: LoggerService) { }
+
   convertToJpeg(imgVal: any) {
     if (imgVal.rcCerticate) {
-      const fileName = imgVal.name.replace(/\s+/g, '') + '_certificate.jpg'
+      const fileName = imgVal.name.replaceAll(/\s+/g, '') + '_certificate.jpg'
       fetch(imgVal.downloadUrl)
         .then(response => {
           if (!response.ok) {
@@ -60,17 +58,17 @@ export class CertificateReceivedComponent implements OnInit {
         ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
         let imgURI = canvas
           .toDataURL('image/jpeg')
-        const fileName = imgVal.name.replace(/\s+/g, '') + '_certificate.jpg'
+        const fileName = imgVal.name.replaceAll(/\s+/g, '') + '_certificate.jpg'
 
         imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
         const arr = imgURI.split(',')
-        const mime = arr[0].match(/:(.*?);/)[1]
+        const mime = arr[0].match(/:([^;]{0,100});/)[1]
         const bstr = atob(arr[1])
         let n = bstr.length
         const u8arr = new Uint8Array(n)
         while (n) {
           n = n - 1
-          u8arr[n] = bstr.charCodeAt(n)
+          u8arr[n] = bstr.codePointAt(n)
         }
         const blob = new Blob([u8arr], { type: mime })
         FileSaver.saveAs(blob, fileName)

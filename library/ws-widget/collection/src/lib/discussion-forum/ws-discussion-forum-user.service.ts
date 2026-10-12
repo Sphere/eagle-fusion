@@ -8,7 +8,7 @@ import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants
   providedIn: 'root',
 })
 export class WsDiscussionForumUserService {
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
   fetchUserFollow(userId: string): Observable<NsDiscussionForum.IUserFollow> {
     return this.http.get<NsDiscussionForum.IUserFollow>(`${API_END_POINTS.USER_FOLLOW_DATA}/${userId}`)
   }

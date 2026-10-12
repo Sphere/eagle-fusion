@@ -11,7 +11,7 @@ import { PublicAboutComponent } from './public-about.component'
 describe('PublicAboutComponent', () => {
   let component: PublicAboutComponent
   let mockBreakpointObserver: any
-  let mockSanitizer: any
+  let mockSafeResourceUrlSvc: any
   let mockConfigSvc: any
   let mockRoute: any
   let routeDataSubject: BehaviorSubject<any>
@@ -28,15 +28,15 @@ describe('PublicAboutComponent', () => {
     mockBreakpointObserver = {
       observe: jest.fn().mockReturnValue(of({ matches: false })),
     }
-    mockSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockImplementation(url => ({ resource: url })),
-      bypassSecurityTrustStyle: jest.fn().mockImplementation(style => ({ style })),
+    mockSafeResourceUrlSvc = {
+      trust: jest.fn().mockImplementation(url => ({ resource: url })),
+      trustStyle: jest.fn().mockImplementation(style => ({ style })),
     }
     mockConfigSvc = { pageNavBar: {} }
     mockRoute = { data: routeDataSubject.asObservable() }
     component = new PublicAboutComponent(
       mockBreakpointObserver,
-      mockSanitizer,
+      mockSafeResourceUrlSvc,
       mockConfigSvc,
       mockRoute,
     )
@@ -61,7 +61,7 @@ describe('PublicAboutComponent', () => {
 
   it('should sanitize videoLink when banner has videoLink', () => {
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
+    expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith(
       'https://youtube.com/embed/abc',
     )
     expect(component.videoLink).toEqual({ resource: 'https://youtube.com/embed/abc' })
@@ -69,16 +69,16 @@ describe('PublicAboutComponent', () => {
 
   it('should sanitize headerBanner from banner img', () => {
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustStyle).toHaveBeenCalledWith(
+    expect(mockSafeResourceUrlSvc.trustStyle).toHaveBeenCalledWith(
       "url('https://example.com/banner.jpg')",
     )
   })
 
   it('should not sanitize when aboutPage has no banner', () => {
     routeDataSubject.next({ pageData: { data: {} } })
-    component = new PublicAboutComponent(mockBreakpointObserver, mockSanitizer, mockConfigSvc, mockRoute)
+    component = new PublicAboutComponent(mockBreakpointObserver, mockSafeResourceUrlSvc, mockConfigSvc, mockRoute)
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).not.toHaveBeenCalled()
+    expect(mockSafeResourceUrlSvc.trust).not.toHaveBeenCalled()
   })
 
   it('should unsubscribe on ngOnDestroy', () => {

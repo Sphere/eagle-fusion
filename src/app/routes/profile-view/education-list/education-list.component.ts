@@ -19,11 +19,11 @@ export class EducationListComponent implements OnInit {
   @Input() isEkshamata = false
   @Input() data: any
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private valueSvc: ValueService,
-    private contentSvc: WidgetContentService,
-    private cdr: ChangeDetectorRef
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly valueSvc: ValueService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -43,13 +43,15 @@ export class EducationListComponent implements OnInit {
         sessionStorage.removeItem('academic')
       }
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
-          this.isEditableForSphere = this.data?.isEditable ?? false
-          if (data && get(data, 'profileDetails.profileReq.academics')) {
-            this.academicsArray = get(data, 'profileDetails.profileReq.academics')
-            this.cdr.detectChanges()
-          }
-          this.cdr.markForCheck()
+        (data: any) => {
+          void (async () => {
+            this.isEditableForSphere = this.data?.isEditable ?? false
+            if (data && get(data, 'profileDetails.profileReq.academics')) {
+              this.academicsArray = get(data, 'profileDetails.profileReq.academics')
+              this.cdr.detectChanges()
+            }
+            this.cdr.markForCheck()
+          })()
         })
     }
   }

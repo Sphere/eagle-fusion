@@ -24,6 +24,7 @@ describe('TnaiCallbackComponent', () => {
   let mockOrgService: any
   let mockAuthSvc: any
   let mockLogger: any
+  let originalLocation: Location
 
   beforeEach(() => {
     jest.useFakeTimers()
@@ -34,12 +35,16 @@ describe('TnaiCallbackComponent', () => {
     mockLogger = { log: jest.fn() }
     component = new TnaiCallbackComponent(mockOrgService, mockAuthSvc, mockLogger)
     sessionStorage.clear()
+    originalLocation = window.location
+    delete (window as any).location
+    ;(window as any).location = { href: '' }
   })
 
   afterEach(() => {
     jest.useRealTimers()
     sessionStorage.clear()
     jest.clearAllMocks()
+    ;(window as any).location = originalLocation
   })
 
   it('should create', () => {

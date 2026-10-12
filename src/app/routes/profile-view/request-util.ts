@@ -1,55 +1,58 @@
 import { get, find } from 'lodash'
 
-// import { changeformat } from '../../../../project/ws/app/src/public-api'
+const buildPersonalDetails = (form: any, userProfileData: any, userAgent: any, userCookies: any) => ({
+  firstname: get(form, 'firstname') ? form.firstname : userProfileData.personalDetails.firstname || "",
+  middlename: get(form, 'middlename') ? form.middlename : userProfileData.personalDetails.middlename || "",
+  surname: get(form, 'surname') ? form.surname : userProfileData.personalDetails.surname || "",
+  about: get(form, 'about') ? form.about : userProfileData.personalDetails.about || "",
+  photo: (form.photo && get(form, 'photo') !== 'NaN - NaN - NaN') ? form.photo : userProfileData.personalDetails.photo || "",
+  dob: get(form, 'dob') ? form.dob : userProfileData.personalDetails.dob || "",
+  nationality: get(form, 'nationality') ? form.nationality : userProfileData.personalDetails.nationality || "",
+  domicileMedium: get(form, 'domicileMedium') ? form.domicileMedium : userProfileData.personalDetails.domicileMedium || "",
+  regNurseRegMidwifeNumber: get(form, 'regNurseRegMidwifeNumber') ? form.regNurseRegMidwifeNumber :
+    userProfileData.personalDetails.regNurseRegMidwifeNumber || "",
+  nationalUniqueId: userProfileData.nationalUniqueId || "",
+  doctorRegNumber: userProfileData.doctorRegNumber || "",
+  instituteName: userProfileData.instituteName || "",
+  nursingCouncil: userProfileData.nursingCouncil || "",
+  gender: get(form, 'gender') ? form.gender : userProfileData.personalDetails.gender || "",
+  maritalStatus: get(form, 'maritalStatus') ? form.maritalStatus : userProfileData.personalDetails.maritalStatus || "",
+  category: userProfileData.category || "",
+  knownLanguages: get(form, 'knownLanguages') ? form.knownLanguages : userProfileData.personalDetails.knownLanguages || "",
+  countryCode: userProfileData.countryCode || "",
+  mobile: get(form, 'mobile') ? form.mobile : userProfileData.personalDetails.mobile || "",
+  telephone: userProfileData.personalDetails.telephone || "",
+  primaryEmail: userProfileData.personalDetails.primaryEmail || "",
+  officialEmail: '',
+  personalEmail: '',
+  postalAddress: get(form, 'postalAddress') ? form.postalAddress : userProfileData.personalDetails.postalAddress || "",
+  pincode: get(form, 'pincode') ? form.pincode : userProfileData.personalDetails.pincode || "",
+  osName: userProfileData.personalDetails.osName ? userProfileData.personalDetails.osName : userAgent.OS || "",
+  browserName: userProfileData.personalDetails.browserName ? userProfileData.personalDetails.browserName : userAgent.browserName || "",
+  userCookie: userProfileData.personalDetails.userCookie ? userProfileData.personalDetails.userCookie : userCookies || "",
+})
+
+const buildEmploymentDetails = (userProfileData: any) => ({
+  service: get(userProfileData, 'employmentDetails.service') || '',
+  cadre: get(userProfileData, 'employmentDetails.cadre') || '',
+  allotmentYearOfService: checkvalue(get(userProfileData, 'employmentDetails.allotmentYearOfService') || ''),
+  dojOfService: getDateFromText(get(userProfileData, 'employmentDetails.dojOfService') || ''),
+  payType: get(userProfileData, 'employmentDetails.payType') || '',
+  civilListNo: get(userProfileData, 'employmentDetails.civilListNo') || '',
+  employeeCode: checkvalue(get(userProfileData, 'employmentDetails.employeeCode') || ''),
+  officialPostalAddress: checkvalue(get(userProfileData, 'employmentDetails.officialPostalAddress') || ''),
+  pinCode: checkvalue(get(userProfileData, 'employmentDetails.pinCode') || ''),
+})
+
 export const constructReq = (form: any, userProfileData: any, userAgent: any, userCookies: any) => {
 
   const userid = userProfileData.userId || userProfileData.id || ''
   const profileReq = {
     id: userid,
     userId: userid,
-    personalDetails: {
-      firstname: get(form, 'firstname') ? form.firstname : userProfileData.personalDetails.firstname || "",
-      middlename: get(form, 'middlename') ? form.middlename : userProfileData.personalDetails.middlename || "",
-      surname: get(form, 'surname') ? form.surname : userProfileData.personalDetails.surname || "",
-      about: get(form, 'about') ? form.about : userProfileData.personalDetails.about || "",
-      photo: (form.photo && get(form, 'photo') !== 'NaN - NaN - NaN') ? form.photo : userProfileData.personalDetails.photo || "",
-      dob: get(form, 'dob') ? form.dob : userProfileData.personalDetails.dob || "",
-      nationality: get(form, 'nationality') ? form.nationality : userProfileData.personalDetails.nationality || "",
-      domicileMedium: get(form, 'domicileMedium') ? form.domicileMedium : userProfileData.personalDetails.domicileMedium || "",
-      regNurseRegMidwifeNumber: get(form, 'regNurseRegMidwifeNumber') ? form.regNurseRegMidwifeNumber :
-        userProfileData.personalDetails.regNurseRegMidwifeNumber || "",
-      nationalUniqueId: userProfileData.nationalUniqueId || "",
-      doctorRegNumber: userProfileData.doctorRegNumber || "",
-      instituteName: userProfileData.instituteName || "",
-      nursingCouncil: userProfileData.nursingCouncil || "",
-      gender: get(form, 'gender') ? form.gender : userProfileData.personalDetails.gender || "",
-      maritalStatus: get(form, 'maritalStatus') ? form.maritalStatus : userProfileData.personalDetails.maritalStatus || "",
-      category: userProfileData.category || "",
-      knownLanguages: get(form, 'knownLanguages') ? form.knownLanguages : userProfileData.personalDetails.knownLanguages || "",
-      countryCode: userProfileData.countryCode || "",
-      mobile: get(form, 'mobile') ? form.mobile : userProfileData.personalDetails.mobile || "",
-      telephone: userProfileData.personalDetails.telephone || "",
-      primaryEmail: userProfileData.personalDetails.primaryEmail || "",
-      officialEmail: '',
-      personalEmail: '',
-      postalAddress: get(form, 'postalAddress') ? form.postalAddress : userProfileData.personalDetails.postalAddress || "",
-      pincode: get(form, 'pincode') ? form.pincode : userProfileData.personalDetails.pincode || "",
-      osName: userProfileData.personalDetails.osName ? userProfileData.personalDetails.osName : userAgent.OS || "",
-      browserName: userProfileData.personalDetails.browserName ? userProfileData.personalDetails.browserName : userAgent.browserName || "",
-      userCookie: userProfileData.personalDetails.userCookie ? userProfileData.personalDetails.userCookie : userCookies || "",
-    },
+    personalDetails: buildPersonalDetails(form, userProfileData, userAgent, userCookies),
     academics: get(form.value, 'courseDegree') ? populateAcademics(form.value, userProfileData) : populateAcademics(userProfileData),
-    employmentDetails: {
-      service: get(userProfileData, 'employmentDetails.service') || '',
-      cadre: get(userProfileData, 'employmentDetails.cadre') || '',
-      allotmentYearOfService: checkvalue(get(userProfileData, 'employmentDetails.allotmentYearOfService') || ''),
-      dojOfService: getDateFromText(get(userProfileData, 'employmentDetails.dojOfService') || ''),
-      payType: get(userProfileData, 'employmentDetails.payType') || '',
-      civilListNo: get(userProfileData, 'employmentDetails.civilListNo') || '',
-      employeeCode: checkvalue(get(userProfileData, 'employmentDetails.employeeCode') || ''),
-      officialPostalAddress: checkvalue(get(userProfileData, 'employmentDetails.officialPostalAddress') || ''),
-      pinCode: checkvalue(get(userProfileData, 'employmentDetails.pinCode') || ''),
-    },
+    employmentDetails: buildEmploymentDetails(userProfileData),
     professionalDetails: [...getOrganisationsHistory(form, userProfileData)],
     skills: {
       additionalSkills: get(userProfileData, 'skills.additionalSkills') || '',
@@ -67,7 +70,7 @@ export const populateAcademics = (data?: any, userProfileData?: any) => {
   if (data.academics && data.academics.length > 0) {
     const academics: any = []
     if (data.academics && Array.isArray(data.academics)) {
-      data.academics.map((item: any) => {
+      data.academics.forEach((item: any) => {
         switch (item.type) {
           case 'X_STANDARD':
             academics.push({

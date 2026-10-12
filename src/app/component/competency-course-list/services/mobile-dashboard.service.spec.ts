@@ -9,6 +9,7 @@ describe('MobileDashboardService', () => {
   const buildPlaylist = (overrides: any = {}) => [{
     playlistId: 'COMPETENCY_PLAYLIST',
     role: ['ASHA'],
+    language: 'en',
     dataSource: {
       payload: [
         {
@@ -35,11 +36,47 @@ describe('MobileDashboardService', () => {
     ...overrides,
   }]
 
+  const buildV2Playlist = (overrides: any = {}) => [{
+    playlistId: 'COMPETENCY_PLAYLIST',
+    role: ['ASHA'],
+    language: 'hi',
+    dataSource: {
+      payload: [
+        {
+          id: 100,
+          area: 'Management',
+          code: 'C1',
+          name: 'गर्भावस्था की पहचान',
+          type: 'competency',
+          level: 'INITIATE',
+          levels: [
+            { name: 'Understands anatomy', level: 1, courseId: 'do_1', description: 'desc1' },
+            { name: 'Identifies pregnancy', level: 2, courseId: 'do_2', description: 'desc2' },
+          ],
+        },
+      ],
+    },
+    ...overrides,
+  }]
+
   const buildLevels = () => [
-    { competencyId: 1, name: 'Beginner', competencyName: 'Communication', level: 1, course: [{ id: 'c1', lang: 'en' }] },
-    { competencyId: 1, name: 'Intermediate', competencyName: 'Communication', level: 2, course: [{ id: 'c1', lang: 'en' }] },
-    { competencyId: 2, name: 'Beginner', competencyName: 'Nutrition', level: 1, course: [{ id: 'c2', lang: 'en' }] },
+    { competencyId: 1, name: 'Beginner', competencyName: 'Communication', level: 1, course: 'c1' },
+    { competencyId: 1, name: 'Intermediate', competencyName: 'Communication', level: 2, course: 'c1' },
+    { competencyId: 2, name: 'Beginner', competencyName: 'Nutrition', level: 1, course: 'c2' },
   ]
+
+  // getAshaData only emits cards when the search call yields at least one course that maps
+  // back to a requested competency; otherwise it short-circuits to the empty response.
+  // This builds the minimal search payload that keeps that path open.
+  const searchResultFor = (competencyIds: number[]) => of({
+    result: {
+      content: competencyIds.map(id => ({
+        identifier: `course-${id}`,
+        name: `Course ${id}`,
+        competencies_v1: `[{"competencyId": ${id}}]`,
+      })),
+    },
+  })
 
   beforeEach(() => {
     mockHttp = {
@@ -59,27 +96,27 @@ describe('MobileDashboardService', () => {
 
   describe('getCompetencyInfo', () => {
     it('returns null when there is no COMPETENCY_PLAYLIST item', () => {
-      expect(service.getCompetencyInfo([], 'org1', 'ASHA')).toBeNull()
-      expect(service.getCompetencyInfo([{ playlistId: 'OTHER' }], 'org1', 'ASHA')).toBeNull()
+      expect(service.getCompetencyInfo([], 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')).toBeNull()
+      expect(service.getCompetencyInfo([{ playlistId: 'OTHER' }], 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')).toBeNull()
     })
 
     it('returns null when the user designation is not in the playlist roles', () => {
-      expect(service.getCompetencyInfo(buildPlaylist(), 'org1', 'ANM')).toBeNull()
+      expect(service.getCompetencyInfo(buildPlaylist(), 'org1', 'ANM', 'COMPETENCY_PLAYLIST')).toBeNull()
     })
 
     it('matches the designation case-insensitively', () => {
-      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'asha')
+      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'asha', 'COMPETENCY_PLAYLIST')
       expect(result).not.toBeNull()
       expect(result!.isUserDesignationInRoles).toBe(true)
     })
 
     it('returns null when the playlist has no competencies payload', () => {
       const playlist = buildPlaylist({ dataSource: { payload: [] } })
-      expect(service.getCompetencyInfo(playlist, 'org1', 'ASHA')).toBeNull()
+      expect(service.getCompetencyInfo(playlist, 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')).toBeNull()
     })
 
-    it('extracts competencyIds and flattened levels with mapped fields', () => {
-      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'ASHA', 'hi')!
+    it('extracts competencyIds and flattened levels from the legacy (v1) keyed-object payload', () => {
+      const result = service.getCompetencyInfo(buildPlaylist(), 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')!
       expect(result.competencyIds).toEqual([1])
       expect(result.competencyLevels).toHaveLength(2)
       expect(result.competencyLevels[0]).toEqual({
@@ -89,20 +126,49 @@ describe('MobileDashboardService', () => {
         level: 1,
         levelName: 'Beginner',
         description: 'd1',
-        langHiName: 'शुरुआती',
-        langHiDescription: 'विवरण',
-        course: [{ id: 'c1', lang: 'en' }],
+        course: 'c1',
       })
       expect(result.competencyLevels[1].name).toBe('Intermediate')
-      expect(result.competencyLevels[1].course).toEqual([{ id: 'c2', lang: 'en' }])
+      expect(result.competencyLevels[1].course).toBe('c2')
+    })
+
+    it('picks the course id matching the playlist language when the legacy course array has multiple entries', () => {
+      const playlist = buildPlaylist({ language: 'hi' })
+      playlist[0].dataSource.payload[0].comp1.additionalProperties.competencyLevelDescription[0].course = [
+        { id: 'course-en', lang: 'en' },
+        { id: 'course-hi', lang: 'hi' },
+      ]
+      const result = service.getCompetencyInfo(playlist, 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')!
+      expect(result.competencyLevels[0].course).toBe('course-hi')
+    })
+
+    it('extracts competencyIds and flattened levels from the current (v2) flat payload', () => {
+      const result = service.getCompetencyInfo(buildV2Playlist(), 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')!
+      expect(result.competencyIds).toEqual([100])
+      expect(result.competencyLevels).toHaveLength(2)
+      expect(result.competencyLevels[0]).toEqual({
+        competencyId: 100,
+        name: 'Understands anatomy',
+        competencyName: 'गर्भावस्था की पहचान',
+        level: 1,
+        levelName: 'Understands anatomy',
+        description: 'desc1',
+        course: 'do_1',
+      })
+      expect(result.competencyLevels[1].course).toBe('do_2')
     })
 
     it('falls back to item.payload when dataSource is missing', () => {
       const playlist = buildPlaylist()
       const item: any = { ...playlist[0], dataSource: undefined, payload: playlist[0].dataSource.payload }
-      const result = service.getCompetencyInfo([item], 'org1', 'ASHA')
+      const result = service.getCompetencyInfo([item], 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')
       expect(result).not.toBeNull()
       expect(result!.competencyIds).toEqual([1])
+    })
+
+    it('skips malformed entries that match neither payload shape', () => {
+      const playlist = buildPlaylist({ dataSource: { payload: [{ comp1: { name: 'no id or levels' } }] } })
+      expect(service.getCompetencyInfo(playlist, 'org1', 'ASHA', 'COMPETENCY_PLAYLIST')).toBeNull()
     })
   })
 
@@ -122,19 +188,44 @@ describe('MobileDashboardService', () => {
       })
     })
 
-    it('builds one card per competency from the playlist levels even when APIs return nothing', done => {
+    it('returns the empty response when the search call yields no courses', done => {
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res).toEqual({ ashaData: [], completedCourses: [], inProgressCourses: [] })
+        done()
+      })
+    })
+
+    it('returns the empty response when no search result maps to a requested competency', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([99]))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res).toEqual({ ashaData: [], completedCourses: [], inProgressCourses: [] })
+        done()
+      })
+    })
+
+    it('builds one card per playlist competency once the search yields a match', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
         expect(res.ashaData).toHaveLength(2)
         const [first, second] = res.ashaData
-        expect(first.title).toBe('Communication')
         expect(first.competencyID).toBe('1')
-        expect(first.contentId).toBe('c1')
         expect(first.isAsha).toBe('true')
         expect(first.levels).toHaveLength(2)
         expect(first.levels[0].competencyName).toBeUndefined()
-        expect(second.title).toBe('Nutrition')
+        expect(second.competencyID).toBe('2')
         expect(res.completedCourses).toEqual([])
         expect(res.inProgressCourses).toHaveLength(2)
+        done()
+      })
+    })
+
+    it('keeps a playlist card unenriched when the search only matches a sibling competency', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1]))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res.ashaData).toHaveLength(2)
+        const untouched = res.ashaData.find((c: any) => c.competencyID === '2')
+        expect(untouched.title).toBe('Nutrition')
+        expect(untouched.contentId).toBe('c2')
         done()
       })
     })
@@ -200,16 +291,47 @@ describe('MobileDashboardService', () => {
     it('ignores search results whose competency is not in the requested ids', done => {
       mockHttp.post.mockReturnValue(of({
         result: {
-          content: [{ identifier: 'other', name: 'Other Course', competencies_v1: '[{"competencyId": 99}]' }],
+          content: [
+            { identifier: 'course-1', name: 'Course 1', competencies_v1: '[{"competencyId": 1}]' },
+            { identifier: 'other', name: 'Other Course', competencies_v1: '[{"competencyId": 99}]' },
+          ],
         },
       }))
       service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
-        expect(res.ashaData.map((c: any) => c.title)).toEqual(['Communication', 'Nutrition'])
+        expect(res.ashaData.map((c: any) => c.competencyID)).toEqual(['1', '2'])
+        expect(res.ashaData.map((c: any) => c.title)).not.toContain('Other Course')
+        done()
+      })
+    })
+
+    it('drops a search result whose competencies_v1 payload is malformed json', done => {
+      mockHttp.post.mockReturnValue(of({
+        result: {
+          content: [
+            { identifier: 'course-1', name: 'Course 1', competencies_v1: '[{"competencyId": 1}]' },
+            { identifier: 'broken', name: 'Broken Course', competencies_v1: 'not-json' },
+          ],
+        },
+      }))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res.ashaData.map((c: any) => c.title)).not.toContain('Broken Course')
+        done()
+      })
+    })
+
+    it('reads search content from the top-level content key when result.content is absent', done => {
+      mockHttp.post.mockReturnValue(of({
+        content: [{ identifier: 'course-1', name: 'Top Level Course', competencies_v1: '[{"competencyId": 1}]' }],
+      }))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        const enriched = res.ashaData.find((c: any) => c.competencyID === '1')
+        expect(enriched.title).toBe('Top Level Course')
         done()
       })
     })
 
     it('expands a passed course across every level that course covers', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       mockHttp.get.mockReturnValue(of({
         data: [{ competencyid: 1, competencylevel: 1, passFailStatus: 'Pass', contentType: 'course', attemptcount: 2 }],
       }))
@@ -227,6 +349,7 @@ describe('MobileDashboardService', () => {
     })
 
     it('keeps non-course progress records alongside expanded course progress', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       mockHttp.get.mockReturnValue(of({
         data: [
           { competencyid: 2, competencylevel: 1, passFailStatus: 'Fail', contentType: 'selfAssessment' },
@@ -245,6 +368,7 @@ describe('MobileDashboardService', () => {
     })
 
     it('points contentId at the self-assessment course when one exists in progress', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       mockHttp.get.mockReturnValue(of({
         data: [
           { competencyid: 1, competencylevel: 1, passFailStatus: 'Pass', contentType: 'selfAssessment', courseid: 'sa-course' },
@@ -265,6 +389,7 @@ describe('MobileDashboardService', () => {
         level,
         course: [{ id: `c3-${level}`, lang: 'en' }],
       }))
+      mockHttp.post.mockReturnValue(searchResultFor([3]))
       mockHttp.get.mockReturnValue(of({
         data: [1, 2, 3, 4, 5].map(level => ({
           competencyid: 3, competencylevel: level, passFailStatus: 'Pass', contentType: 'course',
@@ -280,6 +405,7 @@ describe('MobileDashboardService', () => {
     })
 
     it('sorts in-progress cards by competencyID and expands only the first', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
       service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
         expect(res.inProgressCourses.map((c: any) => c.competencyID)).toEqual(['1', '2'])
         expect(res.inProgressCourses[0].expand).toBe(true)
@@ -298,12 +424,23 @@ describe('MobileDashboardService', () => {
       })
     })
 
-    it('still emits cards when both endpoints error', done => {
+    it('swallows endpoint errors and emits the empty response', done => {
+      // Each request carries its own catchError, so a failure yields null rather than
+      // erroring the forkJoin — leaving no search courses and therefore no cards.
       mockHttp.post.mockReturnValue(throwError(() => new Error('search down')))
       mockHttp.get.mockReturnValue(throwError(() => new Error('progress down')))
       service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
+        expect(res).toEqual({ ashaData: [], completedCourses: [], inProgressCourses: [] })
+        done()
+      })
+    })
+
+    it('emits playlist-only cards when the progress call fails but the search succeeds', done => {
+      mockHttp.post.mockReturnValue(searchResultFor([1, 2]))
+      mockHttp.get.mockReturnValue(throwError(() => new Error('progress down')))
+      service.getAshaData('en', buildLevels(), ['1', '2'], 'u1').subscribe(res => {
         expect(res.ashaData).toHaveLength(2)
-        expect(res.inProgressCourses).toHaveLength(2)
+        expect(res.ashaData.every((c: any) => c.progress.length === 0)).toBe(true)
         done()
       })
     })

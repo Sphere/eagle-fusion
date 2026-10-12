@@ -17,7 +17,33 @@ jest.mock('../../../project/ws/app/src/lib/routes/user-profile/services/user-pro
 }))
 
 jest.mock('../services/user-data-cache.service', () => ({
-  UserDataCacheService: class { getCachedUserData = jest.fn().mockReturnValue(null) },
+  UserDataCacheService: class {
+    getCachedUserData = jest.fn().mockReturnValue(null)
+    getRolesFromProfile = jest.fn((userPidProfile: any) => {
+      const normalizeRoleEntries = (entries: any[]): string[] =>
+        entries
+          .map((entry: any) => (typeof entry === 'string' ? entry : entry?.role))
+          .filter((role: any): role is string => typeof role === 'string' && role.length > 0)
+      if (userPidProfile && Array.isArray(userPidProfile.roles) && userPidProfile.roles.length) {
+        const roles = normalizeRoleEntries(userPidProfile.roles)
+        if (roles.length) {
+          return roles
+        }
+      }
+      const organisations = (userPidProfile && userPidProfile.organisations) || []
+      const roles = new Set<string>()
+      organisations.forEach((org: any) => {
+        (org.roles || []).forEach((role: string) => roles.add(role))
+      })
+      return Array.from(roles)
+    })
+    getUserIdFromProfile = jest.fn((userPidProfile: any) => {
+      if (!userPidProfile) {
+        return undefined
+      }
+      return userPidProfile.userId || userPidProfile.id || userPidProfile.identifier
+    })
+  },
 }))
 
 import { GeneralGuard } from './general.guard'
@@ -141,7 +167,8 @@ describe('GeneralGuard', () => {
     mockConfigSvc.userProfile = { language: 'en', userId: 'u1' }
     mockConfigSvc.unMappedUser = { id: 'u1' }
     mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
-      profileDetails: { profileReq: { personalDetails: { tncAccepted: 'true', dob: '1990-01-01' } } },
+      tcStatus: 'true',
+      profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } },
     }))
     await guard.canActivate(makeRoute())
     expect(mockLogger.log).toHaveBeenCalled()
@@ -165,5 +192,88 @@ describe('GeneralGuard', () => {
     await guard.canActivate(makeRoute())
     expect(mockConfigSvc.userProfile).not.toBeNull()
     expect(mockConfigSvc.userProfile.userId).toBe('cached-1')
+  })
+
+  describe('locale resolution', () => {
+    it('prefers localStorage lang over profile language, mapping en to empty string', async () => {
+      localStorage.setItem('lang', 'en')
+      mockConfigSvc.userProfile = { language: 'hi', userId: 'u1' }
+      await guard.canActivate(makeRoute())
+      expect(guard.locale).toBe('')
+    })
+
+    it('uses localStorage lang when set to a non-english language', async () => {
+      localStorage.setItem('lang', 'hi')
+      mockConfigSvc.userProfile = { language: 'en', userId: 'u1' }
+      await guard.canActivate(makeRoute())
+      expect(guard.locale).toBe('hi')
+    })
+
+    it('falls back to profile language when localStorage lang is absent', async () => {
+      mockConfigSvc.userProfile = { language: 'hi', userId: 'u1' }
+      await guard.canActivate(makeRoute())
+      expect(guard.locale).toBe('hi')
+    })
+
+    it('falls back to en-US when localStorage lang is absent and profile language is undefined', async () => {
+      mockConfigSvc.userProfile = { userId: 'u1' }
+      await guard.canActivate(makeRoute())
+      expect(guard.locale).toBe('en-US')
+    })
+  })
+
+  describe('registry profile callback', () => {
+    beforeEach(() => {
+      mockConfigSvc.userProfile = { language: 'en', userId: 'u1' }
+      mockConfigSvc.unMappedUser = { id: 'u1' }
+    })
+
+    it('navigates to new-tnc when tnc is not accepted and dob is undefined', async () => {
+      const { of } = require('rxjs')
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        tcStatus: 'false',
+        profileDetails: { profileReq: { personalDetails: {} } },
+      }))
+      await guard.canActivate(makeRoute())
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
+    })
+
+    it('navigates to new-tnc when tnc is not accepted even though dob is present', async () => {
+      const { of } = require('rxjs')
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        tcStatus: 'false',
+        profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } },
+      }))
+      await guard.canActivate(makeRoute())
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
+    })
+
+    it('navigates to new-tnc when tcStatus is missing but the profile is filled in', async () => {
+      const { of } = require('rxjs')
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        profileDetails: { profileReq: { personalDetails: { dob: '25/2/1971', postalAddress: 'India,bihar,bihar' } } },
+      }))
+      await guard.canActivate(makeRoute())
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
+    })
+
+    it('does not navigate when tnc is accepted and dob is undefined', async () => {
+      const { of } = require('rxjs')
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        tcStatus: 'true',
+        profileDetails: { profileReq: { personalDetails: {} } },
+      }))
+      await guard.canActivate(makeRoute())
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+
+    it('stores the payload and navigates to new-tnc when personalDetails is falsy', async () => {
+      const { of } = require('rxjs')
+      const data = { profileDetails: { profileReq: { personalDetails: false } } }
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of(data))
+      await guard.canActivate(makeRoute())
+      expect(localStorage.getItem('datanow')).toBe(JSON.stringify(data))
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['app', 'new-tnc'])
+    })
   })
 })

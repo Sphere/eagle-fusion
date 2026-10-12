@@ -137,7 +137,9 @@ describe('EducationEditComponent', () => {
     expect(component.showbackButton).toBe(false)
   })
 
-  it('should subscribe to contentSvc.workMessage in constructor', () => {
+  it('should subscribe to contentSvc.workMessage in ngOnInit', () => {
+    sessionStorage.setItem('academic', JSON.stringify({ edit: false }))
+    component.ngOnInit()
     expect(mockContentSvc.workMessage.subscribe).toHaveBeenCalled()
   })
 
@@ -153,7 +155,8 @@ describe('EducationEditComponent', () => {
         },
         changeWork: jest.fn(),
       }
-      new EducationEditComponent(
+      sessionStorage.setItem('academic', JSON.stringify({ edit: false }))
+      const comp = new EducationEditComponent(
         mockConfigSvc,
         mockUserProfileSvc,
         mockSnackBar,
@@ -165,6 +168,7 @@ describe('EducationEditComponent', () => {
         mockLogger,
         mockTranslate,
       )
+      comp.ngOnInit()
       capturedCallback({ edit: true })
       await Promise.resolve()
       await Promise.resolve()
@@ -225,6 +229,15 @@ describe('EducationEditComponent', () => {
       component.getUserDetails()
       expect(component.educationForm.disabled).toBe(false)
     })
+
+    it('captures the raw registry response (including tcStatus) into userlang', () => {
+      mockUserProfileSvc.getUserdetailsFromRegistry = jest.fn().mockReturnValue(of({
+        tcStatus: 'true',
+        profileDetails: { profileReq: { personalDetails: { photo: '' } } },
+      }))
+      component.getUserDetails()
+      expect((component as any).userlang.tcStatus).toBe('true')
+    })
   })
 
   describe('ngOnInit', () => {
@@ -268,6 +281,22 @@ describe('EducationEditComponent', () => {
       const mockForm = { value: component.educationForm.value, reset: jest.fn() }
       component.onSubmit(mockForm)
       expect(mockContentSvc.changeWork).toHaveBeenCalledWith(expect.objectContaining({ type: 'academic' }))
+    })
+
+    it('carries tcStatus true forward when the fetched registry record already has it accepted', () => {
+      (component as any).userlang = { tcStatus: 'true' }
+      const mockForm = { value: component.educationForm.value, reset: jest.fn() }
+      component.onSubmit(mockForm)
+      const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('true')
+    })
+
+    it('defaults tcStatus to false when the fetched registry record has no tcStatus at all', () => {
+      (component as any).userlang = undefined
+      const mockForm = { value: component.educationForm.value, reset: jest.fn() }
+      component.onSubmit(mockForm)
+      const req = mockUserProfileSvc.updateProfileDetails.mock.calls[0][0]
+      expect(req.request.tcStatus).toBe('false')
     })
   })
 })

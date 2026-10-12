@@ -28,7 +28,7 @@ jest.mock('../../../../../library/ws-widget/utils/src/public-api', () => ({
     hostedInfo = null
   },
   ValueService: class { isMobile = jest.fn().mockReturnValue(false) },
-  LogoutComponent: class {},
+  LogoutComponent: class { },
   TelemetryService: class {
     getTelemetryConfig = jest.fn()
     interact = jest.fn()
@@ -41,7 +41,7 @@ jest.mock('../../../../../library/ws-widget/collection/src/public-api', () => ({
     workMessage = { subscribe: jest.fn().mockReturnValue({ unsubscribe: jest.fn() }) }
     fetchGeneralAndRcCertificates = jest.fn()
     getCertificateAPI = jest.fn()
-    updateValue$ = { subscribe: jest.fn() }
+    updateValue$ = { pipe: jest.fn().mockReturnThis(), subscribe: jest.fn() }
   },
 }))
 
@@ -55,7 +55,7 @@ jest.mock('../../../../../project/ws/app/src/lib/routes/user-profile/services/us
 jest.mock('../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model', () => ({}))
 
 jest.mock('../profile-select/profile-select.component', () => ({
-  ProfileSelectComponent: class {},
+  ProfileSelectComponent: class { },
 }))
 
 jest.mock('../../competency/services/config.service', () => ({
@@ -70,7 +70,7 @@ jest.mock('../../../services/playlist.service', () => ({
   PlaylistService: class {
     getSelectedTab = jest.fn().mockReturnValue('')
     setSelectedTab = jest.fn()
-    bodyConfig = jest.fn().mockReturnValue('')
+    sections = jest.fn().mockReturnValue({})
     selectedTabConfig = jest.fn()
     loadPlaylistData = jest.fn().mockResolvedValue({ LAYOUT_BODY: { sections: { accountTab: {} } } })
     earnedBadges$ = { subscribe: jest.fn() }
@@ -79,7 +79,7 @@ jest.mock('../../../services/playlist.service', () => ({
 }))
 
 jest.mock('../leadership-dashboard/leadership-dashboard.component', () => ({
-  LeadershipDashboardComponent: class {},
+  LeadershipDashboardComponent: class { },
 }))
 
 jest.mock('../../../services/theme.service', () => ({
@@ -103,7 +103,7 @@ describe('MobileProfileDashboardComponent', () => {
   let mockDialog: any
   let mockUserProfileSvc: any
   let mockContentSvc: any
-  let mockDomSanitizer: any
+  let mockSafeResourceUrlSvc: any
   let mockValueSvc: any
   let mockCompetencyConfigSvc: any
   let mockLanguageService: any
@@ -132,9 +132,12 @@ describe('MobileProfileDashboardComponent', () => {
       workMessage: { subscribe: jest.fn().mockReturnValue({ unsubscribe: jest.fn() }) },
       fetchGeneralAndRcCertificates: jest.fn().mockReturnValue(of({ generalCertificates: [], sunbirdRcCertificates: [] })),
       getCertificateAPI: jest.fn().mockReturnValue(of({})),
-      updateValue$: { subscribe: jest.fn() },
+      updateValue$: { pipe: jest.fn().mockReturnThis(), subscribe: jest.fn() },
     }
-    mockDomSanitizer = { bypassSecurityTrustUrl: jest.fn().mockReturnValue('safe-url') }
+    mockSafeResourceUrlSvc = {
+      trustUrl: jest.fn().mockReturnValue('safe-url'),
+      trustImageSrc: jest.fn().mockReturnValue('safe-image-url'),
+    }
     mockValueSvc = { isMobile: jest.fn().mockReturnValue(false) }
     mockCompetencyConfigSvc = { getCompetencyConfig: jest.fn() }
     mockLanguageService = { getCurrentLanguage: jest.fn().mockReturnValue('en') }
@@ -145,7 +148,7 @@ describe('MobileProfileDashboardComponent', () => {
     mockPlylsSvc = {
       getSelectedTab: jest.fn().mockReturnValue(''),
       setSelectedTab: jest.fn(),
-      bodyConfig: jest.fn().mockReturnValue(''),
+      sections: jest.fn().mockReturnValue({}),
       selectedTabConfig: jest.fn(),
       loadPlaylistData: jest.fn().mockResolvedValue({ LAYOUT_BODY: { sections: { accountTab: null } } }),
       earnedBadges$: { subscribe: jest.fn() },
@@ -165,7 +168,7 @@ describe('MobileProfileDashboardComponent', () => {
       mockDialog,
       mockUserProfileSvc,
       mockContentSvc,
-      mockDomSanitizer,
+      mockSafeResourceUrlSvc,
       mockValueSvc,
       mockCompetencyConfigSvc,
       mockLanguageService,
@@ -205,7 +208,7 @@ describe('MobileProfileDashboardComponent', () => {
     mockValueSvc.isMobile.mockReturnValue(true)
     component = new MobileProfileDashboardComponent(
       mockConfigSvc, mockRouter, mockDialog, mockUserProfileSvc, mockContentSvc,
-      mockDomSanitizer, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
+      mockSafeResourceUrlSvc, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
       mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
       mockLogger, mockTranslate, mockThemeService,
     )
@@ -276,10 +279,12 @@ describe('MobileProfileDashboardComponent', () => {
     })
 
     it('should handle certificates case', () => {
+      const scrollSpy = jest.spyOn(window, 'scroll').mockImplementation(() => undefined)
       mockContentSvc.fetchGeneralAndRcCertificates = jest.fn().mockReturnValue({
         pipe: jest.fn().mockReturnValue({ subscribe: jest.fn() }),
       })
       expect(() => component.changeFunction({ name: 'certificates', data: null, text: 'Certs' })).not.toThrow()
+      scrollSpy.mockRestore()
     })
 
     it('should set hideData true when showMobileView is true', () => {
@@ -393,7 +398,7 @@ describe('MobileProfileDashboardComponent', () => {
       })
       component['userProfileSvc'] = mockUserProfileSvc
       component['configSvc'] = mockConfigSvc
-      jest.spyOn(component, 'setAcademicDetail').mockImplementation(() => {})
+      jest.spyOn(component, 'setAcademicDetail').mockImplementation(() => { })
       component.getUserDetails()
       expect(mockUserProfileSvc.getUserdetailsFromRegistry).toHaveBeenCalledWith('user-1')
     })
@@ -428,7 +433,7 @@ describe('MobileProfileDashboardComponent', () => {
     it('should set isEkshamata true when hostedInfo is set', () => {
       mockConfigSvc.hostedInfo = { someInfo: true }
       mockUserProfileSvc.updateuser$ = { pipe: jest.fn().mockReturnThis(), subscribe: jest.fn() }
-      jest.spyOn(component, 'getUserDetails').mockImplementation(() => {})
+      jest.spyOn(component, 'getUserDetails').mockImplementation(() => { })
       component.ngOnInit()
       expect(component.isEkshamata).toBe(true)
     })
@@ -436,7 +441,7 @@ describe('MobileProfileDashboardComponent', () => {
     it('should remove currentWindow from sessionStorage on init', () => {
       sessionStorage.setItem('currentWindow', 'personal')
       mockUserProfileSvc.updateuser$ = { pipe: jest.fn().mockReturnThis(), subscribe: jest.fn() }
-      jest.spyOn(component, 'getUserDetails').mockImplementation(() => {})
+      jest.spyOn(component, 'getUserDetails').mockImplementation(() => { })
       component.ngOnInit()
       expect(sessionStorage.getItem('currentWindow')).toBeNull()
     })
@@ -444,7 +449,7 @@ describe('MobileProfileDashboardComponent', () => {
     it('should call getUserDetails when updateuser$ emits truthy value', () => {
       let subscribeCb: any
       mockUserProfileSvc.updateuser$ = { pipe: jest.fn().mockReturnThis(), subscribe: jest.fn((cb: any) => { subscribeCb = cb }) }
-      const spy = jest.spyOn(component, 'getUserDetails').mockImplementation(() => {})
+      const spy = jest.spyOn(component, 'getUserDetails').mockImplementation(() => { })
       component.ngOnInit()
       subscribeCb({ updated: true })
       expect(spy).toHaveBeenCalledTimes(2) // once from ngOnInit + once from callback
@@ -452,9 +457,9 @@ describe('MobileProfileDashboardComponent', () => {
 
     it('should call getLeaderBoardList when hasRequiredLeaderboardDetails returns true', () => {
       mockUserProfileSvc.updateuser$ = { pipe: jest.fn().mockReturnThis(), subscribe: jest.fn() }
-      jest.spyOn(component, 'getUserDetails').mockImplementation(() => {})
+      jest.spyOn(component, 'getUserDetails').mockImplementation(() => { })
       jest.spyOn(component, 'hasRequiredLeaderboardDetails').mockReturnValue(true)
-      const spy = jest.spyOn(component, 'getLeaderBoardList').mockImplementation(() => {})
+      const spy = jest.spyOn(component, 'getLeaderBoardList').mockImplementation(() => { })
       component.ngOnInit()
       expect(spy).toHaveBeenCalled()
     })
@@ -469,10 +474,11 @@ describe('MobileProfileDashboardComponent', () => {
       })
       component = new MobileProfileDashboardComponent(
         mockConfigSvc, mockRouter, mockDialog, mockUserProfileSvc, mockContentSvc,
-        mockDomSanitizer, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
+        mockSafeResourceUrlSvc, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )
+        ; (component as any).subscribeToWorkMessage()
       workCb({ type: 'work', back: true })
       expect(component.showView).toBe('')
     })
@@ -485,10 +491,11 @@ describe('MobileProfileDashboardComponent', () => {
       })
       component = new MobileProfileDashboardComponent(
         mockConfigSvc, mockRouter, mockDialog, mockUserProfileSvc, mockContentSvc,
-        mockDomSanitizer, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
+        mockSafeResourceUrlSvc, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )
+        ; (component as any).subscribeToWorkMessage()
       workCb({ type: 'onListPage' })
       expect(component.selectedIndex).toBe('')
     })
@@ -502,10 +509,11 @@ describe('MobileProfileDashboardComponent', () => {
       mockValueSvc.isMobile.mockReturnValue(true)
       component = new MobileProfileDashboardComponent(
         mockConfigSvc, mockRouter, mockDialog, mockUserProfileSvc, mockContentSvc,
-        mockDomSanitizer, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
+        mockSafeResourceUrlSvc, mockValueSvc, mockCompetencyConfigSvc, mockLanguageService,
         mockDocument, mockTelemetrySvc, mockPlylsSvc, mockSnackBar, mockCdr,
         mockLogger, mockTranslate, mockThemeService,
       )
+        ; (component as any).subscribeToWorkMessage()
       workCb({ type: 'back' })
       expect(component.selectedIndex).toBe('')
     })
@@ -523,7 +531,7 @@ describe('MobileProfileDashboardComponent', () => {
   describe('changeFunction language case', () => {
     it('should call getUserDetails for language switch', () => {
       Object.defineProperty(window, 'scroll', { writable: true, value: jest.fn() })
-      jest.spyOn(component, 'getUserDetails').mockImplementation(() => {})
+      jest.spyOn(component, 'getUserDetails').mockImplementation(() => { })
       component.changeFunction({ name: 'language', data: null, text: 'Language' })
       expect(component.getUserDetails).toHaveBeenCalled()
     })
@@ -551,6 +559,57 @@ describe('MobileProfileDashboardComponent', () => {
       const result = component.formateRequest(data)
       expect(result).toHaveLength(1)
       expect(result[0]).toMatchObject({ identifier: 'cert-1', name: 'Cert One', rcCertiface: false })
+    })
+
+    it('should prefer the course-level courseName over the certificate name', () => {
+      // courseName lives on the generalCertificates entry (course level), a sibling of
+      // issuedCertificates - not on the individual issued-certificate record.
+      const data = {
+        generalCertificates: [
+          { courseName: 'Intro to Nursing', issuedCertificates: [{ identifier: 'cert-1', name: 'Cert One' }] },
+        ],
+        sunbirdRcCertificates: [],
+      }
+      const result = component.formateRequest(data)
+      expect(result[0]).toMatchObject({ identifier: 'cert-1', name: 'Intro to Nursing', rcCertiface: false })
+    })
+
+    it('should fall back to the certificate name when the course has no courseName', () => {
+      const data = {
+        generalCertificates: [{ issuedCertificates: [{ identifier: 'cert-1', name: 'Cert One' }] }],
+        sunbirdRcCertificates: [],
+      }
+      const result = component.formateRequest(data)
+      expect(result[0].name).toBe('Cert One')
+    })
+
+    it('should resolve name independently per certificate across multiple courses', () => {
+      const data = {
+        generalCertificates: [
+          { courseName: 'Course A', issuedCertificates: [{ identifier: 'cert-1', name: 'Cert One' }] },
+          { issuedCertificates: [{ identifier: 'cert-2', name: 'Cert Two' }] },
+        ],
+        sunbirdRcCertificates: [],
+      }
+      const result = component.formateRequest(data)
+      expect(result).toHaveLength(2)
+      expect(result[0].name).toBe('Course A')
+      expect(result[1].name).toBe('Cert Two')
+    })
+
+    it('should apply each course issued certificates only to its own certificates, not across courses', () => {
+      const data = {
+        generalCertificates: [
+          { courseName: 'Course A', issuedCertificates: [{ identifier: 'cert-1', name: 'Cert One' }, { identifier: 'cert-1b', name: 'Cert One B' }] },
+          { courseName: 'Course B', issuedCertificates: [{ identifier: 'cert-2', name: 'Cert Two' }] },
+        ],
+        sunbirdRcCertificates: [],
+      }
+      const result = component.formateRequest(data)
+      expect(result).toHaveLength(3)
+      expect(result[0].name).toBe('Course A')
+      expect(result[1].name).toBe('Course A')
+      expect(result[2].name).toBe('Course B')
     })
   })
 
@@ -625,19 +684,19 @@ describe('MobileProfileDashboardComponent', () => {
     })
 
     it('eductionEdit should call navigate with education-list', () => {
-      const spy = jest.spyOn(component, 'navigate').mockImplementation(() => {})
+      const spy = jest.spyOn(component, 'navigate').mockImplementation(() => { })
       component.eductionEdit()
       expect(spy).toHaveBeenCalledWith('app/education-list')
     })
 
     it('workInfoEdit should call navigate with workinfo-list', () => {
-      const spy = jest.spyOn(component, 'navigate').mockImplementation(() => {})
+      const spy = jest.spyOn(component, 'navigate').mockImplementation(() => { })
       component.workInfoEdit()
       expect(spy).toHaveBeenCalledWith('app/workinfo-list')
     })
 
     it('personalDetailEdit should call navigate with personal-detail-edit', () => {
-      const spy = jest.spyOn(component, 'navigate').mockImplementation(() => {})
+      const spy = jest.spyOn(component, 'navigate').mockImplementation(() => { })
       component.personalDetailEdit()
       expect(spy).toHaveBeenCalledWith('app/personal-detail-edit')
     })
@@ -740,9 +799,7 @@ describe('MobileProfileDashboardComponent', () => {
       })
     })
 
-    it('should process certificate IDs and trigger finalize setTimeout and updateValue$ callback', async () => {
-      // zone.js stores a ref to native setTimeout and bypasses jest fake timers;
-      // use real timers here so the 500ms finalize delay actually fires
+    it('should process certificate IDs and trigger finalize and updateValue$ callback', async () => {
       jest.useRealTimers()
 
       const data = {
@@ -752,14 +809,15 @@ describe('MobileProfileDashboardComponent', () => {
       let updateValueCb: any
       mockContentSvc.getCertificateAPI = jest.fn().mockReturnValue(of({ result: {} }))
       mockContentSvc.updateValue$ = {
+        pipe: jest.fn().mockReturnThis(),
         subscribe: jest.fn((cb: any) => { updateValueCb = cb; return { unsubscribe: jest.fn() } }),
       }
       component.certificates = [{ identifier: 'cert-1' }]
 
       component.processCertiFicate(data).subscribe({ next: jest.fn(), error: jest.fn(), complete: jest.fn() })
 
-      // wait for the 500ms setTimeout in finalize to fire
-      await new Promise(resolve => setTimeout(resolve, 600))
+      // let the mergeMap chain and finalize() settle
+      await new Promise(resolve => setTimeout(resolve, 0))
 
       expect(mockContentSvc.updateValue$.subscribe).toHaveBeenCalled()
       if (updateValueCb) {
@@ -780,7 +838,7 @@ describe('MobileProfileDashboardComponent', () => {
         webOrderList: ['item1', 'item2', 'item3'],
         mobOrderList: [],
       }
-      mockPlylsSvc.bodyConfig = jest.fn().mockReturnValue({ accountTab: config })
+      mockPlylsSvc.sections = jest.fn().mockReturnValue({ accountTab: config })
       component.showMobileView = false
       await component.setupMenuItems()
       expect(component.menuItems.length).toBeGreaterThan(0)

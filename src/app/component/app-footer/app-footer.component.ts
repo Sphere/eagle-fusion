@@ -26,11 +26,11 @@ export class AppFooterComponent implements OnInit {
   isDark: boolean
   constructor(
     public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     private readonly router: Router,
-    private playlistSvc: PlaylistService,
-    private logger: LoggerService,
-    private themeSvc: ThemeService
+    private readonly playlistSvc: PlaylistService,
+    private readonly logger: LoggerService,
+    private readonly themeSvc: ThemeService
   ) {
     this.isLoggedIn = !!this.configSvc.userProfile
     this.termsOfUser = !this.configSvc.restrictedFeatures?.has('termsOfUser')

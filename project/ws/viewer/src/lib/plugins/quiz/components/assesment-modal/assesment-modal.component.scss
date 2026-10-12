@@ -1,4 +1,3 @@
-// @import '../../../../../../../../../src/styles/ws-mixins';
 @use 'ws-mixins';
 
 .assesment-container {
@@ -61,7 +60,7 @@
 }
 
 .congrats-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
@@ -72,7 +71,7 @@
 }
 
 .fail-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
@@ -88,7 +87,7 @@
 }
 
 .proficiceny-level {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -99,7 +98,7 @@
 }
 
 .proficiceny-level-fail {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -149,7 +148,7 @@
 }
 
 ::ng-deep .mat-tab-label-content {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -180,7 +179,10 @@
 }
 
 .result-wrapper {
-  height: calc(90vh - 210px);
+  // Was a fixed `height`, so the result panel always claimed 90vh - 210px and
+  // scrolled internally even when the score block was shorter than that. As a
+  // max-height it shrinks to the content and only scrolls when it truly overflows.
+  max-height: calc(90vh - 210px);
   overflow-y: auto;
 }
 
@@ -190,7 +192,7 @@
   width: auto !important;
   min-height: 38px !important;
   height: 40px !important;
-  color: var(--theme-accent, #1c5d95) !important;
+  color: var(--theme-primary, #1c5d95) !important;
   border: 1px solid var(--theme-accent, #1c5d95) !important;
   background: transparent;
   white-space: nowrap;
@@ -212,14 +214,6 @@
   color: var(--theme-disabled) !important;
   border-color: var(--theme-border) !important;
 }
-
-// ::ng-deep mat-mdc-progress-bar .mat-mdc-progress-bar-buffer {
-//   background: #E4E8EB !important;
-// }
-
-// ::ng-deep .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
-//   background: var(--theme-primary) !important;
-// }
 .audio-progress-bar {
   &.mat-mdc-progress-bar {
     width: 128.03px;
@@ -298,44 +292,29 @@
   color: #ffffff !important;
 }
 
+// Secondary action (Retake Assessment) — must read as clickable next to the
+// filled primary button instead of blending into the dialog background.
+.btn-highlight {
+  background: transparent !important;
+  border: 2px solid var(--theme-accent, #1c5d95) !important;
+  color: var(--theme-accent, #1c5d95) !important;
+  font-weight: 500;
+}
+
 .timer {
-  // position: relative;
-  // top: 30px;
   background: var(--theme-bg);
-  border-radius: 16.5px;
   border-radius: 16.5px;
   width: 101px;
   place-self: end;
 
   @include ws-mixins.breakpoint-xs {
-    // position: relative;
-    // left: 247px;
-    // top: 5px;
     margin-left: 0px !important;
     z-index: 9999;
     background: var(--theme-bg);
     border-radius: 16.5px;
     width: 101px;
   }
-
-  // @include breakpoint-s {
-  //   left: 218px;
-  // }
-
-  // @media only screen and (min-width: 320px) and (max-width: 380px) {
-  //   left: 209px;
-  // }
 }
-
-// @media only screen and (max-width: 599px) {
-//   .timer {
-//     position: relative;
-//     left: 19px;
-//     __<<ngThemingMigrationEscapedComment1>>__
-//     top: 82px;
-//     margin-left: 0px !important;
-//   }
-// }
 
 ::ng-deep .mat-mdc-progress-bar {
   width: 128.03px;
@@ -355,7 +334,7 @@
 }
 
 .result-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -365,7 +344,7 @@
 }
 
 .result-score {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 500 !important;
   font-size: 59px !important;
@@ -380,7 +359,7 @@
 }
 
 .result-score-title {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400 !important;
   font-size: 20px !important;
@@ -451,7 +430,7 @@
   --mat-tab-header-inactive-ripple-color: grey !important;
   font-weight: 500 !important;
   .mat-mdc-tab .mdc-tab__text-label {
-    font-family: 'Roboto' !important;
+    font-family: 'Roboto', sans-serif !important;
     font-weight: 500 !important;
   }
 }
@@ -465,7 +444,6 @@ mat-progress-bar {
 }
 .text-green-600 {
   --text-opacity: 1;
-  color: #38a169;
   color: rgba(56, 161, 105, var(--text-opacity));
 }
 .progress-summary{
@@ -550,6 +528,14 @@ mat-progress-bar {
   .btn-active {
     background: #000 !important;
     border-color: #000 !important;
+    color: #ffffff !important;
+  }
+
+  // #2E6491 is too dark to read as an outline against the dark dialog, so the
+  // secondary action gets a tinted fill and a brighter edge instead.
+  .btn-highlight {
+    background: rgba(46, 100, 145, 0.22) !important;
+    border-color: #7CB5E6 !important;
     color: #ffffff !important;
   }
 
@@ -641,7 +627,10 @@ mat-progress-bar {
 
 
 .asha-btn-home{
-  border: 1px solid var(--theme-primary);
+  // Was --theme-primary (#1c5d95 light / #E0E0E0 dark) while the filled button
+  // beside it uses --theme-accent (#2E6491) — two different blues on the same
+  // row. Both now key off the accent so the pair matches.
+  border: 1px solid var(--theme-accent);
     background-color: var(--theme-bg);
     color: var(--theme-primary);
     width: 30% !important;
@@ -653,16 +642,20 @@ mat-progress-bar {
   background-color: var(--theme-accent) !important;
   width: 30%;
   height: 35px;
-  color: var(--theme-bg) !important;
+  // --theme-bg is #ffffff in light but #303030 in dark, which left the label
+  // unreadable on the accent fill. The accent is the same colour in both
+  // themes, so the label is white in both.
+  color: #ffffff !important;
+  border: none;
   border-radius: 30px;
 }
 
 .home-icon {
-  filter: (--theme-icon-filter);
+  filter: var(--theme-icon-filter);
 }
 
 .achieved-score{
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -670,15 +663,6 @@ mat-progress-bar {
   letter-spacing: -0.02em;
   color: rgba(107, 150, 71, 1);
 }
-
-// .banner-img{
-//     position: fixed;
-//     left: 0px;
-//     right: 0px;
-//     bottom: 8px;
-//     width: 76%;
-//     margin-inline: auto;
-// }
 
 .progress-bar {
   width: 100px;

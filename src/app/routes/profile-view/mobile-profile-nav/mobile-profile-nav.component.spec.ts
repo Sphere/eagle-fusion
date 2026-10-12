@@ -70,10 +70,6 @@ describe('MobileProfileNavComponent', () => {
     expect(component.isXSmall$).toBe(mockValueSvc.isXSmall$)
   })
 
-  it('should complete ngOnInit without error', () => {
-    expect(() => component.ngOnInit()).not.toThrow()
-  })
-
   it('should open dialog on logout()', () => {
     component.logout()
     expect(mockDialog.open).toHaveBeenCalled()
@@ -82,6 +78,7 @@ describe('MobileProfileNavComponent', () => {
   it('should store backMessage url in sessionStorage', () => {
     mockContentSvc.backMessage.subscribe = jest.fn((cb: any) => cb('/page/home'))
     component = new MobileProfileNavComponent(mockDialog, mockRouter, mockContentSvc, mockLogger, mockValueSvc)
+    component.ngOnInit()
     expect(sessionStorage.getItem('clickedUrl')).toBe('/page/home')
   })
 

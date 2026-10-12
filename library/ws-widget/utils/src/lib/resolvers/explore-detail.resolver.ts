@@ -11,12 +11,12 @@ import { ConfigurationsService } from '../services/configurations.service'
   providedIn: 'root',
 })
 export class ExploreDetailResolve {
-  private baseUrl = this.configSvc.sitePath
+  private readonly baseUrl = this.configSvc.sitePath
   isIntranetAllowedSettings = false
   constructor(
-    private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private utilitySvc: UtilityService
+    private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly utilitySvc: UtilityService
   ) { }
 
   resolve(

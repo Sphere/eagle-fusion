@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core'
+import { Component, Input, ViewChild, ElementRef } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatDialog } from '@angular/material/dialog'
@@ -7,13 +7,13 @@ import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-btn-social-vote',
-    templateUrl: './btn-social-vote.component.html',
-    styleUrls: ['./btn-social-vote.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-btn-social-vote',
+  templateUrl: './btn-social-vote.component.html',
+  styleUrls: ['./btn-social-vote.component.scss'],
+
 })
-export class BtnSocialVoteComponent implements OnInit {
+export class BtnSocialVoteComponent {
   @Input() voteType: 'downVote' | 'upVote' | 'none' = 'none'
   @Input() iconType: 'thumbs' | 'triangle' = 'thumbs'
   @Input() postId = ''
@@ -26,17 +26,15 @@ export class BtnSocialVoteComponent implements OnInit {
   userId = ''
   isUpdating = false
   constructor(
-    private configSvc: ConfigurationsService,
-    private socialSvc: WsDiscussionForumService,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog,
+    private readonly configSvc: ConfigurationsService,
+    private readonly socialSvc: WsDiscussionForumService,
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
     }
   }
-
-  ngOnInit() { }
 
   upVote(invalidUserMsg: string) {
     if (this.postCreatorId === this.userId) {

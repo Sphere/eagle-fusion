@@ -1,4 +1,4 @@
-import { Component, effect, Input, OnInit } from '@angular/core'
+import { Component, effect, Input } from '@angular/core'
 import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { ThemeService } from '../../services/theme.service'
 @Component({
@@ -8,21 +8,17 @@ import { ThemeService } from '../../services/theme.service'
   styleUrls: ['./web-trusted-by-page.component.scss'],
 
 })
-export class WebTrustedByPageComponent implements OnInit {
+export class WebTrustedByPageComponent {
   @Input() config: any
   isXsmall = false
   isDark: boolean
   constructor(
-    private valueSvc: ValueService,
-    private themeSvc: ThemeService
+    private readonly valueSvc: ValueService,
+    private readonly themeSvc: ThemeService
   ) {
     effect(() => {
       this.isXsmall = this.valueSvc.isMobile() ? true : false
       this.isDark = this.themeSvc.isDark()
     })
   }
-
-  ngOnInit() {
-  }
-
 }

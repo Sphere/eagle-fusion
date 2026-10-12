@@ -18,14 +18,6 @@
         <ng-container>Do you suspect a site problem? </ng-container>
       </li>
     </ul>
-    <!-- <a
-      mat-raised-button
-      color="primary"
-      *ngIf="errorData?.mailId"
-      href="mailto:{{ errorData?.mailId }}"
-    >
-      Report the issue
-    </a> -->
     <a mat-raised-button color="primary" *ngIf="errorData?.mailId"
       [routerLink]="'/app/feedback/platform_feedback'">Report the issue</a>
   </div>

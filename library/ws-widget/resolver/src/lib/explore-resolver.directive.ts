@@ -12,9 +12,9 @@ import { ExploreResolverService } from './explore-resolver.service'
 export class ExploreResolverDirective implements OnChanges {
   @Input() wsExploreResolverWidget: NsWidgetResolver.IRenderConfigWithAnyData | null = null
   constructor(
-    private viewContainerRef: ViewContainerRef,
-    private exploreResolverSvc: ExploreResolverService,
-    private logger: LoggerService,
+    private readonly viewContainerRef: ViewContainerRef,
+    private readonly exploreResolverSvc: ExploreResolverService,
+    private readonly logger: LoggerService,
   ) { }
 
   ngOnChanges() {

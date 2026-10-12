@@ -4,11 +4,10 @@ import { trim, get, upperCase } from 'lodash'
 import moment from 'moment'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, SafeResourceUrlService } from '@ws-widget/utils'
 import { ApiService } from '@ws/author/src/public-api'
 import { CertificateService } from '../../services/certificate.service'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-// import { IImpressionEventInput,  } from '@project-sunbird/telemetry-sdk'
+import { SafeUrl } from '@angular/platform-browser'
 
 @Component({
   standalone: false,
@@ -53,15 +52,15 @@ export class CertificateDetailsComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public certificateService: CertificateService,
     public configService: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     public apiService: ApiService,
     public router: Router,
-    private cdr: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.instance = upperCase(this.configService.rootOrg || 'aastrika')
-    this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+    this.appIcon = this.safeResourceUrlSvc.trust(
       'fusion-assets/images/Sphere_Logo_4.svg',
     )
   }
@@ -75,7 +74,6 @@ export class CertificateDetailsComponent implements OnInit {
     }
     this.certificateService.validateCertificate(request).subscribe(
       (data: any) => {
-        // this.getCourseVideoUrl(get(data, 'result.response.courseId'))
         const certData = get(data, 'response.json')
         this.loader = false
         this.viewCertificate = true
@@ -124,10 +122,10 @@ export class CertificateDetailsComponent implements OnInit {
         }
       })
   }
-  public getCollectionHierarchy(identifier: string, option: any = { params: {} }): Observable<any> {
+  public getCollectionHierarchy(identifier: string, option?: any): Observable<any> {
     const req = {
       url: `${this.urls.HIERARCHY}/${identifier}`,
-      param: option.params,
+      param: option?.params ?? {},
     }
     return this.apiService.get(req.url, req.param).pipe(map((response: any) => {
       this.collectionData = response.result.content

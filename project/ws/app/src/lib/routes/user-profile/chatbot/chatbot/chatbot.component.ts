@@ -85,15 +85,17 @@ export class ChatbotComponent implements OnInit {
   userId = ''
   govtOrgMeta!: IGovtOrgMeta
 
-  constructor(private http: HttpClient,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private fb: UntypedFormBuilder,
-    private configSvc: ConfigurationsService,
-    private btnservice: BtnProfileService,
-    private UserAgentResolverService: UserAgentResolverService) {
+  constructor(private readonly http: HttpClient,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly fb: UntypedFormBuilder,
+    private readonly configSvc: ConfigurationsService,
+    private readonly btnservice: BtnProfileService,
+    private readonly UserAgentResolverService: UserAgentResolverService) {
+  }
 
+  ngOnInit() {
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {
         if (this.configSvc.userProfile) {
@@ -107,9 +109,6 @@ export class ChatbotComponent implements OnInit {
           this.registeredUserName += `${data.profileDetails.profileReq.personalDetails.surname}`
         }
       })
-  }
-
-  ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
       this.chatObj = data
       this.chatArray.push(this.chatObj.regOption.profiledetails[0])
@@ -198,26 +197,16 @@ export class ChatbotComponent implements OnInit {
     this.userProfileSvc.getMasterNationlity().subscribe(
       data => {
         this.countryCodeList = data.nationalities
-        data.nationalities.map((item: INationality) => {
+        data.nationalities.forEach((item: INationality) => {
           this.masterNationalities.push(item.name)
         })
       },
       (_err: any) => {
       })
 
-    // this.userProfileSvc.getProfilePageMeta().subscribe(
-    //   data => {
-    // this.states = data.states
-    // this.states.map((i: any) => {
-    //   this.statesArr.push(i.name)
-    // })
-    // },
-    // (_err: any) => {
-    // })
-
     this.http.get(this.stateUrl).subscribe((data: any) => {
       this.states = data.states
-      this.states.map((i: any) => {
+      this.states.forEach((i: any) => {
         this.statesArr.push(i.name)
       })
     })
@@ -254,10 +243,10 @@ export class ChatbotComponent implements OnInit {
       if (key === 'country') {
         return this.masterNationalities.filter((option: string) =>
           option.toLowerCase().includes(filterValue))
-      } if (key === 'state') {
+      } else if (key === 'state') {
         return this.statesArr.filter((option: string) =>
           option.toLowerCase().includes(filterValue))
-      } if (key === 'district') {
+      } else if (key === 'district') {
         return this.districtArr.filter((option: string) =>
           option.toLowerCase().includes(filterValue))
       }
@@ -343,52 +332,64 @@ export class ChatbotComponent implements OnInit {
   }
 
   getChatResponseCategorization(_chatFormValue: any) {
-
-    if (_chatFormValue.replymsg) {
-      if (_chatFormValue.replymsg === 'Yes, I confirm') {
+    if (!_chatFormValue.replymsg) {
+      return
+    }
+    switch (_chatFormValue.replymsg) {
+      case 'Yes, I confirm':
         this.inputMsgEnabled = false
         this.updateProfile()
-      } else if (_chatFormValue.replymsg === 'Retry') {
+        break
+      case 'Retry':
         this.inputMsgEnabled = false
         this.retryProfile()
-      } else if (_chatFormValue.replymsg === 'Yes') {
-        this.hideInputField = false
-        const typeIcon = $('#chat-output')
-        typeIcon.append(`<div class="bot-message">
-            <div class="message">
-              ${_chatFormValue.replymsg}
-              </div>
-            </div>`)
-        setTimeout(() => {
-          typeIcon.append(`
-          <div class='user-message'>
-            <div class='message'>
-              ${this.chatArray[0].title}
-            </div>
-          </div>
-        `)
-        }, 300)
-      } else if (_chatFormValue.replymsg === 'No') {
-        this.hideInputField = false
-        this.chatArray.push(this.chatObj.regOption.profiledetails[1])
-        this.chatArray.push(this.chatObj.regOption.profiledetails[2])
-
-        const name = this.registeredUserName.split(' ')
-        this.assignFields('fname', name[0])
-        if (name.length === 3) {
-          this.assignFields('middlename', name[1])
-          this.assignFields('lname', name[2])
-        } else {
-          this.assignFields('lname', name[1])
-        }
-        this.order = 2
-        this.getChatResponse(_chatFormValue)
-      } else {
+        break
+      case 'Yes':
+        this.showYesReplyMessage(_chatFormValue.replymsg)
+        break
+      case 'No':
+        this.handleNoReply(_chatFormValue)
+        break
+      default:
         this.showAddress = false
         this.getChatResponse(_chatFormValue)
-      }
     }
+  }
 
+  private showYesReplyMessage(replymsg: string): void {
+    this.hideInputField = false
+    const typeIcon = $('#chat-output')
+    typeIcon.append(`<div class="bot-message">
+        <div class="message">
+          ${replymsg}
+          </div>
+        </div>`)
+    setTimeout(() => {
+      typeIcon.append(`
+      <div class='user-message'>
+        <div class='message'>
+          ${this.chatArray[0].title}
+        </div>
+      </div>
+    `)
+    }, 300)
+  }
+
+  private handleNoReply(_chatFormValue: any): void {
+    this.hideInputField = false
+    this.chatArray.push(this.chatObj.regOption.profiledetails[1])
+    this.chatArray.push(this.chatObj.regOption.profiledetails[2])
+
+    const name = this.registeredUserName.split(' ')
+    this.assignFields('fname', name[0])
+    if (name.length === 3) {
+      this.assignFields('middlename', name[1])
+      this.assignFields('lname', name[2])
+    } else {
+      this.assignFields('lname', name[1])
+    }
+    this.order = 2
+    this.getChatResponse(_chatFormValue)
   }
 
   retryProfile() {
@@ -406,7 +407,6 @@ export class ChatbotComponent implements OnInit {
     this.fetchMeta()
     this.showConfirmedProfile = false
     this.inputMsgEnabled = false
-    // this.showConfirmedProfile = false
     this.hideInputField = true
     this.profession = ''
     this.studentInstitute = ''
@@ -441,151 +441,181 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
+  private assignFieldIfNeeded(_chatFormValue: any) {
+    if (_chatFormValue.replymsg !== 'skip' && _chatFormValue.replymsg !== 'Mother/Family member' && _chatFormValue.replymsg !== 'No') {
+      this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
+    }
+  }
+
+  private determineNextId(message: any) {
+    this.nextId = this.chatArray[this.order].action['submit']
+    if (message === 'Midwives' || message === 'ANM' || message === 'GNM' || message === 'BSC Nurse') {
+      this.nextId = 'RNNumber'
+    }
+    if (message === 'Student') {
+      this.nextId = 'coursename'
+      this.profession = 'student'
+    }
+    if (message === 'Faculty') {
+      this.nextId = 'designation'
+      this.profession = 'faculty'
+    }
+    if (this.nextId === 'institutionName') {
+      this.showOptionFields = false
+      this.inputMsgEnabled = false
+    }
+  }
+
+  private applyNextIdTransitions(_chatFormValue: any, msg: any) {
+    let message = msg
+    if (this.nextId === 'proceed') {
+      if (_chatFormValue.replymsg === 'Mother/Family member') {
+        this.getConfirmation()
+      }
+      this.nextId = _chatFormValue.replymsg
+      message = _chatFormValue.replymsg
+      this.inputMsgEnabled = true
+      this.showConfirmedProfile = true
+    }
+
+    if (this.nextId === 'dob') {
+      this.showDatePicker = true
+    }
+
+    if (this.currentId === 'dob') {
+      message = moment(message).format('DD/MM/YYYY')
+    }
+
+    if (this.nextId === 'location') {
+      this.enableInputForDropdown = true
+      this.inputMsgEnabled = true
+      this.createChatForm.value.replymsg = ''
+      this.dropdownStatus = 'country'
+      this.showConfirmedProfile = true
+      this.disableLocation = false
+    }
+
+    if (this.currentId === 'location') {
+      this.enableInputForDropdown = false
+      this.showConfirmedProfile = true
+      this.showAddress = false
+    }
+
+    return message
+  }
+
+  private handleOthersSpecify(_chatFormValue: any) {
+    $('#user-input').val('')
+    this.showConfirmedProfile = false
+    this.createChatForm.reset(this.createChatFormFields().value)
+    if (this.nextId === 'end') {
+      this.nextId = 'organizationName'
+      this.skipButton = true
+    } else {
+      this.nextId = _chatFormValue.replymsg
+    }
+    this.nextQuestions()
+    this.sendQuestion(this.currentData1)
+    this.inputMsgEnabled = false
+    this.otherbtnactive = true
+    return this.nextId
+  }
+
+  private handleMobileAutofill(_chatFormValue: any): boolean {
+    if (this.nextId !== 'mobile' || !this.configSvc.userProfile) {
+      return false
+    }
+    const mobile: any = this.configSvc.userProfile.email
+    const mobileArray: any = mobile.split('@')
+    const numbers = /^[0-9]+$/
+    if (mobileArray[0].length === 10 && mobileArray[0].match(numbers)) {
+      _chatFormValue.replymsg = mobileArray[0]
+      this.mobileLogin = true
+      this.getChatResponse(_chatFormValue)
+      return true
+    }
+    return false
+  }
+
+  private handleNonSkipResponse(_chatFormValue: any, outputArea: any, message: any) {
+    if (_chatFormValue.replymsg === 'skip') {
+      this.createChatForm.reset(this.createChatFormFields().value)
+      this.skipButton = false
+      this.nextQuestions()
+      this.sendQuestion(this.currentData1)
+      return this.nextId
+    }
+
+    this.showTypingIcon = false
+    if (!this.mobileLogin) {
+      outputArea.append(`<div class="bot-message">
+        <div class="message">
+          ${message}
+          </div>
+        </div>`)
+    }
+    setTimeout(() => {
+      this.showTypingIcon = true
+    }, 1000)
+
+    if (this.nextId === 'end' && message !== 'skip') {
+      this.order = this.order - 1
+      this.inputMsgEnabled = true
+      this.getConfirmation()
+      return undefined
+    }
+    this.nextQuestions()
+
+    $('#user-input').val('')
+    this.createChatForm.reset(this.createChatFormFields().value)
+
+    if (this.handleMobileAutofill(_chatFormValue)) {
+      return undefined
+    }
+
+    this.mobileLogin = false
+    if (this.nextId !== 'end') {
+      this.sendQuestion(this.currentData1)
+    }
+    if (this.chatArray[this.order].required) {
+      this.skipButton = false
+    } else {
+      this.skipButton = true
+      this.showConfirmedProfile = false
+    }
+    this.scrollToBottom()
+    return undefined
+  }
+
   getChatResponse(_chatFormValue: any) {
     const outputArea = $('#chat-output')
     this.otherbtnactive = false
     this.inputMsgEnabled = false
-    const v = this.validateResponse(this.chatArray[this.order], _chatFormValue.replymsg)
-    if (_chatFormValue.replymsg !== 'skip' && _chatFormValue.replymsg !== 'Mother/Family member' && _chatFormValue.replymsg !== 'No') {
-      this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
+    const isValid = this.validateResponse(this.chatArray[this.order], _chatFormValue.replymsg)
+    this.assignFieldIfNeeded(_chatFormValue)
+
+    if (!isValid) {
+      return undefined
     }
 
-    if (v) {
-      let message = _chatFormValue.replymsg
+    let message = _chatFormValue.replymsg
+    this.determineNextId(message)
+    this.currentId = this.chatArray[this.order].id
+    this.order = this.order + 1
 
-      this.nextId = this.chatArray[this.order].action['submit']
-      if (message === 'Midwives' || message === 'ANM' || message === 'GNM' || message === 'BSC Nurse') {
-        this.nextId = 'RNNumber'
-      }
-      if (message === 'Student') {
-        this.nextId = 'coursename'
-        this.profession = 'student'
-      }
-      if (message === 'Faculty') {
-        this.nextId = 'designation'
-        this.profession = 'faculty'
-      }
-      if (this.nextId === 'institutionName') {
-        this.showOptionFields = false
-        this.inputMsgEnabled = false
-      }
-      this.currentId = this.chatArray[this.order].id
+    message = this.applyNextIdTransitions(_chatFormValue, message)
 
-      this.order = this.order + 1
-
-      if (this.nextId === 'proceed') {
-        if (_chatFormValue.replymsg === 'Mother/Family member') {
-          this.getConfirmation()
-        }
-        this.nextId = _chatFormValue.replymsg
-        message = _chatFormValue.replymsg
-        this.inputMsgEnabled = true
-        this.showConfirmedProfile = true
-      }
-
-      if (this.nextId === 'dob') {
-        this.showDatePicker = true
-      }
-
-      if (this.currentId === 'dob') {
-        message = moment(message).format('DD/MM/YYYY')
-      }
-
-      if (this.nextId === 'location') {
-        this.enableInputForDropdown = true
-        this.inputMsgEnabled = true
-        this.createChatForm.value.replymsg = ''
-        this.dropdownStatus = 'country'
-        this.showConfirmedProfile = true
-        this.disableLocation = false
-      }
-
-      if (this.currentId === 'location') {
-        this.enableInputForDropdown = false
-        this.showConfirmedProfile = true
-        this.showAddress = false
-      }
-
-      if (_chatFormValue.replymsg === 'Others - Please Specify') {
-        $('#user-input').val('')
-        this.showConfirmedProfile = false
-        this.createChatForm.reset(this.createChatFormFields().value)
-        if (this.nextId === 'end') {
-          this.nextId = 'organizationName'
-          this.skipButton = true
-        } else {
-          this.nextId = _chatFormValue.replymsg
-        }
-        this.nextQuestions()
-        this.sendQuestion(this.currentData1)
-        this.inputMsgEnabled = false
-        this.otherbtnactive = true
-        return this.nextId
-      }
-
-      if (_chatFormValue.replymsg === 'skip' && this.currentId === 'organizationName') {
-        this.skipButton = false
-        this.getConfirmation()
-      } else {
-        if (_chatFormValue.replymsg === 'skip') {
-          this.createChatForm.reset(this.createChatFormFields().value)
-          this.skipButton = false
-          this.nextQuestions()
-          this.sendQuestion(this.currentData1)
-          return this.nextId
-        }
-
-        this.showTypingIcon = false
-        if (!this.mobileLogin) {
-          outputArea.append(`<div class="bot-message">
-            <div class="message">
-              ${message}
-              </div>
-            </div>`)
-        }
-        setTimeout(() => {
-          this.showTypingIcon = true
-        }, 1000)
-
-        if (this.nextId === 'end' && message !== 'skip') {
-          message = _chatFormValue.replymsg
-          this.order = this.order - 1
-          this.inputMsgEnabled = true
-          this.getConfirmation()
-          return
-        }
-        this.nextQuestions()
-
-        $('#user-input').val('')
-        this.createChatForm.reset(this.createChatFormFields().value)
-
-        if (this.nextId === 'mobile') {
-          if (this.configSvc.userProfile) {
-            const mobile: any = this.configSvc.userProfile.email
-            const mobileArray: any = mobile.split('@')
-            const numbers = /^[0-9]+$/
-            if (mobileArray[0].length === 10 && mobileArray[0].match(numbers)) {
-              _chatFormValue.replymsg = mobileArray[0]
-              this.mobileLogin = true
-              this.getChatResponse(_chatFormValue)
-              return
-            }
-          }
-        }
-        this.mobileLogin = false
-        if (this.nextId !== 'end') {
-          this.sendQuestion(this.currentData1)
-        }
-        if (this.chatArray[this.order].required) {
-          this.skipButton = false
-        } else {
-          this.skipButton = true
-          this.showConfirmedProfile = false
-        }
-        this.scrollToBottom()
-      }
+    if (_chatFormValue.replymsg === 'Others - Please Specify') {
+      return this.handleOthersSpecify(_chatFormValue)
     }
 
+    if (_chatFormValue.replymsg === 'skip' && this.currentId === 'organizationName') {
+      this.skipButton = false
+      this.getConfirmation()
+      return undefined
+    }
+
+    return this.handleNonSkipResponse(_chatFormValue, outputArea, message)
   }
 
   nextQuestions() {
@@ -620,55 +650,65 @@ export class ChatbotComponent implements OnInit {
       this.scrollToBottom()
     }, 1000)
   }
+  private validateDobResponse(obj: any, msg: any): boolean {
+    this.showDatePicker = false
+    const dobMsg = moment(msg).format('DD/MM/YYYY')
+    const d1 = moment(new Date()).format('YYYY-MM-DD')
+    const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
+
+    if (!(moment(d2).isBefore(d1)) || dobMsg.match(obj.data.regexPattern) == null) {
+      this.errMsg = obj.action.error
+      return false
+    }
+    return true
+  }
+
+  private validateStringResponse(obj: any, msg: any): boolean {
+    if (!obj.data.regex) {
+      return true
+    }
+
+    if (obj.id === 'dob') {
+      return this.validateDobResponse(obj, msg)
+    }
+
+    if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
+      this.errMsg = obj.action.error
+      return false
+    }
+    return true
+  }
+
+  private validateNumberResponse(obj: any, msg: any): boolean {
+    if (msg.length !== obj.data.length) {
+      this.errMsg = obj.action.error
+      return false
+    }
+    if (obj.data.regex) {
+      if (msg.match(obj.data.regexPattern) == null) {
+        this.errMsg = obj.action.error
+        return false
+      }
+      return true
+    }
+    if (this.errMsg) {
+      this.errMsg = ''
+      return true
+    }
+    return true
+  }
+
   validateResponse(obj: any, msg: any) {
     if (this.errMsg) {
       this.errMsg = ''
     }
     switch (obj.data.type[0]) {
-      case 'string': {
-        if (obj.data.regex) {
-          if (obj.id === 'dob') {
-            this.showDatePicker = false
-            const dobMsg = moment(msg).format('DD/MM/YYYY')
-            const d1 = moment(new Date()).format('YYYY-MM-DD')
-            const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
-            // const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1900')
-
-            if (!(moment(d2).isBefore(d1)) || dobMsg.match(obj.data.regexPattern) == null) {
-              this.errMsg = obj.action.error
-              return false
-            }
-            return true
-          }
-
-          if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
-            this.errMsg = obj.action.error
-            return false
-          }
-          return true
-
-        }
+      case 'string':
+        return this.validateStringResponse(obj, msg)
+      case 'number':
+        return this.validateNumberResponse(obj, msg)
+      default:
         return true
-      }
-      case 'number': {
-        if (msg.length !== obj.data.length) {
-          this.errMsg = obj.action.error
-          return false
-        }
-        if (obj.data.regex) {
-          if (msg.match(obj.data.regexPattern) == null) {
-            this.errMsg = obj.action.error
-            return false
-          }
-          return true
-        }
-        if (this.errMsg) {
-          this.errMsg = ''
-          return true
-        }
-        return true
-      }
-      default: return true
     }
   }
   scrollToBottom() {
@@ -692,7 +732,7 @@ export class ChatbotComponent implements OnInit {
         this.createUserForm.controls.dob.setValue(moment(value).format('DD-MM-YYYY'))
         break
       case 'mobile':
-        this.createUserForm.controls.mobile.setValue(parseInt(value, 10))
+        this.createUserForm.controls.mobile.setValue(Number.parseInt(value, 10))
         break
       case 'location':
         this.createUserForm.controls.residenceAddress.setValue(value)
@@ -857,7 +897,7 @@ export class ChatbotComponent implements OnInit {
 
   getDegree(form: any, degreeType: string): IProfileAcademics[] {
     const formatedDegrees: IProfileAcademics[] = []
-    form.value.degrees.map((degree: any) => {
+    form.value.degrees.forEach((degree: any) => {
       formatedDegrees.push({
         nameOfQualification: degree.degree,
         type: degreeType,
@@ -870,7 +910,7 @@ export class ChatbotComponent implements OnInit {
 
   getPostDegree(form: any, degreeType: string): IProfileAcademics[] {
     const formatedDegrees: IProfileAcademics[] = []
-    form.value.postDegrees.map((degree: any) => {
+    form.value.postDegrees.forEach((degree: any) => {
       formatedDegrees.push({
         nameOfQualification: degree.degree,
         type: degreeType,
@@ -987,7 +1027,6 @@ export class ChatbotComponent implements OnInit {
         this.updateBtnProfileName(profileRequest.profileReq.personalDetails.firstname)
         this.createChatForm.reset(this.createChatFormFields().value)
         this.configSvc.profileDetailsStatus = true
-        // const res = data.toString()
         this.openSnackbar('User profile details updated successfully!')
         setTimeout(() => {
           this.retryProfile()

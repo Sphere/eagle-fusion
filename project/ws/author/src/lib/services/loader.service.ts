@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core'
 export class LoaderService {
   changeLoad = new BehaviorSubject<boolean>(false)
 
-  private doubleBack = new BehaviorSubject(false)
+  private readonly doubleBack = new BehaviorSubject(false)
   currentState = this.doubleBack.asObservable()
 
   changeLoadState(state: boolean) {

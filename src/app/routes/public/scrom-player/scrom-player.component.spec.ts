@@ -17,7 +17,7 @@ import { ScromPlayerComponent } from './scrom-player.component'
 describe('ScromPlayerComponent', () => {
   let component: ScromPlayerComponent
   let mockRoute: any
-  let mockSanitizer: any
+  let mockSafeResourceUrlSvc: any
   let mockScormAdapter: any
   let mockLogger: any
 
@@ -39,8 +39,9 @@ describe('ScromPlayerComponent', () => {
       Authorization: 'Bearer token',
       userToken: 'user-tok',
     })
-    mockSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockImplementation(url => ({ safe: url })),
+    mockSafeResourceUrlSvc = {
+      trust: jest.fn().mockImplementation((url: string | undefined) =>
+        (url && /^https?:\/\//.test(url) ? { safe: url } : null)),
     }
     mockScormAdapter = {
       contentId: '',
@@ -48,7 +49,7 @@ describe('ScromPlayerComponent', () => {
       loadDataV2: jest.fn(),
     }
     mockLogger = { log: jest.fn() }
-    component = new ScromPlayerComponent(mockRoute, mockSanitizer, mockScormAdapter, mockLogger)
+    component = new ScromPlayerComponent(mockRoute, mockSafeResourceUrlSvc, mockScormAdapter, mockLogger)
   })
 
   afterEach(() => {
@@ -70,7 +71,7 @@ describe('ScromPlayerComponent', () => {
 
   it('should sanitize scormUrl and set iframeUrl on ngOnInit', () => {
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('https://example.com/scorm')
+    expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith('https://example.com/scorm')
     expect(component.iframeUrl).toEqual({ safe: 'https://example.com/scorm' })
   })
 
@@ -98,7 +99,17 @@ describe('ScromPlayerComponent', () => {
 
   it('should call createIframeUrl with sanitize', () => {
     component.createIframeUrl('https://other.com/scorm')
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('https://other.com/scorm')
+    expect(mockSafeResourceUrlSvc.trust).toHaveBeenCalledWith('https://other.com/scorm')
+  })
+
+  it('should block a javascript: scormUrl and not set iframeUrl', () => {
+    component.createIframeUrl('javascript:alert(1)')
+    expect(component.iframeUrl).toBeUndefined()
+  })
+
+  it('should block a non-string scormUrl', () => {
+    component.createIframeUrl(null)
+    expect(component.iframeUrl).toBeUndefined()
   })
 
   it('should log received messages in receiveMessage', () => {
@@ -107,7 +118,26 @@ describe('ScromPlayerComponent', () => {
     expect(mockLogger.log).toHaveBeenCalledWith('msg=>', msg)
   })
 
-  it('should not throw on ngOnDestroy', () => {
-    expect(() => component.ngOnDestroy()).not.toThrow()
+  it('should default to empty strings when query params are missing', () => {
+    const emptyRoute = makeRoute({})
+    const cmp = new ScromPlayerComponent(emptyRoute, mockSafeResourceUrlSvc, mockScormAdapter, mockLogger)
+    cmp.ngOnInit()
+    expect(mockScormAdapter.contentId).toBe('')
+    expect(mockScormAdapter.setProperties).toHaveBeenCalledWith(
+      expect.objectContaining({
+        contentId: '',
+        userId: '',
+        batchId: '',
+        courseId: '',
+        authorization: null,
+        userToken: null,
+      }),
+    )
+    expect(mockScormAdapter.loadDataV2).toHaveBeenCalledWith(
+      expect.objectContaining({
+        request: expect.objectContaining({ userId: '', batchId: '', courseId: '' }),
+      }),
+      expect.objectContaining({ Authorization: null, userToken: null }),
+    )
   })
 })

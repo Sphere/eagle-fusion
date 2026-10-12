@@ -19,7 +19,7 @@ export class BnrcmodalComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<BnrcmodalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private logger: LoggerService
+    private readonly logger: LoggerService
   ) {
     dialogRef.disableClose = true
     this.logger.log("yes here", this.data.from)

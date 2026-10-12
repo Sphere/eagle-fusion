@@ -1,4 +1,5 @@
-<div class="asha-card" [class.collapsed]="!expanded" [class.expanded]="expanded" (click)="toggleExpand()">
+<div class="asha-card" [class.collapsed]="!expanded" [class.expanded]="expanded" tabindex="0" role="button" (click)="toggleExpand()"
+  (keydown.enter)="toggleExpand()" (keydown.space)="toggleExpand(); $event.preventDefault()">
   <div class="asha-card-header">
     <div class="asha-card-title">
       <span class="asha-chip">{{ cardHeaderLabel | translate }}</span>

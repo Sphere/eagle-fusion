@@ -17,7 +17,8 @@
     </div>
     <mat-card-content>
       <div class="flex flex-middle" [title]="content.name">
-        <a (click)="raiseTelemetry(content)" class="image-section cursor-pointer">
+        <a (click)="raiseTelemetry(content)" (keydown.enter)="raiseTelemetry(content)"
+          (keydown.space)="raiseTelemetry(content); $event.preventDefault()" tabindex="0" class="image-section cursor-pointer">
           <div class="img-shimmer" *ngIf="!imgLoaded"></div>
           <img i18n-alt alt="thumbnail" class="mat-lite-background"
             [src]="content.posterImage?content.posterImage:content.appIcon" [wsUtilsDefaultThumbnail]="defaultThumbnail"
@@ -28,7 +29,9 @@
           <h1 [title]="content.name" class="margin-remove-top margin-remove-bottom flex flex-middle">
             <mat-icon *ngIf="contentProgress > 0.99" matTooltip="Completed" class="completed-icon">
               check_circle</mat-icon>
-            <a (click)="raiseTelemetry(content)" class="margin-remove-bottom text-truncate mat-title cursor-pointer">{{
+            <a (click)="raiseTelemetry(content)" (keydown.enter)="raiseTelemetry(content)"
+              (keydown.space)="raiseTelemetry(content); $event.preventDefault()" tabindex="0"
+              class="margin-remove-bottom text-truncate mat-title cursor-pointer">{{
               content.name }}</a>
           </h1>
           <span>

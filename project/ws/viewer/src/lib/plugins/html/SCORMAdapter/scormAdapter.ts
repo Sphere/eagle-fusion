@@ -23,17 +23,16 @@ export class SCORMAdapterService implements OnDestroy {
   scormData: any
   contentKey: any
   constructor(
-    private store: Storage,
-    private http: HttpClient,
+    private readonly store: Storage,
+    private readonly http: HttpClient,
     handler: HttpBackend,
-    private activatedRoute: ActivatedRoute,
-    private configSvc: ConfigurationsService,
-    //private viewerDataSvc: ViewerDataService,
-    private router: Router,
-    private contentSvc: WidgetContentService,
-    private telemetrySvc: TelemetryService,
-    private onlineIndexedDbService: IndexedDBService,
-    private logger: LoggerService
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly contentSvc: WidgetContentService,
+    private readonly telemetrySvc: TelemetryService,
+    private readonly onlineIndexedDbService: IndexedDBService,
+    private readonly logger: LoggerService
   ) {
     this.http = new HttpClient(handler)
   }
@@ -65,21 +64,6 @@ export class SCORMAdapterService implements OnDestroy {
   LMSInitialize() {
     this.store.contentKey = this.contentId
     this.loadDataV2()
-    // this.loadDataAsync().subscribe((response) => {
-    //   const data = response.result.data
-    //   const loadDatas: IScromData = {
-    //     "cmi.core.exit": data["cmi.core.exit"],
-    //     "cmi.core.lesson_status": data["cmi.core.lesson_status"],
-    //     "cmi.core.session_time": data["cmi.core.session_time"],
-    //     "cmi.suspend_data": data["cmi.suspend_data"],
-    //     Initialized: true,
-    //   }
-    //   this.store.setAll(loadDatas)
-    // }, (error) => {
-    //   if (error) {
-    //     this._setError(101)
-    //   }
-    // })
     this.store.setItem('Initialized', true)
     return true
   }
@@ -89,15 +73,6 @@ export class SCORMAdapterService implements OnDestroy {
       this._setError(301)
       return false
     }
-    // this.viewerDataSvc.scromChangeSubject.next(
-    //   {
-    //     'completed': true,
-    //     'batchId':
-    //       this.activatedRoute.snapshot.queryParamMap.get('batchId'),
-    //     'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
-    //     , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
-    //   }
-    // )
     const _return = this.LMSCommit()
     this.store.setItem('Initialized', false)
     this.store.clearAll()
@@ -183,9 +158,9 @@ export class SCORMAdapterService implements OnDestroy {
     return error[errorCode]["diagnostic"]
   }
 
-  _isInitialized() {
+  _isInitialized(): boolean {
     const initialized = this.store.getItem('Initialized')
-    return initialized
+    return Boolean(initialized)
   }
 
   _setError(errorCode: number) {
@@ -221,59 +196,44 @@ export class SCORMAdapterService implements OnDestroy {
     }
     this.http.post<NsContent.IContinueLearningData>(
       `${API_END_POINTS.SCROM_FETCH_PROGRESS}/${req.request.courseId}`, req
-    ).subscribe(
-      data => {
-        // let loadDatas: IScromData = {}
-        // tslint:disable-next-line: no-console
+    ).subscribe(data => this.handleFetchedProgressV2(data))
+  }
 
-        if (data && data.result && data.result.contentList.length) {
-          const listOfContent = data.result.contentList
-          this.logger.log(listOfContent)
-          const self = this
-          const progressDetails = listOfContent.filter((item: any) => {
-            if (item.contentId === self.contentId) {
-              return item
-            }
-          })
-          //  let loadDatas: IScromData = {}
-          this.logger.log('PD', progressDetails)
-          if (progressDetails.length > 0) {
-            const data = progressDetails[0]
-            if (data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data")) {
-              if (Object.keys(data.progressdetails).length === 1) {
-                data.progressdetails = {}
-              }
-              const loadDatas: IScromData = {
-                "cmi.core.exit": data.progressdetails["cmi.core.exit"],
-                "cmi.core.lesson_status": data.progressdetails["cmi.core.lesson_status"],
-                "cmi.core.session_time": data.progressdetails["cmi.core.session_time"],
-                "cmi.suspend_data": data.progressdetails["cmi.suspend_data"],
-                Initialized: data.progressdetails["Initialized"],
-              }
-              // this.logger.log(loadDatas)
-              this.store.setAll(loadDatas)
-            }
-          } else {
-            this.logger.log('No initial data found')
-          }
+  private handleFetchedProgressV2(data: any): void {
+    if (!(data && data.result && data.result.contentList.length)) {
+      return
+    }
+    const listOfContent = data.result.contentList
+    this.logger.log(listOfContent)
+    const self = this
+    const progressDetails = listOfContent.filter((item: any) => {
+      if (item.contentId === self.contentId) {
+        return item
+      }
+    })
+    this.logger.log('PD', progressDetails)
+    if (progressDetails.length === 0) {
+      this.logger.log('No initial data found')
+      return
+    }
+    this.applyFetchedProgressData(progressDetails[0])
+  }
 
-          //   }
-          // for (const content of data.result.contentList) {
-
-          //   if (content.contentId === this.contentId && content.progressdetails) {
-          //     const data = content.progressdetails
-          //     this.logger.log(data)
-          //     if (data.hasOwnProperty('cmi.suspend_data')) {
-          //       loadDatas["cmi.suspend_data"] = data['cmi.suspend_data']
-          //     }
-
-          //     this.logger.log('progress data',loadDatas)
-          //     this.store.setAll(loadDatas)
-          //   }
-          // }
-        }
-      },
-    )
+  private applyFetchedProgressData(data: any): void {
+    if (!(data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data"))) {
+      return
+    }
+    if (Object.keys(data.progressdetails).length === 1) {
+      data.progressdetails = {}
+    }
+    const loadDatas: IScromData = {
+      "cmi.core.exit": data.progressdetails["cmi.core.exit"],
+      "cmi.core.lesson_status": data.progressdetails["cmi.core.lesson_status"],
+      "cmi.core.session_time": data.progressdetails["cmi.core.session_time"],
+      "cmi.suspend_data": data.progressdetails["cmi.suspend_data"],
+      Initialized: data.progressdetails["Initialized"],
+    }
+    this.store.setAll(loadDatas)
   }
 
   loadData() {
@@ -285,12 +245,10 @@ export class SCORMAdapterService implements OnDestroy {
         "cmi.core.session_time": data["cmi.core.session_time"],
         "cmi.suspend_data": data["cmi.suspend_data"],
         Initialized: data["Initialized"],
-        // errors: data["errors"]
       }
       this.store.setAll(loadDatas)
     }, error => {
       if (error) {
-        // this.logger.log(error)
         this._setError(101)
       }
     })
@@ -331,7 +289,6 @@ export class SCORMAdapterService implements OnDestroy {
     }
   }
   addDataV2(postData: IScromData) {
-    let req: any
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
@@ -349,161 +306,180 @@ export class SCORMAdapterService implements OnDestroy {
     this.http.post<NsContent.IContinueLearningData>(
       `${API_END_POINTS.SCROM_FETCH_PROGRESS}/${req1.request.courseId}`, req1
     ).subscribe(
-      async data1 => {
-        this.logger.log('[SCORM] addDataV2 READ response:', data1)
+      data1 => this.handleAddDataV2Read(data1, postData),
+      error => this.handleAddDataV2ReadError(error, postData)
+    )
+  }
 
-        // Find existing content data from response (may be null for first-time access)
-        this.contentData = null
-        if (data1 && data1.result && data1.result.contentList && data1.result.contentList.length) {
-          const contentList = data1['result']['contentList']
-          this.contentData = contentList.find((obj: any) => obj.contentId === this.contentId) || null
-        }
-        this.logger.log('[SCORM] existing contentData:', this.contentData)
+  private buildProgressReq(postData: IScromData, status: number, percentage: number): any {
+    return {
+      request: {
+        userId: this.configSvc.userProfile!.userId || '',
+        contents: [
+          {
+            contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
+            batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+            status,
+            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+            progressdetails: postData,
+            completionPercentage: percentage,
+          },
+        ],
+      },
+    }
+  }
 
-        if (this.configSvc.userProfile && postData) {
-          // Determine if content is already completed (don't downgrade)
-          const alreadyCompleted = this.contentData && this.contentData.status === 2
-          const currentStatus = alreadyCompleted ? 2 : this.getStatus(postData)
-          const currentPercentage = alreadyCompleted ? 100 : this.getPercentage(postData)
+  private handleAddDataV2Read(data1: any, postData: IScromData) {
+    this.logger.log('[SCORM] addDataV2 READ response:', data1)
 
-          req = {
-            request: {
-              userId: this.configSvc.userProfile.userId || '',
-              contents: [
-                {
-                  contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
-                  batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
-                  courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                  status: currentStatus,
-                  lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                  progressdetails: postData,
-                  completionPercentage: currentPercentage,
-                },
-              ],
-            },
-          }
+    // Find existing content data from response (may be null for first-time access)
+    this.contentData = null
+    if (data1 && data1.result && data1.result.contentList && data1.result.contentList.length) {
+      const contentList = data1['result']['contentList']
+      this.contentData = contentList.find((obj: any) => obj.contentId === this.contentId) || null
+    }
+    this.logger.log('[SCORM] existing contentData:', this.contentData)
 
-          this.logger.log('[SCORM] Built update request:', req)
+    if (!(this.configSvc.userProfile && postData)) {
+      this.logger.warn('[SCORM] addDataV2 skipped: no userProfile or postData')
+      return
+    }
 
-          // Update IndexedDB cache
-          this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.activatedRoute.snapshot.queryParams.collectionId).subscribe(record => {
-            this.logger.log('[SCORM] IndexedDB record found:', record)
-            this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
-              (message: any) => {
-                this.logger.log('[SCORM] Record deleted successfully', message)
-                this.onlineIndexedDbService.insertProgressData(this.configSvc.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
-                  (dat: any) => {
-                    this.logger.log('[SCORM] Data inserted successfully (update path)', dat)
-                  },
-                  (error: any) => {
-                    this.logger.error('[SCORM] Error inserting progress data:', error)
-                  }
-                )
-              },
-              (error: any) => {
-                this.logger.error('[SCORM] Error deleting record:', error)
-              }
-            )
-          }, error => {
-            this.logger.log('[SCORM] No existing IndexedDB record, inserting fresh:', error)
-            this.onlineIndexedDbService.insertProgressData(this.configSvc.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
-              (dat: any) => {
-                this.logger.log('[SCORM] Data inserted successfully (fresh path)', dat)
-              },
-              (error2: any) => {
-                this.logger.error('[SCORM] Error inserting fresh progress data:', error2)
-              }
-            )
-          })
+    // Determine if content is already completed (don't downgrade)
+    const alreadyCompleted = this.contentData && this.contentData.status === 2
+    const currentStatus = alreadyCompleted ? 2 : this.getStatus(postData)
+    const currentPercentage = alreadyCompleted ? 100 : this.getPercentage(postData)
+    const req = this.buildProgressReq(postData, currentStatus, currentPercentage)
 
-          // Call the progress UPDATE API
-          this.logger.log('[SCORM] Calling progress UPDATE API:', API_END_POINTS.NEW_PROGRESS_UPDATE)
-          this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
-            this.logger.log('[SCORM] Progress UPDATE API success:', response)
-            if (this.scormData) {
-              const object = {
-                "id": this.contentId,
-                "type": "scorm",
-                "version": "",
-                "rollup": {
-                  "l1": this.activatedRoute.snapshot.queryParams.collectionId,
-                  "l2": this.contentId,
-                },
-              }
-              this.telemetrySvc.start('scorm', 'scorm-start', 'player', object)
-              if (this.activatedRoute.snapshot.queryParams.collectionId) {
-                const data2: any = {
-                  id: this.contentId,
-                  type: 'scrom',
-                  version: "",
-                  "rollup": {
-                    "l1": this.activatedRoute.snapshot.queryParams.collectionId,
-                    "l2": this.contentId,
-                  },
-                }
-                const extras: any = {
-                  values: [{
-                    courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-                      this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
-                    contentId: this.contentId,
-                    name: this.htmlName,
-                    moduleId: this.parent,
-                    duration: this.scormData["cmi.core.session_time"],
-                    type: 'scrom',
-                    mode: 'scrom-play',
-                  }],
-                }
-                this.telemetrySvc.end('scorm', 'scorm-close', 'player', data2, extras)
-              }
-            }
+    this.logger.log('[SCORM] Built update request:', req)
 
-            if (this.getPercentage(this.scormData) === 100) {
-              const result = await response.result
-              result["type"] = 'scorm'
-              this.contentSvc.changeMessage(result)
-              setTimeout(() => {
-                this.LMSFinish()
-              })
-            }
-          }, error => {
-            this.logger.error('[SCORM] Progress UPDATE API FAILED:', error)
-            this._setError(101)
-          })
-        } else {
-          this.logger.warn('[SCORM] addDataV2 skipped: no userProfile or postData')
-        }
+    // Update IndexedDB cache
+    this.updateIndexedDbCache(req)
+
+    // Call the progress UPDATE API
+    this.logger.log('[SCORM] Calling progress UPDATE API:', API_END_POINTS.NEW_PROGRESS_UPDATE)
+    this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(
+      (response: any) => this.handleProgressUpdateSuccess(response),
+      error => {
+        this.logger.error('[SCORM] Progress UPDATE API FAILED:', error)
+        this._setError(101)
+      }
+    )
+  }
+
+  private updateIndexedDbCache(req: any) {
+    this.onlineIndexedDbService.getRecordFromTable(
+      'userEnrollCourse', this.configSvc.userProfile!.userId, this.activatedRoute.snapshot.queryParams.collectionId
+    ).subscribe(
+      record => {
+        this.logger.log('[SCORM] IndexedDB record found:', record)
+        this.replaceIndexedDbRecord(req)
       },
       error => {
-        this.logger.error('[SCORM] addDataV2 READ API FAILED:', error)
-        // Even if READ fails, still attempt to update progress with default values
-        if (this.configSvc.userProfile && postData) {
-          req = {
-            request: {
-              userId: this.configSvc.userProfile.userId || '',
-              contents: [
-                {
-                  contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
-                  batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
-                  courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                  status: this.getStatus(postData),
-                  lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                  progressdetails: postData,
-                  completionPercentage: this.getPercentage(postData),
-                },
-              ],
-            },
-          }
-          this.logger.log('[SCORM] Attempting progress UPDATE despite READ failure:', req)
-          this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(
-            (response: any) => {
-              this.logger.log('[SCORM] Progress UPDATE API success (fallback):', response)
-            },
-            patchError => {
-              this.logger.error('[SCORM] Progress UPDATE API FAILED (fallback):', patchError)
-              this._setError(101)
-            }
-          )
-        }
+        this.logger.log('[SCORM] No existing IndexedDB record, inserting fresh:', error)
+        this.insertProgressData(req, 'fresh path')
+      }
+    )
+  }
+
+  private replaceIndexedDbRecord(req: any) {
+    this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
+      (message: any) => {
+        this.logger.log('[SCORM] Record deleted successfully', message)
+        this.insertProgressData(req, 'update path')
+      },
+      (error: any) => {
+        this.logger.error('[SCORM] Error deleting record:', error)
+      }
+    )
+  }
+
+  private insertProgressData(req: any, pathLabel: string) {
+    this.onlineIndexedDbService.insertProgressData(
+      this.configSvc.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId,
+      'userEnrollCourse', window.location.href, req.request
+    ).subscribe(
+      (dat: any) => {
+        this.logger.log(`[SCORM] Data inserted successfully (${pathLabel})`, dat)
+      },
+      (error: any) => {
+        this.logger.error('[SCORM] Error inserting progress data:', error)
+      }
+    )
+  }
+
+  private handleProgressUpdateSuccess(response: any) {
+    void (async () => {
+      this.logger.log('[SCORM] Progress UPDATE API success:', response)
+      this.sendScormTelemetry()
+
+      if (this.getPercentage(this.scormData) === 100) {
+        const result = response.result
+        result["type"] = 'scorm'
+        this.contentSvc.changeMessage(result)
+        setTimeout(() => {
+          this.LMSFinish()
+        })
+      }
+    })()
+  }
+
+  private sendScormTelemetry() {
+    if (!this.scormData) {
+      return
+    }
+    const object = {
+      "id": this.contentId,
+      "type": "scorm",
+      "version": "",
+      "rollup": {
+        "l1": this.activatedRoute.snapshot.queryParams.collectionId,
+        "l2": this.contentId,
+      },
+    }
+    this.telemetrySvc.start('scorm', 'scorm-start', 'player', object)
+    if (this.activatedRoute.snapshot.queryParams.collectionId) {
+      const data2: any = {
+        id: this.contentId,
+        type: 'scrom',
+        version: "",
+        "rollup": {
+          "l1": this.activatedRoute.snapshot.queryParams.collectionId,
+          "l2": this.contentId,
+        },
+      }
+      const extras: any = {
+        values: [{
+          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
+          contentId: this.contentId,
+          name: this.htmlName,
+          moduleId: this.parent,
+          duration: this.scormData["cmi.core.session_time"],
+          type: 'scrom',
+          mode: 'scrom-play',
+        }],
+      }
+      this.telemetrySvc.end('scorm', 'scorm-close', 'player', data2, extras)
+    }
+  }
+
+  private handleAddDataV2ReadError(error: any, postData: IScromData) {
+    this.logger.error('[SCORM] addDataV2 READ API FAILED:', error)
+    // Even if READ fails, still attempt to update progress with default values
+    if (!(this.configSvc.userProfile && postData)) {
+      return
+    }
+    const req = this.buildProgressReq(postData, this.getStatus(postData), this.getPercentage(postData))
+    this.logger.log('[SCORM] Attempting progress UPDATE despite READ failure:', req)
+    this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(
+      (response: any) => {
+        this.logger.log('[SCORM] Progress UPDATE API success (fallback):', response)
+      },
+      patchError => {
+        this.logger.error('[SCORM] Progress UPDATE API FAILED (fallback):', patchError)
+        this._setError(101)
       }
     )
   }

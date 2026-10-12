@@ -1,31 +1,29 @@
-import { Component, OnInit, Inject } from '@angular/core'
+import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-dialog-social-delete-post',
-    templateUrl: './dialog-social-delete-post.component.html',
-    styleUrls: ['./dialog-social-delete-post.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-dialog-social-delete-post',
+  templateUrl: './dialog-social-delete-post.component.html',
+  styleUrls: ['./dialog-social-delete-post.component.scss'],
+
 })
-export class DialogSocialDeletePostComponent implements OnInit {
+export class DialogSocialDeletePostComponent {
   isDeleting = false
   errorInDeleting = false
   userId = ''
   constructor(
     public dialogRef: MatDialogRef<DialogSocialDeletePostComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { postId: string },
-    private socialSvc: WsDiscussionForumService,
-    private configSvc: ConfigurationsService,
+    private readonly socialSvc: WsDiscussionForumService,
+    private readonly configSvc: ConfigurationsService,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
     }
   }
-
-  ngOnInit() { }
 
   deletePost() {
     this.isDeleting = true

@@ -10,7 +10,7 @@ import { NsContentStripMultiple } from './content-strip-multiple.model'
 export class ContentStripMultipleService {
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
   ) { }
 
   getContentStripResponseApi(request: NsContentStripMultiple.IStripRequestApi, filters?: { [key: string]: string | undefined }):

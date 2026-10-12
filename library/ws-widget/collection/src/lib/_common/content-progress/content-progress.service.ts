@@ -8,12 +8,12 @@ import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConsta
 })
 export class ContentProgressService {
 
-  private progressHashSubject: ReplaySubject<{ [id: string]: number }> = new ReplaySubject(1)
+  private readonly progressHashSubject: ReplaySubject<{ [id: string]: number }> = new ReplaySubject(1)
   private progressHash: { [id: string]: number } | null = null
   private isFetchingProgress = false
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
   ) { }
 
   getProgressFor(id: string): Observable<number> {

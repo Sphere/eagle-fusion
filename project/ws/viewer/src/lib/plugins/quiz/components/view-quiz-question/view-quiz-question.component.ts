@@ -1,18 +1,19 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
+import { SafeResourceUrlService } from '@ws-widget/utils'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import { isUndefined, toLower } from 'lodash'
+import { isUndefined, toLower } from 'lodash-es'
 
 @Component({
-    standalone: false,
-    selector: 'viewer-view-quiz-question',
-    templateUrl: './view-quiz-question.component.html',
-    styleUrls: ['./view-quiz-question.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-view-quiz-question',
+  templateUrl: './view-quiz-question.component.html',
+  styleUrls: ['./view-quiz-question.component.scss'],
+
 })
 export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -43,8 +44,8 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']
   public unsubscribe = new Subject<void>()
   constructor(
-    private domSanitizer: DomSanitizer,
-    private elementRef: ElementRef,
+    private readonly domSanitizer: SafeResourceUrlService,
+    private readonly elementRef: ElementRef,
     public quizService: QuizService) {
 
   }
@@ -79,52 +80,61 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   ngOnInit() {
     this.resolveQuestionImages()
     if (this.question.questionType === 'fitb') {
-      const iterationNumber = (this.question.question.match(/<input/g) || []).length
-      for (let i = 0; i < iterationNumber; i += 1) {
-        this.question.question = this.question.question.replace('<input', 'idMarkerForReplacement')
-        this.correctOption.push(false)
-        this.unTouchedBlank.push(true)
-      }
-      for (let i = 0; i < iterationNumber; i += 1) {
-        this.question.question = this.question.question.replace(
-          'idMarkerForReplacement',
-          `<input matInput style="border-style: none none solid none;
-          border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
-        )
-      }
-      this.safeQuestion = this.domSanitizer.bypassSecurityTrustHtml(this.question.question)
+      this.setupFitbQuestionHtml()
     }
     if (this.question.questionType === 'mtf') {
-      this.question.options.map(option => (option.matchForView = option.match))
-      const array = this.question.options.map(elem => elem.match)
-      const arr = this.shuffle(array)
-      for (let i = 0; i < this.question.options.length; i += 1) {
-        this.question.options[i].matchForView = arr[i]
-      }
-      const matchHintDisplayLocal = [...this.question.options]
-      matchHintDisplayLocal.forEach(element => {
-        if (element.hint) {
-          this.matchHintDisplay.push(element)
-        }
-      })
+      this.setupMtfQuestionOptions()
     }
+    this.subscribeToMtfUpdates()
+  }
+
+  private setupFitbQuestionHtml(): void {
+    const iterationNumber = (this.question.question.match(/<input/g) || []).length
+    for (let i = 0; i < iterationNumber; i += 1) {
+      this.question.question = this.question.question.replace('<input', 'idMarkerForReplacement')
+      this.correctOption.push(false)
+      this.unTouchedBlank.push(true)
+    }
+    for (let i = 0; i < iterationNumber; i += 1) {
+      this.question.question = this.question.question.replace(
+        'idMarkerForReplacement',
+        `<input matInput style="border-style: none none solid none;
+        border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
+      )
+    }
+    this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
+  }
+
+  private setupMtfQuestionOptions(): void {
+    this.question.options.forEach(option => (option.matchForView = option.match))
+    const array = this.question.options.map(elem => elem.match)
+    const arr = this.shuffle(array)
+    for (let i = 0; i < this.question.options.length; i += 1) {
+      this.question.options[i].matchForView = arr[i]
+    }
+    const matchHintDisplayLocal = [...this.question.options]
+    matchHintDisplayLocal.forEach(element => {
+      if (element.hint) {
+        this.matchHintDisplay.push(element)
+      }
+    })
+  }
+
+  private subscribeToMtfUpdates(): void {
     this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe(
       // tslint:disable-next-line:no-shadowed-variable
       (res: any) => {
-        if (!isUndefined(res)) {
-          if (res) {
-            this.initJsPlump()
-
-          } else {
-
-            if (this.jsPlumbInstance) {
-              this.jsPlumbInstance.reset()
-              this.jsPlumbInstance.deleteEveryConnection()
-            }
-
-          }
+        if (isUndefined(res)) {
+          return
         }
-
+        if (res) {
+          this.initJsPlump()
+          return
+        }
+        if (this.jsPlumbInstance) {
+          this.jsPlumbInstance.reset()
+          this.jsPlumbInstance.deleteEveryConnection()
+        }
       })
   }
   initFitb() {
@@ -142,7 +152,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
           border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
         )
       }
-      this.safeQuestion = this.domSanitizer.bypassSecurityTrustHtml(this.question.question)
+      this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
       for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
         this.elementRef.nativeElement
           .querySelector(`#${this.question.questionId}${i}`)
@@ -370,7 +380,6 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
       element.setPaintStyle({
         stroke: 'rgba(0,0,0,0.5)',
       })
-      // this.setBorderColor(element, '')
     })
   }
 
@@ -404,32 +413,41 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.deleteEveryConnection()
       for (let i = 1; i <= this.question.options.length; i += 1) {
-        const questionSelector = `#c1${this.question.questionId}${i}`
-        for (let j = 1; j <= this.question.options.length; j += 1) {
-          const answerSelector = `#c2${this.question.questionId}${j}`
-          const options = this.question.options[i - 1]
-          if (options) {
-            const match = options.match
-            const selectors: HTMLElement[] = this.jsPlumbInstance.getSelector(answerSelector) as unknown as HTMLElement[]
-            if (match && match.trim() === selectors[0].innerText.trim()) {
-              const endpoint = `[
-                'Dot',
-                {
-                  radius: 5
-                }
-              ]`
-              this.jsPlumbInstance.connect({
-                endpoint,
-                source: this.jsPlumbInstance.getSelector(questionSelector) as unknown as Element,
-                target: this.jsPlumbInstance.getSelector(answerSelector) as unknown as Element,
-                anchors: ['Right', 'Left', 'Top'],
-              })
-            }
-          }
-        }
+        this.connectMatchingAnswers(i)
       }
       this.changeColor()
     }
+  }
+
+  private connectMatchingAnswers(i: number) {
+    const questionSelector = `#c1${this.question.questionId}${i}`
+    const options = this.question.options[i - 1]
+    if (!options) {
+      return
+    }
+    for (let j = 1; j <= this.question.options.length; j += 1) {
+      const answerSelector = `#c2${this.question.questionId}${j}`
+      this.connectIfMatching(questionSelector, answerSelector, options.match)
+    }
+  }
+
+  private connectIfMatching(questionSelector: string, answerSelector: string, match: string | undefined) {
+    const selectors: HTMLElement[] = this.jsPlumbInstance.getSelector(answerSelector) as unknown as HTMLElement[]
+    if (!match || match.trim() !== selectors[0].innerText.trim()) {
+      return
+    }
+    const endpoint = `[
+      'Dot',
+      {
+        radius: 5
+      }
+    ]`
+    this.jsPlumbInstance.connect({
+      endpoint,
+      source: this.jsPlumbInstance.getSelector(questionSelector) as unknown as Element,
+      target: this.jsPlumbInstance.getSelector(answerSelector) as unknown as Element,
+      anchors: ['Right', 'Left', 'Top'],
+    })
   }
 
   functionChangeBlankBorder() {

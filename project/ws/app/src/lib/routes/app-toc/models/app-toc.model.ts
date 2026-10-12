@@ -74,46 +74,13 @@ export namespace NsCohorts {
     phone_No: string
     city: string
     userLocation?: string
-    // below for UI only
-    // mailContent?: ISendMailMeta;
   }
-
-  // export interface ISendMailMeta {
-  //   firstName?: string;
-  //   lastName?: string;
-  //   email: string;
-  // }
-
-  // export interface ICohortsUserData {
-  //   first_name: string
-  //   last_name: string
-  // }
 
   export interface ICohortsGroupUsers {
     first_name: string
     last_name: string
     wid: string
     email: string
-    // for ui only
     name: string
   }
-  // export interface ICohortsActiveUsers {
-  //   cohorts_users: ICohortsContent[];
-  // }
-  // export interface ICohortsSMEs {
-  //   sme_user: ICohortsContent[];
-  // }
-  // export interface ICohorts {
-  //   type: string;
-  //   name: string;
-  //   contents: ICohortsContent[];
-  // }
 }
-
-// export namespace NsRelatedResource {
-
-//   export interface IRelatedResouce {
-//     contentId: string
-//     ContentType: string
-//   }
-// }

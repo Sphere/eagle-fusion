@@ -22,7 +22,8 @@
       <h2 class="mat-title margin-top-s text-center">{{"Questions" | translate}}</h2>
       <div class="flex flex-wrapped margin-right-s margin-left-s">
         <div class="col" *ngFor="let question of quizJson?.questions; let i = index">
-          <div (click)="scroll(i + 1)" [ngClass]="{
+          <div (click)="scroll(i + 1)" tabindex="0" role="button" (keydown.enter)="scroll(i + 1)"
+            (keydown.space)="scroll(i + 1); $event.preventDefault()" [ngClass]="{
               'marked-question': isQuestionMarked(question?.questionId),
               'attempted-question':
                 !isQuestionMarked(question?.questionId) &&

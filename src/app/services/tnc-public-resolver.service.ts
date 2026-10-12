@@ -12,9 +12,9 @@ import { API_END_POINTS } from '../constants/apiConstants'
 export class TncPublicResolverService {
 
   constructor(
-    private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private langSvc: LanguageService
+    private readonly http: HttpClient,
+    private readonly configSvc: ConfigurationsService,
+    private readonly langSvc: LanguageService
   ) { }
 
   resolve(): Observable<IResolveResponse<NsTnc.ITnc>> {

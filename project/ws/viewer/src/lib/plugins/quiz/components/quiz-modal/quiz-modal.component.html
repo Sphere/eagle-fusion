@@ -1,6 +1,7 @@
 <div class="position-relative">
   <ng-container *ngIf="(isXSmall$ | async) === true">
-    <div [ngClass]="{'arrow-back': tabIndex ==0, 'result-arrow-back' : tabIndex === 1 }" (click)="closePopup()"
+    <div [ngClass]="{'arrow-back': tabIndex ==0, 'result-arrow-back' : tabIndex === 1 }" tabindex="0" role="button"
+      (click)="closePopup()" (keydown.enter)="closePopup()" (keydown.space)="closePopup(); $event.preventDefault()"
       *ngIf="(isXSmall$ | async) === true">
       <mat-icon>keyboard_arrow_left</mat-icon>
     </div>

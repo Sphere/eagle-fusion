@@ -2,9 +2,9 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute, Router } from '@angular/router'
-import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe'
-import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, SafeResourceUrlService, ValueService } from '@ws-widget/utils'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
     standalone: false,
@@ -29,41 +29,27 @@ export class HtmlComponent implements OnInit, OnChanges {
   isLtMedium = false
   isScormContent = false
   isRestricted = false
-  // prevResourceUrl: string | null = null
-  // nextResourceUrl: string | null = null
   currentCompletionPercentage: number | null = null
   collectionType: any
   viewerDataServiceSubscription: any
-  // prevTitle: string | null | undefined
-  // nextTitle: string | null | undefined
   collectionIdentifier: any
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private domSanitizer: DomSanitizer,
-    // private contentSvc: WidgetContentService,
-    private pipeLimitTo: PipeLimitToPipe,
-    private valueSvc: ValueService,
-    private configSvc: ConfigurationsService,
-    private viewerDataSvc: PlayerStateService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly pipeLimitTo: PipeLimitToPipe,
+    private readonly valueSvc: ValueService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly viewerDataSvc: PlayerStateService,
     public router: Router
 
   ) {
 
   }
-  // async setcookies() {
-  //   if (this.htmlData && this.htmlData.artifactUrl && (this.htmlData.artifactUrl.indexOf('/content-store/') > -1)) {
-  //     return await this.contentSvc.setS3Cookie(this.htmlData.identifier || '').toPromise()
-  //   }
-  // }
   ngOnInit() {
-    // this.setcookies().then(() => {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
-      // this.prevTitle = data.previousTitle
-      // this.nextTitle = data.nextResTitlenavigatetoOverview
-      // this.prevResourceUrl = data.prevResourceprevTitle
       this.currentCompletionPercentage = data.currentCompletionPercentage
     })
     if (this.configSvc.restrictedFeatures) {
@@ -73,9 +59,6 @@ export class HtmlComponent implements OnInit, OnChanges {
     this.valueSvc.isLtMedium$.subscribe(isLtMd => {
       this.isLtMedium = isLtMd
     })
-    // }).catch((ex) => {
-    //   this.logger.warn("Please refresh Page", ex)
-    // })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
     this.isProgressCheck()
@@ -90,13 +73,13 @@ export class HtmlComponent implements OnInit, OnChanges {
           this.isScormContent = false
         }
         if (this.htmlData && this.htmlData.learningObjective) {
-          this.learningObjective = this.domSanitizer.bypassSecurityTrustHtml(
+          this.learningObjective = this.safeResourceUrlSvc.trustHtml(
             this.htmlData.learningObjective,
           )
         }
         if (this.htmlData && this.htmlData.description) {
           const description = this.pipeLimitTo.transform(this.htmlData.description, 450)
-          this.description = this.domSanitizer.bypassSecurityTrustHtml(description)
+          this.description = this.safeResourceUrlSvc.trustHtml(description)
         }
 
       }
@@ -110,13 +93,4 @@ export class HtmlComponent implements OnInit, OnChanges {
     }
     return true
   }
-  // stopPropagation() {
-  //   return
-  // }
-
-  // navigatetoOverview() {
-  //   if (!this.nextResourceUrl) {
-  //     this.router.navigate([`/app/toc/${this.collectionIdentifier}/overview`])
-  //   }
-  // }
 }

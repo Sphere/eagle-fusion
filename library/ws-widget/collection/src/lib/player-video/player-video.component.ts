@@ -54,7 +54,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   AfterViewInit,
   OnDestroy,
   NsWidgetResolver.IWidgetData<IWidgetsPlayerMediaData> {
-  @Input() widgetData!: any
+  @Input() widgetData!: IWidgetsPlayerMediaData
   @ViewChild('videoTag', { static: false }) videoTag!: ElementRef<HTMLVideoElement>
   @ViewChild('realvideoTag', { static: false }) realvideoTag!: ElementRef<HTMLVideoElement>
   private player: videoJs.Player | null = null
@@ -93,26 +93,19 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   popupTriggered = false
   isResumeStarted = false
   constructor(
-    private eventSvc: EventService,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private activatedRoute: ActivatedRoute,
-    private configSvc: ConfigurationsService,
-    private telemetrySvc: TelemetryService,
-    public viewerDataSvc: ViewerDataService,
+    private readonly eventSvc: EventService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly configSvc: ConfigurationsService,
+    private readonly telemetrySvc: TelemetryService,
+    public readonly viewerDataSvc: ViewerDataService,
     private readonly dialog: MatDialog,
     private readonly valueSvc: ValueService,
-    private logger: LoggerService,
-    private plylsSvc: PlaylistService
+    private readonly logger: LoggerService,
+    private readonly plylsSvc: PlaylistService
   ) {
     super()
-    // this.logger.log(window.innerWidth)
-    // if (window.innerWidth < 768) {
-    //   screen.orientation.lock('landscape');
-    //   //this.isMobileResolution = true;
-    // } else {
-    //   //this.isMobileResolution = false;
-    // }
   }
 
   ngOnInit() { this.logger.log("videoDatas", this.widgetData, this.contentData) }
@@ -120,8 +113,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
   ngAfterViewInit(): void {
     this.getCurrentTime().then(() => {
-      // this.logger.log("Initial resume point:", this.widgetData.resumePoint)
-
       this.widgetData = {
         ...this.widgetData,
       }
@@ -173,7 +164,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         const currentVal = Array.isArray(contentData.progressdetails.current)
           ? contentData.progressdetails.current[0]
           : contentData.progressdetails.current
-        this.widgetData.resumePoint = parseFloat(currentVal) || 0
+        this.widgetData.resumePoint = Number.parseFloat(currentVal) || 0
         this.logger.log("Updated resume point:", this.widgetData.resumePoint)
       }
     }
@@ -192,7 +183,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
    * Set up video question milestone listeners on an existing videojs player.
    * Separated from addTimeUpdateListener to avoid double-initializing the player.
    */
-  setupVideoQuestionListeners(player: any): void {
+  setupVideoQuestionListeners(player: videoJs.Player): void {
     const videoId = player.id() || 'default'
     this.videoStates[videoId] = {
       popupTriggered: new Set<number>(), // Track triggered milestones
@@ -242,20 +233,20 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     })
   }
 
-  openFullscreen(player: any): void {
+  openFullscreen(player: videoJs.Player): void {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall)
         if (player.requestFullscreen) {
           player.requestFullscreen()
-        } else if (player.webkitRequestFullscreen) { // Safari
-          player.webkitRequestFullscreen()
-        } else if ((player).msRequestFullscreen) { // IE/Edge
-          player.msRequestFullscreen()
+        } else if ((player as any).webkitRequestFullscreen) { // Safari
+          (player as any).webkitRequestFullscreen()
+        } else if ((player as any).msRequestFullscreen) { // IE/Edge
+          (player as any).msRequestFullscreen()
         }
     })
 
   }
-  openPopup(questions: any, videoElement: any, intervalId: Subscription): void {
+  openPopup(questions: any, videoElement: videoJs.Player, intervalId: Subscription): void {
     const confirmdialog = this.dialog.open(PlayerVideoPopupComponent, {
       width: '600px',
       data: { questions },
@@ -289,44 +280,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    // const saveCLearning: saveContinueLearningFunction = data => {
-    //   if (this.widgetData.identifier) {
-    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-    //         resourceId: data.resourceId,
-    //         contextType: 'playlist',
-    //         dateAccessed: Date.now(),
-    //         data: JSON.stringify({
-    //           progress: data.progress,
-    //           timestamp: Date.now(),
-    //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-    //         }),
-    //       }
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     } else {
-    //       const continueLearningData = {
-    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-    //         ...data,
-    //         // resourceId: data.resourceId,
-    //         // dateAccessed: Date.now(),
-    //         // data: data.data,
-    //       }
-    //       // JSON.stringify({
-    //       //   progress: data.progress,
-    //       //   timestamp: Date.now(),
-    //       // }),
-    //       this.contentSvc
-    //         .saveContinueLearning(continueLearningData)
-    //         .toPromise()
-    //         .catch()
-    //     }
-    //   }
-    // }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
@@ -355,7 +308,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     this.dispose = videoInitializer(
       this.realvideoTag.nativeElement,
       dispatcher,
-      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,
@@ -363,6 +315,75 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       this.widgetData,
       this.widgetData.mimeType,
     ).dispose
+  }
+
+  private async processVideoProgressUpdate(identifier: string, data: any, batchId: any, collectionId: any): Promise<void> {
+    try {
+      // Reset tracking state when navigating to a new video in a reused component instance
+      if (this.lastProgressIdentifier !== null && this.lastProgressIdentifier !== identifier) {
+        this.lastSentProgressPercentage = -1
+        this.contentHistoryResponse = null
+      }
+      this.lastProgressIdentifier = identifier
+
+      // Ensure we have contentHistoryResponse - fetch if needed
+      if (!this.contentHistoryResponse || !this.contentHistoryResponse.contentList || this.contentHistoryResponse.contentList.length === 0) {
+        await this.fetchAndCacheContentHistory(identifier, batchId, collectionId)
+      }
+
+      // **CRITICAL**: If resource is already 100% complete, don't send lower percentages on replay
+      // Initialize lastSentProgressPercentage from cached completion if it's 100%
+      if (this.lastSentProgressPercentage === -1 && this.contentHistoryResponse) {
+        const cachedItem = this.contentHistoryResponse.contentList.find((item: any) => item.contentId === identifier)
+        if (cachedItem && cachedItem.completionPercentage === 100) {
+          // Already marked complete - set tracking to 100 to prevent sending lower percentages
+          this.lastSentProgressPercentage = 100
+          this.logger.log('Resource already 100% complete, skipping progress updates for replay', { identifier })
+          return
+        }
+      }
+
+      // Calculate progress percentage
+      const temp = data.current
+      const latest = Number.parseFloat(temp[temp.length - 1] ?? '0')
+      const percentMilis = (latest / data.max_size) * 100
+      let percent = Number.parseFloat(percentMilis.toFixed(2))
+
+      // **CRITICAL: Force 100% for video near completion to ensure full green tick**
+      // Use 95% threshold to catch values like 97.9% that are essentially complete
+      if (percent >= 95) {
+        percent = 100
+        data.current = data.max_size
+      }
+
+      // Prevent duplicate updates (only skip if exact same percentage sent)
+      if (percent === this.lastSentProgressPercentage) {
+        this.logger.log('Exact same progress, skipping duplicate', { percent })
+        return
+      }
+
+      // Prevent backwards progress
+      if (percent < this.lastSentProgressPercentage) {
+        this.logger.log('Progress decreased, skipping', { percent, lastSent: this.lastSentProgressPercentage })
+        return
+      }
+
+      // Send update for every 5% milestone (5, 10, 15, 20... 100)
+      const currentMilestone = Math.floor(percent / 5) * 5
+      const lastMilestone = Math.floor(this.lastSentProgressPercentage / 5) * 5
+
+      // Check if we've reached a new 5% milestone
+      const isNewMilestone = currentMilestone > lastMilestone
+      const isCompletion = percent === 100
+      const isFirstProgress = this.lastSentProgressPercentage === -1 && percent > 0
+
+      if (isNewMilestone || isCompletion || isFirstProgress) {
+        this.logger.log('Sending progress update at milestone', { percent, milestone: currentMilestone, isNewMilestone, isCompletion, isFirstProgress })
+        await this.updateVideoProgress(identifier, data, percent, collectionId, batchId)
+      }
+    } catch (error) {
+      this.logger.error('Error in fireRProgress:', error)
+    }
   }
 
   private initializePlayer() {
@@ -381,113 +402,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    // const saveCLearning: saveContinueLearningFunction = data => {
-    //   if (this.widgetData.identifier && data) {
-    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
-    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-    //       // const continueLearningData = {
-    //       //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-    //       //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-    //       //   resourceId: data.resourceId,
-    //       //   contextType: 'playlist',
-    //       //   dateAccessed: Date.now(),
-    //       //   data: JSON.stringify({
-    //       //     progress: data.progress,
-    //       //     timestamp: Date.now(),
-    //       //     contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-    //       //   }),
-    //       // }
-    //       // this.contentSvc
-    //       //   .saveContinueLearning(continueLearningData)
-    //       //   .toPromise()
-    //       //   .catch()
-    //     } else {
-    //       // const continueLearningData = {
-    //       //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-    //       //     ? this.activatedRoute.snapshot.queryParams.collectionId
-    //       //     : this.widgetData.identifier,
-    //       //   ...data,
-    //       //   // resourceId: data.resourceId,
-    //       //   // dateAccessed: Date.now(),
-    //       //   // data: JSON.stringify({
-    //       //   //   progress: data.progress,
-    //       //   //   timestamp: Date.now(),
-    //       //   // }),
-    //       // }
-    //       // this.contentSvc
-    //       //   .saveContinueLearning(continueLearningData)
-    //       //   .toPromise()
-    //       //   .catch()
-    //     }
-    //   }
-    // }
-    const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
-      try {
-        // Reset tracking state when navigating to a new video in a reused component instance
-        if (this.lastProgressIdentifier !== null && this.lastProgressIdentifier !== identifier) {
-          this.lastSentProgressPercentage = -1
-          this.contentHistoryResponse = null
-        }
-        this.lastProgressIdentifier = identifier
-
-        // Ensure we have contentHistoryResponse - fetch if needed
-        if (!this.contentHistoryResponse || !this.contentHistoryResponse.contentList || this.contentHistoryResponse.contentList.length === 0) {
-          await this.fetchAndCacheContentHistory(identifier, batchId, collectionId)
-        }
-
-        // **CRITICAL**: If resource is already 100% complete, don't send lower percentages on replay
-        // Initialize lastSentProgressPercentage from cached completion if it's 100%
-        if (this.lastSentProgressPercentage === -1 && this.contentHistoryResponse) {
-          const cachedItem = this.contentHistoryResponse.contentList.find((item: any) => item.contentId === identifier)
-          if (cachedItem && cachedItem.completionPercentage === 100) {
-            // Already marked complete - set tracking to 100 to prevent sending lower percentages
-            this.lastSentProgressPercentage = 100
-            this.logger.log('Resource already 100% complete, skipping progress updates for replay', { identifier })
-            return
-          }
-        }
-
-        // Calculate progress percentage
-        const temp = data.current
-        const latest = parseFloat(temp[temp.length - 1] ?? '0')
-        const percentMilis = (latest / data.max_size) * 100
-        let percent = parseFloat(percentMilis.toFixed(2))
-
-        // **CRITICAL: Force 100% for video near completion to ensure full green tick**
-        // Use 95% threshold to catch values like 97.9% that are essentially complete
-        if (percent >= 95) {
-          percent = 100
-          data.current = data.max_size
-        }
-
-        // Prevent duplicate updates (only skip if exact same percentage sent)
-        if (percent === this.lastSentProgressPercentage) {
-          this.logger.log('Exact same progress, skipping duplicate', { percent })
-          return
-        }
-
-        // Prevent backwards progress
-        if (percent < this.lastSentProgressPercentage) {
-          this.logger.log('Progress decreased, skipping', { percent, lastSent: this.lastSentProgressPercentage })
-          return
-        }
-
-        // Send update for every 5% milestone (5, 10, 15, 20... 100)
-        const currentMilestone = Math.floor(percent / 5) * 5
-        const lastMilestone = Math.floor(this.lastSentProgressPercentage / 5) * 5
-
-        // Check if we've reached a new 5% milestone
-        const isNewMilestone = currentMilestone > lastMilestone
-        const isCompletion = percent === 100
-        const isFirstProgress = this.lastSentProgressPercentage === -1 && percent > 0
-
-        if (isNewMilestone || isCompletion || isFirstProgress) {
-          this.logger.log('Sending progress update at milestone', { percent, milestone: currentMilestone, isNewMilestone, isCompletion, isFirstProgress })
-          await this.updateVideoProgress(identifier, data, percent, collectionId, batchId)
-        }
-      } catch (error) {
-        this.logger.error('Error in fireRProgress:', error)
-      }
+    const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
+      void this.processVideoProgressUpdate(identifier, data, batchId, collectionId)
     }
 
     let enableTelemetry = false
@@ -504,7 +420,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         autoplay: this.widgetData.autoplay ?? false,
       },
       dispatcher,
-      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,
@@ -722,7 +637,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   /**
    * Update video progress and send message to TOC
    */
-  private async updateVideoProgress(identifier: string, data: any, percent: number, collectionId: string, batchId: string | undefined): Promise<void> {
+  private async updateVideoProgress(identifier: string, data: Record<string, unknown>, percent: number, collectionId: string, batchId: string | undefined): Promise<void> {
     try {
       // **CRITICAL**: Determine status based on completion percentage
       // Status: 0 = not started, 1 = in progress, 2 = completed
@@ -737,9 +652,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
 
       this.viewerSvc.realTimeProgressUpdateV3(identifier, dataWithCompletion, collectionId, batchId).subscribe(
-        async (response: any) => {
+        (response: any) => {
+          void (async () => {
           try {
-            this.logger.log('Video progress update successful:', { identifier, percent, status, calcPercent: (data.current / data.max_size * 100).toFixed(2) })
+            this.logger.log('Video progress update successful:', { identifier, percent, status, calcPercent: ((data.current as number) / (data.max_size as number) * 100).toFixed(2) })
             this.logger.log("message passed", response)
             // Priority 1: Use cached contentHistoryResponse if available (most reliable)
             if (this.contentHistoryResponse && this.contentHistoryResponse.contentList && this.contentHistoryResponse.contentList.length > 0) {
@@ -828,6 +744,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             // Even on error, ensure lastSentProgressPercentage is updated to prevent loop
             this.lastSentProgressPercentage = percent
           }
+          })()
         },
         error => {
           this.logger.error('Error updating video progress API call:', error)

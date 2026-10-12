@@ -70,7 +70,8 @@
       </div>
     </ng-container>
     <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
-      <div class="ml-2 text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
+      <div class="ml-2 text-truncate cursor-pointer 1" tabindex="0" role="button" (click)="viewChildren = !viewChildren"
+        (keydown.enter)="viewChildren = !viewChildren" (keydown.space)="viewChildren = !viewChildren; $event.preventDefault()">
         <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock">
           <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams"
             (click)="setConfirmDialogStatus(content?.completionPercentage)">

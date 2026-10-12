@@ -1,7 +1,11 @@
 <div class="custom-header">
-  <img src="fusion-assets/icons/back-arrow.png" class="icon" (click)="closeLeaderboard()" alt="Back" />
+  <button type="button" style="all: unset; display: contents; cursor: pointer;" aria-label="Back"
+    (click)="closeLeaderboard()">
+    <img src="fusion-assets/icons/back-arrow.png" class="icon" alt="" />
+  </button>
   <div class="title">{{'LEADERBOARD' | translate}}</div>
-  <mat-icon class="info-icon" (click)="openInfoPopup()">info</mat-icon>
+  <mat-icon class="info-icon" tabindex="0" role="button" (click)="openInfoPopup()" (keydown.enter)="openInfoPopup()"
+    (keydown.space)="openInfoPopup(); $event.preventDefault()">info</mat-icon>
 </div>
 
 <div class="leaderboard-content">

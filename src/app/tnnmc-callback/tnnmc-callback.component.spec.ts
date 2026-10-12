@@ -23,6 +23,7 @@ describe('TnnmcCallbackComponent', () => {
   let mockDialog: any
   let mockRouter: any
   let mockLogger: any
+  let originalLocation: Location
 
   beforeEach(() => {
     mockOrgService = {
@@ -39,12 +40,16 @@ describe('TnnmcCallbackComponent', () => {
     )
     sessionStorage.clear()
     localStorage.clear()
+    originalLocation = window.location
+    delete (window as any).location
+    ;(window as any).location = { href: '' }
   })
 
   afterEach(() => {
     sessionStorage.clear()
     localStorage.clear()
     jest.clearAllMocks()
+    ;(window as any).location = originalLocation
   })
 
   it('should create', () => {

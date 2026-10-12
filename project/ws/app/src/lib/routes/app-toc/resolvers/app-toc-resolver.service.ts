@@ -52,9 +52,9 @@ const ADDITIONAL_FIELDS_IN_CONTENT = [
 export class AppTocResolverService
    {
   constructor(
-    private contentSvc: WidgetContentService,
-    private routePipe: PipeContentRoutePipe,
-    private router: Router,
+    private readonly contentSvc: WidgetContentService,
+    private readonly routePipe: PipeContentRoutePipe,
+    private readonly router: Router,
   ) { }
 
   resolve(

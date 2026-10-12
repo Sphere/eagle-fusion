@@ -10,9 +10,9 @@ import {
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { MobileAppsService } from '../../services/mobile-apps.service'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { ILoginDescriptiveFooterConfig, IWSPublicLoginConfig } from './login.model'
-import { ConfigurationsService, NsPage, AuthKeycloakService } from '@ws-widget/utils'
+import { ConfigurationsService, NsPage, AuthKeycloakService, SafeResourceUrlService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -61,17 +61,17 @@ implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> 
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private authSvc: AuthKeycloakService,
-    private configSvc: ConfigurationsService,
-    private domSanitizer: DomSanitizer,
-    private mobileAppsSvc: MobileAppsService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly authSvc: AuthKeycloakService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
+    private readonly mobileAppsSvc: MobileAppsService,
   ) {
     super()
     this.mobileAppsSvc.init()
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+      this.appIcon = this.safeResourceUrlSvc.trust(
         instanceConfig.logos.appTransparent,
       )
       this.productLogo = instanceConfig.logos.company
@@ -110,15 +110,9 @@ implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> 
         }
       } else if (this.widgetData) {
         this.pageData = this.widgetData
-        // if (this.pageData && this.pageData.navigationBar) {
-        //   this.navBackground = this.pageData.navigationBar.background || this.configSvc.pageNavBar
-        //   this.links = this.isXSmall ? this.getNavLinks() : this.getNavLinks().filter(data =>
-        //     data.widgetData.actionBtnId !== 'channel_how_to')
-        // }
       } else {
         this.pageData = null
         this.error = routeData.pageData.error
-        // this.logger.warn('No page data available')
       }
       if (this.pageData) {
         this.oldData = this.pageData

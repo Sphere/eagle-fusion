@@ -4,8 +4,7 @@
       <mat-form-field appearance="outline" class="autocomplete-form" color="primary" floatLabel="never">
         <input type="search" id="search-field" #searchInput class="ml-2 search-placeholder"
           i18n-placeholder="search content" placeholder="{{'What do you want to learn today ?' | translate}}"
-          i18n-aria-label aria-label="Query" matInput [formControl]="queryControl" [matAutocomplete]="auto"
-          accesskey="F" />
+          i18n-aria-label aria-label="Query" matInput [formControl]="queryControl" [matAutocomplete]="auto" />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
           (optionSelected)="updateQuery($event.option.value)">
           <mat-option class="query" *ngIf="queryControl.value" [value]="queryControl.value">{{ queryControl.value }}
@@ -20,7 +19,9 @@
       </mat-form-field>
     </form>
   </div>
-  <div (click)="updateQuery(queryControl.value)" id="search-icon"
+  <div (click)="updateQuery(queryControl.value)" tabindex="0" role="button"
+    (keydown.enter)="updateQuery(queryControl.value)"
+    (keydown.space)="updateQuery(queryControl.value); $event.preventDefault()" id="search-icon"
     class="search-home flex items-center justify-center w-8 sm:w-16 cursor-pointer">
     <mat-icon>search</mat-icon>
   </div>
@@ -33,11 +34,11 @@
         <span class="flex items-center w-full">
           <span class="mr-2 flex items-center">
             <img *ngIf="lang.split(',').length > 1" [ngStyle]="{ height: '17px' ,width :'17px'}"
-              src="/assets/common/flags/pref.png">
+              src="/assets/common/flags/pref.png" alt="Preferred languages">
             <img *ngIf="lang.split(',').length === 1" [ngStyle]="{
             height: lang === 'all' ? '17px': '14px',
              width: lang === 'all' ? '17px': '20px'
-          }" src="/assets/common/flags/{{lang}}.png">
+          }" src="/assets/common/flags/{{lang}}.png" [alt]="lang">
           </span>
           <span>{{ lang }}</span>
           <mat-icon class="ml-2" *ngIf="lang === searchLocale">check</mat-icon>

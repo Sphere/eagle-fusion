@@ -26,21 +26,22 @@ export class EducationEditComponent implements OnInit {
   cName = ''
   workLog: any
   change: any
+  userlang: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
   isEditableForSphere = false
   @Input() data: any
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private valueSvc: ValueService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private contentSvc: WidgetContentService,
-    private langSvc: LanguageService,
-    private logger: LoggerService,
-    private translate: TranslateService
+    private readonly configSvc: ConfigurationsService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
+    private readonly valueSvc: ValueService,
+    private readonly UserAgentResolverService: UserAgentResolverService,
+    private readonly contentSvc: WidgetContentService,
+    private readonly langSvc: LanguageService,
+    private readonly logger: LoggerService,
+    private readonly translate: TranslateService
   ) {
     this.educationForm = new UntypedFormGroup({
       courseDegree: new UntypedFormControl('', [Validators.required]),
@@ -63,17 +64,6 @@ export class EducationEditComponent implements OnInit {
 
       },
     ]
-    this.educationForm.controls['courseName'].valueChanges.subscribe(selectedValue => {
-      this.cName = selectedValue
-    }
-    )
-    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      this.logger.log(data, 'here')
-      this.workLog = await data
-      if (this.workLog) {
-        this.getUserDetails()
-      }
-    })
     effect(() => {
       if (this.valueSvc.isMobile()) {
         this.showbackButton = true
@@ -86,13 +76,35 @@ export class EducationEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.educationForm.controls['courseName'].valueChanges.subscribe(selectedValue => {
+      this.cName = selectedValue
+    }
+    )
+    this.change = this.contentSvc.workMessage.subscribe((data: any) => {
+      void (async () => {
+        this.logger.log(data, 'here')
+        this.workLog = await data
+        if (this.workLog) {
+          this.getUserDetails()
+        }
+      })()
+    })
     const eduLog: any = sessionStorage.getItem('academic') || null
     this.workLog = JSON.parse(eduLog)
 
     if (this.workLog === 'true' || this.workLog.edit === true) {
       this.updateForm(this.workLog.academic)
     } else {
-      this.educationForm.reset()
+      // FormGroup.reset() with no args resets every control to null, not back to the ''
+      // each control was constructed with - that null doesn't match the courseDegree
+      // placeholder option's [ngValue]="''", so the select silently fell back to showing
+      // its first real option instead of the placeholder.
+      this.educationForm.reset({
+        courseDegree: '',
+        courseName: '',
+        institutionName: '',
+        yearPassing: '',
+      })
     }
     this.getUserDetails()
     this.route.queryParams.subscribe(params => {
@@ -117,16 +129,19 @@ export class EducationEditComponent implements OnInit {
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
-          if (data) {
-            this.isEditableForSphere = this.data?.isEditable ?? false
-            if (this.isEditableForSphere) {
-              this.educationForm.enable()
-            } else {
-              this.educationForm.disable()
+        (data: any) => {
+          void (async () => {
+            if (data) {
+              this.isEditableForSphere = this.data?.isEditable ?? false
+              if (this.isEditableForSphere) {
+                this.educationForm.enable()
+              } else {
+                this.educationForm.disable()
+              }
+              this.userProfileData = data.profileDetails.profileReq
+              this.userlang = data
             }
-            this.userProfileData = data.profileDetails.profileReq
-          }
+          })()
         })
     }
   }
@@ -150,19 +165,30 @@ export class EducationEditComponent implements OnInit {
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
       // personalDetails: profileRequest.profileReq.personalDetails
     }
-    profileRequest = Object.assign(profileRequest, obj)
+    profileRequest = { ...profileRequest, ...obj }
     const reqUpdate = {
       request: {
         userId: this.userID,
         profileDetails: {
           ...profileRequest, profileLocation: 'sphere-web/education-edit',
         },
+        // tcStatus is a top-level field the general.guard checks for the new-tnc
+        // redirect - carry it forward on every update. this.userlang is the raw
+        // registry response; older records may lack the field, default to 'false'.
+        tcStatus: this.userlang?.tcStatus === 'true' ? 'true' : 'false',
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
-          form.reset()
+          // Same null-vs-'' gotcha as the reset() above: pass explicit defaults so
+          // courseDegree's placeholder still matches after a successful save.
+          form.reset({
+            courseDegree: '',
+            courseName: '',
+            institutionName: '',
+            yearPassing: '',
+          })
           this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           this.userProfileSvc._updateuser.next('true')
           const ob = {

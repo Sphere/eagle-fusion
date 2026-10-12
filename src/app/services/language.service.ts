@@ -6,15 +6,15 @@ import { BehaviorSubject, Observable } from 'rxjs'
   providedIn: 'root',
 })
 export class LanguageService {
-  private currentLanguage = new BehaviorSubject<string>('en')
+  private readonly currentLanguage = new BehaviorSubject<string>('en')
   public currentLanguage$ = this.currentLanguage.asObservable()
 
-  private availableLanguages = [
+  private readonly availableLanguages = [
     { code: 'en', name: 'English' },
     { code: 'hi', name: 'हिंदी' },
   ]
 
-  constructor(private translateService: TranslateService) {
+  constructor(private readonly translateService: TranslateService) {
     this.initializeLanguage()
   }
 

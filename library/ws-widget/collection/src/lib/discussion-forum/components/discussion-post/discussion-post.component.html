@@ -2,13 +2,16 @@
   <div class="flex postSection margin-top-s">
     <ws-widget-user-image class="main-post-user-image" [userId]="userId" [userName]="post.postCreator.name"
       [imageType]="'name-initial'" [email]="post.postCreator.emailId"></ws-widget-user-image>
-    <div class="ql-container margin-left-s margin-auto text-base  thread-title cursor-pointer"
-      *ngIf="!editMode && post.postContent.title.length" [innerHTML]="post.postContent.title" (click)="toggleReplies()">
+    <div class="ql-container margin-left-s margin-auto text-base  thread-title cursor-pointer" tabindex="0"
+      role="button" *ngIf="!editMode && post.postContent.title.length" [innerHTML]="post.postContent.title"
+      (click)="toggleReplies()" (keydown.enter)="toggleReplies()"
+      (keydown.space)="toggleReplies(); $event.preventDefault()">
     </div>
 
     <div name="discussion-post-respond-toggle-button" [hidden]="replyPlaceholderToggler"
       (click)="showCommentBox(commentBox)" class="write-reply-placeholder mt-1 blue-link uppercase cursor-pointer"
-      role="button">
+      role="button" tabindex="0" (keydown.enter)="showCommentBox(commentBox)"
+      (keydown.space)="showCommentBox(commentBox); $event.preventDefault()">
       Reply
     </div>
 
@@ -20,11 +23,14 @@
 
     <ng-container *ngIf="userId === post.postCreator.postCreatorId">
 
-      <img alt="logo" loading="lazy" (click)="editMode = true" class="action-icons align-edit"
-        src="/fusion-assets/icons/edit.png">
+      <button type="button" style="all: unset; display: contents; cursor: pointer;" aria-label="Edit"
+        (click)="editMode = true">
+        <img alt="" loading="lazy" class="action-icons align-edit" src="/fusion-assets/icons/edit.png">
+      </button>
 
-      <span class="material-icons opac-7" name="discussion-post-delete-button" type="button"
-        (click)="deletePost(deleteFailMsg.value)">
+      <span class="material-icons opac-7" name="discussion-post-delete-button" type="button" tabindex="0" role="button"
+        (click)="deletePost(deleteFailMsg.value)" (keydown.enter)="deletePost(deleteFailMsg.value)"
+        (keydown.space)="deletePost(deleteFailMsg.value); $event.preventDefault()">
         delete
       </span>
 
@@ -47,14 +53,9 @@
     <span *ngIf="post.postCreator.name" class="ws-mat-primary-text margin-left-s margin-right-s">by
       {{ post.postCreator.name }}</span>
 
-    <span (click)="toggleReplies()" class="blue-link cursor-pointer">{{postReplies.length}}
+    <span (click)="toggleReplies()" tabindex="0" role="button" (keydown.enter)="toggleReplies()"
+      (keydown.space)="toggleReplies(); $event.preventDefault()" class="blue-link cursor-pointer">{{postReplies.length}}
       {{postReplies.length > 1 ? 'Replies': 'Reply'}}</span>
-
-    <!-- <button type="button" mat-icon-button [matMenuTriggerFor]="editMenu" name="discussion-post-more-options-button"
-     >
-      <mat-icon>more_vertical</mat-icon>
-    </button> -->
-
 
   </div>
 
@@ -66,9 +67,6 @@
 
 
   <div *ngIf="editMode" class="margin-top-s padding-s mat-primary-border">
-    <!-- [minLength]="'10'" -->
-    <!-- <ws-widget-editor-quill [htmlText]="post.postContent.title" (textData)="onTextChange($event)">
-    </ws-widget-editor-quill> -->
     <div class="text-right">
       <button type="button" name="discussion-post-update-button" class="margin-top-s" [disabled]="!postPublishEnabled"
         mat-raised-button color="primary" (click)="editPost(editFailMsg.value)">
@@ -80,14 +78,6 @@
       </button>
     </div>
   </div>
-  <!-- <span class="flex flex-between" *ngIf="post.activity && post.status === 'Active'">
-    <span>
-      <ws-widget-btn-social-vote class="margin-left-xs" [postId]="post.id" [activity]="post.activity" [voteType]="'downVote'" [postCreatorId]="post?.postCreator?.postCreatorId">
-      </ws-widget-btn-social-vote>
-    </span>
-    <ws-widget-btn-social-like [postId]="post.id" [postCreatorId]="post?.postCreator?.postCreatorId" [activity]="post.activity">
-    </ws-widget-btn-social-like>
-  </span> -->
 
   <ng-container *ngIf="showReplies">
     <ws-widget-discussion-reply *ngFor="let reply of postReplies; let i = index" [reply]="reply"
@@ -109,13 +99,11 @@
     </button>
   </div>
   <div class="write-reply-container mat-app-background flex flex-middle">
-    <!-- <ws-widget-user-image class="write-reply-user-image" [userName]="userName" [imageType]="'name-initial'"
-      [email]="userEmail" [userId]="userId"></ws-widget-user-image> -->
     <div class="padding-left-m width-expand">
       <div [hidden]="!replyPlaceholderToggler" #commentBox>
-        <!-- [minLength]="'10'" -->
-        <!-- <ws-widget-editor-quill class="write-reply-editor" (textData)="onReplyTextChange($event)"
-          #discussionReplyEditor></ws-widget-editor-quill> -->
+        <textarea name="discussion-post-reply-input" class="discussion-input write-reply-editor" rows="3"
+          aria-label="Write a reply" placeholder="Write a reply..." [value]="replyBody || ''"
+          (input)="onReplyInput($any($event.target).value)"></textarea>
         <div class="text-right padding-top-s mr-4 mat-app-background">
 
           <button name="discussion-post-cancel-reply-button" type="button" class="margin-right-xs cancel-btn"

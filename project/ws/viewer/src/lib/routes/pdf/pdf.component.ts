@@ -18,7 +18,7 @@ import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConsta
 export class PdfComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
   private viewerDataSubscription: Subscription | null = null
-  private telemetryIntervalSubscription: Subscription | null = null
+  private readonly telemetryIntervalSubscription: Subscription | null = null
   isFetchingDataComplete = false
   pdfData: NsContent.IContent | null = null
   oldData: NsContent.IContent | null = null
@@ -40,13 +40,13 @@ export class PdfComponent implements OnInit, OnDestroy {
   > | null = null
   batchId = this.activatedRoute.snapshot.queryParamMap.get('batchId')
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private viewerSvc: ViewerUtilService,
-    private eventSvc: EventService,
-    private accessControlSvc: AccessControlService,
-    private configSvc: ConfigurationsService,
-    private cdr: ChangeDetectorRef,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly viewerSvc: ViewerUtilService,
+    private readonly eventSvc: EventService,
+    private readonly accessControlSvc: AccessControlService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -74,45 +74,39 @@ export class PdfComponent implements OnInit, OnDestroy {
         })
     } else {
       this.dataSubscription = this.activatedRoute.data.subscribe(
-        async data => {
-          this.isFetchingDataComplete = false
-          this.pdfData = data.content.data
-          // if (this.alreadyRaised && this.oldData) {
-          //   this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
-          // }
-          if (this.pdfData) {
-            this.formDiscussionForumWidget(this.pdfData)
-          }
-
-          if (this.pdfData && this.pdfData.artifactUrl.indexOf('content-store') >= 0) {
-            await this.setS3Cookie(this.pdfData.identifier)
-          }
-          this.widgetResolverPdfData.widgetData.resumePage = 1
-          if (this.pdfData && this.pdfData.identifier) {
-            if (this.activatedRoute.snapshot.queryParams.collectionId) {
-              await this.fetchContinueLearning(
-                this.activatedRoute.snapshot.queryParams.collectionId,
-                this.pdfData.identifier,
-              )
-            } else {
-              await this.fetchContinueLearning(this.pdfData.identifier, this.pdfData.identifier)
+        data => {
+          void (async () => {
+            this.isFetchingDataComplete = false
+            this.pdfData = data.content.data
+            if (this.pdfData) {
+              this.formDiscussionForumWidget(this.pdfData)
             }
-          }
-          this.widgetResolverPdfData.widgetData.pdfUrl = this.pdfData
-            ? this.forPreview
-              ? this.viewerSvc.getAuthoringUrl(this.pdfData.artifactUrl)
-              : this.pdfData.artifactUrl
-            : ''
-          this.widgetResolverPdfData.widgetData.identifier = this.pdfData && this.pdfData.identifier
 
-          this.widgetResolverPdfData = JSON.parse(JSON.stringify(this.widgetResolverPdfData))
-          // if (this.pdfData) {
-          //   this.oldData = this.pdfData
-          //   this.alreadyRaised = true
-          //   this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.pdfData)
-          // }
-          this.isFetchingDataComplete = true
-          this.cdr.detectChanges()
+            if (this.pdfData && this.pdfData.artifactUrl.indexOf('content-store') >= 0) {
+              await this.setS3Cookie(this.pdfData.identifier)
+            }
+            this.widgetResolverPdfData.widgetData.resumePage = 1
+            if (this.pdfData && this.pdfData.identifier) {
+              if (this.activatedRoute.snapshot.queryParams.collectionId) {
+                await this.fetchContinueLearning(
+                  this.activatedRoute.snapshot.queryParams.collectionId,
+                  this.pdfData.identifier,
+                )
+              } else {
+                await this.fetchContinueLearning(this.pdfData.identifier, this.pdfData.identifier)
+              }
+            }
+            this.widgetResolverPdfData.widgetData.pdfUrl = this.pdfData
+              ? this.forPreview
+                ? this.viewerSvc.getAuthoringUrl(this.pdfData.artifactUrl)
+                : this.pdfData.artifactUrl
+              : ''
+            this.widgetResolverPdfData.widgetData.identifier = this.pdfData && this.pdfData.identifier
+
+            this.widgetResolverPdfData = JSON.parse(JSON.stringify(this.widgetResolverPdfData))
+            this.isFetchingDataComplete = true
+            this.cdr.detectChanges()
+          })()
         },
         () => { },
       )
@@ -158,43 +152,13 @@ export class PdfComponent implements OnInit, OnDestroy {
     this.eventSvc.dispatchEvent(event)
   }
 
-  // async fetchContinueLearning(collectionId: string, pdfId: string): Promise<boolean> {
-  //   return new Promise(resolve => {
-  //     this.contentSvc.fetchContentHistory(collectionId).subscribe(
-  //       data => {
-  //         if (data) {
-  //           if (data.identifier === pdfId && data.continueData && data.continueData.progress) {
-  //             this.widgetResolverPdfData.widgetData.resumePage = Number(data.continueData.progress)
-  //           }
-  //         }
-  //         resolve(true)
-  //       },
-  //       () => resolve(true),
-  //     )
-  //   })
-  // }
-
   async fetchContinueLearning(collectionId: string, pdfId: string): Promise<boolean> {
     return new Promise(resolve => {
-      // this.contentSvc.fetchContentHistory(collectionId).subscribe(
-      //   data => {
-      //     if (data) {
-      //       if (data.identifier === pdfId && data.continueData && data.continueData.progress) {
-      //         this.widgetResolverPdfData.widgetData.resumePage = Number(data.continueData.progress)
-      //       }
-      //     }
-      //     resolve(true)
-      //   },
-      //   () => resolve(true),
-      // )
       let userId
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
       }
 
-      // this.activatedRoute.data.subscribe(data => {
-      //   userId = data.profileData.data.userId
-      // })
       const req: NsContent.IContinueLearningDataReq = {
         request: {
           userId,

@@ -9,9 +9,9 @@ import { LoggerService } from '@ws-widget/utils'
 export class IndexedDBService {
   private readonly dbName = 'optimistic-ui-online-store'
   private readonly dbVersion = 1
-  private db: IDBDatabase | undefined
+  private readonly db: IDBDatabase | undefined
 
-  constructor(private logger: LoggerService) { }
+  constructor(private readonly logger: LoggerService) { }
 
   isIndexedDBSupported(): boolean {
     return 'indexedDB' in window
@@ -20,7 +20,6 @@ export class IndexedDBService {
   openOrCreateDatabase(): Observable<IDBDatabase> {
     return new Observable((observer: Observer<IDBDatabase>) => {
       if (!this.isIndexedDBSupported()) {
-        // this.logger.warn('IndexedDB is not supported. Falling back to localStorage.')
         observer.error('IndexedDB is not supported')
         observer.complete()
         return
@@ -64,8 +63,7 @@ export class IndexedDBService {
       }
 
       request.onerror = (_event: any) => {
-        // this.logger.error('Failed to open or create IndexedDB:', event.target.error)
-        // observer.error('Failed to open or create IndexedDB')
+        this.logger.error('Failed to open or create IndexedDB')
       }
     })
   }
@@ -114,7 +112,7 @@ export class IndexedDBService {
 
       request.onerror = (event: any) => {
         this.logger.error('Failed to open IndexedDB:', event.target.error)
-        reject('Failed to open IndexedDB')
+        reject(new Error('Failed to open IndexedDB'))
       }
 
       request.onupgradeneeded = () => {
@@ -125,8 +123,6 @@ export class IndexedDBService {
         if (!db.objectStoreNames.contains('onlineCourseProgress')) {
           const store1 = db.createObjectStore('onlineCourseProgress', { keyPath: 'courseId', autoIncrement: true })
           store1.createIndex('courseIdIndex', 'courseId', { unique: false })
-          //store1.createIndex('contentIdIndex', 'contentId', { unique: true })
-          // Add more indexes as needed
         }
         if (!db.objectStoreNames.contains('userEnrollCourse')) {
           const objectStore2 = db.createObjectStore('userEnrollCourse', { keyPath: 'courseId', autoIncrement: true })
@@ -145,11 +141,9 @@ export class IndexedDBService {
       const db = await this.openDatabase()
       const table1Exists = db.objectStoreNames.contains('onlineCourseProgress')
       const table2Exists = db.objectStoreNames.contains('userEnrollCourse')
-      // const dataExistsInTable1 = await this.checkDataExists('onlineCourseProgress', db)
-      // const dataExistsInTable2 = await this.checkDataExists('userEnrollCourse', db)
       return table1Exists && table2Exists
     } catch (error) {
-      throw new Error('Error checking database, tables, and data in IndexedDB: ' + error)
+      throw new Error('Error checking database, tables, and data in IndexedDB')
     }
   }
 
@@ -164,29 +158,6 @@ export class IndexedDBService {
       throw new Error('Error checking database, tables, and data in IndexedDB: ' + error)
     }
   }
-
-  // async checkProgressDatabaseTablesAndDataExists(dbName: string, tableName: string, recordKey: string) {
-  //   return new Promise((resolve, reject) => {
-  //     const request = indexedDB.open(dbName)
-  //     request.onsuccess = (event: any) => {
-  //       const db = event.target.result as IDBDatabase
-  //       const transaction = db.transaction(tableName, 'readonly')
-  //       const objectStore = transaction.objectStore(tableName)
-
-  //       const getRequest = objectStore.get(recordKey)
-  //       getRequest.onsuccess = (event: any) => {
-  //         const record = event.target.result
-  //         resolve(record !== undefined && record !== null)
-  //       }
-  //       getRequest.onerror = (event: any) => {
-  //         reject(event.target.error)
-  //       }
-  //     }
-  //     request.onerror = (event: any) => {
-  //       reject(event.target.error)
-  //     }
-  //   })
-  // }
 
   async checkProgressDatabaseTablesAndDataExists(): Promise<boolean> {
     try {
@@ -216,7 +187,7 @@ export class IndexedDBService {
 
       request.onerror = event => {
         this.logger.log(event)
-        reject('Error checking data in IndexedDB')
+        reject(new Error('Error checking data in IndexedDB'))
       }
     })
   }
@@ -250,8 +221,6 @@ export class IndexedDBService {
           const transaction = db.transaction(storeName, 'readwrite')
           const objectStore = transaction.objectStore(storeName)
           this.logger.log(key)
-          //const index = objectStore.index(key)
-          //const request = objectStore.delete(key)
           const request = objectStore.get(key)
           this.logger.log(request)
 
@@ -368,7 +337,7 @@ export class IndexedDBService {
         }
 
         request.onerror = (event: any) => {
-          reject('Error fetching data from IndexedDB: ' + event.target.error)
+          reject(new Error('Error fetching data from IndexedDB: ' + event.target.error))
         }
       })
     } catch (error) {
@@ -452,7 +421,7 @@ export class IndexedDBService {
         }
 
         request.onerror = (event: any) => {
-          reject('Error fetching row details from IndexedDB: ' + event.target.error)
+          reject(new Error('Error fetching row details from IndexedDB: ' + event.target.error))
         }
       })
     } catch (error) {
@@ -472,7 +441,6 @@ export class IndexedDBService {
 
       const request = index.get(key)
 
-      // const request = objectStore.get(key)
       this.logger.log(request)
       request.onsuccess = event => {
         this.logger.log(event)

@@ -14,14 +14,14 @@ export interface CacheMetadata {
   providedIn: 'root',
 })
 export class CourseHierarchyCacheService {
-  private courseCache = new Map<string, CacheMetadata>()
-  private cacheSubject = new Map<string, Observable<any>>()
+  private readonly courseCache = new Map<string, CacheMetadata>()
+  private readonly cacheSubject = new Map<string, Observable<any>>()
 
   // Cache duration in milliseconds: 2 hours (adjustable)
   private readonly CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
   private readonly API_ENDPOINT = 'apis/proxies/v8/action/content/v3/hierarchy'
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.logCacheEvent('[Cache] Service initialized')
   }
 

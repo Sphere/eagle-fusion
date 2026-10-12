@@ -20,22 +20,22 @@ describe('WebHowDoesWorkComponent', () => {
   let mockScrollService: any
   let mockElementRef: any
   let mockDialog: any
-  let mockSanitizer: any
+  let mockSafeResourceUrlSvc: any
   let mockValueSvc: any
 
   beforeEach(() => {
     mockScrollService = { scrollToDivEvent: { subscribe: jest.fn() } }
     mockElementRef = { nativeElement: { scrollIntoView: jest.fn() } }
     mockDialog = { open: jest.fn() }
-    mockSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockImplementation(url => ({ safe: url })),
+    mockSafeResourceUrlSvc = {
+      trustFromAllowlist: jest.fn().mockImplementation((url: string) => (url ? { safe: url } : null)),
     }
     mockValueSvc = { isMobile: jest.fn().mockReturnValue(false) }
     component = new WebHowDoesWorkComponent(
       mockScrollService,
       mockElementRef,
       mockDialog,
-      mockSanitizer,
+      mockSafeResourceUrlSvc,
       mockValueSvc,
     )
     component.config = {
@@ -62,7 +62,7 @@ describe('WebHowDoesWorkComponent', () => {
 
   it('should set isXSmall$ true when isMobile returns true', () => {
     mockValueSvc.isMobile.mockReturnValue(true)
-    component = new WebHowDoesWorkComponent(mockScrollService, mockElementRef, mockDialog, mockSanitizer, mockValueSvc)
+    component = new WebHowDoesWorkComponent(mockScrollService, mockElementRef, mockDialog, mockSafeResourceUrlSvc, mockValueSvc)
     expect(component.isXSmall$).toBe(true)
   })
 
@@ -73,7 +73,7 @@ describe('WebHowDoesWorkComponent', () => {
 
   it('should sanitize URL for elements with a string url', () => {
     component.ngOnInit()
-    expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('https://youtube.com/embed/abc123')
+    expect(mockSafeResourceUrlSvc.trustFromAllowlist).toHaveBeenCalledWith('https://youtube.com/embed/abc123', expect.any(Array))
   })
 
   it('should read from localStorage when config.data is missing', () => {
@@ -108,7 +108,7 @@ describe('WebHowDoesWorkComponent', () => {
   describe('sanitizeUrl', () => {
     it('should return sanitized url for valid string', () => {
       const result = component.sanitizeUrl('https://youtube.com/embed/test')
-      expect(mockSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith('https://youtube.com/embed/test')
+      expect(mockSafeResourceUrlSvc.trustFromAllowlist).toHaveBeenCalledWith('https://youtube.com/embed/test', expect.any(Array))
       expect(result).toBeTruthy()
     })
 

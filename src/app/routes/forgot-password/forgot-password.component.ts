@@ -29,8 +29,8 @@ export class ForgotPasswordComponent implements OnInit {
   maxResendTry = 4
   isEkshamtaLogin: any
 
-  constructor(private readonly router: Router, private signupService: SignupService,
-    private readonly fb: UntypedFormBuilder, private snackBar: MatSnackBar,
+  constructor(private readonly router: Router, private readonly signupService: SignupService,
+    private readonly fb: UntypedFormBuilder, private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
     private readonly translate: TranslateService,
     private readonly cdr: ChangeDetectorRef,
@@ -42,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
 
     this.emailForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      userInput: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      userInput: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(?:(?:([- ]*)[6-9][0-9]{9}([- ]*))|(?:^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$))$/)]),
     })
   }
 
@@ -63,7 +63,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.emailOrMobile = this.emailForm.value.userInput
 
     phone = this.emailOrMobile
-    phone = phone.replace(/[^0-9+#]/g, '')
+    phone = phone.replaceAll(/[^0-9+#]/g, '')
     // Allow only indian mobile numbers
     if (phone.length >= 10) {
       this.key = 'phone'

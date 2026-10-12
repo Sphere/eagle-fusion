@@ -14,6 +14,7 @@ import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { MobileDashboardService } from './services/mobile-dashboard.service'
 import { CompetencyUserService } from './services/competency-user.service'
 import { LanguageService } from '../../services/language.service'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   standalone: false,
@@ -45,14 +46,15 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
   defaultLang = 'en'
 
   private userId = ''
-  private destroy$ = new Subject<void>()
+  private readonly destroy$ = new Subject<void>()
 
   constructor(
-    private configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private dashboardSvc: MobileDashboardService,
-    private userSvc: CompetencyUserService,
-    private langSvc: LanguageService
+    private readonly configSvc: ConfigurationsService,
+    private readonly valueSvc: ValueService,
+    private readonly dashboardSvc: MobileDashboardService,
+    private readonly userSvc: CompetencyUserService,
+    private readonly langSvc: LanguageService,
+    private readonly playlistSvc: PlaylistService
   ) {
     effect(() => {
       this.isTablet.set(!this.valueSvc.isMobile())
@@ -126,7 +128,8 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
     this.roleCompetencyData = []
     this.competencyLevelsData = []
 
-    const result = this.dashboardSvc.getCompetencyInfo(this.competencyHomeData, rootOrgId, this.designation, this.defaultLang)
+    const competencyConfigId = this.playlistSvc.getPlaylistConfigId(this.section?.sectionId)
+    const result = this.dashboardSvc.getCompetencyInfo(this.competencyHomeData, rootOrgId, this.designation, competencyConfigId)
     if (!result) return of({ ashaData: [], completedCourses: [], inProgressCourses: [] })
 
     this.competencyRoles = result.isUserDesignationInRoles
@@ -161,7 +164,7 @@ export class CompetencyCourseListComponent implements OnInit, OnChanges, OnDestr
   }
 
   trackByCourse(_index: number, course: any): string {
-    return course?.contentId || _index
+    return course?.contentId || String(_index)
   }
 
   readonly SKELETON_ITEMS = [1, 2, 3, 4]

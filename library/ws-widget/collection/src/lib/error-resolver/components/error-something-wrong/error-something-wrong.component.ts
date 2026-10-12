@@ -19,7 +19,7 @@ export class ErrorSomethingWrongComponent implements OnInit, OnDestroy {
 
   private prefChangeSubs: Subscription | null = null
   private routeChangeSubs: Subscription | null = null
-  constructor(private route: ActivatedRoute, private configurationSvc: ConfigurationsService) { }
+  constructor(private readonly route: ActivatedRoute, private readonly configurationSvc: ConfigurationsService) { }
   ngOnInit() {
     if (!this.errorData) {
       this.routeChangeSubs = this.route.data.subscribe(response => {

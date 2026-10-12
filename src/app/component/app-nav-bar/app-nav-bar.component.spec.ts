@@ -33,11 +33,12 @@ import { Subject, of } from 'rxjs'
 import { AppNavBarComponent } from './app-nav-bar.component'
 import { NavigationStart, NavigationEnd } from '@angular/router'
 import { SimpleChanges } from '@angular/core'
+import { getPortalHost } from '../../constants/portal'
 
 describe('AppNavBarComponent', () => {
   let component: AppNavBarComponent
   let routerEventsSubject: Subject<any>
-  let mockDomSanitizer: any
+  let mockSafeResourceUrlSvc: any
   let mockConfigSvc: any
   let mockRouter: any
   let mockAccessService: any
@@ -53,8 +54,8 @@ describe('AppNavBarComponent', () => {
   beforeEach(() => {
     routerEventsSubject = new Subject<any>()
 
-    mockDomSanitizer = {
-      bypassSecurityTrustResourceUrl: jest.fn().mockReturnValue('safe-url'),
+    mockSafeResourceUrlSvc = {
+      trust: jest.fn().mockReturnValue('safe-url'),
     }
 
     mockConfigSvc = {
@@ -125,7 +126,7 @@ describe('AppNavBarComponent', () => {
 
   const createComponent = () =>
     new AppNavBarComponent(
-      mockDomSanitizer,
+      mockSafeResourceUrlSvc,
       mockConfigSvc,
       mockRouter,
       mockAccessService,
@@ -223,6 +224,8 @@ describe('AppNavBarComponent', () => {
   describe('constructor — router events subscription', () => {
     it('should call cancelTour on NavigationStart', () => {
       component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      component.ngOnInit()
       jest.spyOn(component, 'cancelTour')
       routerEventsSubject.next(new NavigationStart(1, '/app/home'))
       expect(component.cancelTour).toHaveBeenCalled()
@@ -230,6 +233,8 @@ describe('AppNavBarComponent', () => {
 
     it('should call cancelTour on NavigationEnd', () => {
       component = createComponent()
+      jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
+      component.ngOnInit()
       jest.spyOn(component, 'cancelTour')
       routerEventsSubject.next(new NavigationEnd(1, '/app/home', '/app/home'))
       expect(component.cancelTour).toHaveBeenCalled()
@@ -402,7 +407,10 @@ describe('AppNavBarComponent', () => {
       jest.spyOn(component, 'setUIData').mockResolvedValue(undefined)
       await component.ngOnInit()
       expect(component.setUIData).toHaveBeenCalled()
-      expect(component.domain).toBe(window.location.hostname)
+      // domain comes from getPortalHost(), not the raw hostname directly — on localhost
+      // that can resolve to environment.sitePath (see src/app/constants/portal.ts)
+      // rather than the literal "localhost".
+      expect(component.domain).toBe(getPortalHost())
     })
 
     it('should set hideCreateButton false when orgValue is nhsrc', async () => {

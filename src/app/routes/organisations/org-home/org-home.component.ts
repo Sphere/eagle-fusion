@@ -24,11 +24,11 @@ export class OrgHomeComponent implements OnInit {
   firstName: any
 
   constructor(
-    private router: Router,
-    private orgService: OrgServiceService,
-    private userProfileSvc: UserProfileService,
-    private configSvc: ConfigurationsService,
-    private signUpSvc: SignupService) {
+    private readonly router: Router,
+    private readonly orgService: OrgServiceService,
+    private readonly userProfileSvc: UserProfileService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly signUpSvc: SignupService) {
   }
 
   ngOnInit() {
@@ -56,13 +56,13 @@ export class OrgHomeComponent implements OnInit {
                 this.resultEnroll = [enrollmentArr[0]]
                 if (enrollmentArr[0]) { this.enrollData = false }
               })
-            } catch (err) { }
+            } catch (err) { /* ignore enrollment sort failure, courseArray still returned */ }
           }
           return courseArray
         }
 
       })
-    } catch (err) { }
+    } catch (err) { /* ignore outer processing failure */ }
   }
 
   navigateToToc(contentIdentifier: any) {

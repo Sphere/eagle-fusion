@@ -23,7 +23,7 @@ export class BtnContentShareComponent extends WidgetBaseComponent
   showBtn = false
   isShareEnabled = false
   isDark: boolean
-  constructor(private dialog: MatDialog, private configSvc: ConfigurationsService, private themeSvc: ThemeService) {
+  constructor(private readonly dialog: MatDialog, private readonly configSvc: ConfigurationsService, private readonly themeSvc: ThemeService) {
     super()
     effect(() => {
       this.isDark = this.themeSvc.isDark()

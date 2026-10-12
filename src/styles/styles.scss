@@ -556,7 +556,7 @@ h3.shepherd-title {
 .mat-body,
 .mat-body-1,
 .mat-typography {
-  font: 400 14px/20px Roboto;
+  font: 400 14px/20px Roboto, sans-serif;
   color: #424242 !important;
 }
 
@@ -894,7 +894,6 @@ ws-widget-btn-catalog {
   margin-left: 10%;
   margin-top: 5vh;
   @extend %height-mat-toolbar-sibling;
-  box-sizing: border-box;
 
   @include ws-mixins.breakpoint-xs {
     margin-left: 0px;
@@ -1335,6 +1334,57 @@ html::-webkit-scrollbar-corner {
 ::ng-deep .dark-theme {
   lib-discuss-start .discussion-start-modal .discussion-start-modal-content {
     background: var(--theme-bg, #0e161b) !important;
+  }
+}
+
+// ── @aastrika_npmjs/discussions-ui-v8 — dark mode ────────────────────────────
+// The package ships its own fixed light palette (`:root { --white: #fff;
+// --blue: #1C5D95 }`) plus hard-coded `color: #000`, and has no dark variant.
+// On the course Discussion tab that made the reply view unusable in dark mode:
+// the comment being replied to rendered black-on-dark, and the send button is a
+// dark PNG so it disappeared entirely (reported as "no send button").
+// `html.dark-theme` rather than `.dark-theme` because a couple of the package's
+// own rules are `!important` at equal specificity, and its component styles are
+// injected after this sheet — the extra element selector settles it.
+html.dark-theme {
+  lib-reply-comment {
+    .repy-title,
+    .discussion-card-comment,
+    .discuss-user-label,
+    .timing,
+    .user_name_div .post_user_text_box {
+      color: var(--theme-text, #E0E0E0) !important;
+    }
+
+    .replay-field {
+      background: var(--theme-bg, #303030);
+      color: var(--theme-text, #E0E0E0);
+      border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    }
+
+    .reply-btn img,
+    .df-back-btn img {
+      filter: var(--theme-icon-filter, invert(1) brightness(2));
+    }
+
+    .df-back-btn {
+      background: transparent !important;
+      color: var(--theme-text, #E0E0E0) !important;
+    }
+  }
+
+  // Same treatment for the reply/edit modal (lib-discuss-start is handled above)
+  lib-post-reply {
+    .discussion-start-modal .discussion-start-modal-content {
+      background: var(--theme-bg, #0e161b) !important;
+      color: var(--theme-text, #E0E0E0) !important;
+    }
+
+    .post-field {
+      background: var(--theme-bg, #303030);
+      color: var(--theme-text, #E0E0E0);
+      border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    }
   }
 }
 

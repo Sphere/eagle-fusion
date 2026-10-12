@@ -30,3 +30,27 @@
 .cancel-btn {
   line-height: 38px;
 }
+
+// Replaces the removed Quill editor. Theme tokens keep it legible in dark mode.
+.discussion-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid var(--theme-border, #1c5d951f);
+  background: var(--theme-bg, #ffffff);
+  color: var(--theme-text, #101828);
+
+  &::placeholder {
+    color: var(--theme-text-soft, #8c98a8);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--theme-accent, #2E6491);
+  }
+}

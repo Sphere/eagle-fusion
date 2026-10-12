@@ -9,8 +9,10 @@
 <div *ngIf="notificationsFetchStatus === 'done'" class="notifications-container mat-card">
   <ng-container *ngFor="let group of notificationSettings; let groupIndex = index; let end = last">
     <div class="group-name-container" [hidden]="group.group_id === 'Authoring' && !userRoles.has('author')" matRipple
-      [ngClass]="{ 'ws-mat-primary-background': group.show }" role="button"
-      (click)="group.show ? (group.show = false) : (group.show = true)">
+      [ngClass]="{ 'ws-mat-primary-background': group.show }" role="button" tabindex="0"
+      (click)="group.show ? (group.show = false) : (group.show = true)"
+      (keydown.enter)="group.show ? (group.show = false) : (group.show = true)"
+      (keydown.space)="group.show ? (group.show = false) : (group.show = true); $event.preventDefault()">
       <h2 class="group-name">{{ group.group_name }}</h2>
       <button mat-icon-button>
         <mat-icon *ngIf="!group.show">arrow_drop_down</mat-icon>

@@ -8,7 +8,7 @@
 }
 
 .header1 {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -24,7 +24,7 @@
 }
 
 .label1 {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -58,10 +58,6 @@
     padding: 0 !important;
     margin: 5px !important;
   }
-
-  // h4 {
-  //   margin: 0 !important;
-  // }
 }
 
 .label2 {
@@ -92,11 +88,10 @@
 }
 
 .label3 {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px !important;
-  // line-height: 58px;
   text-align: center;
   letter-spacing: -0.02em;
   color: var(--theme-accent, #154976);
@@ -107,12 +102,10 @@
 
   @include ws-mixins.breakpoint-xs {
     font-size: 12px !important;
-    //margin-top: 0 !important;
   }
 }
 
 .btn {
-  // margin-right: 20px;
   border-radius: 50px;
   width: 140px;
   border: 1px solid var(--theme-accent) !important;

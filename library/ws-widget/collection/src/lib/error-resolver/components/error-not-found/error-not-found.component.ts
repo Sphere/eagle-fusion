@@ -20,7 +20,7 @@ export class ErrorNotFoundComponent implements OnInit, OnDestroy {
 
   private routeChangeSubs: Subscription | null = null
   private prefChangeSubs: Subscription | null = null
-  constructor(private route: ActivatedRoute, private configurationSvc: ConfigurationsService) {}
+  constructor(private readonly route: ActivatedRoute, private readonly configurationSvc: ConfigurationsService) {}
 
   ngOnInit() {
     if (!this.errorData) {

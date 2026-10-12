@@ -65,6 +65,14 @@ mat-toolbar {
   font-size: 24px !important;
   font-weight: 400 !important;
   color: #000000;
+  // The template's `text-truncate` and `width-1-8` classes resolve to nothing —
+  // the former is commented out in styles/utility.scss, the latter never existed —
+  // so a long course name ran straight under the fullscreen button, which is
+  // absolutely positioned at right: 51px. Cap the width and truncate for real.
+  max-width: calc(100% - 140px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 :host-context(.dark-theme) {

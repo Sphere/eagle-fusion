@@ -32,9 +32,9 @@ export class SearchRootComponent implements OnInit {
   selectedIndex = 0
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   constructor(
-    private router: Router,
-    private activated: ActivatedRoute,
-    private configSvc: ConfigurationsService,
+    private readonly router: Router,
+    private readonly activated: ActivatedRoute,
+    private readonly configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {
@@ -55,10 +55,6 @@ export class SearchRootComponent implements OnInit {
   routeTabs(tab: number) {
     this.selectedIndex = tab
     this.router.navigateByUrl(`/app/search/${this.searchTabs.routeValue[tab]}`)
-    // this.router.navigate([this.searchTabs.routeValue[tab]], {
-    //   queryParams: { q: this.searchRequest.query },
-    //   relativeTo: this.activated.parent,
-    // })
   }
   hasKeys(object: object): boolean {
     if (object && Object.keys(object) && Object.keys(object).length) {

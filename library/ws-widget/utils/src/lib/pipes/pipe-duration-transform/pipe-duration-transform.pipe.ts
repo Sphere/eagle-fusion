@@ -14,61 +14,74 @@ export class PipeDurationTransformPipe implements PipeTransform {
     const h = Math.floor(data / 3600)
     const m = Math.floor((data % 3600) / 60)
     const s = Math.floor((data % 3600) % 60)
-    let duration = ''
-    let space = ''
 
     switch (type) {
       case 'time24':
         return this.defaultDuration(h, m, s)
       case 'mnts':
-        if (h > 0) {
-          duration += type === 'mnts' ? `${h}` : `${h}`
-        }
-        if (m > 0) {
-          if (h > 0) {
-            space = ' '
-          }
-          duration += type === 'mnts' ? `${space}${m}` : `${space}${m}`
-        }
-        if (s > 0 && h === 0) {
-          if (m > 0) {
-            space = ' '
-          }
-          duration += type === 'mnts' ? `${space}${s}` : `${space}${s}`
-        }
-        return duration
-
+        return this.mntsDuration(h, m, s)
       case 'hms':
-        if (h > 0) {
-          duration += type === 'hms' ? `${h}h` : `${h} hr`
-        }
-        if (m > 0) {
-          if (h > 0) {
-            space = ' '
-          }
-          duration += type === 'hms' ? `${space}${m}m` : `${space}${m} min`
-        }
-        if (s > 0 && h === 0) {
-          if (m > 0) {
-            space = ' '
-          }
-          duration += type === 'hms' ? `${space}${s}s` : `${space}${s} sec`
-        }
-        return duration
+        return this.hmsDuration(h, m, s)
       case 'hour':
-        if (h === 0) {
-          duration += 'less than an hour'
-        }
-        if (h === 1) {
-          duration += `${h} hour`
-        }
-        if (h > 1) {
-          duration += `${h} hours`
-        }
-        return duration
+        return this.hourDuration(h)
       default:
         return this.defaultDuration(h, m, s)
     }
+  }
+
+  private mntsDuration(h: number, m: number, s: number): string {
+    let duration = ''
+    let space = ''
+    if (h > 0) {
+      duration += `${h}`
+    }
+    if (m > 0) {
+      if (h > 0) {
+        space = ' '
+      }
+      duration += `${space}${m}`
+    }
+    if (s > 0 && h === 0) {
+      if (m > 0) {
+        space = ' '
+      }
+      duration += `${space}${s}`
+    }
+    return duration
+  }
+
+  private hmsDuration(h: number, m: number, s: number): string {
+    let duration = ''
+    let space = ''
+    if (h > 0) {
+      duration += `${h}h`
+    }
+    if (m > 0) {
+      if (h > 0) {
+        space = ' '
+      }
+      duration += `${space}${m}m`
+    }
+    if (s > 0 && h === 0) {
+      if (m > 0) {
+        space = ' '
+      }
+      duration += `${space}${s}s`
+    }
+    return duration
+  }
+
+  private hourDuration(h: number): string {
+    if (h === 0) {
+      return 'less than an hour'
+    }
+    if (h === 1) {
+      return `${h} hour`
+    }
+    if (h > 1) {
+      return `${h} hours`
+    }
+    return ''
   }
 
   defaultDuration(h: number, m: number, s: number) {

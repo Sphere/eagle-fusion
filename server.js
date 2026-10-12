@@ -94,6 +94,31 @@ app.use((req, res, next) => {
   next()
 })
 
+// Link-preview bots (WhatsApp, Teams, Facebook, LinkedIn…) don't run JavaScript, so a
+// shared /app/toc/<course>/… link showed the portal's generic tags: that page is
+// login-only and not prerendered. Send bots to the course's prerendered public page,
+// which carries its own title, description and image. People still get the app.
+const PREVIEW_BOT = /facebookexternalhit|facebot|twitterbot|linkedinbot|whatsapp|slackbot|telegrambot|discordbot|skypeuripreview|teams|microsoftpreview|pinterest|redditbot|embedly|googlebot|bingbot|applebot/i
+const COURSE_OVERVIEW_DIR = path.join(distPath, 'public', 'toc', 'overview')
+
+app.get(/^\/app\/toc\/(do_[A-Za-z0-9_]+)(\/.*)?$/, (req, res, next) => {
+  if (!PREVIEW_BOT.test(req.get('user-agent') || '')) {
+    return next()
+  }
+  try {
+    const courseDir = path.join(COURSE_OVERVIEW_DIR, req.params[0])
+    const slug = fs.existsSync(courseDir)
+      ? fs.readdirSync(courseDir).find(name => fs.existsSync(path.join(courseDir, name, 'index.html')))
+      : undefined
+    if (slug) {
+      return res.redirect(301, `/public/toc/overview/${req.params[0]}/${slug}/`)
+    }
+  } catch (err) {
+    console.error(`Preview lookup failed for ${req.path}:`, err.message)
+  }
+  return next()
+})
+
 // Route handler: prerendered files → SPA fallback
 app.get('*', (req, res) => {
   const filePath = path.join(distPath, req.path)

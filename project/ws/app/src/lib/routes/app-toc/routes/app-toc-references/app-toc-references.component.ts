@@ -4,11 +4,11 @@ import { Subscription } from 'rxjs'
 import { AppTocService } from '../../services/app-toc.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-references',
-    templateUrl: './app-toc-references.component.html',
-    styleUrls: ['./app-toc-references.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-references',
+  templateUrl: './app-toc-references.component.html',
+  styleUrls: ['./app-toc-references.component.scss'],
+
 })
 export class AppTocReferencesComponent implements OnInit, OnDestroy {
   content: any = null
@@ -16,7 +16,7 @@ export class AppTocReferencesComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription | null = null
 
   loadContent = true
-  constructor(public route: ActivatedRoute, private tocSharedSvc: AppTocService,
+  constructor(public route: ActivatedRoute, private readonly tocSharedSvc: AppTocService,
 
   ) { }
 
@@ -34,7 +34,10 @@ export class AppTocReferencesComponent implements OnInit, OnDestroy {
       this.references = JSON.parse(this.content.references)
     }
   }
-  ngOnDestroy() {
-  }
 
+  ngOnDestroy() {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe()
+    }
+  }
 }

@@ -27,8 +27,4 @@ describe('LeadershipDashboardInfoComponent', () => {
     component.close()
     expect(mockDialogRef.close).toHaveBeenCalled()
   })
-
-  it('should complete ngOnInit without error', () => {
-    expect(() => component.ngOnInit()).not.toThrow()
-  })
 })

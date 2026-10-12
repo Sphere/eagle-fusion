@@ -5,26 +5,25 @@
       Guides for nurses, ANMs, GNMs and healthcare workers across India on CNE points,
       INC certification, and professional development.
     </p>
+    <p class="blog-hero-link">
+      Looking for courses rather than guides?
+      <a routerLink="/public/cne-courses">Browse free online CNE courses →</a>
+    </p>
   </div>
 
   <div class="blog-grid">
-    <article
-      class="blog-card"
-      *ngFor="let article of articles"
-      (click)="navigate(article.slug)"
-      (keydown.enter)="navigate(article.slug)"
-      tabindex="0"
-      role="article"
-    >
+    <article class="blog-card" *ngFor="let article of articles">
       <div class="blog-card-body">
         <div class="blog-card-meta">
           <span class="blog-date">{{ article.publishedDate }}</span>
           <span class="blog-dot">·</span>
           <span class="blog-read-time">{{ article.readTime }}</span>
         </div>
-        <h2 class="blog-card-title">{{ article.title }}</h2>
+        <h2 class="blog-card-title">
+          <a [routerLink]="['/public/blog', article.slug]" class="blog-card-link">{{ article.title }}</a>
+        </h2>
         <p class="blog-card-excerpt">{{ article.excerpt }}</p>
-        <span class="blog-read-link">Read article →</span>
+        <span class="blog-read-link" aria-hidden="true">Read article →</span>
       </div>
     </article>
   </div>

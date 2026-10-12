@@ -17,7 +17,7 @@ export class LanguageDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<LanguageDialogComponent>,
-    private logger: LoggerService,
+    private readonly logger: LoggerService,
     @Inject(MAT_DIALOG_DATA) public selectedData: any
   ) {
   }

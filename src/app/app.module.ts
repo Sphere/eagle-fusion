@@ -1,8 +1,8 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
-import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
+import { APP_BASE_HREF, LocationStrategy, PlatformLocation } from '@angular/common'
 import { CommonModule } from '@angular/common'
 import {
-  HTTP_INTERCEPTORS, HttpClient, HttpClientModule
+  HTTP_INTERCEPTORS, HttpClient, HttpClientModule,
 } from '@angular/common/http'
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
@@ -12,6 +12,7 @@ import {
   ErrorHandler,
   CUSTOM_ELEMENTS_SCHEMA,
   NO_ERRORS_SCHEMA,
+  provideZoneChangeDetection,
 } from '@angular/core'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
 import { MatButtonModule } from '@angular/material/button'
@@ -52,10 +53,9 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   ImageCropModule,
   LoggerService,
-  PipeSafeSanitizerModule,
   LogoutModule,
 } from '@ws-widget/utils'
-import { OrgSelectiveCourseModule, SearchModule } from '@ws/app/src/public-api'
+import { SearchModule } from '@ws/app/src/public-api'
 import { KeycloakAngularModule } from 'keycloak-angular'
 import { AppRoutingModule } from './app-routing.module'
 import { InitService } from './services/init.service'
@@ -69,12 +69,14 @@ import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicBlogModule } from './routes/public/public-blog/public-blog.module'
+import { PublicCneModule } from './routes/public/public-cne/public-cne.module'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
 
 import { AppInterceptorService } from './services/app-interceptor.service'
 import { AppRetryInterceptorService } from './services/app-retry-interceptor.service'
 import { AssetCacheInterceptorService } from './services/asset-cache-interceptor.service'
+import { PublicTrailingSlashLocationStrategy } from './services/public-trailing-slash-location.strategy'
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -85,7 +87,6 @@ import { CreateAccountComponent } from './routes/create-account/create-account.c
 import { YourLocationComponent } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { YourBackgroundComponent } from './routes/your-background/your-background.component'
-import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 
@@ -98,7 +99,6 @@ import { ConfigService } from './routes/discussion-forum/wrapper/service/config.
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
-import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 // @aastrika/comptency modules (EntryModule, SelfAssessmentModule, CompetencyModule)
 // are now lazy-loaded via src/app/routes/competency/competency.module.ts on the
@@ -138,12 +138,14 @@ import { UserProfileService } from '../../project/ws/app/src/lib/routes/user-pro
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
 // Downtime components imports
 import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
+import { rememberDowntimeBypassCode } from './services/downtime-config.service'
 import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
 import { RouterModule } from '@angular/router'
 import { CompetencyCourseListModule } from './component/competency-course-list/competency-course-list.module'
 import { ProgramHome } from './program/program-home/program-home'
 
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
+  rememberDowntimeBypassCode()
   try {
     await initSvc.init()
   } catch (error) {
@@ -161,16 +163,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 // Capacitor platform detection — safe in Node.js (Capacitor checks the environment internally)
-if (Capacitor.getPlatform() === 'ios') {
-  // eslint-disable-next-line no-console
-  console.log('iOS!')
-} else if (Capacitor.getPlatform() === 'android') {
-  // eslint-disable-next-line no-console
-  console.log('Android!')
-} else {
-  // eslint-disable-next-line no-console
-  console.log('Web!')
-}
+// Platform detection removed (replaced with LoggerService in init phase)
 
 // All window/localStorage/sessionStorage access guarded — Node.js has no DOM
 if (typeof window !== 'undefined') {
@@ -190,12 +183,8 @@ if (typeof window !== 'undefined') {
       localStorage.setItem('orgValue', orgValue)
       if (orgValue === 'nhsrc') {
         if (url.indexOf('do_') > 0) {
-          // eslint-disable-next-line no-console
-          console.log('app.module', url)
           localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]}` + `/overview`)
         } else {
-          // eslint-disable-next-line no-console
-          console.log('line number 182 else in app module.ts', url)
           window.location.href = `${document.baseURI}organisations/home`
         }
       }
@@ -231,8 +220,8 @@ const dbConfig: DBConfig = {
 }
 
 // Initialize with empty config for AOT compilation - will be replaced at runtime
-export let COMPETENCY_REGISTRATION_CONFIG = {
-  config: {},
+export const COMPETENCY_REGISTRATION_CONFIG = {
+  config: {} as Record<string, unknown>,
   isOnlyPassbook: '',
 }
 
@@ -240,17 +229,12 @@ export let COMPETENCY_REGISTRATION_CONFIG = {
 export function initializeCompetencyConfig(): () => void {
   return () => {
     try {
-      COMPETENCY_REGISTRATION_CONFIG = {
-        config: JSON.parse(localStorage.getItem('competency') || '{}'),
-        isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || '',
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error initializing competency config:', error)
-      COMPETENCY_REGISTRATION_CONFIG = {
-        config: {},
-        isOnlyPassbook: '',
-      }
+      COMPETENCY_REGISTRATION_CONFIG.config = JSON.parse(localStorage.getItem('competency') || '{}')
+      COMPETENCY_REGISTRATION_CONFIG.isOnlyPassbook = localStorage.getItem('isOnlyPassbook') || ''
+    } catch {
+      // Error initializing competency config — fallback to empty config
+      COMPETENCY_REGISTRATION_CONFIG.config = {}
+      COMPETENCY_REGISTRATION_CONFIG.isOnlyPassbook = ''
     }
   }
 }
@@ -298,7 +282,6 @@ export function initTranslate(translate: TranslateService) {
     YourLocationComponent,
     NewTncComponent,
     YourBackgroundComponent,
-    CompleteProfileComponent,
     ScrollDetectorDirective,
     AppNavBarComponent,
     BnrcmodalComponent,
@@ -306,7 +289,6 @@ export function initTranslate(translate: TranslateService) {
     WebPublicComponent,
     AshaLearningCardComponent,
     ProgramHome,
-    // SearchRootComponent
     WebDashboardComponent,
     AppPublicNavBarComponent,
     WebTrustedByPageComponent,
@@ -361,7 +343,7 @@ export function initTranslate(translate: TranslateService) {
     CompetencyCourseListModule,
     PublicHomeModule,
     PublicBlogModule,
-    PipeSafeSanitizerModule,
+    PublicCneModule,
     LogoutModule,
     SlidersModule,
     MatAutocompleteModule,
@@ -383,9 +365,17 @@ export function initTranslate(translate: TranslateService) {
     ProfileViewModule,
     MdePopoverModule,
     DowntimeFullComponent,
-    DowntimeBannerComponent,
-    OrgSelectiveCourseModule],
+    DowntimeBannerComponent],
   providers: [
+    // Without this the injector hands out NoopNgZone - verified at runtime - so the app
+    // runs zoneless even though zone.js is loaded and nothing asked for zoneless.
+    //
+    // Change detection then only fires for signals, template event bindings and the async
+    // pipe. Any component that mutates a field from a plain subscribe callback updates its
+    // model but never re-renders until an unrelated event happens to trigger a tick. That
+    // is the "new comment only appears when I move the mouse" behaviour in the discussion
+    // widget, and it affects every non-signal async update in the app, not just that one.
+    provideZoneChangeDetection(),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeCompetencyConfig,
@@ -427,6 +417,7 @@ export function initTranslate(translate: TranslateService) {
       useFactory: getBaseHref,
       deps: [PlatformLocation],
     },
+    { provide: LocationStrategy, useClass: PublicTrailingSlashLocationStrategy },
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
     Title,
@@ -436,7 +427,7 @@ export function initTranslate(translate: TranslateService) {
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {
-  constructor(private translate: TranslateService) {
+  constructor(private readonly translate: TranslateService) {
     this.translate.setDefaultLang('en')
     this.translate.use('en')
   }

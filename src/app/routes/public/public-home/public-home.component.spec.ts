@@ -8,7 +8,7 @@ jest.mock('@angular/common', () => ({
 }))
 
 jest.mock('@ws-widget/resolver', () => ({
-  WidgetBaseComponent: class {},
+  WidgetBaseComponent: class { },
   NsWidgetResolver: {},
 }))
 
@@ -93,6 +93,7 @@ describe('PublicHomeComponent', () => {
     mockConfigSvc.instanceConfig = { siteName: 'test' }
     mockConfigSvc.userProfile = { userId: 'user-1' }
     makeComponent()
+    component.ngOnInit()
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/page/home'])
   })
 
@@ -100,6 +101,7 @@ describe('PublicHomeComponent', () => {
     mockConfigSvc.instanceConfig = { siteName: 'test' }
     mockConfigSvc.userProfile = null
     makeComponent()
+    component.ngOnInit()
     expect(mockRouter.navigate).not.toHaveBeenCalledWith(['/page/home'])
   })
 
@@ -127,6 +129,46 @@ describe('PublicHomeComponent', () => {
       component.ngOnInit()
       expect(mockSnackBar.open).toHaveBeenCalledWith('Session expired', 'OK', expect.any(Object))
       sessionStorage.removeItem('mnc_error')
+    })
+
+    it('should set isEkshamata true and clear stored keys in browser', () => {
+      const commonMock = jest.requireMock('@angular/common')
+      commonMock.isPlatformBrowser.mockReturnValue(true)
+      const originalLocation = window.location
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: { ...originalLocation, hostname: 'ekshamata.example.com' },
+      })
+      localStorage.setItem('preferedLanguage', 'hi')
+      localStorage.setItem('url_before_login', '/x')
+      component.ngOnInit()
+      commonMock.isPlatformBrowser.mockReturnValue(false)
+      expect(component.isEkshamata).toBe(true)
+      expect(mockUserAgentSvc.requestGeolocation).toHaveBeenCalled()
+      expect(localStorage.getItem('preferedLanguage')).toBeNull()
+      expect(localStorage.getItem('url_before_login')).toBeNull()
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: originalLocation,
+      })
+    })
+  })
+
+  describe('constructor branches', () => {
+    it('redirects to organisations home when browser and orgValue is nhsrc', () => {
+      const commonMock = jest.requireMock('@angular/common')
+      commonMock.isPlatformBrowser.mockReturnValue(true)
+      localStorage.setItem('orgValue', 'nhsrc')
+      makeComponent()
+      component.ngOnInit()
+      commonMock.isPlatformBrowser.mockReturnValue(false)
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/public/organisations/home')
+    })
+
+    it('sets isXSmall true when isMobile returns true', () => {
+      mockValueSvc.isMobile = jest.fn().mockReturnValue(true)
+      makeComponent()
+      expect(component.isXSmall).toBe(true)
     })
   })
 })

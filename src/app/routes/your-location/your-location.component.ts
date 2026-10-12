@@ -38,8 +38,8 @@ export class YourLocationComponent implements OnInit {
   startDate = new Date(1999, 0, 1)
 
   constructor(
-    private http: HttpClient,
-    private logger: LoggerService
+    private readonly http: HttpClient,
+    private readonly logger: LoggerService
   ) {
     this.aboutYouForm = new UntypedFormGroup({
       dob: new UntypedFormControl(),
@@ -111,7 +111,7 @@ export class YourLocationComponent implements OnInit {
   stateSelect(event: any) {
     const value = event.value
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-      statesdata.states.map((item: any) => {
+      statesdata.states.forEach((item: any) => {
         if (item.state === value) {
           this.disticts = item.districts
         }

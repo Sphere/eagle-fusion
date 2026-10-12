@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { IBtnAppsConfig } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, LoggerService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
+import {
+  ConfigurationsService, LoggerService, NsInstanceConfig, NsPage, SafeResourceUrlService, ValueService,
+} from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
@@ -12,6 +14,7 @@ import { appNavBarService } from './app-nav-bar.service'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 import { ThemeService } from '../../services/theme.service'
+import { getPortalHost } from '../../constants/portal'
 
 @Component({
   standalone: false,
@@ -58,18 +61,18 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   config: any
   isDark: boolean = false
   constructor(
-    private domSanitizer: DomSanitizer,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     public configSvc: ConfigurationsService,
-    private router: Router,
-    private accessService: AccessControlService,
-    private valueSvc: ValueService,
+    private readonly router: Router,
+    private readonly accessService: AccessControlService,
+    private readonly valueSvc: ValueService,
     public dialog: MatDialog,
     public navOption: appNavBarService,
-    private playlistSvc: PlaylistService,
-    private languageSvc: LanguageService,
-    private cdr: ChangeDetectorRef,
-    private logger: LoggerService,
-    private themeSvc: ThemeService
+    private readonly playlistSvc: PlaylistService,
+    private readonly languageSvc: LanguageService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly logger: LoggerService,
+    private readonly themeSvc: ThemeService
   ) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
@@ -85,13 +88,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.restrictedFeatures) {
       this.isHelpMenuRestricted = this.configSvc.restrictedFeatures.has('helpNavBarMenu')
     }
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        this.cancelTour()
-      } else if (event instanceof NavigationEnd) {
-        this.cancelTour()
-      }
-    })
 
     effect(() => {
       this.isDark = this.themeSvc.isDark()
@@ -126,48 +122,60 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     this.cdr.detectChanges()
   }
 
-  async ngOnInit() {
-    await this.setUIData()
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.hideCreateButton = false
-    }
-    this.hideSearch = false
-    this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
-    this.router.events.subscribe((e: Event) => {
-      if (e instanceof NavigationEnd) {
-        if ((e.url.includes('/app/setup') && this.configSvc.instanceConfig && !this.configSvc.instanceConfig.showNavBarInSetup)) {
-          this.showAppNavBar = false
-        } else {
-          this.showAppNavBar = true
-          if (e.url.includes('new-tnc')) {
-            this.hideSearch = true
-          }
-          if (e.url.includes('/search/home') || (e.url.includes('/app/new-tnc'))) {
-            this.showSearchIcon = false
-          } else {
-            this.navOption.changeNavBarActive('search')
-            this.showSearchIcon = true
-          }
-        }
+  ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.cancelTour()
+      } else if (event instanceof NavigationEnd) {
+        this.cancelTour()
       }
     })
+    this.initializeComponent()
+  }
 
-    if (this.configSvc.instanceConfig) {
-      this.instanceVal = this.configSvc.rootOrg || ''
-      if (this.configSvc.instanceConfig.logos.appBottomNav) {
-        this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.configSvc.instanceConfig.logos.appBottomNav,
-        )
+  private initializeComponent(): void {
+    this.setUIData().then(() => {
+      if (localStorage.getItem('orgValue') === 'nhsrc') {
+        this.hideCreateButton = false
       }
-      this.primaryNavbarBackground = this.configSvc.primaryNavBar
-      this.pageNavbar = this.configSvc.pageNavBar
-      this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
-      this.cdr.detectChanges()
-    }
-    if (this.configSvc.appsConfig) {
-      this.featureApps = Object.keys(this.configSvc.appsConfig.features)
-    }
-    this.domain = window.location.hostname
+      this.hideSearch = false
+      this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
+      this.router.events.subscribe((e: Event) => {
+        if (e instanceof NavigationEnd) {
+          if ((e.url.includes('/app/setup') && this.configSvc.instanceConfig && !this.configSvc.instanceConfig.showNavBarInSetup)) {
+            this.showAppNavBar = false
+          } else {
+            this.showAppNavBar = true
+            if (e.url.includes('new-tnc')) {
+              this.hideSearch = true
+            }
+            if (e.url.includes('/search/home') || (e.url.includes('/app/new-tnc'))) {
+              this.showSearchIcon = false
+            } else {
+              this.navOption.changeNavBarActive('search')
+              this.showSearchIcon = true
+            }
+          }
+        }
+      })
+
+      if (this.configSvc.instanceConfig) {
+        this.instanceVal = this.configSvc.rootOrg || ''
+        if (this.configSvc.instanceConfig.logos.appBottomNav) {
+          this.appBottomIcon = this.safeResourceUrlSvc.trust(
+            this.configSvc.instanceConfig.logos.appBottomNav,
+          )
+        }
+        this.primaryNavbarBackground = this.configSvc.primaryNavBar
+        this.pageNavbar = this.configSvc.pageNavBar
+        this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
+        this.cdr.detectChanges()
+      }
+      if (this.configSvc.appsConfig) {
+        this.featureApps = Object.keys(this.configSvc.appsConfig.features)
+      }
+      this.domain = getPortalHost()
+    })
   }
 
   createAcct() {

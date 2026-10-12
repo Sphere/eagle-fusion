@@ -5,7 +5,6 @@ import {
   getFullScreenElement,
   requestExitFullScreen,
   requestFullScreen,
-  // hasFullScreenSupport,
 } from './fullscreen.util'
 import { Router } from '@angular/router'
 import { LoggerService } from '../../../../utils/src/public-api'
@@ -22,16 +21,14 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   @Input() widgetData!: { fsContainer: HTMLElement | null }
   @Output() fsState: EventEmitter<boolean> = new EventEmitter()
   containsQuizAssessment = false
-  constructor(private router: Router, private logger: LoggerService) {
+  constructor(private readonly router: Router, private readonly logger: LoggerService) {
     super()
     this.logger.log(this.router.url.includes('quiz'))
     this.containsQuizAssessment = this.router.url.includes('quiz')
     this.logger.log(this.containsQuizAssessment)
   }
-  // isFullScreenSupported = true
   isInFs = false
   fsChangeSubs: Subscription | null = null
-  // isFullScreenSupported: boolean | undefined
 
   ngOnInit() {
     if (!this.widgetData.fsContainer) {
@@ -42,7 +39,6 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
       this.isInFs = Boolean(getFullScreenElement())
       this.fsState.emit(this.isInFs)
     })
-    // this.isFullScreenSupported = hasFullScreenSupport(this.widgetData.fsContainer)
   }
 
   ngOnDestroy() {
@@ -52,11 +48,6 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   }
 
   toggleFs() {
-    // let elem: any
-    // elem = document
-    // if (elem.fullscreenEnabled === false) {
-    //   elem.documentElement.className = 'myClass'
-    // }
     if (getFullScreenElement()) {
       requestExitFullScreen()
       this.fsState.emit(false)

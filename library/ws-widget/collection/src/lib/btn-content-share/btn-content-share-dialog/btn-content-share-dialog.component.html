@@ -6,27 +6,42 @@
   </button>
 </div>
 
-<div *ngIf="isSocialMediaShareEnabled" class="share-body">
-  <!-- Social section -->
-  <p class="share-section-label">Share on Social Media</p>
-  <div class="share-social-row">
-    <ws-widget-btn-facebook-share [url]="detailUrl"></ws-widget-btn-facebook-share>
-    <ws-widget-btn-twitter-share [url]="detailUrl" [message]="message"></ws-widget-btn-twitter-share>
-    <ws-widget-btn-linkedin-share [url]="detailUrl"></ws-widget-btn-linkedin-share>
-    <ws-widget-btn-whatsapp-share [url]="detailUrl"></ws-widget-btn-whatsapp-share>
-  </div>
-
-  <div class="share-divider"></div>
-
-  <!-- QR section -->
-  <p class="share-section-label">Scan to Share</p>
-  <div class="share-qr-row">
-    <div class="share-qr-wrap">
-      <qrcode #code [qrdata]="qrdata" [width]="130" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
-    </div>
-    <button class="share-download-btn" (click)="saveAsImage(code)">
-      <mat-icon>file_download</mat-icon>
-      <span>Download QR</span>
+<div class="share-body">
+  <!-- Copy link: the course's public page -->
+  <p class="share-section-label">{{ 'COPY_LINK' | translate }}</p>
+  <div class="share-link-row">
+    <input class="share-link-input" type="text" readonly [value]="publicUrl"
+      [attr.aria-label]="'COPY_LINK' | translate" (focus)="$any($event.target).select()" />
+    <button class="share-copy-btn" type="button" (click)="copyLink()">
+      <mat-icon>content_copy</mat-icon>
+      <span>{{ 'COPY' | translate }}</span>
     </button>
   </div>
+
+  <ng-container *ngIf="isSocialMediaShareEnabled">
+    <div class="share-divider"></div>
+
+    <!-- Social section -->
+    <p class="share-section-label">Share on Social Media</p>
+    <div class="share-social-row">
+      <ws-widget-btn-facebook-share [url]="detailUrl"></ws-widget-btn-facebook-share>
+      <ws-widget-btn-twitter-share [url]="detailUrl" [message]="message"></ws-widget-btn-twitter-share>
+      <ws-widget-btn-linkedin-share [url]="detailUrl"></ws-widget-btn-linkedin-share>
+      <ws-widget-btn-whatsapp-share [url]="detailUrl"></ws-widget-btn-whatsapp-share>
+    </div>
+
+    <div class="share-divider"></div>
+
+    <!-- QR section -->
+    <p class="share-section-label">Scan to Share</p>
+    <div class="share-qr-row">
+      <div class="share-qr-wrap">
+        <qrcode #code [qrdata]="qrdata" [width]="130" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+      </div>
+      <button class="share-download-btn" (click)="saveAsImage(code)">
+        <mat-icon>file_download</mat-icon>
+        <span>Download QR</span>
+      </button>
+    </div>
+  </ng-container>
 </div>

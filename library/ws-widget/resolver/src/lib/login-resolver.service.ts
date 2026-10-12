@@ -7,7 +7,7 @@ import {
   Type,
 } from '@angular/core'
 import { NsWidgetResolver } from '../lib/widget-resolver.model'
-import { DomSanitizer } from '@angular/platform-browser'
+import { SafeResourceUrlService } from '@ws-widget/utils'
 import { InvalidRegistrationComponent } from './invalid-registration/invalid-registration.component'
 
 @Injectable({
@@ -17,11 +17,11 @@ export class LoginResolverService {
   isInitialized = false
 
   constructor(
-    private domSanitizer: DomSanitizer,
+    private readonly safeResourceUrlSvc: SafeResourceUrlService,
     @Inject(WIDGET_RESOLVER_GLOBAL_CONFIG)
-    private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
+    private readonly globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
     @Inject(WIDGET_RESOLVER_SCOPED_CONFIG)
-    private scopedConfig: null | NsWidgetResolver.IRegistrationConfig[]) { }
+    private readonly scopedConfig: null | NsWidgetResolver.IRegistrationConfig[]) { }
   private availableRegisteredWidgets: Map<
     string,
     NsWidgetResolver.IRegistrationConfig
@@ -92,7 +92,7 @@ export class LoginResolverService {
     compRef.instance.widgetData = compData.widgetData
     if (compRef.instance.updateBaseComponent) {
       const widgetSafeStyle = compData.widgetHostStyle
-        ? this.domSanitizer.bypassSecurityTrustStyle(
+        ? this.safeResourceUrlSvc.trustStyle(
           Object.entries(compData.widgetHostStyle).reduce((s, [k, v]) => `${s}${k}:${v};`, ''),
         )
         : undefined

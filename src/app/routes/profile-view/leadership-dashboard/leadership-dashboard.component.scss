@@ -257,6 +257,7 @@
   border-bottom: 1px solid #f0f0f0;
   background: var(--theme-bg);
   transition: background-color 0.2s;
+  color: var(--theme-text);
 
   &:active {
     background: #f9f9f9;

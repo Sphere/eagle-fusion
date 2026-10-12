@@ -8,7 +8,7 @@ import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConsta
 export class ResourceCollectionService {
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
   ) { }
 
   getAllSubmission(type: string, contentId: string) {

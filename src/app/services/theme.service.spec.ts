@@ -1,6 +1,6 @@
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),
-  effect: (fn: any) => { fn(); return {} },
+  effect: (fn: any) => { (globalThis as any).__themeEffectFn = fn; fn(); return {} },
 }))
 
 import { ThemeService } from './theme.service'
@@ -20,6 +20,7 @@ describe('ThemeService', () => {
   afterEach(() => {
     localStorage.clear()
     jest.clearAllMocks()
+    document.querySelectorAll('#dynamic-theme-overrides').forEach(el => el.remove())
   })
 
   it('should create', () => {
@@ -100,6 +101,72 @@ describe('ThemeService', () => {
 
     it('does not throw with a valid theme config', async () => {
       await expect(service.applyOrgTheme({ primary: '#1c5d95' })).resolves.not.toThrow()
+    })
+
+    it('returns early via applyOrgColors when in dark mode', async () => {
+      service.setTheme(true)
+      await service.applyOrgTheme({ primary: '#1c5d95' })
+      expect(document.getElementById('dynamic-theme-overrides')).toBeNull()
+    })
+
+    it('skips unknown keys and empty values when applying org colors', async () => {
+      service.setTheme(false)
+      await service.applyOrgTheme({ primary: '#123456', bogusKey: '#fff', white: '' } as any)
+      const tag = document.getElementById('dynamic-theme-overrides')
+      expect(tag?.innerHTML).toContain('--theme-primary: #123456')
+      expect(tag?.innerHTML).not.toContain('--theme-surface')
+    })
+  })
+
+  describe('effect reactions', () => {
+    it('applies org colors when light mode and themeConfig set', () => {
+      service.setTheme(false)
+      service.themeConfig = { primary: '#abcabc' }
+      ;(globalThis as any).__themeEffectFn()
+      const tag = document.getElementById('dynamic-theme-overrides')
+      expect(tag?.innerHTML).toContain('--theme-primary: #abcabc')
+    })
+
+    it('removes style tag when switching to dark mode', () => {
+      const tag = document.createElement('style')
+      tag.id = 'dynamic-theme-overrides'
+      document.head.appendChild(tag)
+      service.setTheme(true)
+      ;(globalThis as any).__themeEffectFn()
+      expect(document.getElementById('dynamic-theme-overrides')).toBeNull()
+    })
+  })
+
+  describe('system preference and watcher', () => {
+    it('uses system preference (dark) when nothing saved', () => {
+      localStorage.clear()
+      ;(window.matchMedia as jest.Mock).mockReturnValue({ matches: true, addEventListener: jest.fn() })
+      const svc = new ThemeService()
+      expect(svc.isDark()).toBe(true)
+    })
+
+    it('auto-switches on system change when no stored preference', () => {
+      let handler: any
+      ;(window.matchMedia as jest.Mock).mockReturnValue({
+        matches: false,
+        addEventListener: (_e: string, h: any) => { handler = h },
+      })
+      const svc = new ThemeService()
+      localStorage.clear()
+      handler({ matches: true })
+      expect(svc.isDark()).toBe(true)
+    })
+
+    it('does not auto-switch on system change when preference stored', () => {
+      let handler: any
+      ;(window.matchMedia as jest.Mock).mockReturnValue({
+        matches: false,
+        addEventListener: (_e: string, h: any) => { handler = h },
+      })
+      const svc = new ThemeService()
+      svc.setTheme(false)
+      handler({ matches: true })
+      expect(svc.isDark()).toBe(false)
     })
   })
 })

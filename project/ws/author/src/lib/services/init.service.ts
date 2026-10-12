@@ -3,7 +3,6 @@ import { ICollectionEditorConfig } from './../interface/collection-editor'
 import { ICreateEntity } from './../interface/create-entity'
 import { IFormMeta } from './../interface/form'
 import { IConditionsV2 } from '../interface/conditions-v2'
-import { IMetaUnit } from '../routing/modules/editor/interface/meta'
 
 interface IPermission {
   conditions: IConditionsV2
@@ -20,7 +19,7 @@ interface IPermission {
 @Injectable()
 export class AuthInitService {
   authConfig!: IFormMeta
-  authMetaV2!: { [key: string]: IMetaUnit<any> }
+  authMetaV2!: { [key: string]: any }
   ordinals: any
   authAdditionalConfig!: any
   collectionConfig!: ICollectionEditorConfig

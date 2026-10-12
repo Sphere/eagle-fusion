@@ -15,9 +15,6 @@ import { MatMenuModule } from '@angular/material/menu'
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatCheckboxModule } from '@angular/material/checkbox'
-// import { MatSnackBarModule } from '@angular/material/snack-bar'
-
-// import { EditorQuillModule } from './editor-quill/editor-quill.module'
 import { UserImageModule } from '../_common/user-image/user-image.module'
 import { BtnSocialVoteModule } from './actionBtn/btn-social-vote/btn-social-vote.module'
 import { BtnSocialLikeModule } from './actionBtn/btn-social-like/btn-social-like.module'
@@ -41,9 +38,7 @@ import { DialogSocialDeletePostModule } from './dialog/dialog-social-delete-post
         MatProgressSpinnerModule,
         BtnSocialVoteModule,
         BtnSocialLikeModule,
-        // EditorQuillModule,
         UserImageModule,
-        // MatSnackBarModule,
         DialogSocialActivityUserModule,
         DialogSocialDeletePostModule,
     ],

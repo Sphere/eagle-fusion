@@ -7,13 +7,13 @@ type consoleFun = (...args: any) => void
   providedIn: 'root',
 })
 export class LoggerService {
-  constructor(private configSvc: ConfigurationsService) { }
+  constructor(private readonly configSvc: ConfigurationsService) { }
 
-  private consoleError = console.error
-  private consoleInfo = console.info
-  private consoleLog = console.log
-  private consoleWarn = console.warn
-  private noConsole: consoleFun = () => { }
+  private readonly consoleError = console.error
+  private readonly consoleInfo = console.info
+  private readonly consoleLog = console.log
+  private readonly consoleWarn = console.warn
+  private readonly noConsole: consoleFun = () => { }
 
   get error() {
     return this.consoleError

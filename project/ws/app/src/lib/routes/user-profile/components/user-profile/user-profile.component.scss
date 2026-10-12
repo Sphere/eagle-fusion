@@ -214,7 +214,6 @@ input[type='number'] {
     .mdc-notched-outline__leading {
       border: 1px solid #70707069;
       border-radius: 8px 0 0 8px;
-      border-right-style: none;
       /* border: 1px solid currentColor; */
       min-width: 8px;
       border-right-style: none;
@@ -313,7 +312,7 @@ input.mdc-text-field__input {
   }
 }
 
-::ng-deeptextarea.mdc-text-field__input {
+::ng-deep textarea.mdc-text-field__input {
   padding: 8px 0;
 }
 

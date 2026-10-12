@@ -25,6 +25,7 @@ describe('SelfAssessmentGuard', () => {
   let mockConfigSvc: any
   let mockRouter: any
   let mockTranslate: any
+  let mockLogger: any
 
   beforeEach(() => {
     localStorage.clear()
@@ -41,7 +42,10 @@ describe('SelfAssessmentGuard', () => {
     mockConfigSvc = { userProfile: null }
     mockRouter = { navigate: jest.fn() }
     mockTranslate = { getCurrentLang: jest.fn().mockReturnValue('en') }
-    guard = new SelfAssessmentGuard(mockContentSvc, mockConfigSvc as any, mockRouter, mockTranslate)
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn(), info: jest.fn() }
+    guard = new SelfAssessmentGuard(
+      mockContentSvc, mockConfigSvc as any, mockRouter, mockTranslate, mockLogger
+    )
   })
 
   afterEach(() => {

@@ -30,6 +30,7 @@ describe('DowntimeConfigService', () => {
   let mockHttp: any
   let mockNgZone: any
   let mockConfigSvc: any
+  let mockLogger: any
 
   beforeEach(() => {
     jest.useFakeTimers()
@@ -41,7 +42,8 @@ describe('DowntimeConfigService', () => {
       run: jest.fn().mockImplementation((fn: any) => fn()),
     }
     mockConfigSvc = new ConfigurationsService()
-    service = new DowntimeConfigService(mockNgZone, mockHttp, mockConfigSvc)
+    mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
+    service = new DowntimeConfigService(mockNgZone, mockHttp, mockConfigSvc, mockLogger)
   })
 
   afterEach(() => {
@@ -81,7 +83,7 @@ describe('DowntimeConfigService', () => {
 
   it('initializeDowntimeConfig handles API error gracefully', done => {
     mockHttp.post.mockReturnValue(of({ result: null }))
-    const svc2 = new DowntimeConfigService(mockNgZone, mockHttp, mockConfigSvc)
+    const svc2 = new DowntimeConfigService(mockNgZone, mockHttp, mockConfigSvc, mockLogger)
     svc2.initializeDowntimeConfig().subscribe(state => {
       expect(state.isDowntime).toBe(false)
       done()
