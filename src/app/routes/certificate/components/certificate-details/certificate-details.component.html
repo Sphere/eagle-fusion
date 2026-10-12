@@ -4,6 +4,8 @@
     <div class="sb-certificatePage-header">
       <img [src]="appIcon" class="sb-certificatePage-logo" alt="Aastrika Sphere Logo" />
     </div>
+    <!-- The access-code illustration would read as "enter a code" next to the invalid message. -->
+    @if (stage !== 'invalid') {
     <div class="sb-certificatePage-desc m-0">
       <div class="sb-certificatePage-loader">
         <!-- <p>{{resourceService?.frmelmnts?.lbl?.verifyingCertificate}}</p> -->
@@ -12,6 +14,7 @@
       </div>
       <img src="fusion-assets/images/certificate.png" class="sb-certificatePage-desc-img" alt="Certificate Desc" />
     </div>
+    }
     @if (stage === 'invalid') {
     <div class="sb-certificatePage-invalid" role="alert">
       <mat-icon class="sb-certificatePage-invalid-icon" aria-hidden="true">gpp_bad</mat-icon>
