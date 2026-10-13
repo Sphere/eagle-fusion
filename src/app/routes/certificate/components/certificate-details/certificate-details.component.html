@@ -4,14 +4,26 @@
     <div class="sb-certificatePage-header">
       <img [src]="appIcon" class="sb-certificatePage-logo" alt="Aastrika Sphere Logo" />
     </div>
+    <!-- The access-code illustration would read as "enter a code" next to the invalid message. -->
+    @if (stage !== 'invalid') {
     <div class="sb-certificatePage-desc m-0">
       <div class="sb-certificatePage-loader">
         <!-- <p>{{resourceService?.frmelmnts?.lbl?.verifyingCertificate}}</p> -->
         <p> Please wait! We are verifying certificate.. </p>
-        <img src="fusion-assets/images/loader.gif" class="sb-certificatePage-loader-img" alt="Loader" />
+        <mat-spinner class="sb-certificatePage-loader-spinner" diameter="36" aria-hidden="true"></mat-spinner>
       </div>
       <img src="fusion-assets/images/certificate.png" class="sb-certificatePage-desc-img" alt="Certificate Desc" />
     </div>
+    }
+    @if (stage === 'invalid') {
+    <div class="sb-certificatePage-invalid" role="alert">
+      <mat-icon class="sb-certificatePage-invalid-icon" aria-hidden="true">gpp_bad</mat-icon>
+      <h4 class="sb-certificatePage-invalid-title">{{ 'CERT_VERIFY_INVALID_TITLE' | translate }}</h4>
+      <p class="sb-certificatePage-invalid-desc">{{ 'CERT_VERIFY_INVALID_DESC' | translate }}</p>
+    </div>
+    }
+    <!-- Old access-code check: only for ids Sunbird RC does not know (see verifyFromQr). -->
+    @if (stage === 'code') {
     <div class="sb-certificatePage-form">
       <div class="sb-form-field-group">
         <label *ngIf="!wrongCertificateCode" class="sb-certificatePage-label" for="certificate">
@@ -35,6 +47,7 @@
         </div>
       </div>
     </div>
+    }
   </div>
   <div *ngIf="viewCertificate">
     <div class="sb-certificatePage sb-certificate-view sb-certificatePage-flexHeight">
@@ -44,6 +57,7 @@
       <div class="sb-certificatePage-holder-details">
 
         <img src="fusion-assets/images/badge.svg" class="sb-icon-badge mb-8" alt="Badge" />
+        <p class="sb-certificatePage-verified-label">{{ 'CERT_VERIFY_VERIFIED' | translate }}</p>
         <p *ngIf="recipient" class="sb-certificatePage-holder-desc sb-certificatePage-holder-desc-primary">
           <!-- {{resourceService?.frmelmnts?.lbl?.certificateIssuedTo}} -->
           {{'Certificate issued to '}}
@@ -64,6 +78,9 @@
             <strong> {{issuedOn}}</strong>
           </span>
         </p>
+        @if (certificateImage) {
+        <img [src]="certificateImage" class="sb-certificatePage-image" [alt]="'Certificate' | translate" />
+        }
 
       </div>
 

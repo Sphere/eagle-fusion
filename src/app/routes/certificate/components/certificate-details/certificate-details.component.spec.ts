@@ -48,7 +48,10 @@ describe('CertificateDetailsComponent', () => {
 
   beforeEach(() => {
     mockRoute = { snapshot: { params: { uuid: 'cert-uuid-123' } } }
-    mockCertSvc = { validateCertificate: jest.fn().mockReturnValue(of({})) }
+    mockCertSvc = {
+      validateCertificate: jest.fn().mockReturnValue(of({})),
+      verifyCertificate: jest.fn().mockReturnValue(of({ found: false })),
+    }
     mockConfigSvc = { rootOrg: 'aastrika' }
     mockSanitizer = {
       trust: jest.fn().mockImplementation(url => ({ safe: url })),

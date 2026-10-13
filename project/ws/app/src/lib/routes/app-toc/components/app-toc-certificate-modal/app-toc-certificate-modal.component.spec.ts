@@ -26,6 +26,8 @@ const mockContentSvc: Partial<WidgetContentService> = {
 const mockSanitizer: Partial<SafeResourceUrlService> = {
   trustUrl: jest.fn().mockReturnValue('trusted-url'),
   trustImageSrc: jest.fn().mockReturnValue('trusted-url'),
+  // Raw SVG printUris are turned into object URLs first; plain URLs pass through unchanged
+  toImageSource: jest.fn().mockImplementation((src: string) => src),
 }
 
 const mockLogger: Partial<LoggerService> = {

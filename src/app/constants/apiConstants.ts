@@ -11,6 +11,7 @@ export const API_END_POINTS = {
     `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
   KEYCLOAK_COOKIE: `${PUBLIC_SLAG_V8}/emailMobile/authv2`,
   VALIDATE_CERTIFICATE: `${PUBLIC_SLAG_V8}/certificate/validate`,
+  VERIFY_CERTIFICATE: `${PUBLIC_SLAG_V8}/certificate/verify`,
   USER_SIGNUP: `${PUBLIC_SLAG_V8}/register/registerUserWithEmail`,
   USER_SIGNUP_NEW: `${PROTECTED_SLAG_V8}/user/profileDetails/createUser`,
   REGISTERUSERWITHMOBILE: `${PUBLIC_SLAG_V8}/register/registerUserWithMobile`,

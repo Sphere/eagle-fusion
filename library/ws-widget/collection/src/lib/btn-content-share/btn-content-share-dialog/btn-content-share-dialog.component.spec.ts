@@ -54,7 +54,9 @@ describe('BtnContentShareDialogComponent', () => {
   describe('ngOnInit', () => {
     it('should set qrdata and message from fetchConfigFile response', () => {
       component.ngOnInit()
-      expect(component.qrdata).toContain('public/toc/overview?courseId=')
+      // The QR carries the course's public page, the same link as the copy-link box
+      expect(component.qrdata).toBe(component.publicUrl)
+      expect(component.qrdata).toContain('/public/toc/overview/')
       expect(component.message).toBe('Custom share message')
     })
 
@@ -133,20 +135,28 @@ describe('BtnContentShareDialogComponent', () => {
       expect(component.detailUrl).toContain('/app/knowledge-board/id1')
     })
 
-    it('should build url for KNOWLEDGE_ARTIFACT contentType', () => {
+    // Courses and other content share the public page (/app/toc needs a login, and link
+    // previews only read the public page's tags); the slug falls back to the id without a name.
+    it('should share the public page for KNOWLEDGE_ARTIFACT contentType', () => {
       component.data = { content: { contentType: NsContent.EContentTypes.KNOWLEDGE_ARTIFACT, identifier: 'id1' } } as any
-      expect(component.detailUrl).toContain('/app/toc/id1/overview')
+      expect(component.detailUrl).toBe(`${location.origin}/public/toc/overview/id1/id1/`)
     })
 
-    it('should build default url for unknown contentType', () => {
+    it('should share the public page for unknown contentType', () => {
       component.data = { content: { contentType: 'Unknown', identifier: 'id1' } } as any
-      expect(component.detailUrl).toContain('/app/toc/id1/overview')
+      expect(component.detailUrl).toBe(`${location.origin}/public/toc/overview/id1/id1/`)
     })
 
-    it('should append activeLocale path when present', () => {
+    it('should append activeLocale path for in-app links', () => {
+      component.configSvc = { activeLocale: { path: 'en' } } as any
+      component.data = { content: { contentType: NsContent.EContentTypes.KNOWLEDGE_BOARD, identifier: 'id1' } } as any
+      expect(component.detailUrl).toContain('/en/app/knowledge-board/id1')
+    })
+
+    it('should not prefix the public page with the locale', () => {
       component.configSvc = { activeLocale: { path: 'en' } } as any
       component.data = { content: { contentType: 'Unknown', identifier: 'id1' } } as any
-      expect(component.detailUrl).toContain('/en/app/toc/id1/overview')
+      expect(component.detailUrl).toBe(`${location.origin}/public/toc/overview/id1/id1/`)
     })
   })
 
