@@ -137,6 +137,8 @@ describe('MobileProfileDashboardComponent', () => {
     mockSafeResourceUrlSvc = {
       trustUrl: jest.fn().mockReturnValue('safe-url'),
       trustImageSrc: jest.fn().mockReturnValue('safe-image-url'),
+      // Raw SVG printUris are turned into object URLs before trustImageSrc(); pass others through
+      toImageSource: jest.fn().mockImplementation((src: string) => src),
     }
     mockValueSvc = { isMobile: jest.fn().mockReturnValue(false) }
     mockCompetencyConfigSvc = { getCompetencyConfig: jest.fn() }
