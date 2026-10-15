@@ -3,6 +3,7 @@ import { NSQuiz } from '../../quiz.model'
 import { SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { SafeResourceUrlService } from '@ws-widget/utils'
+import { secureRandomInt } from 'library/ws-widget/utils/src/lib/helpers/functions/secureRandom'
 
 @Component({
     standalone: false,
@@ -265,7 +266,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex)
+      randomIndex = secureRandomInt(currentIndex)
       currentIndex -= 1
 
       // And swap it with the current element.

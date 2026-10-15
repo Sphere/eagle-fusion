@@ -1,5 +1,6 @@
 // Web Worker for heavy computations
 /// <reference lib="webworker" />
+import { secureRandom } from 'library/ws-widget/utils/src/lib/helpers/functions/secureRandom'
 
 addEventListener('message', ({ data }) => {
   switch (data.type) {
@@ -24,7 +25,7 @@ function performHeavyComputation(data: any): any {
   // Example: Complex calculations, data transformations
   return data.map((item: any) => {
     // Simulate heavy computation
-    return { ...item, computed: Math.random() * 1000 }
+    return { ...item, computed: secureRandom() * 1000 }
   })
 }
 
