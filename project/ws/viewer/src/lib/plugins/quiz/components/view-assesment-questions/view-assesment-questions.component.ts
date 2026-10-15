@@ -8,6 +8,7 @@ import { SafeResourceUrlService } from '@ws-widget/utils'
 
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
+import { secureRandomInt } from 'library/ws-widget/utils/src/lib/helpers/functions/secureRandom'
 @Component({
   standalone: false,
   selector: 'viewer-view-assesment-questions',
@@ -331,7 +332,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex)
+      randomIndex = secureRandomInt(currentIndex)
       currentIndex -= 1
 
       // And swap it with the current element.

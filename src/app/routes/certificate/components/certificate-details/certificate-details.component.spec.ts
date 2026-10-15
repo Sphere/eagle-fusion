@@ -55,6 +55,8 @@ describe('CertificateDetailsComponent', () => {
     mockConfigSvc = { rootOrg: 'aastrika' }
     mockSanitizer = {
       trust: jest.fn().mockImplementation(url => ({ safe: url })),
+      toImageSource: jest.fn().mockReturnValue('blob:rendered'),
+      trustImageSrc: jest.fn().mockImplementation(src => ({ safeImg: src })),
     }
     mockApiService = { get: jest.fn().mockReturnValue(of({})) }
     mockRouter = { navigate: jest.fn() }
@@ -229,6 +231,162 @@ describe('CertificateDetailsComponent', () => {
       mockApiService.get = jest.fn().mockReturnValue(of({ result: { content: {} } }))
       component.getCollectionHierarchy('abc_789')
       expect(mockApiService.get).toHaveBeenCalledWith('course/v1/hierarchy/abc_789', {})
+    })
+  })
+
+  describe('verifyFromQr', () => {
+    const rcCertificate = {
+      certificateId: 'rc-1',
+      courseName: 'Newborn Care',
+      entity: 'TrainingCertificate',
+      issuedOn: '2026-03-05',
+      issuerName: 'in',
+      recipientName: 'Asha Devi',
+      revoked: false,
+    }
+
+    it('passes the uuid and the entity query param to verifyCertificate', () => {
+      mockRoute.snapshot.queryParamMap = { get: jest.fn().mockReturnValue('TrainingCertificate') }
+      component.verifyFromQr()
+      expect(mockRoute.snapshot.queryParamMap.get).toHaveBeenCalledWith('entity')
+      expect(mockCertSvc.verifyCertificate).toHaveBeenCalledWith('cert-uuid-123', 'TrainingCertificate')
+    })
+
+    it('passes an undefined entity when the route has no query params', () => {
+      component.verifyFromQr()
+      expect(mockCertSvc.verifyCertificate).toHaveBeenCalledWith('cert-uuid-123', undefined)
+    })
+
+    it('shows a valid RC certificate with its rendered image', () => {
+      mockCertSvc.verifyCertificate.mockReturnValue(of({ found: true, certificate: rcCertificate, printUri: '<svg/>' }))
+      component.maskedEmail = 'old@example.com'
+      component.maskedPhone = '+91-98***'
+      component.verifyFromQr()
+      expect(component.stage).toBe('verified')
+      expect(component.viewCertificate).toBe(true)
+      expect(component.loader).toBe(false)
+      expect(component.recipient).toBe('Asha Devi')
+      expect(component.courseName).toBe('Newborn Care')
+      expect(component.issuedOn).toBe('05 Mar 2026')
+      expect(component.contactDisplay).toBe('')
+      expect(mockSanitizer.toImageSource).toHaveBeenCalledWith('<svg/>', expect.any(Array))
+      expect(mockSanitizer.trustImageSrc).toHaveBeenCalledWith('blob:rendered')
+      expect(component.certificateImage).toEqual({ safeImg: 'blob:rendered' })
+      expect(mockCdr.detectChanges).toHaveBeenCalled()
+    })
+
+    it('leaves the image empty when RC returns no printUri', () => {
+      mockCertSvc.verifyCertificate.mockReturnValue(of({ found: true, certificate: rcCertificate }))
+      component.verifyFromQr()
+      expect(component.stage).toBe('verified')
+      expect(component.certificateImage).toBeNull()
+      expect(mockSanitizer.toImageSource).not.toHaveBeenCalled()
+    })
+
+    it('keeps a non-date issuedOn as it is', () => {
+      const certificate = { ...rcCertificate, issuedOn: '1712345678' }
+      mockCertSvc.verifyCertificate.mockReturnValue(of({ found: true, certificate }))
+      component.verifyFromQr()
+      expect(component.issuedOn).toBe('1712345678')
+    })
+
+    it('shows an empty issuedOn when RC sends none', () => {
+      const certificate = { ...rcCertificate, issuedOn: undefined as any }
+      mockCertSvc.verifyCertificate.mockReturnValue(of({ found: true, certificate }))
+      component.verifyFromQr()
+      expect(component.issuedOn).toBe('')
+    })
+
+    it('marks a revoked certificate as invalid', () => {
+      mockCertSvc.verifyCertificate.mockReturnValue(of({ found: true, certificate: { ...rcCertificate, revoked: true } }))
+      component.verifyFromQr()
+      expect(component.stage).toBe('invalid')
+      expect(component.viewCertificate).toBeFalsy()
+      expect(component.loader).toBe(false)
+    })
+
+    it('falls back to the access code when not found and migration is not complete', () => {
+      mockCertSvc.verifyCertificate.mockReturnValue(of({ found: false }))
+      component.verifyFromQr()
+      expect(component.migrationCompleted).toBe(false)
+      expect(component.stage).toBe('code')
+      expect(component.loader).toBe(false)
+    })
+
+    it('reports invalid when not found and migration is complete', () => {
+      mockConfigSvc.instanceConfig = { certificateMigrationCompleted: true }
+      mockCertSvc.verifyCertificate.mockReturnValue(of({ found: false }))
+      component.verifyFromQr()
+      expect(component.migrationCompleted).toBe(true)
+      expect(component.stage).toBe('invalid')
+    })
+
+    it('treats a found response without a certificate as not found', () => {
+      mockCertSvc.verifyCertificate.mockReturnValue(of({ found: true }))
+      component.verifyFromQr()
+      expect(component.stage).toBe('code')
+    })
+
+    it('treats a null response as not found', () => {
+      mockCertSvc.verifyCertificate.mockReturnValue(of(null))
+      component.verifyFromQr()
+      expect(component.stage).toBe('code')
+    })
+
+    it('reports invalid on a 400 error', () => {
+      mockCertSvc.verifyCertificate.mockReturnValue(throwError(() => ({ status: 400 })))
+      component.verifyFromQr()
+      expect(component.stage).toBe('invalid')
+      expect(component.loader).toBe(false)
+      expect(mockCdr.detectChanges).toHaveBeenCalled()
+    })
+
+    it('falls back to the access code when RC is unreachable', () => {
+      mockCertSvc.verifyCertificate.mockReturnValue(throwError(() => ({ status: 502 })))
+      component.verifyFromQr()
+      expect(component.stage).toBe('code')
+      expect(component.loader).toBe(false)
+    })
+
+    it('runs on ngOnInit', () => {
+      component.ngOnInit()
+      expect(mockCertSvc.verifyCertificate).toHaveBeenCalledWith('cert-uuid-123', undefined)
+    })
+  })
+
+  describe('ngOnDestroy', () => {
+    it('revokes the blob URLs created for the certificate image', () => {
+      const revoke = jest.fn()
+      const originalRevoke = URL.revokeObjectURL
+      URL.revokeObjectURL = revoke
+      mockSanitizer.toImageSource.mockImplementation((_uri: string, urls: string[]) => {
+        urls.push('blob:one')
+        return 'blob:one'
+      })
+      mockCertSvc.verifyCertificate.mockReturnValue(of({
+        found: true,
+        printUri: '<svg/>',
+        certificate: { recipientName: 'A', courseName: 'B', issuedOn: '2026-01-01', revoked: false },
+      }))
+      component.verifyFromQr()
+      component.ngOnDestroy()
+      expect(revoke).toHaveBeenCalledWith('blob:one')
+      URL.revokeObjectURL = originalRevoke
+    })
+
+    it('does nothing when no image was rendered', () => {
+      expect(() => component.ngOnDestroy()).not.toThrow()
+    })
+  })
+
+  describe('certificateVerify stage', () => {
+    it('moves to the verified stage on a valid access code', () => {
+      mockCertSvc.validateCertificate.mockReturnValue(of({ response: { json: { issuedOn: '2023-01-15' } } }))
+      component.codeInputField = { nativeElement: { value: '', focus: jest.fn() } } as any
+      component.certificateVerify()
+      expect(component.stage).toBe('verified')
+      expect(component.maskedEmail).toBe('')
+      expect(component.maskedPhone).toBe('')
     })
   })
 })
