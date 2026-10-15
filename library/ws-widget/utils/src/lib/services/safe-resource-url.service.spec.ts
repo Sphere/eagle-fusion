@@ -180,4 +180,101 @@ describe('SafeResourceUrlService', () => {
       expect(mockSanitizer.bypassSecurityTrustHtml).not.toHaveBeenCalled()
     })
   })
+
+  describe('trustImageSrc', () => {
+    it('should trust a data:image/svg+xml certificate uri', () => {
+      const uri = 'data:image/svg+xml,%3Csvg%3E%3C/svg%3E'
+      expect(service.trustImageSrc(uri)).toEqual({ safeUrl: uri })
+    })
+
+    it('should trust a blob: url minted for an image', () => {
+      expect(service.trustImageSrc('blob:http://localhost/abc')).toEqual({ safeUrl: 'blob:http://localhost/abc' })
+    })
+
+    it('should trust an https image url', () => {
+      expect(service.trustImageSrc('https://cdn.example.com/cert.png')).toEqual({ safeUrl: 'https://cdn.example.com/cert.png' })
+    })
+
+    it('should block a javascript: url', () => {
+      expect(service.trustImageSrc('javascript:alert(1)')).toBeNull()
+      expect(mockSanitizer.bypassSecurityTrustUrl).not.toHaveBeenCalled()
+    })
+
+    it('should block a data:text/html url', () => {
+      expect(service.trustImageSrc('data:text/html,<script>alert(1)</script>')).toBeNull()
+    })
+
+    it('should return null for empty/undefined/null input', () => {
+      expect(service.trustImageSrc('')).toBeNull()
+      expect(service.trustImageSrc(undefined)).toBeNull()
+      expect(service.trustImageSrc(null)).toBeNull()
+    })
+  })
+
+  describe('toImageSource', () => {
+    // setup-jest.ts defines URL.createObjectURL as a non-writable jest.fn(), so configure it in place.
+    const createObjectURL = URL.createObjectURL as jest.Mock
+    let sink: string[]
+
+    beforeEach(() => {
+      sink = []
+      createObjectURL.mockReset()
+      createObjectURL.mockReturnValue('blob:http://localhost/svg-1')
+    })
+
+    afterEach(() => {
+      createObjectURL.mockReset()
+    })
+
+    it('should return an empty string for empty/undefined/null/blank input', () => {
+      expect(service.toImageSource('', sink)).toBe('')
+      expect(service.toImageSource(undefined, sink)).toBe('')
+      expect(service.toImageSource(null, sink)).toBe('')
+      expect(service.toImageSource('   ', sink)).toBe('')
+      expect(sink).toEqual([])
+    })
+
+    it.each([
+      'data:image/svg+xml,%3Csvg%3E',
+      'blob:http://localhost/abc',
+      'https://cdn.example.com/cert.svg',
+      'http://cdn.example.com/cert.svg',
+      '//cdn.example.com/cert.svg',
+      '/assets/cert.svg',
+    ])('should pass %s through unchanged', uri => {
+      expect(service.toImageSource(uri, sink)).toBe(uri)
+      expect(createObjectURL).not.toHaveBeenCalled()
+    })
+
+    it('should trim whitespace and a leading BOM', () => {
+      expect(service.toImageSource('\uFEFF  https://cdn.example.com/c.svg  ', sink)).toBe('https://cdn.example.com/c.svg')
+    })
+
+    it('should wrap raw SVG markup in an object URL and record it in the sink', () => {
+      const result = service.toImageSource('<svg xmlns="http://www.w3.org/2000/svg"></svg>', sink)
+      expect(result).toBe('blob:http://localhost/svg-1')
+      expect(sink).toEqual(['blob:http://localhost/svg-1'])
+      const blob = createObjectURL.mock.calls[0][0] as Blob
+      expect(blob.type).toBe('image/svg+xml')
+    })
+
+    it('should wrap markup that starts with an XML prolog', () => {
+      expect(service.toImageSource('<?xml version="1.0"?><svg></svg>', sink)).toBe('blob:http://localhost/svg-1')
+    })
+
+    it('should decode percent-encoded markup before wrapping it', () => {
+      expect(service.toImageSource('%3Csvg%3E%3C%2Fsvg%3E', sink)).toBe('blob:http://localhost/svg-1')
+      expect(sink).toHaveLength(1)
+    })
+
+    it('should leave a malformed percent-encoded value as it is', () => {
+      expect(service.toImageSource('%3C%E0%A4%A', sink)).toBe('%3C%E0%A4%A')
+      expect(createObjectURL).not.toHaveBeenCalled()
+    })
+
+    it('should return any other value unchanged', () => {
+      expect(service.toImageSource('cert.svg', sink)).toBe('cert.svg')
+      expect(sink).toEqual([])
+    })
+  })
 })
