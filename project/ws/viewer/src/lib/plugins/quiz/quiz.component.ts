@@ -1197,6 +1197,11 @@ export class QuizComponent implements OnChanges, OnDestroy {
     }
   }
 
+  /** Order-independent key for an answer set; sorts a copy so the stored answers are not reordered. */
+  private sortedOptionKey(options: string[]): string {
+    return [...options].sort((a, b) => String(a).localeCompare(String(b))).join(',')
+  }
+
   calculateResults() {
     const correctAnswers = this.quizJson.questions.map(
       (question: NSQuiz.IQuestion) => {
@@ -1291,7 +1296,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
         }
       } else {
         if (
-          correctOptions.sort().join(',') === selectedOptions.sort().join(',')
+          this.sortedOptionKey(correctOptions) === this.sortedOptionKey(selectedOptions)
         ) {
           this.numCorrectAnswers += 1
         } else if (selectedOptions.length > 0) {

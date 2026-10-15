@@ -404,6 +404,35 @@ describe('QuizComponent', () => {
     expect(component.numIncorrectAnswers).toBe(1)
   })
 
+  it('calculateResults should match multi-select answers in any order without reordering them', () => {
+    component.quizJson.questions = [
+      {
+        questionId: 'q1', questionType: 'mcq-mca', multiSelection: true,
+        options: [{ optionId: 'b', isCorrect: true }, { optionId: 'a', isCorrect: true }, { optionId: 'c', isCorrect: false }],
+      },
+      {
+        questionId: 'q2', questionType: 'mcq-mca', multiSelection: true,
+        options: [{ optionId: 'x', isCorrect: true }, { optionId: 'y', isCorrect: true }],
+      },
+    ] as any
+    const q1Answer = ['a', 'b']
+    component.questionAnswerHash = { q1: q1Answer, q2: ['y'] }
+    component.calculateResults()
+    expect(component.numCorrectAnswers).toBe(1)
+    expect(component.numIncorrectAnswers).toBe(1)
+    expect(component.questionAnswerHash.q1).toBe(q1Answer)
+  })
+
+  it('calculateResults should not reorder the stored answer array', () => {
+    component.quizJson.questions = [
+      { questionId: 'q1', questionType: 'mcq-mca', multiSelection: true, options: [{ optionId: 'a', isCorrect: true }] },
+    ] as any
+    component.questionAnswerHash = { q1: ['c', 'a'] }
+    component.calculateResults()
+    expect(component.questionAnswerHash.q1).toEqual(['c', 'a'])
+    expect(component.numIncorrectAnswers).toBe(1)
+  })
+
   it('setBorderColor should set border color on source and target elements', () => {
     const source = document.createElement('div')
     source.id = 'src1'
