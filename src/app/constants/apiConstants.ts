@@ -3,6 +3,9 @@ import { NsCohorts } from "../../../project/ws/app/src/lib/routes/app-toc/models
 const PROTECTED_SLAG_V8 = `/apis/protected/v8`
 const PROXY_SLAG_V8 = `/apis/proxies/v8`
 const PUBLIC_SLAG_V8 = `/apis/public/v8`
+// Common service (competency certificates). Not yet routed through sunbird-cb-uiproxy, so locally
+// the dev proxy forwards /common-service/** to :7011. Point this at the proxy route once it exists.
+const COMMON_SERVICE_SLAG = `/common-service`
 
 export const API_END_POINTS = {
   FETCH_USER_GROUPS: (userId: string) =>
@@ -110,6 +113,8 @@ export const API_END_POINTS = {
   UPDATE_ASHA_PROGRESS: `${PROTECTED_SLAG_V8}/learnerpath`,
   BATCH_CERT_ISSUE: `${PROXY_SLAG_V8}/course/batch/cert/v1/issue/`,
   DOWNLOAD_CERTIFICATE: (certificateId: string) => `${PROXY_SLAG_V8}/certreg/v2/certs/download/${certificateId}`,
+  COMPETENCY_CERTIFICATE_STATUS: `${COMMON_SERVICE_SLAG}/v1/certificate/competency/status`,
+  COMPETENCY_CERTIFICATE_DOWNLOAD: `${COMMON_SERVICE_SLAG}/v1/certificate/competency/download`,
   FETCH_USER_ENROLLMENT_LIST_CERT: (userId: string | undefined) =>
     `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license,sourceName,issueCertification,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
   FETCH_USER_ENROLLMENT_LIST_V2: (userId: string | undefined, orgdetails: string, licenseDetails: string, fields: string, batchDetails: string) =>
