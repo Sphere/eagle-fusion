@@ -82,14 +82,16 @@ export class WidgetContentService {
         catchError(this.handleError)
       )
   }
-  fetchCompetencyCertificateStatus(userId: string, rootOrgId = ''): Observable<any[]> {
-    const body = { request: { filters: { rootOrgId, userId, competencyId: '' } } }
+  // competencyId narrows the status to one competency; omitted, every competency of the user is returned
+  fetchCompetencyCertificateStatus(userId: string, competencyId?: string): Observable<any[]> {
+    const filters = competencyId ? { userId, competencyId } : { userId }
+    const body = { request: { filters } }
     return this.http
       .post<any>(API_END_POINTS.COMPETENCY_CERTIFICATE_STATUS, body)
       .pipe(map(res => (Array.isArray(res?.result) ? res.result : [])))
   }
-  fetchCompetencyCertificate(userId: string, competencyId: string, rootOrgId = ''): Observable<any | null> {
-    const body = { request: { filters: { rootOrgId, userId, competencyId } } }
+  fetchCompetencyCertificate(userId: string, competencyId: string): Observable<any | null> {
+    const body = { request: { filters: { userId, competencyId } } }
     return this.http
       .post<any>(API_END_POINTS.COMPETENCY_CERTIFICATE_DOWNLOAD, body)
       .pipe(map(res => (Array.isArray(res?.result) ? res.result[0] ?? null : null)))

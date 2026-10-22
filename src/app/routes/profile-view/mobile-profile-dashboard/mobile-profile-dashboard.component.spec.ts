@@ -936,10 +936,6 @@ describe('MobileProfileDashboardComponent', () => {
     const { throwError } = require('rxjs')
     const certUrl = 'https://example.com/102-certificate.png'
 
-    beforeEach(() => {
-      mockConfigSvc.unMappedUser = { rootOrgId: 'org-1' }
-    })
-
     it('downloads only GENERATED competencies and maps them to cards', () => {
       mockContentSvc.fetchCompetencyCertificateStatus.mockReturnValue(of([
         { competencyId: '102', status: 'GENERATED', isCertificateGenerated: true },
@@ -949,9 +945,9 @@ describe('MobileProfileDashboardComponent', () => {
 
       component.loadCompetencyCertificates()
 
-      expect(mockContentSvc.fetchCompetencyCertificateStatus).toHaveBeenCalledWith('user-1', 'org-1')
+      expect(mockContentSvc.fetchCompetencyCertificateStatus).toHaveBeenCalledWith('user-1')
       expect(mockContentSvc.fetchCompetencyCertificate).toHaveBeenCalledTimes(1)
-      expect(mockContentSvc.fetchCompetencyCertificate).toHaveBeenCalledWith('user-1', '102', 'org-1')
+      expect(mockContentSvc.fetchCompetencyCertificate).toHaveBeenCalledWith('user-1', '102')
       expect(component.competencyCertificates).toEqual([{
         identifier: 'competency-102',
         name: 'Competency 102',
@@ -998,12 +994,6 @@ describe('MobileProfileDashboardComponent', () => {
       component.loadCompetencyCertificates()
       expect(mockContentSvc.fetchCompetencyCertificateStatus).not.toHaveBeenCalled()
       expect(component.competencyCertificates).toEqual([])
-    })
-
-    it('falls back to an empty rootOrgId', () => {
-      mockConfigSvc.unMappedUser = null
-      component.loadCompetencyCertificates()
-      expect(mockContentSvc.fetchCompetencyCertificateStatus).toHaveBeenCalledWith('user-1', '')
     })
 
     it('drops download results without a certificateUrl', () => {

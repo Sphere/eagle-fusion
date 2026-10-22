@@ -440,17 +440,16 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       this.competencyCertificates = []
       return
     }
-    const rootOrgId = this.configSvc.unMappedUser?.rootOrgId || this.configSvc.userProfile?.rootOrgId || ''
     this.isCompetencyLoading = true
     this.competencyCertificatesFailed = false
-    this.contentSvc.fetchCompetencyCertificateStatus(userId, rootOrgId).pipe(
+    this.contentSvc.fetchCompetencyCertificateStatus(userId).pipe(
       mergeMap((statusList: any[]) => {
         const generated = (statusList || []).filter(item => item?.competencyId && item.status === 'GENERATED')
         if (generated.length === 0) {
           return of([])
         }
         return forkJoin(generated.map(item =>
-          this.contentSvc.fetchCompetencyCertificate(userId, item.competencyId, rootOrgId).pipe(
+          this.contentSvc.fetchCompetencyCertificate(userId, item.competencyId).pipe(
             catchError(err => {
               this.logger.error('[MobileProfileDashboard] competency certificate download failed: ' + item.competencyId, err)
               return of(null)
