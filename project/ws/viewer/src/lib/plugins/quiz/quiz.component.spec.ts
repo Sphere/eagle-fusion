@@ -105,6 +105,95 @@ describe('QuizComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/user/competency'])
   })
 
+  describe('navigateAfterOverviewClose', () => {
+    const overview = () => [[`/app/toc/${component.collectionId}/overview`], {
+      queryParams: { primaryCategory: 'Course', batchId: 'b1' },
+    }]
+    const next = (url: any) => [[url], { queryParamsHandling: 'preserve' }]
+    const closeWith = (state: any) => {
+      mockRoute.snapshot.queryParams = { batchId: 'b1' }
+      component['navigateAfterOverviewClose']()
+      mockPlayerStateService.playerState.next(state)
+    }
+
+    // The pre-refactor implementation, copied verbatim apart from returning the navigate
+    // arguments instead of calling the router. Used as the oracle for every combination.
+    const original = (data: any, gatingEnabled: boolean, collectionId: string, batchId: string) => {
+      const toOverview = [[`/app/toc/${collectionId}/overview`], { queryParams: { primaryCategory: 'Course', batchId } }]
+      const toNext = [[data.nextResource], { queryParamsHandling: 'preserve' }]
+      if (data.nextResource === null) {
+        return toOverview
+      }
+      if (data.prevResource === null) {
+        if (gatingEnabled) {
+          if (data.currentCompletionPercentage === 100) {
+            return toNext
+          }
+          return toOverview
+        }
+        return toNext
+      }
+      if (gatingEnabled) {
+        if (data.currentCompletionPercentage === 100) {
+          return toNext
+        }
+        return toOverview
+      }
+      return toNext
+    }
+
+    const nextResources = [null, undefined, '/next']
+    const prevResources = [null, undefined, '/prev']
+    const gatings = [true, false]
+    const completions = [100, 99, 0, null, undefined, '100']
+    const combinations = nextResources.flatMap(nextResource => prevResources.flatMap(prevResource =>
+      gatings.flatMap(gatingEnabled => completions.map(currentCompletionPercentage =>
+        ({ nextResource, prevResource, gatingEnabled, currentCompletionPercentage })))))
+
+    it.each(combinations)('should match the original navigation for %o', ({ gatingEnabled, ...state }) => {
+      mockViewerDataSvc.gatingEnabled = gatingEnabled
+      closeWith(state)
+      expect(mockRouter.navigate).toHaveBeenCalledTimes(1)
+      expect(mockRouter.navigate.mock.calls[0]).toEqual(original(state, gatingEnabled, component.collectionId, 'b1'))
+    })
+
+    it('should cover all 108 combinations of the four inputs', () => {
+      expect(combinations.length).toBe(3 * 3 * 2 * 6)
+    })
+
+    it('should go to the course overview when there is no next resource, whatever the gating', () => {
+      mockViewerDataSvc.gatingEnabled = false
+      closeWith({ nextResource: null, prevResource: '/prev', currentCompletionPercentage: 100 })
+      expect(mockRouter.navigate).toHaveBeenCalledWith(...overview())
+    })
+
+    it.each([null, '/prev'])('should go to the next resource without gating (prevResource %s)', prevResource => {
+      mockViewerDataSvc.gatingEnabled = false
+      closeWith({ nextResource: '/next', prevResource, currentCompletionPercentage: 20 })
+      expect(mockRouter.navigate).toHaveBeenCalledWith(...next('/next'))
+    })
+
+    it.each([null, '/prev'])('should go to the next resource when gated and complete (prevResource %s)', prevResource => {
+      mockViewerDataSvc.gatingEnabled = true
+      closeWith({ nextResource: '/next', prevResource, currentCompletionPercentage: 100 })
+      expect(mockRouter.navigate).toHaveBeenCalledWith(...next('/next'))
+    })
+
+    it.each([99, 0, null, undefined])('should hold on the course overview when gated and completion is %s', currentCompletionPercentage => {
+      mockViewerDataSvc.gatingEnabled = true
+      closeWith({ nextResource: '/next', prevResource: '/prev', currentCompletionPercentage })
+      expect(mockRouter.navigate).toHaveBeenCalledWith(...overview())
+      expect(mockRouter.navigate).toHaveBeenCalledTimes(1)
+    })
+
+    it('should navigate only once, for the first player state', () => {
+      mockViewerDataSvc.gatingEnabled = false
+      closeWith({ nextResource: '/next', prevResource: null, currentCompletionPercentage: 100 })
+      mockPlayerStateService.playerState.next({ nextResource: '/other', prevResource: null })
+      expect(mockRouter.navigate).toHaveBeenCalledTimes(1)
+    })
+  })
+
   it('openOverviewDialog should navigate to asha page/home on close-overview with asha', () => {
     const afterClosed = of({ event: 'close-overview', asha: true })
     mockDialog.open.mockReturnValue({ afterClosed: () => afterClosed })

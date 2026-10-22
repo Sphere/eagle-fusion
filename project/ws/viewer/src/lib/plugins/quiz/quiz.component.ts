@@ -194,50 +194,21 @@ export class QuizComponent implements OnChanges, OnDestroy {
 
   private navigateAfterOverviewClose(): void {
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      // 1. Last resource of the course (no next resource): go to the course overview.
       if (isNull(data.nextResource)) {
-        this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          queryParams: {
-            primaryCategory: 'Course',
-            batchId: this.route.snapshot.queryParams.batchId,
-          },
-        })
-      } else {
-        if (isNull(data.prevResource)) {
-          if (this.viewerDataSvc.gatingEnabled) {
-            if (data.currentCompletionPercentage === 100) {
-              this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-            } else {
-              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                queryParams: {
-                  primaryCategory: 'Course',
-                  batchId: this.route.snapshot.queryParams.batchId,
-                },
-              })
-            }
-
-          } else {
-            this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-          }
-
-        } else {
-          if (this.viewerDataSvc.gatingEnabled) {
-            if (data.currentCompletionPercentage === 100) {
-              this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-            } else {
-              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                queryParams: {
-                  primaryCategory: 'Course',
-                  batchId: this.route.snapshot.queryParams.batchId,
-                },
-              })
-            }
-
-          } else {
-            this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-          }
-        }
+        this.navigateToCourseOverview()
+        return
       }
-      return
+      // 2. There is a next resource. prevResource does not change the outcome: the first
+      //    resource (prevResource null) and any later one (prevResource set) take the same
+      //    path, so it is deliberately not checked here.
+      // 2a. Gating on and this resource not yet complete: hold the learner on the overview.
+      if (this.viewerDataSvc.gatingEnabled && data.currentCompletionPercentage !== 100) {
+        this.navigateToCourseOverview()
+        return
+      }
+      // 2b. Gating off, or gating on and the resource complete: move to the next resource.
+      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
     })
   }
   private async transformQuiz(url: string): Promise<NSQuiz.IQuiz> {
