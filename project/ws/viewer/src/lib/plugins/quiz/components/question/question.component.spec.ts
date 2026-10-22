@@ -16,10 +16,12 @@ jest.mock('jsplumb', () => ({
   },
 }))
 
+import { ElementRef } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
 import { DomSanitizer } from '@angular/platform-browser'
 import { SafeResourceUrlService } from '../../../../../../../../../library/ws-widget/utils/src/lib/services/safe-resource-url.service'
 import { QuestionComponent } from './question.component'
+import { FitbBlanksDirective } from '../../directives/fitb-blanks.directive'
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent
@@ -59,11 +61,11 @@ describe('QuestionComponent', () => {
       expect(component.question.question).toContain('src=')
     })
 
-    it('should prepare fitb inputs and mark safeQuestion', () => {
+    it('should prepare fitb inputs and set fitbQuestion', () => {
       component.question = buildQuestion({ questionType: 'fitb', question: '<input/> blank' })
       component.ngOnInit()
       expect(mockDomSanitizer.sanitizeFitbHtml).toHaveBeenCalledWith(expect.stringContaining('id="q10"'))
-      expect(component.safeQuestion).toBe(mockDomSanitizer.sanitizeFitbHtml.mock.results[0].value)
+      expect(component.fitbQuestion).toBe(mockDomSanitizer.sanitizeFitbHtml.mock.results[0].value)
       expect(component.correctOption.length).toBe(1)
       expect(component.unTouchedBlank).toEqual([true])
     })
@@ -77,7 +79,10 @@ describe('QuestionComponent', () => {
       })
       component.ngOnInit()
       const host = document.createElement('div')
-      host.innerHTML = (component.safeQuestion as any).changingThisBreaksApplicationSecurity
+      host.innerHTML = component.fitbQuestion!.html
+      const directive = new FitbBlanksDirective(new ElementRef(host))
+      directive.fitb = component.fitbQuestion
+      directive.ngAfterViewChecked()
       const inputs = host.querySelectorAll('p > input[type="text"]')
       expect(Array.from(inputs).map(i => i.id)).toEqual(['q10', 'q11'])
       expect(host.querySelector('script')).toBeNull()

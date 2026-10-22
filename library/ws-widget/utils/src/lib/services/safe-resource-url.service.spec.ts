@@ -174,51 +174,51 @@ describe('SafeResourceUrlService', () => {
 
   describe('sanitizeFitbHtml (real Angular sanitizer)', () => {
     let realService: SafeResourceUrlService
-    const render = (value: string) => {
-      const trusted = realService.sanitizeFitbHtml(value) as any
-      const host = document.createElement('div')
-      host.innerHTML = trusted.changingThisBreaksApplicationSecurity
-      return host
-    }
+    let realSanitizer: DomSanitizer
 
     beforeEach(() => {
-      realService = new SafeResourceUrlService(TestBed.inject(DomSanitizer))
+      realSanitizer = TestBed.inject(DomSanitizer)
+      realService = new SafeResourceUrlService(realSanitizer)
     })
 
-    it('should keep every blank with its id, type and styling, in place inside the author markup', () => {
-      const question = '<p>The heart has <input matInput style="border-style: none none solid none;\n'
-        + '        border-width: 1px; padding: 8px 12px;" type="text" id="q10"> chambers and '
-        + '<input matInput style="x" type="text" id="q11" class="author"> valves.</p>'
-      const host = render(question)
-      const inputs = host.querySelectorAll('p > input')
-      expect(inputs.length).toBe(2)
-      expect(inputs[0].id).toBe('q10')
-      expect(inputs[1].id).toBe('q11')
-      expect(inputs[0].getAttribute('type')).toBe('text')
-      expect(inputs[0].hasAttribute('matinput')).toBe(true)
-      expect(inputs[0].getAttribute('style')).toBe('border-style: none none solid none; border-width: 1px; padding: 8px 12px;')
-      expect(host.textContent).toBe('The heart has  chambers and  valves.')
+    it('should never bypass sanitization', () => {
+      const spy = jest.spyOn(realSanitizer, 'bypassSecurityTrustHtml')
+      realService.sanitizeFitbHtml('<p>Q <input type="text" id="q0"></p>')
+      expect(spy).not.toHaveBeenCalled()
+    })
+
+    it('should replace each blank with a placeholder and record its id in order', () => {
+      const result = realService.sanitizeFitbHtml(
+        '<p>The heart has <input matInput style="x" type="text" id="q10"> chambers and <input type="text" id="q11"> valves.</p>',
+      )!
+      expect(result.blankIds).toEqual(['q10', 'q11'])
+      expect(result.html).not.toContain('<input')
+      expect(result.html.startsWith('<p>The heart has ')).toBe(true)
+      const indexes = result.html.split(new RegExp(result.placeholder.source, 'g')).filter((_, i) => i % 2 === 1)
+      expect(indexes).toEqual(['0', '1'])
     })
 
     it('should strip script and event handlers from the author markup', () => {
-      const host = render('<p onclick="alert(1)">Q <img src="x" onerror="alert(1)"><script>alert(1)</script>'
-        + '<input type="text" id="q0"></p>')
-      expect(host.querySelector('script')).toBeNull()
-      expect(host.querySelector('[onclick]')).toBeNull()
-      expect(host.querySelector('[onerror]')).toBeNull()
-      expect(host.querySelectorAll('input').length).toBe(1)
+      const result = realService.sanitizeFitbHtml('<p onclick="alert(1)">Q <img src="x" onerror="alert(1)"><script>alert(1)</script>'
+        + '<input type="text" id="q0"></p>')!
+      expect(result.html).not.toMatch(/<script|onclick|onerror/i)
+      expect(result.blankIds).toEqual(['q0'])
     })
 
-    it('should drop author attributes on the input and escape a hostile id', () => {
-      const host = render('<input type="text" id="a&quot;&gt;<b>" onfocus="alert(1)">')
-      const input = host.querySelector('input')
-      expect(input.getAttribute('onfocus')).toBeNull()
-      expect(host.querySelector('b')).toBeNull()
+    it('should record an empty id for a blank without one', () => {
+      expect(realService.sanitizeFitbHtml('<input/>')!.blankIds).toEqual([''])
+    })
+
+    it('should use a fresh placeholder per call so author text cannot forge one', () => {
+      const first = realService.sanitizeFitbHtml('<input id="a">')!
+      const second = realService.sanitizeFitbHtml('<input id="a">')!
+      expect(first.placeholder.source).not.toBe(second.placeholder.source)
     })
 
     it('should return the sanitized markup unchanged when there are no blanks', () => {
-      const host = render('<p>No blanks <b>here</b></p>')
-      expect(host.innerHTML).toBe('<p>No blanks <b>here</b></p>')
+      const result = realService.sanitizeFitbHtml('<p>No blanks <b>here</b></p>')!
+      expect(result.html).toBe('<p>No blanks <b>here</b></p>')
+      expect(result.blankIds).toEqual([])
     })
 
     it('should return null for empty input', () => {

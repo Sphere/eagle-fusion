@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
-import { SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
-import { SafeResourceUrlService } from '@ws-widget/utils'
+import { FitbQuestionHtml, SafeResourceUrlService } from '@ws-widget/utils'
 import { secureRandomInt } from 'library/ws-widget/utils/src/lib/helpers/functions/secureRandom'
 
 @Component({
@@ -38,7 +37,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   quizAnswerHash: { [questionId: string]: string[] } = {}
   title = 'match'
   jsPlumbInstance: any
-  safeQuestion: SafeHtml = ''
+  fitbQuestion: FitbQuestionHtml | null = null
   correctOption: boolean[] = []
   unTouchedBlank: boolean[] = []
   matchHintDisplay: NSQuiz.IOption[] = []
@@ -87,7 +86,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
           border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
         )
       }
-      this.safeQuestion = this.domSanitizer.sanitizeFitbHtml(this.question.question)
+      this.fitbQuestion = this.domSanitizer.sanitizeFitbHtml(this.question.question)
     }
     if (this.question.questionType === 'mtf') {
       this.question.options.forEach(option => (option.matchForView = option.match))
