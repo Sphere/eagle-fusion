@@ -22,10 +22,17 @@ class HostComponent implements AfterViewInit {
 
 describe('FitbBlanksDirective', () => {
   let service: SafeResourceUrlService
+  // Angular logs a dev-mode warning whenever it strips content; these tests strip on purpose.
+  let warnSpy: jest.SpyInstance
 
   beforeEach(() => {
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
     TestBed.configureTestingModule({ declarations: [HostComponent, FitbBlanksDirective] })
     service = new SafeResourceUrlService(TestBed.inject(DomSanitizer))
+  })
+
+  afterEach(() => {
+    warnSpy.mockRestore()
   })
 
   const createHost = (question: string) => {
@@ -74,6 +81,7 @@ describe('FitbBlanksDirective', () => {
     expect(h3.querySelector('script')).toBeNull()
     expect(h3.querySelector('[onerror]')).toBeNull()
     expect((window as any).__fitbXss).toBeUndefined()
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('sanitizing HTML stripped some content'))
   })
 
   it('should do nothing without a question', () => {

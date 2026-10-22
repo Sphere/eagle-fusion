@@ -71,6 +71,8 @@ describe('QuestionComponent', () => {
     })
 
     it('should render every blank, with the id the answer check looks up, through the real sanitizer', () => {
+      // The <script> below is stripped on purpose; keep Angular's dev-mode warning out of the output.
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
       const realSvc = new SafeResourceUrlService(TestBed.inject(DomSanitizer))
       component = new QuestionComponent(realSvc, mockElementRef)
       component.question = buildQuestion({
@@ -87,6 +89,8 @@ describe('QuestionComponent', () => {
       expect(Array.from(inputs).map(i => i.id)).toEqual(['q10', 'q11'])
       expect(host.querySelector('script')).toBeNull()
       expect(component.correctOption).toEqual([false, false])
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('sanitizing HTML stripped some content'))
+      warnSpy.mockRestore()
     })
 
     it('should shuffle options and build matchHintDisplay for mtf', () => {

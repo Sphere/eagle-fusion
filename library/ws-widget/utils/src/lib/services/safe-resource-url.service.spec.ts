@@ -175,10 +175,17 @@ describe('SafeResourceUrlService', () => {
   describe('sanitizeFitbHtml (real Angular sanitizer)', () => {
     let realService: SafeResourceUrlService
     let realSanitizer: DomSanitizer
+    // Angular logs a dev-mode warning whenever it strips content; these tests strip on purpose.
+    let warnSpy: jest.SpyInstance
 
     beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
       realSanitizer = TestBed.inject(DomSanitizer)
       realService = new SafeResourceUrlService(realSanitizer)
+    })
+
+    afterEach(() => {
+      warnSpy.mockRestore()
     })
 
     it('should never bypass sanitization', () => {
@@ -203,6 +210,7 @@ describe('SafeResourceUrlService', () => {
         + '<input type="text" id="q0"></p>')!
       expect(result.html).not.toMatch(/<script|onclick|onerror/i)
       expect(result.blankIds).toEqual(['q0'])
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('sanitizing HTML stripped some content'))
     })
 
     it('should record an empty id for a blank without one', () => {
