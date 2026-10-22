@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
+import { secureRandomInt } from 'library/ws-widget/utils/src/lib/helpers/functions/secureRandom'
 
 @Component({
     standalone: false,
@@ -20,7 +21,6 @@ export class AvatarPhotoComponent implements OnInit {
   @Input() initials?: string
   public showInitials = false
   public circleColor!: string
-  random = Math.random().toString(36).slice(2)
 
   // public initials!: string
 
@@ -53,10 +53,10 @@ export class AvatarPhotoComponent implements OnInit {
           '#006400', // green
         ]
       }
-      const randomIndex = Math.floor(Math.random() * Math.floor(this.colors.length))
+      const randomIndex = secureRandomInt(this.colors.length)
       this.circleColor = this.colors[randomIndex]
       if (this.randomColor) {
-        const randomIndex1 = Math.floor(Math.random() * Math.floor(this.randomcolors.length))
+        const randomIndex1 = secureRandomInt(this.randomcolors.length)
         this.circleColor = this.randomcolors[randomIndex1]
       }
     }

@@ -66,7 +66,7 @@ export class LearningCardComponent extends WidgetBaseComponent
     // Handle description updates (existing logic)
     if (changes['content'] && this.content.description) {
       this.content.description = this.content.description.replaceAll('<br>', '')
-      this.description = this.safeResourceUrlSvc.trustHtml(this.content.description)
+      this.description = this.safeResourceUrlSvc.sanitizeHtml(this.content.description)
     }
   }
 

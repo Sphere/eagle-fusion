@@ -18,11 +18,16 @@ jest.mock('jsplumb', () => ({
 }))
 
 import { Subject } from 'rxjs'
+import { ElementRef } from '@angular/core'
+import { TestBed } from '@angular/core/testing'
+import { DomSanitizer } from '@angular/platform-browser'
+import { SafeResourceUrlService } from '../../../../../../../../../library/ws-widget/utils/src/lib/services/safe-resource-url.service'
 import { ViewQuizQuestionComponent } from './view-quiz-question.component'
+import { FitbBlanksDirective } from '../../directives/fitb-blanks.directive'
 
 describe('ViewQuizQuestionComponent', () => {
   let component: ViewQuizQuestionComponent
-  const mockDomSanitizer = { trustHtml: jest.fn((v: string) => v) } as any
+  const mockDomSanitizer = { sanitizeFitbHtml: jest.fn((v: string) => v) } as any
   let nativeElement: any
   let mockElementRef: any
   let updateMtf$: Subject<any>
@@ -61,8 +66,32 @@ describe('ViewQuizQuestionComponent', () => {
     it('should prepare fitb inputs', () => {
       component.question = buildQuestion({ questionType: 'fitb', question: '<input/>' })
       component.ngOnInit()
-      expect(mockDomSanitizer.trustHtml).toHaveBeenCalled()
+      expect(mockDomSanitizer.sanitizeFitbHtml).toHaveBeenCalledWith(expect.stringContaining('id="q10"'))
+      expect(component.fitbQuestion).toBe(mockDomSanitizer.sanitizeFitbHtml.mock.results[0].value)
       expect(component.correctOption.length).toBe(1)
+    })
+
+    it('should render every blank, with the id the answer check looks up, through the real sanitizer', () => {
+      // The <script> below is stripped on purpose; keep Angular's dev-mode warning out of the output.
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
+      const realSvc = new SafeResourceUrlService(TestBed.inject(DomSanitizer))
+      component = new ViewQuizQuestionComponent(realSvc, mockElementRef, mockQuizService)
+      component.question = buildQuestion({
+        questionType: 'fitb',
+        question: '<p>Heart has <input/> chambers and <input/> valves<script>alert(1)</script></p>',
+      })
+      component.ngOnInit()
+      const host = document.createElement('div')
+      host.innerHTML = component.fitbQuestion!.html
+      const directive = new FitbBlanksDirective(new ElementRef(host))
+      directive.fitb = component.fitbQuestion
+      directive.ngAfterViewChecked()
+      const inputs = host.querySelectorAll('p > input[type="text"]')
+      expect(Array.from(inputs).map(i => i.id)).toEqual(['q10', 'q11'])
+      expect(host.querySelector('script')).toBeNull()
+      expect(component.correctOption).toEqual([false, false])
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('sanitizing HTML stripped some content'))
+      warnSpy.mockRestore()
     })
 
     it('should build matchHintDisplay for mtf', () => {

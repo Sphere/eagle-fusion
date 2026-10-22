@@ -961,7 +961,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   private updateBannerUrl() {
     if (this.banners) {
-      this.bannerUrl = this.sanitizer.trustStyle(
+      this.bannerUrl = this.sanitizer.sanitizeStyle(
         `url(${this.banners[this.routePath]})`,
       )
     }

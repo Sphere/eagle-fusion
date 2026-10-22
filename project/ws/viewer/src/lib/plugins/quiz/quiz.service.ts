@@ -6,6 +6,7 @@ import { get, filter, toLower } from 'lodash-es'
 import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
+import { secureRandomInt } from 'library/ws-widget/utils/src/lib/helpers/functions/secureRandom'
 
 
 @Injectable({
@@ -179,7 +180,7 @@ export class QuizService {
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex)
+      randomIndex = secureRandomInt(currentIndex)
       currentIndex -= 1
 
       // And swap it with the current element.

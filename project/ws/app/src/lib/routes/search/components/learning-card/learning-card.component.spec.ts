@@ -18,7 +18,7 @@ const mockConfigSvc: any = {
 }
 
 const mockSafeResourceUrlSvc: any = {
-  trustHtml: jest.fn((html: string) => html),
+  sanitizeHtml: jest.fn((html: string) => html),
 }
 
 const mockRouter: any = {
@@ -120,7 +120,7 @@ describe('LearningCardComponent', () => {
       component.content = { description: 'Hello<br>World<br>' } as any
       component.ngOnChanges({ content: { currentValue: {} } as any })
       expect(component.content.description).toBe('HelloWorld')
-      expect(mockSafeResourceUrlSvc.trustHtml).toHaveBeenCalledWith('HelloWorld')
+      expect(mockSafeResourceUrlSvc.sanitizeHtml).toHaveBeenCalledWith('HelloWorld')
     })
 
     it('should skip description handling when no description', () => {

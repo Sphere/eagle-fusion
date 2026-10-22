@@ -3,7 +3,7 @@ jest.mock('@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe', () 
 }), { virtual: true })
 jest.mock('@ws-widget/utils', () => ({
   ConfigurationsService: class {},
-  SafeResourceUrlService: class { trustHtml = jest.fn((v: string) => v) },
+  SafeResourceUrlService: class { sanitizeHtml = jest.fn((v: string) => v) },
   ValueService: class {},
 }))
 jest.mock('@ws-widget/collection', () => ({
@@ -29,7 +29,7 @@ describe('HtmlComponent (route-view-container/html)', () => {
 
   beforeEach(() => {
     mockActivatedRoute = { snapshot: { queryParams: { collectionType: 'course', collectionId: 'col1' } } }
-    mockSafeResourceUrlSvc = { trustHtml: jest.fn((v: string) => v) }
+    mockSafeResourceUrlSvc = { sanitizeHtml: jest.fn((v: string) => v) }
     mockPipeLimitTo = { transform: jest.fn((v: string) => v) }
     mockValueSvc = { isLtMedium$: of(false) }
     mockConfigSvc = { restrictedFeatures: new Set(['other']) }

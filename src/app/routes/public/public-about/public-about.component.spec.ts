@@ -30,7 +30,7 @@ describe('PublicAboutComponent', () => {
     }
     mockSafeResourceUrlSvc = {
       trust: jest.fn().mockImplementation(url => ({ resource: url })),
-      trustStyle: jest.fn().mockImplementation(style => ({ style })),
+      sanitizeStyle: jest.fn().mockImplementation((style: string) => style),
     }
     mockConfigSvc = { pageNavBar: {} }
     mockRoute = { data: routeDataSubject.asObservable() }
@@ -69,9 +69,10 @@ describe('PublicAboutComponent', () => {
 
   it('should sanitize headerBanner from banner img', () => {
     component.ngOnInit()
-    expect(mockSafeResourceUrlSvc.trustStyle).toHaveBeenCalledWith(
+    expect(mockSafeResourceUrlSvc.sanitizeStyle).toHaveBeenCalledWith(
       "url('https://example.com/banner.jpg')",
     )
+    expect(component.headerBanner).toBe("url('https://example.com/banner.jpg')")
   })
 
   it('should not sanitize when aboutPage has no banner', () => {
