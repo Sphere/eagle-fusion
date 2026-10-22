@@ -1146,7 +1146,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   private async processCollectionWithoutContentList(): Promise<void> {
     if (this.collection && this.collection.children) {
       this.isLoading = true
-      const resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+      let resourceData: any
+      try {
+        resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+      } catch (err) {
+        // The resource could not be read (e.g. a local HTML package not uploaded yet): without this the
+        // loader overlay stayed over the player forever.
+        this.logger.warn('viewer toc: resource could not be read', err)
+        this.isLoading = false
+        this.cdr.markForCheck()
+        return
+      }
       this.logger.log(resourceData, 'resourceData')
       this.logger.log(resourceData.result.content.mimeType)
       if (resourceData.result.content.mimeType !== 'application/vnd.ekstep.html-archive') {

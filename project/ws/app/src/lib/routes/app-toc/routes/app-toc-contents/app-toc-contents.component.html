@@ -1,5 +1,13 @@
 <div class="contents-container" *ngIf="loadContent">
   <div class="main-container">
+    <!-- HTML content in the Sunbird content-player (site config htmlContentPlayer.demoContentId) -->
+    @if (htmlContentDemoId) {
+      <div class="html-content-entry">
+        <button type="button" class="html-content-button" (click)="openHtmlContent()">
+          {{ 'Open HTML content' | translate }}
+        </button>
+      </div>
+    }
     <ng-container *ngIf="content?.children?.length; else noChildren">
       <div class="content-card" *ngFor="let card of content?.children; trackBy: contentTrackBy">
         <ws-app-toc-content-card [forPreview]="forPreview" [expandAll]="expandAll" [rootId]="contextId"

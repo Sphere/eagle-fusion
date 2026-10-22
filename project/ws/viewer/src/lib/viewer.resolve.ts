@@ -8,6 +8,9 @@ import { IResolveResponse, AuthMicrosoftService, ConfigurationsService, LoggerSe
 import { ViewerDataService } from './viewer-data.service'
 import { MobileAppsService } from '../../../../../src/app/services/mobile-apps.service'
 import { Platform } from '@angular/cdk/platform'
+import {
+  isHtmlContentPlayerEnabled, isSafeIdentifier, localPackageContent, localPackageDataUrl,
+} from '../../../../../src/app/component/sunbird-content-player/content-player.util'
 
 @Injectable()
 export class ViewerResolve {
@@ -591,6 +594,26 @@ export class ViewerResolve {
     }
   }
 
+  /**
+   * The content API, as for every player. Only for content in the site-config htmlContentPlayer allow-list
+   * that the API does not have yet: fall back to its locally unpacked package (scripts/extract-html-archive.sh),
+   * so the normal TOC -> viewer flow can be tried before upload. Any other error is passed on unchanged.
+   */
+  private readContentOrLocalPackage(id: string): Observable<any> {
+    return this.contentSvc.readContentV2(id).pipe(
+      catchError(apiError => {
+        const config = this.configSvc.instanceConfig?.htmlContentPlayer
+        if (!isSafeIdentifier(id) || !isHtmlContentPlayerEnabled({ identifier: id }, config)) {
+          return throwError(apiError)
+        }
+        return from(fetch(localPackageDataUrl(id)).then(res => (res.ok ? res.json() : Promise.reject(apiError)))).pipe(
+          map(localData => ({ result: { content: localPackageContent(id, localData) } })),
+          catchError(() => throwError(apiError)),
+        )
+      }),
+    )
+  }
+
   resolve(route: ActivatedRouteSnapshot): Observable<IResolveResponse<NsContent.IContent>> | null {
     const resourceType = route.data.resourceType
 
@@ -609,7 +632,7 @@ export class ViewerResolve {
     const forPreview = window.location.href.includes('/author/') || route.queryParamMap.get('preview') === 'true'
     return (forPreview
       ? this.contentSvc.fetchAuthoringContent(this.viewerDataSvc.resourceId)
-      : this.contentSvc.readContentV2(this.viewerDataSvc.resourceId)
+      : this.readContentOrLocalPackage(this.viewerDataSvc.resourceId)
     ).pipe(
       // Validate gated access before proceeding
       switchMap(response => {
@@ -620,8 +643,9 @@ export class ViewerResolve {
         const batchId = route.queryParamMap.get('batchId')
 
         // Validate gating for all non-preview requests
-        // Users must access resources through the proper course structure with collectionId
-        if (!forPreview) {
+        // Users must access resources through the proper course structure with collectionId.
+        // A local package (not uploaded yet) is in no course, so there is nothing to gate.
+        if (!forPreview && !content?.localPackage) {
           return from(this.validateGatedResourceAccess(content.identifier, collectionId, batchId))
             .pipe(
               switchMap(validation => {

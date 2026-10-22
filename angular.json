@@ -59,6 +59,18 @@
                 "glob": "theme-light.scss",
                 "input": "src/themes/",
                 "output": "/assets/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@project-sunbird/content-player",
+                "output": "/content-player/",
+                "ignore": ["README.md", "package.json", "node_modules/**", "**/spec/**", "**/*.spec.js"]
+              },
+              {
+                "glob": "**/*",
+                "input": "src/html-archive",
+                "output": "/html-archive/",
+                "ignore": ["README.md"]
               }
             ],
             "stylePreprocessorOptions": {

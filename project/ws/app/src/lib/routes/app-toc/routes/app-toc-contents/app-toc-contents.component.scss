@@ -77,3 +77,29 @@ $border-color: #d8d8d8;
     color: var(--theme-text, #ecf3f8);
   }
 }
+
+.html-content-entry {
+  margin: 0 0 ws-vars.$size-m;
+}
+
+// native button: the app theme draws Material's outlined button label in white (invisible here)
+.html-content-button {
+  min-height: 40px;
+  padding: 8px 20px;
+  border: 1px solid var(--theme-primary, #1e8f8e);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--theme-primary, #1e8f8e);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(30, 143, 142, 0.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--theme-primary, #1e8f8e);
+    outline-offset: 2px;
+  }
+}

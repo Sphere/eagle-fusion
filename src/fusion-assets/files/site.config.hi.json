@@ -406,6 +406,11 @@
     "feature_create_konnect",
     "feature_konnect"
   ],
+  "htmlContentPlayer": {
+    "contentIds": ["do_asha_induction_s1"],
+    "mimeTypes": [],
+    "demoContentId": "do_asha_induction_s1"
+  },
   "intranetIframeUrls": [],
   "introVideo": {
     "en": "/assets/instances/eagle/videos/Eagle_New_AppTour_Final.mp4"

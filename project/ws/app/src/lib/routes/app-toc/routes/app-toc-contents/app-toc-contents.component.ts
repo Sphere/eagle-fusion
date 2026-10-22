@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute, Data } from '@angular/router'
+import { ActivatedRoute, Data, Router } from '@angular/router'
 import { Subject, Subscription } from 'rxjs'
 import { SafeStyle } from '@angular/platform-browser'
 import { NsContent, viewerRouteGenerator, ROOT_WIDGET_CONFIG, WidgetContentService } from '@ws-widget/collection'
@@ -37,7 +37,8 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     private readonly sanitizer: SafeResourceUrlService,
     private readonly tocSvc: AppTocService,
     private readonly configSvc: ConfigurationsService,
-    private readonly contentSvc: WidgetContentService
+    private readonly contentSvc: WidgetContentService,
+    private readonly router: Router,
   ) { }
 
   ngOnInit() {
@@ -213,6 +214,29 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   sanitizedBackgroundImage(url: string): SafeStyle {
     return this.sanitizer.trustStyle(`url(${url})`)
   }
+  /** HTML content opened by the Modules-tab button (site config htmlContentPlayer.demoContentId); no button when empty. */
+  get htmlContentDemoId(): string | null {
+    return this.configSvc.instanceConfig?.htmlContentPlayer?.demoContentId || null
+  }
+
+  /** Opens the HTML content the same way a module row does (viewerRouteGenerator -> /viewer/html/:id). */
+  openHtmlContent() {
+    const id = this.htmlContentDemoId
+    if (!id || !this.content) {
+      return
+    }
+    const link = viewerRouteGenerator(
+      id,
+      NsContent.EMimeTypes.ZIP,
+      this.content.identifier,
+      this.content.contentType,
+      this.forPreview,
+      'Learning Resource',
+      this.route.snapshot.queryParamMap.get('batchId') || undefined,
+    )
+    this.router.navigate([link.url], { queryParams: link.queryParams })
+  }
+
   resourceLink(resource: NsContent.IContent): { url: string; queryParams: { [key: string]: any } } {
     return viewerRouteGenerator(resource.identifier, resource.mimeType)
   }
