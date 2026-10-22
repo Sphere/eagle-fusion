@@ -56,7 +56,7 @@ describe('CertificateDetailsComponent', () => {
     mockSanitizer = {
       trust: jest.fn().mockImplementation(url => ({ safe: url })),
       toImageSource: jest.fn().mockReturnValue('blob:rendered'),
-      trustImageSrc: jest.fn().mockImplementation(src => ({ safeImg: src })),
+      sanitizeImageSrc: jest.fn().mockImplementation((src: string) => src),
     }
     mockApiService = { get: jest.fn().mockReturnValue(of({})) }
     mockRouter = { navigate: jest.fn() }
@@ -270,8 +270,8 @@ describe('CertificateDetailsComponent', () => {
       expect(component.issuedOn).toBe('05 Mar 2026')
       expect(component.contactDisplay).toBe('')
       expect(mockSanitizer.toImageSource).toHaveBeenCalledWith('<svg/>', expect.any(Array))
-      expect(mockSanitizer.trustImageSrc).toHaveBeenCalledWith('blob:rendered')
-      expect(component.certificateImage).toEqual({ safeImg: 'blob:rendered' })
+      expect(mockSanitizer.sanitizeImageSrc).toHaveBeenCalledWith('blob:rendered')
+      expect(component.certificateImage).toBe('blob:rendered')
       expect(mockCdr.detectChanges).toHaveBeenCalled()
     })
 

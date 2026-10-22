@@ -103,7 +103,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
         border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
       )
     }
-    this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
+    this.safeQuestion = this.domSanitizer.sanitizeFitbHtml(this.question.question)
   }
 
   private setupMtfQuestionOptions(): void {
@@ -153,7 +153,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
           border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
         )
       }
-      this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
+      this.safeQuestion = this.domSanitizer.sanitizeFitbHtml(this.question.question)
       for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
         this.elementRef.nativeElement
           .querySelector(`#${this.question.questionId}${i}`)

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core'
-import { DomSanitizer, SafeHtml, SafeResourceUrl, SafeScript, SafeStyle, SafeUrl } from '@angular/platform-browser'
+import { Injectable, SecurityContext } from '@angular/core'
+import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser'
 
 @Injectable({ providedIn: 'root' })
 export class SafeResourceUrlService {
@@ -38,14 +38,15 @@ export class SafeResourceUrlService {
   }
 
   /**
-   * Trusts a non-navigational URL (e.g. an <a href>) after verifying it uses http(s) —
-   * blocks javascript:/data:/vbscript: and other non-navigational schemes.
+   * Returns a URL for an <a href>/<audio src> only if it uses http(s) — blocks
+   * javascript:/data:/vbscript: and other non-navigational schemes. The value still goes
+   * through Angular's URL sanitizer rather than bypassing it.
    */
-  trustUrl(url: string | null | undefined): SafeUrl | null {
+  sanitizeUrl(url: string | null | undefined): string | null {
     if (!url || !this.isHttpOrHttps(url)) {
       return null
     }
-    return this.sanitizer.bypassSecurityTrustUrl(url)
+    return this.sanitizer.sanitize(SecurityContext.URL, url)
   }
 
   /**
@@ -66,12 +67,12 @@ export class SafeResourceUrlService {
    * URL.createObjectURL() before binding. A blob: URL can only be minted by same-origin script
    * from a payload that script already holds, so it grants no reach a data: URI would not.
    */
-  trustImageSrc(url: string | null | undefined): SafeUrl | null {
+  sanitizeImageSrc(url: string | null | undefined): string | null {
     if (!url) {
       return null
     }
     if (SafeResourceUrlService.SAFE_IMG_SRC.test(url) || this.isBlob(url) || this.isHttpOrHttps(url)) {
-      return this.sanitizer.bypassSecurityTrustUrl(url)
+      return this.sanitizer.sanitize(SecurityContext.URL, url)
     }
     return null
   }
@@ -120,22 +121,22 @@ export class SafeResourceUrlService {
    * Trusts a CSS value (e.g. a background-image url()). Style injection can't execute
    * script directly, but this still disables Angular's built-in CSS sanitization.
    */
-  trustStyle(value: string | null | undefined): SafeStyle | null {
+  sanitizeStyle(value: string | null | undefined): string | null {
     if (!value) {
       return null
     }
-    return this.sanitizer.bypassSecurityTrustStyle(value)
+    return this.sanitizer.sanitize(SecurityContext.STYLE, value)
   }
 
   /**
    * Trusts a script value for execution contexts. Reserved for content that is never
    * end-user-controlled — prefer avoiding bypassSecurityTrustScript entirely where possible.
    */
-  trustScript(value: string | null | undefined): SafeScript | null {
+  sanitizeHtml(value: string | null | undefined): string | null {
     if (!value) {
       return null
     }
-    return this.sanitizer.bypassSecurityTrustScript(value)
+    return this.sanitizer.sanitize(SecurityContext.HTML, value)
   }
 
   /**
@@ -143,11 +144,22 @@ export class SafeResourceUrlService {
    * markup — only use for content whose author is fully trusted (e.g. CMS/course-authoring
    * roles), never for end-user-submitted text.
    */
-  trustHtml(value: string | null | undefined): SafeHtml | null {
+  sanitizeFitbHtml(value: string | null | undefined): SafeHtml | null {
     if (!value) {
       return null
     }
-    return this.sanitizer.bypassSecurityTrustHtml(value)
+    const nonce = Array.from(crypto.getRandomValues(new Uint32Array(2)), n => n.toString(36)).join('')
+    const placeholder = (i: number) => `FITB${nonce}x${i}x`
+    const ids: string[] = []
+    const withPlaceholders = value.replace(/<input\b[^>]*>/gi, tag => {
+      ids.push(/\bid="([^"]*)"/i.exec(tag)?.[1] ?? '')
+      return placeholder(ids.length - 1)
+    })
+    let html = this.sanitizer.sanitize(SecurityContext.HTML, withPlaceholders) ?? ''
+    ids.forEach((id, i) => {
+      html = html.replace(placeholder(i), SafeResourceUrlService.fitbInput(id))
+    })
+    return this.sanitizer.bypassSecurityTrustHtml(html)
   }
 
   // Only raster formats, and only base64-encoded — excludes svg+xml (can embed <script>)
@@ -161,6 +173,12 @@ export class SafeResourceUrlService {
   // Only for trustImageSrc() — an object URL this app minted for an <img>, never a navigation target.
   private isBlob(url: string): boolean {
     return /^blob:/i.test(url)
+  }
+
+  private static fitbInput(id: string): string {
+    const safeId = id.replace(/[&"<>]/g, c => ({ '&': '&amp;', '"': '&quot;', '<': '&lt;', '>': '&gt;' })[c] as string)
+    return '<input matInput style="border-style: none none solid none; border-width: 1px; padding: 8px 12px;"'
+      + ` type="text" id="${safeId}">`
   }
 
   private isHttpOrHttps(url: string): boolean {

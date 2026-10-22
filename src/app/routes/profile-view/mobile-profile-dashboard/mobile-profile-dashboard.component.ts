@@ -387,13 +387,13 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
           if (res) {
             _.forEach(this.certificates, cvalue => {
               if (res[cvalue.identifier]) {
-                // Certificates arrive as data:image/svg+xml, which trustUrl() rejects - it would
+                // Certificates arrive as data:image/svg+xml, which sanitizeUrl() rejects - it would
                 // return null and every card would render with an empty image. Since rendering
-                // moved to sunbird-rc they can also arrive as raw SVG markup, which trustImageSrc()
+                // moved to sunbird-rc they can also arrive as raw SVG markup, which sanitizeImageSrc()
                 // would wrongly accept as a relative URL and the <img> would fail to load, so run
                 // it through toImageSource() first.
                 const src = this.safeResourceUrlSvc.toImageSource(res[cvalue.identifier], this.certObjectUrls)
-                cvalue['image'] = this.safeResourceUrlSvc.trustImageSrc(src)
+                cvalue['image'] = this.safeResourceUrlSvc.sanitizeImageSrc(src)
                 cvalue['printUri'] = src
               }
             })

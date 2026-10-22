@@ -71,7 +71,7 @@ export class TncRendererComponent implements OnInit, OnChanges {
         }
       })
       this.dpTncSafeContent = this.dpTnc?.content
-        ? this.safeResourceUrlSvc.trustHtml(this.dpTnc.content)
+        ? this.safeResourceUrlSvc.sanitizeHtml(this.dpTnc.content)
         : null
       this.cdr.markForCheck()
     }

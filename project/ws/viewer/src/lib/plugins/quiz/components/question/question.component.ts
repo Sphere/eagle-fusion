@@ -87,7 +87,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
           border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
         )
       }
-      this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
+      this.safeQuestion = this.domSanitizer.sanitizeFitbHtml(this.question.question)
     }
     if (this.question.questionType === 'mtf') {
       this.question.options.forEach(option => (option.matchForView = option.match))

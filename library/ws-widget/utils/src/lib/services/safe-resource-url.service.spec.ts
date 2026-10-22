@@ -1,3 +1,6 @@
+import { SecurityContext } from '@angular/core'
+import { TestBed } from '@angular/core/testing'
+import { DomSanitizer } from '@angular/platform-browser'
 import { SafeResourceUrlService } from './safe-resource-url.service'
 
 describe('SafeResourceUrlService', () => {
@@ -7,10 +10,10 @@ describe('SafeResourceUrlService', () => {
   beforeEach(() => {
     mockSanitizer = {
       bypassSecurityTrustResourceUrl: jest.fn().mockImplementation((url: string) => ({ safe: url })),
-      bypassSecurityTrustUrl: jest.fn().mockImplementation((url: string) => ({ safeUrl: url })),
-      bypassSecurityTrustStyle: jest.fn().mockImplementation((value: string) => ({ safeStyle: value })),
-      bypassSecurityTrustScript: jest.fn().mockImplementation((value: string) => ({ safeScript: value })),
-      bypassSecurityTrustHtml: jest.fn().mockImplementation((value: string) => ({ safeHtml: value })),
+      bypassSecurityTrustUrl: jest.fn(),
+      bypassSecurityTrustStyle: jest.fn(),
+      bypassSecurityTrustHtml: jest.fn(),
+      sanitize: jest.fn().mockImplementation((_ctx: SecurityContext, value: string) => value.replace(/<script.*?<\/script>/g, '')),
     }
     service = new SafeResourceUrlService(mockSanitizer)
   })
@@ -103,111 +106,156 @@ describe('SafeResourceUrlService', () => {
     })
   })
 
-  describe('trustUrl', () => {
-    it('should trust an https url', () => {
-      const result = service.trustUrl('https://example.com/page')
-      expect(mockSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('https://example.com/page')
-      expect(result).toEqual({ safeUrl: 'https://example.com/page' })
+  describe('sanitizeUrl', () => {
+    it('should pass an https url through Angular\'s URL sanitizer without bypassing it', () => {
+      const result = service.sanitizeUrl('https://example.com/page')
+      expect(mockSanitizer.sanitize).toHaveBeenCalledWith(SecurityContext.URL, 'https://example.com/page')
+      expect(mockSanitizer.bypassSecurityTrustUrl).not.toHaveBeenCalled()
+      expect(result).toBe('https://example.com/page')
     })
 
     it('should block a javascript: url', () => {
-      const result = service.trustUrl('javascript:alert(1)')
-      expect(mockSanitizer.bypassSecurityTrustUrl).not.toHaveBeenCalled()
+      const result = service.sanitizeUrl('javascript:alert(1)')
+      expect(mockSanitizer.sanitize).not.toHaveBeenCalled()
       expect(result).toBeNull()
     })
 
-    it('should trust a base64-encoded certificate image data url', () => {
+    it('should allow a base64-encoded certificate image data url', () => {
       const dataUrl = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD'
-      const result = service.trustUrl(dataUrl)
-      expect(mockSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith(dataUrl)
-      expect(result).toEqual({ safeUrl: dataUrl })
+      const result = service.sanitizeUrl(dataUrl)
+      expect(mockSanitizer.sanitize).toHaveBeenCalledWith(SecurityContext.URL, dataUrl)
+      expect(result).toBe(dataUrl)
     })
 
     it('should block a data:image/svg+xml url', () => {
-      const result = service.trustUrl('data:image/svg+xml;base64,PHN2ZyBvbmxvYWQ9YWxlcnQoMSk+')
-      expect(mockSanitizer.bypassSecurityTrustUrl).not.toHaveBeenCalled()
+      const result = service.sanitizeUrl('data:image/svg+xml;base64,PHN2ZyBvbmxvYWQ9YWxlcnQoMSk+')
+      expect(mockSanitizer.sanitize).not.toHaveBeenCalled()
       expect(result).toBeNull()
     })
 
     it('should return null for empty/undefined/null input', () => {
-      expect(service.trustUrl('')).toBeNull()
-      expect(service.trustUrl(undefined)).toBeNull()
-      expect(service.trustUrl(null)).toBeNull()
+      expect(service.sanitizeUrl('')).toBeNull()
+      expect(service.sanitizeUrl(undefined)).toBeNull()
+      expect(service.sanitizeUrl(null)).toBeNull()
     })
   })
 
-  describe('trustStyle', () => {
-    it('should trust a style value', () => {
-      const result = service.trustStyle("url('https://example.com/banner.jpg')")
-      expect(mockSanitizer.bypassSecurityTrustStyle).toHaveBeenCalledWith("url('https://example.com/banner.jpg')")
-      expect(result).toEqual({ safeStyle: "url('https://example.com/banner.jpg')" })
-    })
-
-    it('should return null for empty/undefined/null input', () => {
-      expect(service.trustStyle('')).toBeNull()
-      expect(service.trustStyle(undefined)).toBeNull()
-      expect(service.trustStyle(null)).toBeNull()
+  describe('sanitizeStyle', () => {
+    it('should pass a style value through Angular\'s style sanitizer without bypassing it', () => {
+      const result = service.sanitizeStyle("url('https://example.com/banner.jpg')")
+      expect(mockSanitizer.sanitize).toHaveBeenCalledWith(SecurityContext.STYLE, "url('https://example.com/banner.jpg')")
       expect(mockSanitizer.bypassSecurityTrustStyle).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('trustScript', () => {
-    it('should trust a script value', () => {
-      const result = service.trustScript('console.log(1)')
-      expect(mockSanitizer.bypassSecurityTrustScript).toHaveBeenCalledWith('console.log(1)')
-      expect(result).toEqual({ safeScript: 'console.log(1)' })
+      expect(result).toBe("url('https://example.com/banner.jpg')")
     })
 
     it('should return null for empty/undefined/null input', () => {
-      expect(service.trustScript('')).toBeNull()
-      expect(service.trustScript(undefined)).toBeNull()
-      expect(service.trustScript(null)).toBeNull()
-      expect(mockSanitizer.bypassSecurityTrustScript).not.toHaveBeenCalled()
+      expect(service.sanitizeStyle('')).toBeNull()
+      expect(service.sanitizeStyle(undefined)).toBeNull()
+      expect(service.sanitizeStyle(null)).toBeNull()
+      expect(mockSanitizer.sanitize).not.toHaveBeenCalled()
     })
   })
 
-  describe('trustHtml', () => {
-    it('should trust an html value', () => {
-      const result = service.trustHtml('<p>hello</p>')
-      expect(mockSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith('<p>hello</p>')
-      expect(result).toEqual({ safeHtml: '<p>hello</p>' })
-    })
-
-    it('should return null for empty/undefined/null input', () => {
-      expect(service.trustHtml('')).toBeNull()
-      expect(service.trustHtml(undefined)).toBeNull()
-      expect(service.trustHtml(null)).toBeNull()
+  describe('sanitizeHtml', () => {
+    it('should run the value through Angular\'s HTML sanitizer instead of bypassing it', () => {
+      const result = service.sanitizeHtml('<p>hello</p><script>alert(1)</script>')
+      expect(mockSanitizer.sanitize).toHaveBeenCalledWith(SecurityContext.HTML, '<p>hello</p><script>alert(1)</script>')
       expect(mockSanitizer.bypassSecurityTrustHtml).not.toHaveBeenCalled()
+      expect(result).toBe('<p>hello</p>')
+    })
+
+    it('should return null for empty/undefined/null input', () => {
+      expect(service.sanitizeHtml('')).toBeNull()
+      expect(service.sanitizeHtml(undefined)).toBeNull()
+      expect(service.sanitizeHtml(null)).toBeNull()
+      expect(mockSanitizer.sanitize).not.toHaveBeenCalled()
     })
   })
 
-  describe('trustImageSrc', () => {
-    it('should trust a data:image/svg+xml certificate uri', () => {
+  describe('sanitizeFitbHtml (real Angular sanitizer)', () => {
+    let realService: SafeResourceUrlService
+    const render = (value: string) => {
+      const trusted = realService.sanitizeFitbHtml(value) as any
+      const host = document.createElement('div')
+      host.innerHTML = trusted.changingThisBreaksApplicationSecurity
+      return host
+    }
+
+    beforeEach(() => {
+      realService = new SafeResourceUrlService(TestBed.inject(DomSanitizer))
+    })
+
+    it('should keep every blank with its id, type and styling, in place inside the author markup', () => {
+      const question = '<p>The heart has <input matInput style="border-style: none none solid none;\n'
+        + '        border-width: 1px; padding: 8px 12px;" type="text" id="q10"> chambers and '
+        + '<input matInput style="x" type="text" id="q11" class="author"> valves.</p>'
+      const host = render(question)
+      const inputs = host.querySelectorAll('p > input')
+      expect(inputs.length).toBe(2)
+      expect(inputs[0].id).toBe('q10')
+      expect(inputs[1].id).toBe('q11')
+      expect(inputs[0].getAttribute('type')).toBe('text')
+      expect(inputs[0].hasAttribute('matinput')).toBe(true)
+      expect(inputs[0].getAttribute('style')).toBe('border-style: none none solid none; border-width: 1px; padding: 8px 12px;')
+      expect(host.textContent).toBe('The heart has  chambers and  valves.')
+    })
+
+    it('should strip script and event handlers from the author markup', () => {
+      const host = render('<p onclick="alert(1)">Q <img src="x" onerror="alert(1)"><script>alert(1)</script>'
+        + '<input type="text" id="q0"></p>')
+      expect(host.querySelector('script')).toBeNull()
+      expect(host.querySelector('[onclick]')).toBeNull()
+      expect(host.querySelector('[onerror]')).toBeNull()
+      expect(host.querySelectorAll('input').length).toBe(1)
+    })
+
+    it('should drop author attributes on the input and escape a hostile id', () => {
+      const host = render('<input type="text" id="a&quot;&gt;<b>" onfocus="alert(1)">')
+      const input = host.querySelector('input')
+      expect(input.getAttribute('onfocus')).toBeNull()
+      expect(host.querySelector('b')).toBeNull()
+    })
+
+    it('should return the sanitized markup unchanged when there are no blanks', () => {
+      const host = render('<p>No blanks <b>here</b></p>')
+      expect(host.innerHTML).toBe('<p>No blanks <b>here</b></p>')
+    })
+
+    it('should return null for empty input', () => {
+      expect(realService.sanitizeFitbHtml('')).toBeNull()
+      expect(realService.sanitizeFitbHtml(null)).toBeNull()
+    })
+  })
+
+  describe('sanitizeImageSrc', () => {
+    it('should allow a data:image/svg+xml certificate uri', () => {
       const uri = 'data:image/svg+xml,%3Csvg%3E%3C/svg%3E'
-      expect(service.trustImageSrc(uri)).toEqual({ safeUrl: uri })
-    })
-
-    it('should trust a blob: url minted for an image', () => {
-      expect(service.trustImageSrc('blob:http://localhost/abc')).toEqual({ safeUrl: 'blob:http://localhost/abc' })
-    })
-
-    it('should trust an https image url', () => {
-      expect(service.trustImageSrc('https://cdn.example.com/cert.png')).toEqual({ safeUrl: 'https://cdn.example.com/cert.png' })
-    })
-
-    it('should block a javascript: url', () => {
-      expect(service.trustImageSrc('javascript:alert(1)')).toBeNull()
+      expect(service.sanitizeImageSrc(uri)).toBe(uri)
+      expect(mockSanitizer.sanitize).toHaveBeenCalledWith(SecurityContext.URL, uri)
       expect(mockSanitizer.bypassSecurityTrustUrl).not.toHaveBeenCalled()
     })
 
+    it('should allow a blob: url minted for an image', () => {
+      expect(service.sanitizeImageSrc('blob:http://localhost/abc')).toBe('blob:http://localhost/abc')
+    })
+
+    it('should allow an https image url', () => {
+      expect(service.sanitizeImageSrc('https://cdn.example.com/cert.png')).toBe('https://cdn.example.com/cert.png')
+    })
+
+    it('should block a javascript: url', () => {
+      expect(service.sanitizeImageSrc('javascript:alert(1)')).toBeNull()
+      expect(mockSanitizer.sanitize).not.toHaveBeenCalled()
+    })
+
     it('should block a data:text/html url', () => {
-      expect(service.trustImageSrc('data:text/html,<script>alert(1)</script>')).toBeNull()
+      expect(service.sanitizeImageSrc('data:text/html,<script>alert(1)</script>')).toBeNull()
     })
 
     it('should return null for empty/undefined/null input', () => {
-      expect(service.trustImageSrc('')).toBeNull()
-      expect(service.trustImageSrc(undefined)).toBeNull()
-      expect(service.trustImageSrc(null)).toBeNull()
+      expect(service.sanitizeImageSrc('')).toBeNull()
+      expect(service.sanitizeImageSrc(undefined)).toBeNull()
+      expect(service.sanitizeImageSrc(null)).toBeNull()
     })
   })
 

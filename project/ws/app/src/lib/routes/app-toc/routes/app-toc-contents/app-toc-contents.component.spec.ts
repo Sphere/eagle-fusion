@@ -70,7 +70,7 @@ describe('AppTocContentsComponent', () => {
       showConformation: null,
     }
     sanitizerMock = {
-      trustStyle: jest.fn().mockReturnValue('safe-style'),
+      sanitizeStyle: jest.fn().mockReturnValue('safe-style'),
     }
     component = new AppTocContentsComponent(routeMock, sanitizerMock, tocSvcMock, configSvcMock, contentSvcMock)
   })
@@ -148,7 +148,7 @@ describe('AppTocContentsComponent', () => {
 
   it('should sanitize background image url', () => {
     const result = component.sanitizedBackgroundImage('http://img.png')
-    expect(sanitizerMock.trustStyle).toHaveBeenCalledWith('url(http://img.png)')
+    expect(sanitizerMock.sanitizeStyle).toHaveBeenCalledWith('url(http://img.png)')
     expect(result).toBe('safe-style')
   })
 

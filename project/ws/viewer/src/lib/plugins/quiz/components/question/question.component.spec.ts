@@ -16,11 +16,14 @@ jest.mock('jsplumb', () => ({
   },
 }))
 
+import { TestBed } from '@angular/core/testing'
+import { DomSanitizer } from '@angular/platform-browser'
+import { SafeResourceUrlService } from '../../../../../../../../../library/ws-widget/utils/src/lib/services/safe-resource-url.service'
 import { QuestionComponent } from './question.component'
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent
-  const mockDomSanitizer = { trustHtml: jest.fn((v: string) => v) } as any
+  const mockDomSanitizer = { sanitizeFitbHtml: jest.fn((v: string) => v) } as any
   let nativeElement: any
   let mockElementRef: any
 
@@ -59,9 +62,26 @@ describe('QuestionComponent', () => {
     it('should prepare fitb inputs and mark safeQuestion', () => {
       component.question = buildQuestion({ questionType: 'fitb', question: '<input/> blank' })
       component.ngOnInit()
-      expect(mockDomSanitizer.trustHtml).toHaveBeenCalled()
+      expect(mockDomSanitizer.sanitizeFitbHtml).toHaveBeenCalledWith(expect.stringContaining('id="q10"'))
+      expect(component.safeQuestion).toBe(mockDomSanitizer.sanitizeFitbHtml.mock.results[0].value)
       expect(component.correctOption.length).toBe(1)
       expect(component.unTouchedBlank).toEqual([true])
+    })
+
+    it('should render every blank, with the id the answer check looks up, through the real sanitizer', () => {
+      const realSvc = new SafeResourceUrlService(TestBed.inject(DomSanitizer))
+      component = new QuestionComponent(realSvc, mockElementRef)
+      component.question = buildQuestion({
+        questionType: 'fitb',
+        question: '<p>Heart has <input/> chambers and <input/> valves<script>alert(1)</script></p>',
+      })
+      component.ngOnInit()
+      const host = document.createElement('div')
+      host.innerHTML = (component.safeQuestion as any).changingThisBreaksApplicationSecurity
+      const inputs = host.querySelectorAll('p > input[type="text"]')
+      expect(Array.from(inputs).map(i => i.id)).toEqual(['q10', 'q11'])
+      expect(host.querySelector('script')).toBeNull()
+      expect(component.correctOption).toEqual([false, false])
     })
 
     it('should shuffle options and build matchHintDisplay for mtf', () => {

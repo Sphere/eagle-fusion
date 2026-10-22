@@ -12,7 +12,7 @@ import { SafeResourceUrlService } from '../../../../library/ws-widget/utils/src/
 describe('TncRendererComponent', () => {
   let component: TncRendererComponent
   let fixture: ComponentFixture<TncRendererComponent>
-  const mockSafeResourceUrlSvc = { trustHtml: jest.fn().mockImplementation(value => ({ trusted: value })) }
+  const mockSafeResourceUrlSvc = { sanitizeHtml: jest.fn().mockImplementation((value: string) => value.replace(/<script.*?<\/script>/g, '')) }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -87,6 +87,27 @@ describe('TncRendererComponent', () => {
     } as any
     component.ngOnInit()
     expect(component.generalTnc?.language).toBe('hi')
+  })
+
+  it('should sanitize the data-privacy content instead of trusting it', () => {
+    component.tncData = {
+      isAccepted: false,
+      termsAndConditions: [
+        { name: 'Data Privacy', language: 'en', version: '1.0', isAccepted: false, url: '', content: '<p>Policy</p><script>x</script>' },
+      ],
+    } as any
+    component.ngOnChanges()
+    expect(mockSafeResourceUrlSvc.sanitizeHtml).toHaveBeenCalledWith('<p>Policy</p><script>x</script>')
+    expect(component.dpTncSafeContent).toBe('<p>Policy</p>')
+  })
+
+  it('should leave dpTncSafeContent null when the data-privacy content is empty', () => {
+    component.tncData = {
+      isAccepted: false,
+      termsAndConditions: [{ name: 'Data Privacy', language: 'en', version: '1.0', isAccepted: false, url: '' }],
+    } as any
+    component.ngOnChanges()
+    expect(component.dpTncSafeContent).toBeNull()
   })
 
   it('should default currentPanel to tnc', () => {
