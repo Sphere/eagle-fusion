@@ -85,10 +85,58 @@
   justify-content: center !important;
 }
 
-.star-rating img {
-  width: 36px;
-  height: 36px;
+.rating-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0 0;
+
+  img {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+.rating-label {
+  margin: 4px 0 0;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--theme-text);
+}
+
+.star-rating {
+  --star-active: #f7c933;
+  gap: 4px;
+  margin-top: 4px;
+
+  &.rating-1 { --star-active: #f06c6c; }
+  &.rating-2 { --star-active: #f2902f; }
+  &.rating-3 { --star-active: #f7c933; }
+  &.rating-4 { --star-active: #8bcf3f; }
+  &.rating-5 { --star-active: #4cbb17; }
+}
+
+.star-btn {
+  all: unset;
   cursor: pointer;
+  line-height: 0;
+
+  svg {
+    width: 38px;
+    height: 38px;
+    fill: #d9d9d9;
+    transition: fill 0.15s ease;
+  }
+
+  &.active svg {
+    fill: var(--star-active);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--theme-accent, #2E6491);
+    border-radius: 4px;
+  }
 }
 
 .star {
@@ -142,9 +190,9 @@
 
 .title {
   font-family: Roboto, sans-serif !important;
-  font-size: 22px !important;
+  font-size: 20px !important;
   font-weight: 400 !important;
-  line-height: 29px !important;
+  line-height: 0px !important;
   letter-spacing: -0.02em !important;
   text-align: center !important;
 
@@ -169,4 +217,19 @@ textarea.mat-mdc-input-element:focus {
 ::ng-deep .close-icon .mdc-button__ripple::before,
  .close-icon .mdc-button__ripple::after {
   background-color: transparent !important;
+}
+// Tighter spacing while the emoji block is shown, so the content fits without scrolling
+.has-rating {
+  .rating-comment {
+    margin-top: 8px;
+  }
+
+  textarea.mat-mdc-input-element {
+    margin-top: 0;
+  }
+
+  .submit-btn,
+  .submit-btn[disabled] {
+    margin-top: 8px !important;
+  }
 }
