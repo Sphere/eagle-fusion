@@ -303,14 +303,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
+  // Same rule as app-toc-home-page: lesson links use content[0], the batch enrolment uses.
   public getBatchId(): string {
-    let batchId = ''
-    if (this.batchData && this.batchData.content) {
-      for (const batch of this.batchData.content) {
-        batchId = batch.batchId
-      }
-    }
-    return batchId
+    const batch = this.batchData && this.batchData.content ? this.batchData.content[0] : undefined
+    return batch && batch.batchId ? batch.batchId : ''
   }
   redirectTo() {
     this.routelinK = 'discuss'
