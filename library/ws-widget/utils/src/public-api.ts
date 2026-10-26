@@ -10,6 +10,7 @@ export * from './lib/directives/image-responsive/image-responsive.module'
 // export * from './lib/directives/navigation/navigation.module'
 export * from './lib/directives/retain/retain-scroll.module'
 export * from './lib/helpers/functions/getStringifiedQueryParams'
+export * from './lib/helpers/functions/secureRandom'
 // helpers
 export * from './lib/helpers/horizontal-scroller/horizontal-scroller.module'
 export * from './lib/helpers/logout/logout.component'

@@ -41,7 +41,7 @@ import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-de
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 
 const mockSanitizer: Partial<SafeResourceUrlService> = {
-  trustStyle: jest.fn().mockReturnValue('trusted-style'),
+  sanitizeStyle: jest.fn().mockReturnValue('trusted-style'),
 }
 
 const mockRouter: Partial<Router> = {

@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
-import { SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
-import { SafeResourceUrlService } from '@ws-widget/utils'
+import { FitbQuestionHtml, SafeResourceUrlService } from '@ws-widget/utils'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 import { isUndefined, toLower } from 'lodash-es'
+import { secureRandomInt } from 'library/ws-widget/utils/src/lib/helpers/functions/secureRandom'
 
 @Component({
   standalone: false,
@@ -37,7 +37,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   @Input() markedQuestions: Set<string> = new Set()
   title = 'match'
   jsPlumbInstance: any
-  safeQuestion: SafeHtml = ''
+  fitbQuestion: FitbQuestionHtml | null = null
   correctOption: boolean[] = []
   unTouchedBlank: boolean[] = []
   matchHintDisplay: NSQuiz.IOption[] = []
@@ -102,7 +102,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
         border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
       )
     }
-    this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
+    this.fitbQuestion = this.domSanitizer.sanitizeFitbHtml(this.question.question)
   }
 
   private setupMtfQuestionOptions(): void {
@@ -152,7 +152,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
           border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
         )
       }
-      this.safeQuestion = this.domSanitizer.trustHtml(this.question.question)
+      this.fitbQuestion = this.domSanitizer.sanitizeFitbHtml(this.question.question)
       for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
         this.elementRef.nativeElement
           .querySelector(`#${this.question.questionId}${i}`)
@@ -347,7 +347,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex)
+      randomIndex = secureRandomInt(currentIndex)
       currentIndex -= 1
 
       // And swap it with the current element.

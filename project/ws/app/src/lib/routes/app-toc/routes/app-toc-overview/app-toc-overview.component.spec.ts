@@ -37,7 +37,7 @@ describe('AppTocOverviewComponent', () => {
       showDescription: false,
     }
     safeResourceUrlSvcMock = {
-      trustHtml: jest.fn().mockReturnValue('safe-html'),
+      sanitizeHtml: jest.fn().mockReturnValue('safe-html'),
     }
     authAccessControlSvcMock = {
       proxyToAuthoringUrl: jest.fn().mockReturnValue('proxied-url'),
@@ -127,7 +127,7 @@ describe('AppTocOverviewComponent', () => {
   it('should trust empty html when content body is missing', () => {
     tocSharedSvcMock.initData.mockReturnValue({ content: { identifier: 'id1' }, errorCode: null })
     component.ngOnInit()
-    expect(safeResourceUrlSvcMock.trustHtml).toHaveBeenCalledWith('')
+    expect(safeResourceUrlSvcMock.sanitizeHtml).toHaveBeenCalledWith('')
   })
 
   it('should unsubscribe on ngOnDestroy', () => {

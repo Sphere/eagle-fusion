@@ -14,7 +14,7 @@
 
   <h3 *ngIf="question.questionType !== 'fitb'" class="mat-h3 quiz-question" [innerHTML]="question?.question"
     [attr.aria-label]="question?.question">Question</h3>
-  <h3 *ngIf="question.questionType === 'fitb'" class="mat-h3 quiz-question" [innerHTML]="safeQuestion"
+  <h3 *ngIf="question.questionType === 'fitb'" class="mat-h3 quiz-question" [innerHTML]="fitbQuestion?.html" [wsFitbBlanks]="fitbQuestion"
     [attr.aria-label]="question?.question">Question</h3>
 
   <div *ngIf="question.questionType === 'fitb'">

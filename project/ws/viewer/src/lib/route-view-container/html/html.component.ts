@@ -73,13 +73,13 @@ export class HtmlComponent implements OnInit, OnChanges {
           this.isScormContent = false
         }
         if (this.htmlData && this.htmlData.learningObjective) {
-          this.learningObjective = this.safeResourceUrlSvc.trustHtml(
+          this.learningObjective = this.safeResourceUrlSvc.sanitizeHtml(
             this.htmlData.learningObjective,
           )
         }
         if (this.htmlData && this.htmlData.description) {
           const description = this.pipeLimitTo.transform(this.htmlData.description, 450)
-          this.description = this.safeResourceUrlSvc.trustHtml(description)
+          this.description = this.safeResourceUrlSvc.sanitizeHtml(description)
         }
 
       }
