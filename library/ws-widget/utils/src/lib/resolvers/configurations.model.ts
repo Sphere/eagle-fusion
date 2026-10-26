@@ -59,7 +59,7 @@ export namespace NsInstanceConfig {
     rootOrg: string
     intranetIframeUrls?: string[]
     /** Content that plays in the Sunbird content-player instead of the HTML player (by ID or mimeType). */
-    htmlContentPlayer?: { contentIds?: string[], mimeTypes?: string[], demoContentId?: string }
+    htmlContentPlayer?: { contentIds?: string[], mimeTypes?: string[] }
     showNavBarInSetup?: boolean
     intranetUrlToCheck?: string
     introVideo: IPath

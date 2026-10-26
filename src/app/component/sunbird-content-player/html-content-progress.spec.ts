@@ -1,5 +1,5 @@
 import {
-  elapsedSeconds, eventDetail, eventLabel, formatDuration, initialArchiveProgress, milestonesFor, progressUpdateFor,
+  initialArchiveProgress, milestonesFor, progressUpdateFor,
   reduceArchiveProgress,
 } from './html-content-progress'
 import { IPlayerTelemetryEvent } from './content-player.util'
@@ -53,36 +53,6 @@ describe('html-content-progress', () => {
       player('END', { summary: [{ progress: 100 }] }), player('START'),
     )
     expect(s).toEqual(expect.objectContaining({ status: 'completed', sessions: 2, answered: 0, correct: 0, scorePct: null }))
-  })
-
-  it('elapsedSeconds adds the running session', () => {
-    const s = run(player('END', { duration: 10 }), player('START', {}, 20000))
-    expect(elapsedSeconds(s, 25000)).toBe(15)
-    expect(elapsedSeconds({ ...s, sessionStartedAt: null }, 25000)).toBe(10)
-    expect(elapsedSeconds(s, 10000)).toBe(10)
-  })
-
-  it('labels INTERACT events with their type', () => {
-    expect(eventLabel(player('INTERACT', { type: 'HEARTBEAT' }))).toBe('INTERACT · HEARTBEAT')
-    expect(eventLabel(player('INTERACT'))).toBe('INTERACT')
-    expect(eventLabel(pkg('ASSESS'))).toBe('ASSESS')
-  })
-
-  it('describes events compactly', () => {
-    expect(eventDetail(player('END', { duration: 3.21, summary: [{ progress: 100 }] }))).toBe('progress 100%, 3.2s')
-    expect(eventDetail(player('END', {}))).toBe('progress 100%, 0.0s')
-    expect(eventDetail(player('START', { duration: 16.72 }))).toBe('load 16.7s')
-    expect(eventDetail(player('START', {}))).toBe('load 0.0s')
-    expect(eventDetail(player('INTERACT', { type: 'HEARTBEAT', subtype: '', id: '', pageid: '' }))).toBe('')
-    expect(eventDetail(pkg('ASSESS', { id: 'asha', section: 's1', correct: true }))).toBe('{"section":"s1","correct":true}')
-    expect(eventDetail(pkg('BIG', { blob: 'x'.repeat(200) })).length).toBe(120)
-  })
-
-  it('formats durations', () => {
-    expect(formatDuration(0)).toBe('0:00')
-    expect(formatDuration(75.9)).toBe('1:15')
-    expect(formatDuration(3725)).toBe('1:02:05')
-    expect(formatDuration(-4)).toBe('0:00')
   })
 
   describe('package-reported progress', () => {

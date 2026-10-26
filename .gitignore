@@ -59,6 +59,3 @@ yarn.lock
 # Proxy JSON
 /proxy
 prerender-routes.txt
-
-# extracted html-archive packages (large media) - see src/html-archive/README.md
-/src/html-archive/html/

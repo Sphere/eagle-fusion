@@ -5,7 +5,7 @@ jest.mock('@ws-widget/utils', () => ({
 
 import { NgZone, SimpleChange } from '@angular/core'
 import { SunbirdContentPlayerComponent } from './sunbird-content-player.component'
-import { CONTENT_PLAYER_PREVIEW_PATH, localArchiveLocation } from './content-player.util'
+import { CONTENT_PLAYER_PREVIEW_PATH } from './content-player.util'
 
 describe('SunbirdContentPlayerComponent', () => {
   let component: SunbirdContentPlayerComponent
@@ -33,7 +33,8 @@ describe('SunbirdContentPlayerComponent', () => {
     logger = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
     component = new SunbirdContentPlayerComponent({ trust: jest.fn(url => url) } as any, zone, logger)
     component.playerFrame = { nativeElement: { contentWindow: playerWindow } } as any
-    component.metadata = { identifier: 'do_a', name: 'A' }
+    // as the content API returns it: the unpacked folder of the published zip
+    component.metadata = { identifier: 'do_a', name: 'A', streamingUrl: 'https://cdn.example.org/content/html/do_a-latest' }
   })
 
   afterEach(() => {
@@ -47,11 +48,10 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('initialises the player with the explicit location and bridges the renderer api', () => {
-    component.location = localArchiveLocation()
     component.onPreviewLoad()
     expect(playerWindow.initializePreview).toHaveBeenCalledTimes(1)
     const cfg = playerWindow.initializePreview.mock.calls[0][0]
-    expect(cfg.config.s3ContentHost).toBe('/html-archive/')
+    expect(cfg.config.s3ContentHost).toBe('/apis/proxies/v8/getContents/content/')
     expect(cfg.metadata.identifier).toBe('do_a')
     expect(cfg.config.showEndPage).toBe(false)
     expect((window as any).EkstepRendererAPI).toBe(api)
@@ -59,7 +59,6 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('passes showEndPage through when a host wants the player end page', () => {
-    component.location = localArchiveLocation()
     component.showEndPage = true
     component.onPreviewLoad()
     expect(playerWindow.initializePreview.mock.calls[0][0].config.showEndPage).toBe(true)
@@ -80,7 +79,6 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('emits contentEnd when the renderer ends the content', () => {
-    component.location = localArchiveLocation()
     const ended = jest.fn()
     component.contentEnd.subscribe(ended)
     component.onPreviewLoad()
@@ -89,7 +87,6 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('forwards player lifecycle events as telemetry', () => {
-    component.location = localArchiveLocation()
     const events: any[] = []
     component.telemetry.subscribe(e => events.push(e))
     component.onPreviewLoad()
@@ -99,7 +96,6 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('registers the end listener only once across relaunches', () => {
-    component.location = localArchiveLocation()
     component.onPreviewLoad()
     const registered = api.addEventListener.mock.calls.length
     component.ngOnChanges({ metadata: new SimpleChange(null, component.metadata, false) })
@@ -113,7 +109,6 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('ignores the synchronous load of the initial about:blank document', () => {
-    component.location = localArchiveLocation()
     playerWindow.location = { href: 'about:blank' }
     component.onPreviewLoad()
     expect(playerWindow.initializePreview).not.toHaveBeenCalled()
@@ -121,14 +116,12 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('ignores a load for any document other than preview.html', () => {
-    component.location = localArchiveLocation()
     playerWindow.location = { href: 'http://localhost:3000/html-content-player' }
     component.onPreviewLoad()
     expect(playerWindow.initializePreview).not.toHaveBeenCalled()
   })
 
   it('treats an unreadable location as a real document', () => {
-    component.location = localArchiveLocation()
     Object.defineProperty(playerWindow, 'location', { get: () => { throw new Error('cross-origin') } })
     component.onPreviewLoad()
     expect(playerWindow.initializePreview).toHaveBeenCalled()
@@ -151,13 +144,13 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('reports an error when no location can be resolved', () => {
+    component.metadata = { identifier: 'do_a', name: 'A' }
     component.onPreviewLoad()
     expect(component.status).toBe('error')
     expect(playerWindow.initializePreview).not.toHaveBeenCalled()
   })
 
   it('reports an error when initializePreview throws', () => {
-    component.location = localArchiveLocation()
     playerWindow.initializePreview.mockImplementation(() => { throw new Error('boom') })
     component.onPreviewLoad()
     expect(component.status).toBe('error')
@@ -165,7 +158,6 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('launches without a bridge when the player exposes no renderer api', () => {
-    component.location = localArchiveLocation()
     delete playerWindow.EkstepRendererAPI
     component.onPreviewLoad()
     expect(component.status).toBe('ready')
@@ -173,7 +165,6 @@ describe('SunbirdContentPlayerComponent', () => {
   })
 
   it('removes the bridge on destroy', () => {
-    component.location = localArchiveLocation()
     component.onPreviewLoad()
     component.ngOnDestroy()
     expect((window as any).EkstepRendererAPI).toBeUndefined()
@@ -182,7 +173,6 @@ describe('SunbirdContentPlayerComponent', () => {
   it('restores a renderer api that existed before it was mounted', () => {
     const existing = { mine: true };
     (window as any).EkstepRendererAPI = existing
-    component.location = localArchiveLocation()
     component.onPreviewLoad()
     component.ngOnDestroy()
     expect((window as any).EkstepRendererAPI).toBe(existing)
@@ -204,7 +194,6 @@ describe('SunbirdContentPlayerComponent', () => {
       originalSend = jest.fn(() => 'sent')
       playerWindow.telemetry_web = { send: originalSend }
       playerWindow.frames = { length: 1, 0: packageFrame }
-      component.location = localArchiveLocation()
       events = []
       component.telemetry.subscribe(e => events.push(e))
     })
@@ -327,7 +316,6 @@ describe('SunbirdContentPlayerComponent', () => {
       jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => { rafs.push(cb); return rafs.length })
       host.style.height = ''
       component.playerFrame = { nativeElement: Object.assign(host, { contentWindow: playerWindow }) } as any
-      component.location = localArchiveLocation()
     })
 
     afterEach(() => {

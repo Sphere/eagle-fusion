@@ -15,7 +15,7 @@ export interface IArchiveSection {
   done: boolean
 }
 
-/** Progress summary built from the content-player and package telemetry, for the demo panel. */
+/** Progress summary built from the content-player and package telemetry. */
 export interface IArchiveProgress {
   status: TArchiveProgressStatus
   /** Player-reported progress: the html launcher only knows 50 (playing) and 100 (ended). */
@@ -48,7 +48,6 @@ export interface IArchiveProgress {
   scorePct: number | null
 }
 
-export const MAX_EVENT_LOG = 100
 export const MILESTONE_STEP = 10
 export const MILESTONES = Array.from({ length: 100 / MILESTONE_STEP }, (_, i) => (i + 1) * MILESTONE_STEP)
 
@@ -210,43 +209,6 @@ function reducePackageEvent(state: IArchiveProgress, event: IPlayerTelemetryEven
 
 export function reduceArchiveProgress(state: IArchiveProgress, event: IPlayerTelemetryEvent): IArchiveProgress {
   return event.source === 'player' ? reducePlayerEvent(state, event) : reducePackageEvent(state, event)
-}
-
-/** Seconds spent so far, including the running session. */
-export function elapsedSeconds(state: IArchiveProgress, now: number): number {
-  const running = state.sessionStartedAt === null ? 0 : Math.max(0, (now - state.sessionStartedAt) / 1000)
-  return Math.round(state.timeSpentSec + running)
-}
-
-/** One-line label for the event log: INTERACT shows its type (HEARTBEAT, TOUCH). */
-export function eventLabel(event: IPlayerTelemetryEvent): string {
-  return event.eid === 'INTERACT' && event.edata.type ? `INTERACT · ${event.edata.type}` : event.eid
-}
-
-/** Compact detail for the event log. */
-export function eventDetail(event: IPlayerTelemetryEvent): string {
-  const { edata } = event
-  if (event.source === 'player' && event.eid === 'END') {
-    return `progress ${endProgress(edata)}%, ${Number(edata.duration || 0).toFixed(1)}s`
-  }
-  if (event.source === 'player' && event.eid === 'START') {
-    return `load ${Number(edata.duration || 0).toFixed(1)}s`
-  }
-  // id and type are already shown by the label; empty strings are noise (HEARTBEAT carries several)
-  const rest = Object.fromEntries(
-    Object.entries(edata).filter(([key, value]) => key !== 'id' && key !== 'type' && value !== '' && value !== undefined),
-  )
-  const text = Object.keys(rest).length ? JSON.stringify(rest) : ''
-  return text.length > 120 ? `${text.slice(0, 117)}...` : text
-}
-
-/** 75 -> "1:15", 3725 -> "1:02:05" */
-export function formatDuration(totalSeconds: number): string {
-  const s = Math.max(0, Math.floor(totalSeconds))
-  const h = Math.floor(s / 3600)
-  const m = Math.floor((s % 3600) / 60)
-  const sec = String(s % 60).padStart(2, '0')
-  return h ? `${h}:${String(m).padStart(2, '0')}:${sec}` : `${m}:${sec}`
 }
 
 /** Body for the standard progress update (ViewerUtilService.realTimeProgressUpdateV3). */

@@ -19,7 +19,7 @@ import {
   SafeResourceUrlService,
   UtilityService,
 } from '@ws-widget/utils'
-import { of, Subscription } from 'rxjs'
+import { of, Subscription, EMPTY } from 'rxjs'
 import { catchError, delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
@@ -1175,7 +1175,15 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           fields: ['progressdetails'],
         },
       }
-      this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(data => {
+      this.progresSub = this.contentSvc.fetchContentHistoryV2(req).pipe(
+        // e.g. 400 when the learner has no batch for this course: without this the loading overlay stayed up
+        catchError(err => {
+          this.logger.warn('viewer toc: progress could not be read', err)
+          this.isLoading = false
+          this.cdr.markForCheck()
+          return EMPTY
+        }),
+      ).subscribe(data => {
         void (async () => {
           // tslint:disable-next-line: no-console
           this.logger.log(data['result']['contentList'])

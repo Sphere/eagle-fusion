@@ -407,9 +407,8 @@
     "feature_konnect"
   ],
   "htmlContentPlayer": {
-    "contentIds": ["do_asha_induction_s1"],
-    "mimeTypes": [],
-    "demoContentId": "do_asha_induction_s1"
+    "contentIds": [],
+    "mimeTypes": ["application/vnd.ekstep.html-archive"]
   },
   "intranetIframeUrls": [],
   "introVideo": {

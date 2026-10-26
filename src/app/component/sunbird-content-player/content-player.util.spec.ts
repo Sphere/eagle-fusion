@@ -1,8 +1,11 @@
 import {
-  archiveFolderFromArtifact, archiveIndexUrl, buildHtmlArchivePlayerConfig, HTML_ARCHIVE_MIME_TYPE, isHtmlContentPlayerEnabled, isSafeIdentifier,
-  localArchiveLocation, localPackageContent, localPackageDataUrl, measureContentHeight, resolveContentLocation, toProxyPath,
-  metadataFromLocalData, normalizePackageEvent, normalizePackageMessage, normalizePlayerEvent, resolveArchiveLocation, whiteListFor,
+  archiveFolderFromArtifact, buildHtmlArchivePlayerConfig, HTML_ARCHIVE_MIME_TYPE, IArchiveLocation, isHtmlContentPlayerEnabled,
+  isSafeIdentifier, measureContentHeight, normalizePackageEvent, normalizePackageMessage, normalizePlayerEvent, resolveArchiveLocation,
+  resolveContentLocation, toProxyPath, whiteListFor,
 } from './content-player.util'
+
+/** A same-origin location, as resolveContentLocation returns for content served through the proxy. */
+const proxied: IArchiveLocation = { host: '', s3ContentHost: '/apis/proxies/v8/getContents/content/', status: 'Live' }
 
 describe('content-player.util', () => {
   describe('isSafeIdentifier', () => {
@@ -47,15 +50,9 @@ describe('content-player.util', () => {
     })
   })
 
-  it('archiveIndexUrl rebuilds the path the player requests', () => {
-    expect(archiveIndexUrl(localArchiveLocation(), 'do_a')).toBe('/html-archive/html/do_a-latest/index.html')
-    expect(archiveIndexUrl({ host: 'https://h', s3ContentHost: '/c/', status: 'Draft' }, 'do_a'))
-      .toBe('https://h/c/html/do_a-snapshot/index.html')
-  })
-
   describe('whiteListFor', () => {
     it('allows only self for same-origin packages', () => {
-      expect(whiteListFor(localArchiveLocation())).toEqual(['self'])
+      expect(whiteListFor(proxied)).toEqual(['self'])
     })
 
     it('adds the origin of a remote package host', () => {
@@ -66,12 +63,12 @@ describe('content-player.util', () => {
 
   describe('buildHtmlArchivePlayerConfig', () => {
     it('fills defaults for context, overlay, mimeType, status and pkgVersion', () => {
-      const cfg = buildHtmlArchivePlayerConfig({ identifier: 'do_a', name: 'A' }, localArchiveLocation())
+      const cfg = buildHtmlArchivePlayerConfig({ identifier: 'do_a', name: 'A' }, proxied)
       expect(cfg.context.contentId).toBe('do_a')
       expect(cfg.context.mode).toBe('play')
       expect(cfg.context.uid).toBe('anonymous')
       expect(cfg.config.host).toBe('')
-      expect(cfg.config.s3ContentHost).toBe('/html-archive/')
+      expect(cfg.config.s3ContentHost).toBe('/apis/proxies/v8/getContents/content/')
       expect(cfg.config.showEndPage).toBe(false)
       expect(cfg.config.overlay.showNext).toBe(false)
       expect(cfg.metadata).toEqual({ identifier: 'do_a', name: 'A', mimeType: HTML_ARCHIVE_MIME_TYPE, status: 'Live', pkgVersion: 1 })
@@ -92,20 +89,6 @@ describe('content-player.util', () => {
       expect(cfg.config.showEndPage).toBe(true)
       expect(cfg.metadata.status).toBe('Draft')
       expect(cfg.metadata.pkgVersion).toBe(3)
-    })
-  })
-
-  describe('metadataFromLocalData', () => {
-    it('reads the package test/localData.json shape', () => {
-      const md = metadataFromLocalData({
-        content: [{ mimeType: HTML_ARCHIVE_MIME_TYPE, localData: { name: 'ASHA', pkgVersion: 2, identifier: 'other' } }],
-      }, 'do_a')
-      expect(md).toEqual(expect.objectContaining({ identifier: 'do_a', name: 'ASHA', pkgVersion: 2, mimeType: HTML_ARCHIVE_MIME_TYPE }))
-    })
-
-    it('falls back to a minimal record', () => {
-      expect(metadataFromLocalData(null, 'do_a')).toEqual({ identifier: 'do_a', name: 'do_a', mimeType: HTML_ARCHIVE_MIME_TYPE, pkgVersion: 1 })
-      expect(metadataFromLocalData({ content: 'bad' }, 'do_a').name).toBe('do_a')
     })
   })
 
@@ -199,7 +182,7 @@ describe('content-player.util', () => {
         .toBe('/apis/proxies/v8/getContents/content/html/do_a-latest')
     })
     it('leaves relative paths alone', () => {
-      expect(toProxyPath('/html-archive/html/do_a-latest')).toBe('/html-archive/html/do_a-latest')
+      expect(toProxyPath('/content/html/do_a-latest')).toBe('/content/html/do_a-latest')
     })
   })
 
@@ -231,21 +214,6 @@ describe('content-player.util', () => {
       expect(resolveContentLocation({ identifier: 'do_a', streamingUrl: 'https://cdn.x/content/html/do_a-latest' }, false)?.s3ContentHost)
         .toBe('https://cdn.x/content/')
       expect(resolveContentLocation({ identifier: 'do_a', artifactUrl: 'https://cdn.x/a.pdf' })).toBeNull()
-    })
-  })
-
-  describe('local package (not uploaded yet)', () => {
-    it('points at the unpacked copy', () => {
-      expect(localPackageDataUrl('do_a')).toBe('/html-archive/html/do_a-latest/test/localData.json')
-    })
-
-    it('builds an API-shaped content record that the viewer can play', () => {
-      const content = localPackageContent('do_a', { content: [{ localData: { name: 'ASHA', pkgVersion: 6 } }] })
-      expect(content).toEqual(expect.objectContaining({
-        identifier: 'do_a', name: 'ASHA', mimeType: HTML_ARCHIVE_MIME_TYPE, status: 'Live', artifactUrl: '',
-        streamingUrl: '/html-archive/html/do_a-latest', isIframeSupported: 'Yes', localPackage: true,
-      }))
-      expect(resolveContentLocation(content)).toEqual({ host: '', s3ContentHost: '/html-archive/', status: 'Live' })
     })
   })
 })

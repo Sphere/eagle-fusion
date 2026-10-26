@@ -4,7 +4,7 @@ import {
 import { SafeResourceUrl } from '@angular/platform-browser'
 import { LoggerService, SafeResourceUrlService } from '@ws-widget/utils'
 import {
-  buildHtmlArchivePlayerConfig, CONTENT_END_EVENT, CONTENT_PLAYER_PREVIEW_PATH, IArchiveLocation, PLAYER_LIFECYCLE_EVENTS,
+  buildHtmlArchivePlayerConfig, CONTENT_END_EVENT, CONTENT_PLAYER_PREVIEW_PATH, PLAYER_LIFECYCLE_EVENTS,
   FIT_HEIGHT_MEDIA, HTML_ARCHIVE_RESUME_MESSAGE, IContentPlayerContext, IContentPlayerMetadata, IPlayerTelemetryEvent, measureContentHeight,
   normalizePackageMessage, normalizePlayerEvent, resolveContentLocation,
 } from './content-player.util'
@@ -33,8 +33,6 @@ export type TPlayerStatus = 'loading' | 'ready' | 'error'
 })
 export class SunbirdContentPlayerComponent implements OnChanges, OnDestroy {
   @Input() metadata: IContentPlayerMetadata | null = null
-  /** Overrides the location derived from metadata.streamingUrl / artifactUrl (e.g. a locally unpacked package). */
-  @Input() location: IArchiveLocation | null = null
   @Input() context: IContentPlayerContext = {}
   /**
    * The player's own end page (Congratulations, Replay, a feedback form that posts nowhere).
@@ -87,7 +85,7 @@ export class SunbirdContentPlayerComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ((changes.metadata || changes.location) && this.previewLoaded) {
+    if (changes.metadata && this.previewLoaded) {
       this.resumeSent = false
       this.packageWindow = null
       this.launch()
@@ -128,7 +126,7 @@ export class SunbirdContentPlayerComponent implements OnChanges, OnDestroy {
       return
     }
     // like other players: from the API's streamingUrl / artifactUrl, via the same-origin content proxy
-    const location = this.location ?? resolveContentLocation(this.metadata)
+    const location = resolveContentLocation(this.metadata)
     if (!location) {
       this.fail(`no playable location for ${this.metadata.identifier}`)
       return

@@ -1,11 +1,6 @@
-import {
-  clearLocalResume, currentUserId, LOCAL_RESUME_PREFIX, localResumeKey, readLocalResume, resumeFromHistory, ResumeSaveThrottle,
-  saveLocalResume,
-} from './html-content-resume'
+import { isStepChange, resumeFromHistory, ResumeSaveThrottle } from './html-content-resume'
 
 describe('html-content-resume', () => {
-  beforeEach(() => localStorage.clear())
-
   describe('resumeFromHistory', () => {
     const history = (progressdetails: unknown, completionPercentage = 40) => ({
       result: { contentList: [{ contentId: 'other' }, { contentId: 'do_a', completionPercentage, progressdetails }] },
@@ -28,59 +23,6 @@ describe('html-content-resume', () => {
     })
   })
 
-  describe('browser storage (local copies), per user', () => {
-    it('keys a position by user and content', () => {
-      expect(localResumeKey('u1', 'do_a')).toBe(`${LOCAL_RESUME_PREFIX}u1:do_a`)
-      expect(localResumeKey(null, 'do_a')).toBeNull()
-      expect(localResumeKey('u1', '')).toBeNull()
-    })
-
-    it('saves, reads and clears per user and content', () => {
-      saveLocalResume('u1', 'do_a', { si: 1 })
-      saveLocalResume('u2', 'do_a', { si: 2 })
-      expect(readLocalResume('u1', 'do_a')).toEqual({ si: 1 })
-      expect(readLocalResume('u2', 'do_a')).toEqual({ si: 2 })
-      expect(readLocalResume('u1', 'do_b')).toBeNull()
-      clearLocalResume('u1', 'do_a')
-      expect(readLocalResume('u1', 'do_a')).toBeNull()
-      expect(readLocalResume('u2', 'do_a')).toEqual({ si: 2 })
-    })
-
-    it('stores and returns nothing without a user', () => {
-      saveLocalResume(null, 'do_a', { si: 1 })
-      expect(localStorage.length).toBe(0)
-      expect(readLocalResume(undefined, 'do_a')).toBeNull()
-      expect(() => clearLocalResume(null, 'do_a')).not.toThrow()
-    })
-
-    it('never throws when storage is broken or the value is not JSON', () => {
-      localStorage.setItem(`${LOCAL_RESUME_PREFIX}u1:do_a`, '{oops')
-      expect(readLocalResume('u1', 'do_a')).toBeNull()
-      const spy = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new Error('full') })
-      expect(() => saveLocalResume('u1', 'do_a', { si: 1 })).not.toThrow()
-      spy.mockRestore()
-      const rm = jest.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => { throw new Error('blocked') })
-      expect(() => clearLocalResume('u1', 'do_a')).not.toThrow()
-      rm.mockRestore()
-    })
-  })
-
-  describe('currentUserId', () => {
-    it('prefers the loaded profile, else the session id kept at login', () => {
-      localStorage.setItem('userUUID', 'u-session')
-      expect(currentUserId('u-profile')).toBe('u-profile')
-      expect(currentUserId(null)).toBe('u-session')
-      localStorage.removeItem('userUUID')
-      expect(currentUserId(undefined)).toBeNull()
-    })
-
-    it('returns null when storage is blocked', () => {
-      const spy = jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('blocked') })
-      expect(currentUserId(null)).toBeNull()
-      spy.mockRestore()
-    })
-  })
-
   describe('ResumeSaveThrottle', () => {
     it('allows one position save per interval, and forced saves any time', () => {
       const t = new ResumeSaveThrottle(15000)
@@ -89,6 +31,22 @@ describe('html-content-resume', () => {
       expect(t.due(106000, true)).toBe(true)
       expect(t.due(115000)).toBe(false)
       expect(t.due(121000)).toBe(true)
+    })
+  })
+
+  describe('isStepChange', () => {
+    const base = { si: 0, qi: 0, phase: 'video', videoTime: 5, answeredQs: {}, watched: {} }
+    it('is true for the first snapshot and for a new section, screen, question, answer or watched video', () => {
+      expect(isStepChange(null, base)).toBe(true)
+      expect(isStepChange(base, { ...base, si: 1 })).toBe(true)
+      expect(isStepChange(base, { ...base, phase: 'quiz' })).toBe(true)
+      expect(isStepChange(base, { ...base, qi: 1 })).toBe(true)
+      expect(isStepChange(base, { ...base, answeredQs: { 's1:0': true } })).toBe(true)
+      expect(isStepChange(base, { ...base, watched: { s1: true } })).toBe(true)
+    })
+    it('is false when only the video time moved, or there is no new snapshot', () => {
+      expect(isStepChange(base, { ...base, videoTime: 15 })).toBe(false)
+      expect(isStepChange(base, null)).toBe(false)
     })
   })
 })

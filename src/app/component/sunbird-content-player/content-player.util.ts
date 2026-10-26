@@ -11,8 +11,6 @@
 /** Copied from node_modules by the angular.json assets entry. */
 export const CONTENT_PLAYER_PREVIEW_PATH = '/content-player/preview.html?webview=true'
 export const HTML_ARCHIVE_MIME_TYPE = 'application/vnd.ekstep.html-archive'
-/** Local packages unpacked by scripts/extract-html-archive.sh */
-export const LOCAL_HTML_ARCHIVE_HOST = '/html-archive/'
 export const CONTENT_END_EVENT = 'renderer:content:end'
 
 /**
@@ -82,8 +80,6 @@ export const CONTENT_PROXY_PREFIX = '/apis/proxies/v8/getContents'
 export interface IHtmlContentPlayerConfig {
   contentIds?: string[]
   mimeTypes?: string[]
-  /** Content opened by the home-page demo button; no button when empty. */
-  demoContentId?: string
 }
 
 export function isHtmlContentPlayerEnabled(
@@ -144,36 +140,6 @@ export function resolveContentLocation(
   return null
 }
 
-/** test/localData.json of a package unpacked by scripts/extract-html-archive.sh */
-export function localPackageDataUrl(identifier: string): string {
-  return `${LOCAL_HTML_ARCHIVE_HOST}html/${identifier}-latest/test/localData.json`
-}
-
-/**
- * Content record for a package that exists only as a local unpacked copy (not uploaded to Sunbird yet),
- * shaped like the content API's result so the viewer's normal HTML flow can play it. `localPackage`
- * marks it: it is not part of any course, so course gating and progress saving are skipped for it.
- */
-export function localPackageContent(identifier: string, localData: unknown): IContentPlayerMetadata {
-  return {
-    ...metadataFromLocalData(localData, identifier),
-    identifier,
-    mimeType: HTML_ARCHIVE_MIME_TYPE,
-    status: 'Live',
-    primaryCategory: 'Learning Resource',
-    contentType: 'Resource',
-    streamingUrl: `${LOCAL_HTML_ARCHIVE_HOST}html/${identifier}-latest`,
-    artifactUrl: '',
-    isIframeSupported: 'Yes',
-    localPackage: true,
-  }
-}
-
-/** Location of a package unpacked under src/html-archive/html/<id>-latest. */
-export function localArchiveLocation(): IArchiveLocation {
-  return { host: '', s3ContentHost: LOCAL_HTML_ARCHIVE_HOST, status: 'Live' }
-}
-
 /**
  * Splits a Sunbird streamingUrl (".../html/<id>-latest") into the host prefix the player expects.
  * Returns null when the URL does not follow that layout, because the player cannot be pointed at it.
@@ -192,12 +158,6 @@ export function resolveArchiveLocation(streamingUrl: string | null | undefined, 
     return { host: '', s3ContentHost: clean.slice(0, -suffixSnapshot.length), status: 'Draft' }
   }
   return null
-}
-
-/** URL of the package's entry point, as the player will request it. */
-export function archiveIndexUrl(location: IArchiveLocation, identifier: string): string {
-  const suffix = location.status === 'Live' ? 'latest' : 'snapshot'
-  return `${location.host}${location.s3ContentHost}html/${identifier}-${suffix}/index.html`
 }
 
 /** The player blocks any URL not whitelisted; 'self' covers same-origin packages. */
@@ -338,21 +298,4 @@ export function normalizePackageEvent(raw: any, now = Date.now()): IPlayerTeleme
     return null
   }
   return { source: 'package', eid: raw.type, edata: { id: raw.id, ...(raw.extra ?? {}) }, ets: now }
-}
-
-/**
- * Reads the metadata an html-archive package ships in test/localData.json
- * ({ content: [{ identifier, mimeType, localData: { name, pkgVersion, ... } }] }).
- * Falls back to a minimal record so a package without that file still plays.
- */
-export function metadataFromLocalData(localData: any, identifier: string): IContentPlayerMetadata {
-  const entry = Array.isArray(localData?.content) ? localData.content[0] : undefined
-  const data = entry?.localData ?? {}
-  return {
-    ...data,
-    identifier,
-    name: data.name ?? identifier,
-    mimeType: entry?.mimeType ?? HTML_ARCHIVE_MIME_TYPE,
-    pkgVersion: data.pkgVersion ?? 1,
-  }
 }
