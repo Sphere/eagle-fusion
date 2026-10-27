@@ -86,7 +86,15 @@ export class SeoService {
   // splitting ranking signals. sitemap.xml uses the no-trailing-slash form, so we match it.
   private normalizePath(url: string): string {
     const path = url.split('?')[0].split('#')[0]
-    return path.length > 1 ? path.replace(/\/+$/, '') : path
+    if (path.length <= 1) {
+      return path
+    }
+    // Index scan rather than /\/+$/ - that regex backtracks quadratically on long runs of '/'.
+    let end = path.length
+    while (end > 0 && path[end - 1] === '/') {
+      end--
+    }
+    return path.slice(0, end)
   }
 
   private setCanonical(url: string) {

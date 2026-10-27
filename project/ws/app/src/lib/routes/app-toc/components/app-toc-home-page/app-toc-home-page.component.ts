@@ -395,7 +395,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     this.discussionConfig.contextType = 'course'
     this.matspinner = false
     this.getUserEnrollmentList()
-    this.body = this.safeResourceUrlSvc.trustHtml(
+    this.body = this.safeResourceUrlSvc.sanitizeHtml(
       this.content && this.content.body
         ? this.forPreview
           ? this.authAccessControlSvc.proxyToAuthoringUrl(this.content.body)

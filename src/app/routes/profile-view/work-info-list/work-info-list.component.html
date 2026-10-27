@@ -60,7 +60,7 @@
         </select>
         <!-- Read-only: render the stored value directly. A native select can only show values that
              exist as options, so legacy professions rendered as an empty box. -->
-        <input *ngIf="!isEditableForSphere" type="text" class="form-control"
+        <input *ngIf="!isEditableForSphere" type="text" class="form-control" [id]="field.key"
           [value]="personalDetailForm.get(field.key)?.value || ''" readonly disabled />
       </div>
       <ng-container *ngIf="shouldShowField(field) && (isEditableForSphere || personalDetailForm.get(field.key)?.value)">

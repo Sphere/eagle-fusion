@@ -211,7 +211,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     this.isPlayable = true
   }
   sanitizedBackgroundImage(url: string): SafeStyle {
-    return this.sanitizer.trustStyle(`url(${url})`)
+    return this.sanitizer.sanitizeStyle(`url(${url})`)
   }
   resourceLink(resource: NsContent.IContent): { url: string; queryParams: { [key: string]: any } } {
     return viewerRouteGenerator(resource.identifier, resource.mimeType)

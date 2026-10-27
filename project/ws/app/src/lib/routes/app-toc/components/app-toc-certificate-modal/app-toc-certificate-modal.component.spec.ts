@@ -24,8 +24,8 @@ const mockContentSvc: Partial<WidgetContentService> = {
 }
 
 const mockSanitizer: Partial<SafeResourceUrlService> = {
-  trustUrl: jest.fn().mockReturnValue('trusted-url'),
-  trustImageSrc: jest.fn().mockReturnValue('trusted-url'),
+  sanitizeUrl: jest.fn().mockReturnValue('trusted-url'),
+  sanitizeImageSrc: jest.fn().mockReturnValue('trusted-url'),
   // Raw SVG printUris are turned into object URLs first; plain URLs pass through unchanged
   toImageSource: jest.fn().mockImplementation((src: string) => src),
 }
@@ -72,7 +72,7 @@ describe('AppTocCertificateModalComponent', () => {
     await Promise.resolve()
     await Promise.resolve()
     await Promise.resolve()
-    expect(mockSanitizer.trustImageSrc).toHaveBeenCalledWith('http://example.com/cert.png')
+    expect(mockSanitizer.sanitizeImageSrc).toHaveBeenCalledWith('http://example.com/cert.png')
     expect(component.img).toBe('trusted-url')
     expect(component.isLoading).toBe(false)
     expect(component.hasError).toBe(false)

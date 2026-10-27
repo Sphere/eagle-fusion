@@ -27,7 +27,7 @@ describe('ExploreResolverService', () => {
     new ExploreResolverService(safeResourceUrlSvc, global, scoped)
 
   beforeEach(() => {
-    safeResourceUrlSvc = { trustStyle: jest.fn((s: string) => `safe:${s}`) }
+    safeResourceUrlSvc = { sanitizeStyle: jest.fn((s: string) => `safe:${s}`) }
     instance = { widgetData: null, updateBaseComponent: jest.fn() }
     containerRef = {
       clear: jest.fn(),
@@ -113,7 +113,7 @@ describe('ExploreResolverService', () => {
         widgetHostStyle: { color: 'blue', padding: '2px' },
       }) as any, containerRef)
 
-      expect(safeResourceUrlSvc.trustStyle).toHaveBeenCalledWith('color:blue;padding:2px;')
+      expect(safeResourceUrlSvc.sanitizeStyle).toHaveBeenCalledWith('color:blue;padding:2px;')
       expect(instance.updateBaseComponent).toHaveBeenCalledWith(
         'layout', 'gridLayout', 'w1', 'cls', 'safe:color:blue;padding:2px;',
       )

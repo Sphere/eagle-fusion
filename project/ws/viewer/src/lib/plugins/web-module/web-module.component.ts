@@ -180,7 +180,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
 
   setAudio(audios: { URL: string }[]) {
     if (Array.isArray(audios) && audios.length && audios[0].URL) {
-      this.slideAudioUrl = this.safeResourceUrlSvc.trustUrl(this.urlPrefix + audios[0].URL)
+      this.slideAudioUrl = this.safeResourceUrlSvc.sanitizeUrl(this.urlPrefix + audios[0].URL)
     } else {
       this.slideAudioUrl = (null as unknown) as SafeResourceUrl
     }

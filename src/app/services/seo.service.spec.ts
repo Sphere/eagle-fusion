@@ -110,6 +110,25 @@ describe('SeoService', () => {
     expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/public/home')
   })
 
+  it('update strips every trailing slash and the fragment from the canonical URL', () => {
+    mockRouter.url = '/public/home///#top'
+    expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/public/home')
+  })
+
+  it('update keeps slashes that are not trailing, even a long run of them', () => {
+    mockRouter.url = '/a/b' + '/'.repeat(50000) + 'x'
+    const started = Date.now()
+    expect(canonicalHrefFrom()).toBe(`https://sphere.aastrika.org/a/b${'/'.repeat(50000)}x`)
+    expect(Date.now() - started).toBeLessThan(500)
+  })
+
+  it('update strips a long run of trailing slashes quickly', () => {
+    mockRouter.url = '/a/b' + '/'.repeat(50000)
+    const started = Date.now()
+    expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/a/b')
+    expect(Date.now() - started).toBeLessThan(500)
+  })
+
   it('update drops the query string from the canonical URL', () => {
     mockRouter.url = '/public/home?tab=all'
     expect(canonicalHrefFrom()).toBe('https://sphere.aastrika.org/public/home')

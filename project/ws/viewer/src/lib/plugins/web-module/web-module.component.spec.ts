@@ -25,7 +25,7 @@ describe('WebModuleComponent (plugin)', () => {
     mockEvents = { raiseInteractTelemetry: jest.fn() }
     mockSafeResourceUrlSvc = {
       trust: jest.fn((url: string) => url),
-      trustUrl: jest.fn((url: string) => url),
+      sanitizeUrl: jest.fn((url: string) => url),
     }
     mockValueSvc = { isXSmall$: of(false) }
     mockViewerSvc = { realTimeProgressUpdateV3: jest.fn() }
@@ -179,7 +179,7 @@ describe('WebModuleComponent (plugin)', () => {
   describe('setAudio', () => {
     it('sets slideAudioUrl when audio present', () => {
       component.setAudio([{ URL: '/audio.mp3' } as any])
-      expect(mockSafeResourceUrlSvc.trustUrl).toHaveBeenCalled()
+      expect(mockSafeResourceUrlSvc.sanitizeUrl).toHaveBeenCalled()
     })
 
     it('sets slideAudioUrl to null when no audio', () => {
@@ -294,7 +294,7 @@ describe('WebModuleComponent (plugin)', () => {
       component.loadWebModule()
       component.iframeUrl = null as any
       component.setPage(99)
-      expect(mockSafeResourceUrlSvc.trustUrl).toHaveBeenCalled()
+      expect(mockSafeResourceUrlSvc.sanitizeUrl).toHaveBeenCalled()
     })
   })
 
