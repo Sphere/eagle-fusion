@@ -66,7 +66,7 @@ describe('HtmlComponent (plugins/html)', () => {
   }
 
   beforeEach(() => {
-    mockSafeResourceUrlSvc = { trust: jest.fn().mockReturnValue('trustedUrl'), trustHtml: jest.fn() }
+    mockSafeResourceUrlSvc = { trust: jest.fn().mockReturnValue('trustedUrl'), sanitizeHtml: jest.fn() }
     mockMobAppSvc = { isMobile: false }
     mockScormAdapterService = {
       contentId: '',

@@ -91,7 +91,7 @@ export class ExploreResolverService {
     compRef.instance.widgetData = compData.widgetData
     if (compRef.instance.updateBaseComponent) {
       const widgetSafeStyle = compData.widgetHostStyle
-        ? this.safeResourceUrlSvc.trustStyle(
+        ? this.safeResourceUrlSvc.sanitizeStyle(
           Object.entries(compData.widgetHostStyle).reduce((s, [k, v]) => `${s}${k}:${v};`, ''),
         )
         : undefined

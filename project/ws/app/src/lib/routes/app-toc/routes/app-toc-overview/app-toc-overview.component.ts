@@ -108,7 +108,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSharedSvc.initData(data)
     this.content = initData.content
-    this.body = this.safeResourceUrlSvc.trustHtml(
+    this.body = this.safeResourceUrlSvc.sanitizeHtml(
       this.content?.body
         ? this.forPreview
           ? this.authAccessControlSvc.proxyToAuthoringUrl(this.content.body)

@@ -26,7 +26,7 @@ describe('LoginResolverService', () => {
     new LoginResolverService(safeResourceUrlSvc, global, scoped)
 
   beforeEach(() => {
-    safeResourceUrlSvc = { trustStyle: jest.fn((s: string) => `safe:${s}`) }
+    safeResourceUrlSvc = { sanitizeStyle: jest.fn((s: string) => `safe:${s}`) }
     instance = { widgetData: null, updateBaseComponent: jest.fn() }
     containerRef = {
       clear: jest.fn(),
@@ -121,7 +121,7 @@ describe('LoginResolverService', () => {
         widgetHostStyle: { color: 'red' },
       }) as any, containerRef)
 
-      expect(safeResourceUrlSvc.trustStyle).toHaveBeenCalledWith('color:red;')
+      expect(safeResourceUrlSvc.sanitizeStyle).toHaveBeenCalledWith('color:red;')
       expect(instance.updateBaseComponent).toHaveBeenCalledWith(
         'layout', 'gridLayout', 'w1', 'cls', 'safe:color:red;',
       )

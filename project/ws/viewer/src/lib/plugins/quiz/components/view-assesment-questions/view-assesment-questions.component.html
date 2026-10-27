@@ -1,7 +1,7 @@
 <div>
   <h3 *ngIf="question.questionType !== 'fitb'" class="m-0 quiz-question" [innerHTML]="question?.question"
     [attr.aria-label]="question?.question">Question</h3>
-  <h3 *ngIf="question.questionType === 'fitb'" class="m-0 quiz-question" [innerHTML]="safeQuestion"
+  <h3 *ngIf="question.questionType === 'fitb'" class="m-0 quiz-question" [innerHTML]="fitbQuestion?.html" [wsFitbBlanks]="fitbQuestion"
     [attr.aria-label]="question?.question">Question</h3>
 
   <!-- Show text when multiple answers are possible -->

@@ -40,7 +40,7 @@ export class PublicAboutComponent implements OnInit, OnDestroy {
     this.subscriptionAbout = this.activateRoute.data.subscribe(data => {
       this.aboutPage = data.pageData.data
       if (this.aboutPage?.innerHtmlWithTitle?.para) {
-        this.overviewParaSafeHtml = this.safeResourceUrlSvc.trustHtml(this.aboutPage.innerHtmlWithTitle.para)
+        this.overviewParaSafeHtml = this.safeResourceUrlSvc.sanitizeHtml(this.aboutPage.innerHtmlWithTitle.para)
       }
       if (this.aboutPage && this.aboutPage.banner && this.aboutPage.banner.videoLink) {
         this.videoLink = this.safeResourceUrlSvc.trust(
@@ -48,7 +48,7 @@ export class PublicAboutComponent implements OnInit, OnDestroy {
         )
       }
       if (this.aboutPage && this.aboutPage.banner) {
-        this.headerBanner = this.safeResourceUrlSvc.trustStyle(
+        this.headerBanner = this.safeResourceUrlSvc.sanitizeStyle(
           `url('${this.aboutPage.banner.img}')`,
         )
       }

@@ -31,7 +31,7 @@ describe('WidgetResolverService', () => {
     new WidgetResolverService(safeResourceUrlSvc, global, scoped)
 
   beforeEach(() => {
-    safeResourceUrlSvc = { trustStyle: jest.fn((s: string) => `safe:${s}`) }
+    safeResourceUrlSvc = { sanitizeStyle: jest.fn((s: string) => `safe:${s}`) }
     instance = { widgetData: null, updateBaseComponent: jest.fn() }
     containerRef = {
       clear: jest.fn(),
@@ -128,7 +128,7 @@ describe('WidgetResolverService', () => {
       })
       service.resolveWidget(config as any, containerRef)
 
-      expect(safeResourceUrlSvc.trustStyle).toHaveBeenCalledWith('color:red;margin:4px;')
+      expect(safeResourceUrlSvc.sanitizeStyle).toHaveBeenCalledWith('color:red;margin:4px;')
       expect(instance.updateBaseComponent).toHaveBeenCalledWith(
         'card', 'cardContent', 'w1', 'my-class', 'safe:color:red;margin:4px;',
       )
@@ -136,7 +136,7 @@ describe('WidgetResolverService', () => {
 
     it('should pass undefined for the style when no host styles are given', () => {
       service.resolveWidget(renderConfig() as any, containerRef)
-      expect(safeResourceUrlSvc.trustStyle).not.toHaveBeenCalled()
+      expect(safeResourceUrlSvc.sanitizeStyle).not.toHaveBeenCalled()
       expect(instance.updateBaseComponent).toHaveBeenCalledWith(
         'card', 'cardContent', undefined, undefined, undefined,
       )

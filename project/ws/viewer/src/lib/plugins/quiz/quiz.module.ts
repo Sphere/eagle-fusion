@@ -28,6 +28,7 @@ import { AssesmentOverviewComponent } from './components/assesment-overview/asse
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { ViewAssesmentQuestionsComponent } from './components/view-assesment-questions/view-assesment-questions.component'
 import { SlideDirective } from './directives/slide.directive'
+import { FitbBlanksDirective } from './directives/fitb-blanks.directive'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 import { AssesmentQuestionResultComponent } from './components/assesment-question-result/assesment-question-result.component'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
@@ -46,6 +47,7 @@ import { CompleteCoursesModalComponent } from './components/complete-courses-mod
     AssesmentModalComponent,
     ViewAssesmentQuestionsComponent,
     SlideDirective,
+    FitbBlanksDirective,
     AssesmentCloseModalComponent,
     AssesmentQuestionResultComponent,
     QuizModalComponent,

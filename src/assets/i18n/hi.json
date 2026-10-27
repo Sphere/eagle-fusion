@@ -824,6 +824,7 @@
   "Submit your feedback": "अपनी प्रतिक्रिया सबमिट करें",
   "Results": "परिणाम",
   "Tell us more about what you felt": "हमें बताएं कि आपने क्या महसूस किया",
+  "Tell us more about what you felt (Optional)": "आपको कैसा लगा? थोड़ा और बताएं। (वैकल्पिक)",
   "flag": "झंडा",
   "cancel": "रद्द करना",
   "Did not Pass": "पास नहीं हुआ",
@@ -1003,6 +1004,13 @@
   "COMPETENCIES": "योग्यताएं",
   "Alert": "सूचना",
   "OK": "ठीक है",
+  "RATING_TERRIBLE": "बहुत खराब",
+  "RATING_POOR": "खराब",
+  "RATING_OK": "ठीक-ठाक",
+  "RATING_GOOD": "अच्छा",
+  "RATING_EXCELLENT": "बहुत अच्छा",
+  "RATE_ONE_STAR": "1 स्टार दें",
+  "RATE_N_STARS": "{{count}} स्टार दें",
   "Certificate preview of course:": "कोर्स के प्रमाणपत्र का पूर्वावलोकन:",
   "NEXT": "आगे",
   "Exit Quiz?": "क्विज़ से बाहर निकलें?",
@@ -1047,5 +1055,6 @@
   "CERT_VERIFY_VERIFIED": "सत्यापित प्रमाणपत्र",
   "CERT_VERIFY_INVALID_TITLE": "इस प्रमाणपत्र का सत्यापन नहीं हो सका",
   "CERT_VERIFY_INVALID_DESC": "सुनिश्चित करें कि आपने प्रमाणपत्र पर छपा QR कोड स्कैन किया है। समस्या बनी रहे तो प्रमाणपत्र जारी करने वाली संस्था से संपर्क करें।",
-  "We could not load all your certificates.": "हम आपके सभी प्रमाणपत्र लोड नहीं कर सके।"
+  "We could not load all your certificates.": "हम आपके सभी प्रमाणपत्र लोड नहीं कर सके।",
+  "How was your experience?": "आपका अनुभव कैसा रहा?"
 }
