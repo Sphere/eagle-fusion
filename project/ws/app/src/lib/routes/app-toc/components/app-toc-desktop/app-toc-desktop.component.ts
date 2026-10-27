@@ -539,14 +539,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       })
     })
   }
+  // enrollUser() enrols into content[0], so the lesson links must use content[0] too. This used to
+  // return the last batch: on a course with several open batches (listed newest first) the learner
+  // was enrolled in the newest batch while every lesson saved progress against the oldest one.
   private getBatchId(): string {
-    let batchId = ''
-    if (this.batchData && this.batchData.content) {
-      for (const batch of this.batchData.content) {
-        batchId = batch.batchId
-      }
-    }
-    return batchId
+    const batch = this.batchData && this.batchData.content ? this.batchData.content[0] : undefined
+    return batch && batch.batchId ? batch.batchId : ''
   }
 
 
@@ -961,7 +959,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   private updateBannerUrl() {
     if (this.banners) {
-      this.bannerUrl = this.sanitizer.trustStyle(
+      this.bannerUrl = this.sanitizer.sanitizeStyle(
         `url(${this.banners[this.routePath]})`,
       )
     }
@@ -1221,6 +1219,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
         if (data && data.result && data.result.response === 'SUCCESS') {
+          // Narrow batchData to the batch just enrolled in (as the batch dropdown already does), so
+          // the lesson opened below carries that batchId and not another open batch's.
+          this.batchData = {
+            content: [batchData[0]],
+            enrolled: true,
+          }
           this.router.navigate(
             [],
             {

@@ -239,7 +239,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     this.discussionConfig.contextType = 'course'
     this.matspinner = false
     this.getUserEnrollmentList()
-    this.body = this.safeResourceUrlSvc.trustHtml(
+    this.body = this.safeResourceUrlSvc.sanitizeHtml(
       this.content && this.content.body
         ? this.forPreview
           ? this.authAccessControlSvc.proxyToAuthoringUrl(this.content.body)
@@ -303,14 +303,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
+  // Same rule as app-toc-home-page: lesson links use content[0], the batch enrolment uses.
   public getBatchId(): string {
-    let batchId = ''
-    if (this.batchData && this.batchData.content) {
-      for (const batch of this.batchData.content) {
-        batchId = batch.batchId
-      }
-    }
-    return batchId
+    const batch = this.batchData && this.batchData.content ? this.batchData.content[0] : undefined
+    return batch && batch.batchId ? batch.batchId : ''
   }
   redirectTo() {
     this.routelinK = 'discuss'

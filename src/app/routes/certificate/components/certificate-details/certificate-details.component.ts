@@ -136,7 +136,7 @@ export class CertificateDetailsComponent implements OnInit, OnDestroy {
     if (printUri) {
       // printUri is raw SVG for RC certificates: never bind it directly (see SafeResourceUrlService).
       const src = this.safeResourceUrlSvc.toImageSource(printUri, this.objectUrls)
-      this.certificateImage = this.safeResourceUrlSvc.trustImageSrc(src)
+      this.certificateImage = this.safeResourceUrlSvc.sanitizeImageSrc(src)
     }
     this.viewCertificate = true
     this.stage = 'verified'

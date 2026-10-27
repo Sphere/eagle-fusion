@@ -1,9 +1,14 @@
 <div class="completed-card">
 
-  <!-- Header: checkmark badge + label -->
+  <!-- Header: checkmark badge + label + certificate download -->
   <div class="completed-card__header">
     <mat-icon class="completed-check-icon">check_circle</mat-icon>
     <span class="completed-card__label">{{ 'Competency' | translate }}</span>
+    <button type="button" class="certificate-btn" [disabled]="isCertificateLoading"
+      [attr.aria-label]="'Download certificate' | translate" [title]="'Download certificate' | translate"
+      (click)="downloadCertificate($event)">
+      <img src="/fusion-assets/images/certificate-icon.jpg" class="certificate-icon" alt="" />
+    </button>
   </div>
 
   <!-- Competency name -->
@@ -15,3 +20,10 @@
   </button>
 
 </div>
+
+@if (certificateMessage) {
+<div class="certificate-info" role="status">
+  <mat-icon class="certificate-info__icon">info</mat-icon>
+  <span>{{ certificateMessage }}</span>
+</div>
+}

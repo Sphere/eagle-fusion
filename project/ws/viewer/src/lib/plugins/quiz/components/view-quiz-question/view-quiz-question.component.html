@@ -2,7 +2,7 @@
   <h3 class="icon-q" [ngClass]="question.questionType === 'fitb'? 'type-fitb':'icon-q' ">Q:</h3>
   <h3 *ngIf="question.questionType !== 'fitb'" class="m-0" [innerHTML]="question?.question"
     [ngClass]="isAssessment ? 'assesment-question' : 'quiz-question'" [attr.aria-label]="question?.question">Question</h3>
-  <h3 *ngIf="question.questionType === 'fitb'" class="m-0 quiz-question" [innerHTML]="safeQuestion"
+  <h3 *ngIf="question.questionType === 'fitb'" class="m-0 quiz-question" [innerHTML]="fitbQuestion?.html" [wsFitbBlanks]="fitbQuestion"
     [attr.aria-label]="question?.question">Question</h3>
 
   <ng-container *ngIf="question.questionType === 'fitb'">

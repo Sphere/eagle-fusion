@@ -65,7 +65,7 @@ const mockConfigSvc: Partial<ConfigurationsService> = {
 }
 
 const mockSafeResourceUrlSvc: Partial<SafeResourceUrlService> = {
-  trustHtml: jest.fn().mockReturnValue('safe-html'),
+  sanitizeHtml: jest.fn().mockReturnValue('safe-html'),
 }
 
 const mockAuthAccessControlSvc: Partial<AccessControlService> = {
@@ -127,7 +127,7 @@ describe('AppTocHomeComponent', () => {
     component.ngOnInit()
     expect(component.content).toEqual({ identifier: 'id-1', children: [], primaryCategory: 'Course' })
     expect(component.matspinner).toBe(false)
-    expect(mockSafeResourceUrlSvc.trustHtml).toHaveBeenCalled()
+    expect(mockSafeResourceUrlSvc.sanitizeHtml).toHaveBeenCalled()
   })
 
   it('should navigate to login when content.data is missing and no stored url', () => {
@@ -165,9 +165,9 @@ describe('AppTocHomeComponent', () => {
     expect(component.checkJson('not-json')).toBe(false)
   })
 
-  it('getBatchId should return last batchId from batchData content', () => {
+  it('getBatchId should return the first batchId from batchData content, the one enrolment uses', () => {
     component.batchData = { content: [{ batchId: 'b1' }, { batchId: 'b2' }], enrolled: false } as any
-    expect(component.getBatchId()).toBe('b2')
+    expect(component.getBatchId()).toBe('b1')
   })
 
   it('getBatchId should return empty string when no batchData', () => {

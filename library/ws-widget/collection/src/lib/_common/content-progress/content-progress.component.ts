@@ -1,4 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core'
+import { secureRandomString } from 'library/ws-widget/utils/src/lib/helpers/functions/secureRandom'
 
 @Component({
     standalone: false,
@@ -30,9 +31,8 @@ export class ContentProgressComponent {
   @Input()
   className = ''
 
-  rendom = Math.random()
   @HostBinding('id')
-  public id = `progress_${Math.random()}`
+  public id = `progress_${secureRandomString(11)}`
   constructor() {
     if (this.contentId) {
       this.id = this.contentId

@@ -132,12 +132,14 @@ describe('MobileProfileDashboardComponent', () => {
       workMessage: { subscribe: jest.fn().mockReturnValue({ unsubscribe: jest.fn() }) },
       fetchGeneralAndRcCertificates: jest.fn().mockReturnValue(of({ generalCertificates: [], sunbirdRcCertificates: [] })),
       getCertificateAPI: jest.fn().mockReturnValue(of({})),
+      fetchCompetencyCertificateStatus: jest.fn().mockReturnValue(of([])),
+      fetchCompetencyCertificate: jest.fn().mockReturnValue(of(null)),
       updateValue$: { pipe: jest.fn().mockReturnThis(), subscribe: jest.fn() },
     }
     mockSafeResourceUrlSvc = {
-      trustUrl: jest.fn().mockReturnValue('safe-url'),
-      trustImageSrc: jest.fn().mockReturnValue('safe-image-url'),
-      // Raw SVG printUris are turned into object URLs before trustImageSrc(); pass others through
+      sanitizeUrl: jest.fn().mockReturnValue('safe-url'),
+      sanitizeImageSrc: jest.fn().mockReturnValue('safe-image-url'),
+      // Raw SVG printUris are turned into object URLs before sanitizeImageSrc(); pass others through
       toImageSource: jest.fn().mockImplementation((src: string) => src),
     }
     mockValueSvc = { isMobile: jest.fn().mockReturnValue(false) }
@@ -615,6 +617,34 @@ describe('MobileProfileDashboardComponent', () => {
     })
   })
 
+  describe('dropSupersededLegacyCertificates', () => {
+    const legacy = { identifier: 'c14c55cf-d972-4dbc-9b14-4054f3c09ea7', token: 'S5U9N5' }
+    const current = { identifier: '1-aa02deee', templateUrl: 'https://s3/amtsl.svg', type: 'TrainingCertificate' }
+
+    it('should drop the legacy certificate when the course also has a new-format one', () => {
+      expect(component.dropSupersededLegacyCertificates([legacy, current])).toEqual([current])
+    })
+
+    it('should keep a legacy certificate when it is the only one for the course', () => {
+      expect(component.dropSupersededLegacyCertificates([legacy])).toEqual([legacy])
+    })
+
+    it('should keep every new-format certificate', () => {
+      const other = { ...current, identifier: '1-bbbb' }
+      expect(component.dropSupersededLegacyCertificates([current, other])).toEqual([current, other])
+    })
+
+    it('should render one card per course in formateRequest for a legacy + new-format pair', () => {
+      const data = {
+        generalCertificates: [{ courseName: 'Normal Labour & Birth and AMTSL', issuedCertificates: [legacy, current] }],
+        sunbirdRcCertificates: [],
+      }
+      const result = component.formateRequest(data)
+      expect(result).toHaveLength(1)
+      expect(result[0]).toMatchObject({ identifier: '1-aa02deee', name: 'Normal Labour & Birth and AMTSL' })
+    })
+  })
+
   describe('setAcademicDetail', () => {
     it('should not throw when data is null', () => {
       expect(() => component.setAcademicDetail(null)).not.toThrow()
@@ -779,6 +809,34 @@ describe('MobileProfileDashboardComponent', () => {
       component.changeFunction({ name: 'certificates', data: null, text: 'Certs' })
       expect(mockLogger.error).toHaveBeenCalled()
     })
+
+    it('stops loading and flags the failure instead of showing an empty list', () => {
+      const { throwError } = require('rxjs')
+      mockContentSvc.fetchGeneralAndRcCertificates = jest.fn().mockReturnValue(throwError(() => new Error('cert error')))
+      component.certificates = [{ identifier: 'stale', name: 'stale' }] as any
+      component.loadCourseCertificates()
+      expect(component.isLoading).toBe(false)
+      expect(component.certificates).toEqual([])
+      expect(component.courseCertificatesFailed).toBe(true)
+      expect(component.certificatesFailed).toBe(true)
+    })
+
+    it('flags a competency status failure', () => {
+      const { throwError } = require('rxjs')
+      mockContentSvc.fetchCompetencyCertificateStatus.mockReturnValue(throwError(() => new Error('status down')))
+      component.loadCompetencyCertificates()
+      expect(component.competencyCertificatesFailed).toBe(true)
+      expect(component.certificatesFailed).toBe(true)
+    })
+
+    it('retry reloads both sources and clears the failure flags on success', () => {
+      component.courseCertificatesFailed = true
+      component.competencyCertificatesFailed = true
+      component.loadCertificates()
+      expect(mockContentSvc.fetchGeneralAndRcCertificates).toHaveBeenCalled()
+      expect(mockContentSvc.fetchCompetencyCertificateStatus).toHaveBeenCalled()
+      expect(component.certificatesFailed).toBe(false)
+    })
   })
 
   describe('saveLanguage', () => {
@@ -794,6 +852,21 @@ describe('MobileProfileDashboardComponent', () => {
   })
 
   describe('processCertiFicate', () => {
+    it('should not request the download for a superseded legacy certificate', () => {
+      mockContentSvc.getCertificateAPI = jest.fn().mockReturnValue(of({ result: {} }))
+      mockContentSvc.updateValue$ = of({})
+      const data = {
+        generalCertificates: [{
+          courseName: 'Normal Labour & Birth and AMTSL',
+          issuedCertificates: [{ identifier: 'legacy-id', token: 'S5U9N5' }, { identifier: '1-new', templateUrl: 'https://s3/t.svg' }],
+        }],
+        sunbirdRcCertificates: [],
+      }
+      component.processCertiFicate(data).subscribe()
+      expect(mockContentSvc.getCertificateAPI).toHaveBeenCalledTimes(1)
+      expect(mockContentSvc.getCertificateAPI).toHaveBeenCalledWith('1-new')
+    })
+
     it('should return from([true]) when certificateIdArray is empty', done => {
       const data = { generalCertificates: [], sunbirdRcCertificates: [] }
       component.processCertiFicate(data).subscribe({
@@ -857,6 +930,84 @@ describe('MobileProfileDashboardComponent', () => {
       const form = { value: { language: 'hi' } }
       component.saveLanguage(form)
       expect(mockSnackBar.open).toHaveBeenCalled()
+    })
+  })
+
+  describe('competency certificates', () => {
+    const { throwError } = require('rxjs')
+    const certUrl = 'https://example.com/102-certificate.png'
+
+    it('downloads only GENERATED competencies and maps them to cards', () => {
+      mockContentSvc.fetchCompetencyCertificateStatus.mockReturnValue(of([
+        { competencyId: '102', status: 'GENERATED', isCertificateGenerated: true },
+        { competencyId: '103', status: 'PENDING', isCertificateGenerated: false },
+      ]))
+      mockContentSvc.fetchCompetencyCertificate.mockReturnValue(of({ competencyId: '102', certificateUrl: certUrl }))
+
+      component.loadCompetencyCertificates()
+
+      expect(mockContentSvc.fetchCompetencyCertificateStatus).toHaveBeenCalledWith('user-1')
+      expect(mockContentSvc.fetchCompetencyCertificate).toHaveBeenCalledTimes(1)
+      expect(mockContentSvc.fetchCompetencyCertificate).toHaveBeenCalledWith('user-1', '102')
+      expect(component.competencyCertificates).toEqual([{
+        identifier: 'competency-102',
+        name: 'Competency 102',
+        downloadUrl: certUrl,
+        image: certUrl,
+        rcCerticate: true,
+      }])
+      expect(component.isCompetencyLoading).toBe(false)
+    })
+
+    it('skips the download API when nothing is generated', () => {
+      mockContentSvc.fetchCompetencyCertificateStatus.mockReturnValue(of([{ competencyId: '103', status: 'PENDING' }]))
+      component.loadCompetencyCertificates()
+      expect(mockContentSvc.fetchCompetencyCertificate).not.toHaveBeenCalled()
+      expect(component.competencyCertificates).toEqual([])
+      expect(component.isCompetencyLoading).toBe(false)
+    })
+
+    it('keeps the other certificates when one download fails', () => {
+      mockContentSvc.fetchCompetencyCertificateStatus.mockReturnValue(of([
+        { competencyId: '101', status: 'GENERATED' },
+        { competencyId: '102', status: 'GENERATED' },
+      ]))
+      mockContentSvc.fetchCompetencyCertificate.mockImplementation((_u: string, id: string) =>
+        id === '101' ? throwError(() => new Error('boom')) : of({ competencyId: id, certificateUrl: certUrl }))
+
+      component.loadCompetencyCertificates()
+
+      expect(component.competencyCertificates.map(c => c.identifier)).toEqual(['competency-102'])
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+
+    it('clears the list and stops loading when the status API fails', () => {
+      component.competencyCertificates = [{ identifier: 'old', name: 'old' }]
+      mockContentSvc.fetchCompetencyCertificateStatus.mockReturnValue(throwError(() => new Error('status down')))
+      component.loadCompetencyCertificates()
+      expect(component.competencyCertificates).toEqual([])
+      expect(component.isCompetencyLoading).toBe(false)
+      expect(mockLogger.error).toHaveBeenCalled()
+    })
+
+    it('does not call the API without a userId', () => {
+      mockConfigSvc.userProfile = null
+      component.loadCompetencyCertificates()
+      expect(mockContentSvc.fetchCompetencyCertificateStatus).not.toHaveBeenCalled()
+      expect(component.competencyCertificates).toEqual([])
+    })
+
+    it('drops download results without a certificateUrl', () => {
+      expect(component.mapCompetencyCertificates([null, { competencyId: '1', certificateUrl: null }])).toEqual([])
+    })
+
+    it('opening certificates also loads competency certificates', () => {
+      component.changeFunction({ name: 'certificates', data: null, text: 'Certs' })
+      expect(mockContentSvc.fetchCompetencyCertificateStatus).toHaveBeenCalled()
+    })
+
+    it('tracks certificates by identifier', () => {
+      expect(component.trackByCertificate(0, { identifier: 'x', name: 'n' })).toBe('x')
     })
   })
 })

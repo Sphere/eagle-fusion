@@ -41,7 +41,7 @@ import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-de
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 
 const mockSanitizer: Partial<SafeResourceUrlService> = {
-  trustStyle: jest.fn().mockReturnValue('trusted-style'),
+  sanitizeStyle: jest.fn().mockReturnValue('trusted-style'),
 }
 
 const mockRouter: Partial<Router> = {
@@ -648,9 +648,9 @@ describe('AppTocDesktopComponent', () => {
       expect(component['getBatchId']()).toBe('')
     })
 
-    it('should return the last batch id in the list', () => {
+    it('should return the first batch id in the list, the one enrolment uses', () => {
       component.batchData = { content: [{ batchId: 'b1' }, { batchId: 'b2' }] }
-      expect(component['getBatchId']()).toBe('b2')
+      expect(component['getBatchId']()).toBe('b1')
     })
   })
 

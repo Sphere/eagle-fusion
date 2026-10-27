@@ -8,7 +8,7 @@ import { WidgetContentService } from '../../../../../library/ws-widget/collectio
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 // import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
-import { from, of, Observable, Subscription } from 'rxjs'
+import { from, of, forkJoin, Observable, Subscription } from 'rxjs'
 import { map, mergeMap, finalize, catchError, take } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
@@ -52,6 +52,11 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   userProfileData!: UserProfileRequest
   academicsArray: Academic[] = []
   certificates: Certificate[] = []
+  competencyCertificates: Certificate[] = []
+  isCompetencyLoading = false
+  // A failed API must not read as "you have no certificates" - the template shows Retry instead
+  courseCertificatesFailed = false
+  competencyCertificatesFailed = false
   imgURI: string[] = []
   // Object URLs minted for certificate thumbnails; revoked in ngOnDestroy so they do not
   // leak for the lifetime of the tab.
@@ -275,21 +280,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
 
       case 'certificates':
         window.scroll(0, 0)
-        this.isLoading = true
-        this.contentSvc.fetchGeneralAndRcCertificates().pipe(
-          mergeMap((res: CertificateData) => this.processCertiFicate(res))
-        ).subscribe({
-          next: () => {
-            this.logger.log('[MobileProfileDashboard] Certificate processing completed')
-            this.loader = false
-            this.cdr.detectChanges()
-          },
-          error: (err: any) => {
-            this.logger.error('[MobileProfileDashboard] Error processing certificates:', err)
-            this.loader = false
-            this.cdr.detectChanges()
-          },
-        })
+        this.loadCertificates()
         setWindow('certificates')
         break
     }
@@ -355,10 +346,12 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     })
   }
   processCertiFicate(data: CertificateData): Observable<any> {
-    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
-      return certificate.length > 0
-    })), 'identifier')
     this.formatAllRequest(data)
+    // Download only the certificates that survived formateRequest, so a superseded legacy
+    // certificate is neither rendered nor fetched (its v2 download returns 500).
+    const certificateIdArray = this.certificates
+      .filter(certificate => certificate.rcCertiface === false)
+      .map(certificate => certificate.identifier)
 
     if (certificateIdArray.length === 0) {
       // Return a completed observable if no certificates
@@ -387,13 +380,13 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
           if (res) {
             _.forEach(this.certificates, cvalue => {
               if (res[cvalue.identifier]) {
-                // Certificates arrive as data:image/svg+xml, which trustUrl() rejects - it would
+                // Certificates arrive as data:image/svg+xml, which sanitizeUrl() rejects - it would
                 // return null and every card would render with an empty image. Since rendering
-                // moved to sunbird-rc they can also arrive as raw SVG markup, which trustImageSrc()
+                // moved to sunbird-rc they can also arrive as raw SVG markup, which sanitizeImageSrc()
                 // would wrongly accept as a relative URL and the <img> would fail to load, so run
                 // it through toImageSource() first.
                 const src = this.safeResourceUrlSvc.toImageSource(res[cvalue.identifier], this.certObjectUrls)
-                cvalue['image'] = this.safeResourceUrlSvc.trustImageSrc(src)
+                cvalue['image'] = this.safeResourceUrlSvc.sanitizeImageSrc(src)
                 cvalue['printUri'] = src
               }
             })
@@ -403,6 +396,96 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       })
     )
   }
+  trackByCertificate(_index: number, certificate: Certificate): string {
+    return certificate.identifier
+  }
+
+  get certificatesFailed(): boolean {
+    return this.courseCertificatesFailed || this.competencyCertificatesFailed
+  }
+
+  loadCertificates(): void {
+    this.loadCourseCertificates()
+    this.loadCompetencyCertificates()
+  }
+
+  loadCourseCertificates(): void {
+    this.isLoading = true
+    this.courseCertificatesFailed = false
+    this.contentSvc.fetchGeneralAndRcCertificates().pipe(
+      mergeMap((res: CertificateData) => this.processCertiFicate(res))
+    ).subscribe({
+      next: () => {
+        this.logger.log('[MobileProfileDashboard] Certificate processing completed')
+        this.loader = false
+        this.cdr.detectChanges()
+      },
+      error: (err: any) => {
+        this.logger.error('[MobileProfileDashboard] Error processing certificates:', err)
+        this.certificates = []
+        this.courseCertificatesFailed = true
+        this.isLoading = false
+        this.loader = false
+        this.cdr.detectChanges()
+      },
+    })
+  }
+
+  // Status lists every competency the learner is tracked against; only GENERATED ones have a
+  // certificate, and its URL comes from the download API. Each download is isolated so one
+  // failure drops one certificate, not the tab.
+  loadCompetencyCertificates(): void {
+    const userId = this.configSvc.userProfile?.userId
+    if (!userId) {
+      this.competencyCertificates = []
+      return
+    }
+    this.isCompetencyLoading = true
+    this.competencyCertificatesFailed = false
+    this.contentSvc.fetchCompetencyCertificateStatus(userId).pipe(
+      mergeMap((statusList: any[]) => {
+        const generated = (statusList || []).filter(item => item?.competencyId && item.status === 'GENERATED')
+        if (generated.length === 0) {
+          return of([])
+        }
+        return forkJoin(generated.map(item =>
+          this.contentSvc.fetchCompetencyCertificate(userId, item.competencyId).pipe(
+            catchError(err => {
+              this.logger.error('[MobileProfileDashboard] competency certificate download failed: ' + item.competencyId, err)
+              return of(null)
+            })
+          )
+        ))
+      }),
+      finalize(() => {
+        this.isCompetencyLoading = false
+        this.cdr.detectChanges()
+      })
+    ).subscribe({
+      next: (certs: any[]) => {
+        this.competencyCertificates = this.mapCompetencyCertificates(certs)
+      },
+      error: (err: any) => {
+        this.logger.error('[MobileProfileDashboard] Error loading competency certificates:', err)
+        this.competencyCertificates = []
+        this.competencyCertificatesFailed = true
+      },
+    })
+  }
+
+  mapCompetencyCertificates(certs: any[]): Certificate[] {
+    const label = this.translate.instant('Competency')
+    return (certs || [])
+      .filter(cert => cert?.certificateUrl)
+      .map(cert => ({
+        identifier: `competency-${cert.competencyId}`,
+        name: `${label} ${cert.competencyId}`,
+        downloadUrl: cert.certificateUrl,
+        image: cert.certificateUrl,
+        rcCerticate: true,
+      }))
+  }
+
   formatAllRequest(data: CertificateData): void {
     this.isLoading = false
     this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))
@@ -415,7 +498,8 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     // each certificate here, before flattening, or it's lost and value.courseName below
     // is always undefined.
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data.generalCertificates, (course: any) =>
-      (course.issuedCertificates || []).map((certificate: any) => ({ ...certificate, courseName: course.courseName }))
+      this.dropSupersededLegacyCertificates(course.issuedCertificates || [])
+        .map((certificate: any) => ({ ...certificate, courseName: course.courseName }))
     ), certificate => {
       return certificate.length > 0
     })), (result: Certificate[], value: any) => {
@@ -427,6 +511,15 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
       return result
     }, [])
     return issuedCertificates
+  }
+  // A course can carry a certificate from the legacy cert service (bare-UUID id, access-code
+  // token, no templateUrl) alongside the one re-issued in the new format for the same batch.
+  // certreg v2 cannot render the legacy one (500), so it showed up as a duplicate card with no
+  // preview and a dead download. Drop it when the course has a new-format certificate; keep it
+  // when it is the only one, so no earned certificate disappears.
+  dropSupersededLegacyCertificates(issuedCertificates: any[]): any[] {
+    const hasNewFormat = issuedCertificates.some(certificate => certificate?.templateUrl)
+    return hasNewFormat ? issuedCertificates.filter(certificate => certificate?.templateUrl) : issuedCertificates
   }
   rcCertiface(data: CertificateData): Certificate[] {
     if (data.sunbirdRcCertificates && data.sunbirdRcCertificates.length > 0) {
