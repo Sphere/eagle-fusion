@@ -648,9 +648,9 @@ describe('AppTocDesktopComponent', () => {
       expect(component['getBatchId']()).toBe('')
     })
 
-    it('should return the last batch id in the list', () => {
+    it('should return the first batch id in the list, the one enrolment uses', () => {
       component.batchData = { content: [{ batchId: 'b1' }, { batchId: 'b2' }] }
-      expect(component['getBatchId']()).toBe('b2')
+      expect(component['getBatchId']()).toBe('b1')
     })
   })
 
