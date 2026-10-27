@@ -723,6 +723,8 @@
   "Retry": "पुन: प्रयास करें",
   "Download": "डाउनलोड करें",
   "Downloading...": "डाउनलोड हो रहा है...",
+  "Download certificate": "प्रमाणपत्र डाउनलोड करें",
+  "Your certificate is not ready yet": "आपका प्रमाणपत्र अभी तैयार नहीं है",
   "We could not load your certificate": "हम आपका प्रमाणपत्र लोड नहीं कर सके",
   "This is usually temporary. Please try again in a moment.": "यह आमतौर पर अस्थायी होता है। कृपया कुछ देर बाद पुन: प्रयास करें।",
   "Download failed. Please try again.": "डाउनलोड विफल रहा। कृपया पुन: प्रयास करें।",

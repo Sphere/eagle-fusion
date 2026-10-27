@@ -719,6 +719,8 @@
   "Retry": "Retry",
   "Download": "Download",
   "Downloading...": "Downloading...",
+  "Download certificate": "Download certificate",
+  "Your certificate is not ready yet": "Your certificate is not ready yet",
   "We could not load your certificate": "We could not load your certificate",
   "This is usually temporary. Please try again in a moment.": "This is usually temporary. Please try again in a moment.",
   "Download failed. Please try again.": "Download failed. Please try again.",
