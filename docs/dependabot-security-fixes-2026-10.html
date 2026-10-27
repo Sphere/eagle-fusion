@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dependabot Security Fixes — October 2026</title>
+  <style>
+    body { font-family: 'Open Sans', Calibri, Arial, sans-serif; font-size: 11pt; color: #0D1218; margin: 72pt; line-height: 1.5; }
+    h1 { font-size: 18pt; font-weight: 700; color: #17283C; border-bottom: 2pt solid #17283C; padding-bottom: 4pt; margin-top: 24pt; }
+    h2 { font-size: 14pt; font-weight: 600; color: #17283C; margin-top: 20pt; margin-bottom: 6pt; }
+    h3 { font-size: 12pt; font-weight: 600; color: #18293D; margin-top: 14pt; margin-bottom: 4pt; }
+    p  { margin: 6pt 0; }
+    a  { color: #186E6E; text-decoration: underline; }
+    code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 9pt; background: #F6F7F9; padding: 1pt 3pt; border-radius: 2pt; }
+    pre  { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 8.5pt; background: #F6F7F9; border: 1pt solid #D8DEE5; border-left: 3pt solid #1E8F8E; padding: 10pt 12pt; white-space: pre-wrap; word-wrap: break-word; }
+    table { border-collapse: collapse; width: 100%; margin: 10pt 0; font-size: 10pt; }
+    th { background: #17283C; color: #fff; padding: 6pt 8pt; text-align: left; font-weight: 600; }
+    td { border: 0.5pt solid #D8DEE5; padding: 5pt 8pt; vertical-align: top; }
+    tr:nth-child(even) td { background: #F6F7F9; }
+    .meta { color: #7C8696; font-size: 10pt; }
+    .info { background: #E3F7F6; border-left: 4pt solid #1E8F8E; padding: 8pt 12pt; margin: 10pt 0; font-size: 10pt; }
+    .note { background: #FEF6E0; border-left: 4pt solid #F0A500; padding: 8pt 12pt; margin: 10pt 0; font-size: 10pt; }
+    .section-divider { border: none; border-top: 1pt solid #D8DEE5; margin: 20pt 0; }
+  </style>
+</head>
+<body>
+  <h1>Dependabot Security Fixes — October 2026</h1>
+  <p class="meta">Scope: GitHub Dependabot alerts for <code>Sphere/eagle-fusion</code> · Date: 2026-10-26 · Branch: <code>fix/dependabot-vulnerabilities</code> (cut from <code>master</code> @ <code>bd7c14153</code>)</p>
+
+  <h2>Summary</h2>
+  <p>GitHub reported <b>306 open security alerts</b> on this repository. All of them came from third-party packages recorded in
+  <code>yarn.lock</code>, not from our own code. This change upgrades, pins or removes those packages so that
+  <b>289 of the 306 alerts are resolved, including all 17 critical ones</b>. The remaining 17 sit inside one Sunbird library
+  we do not control and cannot be fixed from this repo.</p>
+  <div class="info"><b>No application source code was changed.</b> No <code>.ts</code>, <code>.html</code> or <code>.scss</code> file is touched.
+  The change is limited to dependency versions (<code>package.json</code>, <code>yarn.lock</code>) and the removal of one unused global
+  script from <code>angular.json</code>. The unit tests, the production build and the production prerender (the step the Docker image runs) all pass.</div>
+
+  <h2>Results</h2>
+  <table>
+    <tr><th>Severity</th><th>Open before</th><th>Resolved</th><th>Still open</th></tr>
+    <tr><td>Critical</td><td>17</td><td><b>17</b></td><td>0</td></tr>
+    <tr><td>High</td><td>135</td><td>126</td><td>9</td></tr>
+    <tr><td>Medium</td><td>125</td><td>119</td><td>6</td></tr>
+    <tr><td>Low</td><td>29</td><td>27</td><td>2</td></tr>
+    <tr><td><b>Total</b></td><td><b>306</b></td><td><b>289</b></td><td><b>17</b></td></tr>
+  </table>
+  <p>"Resolved" means the lockfile now contains only versions outside the advisory's vulnerable range (244 alerts), or the vulnerable
+  package is no longer installed at all (45 alerts). GitHub closes these alerts automatically once the branch is merged into <code>master</code>.</p>
+
+  <hr class="section-divider">
+  <h2>What changed</h2>
+  <p>Three files changed: <a href="../package.json">package.json</a>, <a href="../yarn.lock">yarn.lock</a> and <a href="../angular.json">angular.json</a>.</p>
+
+  <h3>1. Packages upgraded</h3>
+  <table>
+    <tr><th>Package</th><th>Before</th><th>After</th><th>Notes</th></tr>
+    <tr><td><code>@angular/*</code> (core, common, compiler, forms, router, platform-*, animations, localize)</td><td>21.2.7</td><td>21.2.25</td><td>Patch releases on the same minor. Security fixes in sanitization, SSR and router. The <code>overrides</code> pins were moved to match.</td></tr>
+    <tr><td><code>@angular/cdk</code>, <code>@angular/material</code></td><td>21.2.5</td><td>21.2.14</td><td>Patch releases.</td></tr>
+    <tr><td><code>@angular-devkit/build-angular</code>, <code>@angular/cli</code>, <code>@angular/ssr</code></td><td>21.2.6–21.2.7</td><td><b>21.2.27 (exact)</b></td><td>Pinned exactly. See Watch-outs.</td></tr>
+    <tr><td><code>@capacitor/core</code>, <code>@capacitor/app</code></td><td>6.x</td><td>8.x</td><td>We only use <code>App.addListener('backButton')</code>, and that API is unchanged.</td></tr>
+    <tr><td><code>pdfjs-dist</code></td><td>3.4.120</td><td>5.4.296</td><td>Only its <code>pdf_viewer.css</code> is used. It now matches the pdf.js 5.4 bundled inside the PDF player.</td></tr>
+    <tr><td><code>uuid</code></td><td>8.3.2</td><td>11.1.1</td><td>We only call <code>v4()</code>, and the import is unchanged.</td></tr>
+    <tr><td><code>compression</code></td><td>1.7.x</td><td>1.8.2</td><td>Patch release. Used by <code>server.js</code>.</td></tr>
+    <tr><td><code>moment</code></td><td>2.30.1</td><td>2.31.0</td><td>Patch release.</td></tr>
+  </table>
+
+  <h3>2. Unused packages removed</h3>
+  <table>
+    <tr><th>Package</th><th>Why it was safe to remove</th></tr>
+    <tr><td><code>jspdf</code>, <code>jspdf-autotable</code></td><td>Not imported anywhere. Their last user, the certificate download in <code>app-toc-analytics</code>, was deleted in April 2023 (<code>498ef11c1</code>). The PDF player (<code>ngx-extended-pdf-viewer</code>) does <b>not</b> depend on them. Its only dependency is <code>tslib</code>.</td></tr>
+    <tr><td><code>@project-sunbird/telemetry-sdk</code> 0.0.26</td><td>Not imported anywhere. Telemetry is loaded from our own copy, <code>src/fusion-assets/telemetry.min.js</code>. This old version pulled in karma 3, grunt-karma and socket.io 2, which accounted for most of the critical alerts. <code>client-services</code> still brings in its own clean telemetry-sdk 1.3.0.</td></tr>
+    <tr><td><code>@capacitor/android</code>, <code>@capacitor/cli</code></td><td>This repo has no native Android project and no <code>capacitor.config</code>. Capacitor CLI 8 also requires Node 22+, which would fail our Node 20 builds.</td></tr>
+    <tr><td><code>@types/uuid</code></td><td><code>uuid</code> 11 ships its own type definitions.</td></tr>
+  </table>
+  <p>The <code>jspdf-autotable</code> script entry was also removed from the global <code>scripts</code> list in <code>angular.json</code>.</p>
+
+  <h3>3. Nested packages forced to patched versions</h3>
+  <p>The lockfile was refreshed so that indirect dependencies move to their latest compatible patch releases. Where a parent package pins an
+  old version, a scoped <code>resolutions</code> entry forces the patched one. Each entry targets one parent only, so nothing else is affected:</p>
+  <p><code>undici</code>, <code>vite</code>, <code>ip-address</code>, <code>ws</code>, <code>qs</code>, <code>form-data</code>, <code>tough-cookie</code>,
+  <code>moment</code> (under <code>vis-util</code>), <code>uuid</code> (under <code>sockjs</code> and <code>gzipper</code>),
+  <code>postcss-selector-parser</code> (under Tailwind) and <code>@modelcontextprotocol/sdk</code>.</p>
+  <p>Most of these are build-time tools (Angular CLI, webpack dev server, Tailwind, Jest) that never reach the browser.</p>
+
+  <hr class="section-divider">
+  <h2>Why application flows are unaffected</h2>
+  <table>
+    <tr><th>Area / flow</th><th>What changed underneath</th><th>How it was verified</th></tr>
+    <tr><td>Login, signup, create account</td><td><code>uuid</code> 8 → 11 (<code>v4()</code> only)</td><td>Unit tests for <code>signup.service</code>, <code>public-login</code>, <code>create-account</code> and <code>init.service</code> pass</td></tr>
+    <tr><td>Mobile back button (Capacitor)</td><td><code>@capacitor/app</code> 6 → 8</td><td>Same <code>addListener('backButton')</code> API. It still does nothing in a browser. <code>root.component</code> tests pass.</td></tr>
+    <tr><td>PDF player</td><td>Global <code>pdf_viewer.css</code> from pdfjs 3.4 → 5.4</td><td>The player itself (<code>ngx-extended-pdf-viewer</code> 26) is unchanged. <b>Manual check recommended</b>, see below.</td></tr>
+    <tr><td>Course discussion tab</td><td><code>client-services</code> unchanged. Only its nested <code>qs</code> was bumped (same major version).</td><td>Build passes. The package's public API is untouched.</td></tr>
+    <tr><td>Styling (Tailwind)</td><td><code>postcss-selector-parser</code> 6 → 7</td><td>Generated Tailwind CSS is <b>byte-identical</b> before and after</td></tr>
+    <tr><td>Public pages / SEO prerender</td><td>Angular SSR patch release</td><td><code>ng run fusion:prerender:production</code> renders <code>/public/home</code>, <code>/about</code> and <code>/contact</code></td></tr>
+    <tr><td>Everything else</td><td>Angular 21.2.7 → 21.2.25 (patch releases only)</td><td>Full Jest suite and production build pass</td></tr>
+  </table>
+
+  <h3>Verification performed</h3>
+  <table>
+    <tr><th>Check</th><th>Result</th></tr>
+    <tr><td><code>tsc --noEmit -p tsconfig.app.json</code></td><td>Pass (0 errors)</td></tr>
+    <tr><td><code>yarn test</code> (full Jest suite)</td><td><b>309 / 309 suites, 6,794 / 6,794 tests pass</b></td></tr>
+    <tr><td><code>yarn run build:local</code> (production build)</td><td>Pass. Same warnings as before (autoprefixer, Sass <code>@import</code> deprecation).</td></tr>
+    <tr><td><code>ng run fusion:prerender:production</code> (Docker deploy path)</td><td>Pass. All prerender routes rendered.</td></tr>
+    <tr><td>Tailwind output, old vs new selector parser</td><td>Byte-identical</td></tr>
+    <tr><td>Per-alert re-check of all 306 alerts against the new <code>yarn.lock</code></td><td>289 resolved, 17 open (listed below)</td></tr>
+    <tr><td><code>yarn audit</code></td><td>Only <code>client-services</code> dependencies remain (listed below)</td></tr>
+  </table>
+
+  <hr class="section-divider">
+  <h2>Still open (17) and why</h2>
+  <table>
+    <tr><th>Package</th><th>Alerts</th><th>Comes from</th><th>Why it is not fixed here</th></tr>
+    <tr><td><code>node-forge</code> 0.10.0</td><td>14 (9 high, 3 medium, 2 low)</td><td><code>@project-sunbird/client-services</code> → <code>jsonld-signatures</code>, <code>crypto-ld</code></td><td>Unchanged from <code>master</code>. The Sunbird library's dependencies are built on 0.10.x, and node-forge 1.x is not compatible with our server-side prerender. One advisory also has no fixed version at all. Needs a <code>client-services</code> upgrade upstream.</td></tr>
+    <tr><td><code>request</code> 2.88.2</td><td>1 (medium)</td><td><code>client-services</code> → <code>jsonld</code></td><td>Deprecated package with no fix available. <code>jsonld</code> excludes it from the browser bundle, so it never runs in the app.</td></tr>
+    <tr><td><code>uuid</code> 3.4.0</td><td>1 (medium)</td><td><code>request</code> (above)</td><td><code>request</code> loads <code>uuid/v4</code>, which newer <code>uuid</code> versions removed, so forcing an upgrade would break it.</td></tr>
+    <tr><td><code>decode-uri-component</code> 0.2.2</td><td>1 (medium)</td><td>The existing <code>stylus</code> 0.55.0 pin</td><td>The fixed 0.5.0 is ESM-only and would break the CommonJS chain. Build-time only. Nothing in the app imports <code>stylus</code>.</td></tr>
+  </table>
+  <div class="info"><b>Recommended follow-up:</b> raise these with the <code>@project-sunbird/client-services</code> maintainers (an upgrade to
+  <code>jsonld-signatures</code> / <code>crypto-ld</code> / <code>node-forge</code> 1.x), and dismiss these alerts on GitHub as
+  <i>"Risk is tolerable"</i> with a link to this document.</div>
+
+  <h2>Watch-outs</h2>
+  <div class="note"><b>Do not upgrade <code>@angular-devkit/build-angular</code> or <code>@angular/cli</code> to 21.2.28.</b> That release moves webpack
+  from 5.105 to 5.112, which keeps type-only imports (<code>SimpleChanges</code>, <code>HttpEvent</code>, <code>Signal</code>,
+  <code>ModuleWithProviders</code>) in the output and fails the build with 18 "export not found" errors. 21.2.27 has all the security fixes
+  and builds cleanly. The versions are pinned exactly (no <code>^</code>) on purpose. Ignore Dependabot PRs that bump them until this is resolved,
+  either by a later Angular release or by switching those imports to <code>import type</code>.</div>
+  <p>The Docker image still runs <code>yarn add @angular/localize@21</code> and <code>yarn add moment vis-util</code> after install. These steps
+  existed before this change and are unchanged, but they resolve versions outside the lockfile at image build time.</p>
+
+  <h2>Manual check before release</h2>
+  <ol>
+    <li>Open any course with a <b>PDF</b> resource and confirm the toolbar, zoom and page rendering look as before (because of the <code>pdf_viewer.css</code> 3.4 → 5.4 change).</li>
+    <li>Smoke-test login and signup, and open one course's <b>Discussion</b> tab.</li>
+    <li>Load <code>/public/home</code> with JavaScript disabled to confirm the prerendered HTML is served.</li>
+  </ol>
+
+  <h2>Rollback</h2>
+  <p>All changes are confined to <code>package.json</code>, <code>yarn.lock</code> and <code>angular.json</code>. Rolling back means reverting the
+  merge commit, or redeploying the previous <code>release-X.Y.Z</code> branch.</p>
+</body>
+</html>
