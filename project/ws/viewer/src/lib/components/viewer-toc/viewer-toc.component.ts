@@ -19,7 +19,7 @@ import {
   SafeResourceUrlService,
   UtilityService,
 } from '@ws-widget/utils'
-import { of, Subscription } from 'rxjs'
+import { of, Subscription, EMPTY } from 'rxjs'
 import { catchError, delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
@@ -1146,7 +1146,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   private async processCollectionWithoutContentList(): Promise<void> {
     if (this.collection && this.collection.children) {
       this.isLoading = true
-      const resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+      let resourceData: any
+      try {
+        resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+      } catch (err) {
+        // The resource could not be read (e.g. a local HTML package not uploaded yet): without this the
+        // loader overlay stayed over the player forever.
+        this.logger.warn('viewer toc: resource could not be read', err)
+        this.isLoading = false
+        this.cdr.markForCheck()
+        return
+      }
       this.logger.log(resourceData, 'resourceData')
       this.logger.log(resourceData.result.content.mimeType)
       if (resourceData.result.content.mimeType !== 'application/vnd.ekstep.html-archive') {
@@ -1165,7 +1175,15 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           fields: ['progressdetails'],
         },
       }
-      this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(data => {
+      this.progresSub = this.contentSvc.fetchContentHistoryV2(req).pipe(
+        // e.g. 400 when the learner has no batch for this course: without this the loading overlay stayed up
+        catchError(err => {
+          this.logger.warn('viewer toc: progress could not be read', err)
+          this.isLoading = false
+          this.cdr.markForCheck()
+          return EMPTY
+        }),
+      ).subscribe(data => {
         void (async () => {
           // tslint:disable-next-line: no-console
           this.logger.log(data['result']['contentList'])

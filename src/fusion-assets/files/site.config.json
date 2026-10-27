@@ -422,6 +422,10 @@
     "feature_create_konnect",
     "feature_konnect"
   ],
+  "htmlContentPlayer": {
+    "contentIds": [],
+    "mimeTypes": ["application/vnd.ekstep.html-archive"]
+  },
   "intranetIframeUrls": [],
   "introVideo": {
     "en": "/assets/instances/eagle/videos/Eagle_New_AppTour_Final.mp4"

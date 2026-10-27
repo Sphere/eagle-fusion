@@ -24,6 +24,7 @@ import {
 
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { HtmlModule as HtmlPluginModule } from '../../plugins/html/html.module'
+import { SunbirdContentPlayerModule } from '../../../../../../../src/app/component/sunbird-content-player/sunbird-content-player.module'
 
 import { HtmlComponent } from './html.component'
 import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
@@ -33,6 +34,7 @@ import { SharedModule } from '../../../../../author/src/lib/modules/shared/share
   imports: [
     CommonModule,
     HtmlPluginModule,
+    SunbirdContentPlayerModule,
     RouterModule,
     WidgetResolverModule,
     PipeDurationTransformModule,
