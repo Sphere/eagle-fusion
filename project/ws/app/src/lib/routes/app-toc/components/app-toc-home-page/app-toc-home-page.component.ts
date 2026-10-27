@@ -465,14 +465,12 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         })
     }
   }
+  // enrollUser() enrols into content[0], so the lesson links must use content[0] too. This used to
+  // return the last batch: on a course with several open batches (listed newest first) the learner
+  // was enrolled in the newest batch while every lesson saved progress against the oldest one.
   public getBatchId(): string {
-    let batchId = ''
-    if (this.batchData && this.batchData.content) {
-      for (const batch of this.batchData.content) {
-        batchId = batch.batchId
-      }
-    }
-    return batchId
+    const batch = this.batchData && this.batchData.content ? this.batchData.content[0] : undefined
+    return batch && batch.batchId ? batch.batchId : ''
   }
   redirectTo() {
     this.routelinK = 'discuss'
@@ -766,6 +764,13 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           return
         }
         if (data && data.result && data.result.response === 'SUCCESS') {
+          // Use the batch just enrolled in right away; the lesson below opens after 500 ms and must
+          // not depend on getUserEnrollmentList() having returned by then.
+          this.batchData = {
+            content: [batch],
+            enrolled: true,
+          }
+          this.batchId = batch.batchId
           this.getUserEnrollmentList()
           this.router.navigate(
             [],

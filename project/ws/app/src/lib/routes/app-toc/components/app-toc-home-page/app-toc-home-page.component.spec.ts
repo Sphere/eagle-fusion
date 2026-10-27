@@ -193,9 +193,9 @@ describe('AppTocHomePageComponent', () => {
     expect(component.checkJson('not-json')).toBe(false)
   })
 
-  it('getBatchId should return last batchId from batchData content', () => {
+  it('getBatchId should return the first batchId from batchData content, the one enrolment uses', () => {
     component.batchData = { content: [{ batchId: 'b1' }, { batchId: 'b2' }], enrolled: false } as any
-    expect(component.getBatchId()).toBe('b2')
+    expect(component.getBatchId()).toBe('b1')
   })
 
   it('getBatchId should return empty string when no batchData', () => {
