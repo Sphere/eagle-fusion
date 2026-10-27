@@ -214,9 +214,20 @@
         </form>
       </ng-container>
       <ng-container *ngIf="selectedIndex === 'certificates'">
-        <ng-container *ngIf="isLoading">
-          <div class="shimmer shimmer-text"></div>
-          <div class="shimmer-card" *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+        <p class="text-xl inline-block header2" *ngIf="selectedIndextitle">{{ selectedIndextitle | translate }}</p>
+        <div *ngIf="!isLoading && !isCompetencyLoading && certificatesFailed" class="empty-state" role="alert">
+          <h2>{{ 'We could not load all your certificates.' | translate }}</h2>
+          <button type="button" class="save-btn" (click)="loadCertificates()">{{ 'Retry' | translate }}</button>
+        </div>
+        <!-- Course and competency certificates share one list -->
+        <div *ngFor="let certificate of certificates; trackBy: trackByCertificate">
+          <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
+        </div>
+        <div *ngFor="let certificate of competencyCertificates; trackBy: trackByCertificate">
+          <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
+        </div>
+        <ng-container *ngIf="isLoading || isCompetencyLoading">
+          <div class="shimmer-card" *ngFor="let i of [1, 2, 3, 4, 5]">
             <div class="shimmer-container">
               <div class="shimmer shimmer-image"></div>
               <div class="shimmer shimmer-text"></div>
@@ -224,14 +235,8 @@
             </div>
           </div>
         </ng-container>
-        <p class="text-xl inline-block header2" *ngIf="!isLoading && certificates && certificates.length>0">
-          {{ selectedIndextitle | translate }}</p>
-        <div *ngFor="let certificate of certificates">
-          <ng-container *ngIf="certificates && certificates.length > 0">
-            <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
-          </ng-container>
-        </div>
-        <div *ngIf="!isLoading && certificates.length === 0" class="empty-state">
+        <div *ngIf="!isLoading && !isCompetencyLoading && !certificatesFailed
+          && certificates.length === 0 && competencyCertificates.length === 0" class="empty-state">
           <h2>{{ selectedIndexData?.noData | translate }}</h2>
         </div>
       </ng-container>

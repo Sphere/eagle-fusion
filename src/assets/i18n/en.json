@@ -719,6 +719,8 @@
   "Retry": "Retry",
   "Download": "Download",
   "Downloading...": "Downloading...",
+  "Download certificate": "Download certificate",
+  "Your certificate is not ready yet": "Your certificate is not ready yet",
   "We could not load your certificate": "We could not load your certificate",
   "This is usually temporary. Please try again in a moment.": "This is usually temporary. Please try again in a moment.",
   "Download failed. Please try again.": "Download failed. Please try again.",
@@ -1054,5 +1056,6 @@
   "CERT_VERIFY_VERIFIED": "Verified certificate",
   "CERT_VERIFY_INVALID_TITLE": "This certificate could not be verified",
   "CERT_VERIFY_INVALID_DESC": "Make sure you scanned the QR code printed on the certificate. If the problem continues, contact the organisation that issued it.",
+  "We could not load all your certificates.": "We could not load all your certificates.",
   "How was your experience?": "How was your experience?"
 }
