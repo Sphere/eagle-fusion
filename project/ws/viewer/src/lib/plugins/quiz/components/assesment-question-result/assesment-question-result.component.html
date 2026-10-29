@@ -1,14 +1,23 @@
-<div class="flex flex-col items-center m-0 m-auto  pt-5 main" *ngIf="!isExplanation">
+<div
+  class="flex flex-col items-center m-0 m-auto pt-5 main"
+  *ngIf="!isExplanation"
+>
   <div class="child">
-    <p class="congrats-title mb-4" *ngIf="isCorrect">{{"Congratulations!" | translate}}</p>
-    <p class="better-luck" *ngIf="!isCorrect">{{"Better luck next time!" | translate}}</p>
-    <p class="correct-answer m-0">{{"Correct Answer:" | translate}}</p>
-    <p class="answer-title m-0 p-0">{{answer}}</p>
+    <p class="congrats-title mb-4" *ngIf="isCorrect">
+      {{ 'Congratulations!' | translate }}
+    </p>
+    <p class="better-luck" *ngIf="!isCorrect">
+      {{ 'Better luck next time!' | translate }}
+    </p>
+    <p class="correct-answer m-0">{{ 'Correct Answer:' | translate }}</p>
+    <p class="answer-title m-0 p-0">{{ answer }}</p>
     @if (hint) {
       <div class="hint-box" [class.hint-box--wrong]="!isCorrect">
         <p class="hint-label m-0">
-          <mat-icon aria-hidden="true">lightbulb_outline</mat-icon>
-          {{"Explanation" | translate}}
+          <mat-icon aria-hidden="true">{{
+            isCorrect ? 'check_circle' : 'cancel'
+          }}</mat-icon>
+          {{ 'Explanation' | translate }}
         </p>
         <div class="hint-text" [innerHTML]="hint"></div>
       </div>
@@ -17,42 +26,57 @@
       <div class="hint-box">
         <p class="hint-label m-0">
           <mat-icon aria-hidden="true">check_circle</mat-icon>
-          {{"Correct Answer:" | translate}} {{answer}}
+          {{ 'Explanation' | translate }}
         </p>
         <div class="hint-text" [innerHTML]="correctHint"></div>
       </div>
     }
     <div class="mt-5">
-      <button class="btn next-btn btn-active" mat-raised-button (click)="emitResult()">{{"Next" | translate}}</button>
+      <button
+        class="btn next-btn btn-active"
+        mat-raised-button
+        (click)="emitResult()"
+      >
+        {{ 'Next' | translate }}
+      </button>
     </div>
-
   </div>
 </div>
-<div class="flex flex-col items-center m-0 m-auto  pt-5 main" *ngIf="isExplanation">
-  <p>{{"Explanation" | translate}}</p>
+<div
+  class="flex flex-col items-center m-0 m-auto pt-5 main"
+  *ngIf="isExplanation"
+>
+  <p>{{ 'Explanation' | translate }}</p>
   <table mat-table [dataSource]="answer" class="mat-elevation-z8">
     <ng-container matColumnDef="text">
       <th mat-header-cell *matHeaderCellDef>
-        {{"Option" | translate}}
+        {{ 'Option' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element.text }}</td>
     </ng-container>
     <ng-container matColumnDef="match">
       <th mat-header-cell *matHeaderCellDef>
-        {{"Match" | translate}}
+        {{ 'Match' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.match}}</td>
+      <td mat-cell *matCellDef="let element">{{ element.match }}</td>
     </ng-container>
     <ng-container matColumnDef="response">
-      <th mat-header-cell *matHeaderCellDef>{{"Response" | translate}}
-      </th>
-      <td mat-cell *matCellDef="let element"> {{element.response}}</td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'Response' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.response }}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="['text', 'match', 'response']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['text', 'match', 'response']"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['text', 'match', 'response']"
+    ></tr>
   </table>
   <div class="mt-2">
-    <button class="btn next-btn btn-active" mat-raised-button (click)="emitResult()">{{"Next" |
-      translate}}</button>
+    <button
+      class="btn next-btn btn-active"
+      mat-raised-button
+      (click)="emitResult()"
+    >
+      {{ 'Next' | translate }}
+    </button>
   </div>
 </div>
