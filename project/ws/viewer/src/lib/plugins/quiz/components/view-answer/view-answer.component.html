@@ -34,6 +34,17 @@
             <img *ngIf="opt.isCorrect" src="/fusion-assets/icons/Vector_1.png" alt="tick" />
 
           </div>
+          <!-- The creator's hint: on the correct option(s), and on the learner's wrong pick. -->
+          <ng-container *ngFor="let opt of q.options">
+            <div *ngIf="opt.hint && (opt.isCorrect || userSelectedWrong(q.questionId, opt))" class="answer-hint"
+              [class.answer-hint--wrong]="!opt.isCorrect">
+              <p class="answer-hint-label">
+                <mat-icon aria-hidden="true">{{ opt.isCorrect ? 'check_circle' : 'cancel' }}</mat-icon>
+                {{ "Explanation" | translate }} · {{ opt.text }}
+              </p>
+              <div class="answer-hint-text" [innerHTML]="opt.hint"></div>
+            </div>
+          </ng-container>
         </div>
 
       </div>

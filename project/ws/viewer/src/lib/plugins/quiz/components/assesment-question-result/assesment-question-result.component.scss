@@ -122,3 +122,47 @@
     color: var(--theme-text, #ecf3f8) !important;
   }
 }
+
+// The creator's hint for the learner's chosen option.
+.hint-box {
+  margin-top: 16px;
+  padding: 12px 16px;
+  max-width: 560px;
+  border: 1px solid #b7dfb9;
+  border-radius: 8px;
+  background: #edf7ee;
+  color: #2e6b31;
+  text-align: left;
+}
+
+.hint-box--wrong {
+  border-color: #f3b8b3;
+  background: #fdecea;
+  color: #a12a20;
+}
+
+.hint-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.hint-text {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+
+  // The hint is injected HTML, so emulated encapsulation does not reach its <p>.
+  ::ng-deep p {
+    margin: 0;
+  }
+}

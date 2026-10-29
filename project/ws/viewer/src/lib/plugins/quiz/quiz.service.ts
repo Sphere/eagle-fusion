@@ -161,6 +161,18 @@ export class QuizService {
     if (filter(userSelectedAnswer.options, 'isCorrect')[0].userSelected) {
       userSelectedAnswer['isCorrect'] = true
     }
+    // The creator's hint for each option the learner picked, shown on the result screen.
+    userSelectedAnswer['hint'] = userSelectedAnswer.options
+      .filter((option: any) => option.userSelected && option.hint)
+      .map((option: any) => option.hint)
+      .join('')
+    // After a wrong answer, also explain the right one: hints of correct options not picked.
+    userSelectedAnswer['correctHint'] = userSelectedAnswer['isCorrect']
+      ? ''
+      : userSelectedAnswer.options
+        .filter((option: any) => option.isCorrect && !option.userSelected && option.hint)
+        .map((option: any) => option.hint)
+        .join('')
     userSelectedAnswer['isExplanation'] = false
     if (quiz.questions[questionAnswerHash['qslideIndex']].
       questionType === 'fitb') {

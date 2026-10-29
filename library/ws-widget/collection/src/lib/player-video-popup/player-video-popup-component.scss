@@ -1,381 +1,288 @@
-@use 'ws-vars';
-@use 'ws-mixins';
+// In-video question dialog (learner). Mirrors the creation portal's popup; the correct
+// answer is revealed after Submit. Native radios and buttons instead of mat-selection-list +
+// loose mat-radio-buttons: those gave an oversized row, stray scroll arrows and no single
+// selection. Everything is scoped to this component; the old global `.cdk-overlay-pane`
+// rule leaked into every dialog in the app.
 
-.quiz-container {
-  margin: 2rem;
-}
-
-.app-class .mat-list-option {
-  padding-top: ws-vars.$size-m;
-  padding-bottom: ws-vars.$size-m;
-  height: auto;
-
-  .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
-    background-color: var(--theme-accent) !important;
-  }
-}
-.answer-text{
+:host {
+  display: block;
   font-family: Roboto, sans-serif;
-font-weight: 400;
-font-size: 16px;
-line-height: 24px;
-letter-spacing: -2%;
-
 }
-:host ::ng-deep .gray-radio .mat-radio-container  {
-  .question-option{
-    color: #757575 !important; /* Makes the radio button appear gray */
+
+.vq {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  box-sizing: border-box;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  color: var(--theme-text, #1a2d45);
+}
+
+.vq-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.vq-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1c5d95;
+}
+
+.vq-eyebrow-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.vq-count {
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #5b6b7f;
+}
+
+.vq-close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #5b6b7f;
+  cursor: pointer;
+
+  &:hover {
+    background: #eef3f8;
+    color: #1a2d45;
   }
-    opacity: 0.5 !important; /* Makes the radio button appear gray */
-}
-:host ::ng-deep .gray-radio  .question-option {
-    opacity: 0.5 !important; /* Makes the radio button appear gray */
-}
-.correct-text {
-    color: var(--theme-progress, #469788) !important;
-}
 
-:host ::ng-deep.quiz-option{
-  .mat-radio-disabled, .mat-radio-disabled .mat-radio-label{
-    .question-option{
-      color: #757575 !important;
-    }
-    .mat-radio-outer-circle{
-      color: #757575 !important;
-    }
-  }
-  .mdc-form-field .mdc-label {
-    margin-bottom: 0px !important;
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
 }
-.custom-list .mat-list-option.mat-focus-indicator {
-  outline: none !important;
-  box-shadow: none !important;
-}
-.custom-list .mat-list-option:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
-.mat-list-option:focus-visible {
-    outline: 2px dashed #00bcd4; /* Customize the focus outline */
-  outline-offset: 4px; /* Adjust spacing between outline and element */
+
+.vq-question {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
-::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
-.mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
-  background: var(--theme-accent) !important;
+.vq-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 
-
-::ng-deep .mat-radio-ripple .mat-ripple-element {
-  background-color: rgba(#919296, 0.26) !important;
+.vq--stacked .vq-options {
+  grid-template-columns: 1fr;
 }
 
-.wrap-mat-radio-label {
-  white-space: normal;
+.vq-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 8px 16px;
+  border: 1px solid #b8c9d9;
+  border-radius: 8px;
+  background: var(--theme-bg, #fff);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+
+  &:hover {
+    border-color: #8aaac8;
+  }
+
+  input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: #1c5d95;
+    cursor: inherit;
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid #1c5d95;
+    outline-offset: 2px;
+  }
 }
 
-.options-container {
+.vq-option--selected {
+  border-color: #1c5d95;
+  background: #eef3f8;
+}
+
+.vq-option--correct {
+  border-color: #357a38;
+  background: #edf7ee;
+}
+
+.vq-option--wrong {
+  border-color: #c62828;
+  background: #fdecea;
+}
+
+.vq-option--disabled {
+  cursor: default;
+
+  &:hover {
+    border-color: #b8c9d9;
+  }
+}
+
+.vq-option-icon {
+  flex-shrink: 0;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.vq-option--correct .vq-option-icon {
+  color: #2e7d32;
+}
+
+.vq-option--wrong .vq-option-icon {
+  color: #c62828;
+}
+
+// The chosen radio is swapped for a result icon but stays in the DOM for the radio group.
+.vq-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+.vq-option-text {
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: break-spaces;
+  word-break: break-word;
+}
+
+.vq-result {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+
+.vq-result--correct {
+  border-color: #b7dfb9;
+  background: #edf7ee;
+  color: #2e6b31;
+}
+
+.vq-result--wrong {
+  border-color: #f3b8b3;
+  background: #fdecea;
+  color: #a12a20;
+}
+
+.vq-result-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.vq-result-info {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.vq-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
-.option {
-  margin-bottom: 10px;
-   margin-right: 10px;
-}
-
-/* horizontal layout */
-
-  .rowView{
-    .options-container {
-  flex-direction: row;
-  justify-content: space-between;
-
-  }
-  .option {
-  width: 40%;
-}
-}
-
-
-/* vertical layout */
-
-  .columnView{
-    .options-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .option{
-    width: 100%;
-  }
-
-}
-::ng-deep .cdk-overlay-pane{
-overflow: auto;
-}
-.quiz-question {
-  font-family: Roboto, sans-serif;
-font-size: 16px;
-font-weight: 400;
-line-height: 12.75px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-  overflow-x: auto;
-  margin: 10px 0 5px 0 !important;
-color: #000000 !important;
-  @include ws-mixins.breakpoint-xs {
-    margin: 0 !important;
-  }
-
-  p {
-    @include ws-mixins.breakpoint-xs {
-      margin: 0 !important;
-    }
-  }
-
-}
-
-correct-option {
-  color: #357a38 !important;
-}
-
-.incorrect-option {
-  color: #f0506e;
-}
-
-.quiz-radio-group {
-  display: inline-flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.quiz-radio-button {
-  margin: 5px;
-  padding: 8px;
-}
-
-.quiz-selected-value {
-  margin: 15px 0;
-}
-
-.margin-bottom-m {
-  margin-bottom: ws-vars.$size-m;
-}
-
-.correct-option {
-  color: #357a38 !important;
-}
-
-.question {
-  width: 40%;
-  max-width: 200px;
-  height: auto;
-  border: 2px solid;
-  border-radius: 5px;
-  padding: 4px 0px 4px 0px;
-  word-wrap: break-word;
-  text-align: center;
-}
-
-.answer {
-  width: 40%;
-  max-width: 200px;
-  height: auto;
-  border: 2px solid;
-  border-radius: 5px;
-  padding: 2px 0px 2px 0px;
-  word-wrap: break-word;
-  text-align: center;
-}
-
-.background-well {
-  background: #eee;
-}
-.next-button{
-    cursor: pointer;
-  background: var(--theme-accent, #2E6491) !important;
-  color: #FFFFFF !important;
-  padding: 8px 32px 8px 32px;
-  border-radius: 50px;
-  font-family: Roboto, sans-serif;
-  font-size: 16px !important;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: center !important;
-  border: none !important;
-  height: 40px !important;
-}
-.back-button{
-    cursor: pointer;
-  background: #ffffff !important;
-  padding: 8px 32px 8px 32px;
-  border-radius: 50px;
-  font-family: Roboto, sans-serif;
-  font-size: 16px !important;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: center !important;
-  height: 40px !important;
-  color: var(--theme-accent) !important;
-  border: 1px solid var(--theme-accent) !important;
-
-}
-.skip-button{
-   cursor: pointer;
-  background: #FFFFFF !important;
-  color: var(--theme-accent) !important;
-  padding: 8px 32px 8px 32px;
-  border-radius: 50px;
-  font-family: Roboto, sans-serif;
-  font-size: 16px !important;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: center !important;
-  border: 1px solid !important;
-  height: 40px !important;
-  border-color: var(--theme-accent) !important;
-}
-.disabled-back-button {
-  background: #BFBFBF !important;
-  color:  var(--theme-inactive, #808080) !important;
-  cursor: not-allowed !important;
-  border: none !important;
-}
-
-
-.submit-button {
+.vq-btn {
+  min-width: 96px;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  background: var(--theme-accent) !important;
-  color: #FFFFFF !important;
-  padding: 8px 32px 8px 32px;
-  border-radius: 50px;
-  font-family: Roboto, sans-serif;
-  font-size: 16px ;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: center ;
-  border: none ;
-  height: 40px ;
-}
 
-@media screen and (max-width:600px) {
-  .skip-button .back-button .submit-button {
-  cursor: pointer;
-  padding: 8px 22px 8px 22px;
-  border-radius: 50px;
-  font-family: Roboto, sans-serif;
-  font-size: 12px !important;
-  font-weight: 400;
-  line-height: 14px;
-  letter-spacing: 0em;
-  text-align: center !important;
-  border: none !important;
-  height: 30px !important;
-}
-.button-container {
-gap: 10px !important;
-}
-}
-
-::ng-deep .light-theme .mat-list-option:hover, .light-theme .mat-list-option:focus, .light-theme .mat-nav-list .mat-mdc-list-item:hover, .light-theme .mat-nav-list .mat-mdc-list-item:focus, .light-theme .mat-action-list .mat-mdc-list-item:hover, .light-theme .mat-action-list .mat-mdc-list-item:focus {
-    background: rgba(255, 255, 255, 0.04);
-}
-.questions-header{
-  font-family: Roboto, sans-serif;
-font-size: 14px;
-font-weight: 400;
-line-height: 16.41px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-color: #257CC7;
-
-}
-.question-option{
-font-family: Roboto, sans-serif;
-font-size: 16px;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: -0.02em;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-color: #000000;
-white-space: break-spaces;
-}
-.light-theme .mat-mdc-radio-button
-.mdc-radio__outer-circle {
-   background-color: #424242 !important;
-}
-.mdc-radio__inner-circle {
-    background-color: #424242 !important;
-}
-.correct-answer{
-  background-color: #E8F4F2 !important;
-  border-radius: 30px;
-  color: var(--theme-progress, #469788) !important;
-  padding: 8px 14px;
-    margin-left: 0px;
-}
-.wrong-answer{
-  background-color: #FFDFDD !important;
-  border-radius: 30px;
-  color:#ED2C23 !important;
-  padding: 8px 14px;
-    margin-left: 0px;
-}
-.result-message{
-    border-radius: 8px 8px 0px 0px;
-    img {
-      width: 14px;
-      height: 15px;
-    }
-}
-.result-message-container{
-  display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-}
-.result-answer-info{
-    border-radius: 0px 0px 8px 8px;
-
-font-family: Roboto, sans-serif;
-font-size: 14px;
-font-weight: 400;
-line-height: 16.41px;
-letter-spacing: -0.02em;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-color: #000000 !important;
-}
-.result-text{
-  font-family: Roboto, sans-serif;
-font-size: 14px;
-font-weight: 400;
-line-height: 16.41px;
-letter-spacing: -0.02em;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-}
-.correct-text,
-.correct-answer, .wrong-answer {
-  display: flex;
-  align-items: center;
-}
-::ng-deep .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background {
-  .mdc-radio__outer-circle {
-    border-color: #424242 !important;
+  &:focus-visible {
+    outline: 2px solid #133e64;
+    outline-offset: 2px;
   }
-  .mdc-radio__inner-circle {
-    border-color: #424242 !important;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.vq-btn--primary {
+  border: 1px solid #1c5d95;
+  background: #1c5d95;
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: #174b79;
+    border-color: #174b79;
+  }
+}
+
+.vq-btn--secondary {
+  border: 1px solid #1c5d95;
+  background: #fff;
+  color: #1c5d95;
+
+  &:hover:not(:disabled) {
+    background: #eef3f8;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .vq {
+    padding: 16px;
+  }
+
+  .vq-options {
+    grid-template-columns: 1fr;
+  }
+
+  .vq-actions .vq-btn {
+    flex: 1 1 auto;
   }
 }

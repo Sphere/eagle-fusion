@@ -4,6 +4,24 @@
     <p class="better-luck" *ngIf="!isCorrect">{{"Better luck next time!" | translate}}</p>
     <p class="correct-answer m-0">{{"Correct Answer:" | translate}}</p>
     <p class="answer-title m-0 p-0">{{answer}}</p>
+    @if (hint) {
+      <div class="hint-box" [class.hint-box--wrong]="!isCorrect">
+        <p class="hint-label m-0">
+          <mat-icon aria-hidden="true">lightbulb_outline</mat-icon>
+          {{"Explanation" | translate}}
+        </p>
+        <div class="hint-text" [innerHTML]="hint"></div>
+      </div>
+    }
+    @if (correctHint) {
+      <div class="hint-box">
+        <p class="hint-label m-0">
+          <mat-icon aria-hidden="true">check_circle</mat-icon>
+          {{"Correct Answer:" | translate}} {{answer}}
+        </p>
+        <div class="hint-text" [innerHTML]="correctHint"></div>
+      </div>
+    }
     <div class="mt-5">
       <button class="btn next-btn btn-active" mat-raised-button (click)="emitResult()">{{"Next" | translate}}</button>
     </div>

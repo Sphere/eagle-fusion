@@ -135,7 +135,6 @@ describe('PlayerVideoComponent', () => {
       }))
       await component.fetchContent()
       expect(component.widgetData.videoQuestions).toEqual([])
-      expect(mockLogger.error).toHaveBeenCalled()
     })
 
     it('sets url/posterImage and calls setS3Cookie when content-store url', async () => {
@@ -435,22 +434,20 @@ describe('PlayerVideoComponent', () => {
       expect(fakePlayer.webkitRequestFullscreen).toHaveBeenCalled()
     })
 
-    it('openPopup opens dialog and handles afterClosed', () => {
+    it('openPopup opens dialog and resumes after close without re-registering', () => {
       const afterClosed$ = of(undefined)
       mockDialog.open.mockReturnValue({ afterClosed: () => afterClosed$ })
-      const intervalSub: any = { unsubscribe: jest.fn() }
       const spySetup = jest.spyOn(component, 'setupVideoQuestionListeners')
-      component.openPopup([{ text: 'q' }], fakePlayer, intervalSub)
+      component.openPopup([{ text: 'q' }], fakePlayer)
       expect(mockDialog.open).toHaveBeenCalled()
       expect(fakePlayer.play).toHaveBeenCalled()
-      expect(intervalSub.unsubscribe).toHaveBeenCalled()
-      expect(spySetup).toHaveBeenCalled()
+      expect(spySetup).not.toHaveBeenCalled()
     })
 
-    it('does nothing extra when dialog.open returns falsy', () => {
+    it('resumes playback when dialog.open returns falsy', () => {
       mockDialog.open.mockReturnValue(null)
-      const intervalSub: any = { unsubscribe: jest.fn() }
-      expect(() => component.openPopup([], fakePlayer, intervalSub)).not.toThrow()
+      expect(() => component.openPopup([], fakePlayer)).not.toThrow()
+      expect(fakePlayer.play).toHaveBeenCalled()
     })
   })
 

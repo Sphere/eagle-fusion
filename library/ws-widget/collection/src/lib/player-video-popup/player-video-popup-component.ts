@@ -19,7 +19,7 @@ export class PlayerVideoPopupComponent implements OnInit {
   answers: any[] = [] // Track all answers
   questions: Array<{ text: string; options: any[] }>
   resultMessage: string | null = null
-  selectedOption = null // To store the selected option
+  selectedOption: any = null // To store the selected option
   showAnswerInfo = false
   layoutDirection = 'column' // or 'row'
   showReset = false
@@ -61,14 +61,15 @@ export class PlayerVideoPopupComponent implements OnInit {
   get currentQuestion() {
     return this.questions[this.currentIndex]
   }
+  /** The question's correct option, whose hint is shown after a wrong answer. */
+  get correctOption(): any {
+    const options = this.currentQuestion?.options || []
+    return options.find((option: any) => option.isCorrect) ?? null
+  }
   onOptionSelected(option: any): void {
-    this.logger.log("option", option)
     this.selectedOption = option
-    if (option.isCorrect) {
-      this.resultMessage = 'Correct'
-    } else {
-      this.resultMessage = 'Wrong'
-    }
+    this.answers[this.currentIndex] = option
+    this.resultMessage = option.isCorrect ? 'Correct' : 'Wrong'
   }
   moveToPrevious(): void {
     this.showAnswerInfo = false
@@ -80,8 +81,13 @@ export class PlayerVideoPopupComponent implements OnInit {
 
   moveToNext(): void {
     this.showAnswerInfo = false
+    this.showReset = false
     if (this.currentIndex < this.questions.length - 1) {
       this.currentIndex++
+      // Each question keeps its own choice; a fresh question starts unselected.
+      const answer = this.answers[this.currentIndex]
+      this.selectedOption = answer ?? null
+      this.resultMessage = answer ? (answer.isCorrect ? 'Correct' : 'Wrong') : null
     }
   }
 
