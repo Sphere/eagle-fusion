@@ -2,13 +2,19 @@ jest.mock('video.js', () => jest.fn())
 jest.mock('videojs-markers', () => ({}))
 jest.mock('../_services/videojs-util', () => ({
   videoInitializer: jest.fn(() => ({ dispose: jest.fn() })),
-  videoJsInitializer: jest.fn(() => ({ player: { ready: jest.fn() }, dispose: jest.fn() })),
+  videoJsInitializer: jest.fn(() => ({
+    player: { ready: jest.fn() },
+    dispose: jest.fn(),
+  })),
 }))
 
 const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0))
 
 import { of, throwError } from 'rxjs'
-import { PlayerVideoComponent } from './player-video.component'
+import {
+  PlayerVideoComponent,
+  parseVideoQuestions,
+} from './player-video.component'
 import * as videojsUtil from '../_services/videojs-util'
 
 describe('PlayerVideoComponent', () => {
@@ -25,26 +31,31 @@ describe('PlayerVideoComponent', () => {
   let mockLogger: any
   let mockPlylsSvc: any
 
-  const buildComponent = () => new PlayerVideoComponent(
-    mockEventSvc,
-    mockContentSvc,
-    mockViewerSvc,
-    mockActivatedRoute,
-    mockConfigSvc,
-    mockTelemetrySvc,
-    mockViewerDataSvc,
-    mockDialog,
-    mockValueSvc,
-    mockLogger,
-    mockPlylsSvc,
-  )
+  const buildComponent = () =>
+    new PlayerVideoComponent(
+      mockEventSvc,
+      mockContentSvc,
+      mockViewerSvc,
+      mockActivatedRoute,
+      mockConfigSvc,
+      mockTelemetrySvc,
+      mockViewerDataSvc,
+      mockDialog,
+      mockValueSvc,
+      mockLogger,
+      mockPlylsSvc,
+    )
 
   beforeEach(() => {
     jest.clearAllMocks()
     mockEventSvc = { dispatchEvent: jest.fn() }
     mockContentSvc = {
-      fetchContentHistoryV2: jest.fn().mockReturnValue(of({ result: { contentList: [] } })),
-      fetchContent: jest.fn().mockReturnValue(of({ result: { content: {} }, artifactUrl: '' })),
+      fetchContentHistoryV2: jest
+        .fn()
+        .mockReturnValue(of({ result: { contentList: [] } })),
+      fetchContent: jest
+        .fn()
+        .mockReturnValue(of({ result: { content: {} }, artifactUrl: '' })),
       setS3Cookie: jest.fn().mockReturnValue(of({})),
       changeMessage: jest.fn(),
     }
@@ -54,12 +65,20 @@ describe('PlayerVideoComponent', () => {
     }
     mockActivatedRoute = { snapshot: { queryParams: {} } }
     mockConfigSvc = { userProfile: { userId: 'u1' } }
-    mockTelemetrySvc = { start: jest.fn(), interact: jest.fn(), end: jest.fn() }
+    mockTelemetrySvc = {
+      start: jest.fn(),
+      interact: jest.fn(),
+      end: jest.fn(),
+    }
     mockViewerDataSvc = {}
     mockDialog = { open: jest.fn(), closeAll: jest.fn() }
     mockValueSvc = { isXSmall$: of(false) }
     mockLogger = { log: jest.fn(), error: jest.fn(), warn: jest.fn() }
-    mockPlylsSvc = { orgDetails: jest.fn().mockReturnValue({ videoConfig: { isSeekingEnable: true } }) }
+    mockPlylsSvc = {
+      orgDetails: jest
+        .fn()
+        .mockReturnValue({ videoConfig: { isSeekingEnable: true } }),
+    }
 
     component = buildComponent()
     component.widgetData = {
@@ -81,23 +100,37 @@ describe('PlayerVideoComponent', () => {
 
   describe('getCurrentTime', () => {
     it('sets resumePoint when progressdetails.current present as array', async () => {
-      mockContentSvc.fetchContentHistoryV2.mockReturnValue(of({
-        result: { contentList: [{ contentId: 'id1', progressdetails: { current: ['45.5'] } }] },
-      }))
+      mockContentSvc.fetchContentHistoryV2.mockReturnValue(
+        of({
+          result: {
+            contentList: [
+              { contentId: 'id1', progressdetails: { current: ['45.5'] } },
+            ],
+          },
+        }),
+      )
       await component.getCurrentTime()
       expect(component.widgetData.resumePoint).toBe(45.5)
     })
 
     it('sets resumePoint when progressdetails.current present as string', async () => {
-      mockContentSvc.fetchContentHistoryV2.mockReturnValue(of({
-        result: { contentList: [{ contentId: 'id1', progressdetails: { current: '30' } }] },
-      }))
+      mockContentSvc.fetchContentHistoryV2.mockReturnValue(
+        of({
+          result: {
+            contentList: [
+              { contentId: 'id1', progressdetails: { current: '30' } },
+            ],
+          },
+        }),
+      )
       await component.getCurrentTime()
       expect(component.widgetData.resumePoint).toBe(30)
     })
 
     it('does nothing when contentList empty', async () => {
-      mockContentSvc.fetchContentHistoryV2.mockReturnValue(of({ result: { contentList: [] } }))
+      mockContentSvc.fetchContentHistoryV2.mockReturnValue(
+        of({ result: { contentList: [] } }),
+      )
       await component.getCurrentTime()
       expect(component.widgetData.resumePoint).toBeUndefined()
     })
@@ -111,46 +144,61 @@ describe('PlayerVideoComponent', () => {
 
   describe('fetchContent', () => {
     it('parses videoQuestions JSON when present', async () => {
-      mockContentSvc.fetchContent.mockReturnValue(of({
-        result: { content: { videoQuestions: JSON.stringify([{ timestampInSeconds: 1 }]) } },
-        artifactUrl: '',
-      }))
+      mockContentSvc.fetchContent.mockReturnValue(
+        of({
+          result: {
+            content: {
+              videoQuestions: JSON.stringify([{ timestampInSeconds: 1 }]),
+            },
+          },
+          artifactUrl: '',
+        }),
+      )
       await component.fetchContent()
-      expect(component.widgetData.videoQuestions).toEqual([{ timestampInSeconds: 1 }])
+      expect(component.widgetData.videoQuestions).toEqual([
+        { timestampInSeconds: 1 },
+      ])
     })
 
     it('sets empty array when videoQuestions is empty string', async () => {
-      mockContentSvc.fetchContent.mockReturnValue(of({
-        result: { content: { videoQuestions: '' } },
-        artifactUrl: '',
-      }))
+      mockContentSvc.fetchContent.mockReturnValue(
+        of({
+          result: { content: { videoQuestions: '' } },
+          artifactUrl: '',
+        }),
+      )
       await component.fetchContent()
       expect(component.widgetData.videoQuestions).toBeUndefined()
     })
 
     it('handles invalid JSON gracefully', async () => {
-      mockContentSvc.fetchContent.mockReturnValue(of({
-        result: { content: { videoQuestions: 'not-json{' } },
-        artifactUrl: '',
-      }))
+      mockContentSvc.fetchContent.mockReturnValue(
+        of({
+          result: { content: { videoQuestions: 'not-json{' } },
+          artifactUrl: '',
+        }),
+      )
       await component.fetchContent()
       expect(component.widgetData.videoQuestions).toEqual([])
-      expect(mockLogger.error).toHaveBeenCalled()
     })
 
     it('sets url/posterImage and calls setS3Cookie when content-store url', async () => {
-      mockContentSvc.fetchContent.mockReturnValue(of({
-        result: { content: {} },
-        artifactUrl: 'http://x/content-store/file.mp4',
-        appIcon: 'icon.png',
-      }))
+      mockContentSvc.fetchContent.mockReturnValue(
+        of({
+          result: { content: {} },
+          artifactUrl: 'http://x/content-store/file.mp4',
+          appIcon: 'icon.png',
+        }),
+      )
       await component.fetchContent()
       expect(component.widgetData.url).toBe('http://x/content-store/file.mp4')
       expect(mockContentSvc.setS3Cookie).toHaveBeenCalled()
     })
 
     it('catches errors from contentSvc.fetchContent', async () => {
-      mockContentSvc.fetchContent.mockReturnValue(throwError(() => new Error('fail')))
+      mockContentSvc.fetchContent.mockReturnValue(
+        throwError(() => new Error('fail')),
+      )
       await component.fetchContent()
       expect(mockLogger.error).toHaveBeenCalled()
       expect(component.widgetData.videoQuestions).toEqual([])
@@ -159,8 +207,13 @@ describe('PlayerVideoComponent', () => {
 
   describe('ngAfterViewInit', () => {
     it('initializes videojs player when isVideojs true and url present', async () => {
-      const spyInit = jest.spyOn<any, any>(component, 'initializePlayer' as any)
-      component.videoTag = { nativeElement: document.createElement('video') } as any
+      const spyInit = jest.spyOn<any, any>(
+        component,
+        'initializePlayer' as any,
+      )
+      component.videoTag = {
+        nativeElement: document.createElement('video'),
+      } as any
       component.ngAfterViewInit()
       await flushPromises()
       expect(spyInit).toHaveBeenCalled()
@@ -168,10 +221,19 @@ describe('PlayerVideoComponent', () => {
 
     it('initializes native video player when isVideojs false', async () => {
       const videoJsMock = jest.requireMock('video.js') as jest.Mock
-      videoJsMock.mockReturnValue({ id: jest.fn(), on: jest.fn(), isDisposed: jest.fn().mockReturnValue(false) })
+      videoJsMock.mockReturnValue({
+        id: jest.fn(),
+        on: jest.fn(),
+        isDisposed: jest.fn().mockReturnValue(false),
+      })
       component.widgetData = { ...component.widgetData, isVideojs: false }
-      component.realvideoTag = { nativeElement: document.createElement('video') } as any
-      const spyInitV = jest.spyOn<any, any>(component, 'initializeVPlayer' as any)
+      component.realvideoTag = {
+        nativeElement: document.createElement('video'),
+      } as any
+      const spyInitV = jest.spyOn<any, any>(
+        component,
+        'initializeVPlayer' as any,
+      )
       component.ngAfterViewInit()
       await flushPromises()
       expect(spyInitV).toHaveBeenCalled()
@@ -179,7 +241,10 @@ describe('PlayerVideoComponent', () => {
 
     it('does nothing when url is missing', async () => {
       component.widgetData = { ...component.widgetData, url: undefined }
-      const spyInit = jest.spyOn<any, any>(component, 'initializePlayer' as any)
+      const spyInit = jest.spyOn<any, any>(
+        component,
+        'initializePlayer' as any,
+      )
       component.ngAfterViewInit()
       await flushPromises()
       expect(spyInit).not.toHaveBeenCalled()
@@ -188,15 +253,23 @@ describe('PlayerVideoComponent', () => {
 
   describe('initializeVPlayer', () => {
     it('calls videoInitializer and sets dispose, seeks to resumePoint', () => {
-      component.widgetData = { ...component.widgetData, resumePoint: 20, disableTelemetry: false }
-      component.realvideoTag = { nativeElement: document.createElement('video') } as any
+      component.widgetData = {
+        ...component.widgetData,
+        resumePoint: 20,
+        disableTelemetry: false,
+      }
+      component.realvideoTag = {
+        nativeElement: document.createElement('video'),
+      } as any
       component['initializeVPlayer']()
       expect(videojsUtil.videoInitializer).toHaveBeenCalled()
       expect(component.realvideoTag.nativeElement.currentTime).toBe(20)
     })
 
     it('dispatcher calls eventSvc when identifier present', () => {
-      component.realvideoTag = { nativeElement: document.createElement('video') } as any
+      component.realvideoTag = {
+        nativeElement: document.createElement('video'),
+      } as any
       component['initializeVPlayer']()
       const call = (videojsUtil.videoInitializer as jest.Mock).mock.calls[0]
       const dispatcher = call[1]
@@ -205,14 +278,18 @@ describe('PlayerVideoComponent', () => {
     })
 
     it('fireRProgress calls realTimeProgressUpdateV3 and handles success/error', () => {
-      component.realvideoTag = { nativeElement: document.createElement('video') } as any
+      component.realvideoTag = {
+        nativeElement: document.createElement('video'),
+      } as any
       component['initializeVPlayer']()
       const call = (videojsUtil.videoInitializer as jest.Mock).mock.calls[0]
       const fireRProgress = call[2]
       fireRProgress('id1', { current: ['10'], max_size: 100 })
       expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalled()
 
-      mockViewerSvc.realTimeProgressUpdateV3.mockReturnValue(throwError(() => new Error('e')))
+      mockViewerSvc.realTimeProgressUpdateV3.mockReturnValue(
+        throwError(() => new Error('e')),
+      )
       fireRProgress('id1', { current: ['10'], max_size: 100 })
       expect(mockLogger.error).toHaveBeenCalled()
     })
@@ -220,7 +297,9 @@ describe('PlayerVideoComponent', () => {
 
   describe('initializePlayer', () => {
     beforeEach(() => {
-      component.videoTag = { nativeElement: document.createElement('video') } as any
+      component.videoTag = {
+        nativeElement: document.createElement('video'),
+      } as any
     })
 
     it('invokes videoJsInitializer with computed config and sets player/dispose', () => {
@@ -231,12 +310,20 @@ describe('PlayerVideoComponent', () => {
     it('adds subtitles and sets src on player ready', () => {
       const readyCb: { fn?: () => void } = {}
       const fakePlayer = {
-        ready: (cb: () => void) => { readyCb.fn = cb },
+        ready: (cb: () => void) => {
+          readyCb.fn = cb
+        },
         addRemoteTextTrack: jest.fn(),
         src: jest.fn(),
+      };
+      (videojsUtil.videoJsInitializer as jest.Mock).mockReturnValue({
+        player: fakePlayer,
+        dispose: jest.fn(),
+      })
+      component.widgetData = {
+        ...component.widgetData,
+        subtitles: [{ url: 'a.vtt', label: 'en', srclang: 'en' }],
       }
-      ;(videojsUtil.videoJsInitializer as jest.Mock).mockReturnValue({ player: fakePlayer, dispose: jest.fn() })
-      component.widgetData = { ...component.widgetData, subtitles: [{ url: 'a.vtt', label: 'en', srclang: 'en' }] }
       component['initializePlayer']()
       readyCb.fn!()
       expect(fakePlayer.addRemoteTextTrack).toHaveBeenCalled()
@@ -244,7 +331,9 @@ describe('PlayerVideoComponent', () => {
     })
 
     it('fetchAndCacheContentHistory logs warning on failure', async () => {
-      mockContentSvc.fetchContentHistoryV2.mockReturnValue(throwError(() => new Error('fail')))
+      mockContentSvc.fetchContentHistoryV2.mockReturnValue(
+        throwError(() => new Error('fail')),
+      )
       component['initializePlayer']()
       await Promise.resolve()
       await Promise.resolve()
@@ -254,7 +343,9 @@ describe('PlayerVideoComponent', () => {
       component['initializePlayer']()
       const call = (videojsUtil.videoJsInitializer as jest.Mock).mock.calls[0]
       const fireRProgress = call[3]
-      component['contentHistoryResponse'] = { contentList: [{ contentId: 'id1', completionPercentage: 0 }] }
+      component['contentHistoryResponse'] = {
+        contentList: [{ contentId: 'id1', completionPercentage: 0 }],
+      }
       await fireRProgress('id1', { current: ['96'], max_size: 100 })
       expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalled()
     })
@@ -263,7 +354,9 @@ describe('PlayerVideoComponent', () => {
       component['initializePlayer']()
       const call = (videojsUtil.videoJsInitializer as jest.Mock).mock.calls[0]
       const fireRProgress = call[3]
-      component['contentHistoryResponse'] = { contentList: [{ contentId: 'id1', completionPercentage: 100 }] }
+      component['contentHistoryResponse'] = {
+        contentList: [{ contentId: 'id1', completionPercentage: 100 }],
+      }
       await fireRProgress('id1', { current: ['50'], max_size: 100 })
       expect(component['lastSentProgressPercentage']).toBe(100)
     })
@@ -300,7 +393,9 @@ describe('PlayerVideoComponent', () => {
       component['initializePlayer']()
       const call = (videojsUtil.videoJsInitializer as jest.Mock).mock.calls[0]
       const fireRProgress = call[3]
-      mockContentSvc.fetchContentHistoryV2.mockImplementation(() => { throw new Error('boom') })
+      mockContentSvc.fetchContentHistoryV2.mockImplementation(() => {
+        throw new Error('boom')
+      })
       component['contentHistoryResponse'] = null
       fireRProgress('id1', { current: ['20'], max_size: 100 })
       await new Promise(resolve => setTimeout(resolve, 0))
@@ -311,8 +406,14 @@ describe('PlayerVideoComponent', () => {
   describe('onTimeUpdate', () => {
     beforeEach(() => {
       const videoEl = document.createElement('video')
-      Object.defineProperty(videoEl, 'currentTime', { value: 50, writable: true })
-      Object.defineProperty(videoEl, 'duration', { value: 100, writable: true })
+      Object.defineProperty(videoEl, 'currentTime', {
+        value: 50,
+        writable: true,
+      })
+      Object.defineProperty(videoEl, 'duration', {
+        value: 100,
+        writable: true,
+      })
       component.videoTag = { nativeElement: videoEl } as any
       component.progressData = { completionPercentage: 10 }
     })
@@ -339,7 +440,9 @@ describe('PlayerVideoComponent', () => {
     })
 
     it('catches errors', async () => {
-      mockContentSvc.fetchContentHistoryV2.mockImplementation(() => { throw new Error('fail') })
+      mockContentSvc.fetchContentHistoryV2.mockImplementation(() => {
+        throw new Error('fail')
+      })
       component['contentHistoryResponse'] = null
       await component.onTimeUpdate()
       expect(mockLogger.error).toHaveBeenCalled()
@@ -413,12 +516,91 @@ describe('PlayerVideoComponent', () => {
       }
     })
 
-    const fire = (event: string) => (handlers[event] || []).forEach(cb => cb())
+    const fire = (event: string) =>
+      (handlers[event] || []).forEach(cb => cb())
 
     it('registers play and timeupdate handlers', () => {
       component.setupVideoQuestionListeners(fakePlayer)
       expect(fakePlayer.on).toHaveBeenCalledWith('play', expect.any(Function))
-      expect(fakePlayer.on).toHaveBeenCalledWith('timeupdate', expect.any(Function))
+      expect(fakePlayer.on).toHaveBeenCalledWith(
+        'timeupdate',
+        expect.any(Function),
+      )
+    })
+
+    describe('question trigger', () => {
+      let now = 0
+      /** Plays forward in timeupdate ticks of `step` seconds. */
+      const playTo = (to: number, step = 0.25) => {
+        while (now < to) {
+          now = Math.min(to, now + step)
+          fire('timeupdate')
+        }
+      }
+
+      beforeEach(() => {
+        now = 0
+        fakePlayer.currentTime = jest.fn(() => now)
+        component.widgetData = {
+          ...component.widgetData,
+          videoQuestions: [
+            { timestampInSeconds: 5, question: [{ text: 'q' }] },
+          ],
+        }
+      })
+
+      it('fires when playback crosses the question time', () => {
+        const open = jest
+          .spyOn(component, 'openPopup')
+          .mockImplementation(() => undefined)
+        component.setupVideoQuestionListeners(fakePlayer)
+        playTo(4.9)
+        expect(open).not.toHaveBeenCalled()
+        playTo(5.2)
+        expect(fakePlayer.pause).toHaveBeenCalled()
+        expect(open).toHaveBeenCalledWith([{ text: 'q' }], fakePlayer, 'vid1')
+      })
+
+      it('still fires at 3x speed, where a tick steps over the exact second', () => {
+        const open = jest
+          .spyOn(component, 'openPopup')
+          .mockImplementation(() => undefined)
+        component.setupVideoQuestionListeners(fakePlayer)
+        playTo(7, 0.75)
+        expect(open).toHaveBeenCalledTimes(1)
+      })
+
+      it('fires once per pass, and again only after seeking back before it', () => {
+        const open = jest
+          .spyOn(component, 'openPopup')
+          .mockImplementation(() => undefined)
+        component.setupVideoQuestionListeners(fakePlayer)
+        playTo(5.2)
+        component.videoStates['vid1'].popupOpen = false
+        playTo(8)
+        expect(open).toHaveBeenCalledTimes(1)
+        now = 1
+        fire('timeupdate')
+        playTo(5.2)
+        expect(open).toHaveBeenCalledTimes(2)
+      })
+
+      it('does not fire on a forward seek past the question', () => {
+        const open = jest
+          .spyOn(component, 'openPopup')
+          .mockImplementation(() => undefined)
+        component.setupVideoQuestionListeners(fakePlayer)
+        now = 30
+        fire('timeupdate')
+        expect(open).not.toHaveBeenCalled()
+      })
+
+      it('registers only once per player', () => {
+        component.setupVideoQuestionListeners(fakePlayer)
+        const calls = fakePlayer.on.mock.calls.length
+        component.setupVideoQuestionListeners(fakePlayer)
+        expect(fakePlayer.on.mock.calls.length).toBe(calls)
+      })
     })
 
     it('openFullscreen calls requestFullscreen when isXSmall', () => {
@@ -435,22 +617,20 @@ describe('PlayerVideoComponent', () => {
       expect(fakePlayer.webkitRequestFullscreen).toHaveBeenCalled()
     })
 
-    it('openPopup opens dialog and handles afterClosed', () => {
+    it('openPopup opens dialog and resumes after close without re-registering', () => {
       const afterClosed$ = of(undefined)
       mockDialog.open.mockReturnValue({ afterClosed: () => afterClosed$ })
-      const intervalSub: any = { unsubscribe: jest.fn() }
       const spySetup = jest.spyOn(component, 'setupVideoQuestionListeners')
-      component.openPopup([{ text: 'q' }], fakePlayer, intervalSub)
+      component.openPopup([{ text: 'q' }], fakePlayer)
       expect(mockDialog.open).toHaveBeenCalled()
       expect(fakePlayer.play).toHaveBeenCalled()
-      expect(intervalSub.unsubscribe).toHaveBeenCalled()
-      expect(spySetup).toHaveBeenCalled()
+      expect(spySetup).not.toHaveBeenCalled()
     })
 
-    it('does nothing extra when dialog.open returns falsy', () => {
+    it('resumes playback when dialog.open returns falsy', () => {
       mockDialog.open.mockReturnValue(null)
-      const intervalSub: any = { unsubscribe: jest.fn() }
-      expect(() => component.openPopup([], fakePlayer, intervalSub)).not.toThrow()
+      expect(() => component.openPopup([], fakePlayer)).not.toThrow()
+      expect(fakePlayer.play).toHaveBeenCalled()
     })
   })
 
@@ -475,7 +655,9 @@ describe('PlayerVideoComponent', () => {
       mockActivatedRoute.snapshot.queryParams = { collectionId: 'coll-1' }
       component.onVideoPlay()
       expect(mockTelemetrySvc.start).toHaveBeenCalledWith(
-        'video/mp4', 'start', 'player',
+        'video/mp4',
+        'start',
+        'player',
         expect.objectContaining({ rollup: { l1: 'coll-1', l2: 'id1' } }),
       )
     })
@@ -483,7 +665,9 @@ describe('PlayerVideoComponent', () => {
     it('should roll up under the content id when there is no collection', () => {
       component.onVideoPlay()
       expect(mockTelemetrySvc.start).toHaveBeenCalledWith(
-        'video/mp4', 'start', 'player',
+        'video/mp4',
+        'start',
+        'player',
         expect.objectContaining({ rollup: { l1: 'id1', l2: 'id1' } }),
       )
     })
@@ -491,27 +675,39 @@ describe('PlayerVideoComponent', () => {
     it('should raise an interact event on pause', () => {
       component.onVideoPause('pause')
       expect(mockTelemetrySvc.interact).toHaveBeenCalledWith(
-        'video/mp4', 'pause', 'player', expect.objectContaining({ id: 'id1' }),
+        'video/mp4',
+        'pause',
+        'player',
+        expect.objectContaining({ id: 'id1' }),
       )
     })
 
     it('should roll a pause up under the collection id', () => {
       mockActivatedRoute.snapshot.queryParams = { collectionId: 'coll-1' }
       component.onVideoPause('pause')
-      expect(mockTelemetrySvc.interact.mock.calls[0][3].rollup).toEqual({ l1: 'coll-1', l2: 'id1' })
+      expect(mockTelemetrySvc.interact.mock.calls[0][3].rollup).toEqual({
+        l1: 'coll-1',
+        l2: 'id1',
+      })
     })
 
     it('should close the telemetry span when the video ends', () => {
       component.onVideoEnded()
       expect(mockTelemetrySvc.end).toHaveBeenCalledWith(
-        'video/mp4', 'ended', 'player', expect.objectContaining({ id: 'id1' }),
+        'video/mp4',
+        'ended',
+        'player',
+        expect.objectContaining({ id: 'id1' }),
       )
     })
 
     it('should roll an end up under the collection id', () => {
       mockActivatedRoute.snapshot.queryParams = { collectionId: 'coll-1' }
       component.onVideoEnded()
-      expect(mockTelemetrySvc.end.mock.calls[0][3].rollup).toEqual({ l1: 'coll-1', l2: 'id1' })
+      expect(mockTelemetrySvc.end.mock.calls[0][3].rollup).toEqual({
+        l1: 'coll-1',
+        l2: 'id1',
+      })
     })
   })
 
@@ -529,14 +725,20 @@ describe('PlayerVideoComponent', () => {
       component.onEventTrigger('start')
       expect(mockTelemetrySvc.start).not.toHaveBeenCalled()
       expect(mockTelemetrySvc.interact).toHaveBeenCalledWith(
-        'video/mp4', 'start', 'player', expect.any(Object),
+        'video/mp4',
+        'start',
+        'player',
+        expect.any(Object),
       )
     })
 
     it('should raise a pause interact', () => {
       component.onEventTrigger('pause')
       expect(mockTelemetrySvc.interact).toHaveBeenCalledWith(
-        'video/mp4', 'pause', 'player', expect.any(Object),
+        'video/mp4',
+        'pause',
+        'player',
+        expect.any(Object),
       )
     })
 
@@ -559,27 +761,44 @@ describe('PlayerVideoComponent', () => {
     it('should send status 2 for a fully watched video', async () => {
       await component['updateVideoProgress']('id1', data, 100, 'coll-1', 'b1')
       expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
-        'id1', expect.objectContaining({ completionPercentage: 100, status: 2 }), 'coll-1', 'b1',
+        'id1',
+        expect.objectContaining({ completionPercentage: 100, status: 2 }),
+        'coll-1',
+        'b1',
       )
     })
 
     it('should send status 1 for a partially watched video', async () => {
       await component['updateVideoProgress']('id1', data, 50, 'coll-1', 'b1')
       expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
-        'id1', expect.objectContaining({ completionPercentage: 50, status: 1 }), 'coll-1', 'b1',
+        'id1',
+        expect.objectContaining({ completionPercentage: 50, status: 1 }),
+        'coll-1',
+        'b1',
       )
     })
 
     it('should send status 0 for an unwatched video', async () => {
       await component['updateVideoProgress']('id1', data, 0, 'coll-1', 'b1')
       expect(mockViewerSvc.realTimeProgressUpdateV3).toHaveBeenCalledWith(
-        'id1', expect.objectContaining({ completionPercentage: 0, status: 0 }), 'coll-1', 'b1',
+        'id1',
+        expect.objectContaining({ completionPercentage: 0, status: 0 }),
+        'coll-1',
+        'b1',
       )
     })
 
     it('should merge the new percentage into the cached history list', async () => {
       component.contentHistoryResponse = {
-        contentList: [{ contentId: 'id1', batchId: 'b1', courseId: 'coll-1', completionPercentage: 10, status: 1 }],
+        contentList: [
+          {
+            contentId: 'id1',
+            batchId: 'b1',
+            courseId: 'coll-1',
+            completionPercentage: 10,
+            status: 1,
+          },
+        ],
       } as any
 
       await component['updateVideoProgress']('id1', data, 100, 'coll-1', 'b1')
@@ -587,9 +806,13 @@ describe('PlayerVideoComponent', () => {
 
       const [message] = mockContentSvc.changeMessage.mock.calls[0]
       expect(message.type).toBe('Video')
-      expect(message.contentList[0]).toEqual(expect.objectContaining({
-        contentId: 'id1', completionPercentage: 100, status: 2,
-      }))
+      expect(message.contentList[0]).toEqual(
+        expect.objectContaining({
+          contentId: 'id1',
+          completionPercentage: 100,
+          status: 2,
+        }),
+      )
       expect(component.lastSentProgressPercentage).toBe(100)
     })
 
@@ -604,47 +827,103 @@ describe('PlayerVideoComponent', () => {
       await component['updateVideoProgress']('id1', data, 60, 'coll-1', 'b1')
       await Promise.resolve()
 
-      const other = mockContentSvc.changeMessage.mock.calls[0][0].contentList
-        .find((i: any) => i.contentId === 'other')
-      expect(other).toEqual(expect.objectContaining({ completionPercentage: 0, status: 0 }))
+      const other =
+        mockContentSvc.changeMessage.mock.calls[0][0].contentList.find(
+          (i: any) => i.contentId === 'other',
+        )
+      expect(other).toEqual(
+        expect.objectContaining({ completionPercentage: 0, status: 0 }),
+      )
     })
 
     it('should append an entry for a video watched for the first time', async () => {
       component.contentHistoryResponse = {
-        contentList: [{ contentId: 'other', completionPercentage: 100, status: 2 }],
+        contentList: [
+          { contentId: 'other', completionPercentage: 100, status: 2 },
+        ],
       } as any
 
       await component['updateVideoProgress']('id1', data, 100, 'coll-1', 'b1')
       await Promise.resolve()
 
-      const added = mockContentSvc.changeMessage.mock.calls[0][0].contentList
-        .find((i: any) => i.contentId === 'id1')
-      expect(added).toEqual(expect.objectContaining({
-        completionPercentage: 100, status: 2, batchId: 'b1', courseId: 'coll-1',
-      }))
+      const added =
+        mockContentSvc.changeMessage.mock.calls[0][0].contentList.find(
+          (i: any) => i.contentId === 'id1',
+        )
+      expect(added).toEqual(
+        expect.objectContaining({
+          completionPercentage: 100,
+          status: 2,
+          batchId: 'b1',
+          courseId: 'coll-1',
+        }),
+      )
     })
 
     it('should default a missing batch id on the appended entry', async () => {
-      component.contentHistoryResponse = { contentList: [{ contentId: 'other' }] } as any
+      component.contentHistoryResponse = {
+        contentList: [{ contentId: 'other' }],
+      } as any
 
-      await component['updateVideoProgress']('id1', data, 40, 'coll-1', undefined)
+      await component['updateVideoProgress'](
+        'id1',
+        data,
+        40,
+        'coll-1',
+        undefined,
+      )
       await Promise.resolve()
 
-      const added = mockContentSvc.changeMessage.mock.calls[0][0].contentList
-        .find((i: any) => i.contentId === 'id1')
+      const added =
+        mockContentSvc.changeMessage.mock.calls[0][0].contentList.find(
+          (i: any) => i.contentId === 'id1',
+        )
       expect(added.batchId).toBe('')
     })
 
     it('should report the progress update in telemetry', async () => {
-      component.contentHistoryResponse = { contentList: [{ contentId: 'id1' }] } as any
+      component.contentHistoryResponse = {
+        contentList: [{ contentId: 'id1' }],
+      } as any
 
       await component['updateVideoProgress']('id1', data, 100, 'coll-1', 'b1')
       await Promise.resolve()
 
       expect(mockViewerSvc.generateInteractTelemetry).toHaveBeenCalledWith(
         'progress-update-success',
-        expect.objectContaining({ contentId: 'id1', completionPercentage: 100, mimeType: 'video/mp4' }),
+        expect.objectContaining({
+          contentId: 'id1',
+          completionPercentage: 100,
+          mimeType: 'video/mp4',
+        }),
       )
     })
+  })
+})
+
+describe('parseVideoQuestions', () => {
+  it('returns an array unchanged (Sunbird Spark)', () => {
+    const qs = [{ timestampInSeconds: 3 }]
+    expect(parseVideoQuestions(qs)).toBe(qs)
+  })
+
+  it('parses a JSON string (legacy platform)', () => {
+    expect(parseVideoQuestions('[{"timestampInSeconds":3}]')).toEqual([
+      { timestampInSeconds: 3 },
+    ])
+  })
+
+  it('yields [] for empty, malformed or non-array input', () => {
+    for (const bad of [
+      undefined,
+      null,
+      '',
+      '  ',
+      '{bad',
+      '{"a":1}',
+      { a: 1 },
+    ]) {
+      expect(parseVideoQuestions(bad)).toEqual([])
+    }
   })
 })

@@ -5,12 +5,27 @@ const mockSnackBar: any = { open: jest.fn() }
 const mockDialogRef: any = { close: jest.fn() }
 const mockLogger: any = { log: jest.fn() }
 
-function createComponent(isXSmall = false, questions = [
-  { text: 'Q1', options: [{ text: 'A', isCorrect: true }, { text: 'B', isCorrect: false }] },
-  { text: 'Q2', options: [{ text: 'C', isCorrect: false }] },
-]): PlayerVideoPopupComponent {
+function createComponent(
+  isXSmall = false,
+  questions = [
+    {
+      text: 'Q1',
+      options: [
+        { text: 'A', isCorrect: true },
+        { text: 'B', isCorrect: false },
+      ],
+    },
+    { text: 'Q2', options: [{ text: 'C', isCorrect: false }] },
+  ],
+): PlayerVideoPopupComponent {
   const valueSvc: any = { isXSmall$: of(isXSmall) }
-  return new PlayerVideoPopupComponent(valueSvc, mockSnackBar, mockDialogRef, { questions }, mockLogger)
+  return new PlayerVideoPopupComponent(
+    valueSvc,
+    mockSnackBar,
+    mockDialogRef,
+    { questions },
+    mockLogger,
+  )
 }
 
 describe('PlayerVideoPopupComponent', () => {
@@ -39,7 +54,10 @@ describe('PlayerVideoPopupComponent', () => {
 
   it('should close popup on Enter key', () => {
     const component = createComponent()
-    const event = { key: 'Enter', preventDefault: jest.fn() } as unknown as KeyboardEvent
+    const event = {
+      key: 'Enter',
+      preventDefault: jest.fn(),
+    } as unknown as KeyboardEvent
     component.handleKeyDown(event)
     expect(mockDialogRef.close).toHaveBeenCalledWith('skip')
     expect(event.preventDefault).toHaveBeenCalled()
@@ -47,14 +65,20 @@ describe('PlayerVideoPopupComponent', () => {
 
   it('should close popup on space key', () => {
     const component = createComponent()
-    const event = { key: ' ', preventDefault: jest.fn() } as unknown as KeyboardEvent
+    const event = {
+      key: ' ',
+      preventDefault: jest.fn(),
+    } as unknown as KeyboardEvent
     component.handleKeyDown(event)
     expect(mockDialogRef.close).toHaveBeenCalledWith('skip')
   })
 
   it('should not close popup on other keys', () => {
     const component = createComponent()
-    const event = { key: 'a', preventDefault: jest.fn() } as unknown as KeyboardEvent
+    const event = {
+      key: 'a',
+      preventDefault: jest.fn(),
+    } as unknown as KeyboardEvent
     component.handleKeyDown(event)
     expect(mockDialogRef.close).not.toHaveBeenCalled()
   })
@@ -148,7 +172,10 @@ describe('PlayerVideoPopupComponent', () => {
     const component = createComponent()
     component.answers = ['A', 'B']
     component.continue()
-    expect(mockDialogRef.close).toHaveBeenCalledWith({ event: 'submit', answers: ['A', 'B'] })
+    expect(mockDialogRef.close).toHaveBeenCalledWith({
+      event: 'submit',
+      answers: ['A', 'B'],
+    })
   })
 
   it('should close dialog with given value on sendAction', () => {
@@ -164,5 +191,45 @@ describe('PlayerVideoPopupComponent', () => {
     const component = createComponent()
     component.closePopup()
     expect(mockDialogRef.close).toHaveBeenCalledWith('skip')
+  })
+})
+
+describe('PlayerVideoPopupComponent answers and hints', () => {
+  const questions = [
+    {
+      text: 'Q1',
+      options: [
+        { text: 'A', isCorrect: false, answerInfo: 'not A' },
+        { text: 'B', isCorrect: true, answerInfo: 'B because' },
+      ],
+    },
+    {
+      text: 'Q2',
+      options: [
+        { text: 'C', isCorrect: true },
+        { text: 'D', isCorrect: false },
+      ],
+    },
+  ]
+
+  it('exposes the correct option of the current question, for its hint after a wrong answer', () => {
+    const component = createComponent(false, questions as any)
+    expect(component.correctOption.text).toBe('B')
+    expect(component.correctOption.answerInfo).toBe('B because')
+  })
+
+  it('records the chosen option as the answer for the current question', () => {
+    const component = createComponent(false, questions as any)
+    component.onOptionSelected(questions[0].options[0])
+    expect(component.answers[0]).toBe(questions[0].options[0])
+    expect(component.resultMessage).toBe('Wrong')
+  })
+
+  it('starts the next question unselected', () => {
+    const component = createComponent(false, questions as any)
+    component.onOptionSelected(questions[0].options[1])
+    component.moveToNext()
+    expect(component.selectedOption).toBeNull()
+    expect(component.resultMessage).toBeNull()
   })
 })

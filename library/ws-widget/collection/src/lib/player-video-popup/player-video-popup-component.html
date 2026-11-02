@@ -1,82 +1,86 @@
-<div class="quiz-container">
-    <!-- Question Text -->
-    <div class="flex justify-between items-center">
-        <span class="questions-header">{{"Question" | translate}}</span>
-        <mat-icon class="cursor-pointer" (click)="closePopup()" (keydown)="handleKeyDown($event)">close</mat-icon>
+<div class="vq" [class.vq--stacked]="layoutDirection === 'columnView'">
+  <header class="vq-head">
+    <span class="vq-eyebrow">
+      <mat-icon class="vq-eyebrow-icon" aria-hidden="true">live_help</mat-icon>
+      {{ 'Question' | translate }}
+      @if (questions.length > 1) {
+        <span class="vq-count">{{ currentIndex + 1 }} / {{ questions.length }}</span>
+      }
+    </span>
+    <button type="button" class="vq-close" [attr.aria-label]="'Close' | translate" (click)="closePopup()">
+      <mat-icon aria-hidden="true">close</mat-icon>
+    </button>
+  </header>
+
+  <h3 id="vq-title" class="vq-question">{{ currentQuestion.text }}</h3>
+
+  <div class="vq-options" role="radiogroup" aria-labelledby="vq-title">
+    @for (option of currentQuestion.options; track $index) {
+      <label
+        class="vq-option"
+        [class.vq-option--selected]="!showAnswerInfo && selectedOption === option"
+        [class.vq-option--correct]="showAnswerInfo && option.isCorrect"
+        [class.vq-option--wrong]="showAnswerInfo && !option.isCorrect && selectedOption === option"
+        [class.vq-option--disabled]="showAnswerInfo"
+      >
+        <input
+          type="radio"
+          [class.vq-sr-only]="showAnswerInfo && (option.isCorrect || selectedOption === option)"
+          [name]="'vq-' + currentIndex"
+          [checked]="selectedOption === option"
+          [disabled]="showAnswerInfo"
+          (change)="onOptionSelected(option)"
+        />
+        @if (showAnswerInfo && option.isCorrect) {
+          <mat-icon class="vq-option-icon" aria-hidden="true">check_circle</mat-icon>
+        } @else if (showAnswerInfo && selectedOption === option) {
+          <mat-icon class="vq-option-icon" aria-hidden="true">cancel</mat-icon>
+        }
+        <span class="vq-option-text">{{ option.text }}</span>
+      </label>
+    }
+  </div>
+
+  @if (showAnswerInfo && resultMessage) {
+    <div
+      class="vq-result"
+      aria-live="polite"
+      [class.vq-result--correct]="resultMessage === 'Correct'"
+      [class.vq-result--wrong]="resultMessage === 'Wrong'"
+    >
+      <div class="vq-result-title">
+        <mat-icon aria-hidden="true">{{ resultMessage === 'Correct' ? 'check_circle' : 'cancel' }}</mat-icon>
+        <span>{{ resultMessage | translate }}</span>
+      </div>
+      @if (selectedOption?.answerInfo) {
+        <p class="vq-result-info">{{ selectedOption.answerInfo }}</p>
+      }
     </div>
-    <h3 class="quiz-question">{{ currentQuestion.text }}</h3>
-    <!-- Options List -->
-    <mat-selection-list [className]="layoutDirection" class="app-class" [(ngModel)]="answers[currentIndex]">
-        <div class="options-container">
-            <div *ngFor="let option of currentQuestion.options; let i = index" class="option">
-                <!-- Show correct or wrong answer feedback -->
-                <ng-container *ngIf="showAnswerInfo && (option.isCorrect || option === selectedOption); else showRadio">
-                    <div class="question-options" [ngClass]="{
-                        'correct-answer': option.isCorrect && option === selectedOption,
-                        'wrong-answer': !option.isCorrect && option === selectedOption,
-                        'correct-text': option.isCorrect
-                    }" [ngStyle]="{
-                        'background-color': option.isCorrect && option === selectedOption ? '#E8F4F2' : 'transparent'
-                    }">
-                        <img *ngIf="option.isCorrect" src="/fusion-assets/icons/right_green_icon_answer.svg"
-                            alt="Correct" />
-                        <img *ngIf="!option.isCorrect && option === selectedOption"
-                            src="/fusion-assets/icons/wrong_red_icon_answer.svg" alt="Wrong" />
-                        <span class="pl-3 answer-text">{{ option.text }}</span>
-
-                    </div>
-                </ng-container>
-                <!-- Show radio button for other options, but make it gray when showAnswerInfo is true -->
-                <ng-template #showRadio>
-                    <mat-radio-button class="quiz-option" [value]="option" color="primary"
-                        (change)="onOptionSelected(option)" [disabled]="showAnswerInfo"
-                        [ngClass]="{'gray-radio': showAnswerInfo}">
-                        <div class="question-option" [ngStyle]="{'color': showAnswerInfo ? 'gray' : 'black'}">
-                            {{ option.text }}
-                        </div>
-                    </mat-radio-button>
-                </ng-template>
-            </div>
+    @if (resultMessage === 'Wrong' && correctOption?.answerInfo) {
+      <div class="vq-result vq-result--correct">
+        <div class="vq-result-title">
+          <mat-icon aria-hidden="true">check_circle</mat-icon>
+          <span>{{ 'Correct Answer:' | translate }} {{ correctOption.text }}</span>
         </div>
-    </mat-selection-list>
+        <p class="vq-result-info">{{ correctOption.answerInfo }}</p>
+      </div>
+    }
+  }
 
-    <ng-container *ngIf="showAnswerInfo" class="flex-1">
-        <div class="result-message-container p-2">
-            <div *ngIf="resultMessage" class="result-message p-2" [ngClass]="{'correct-answer': resultMessage === 'Correct',
-                                'wrong-answer': resultMessage === 'Wrong'}">
-                <img title="correct-answer" alt="correct-answer" *ngIf="resultMessage === 'Correct'"
-                    src="/fusion-assets/icons/charm_tick.png" />
-                <img title="wrong-answer" alt="correct-answer" *ngIf="resultMessage === 'Wrong'"
-                    src="/fusion-assets/icons/wrong_red_icon.png" />
-                <span [ngClass]="{'correct-answer': resultMessage === 'Correct',
-                                'wrong-answer': resultMessage === 'Wrong'}" class="result-text ml-2">{{ resultMessage
-                    }}</span>
-            </div>
-            <span [ngClass]="{'correct-answer': resultMessage === 'Correct',
-                                'wrong-answer': resultMessage === 'Wrong'}" class="p-2 result-answer-info"
-                *ngIf="selectedOption?.answerInfo">
-                {{ selectedOption.answerInfo }}</span>
-        </div>
-    </ng-container>
-
-    <!-- Navigation Buttons -->
-    <div class="button-container flex justify-end mt-4">
-        <!-- Skip or Next Button -->
-        <div class="flex mr-2">
-            <button *ngIf="!showAnswerInfo" class="skip-button mr-2" (click)="sendAction('skip')" class="skip-button">
-                {{"Skip" | translate}}
-            </button>
-            <button class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
-                {{"Next" | translate}}
-            </button>
-        </div>
-        <!-- Submit Button -->
-        <button class="submit-button" *ngIf="currentIndex === questions.length - 1&&!showAnswerInfo"
-            (click)="submitQuiz()" class="submit-button">
-            {{"Submit" | translate}}
-        </button>
-        <button class="submit-button" *ngIf="showAnswerInfo" (click)="continue()" class="submit-button">
-            {{"Continue" | translate}}
-        </button>
-    </div>
+  <footer class="vq-actions">
+    @if (!showAnswerInfo) {
+      <button type="button" class="vq-btn vq-btn--secondary" (click)="sendAction('skip')">{{ 'Skip' | translate }}</button>
+    }
+    @if (currentIndex < questions.length - 1) {
+      <button type="button" class="vq-btn vq-btn--secondary" (click)="moveToNext()">{{ 'Next' | translate }}</button>
+    }
+    @if (currentIndex === questions.length - 1 && !showAnswerInfo) {
+      <button type="button" class="vq-btn vq-btn--primary" [disabled]="!selectedOption" (click)="submitQuiz()">
+        {{ 'Submit' | translate }}
+      </button>
+    }
+    @if (showAnswerInfo) {
+      <button type="button" class="vq-btn vq-btn--primary" (click)="continue()">{{ 'Continue' | translate }}</button>
+    }
+  </footer>
 </div>

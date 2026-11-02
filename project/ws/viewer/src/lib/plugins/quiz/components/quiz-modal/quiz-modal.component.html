@@ -39,7 +39,7 @@
   <ng-container *ngIf="tabIndex === 2">
 
     <viewer-assesment-question-result *ngIf="userAnswer" [answer]="userAnswer.answer" [isCorrect]="userAnswer.isCorrect"
-      [isExplanation]="userAnswer.isExplanation" (resultEvent)="nextQuestion()">
+      [isExplanation]="userAnswer.isExplanation" [hint]="userAnswer.hint" [correctHint]="userAnswer.correctHint" (resultEvent)="nextQuestion()">
     </viewer-assesment-question-result>
   </ng-container>
 

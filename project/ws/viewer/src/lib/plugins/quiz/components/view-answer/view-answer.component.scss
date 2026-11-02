@@ -367,3 +367,47 @@
   color: var(--theme-text, #ecf3f8) !important;
   border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }
+
+// The creator's hint under a wrongly answered question.
+.answer-hint {
+  margin: 8px 0 12px;
+  padding: 10px 14px;
+  border: 1px solid #b7dfb9;
+  border-radius: 8px;
+  background: #edf7ee;
+  color: #2e6b31;
+  font-family: Roboto, sans-serif;
+}
+
+.answer-hint--wrong {
+  border-color: #f3b8b3;
+  background: #fdecea;
+  color: #a12a20;
+}
+
+.answer-hint-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.answer-hint-text {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+
+  // The hint is injected HTML, so emulated encapsulation does not reach its <p>.
+  ::ng-deep p {
+    margin: 0;
+  }
+}
