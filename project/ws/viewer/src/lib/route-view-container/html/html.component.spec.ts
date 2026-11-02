@@ -3,15 +3,20 @@ jest.mock('@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe', () 
 }), { virtual: true })
 jest.mock('@ws-widget/utils', () => ({
   ConfigurationsService: class {},
+  LoggerService: class {},
   SafeResourceUrlService: class { sanitizeHtml = jest.fn((v: string) => v) },
   ValueService: class {},
 }))
 jest.mock('@ws-widget/collection', () => ({
   NsContent: {},
   NsDiscussionForum: {},
+  WidgetContentService: class {},
 }))
 jest.mock('../../player-state.service', () => ({
   PlayerStateService: class {},
+}))
+jest.mock('../../viewer-util.service', () => ({
+  ViewerUtilService: class {},
 }))
 
 import { HtmlComponent } from './html.component'
@@ -26,6 +31,10 @@ describe('HtmlComponent (route-view-container/html)', () => {
   let mockConfigSvc: any
   let mockViewerDataSvc: any
   let mockRouter: any
+  let mockViewerSvc: any
+  let mockLogger: any
+  let mockContentSvc: any
+  let mockCdr: any
 
   beforeEach(() => {
     mockActivatedRoute = { snapshot: { queryParams: { collectionType: 'course', collectionId: 'col1' } } }
@@ -35,6 +44,10 @@ describe('HtmlComponent (route-view-container/html)', () => {
     mockConfigSvc = { restrictedFeatures: new Set(['other']) }
     mockViewerDataSvc = { playerState: of({ currentCompletionPercentage: 100 }) }
     mockRouter = {}
+    mockViewerSvc = { realTimeProgressUpdateV3: jest.fn(() => of({})), generateInteractTelemetry: jest.fn() }
+    mockLogger = { warn: jest.fn(), log: jest.fn() }
+    mockContentSvc = { fetchContentHistoryV2: jest.fn(() => of({ result: { contentList: [] } })), changeMessage: jest.fn() }
+    mockCdr = { markForCheck: jest.fn() }
 
     component = new HtmlComponent(
       mockActivatedRoute,
@@ -43,7 +56,11 @@ describe('HtmlComponent (route-view-container/html)', () => {
       mockValueSvc,
       mockConfigSvc,
       mockViewerDataSvc,
-      mockRouter
+      mockRouter,
+      mockViewerSvc,
+      mockLogger,
+      mockContentSvc,
+      mockCdr,
     )
   })
 
@@ -122,6 +139,31 @@ describe('HtmlComponent (route-view-container/html)', () => {
     it('ignores changes to unrelated props', () => {
       component.ngOnChanges({ isPreviewMode: {} } as any)
       expect(component.isScormContent).toBe(false)
+    })
+  })
+
+  describe('player choice', () => {
+    const htmlPackage = {
+      identifier: 'do_h', artifactUrl: 'https://example.com/do_h.zip',
+      mimeType: 'application/vnd.ekstep.html-archive', packageType: 'html',
+    }
+    beforeEach(() => {
+      mockConfigSvc.instanceConfig = { htmlContentPlayer: { contentIds: [], mimeTypes: ['application/vnd.ekstep.html-archive'] } }
+    })
+
+    it('plays an HTML package (packageType html) in the Sunbird content-player', () => {
+      component.htmlData = htmlPackage as any
+      component.ngOnChanges({ htmlData: {} } as any)
+      expect(component.useContentPlayer).toBe(true)
+    })
+
+    it('keeps the SCORM/HTML player for the same mimeType without packageType html', () => {
+      component.htmlData = { ...htmlPackage, packageType: 'scorm' } as any
+      component.ngOnChanges({ htmlData: {} } as any)
+      expect(component.useContentPlayer).toBe(false)
+      component.htmlData = { ...htmlPackage, packageType: undefined } as any
+      component.ngOnChanges({ htmlData: {} } as any)
+      expect(component.useContentPlayer).toBe(false)
     })
   })
 

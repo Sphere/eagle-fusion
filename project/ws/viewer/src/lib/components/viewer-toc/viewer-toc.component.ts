@@ -28,6 +28,7 @@ import { PlayerStateService, buildPlayerStateForResource } from '../../player-st
 import { saveAs } from 'file-saver'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 import { parseCompetencies } from '@ws/app/src/lib/routes/app-toc/utils/competency.util'
+import { HTML_PACKAGE_TYPE } from 'src/app/component/sunbird-content-player/content-player.util'
 interface IViewerTocCard {
   identifier: string
   completionPercentage: number
@@ -488,7 +489,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (content) {
         this.viewerDataSvc.setNode(content.gatingEnabled)
       }
-      this.resourceContentTypeFunct(content.mimeType)
+      this.resourceContentTypeFunct(content.mimeType, content.packageType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       return viewerTocCardContent
@@ -529,7 +530,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         .toPromise()
 
       const content: NsContent.IContent = playlistFetchResponse.data
-      this.resourceContentTypeFunct(content.mimeType)
+      this.resourceContentTypeFunct(content.mimeType, content.packageType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       return viewerTocCardContent
@@ -561,7 +562,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   private convertContentToIViewerTocCard(content: NsContent.IContent): IViewerTocCard {
-    this.resourceContentTypeFunct(content.mimeType)
+    this.resourceContentTypeFunct(content.mimeType, content.packageType)
     return {
       identifier: content.identifier,
       viewerUrl: `${this.forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
@@ -589,7 +590,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   private createCollectionCard(
     collection: NsContent.IContent | NsContent.IContentMinimal,
   ): ICollectionCard {
-    this.resourceContentTypeFunct(collection.mimeType)
+    this.resourceContentTypeFunct(collection.mimeType, collection.packageType)
     return {
       type: this.resourceContentType,
       id: collection.identifier,
@@ -1565,11 +1566,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   }
 
-  resourceContentTypeFunct(type: any): void {
+  /** Row label. html-archive is 'HTML' for an HTML package (packageType "html"), else 'Scrom' (SCORM shares the mimeType). */
+  resourceContentTypeFunct(type: any, packageType?: string): void {
     if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {
       this.resourceContentType = 'Lecture'
     } else if (type === 'application/quiz' || type === 'application/json') {
       this.resourceContentType = 'Assessment'
+    } else if (type === 'application/vnd.ekstep.html-archive' && packageType?.toLowerCase() === HTML_PACKAGE_TYPE) {
+      this.resourceContentType = 'HTML'
     } else if (type === 'application/html' || type === 'application/vnd.ekstep.html-archive') {
       this.resourceContentType = 'Scrom'
     } else if (type === 'application/x-mpegURL' || type === 'video/mp4') {

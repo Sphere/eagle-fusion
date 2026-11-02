@@ -162,7 +162,7 @@ describe('content-player.util', () => {
   })
 
   describe('isHtmlContentPlayerEnabled', () => {
-    const content = { identifier: 'do_a', mimeType: HTML_ARCHIVE_MIME_TYPE }
+    const content = { identifier: 'do_a', mimeType: HTML_ARCHIVE_MIME_TYPE, packageType: 'html' }
     it('uses the new player for listed IDs or mimeTypes only', () => {
       expect(isHtmlContentPlayerEnabled(content, { contentIds: ['do_a'] })).toBe(true)
       expect(isHtmlContentPlayerEnabled(content, { mimeTypes: [HTML_ARCHIVE_MIME_TYPE] })).toBe(true)
@@ -173,6 +173,13 @@ describe('content-player.util', () => {
       expect(isHtmlContentPlayerEnabled(null, { contentIds: ['do_a'] })).toBe(false)
       expect(isHtmlContentPlayerEnabled(content, undefined)).toBe(false)
       expect(isHtmlContentPlayerEnabled({}, { contentIds: ['do_a'], mimeTypes: [HTML_ARCHIVE_MIME_TYPE] })).toBe(false)
+    })
+    it('needs packageType html, so SCORM and untyped packages keep the current player', () => {
+      const all = { contentIds: ['do_a'], mimeTypes: [HTML_ARCHIVE_MIME_TYPE] }
+      expect(isHtmlContentPlayerEnabled({ ...content, packageType: 'HTML' }, all)).toBe(true)
+      expect(isHtmlContentPlayerEnabled({ ...content, packageType: 'scorm' }, all)).toBe(false)
+      expect(isHtmlContentPlayerEnabled({ ...content, packageType: undefined }, all)).toBe(false)
+      expect(isHtmlContentPlayerEnabled({ ...content, packageType: '' }, all)).toBe(false)
     })
   })
 

@@ -82,11 +82,18 @@ export interface IHtmlContentPlayerConfig {
   mimeTypes?: string[]
 }
 
+/** packageType the content API sets on an HTML package; SCORM packages share the html-archive mimeType but not this. */
+export const HTML_PACKAGE_TYPE = 'html'
+
+/**
+ * True when the content is an HTML package (packageType "html") and site config lists its ID or mimeType.
+ * Anything else, SCORM packages included, keeps the current HTML/SCORM player.
+ */
 export function isHtmlContentPlayerEnabled(
-  content: { identifier?: string, mimeType?: string } | null | undefined,
+  content: { identifier?: string, mimeType?: string, packageType?: string } | null | undefined,
   config: IHtmlContentPlayerConfig | null | undefined,
 ): boolean {
-  if (!content || !config) {
+  if (!content || !config || content.packageType?.toLowerCase() !== HTML_PACKAGE_TYPE) {
     return false
   }
   return (!!content.identifier && (config.contentIds ?? []).includes(content.identifier))

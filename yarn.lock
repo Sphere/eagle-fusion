@@ -3288,14 +3288,6 @@
     underscore "*"
     xml2json "*"
 
-"@project-sunbird/telemetry-sdk@0.0.26":
-  version "0.0.26"
-  resolved "https://registry.npmjs.org/@project-sunbird/telemetry-sdk/-/telemetry-sdk-0.0.26.tgz"
-  integrity sha512-8r8tf+YN+z8A4KHBmL8/wxDIKGkASDHMMxyhlI9/iWv83sueoN5qHB6QnqgtIRyEdFjt4Tum5u18/oB71Bb0PQ==
-  dependencies:
-    grunt-karma "^0.12.2"
-    karma "^3.0.0"
-
 "@project-sunbird/telemetry-sdk@1.3.0":
   version "1.3.0"
   resolved "https://registry.npmjs.org/@project-sunbird/telemetry-sdk/-/telemetry-sdk-1.3.0.tgz"

@@ -181,6 +181,21 @@ describe('ViewerTocComponent', () => {
       component.resourceContentTypeFunct(mime)
       expect(component.resourceContentType).toBe(expected)
     })
+
+    it.each([
+      ['html', 'HTML'],
+      ['HTML', 'HTML'],
+      ['scorm', 'Scrom'],
+      [undefined, 'Scrom'],
+    ])('labels html-archive with packageType %s as %s', (packageType, expected) => {
+      component.resourceContentTypeFunct('application/vnd.ekstep.html-archive', packageType)
+      expect(component.resourceContentType).toBe(expected)
+    })
+
+    it('keeps application/html as Scrom even with packageType html', () => {
+      component.resourceContentTypeFunct('application/html', 'html')
+      expect(component.resourceContentType).toBe('Scrom')
+    })
   })
 
   describe('getCollectionTypeRedirectUrl', () => {
