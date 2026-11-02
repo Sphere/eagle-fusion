@@ -2,7 +2,7 @@
 
 .main {
   display: flex;
-  height: calc(100vh - 125px)
+  height: calc(100vh - 125px);
 }
 
 .main .child {
@@ -70,7 +70,8 @@
   color: var(--theme-accent) !important;
   border: 1px solid var(--theme-accent) !important;
 
-  @include ws-mixins.breakpoint-xs {}
+  @include ws-mixins.breakpoint-xs {
+  }
 }
 
 .btn-active {
@@ -78,20 +79,18 @@
   color: #ffffff !important;
 }
 
-
-
 .mat-column-response {
   @include ws-mixins.breakpoint-xs {
     word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 28% !important;
-  width: 28% !important;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    width: 28% !important;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
 }
 
@@ -120,5 +119,51 @@
     background: #000 !important;
     border-color: #000 !important;
     color: var(--theme-text, #ecf3f8) !important;
+  }
+}
+
+// The creator's hint for the learner's chosen option.
+.hint-box {
+  margin-top: 16px;
+  padding: 12px 16px;
+  max-width: 560px;
+  border: 1px solid #b7dfb9;
+  border-radius: 8px;
+  background: #edf7ee;
+  color: #2e6b31;
+  text-align: left;
+}
+
+.hint-box--wrong {
+  border-color: #f3b8b3;
+  background: #fdecea;
+  color: #a12a20;
+}
+
+.hint-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    // Follow the box colour (green or red) rather than the theme's default icon colour.
+    color: inherit;
+  }
+}
+
+.hint-text {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+
+  // The hint is injected HTML, so emulated encapsulation does not reach its <p>.
+  ::ng-deep p {
+    margin: 0;
   }
 }

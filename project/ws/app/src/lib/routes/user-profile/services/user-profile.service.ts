@@ -18,6 +18,28 @@ import {
   IProfileProfessionalDetails,
 } from './user-profile.service.model'
 
+// Tabs and other control characters arrive when a value is pasted from a spreadsheet. A leading tab
+// in regNurseRegMidwifeNumber reached a certificate, RC rendered it into invalid JSON, the signer
+// rejected it and the certificate job crash-looped on that one learner. Trim every text value and
+// turn control characters into spaces; keep newlines, which the multi-line fields (about, address) use.
+// eslint-disable-next-line no-control-regex
+const CONTROL_CHARS = /[\u0000-\u0009\u000B-\u001F\u007F]/g
+export function sanitizeProfileText<T>(value: T): T {
+  if (typeof value === 'string') {
+    return value.replace(CONTROL_CHARS, ' ').trim() as unknown as T
+  }
+  if (Array.isArray(value)) {
+    return value.map(item => sanitizeProfileText(item)) as unknown as T
+  }
+  if (value && typeof value === 'object') {
+    const clean: any = {}
+    Object.keys(value).forEach(key => {
+      clean[key] = sanitizeProfileText((value as any)[key])
+    })
+    return clean
+  }
+  return value
+}
 
 @Injectable()
 export class UserProfileService {
@@ -36,7 +58,7 @@ export class UserProfileService {
   }
 
   updateProfileDetails(data: IUpdateProfileRequest): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.updateProfileWithSourceDetails, data).pipe(
+    return this.http.post<any>(API_END_POINTS.updateProfileWithSourceDetails, sanitizeProfileText(data)).pipe(
       tap((response: any) => {
         this.logger.log('[UserProfileService] Profile updated, clearing all user caches', response)
         this.userDetailsCache.clear()
@@ -53,7 +75,7 @@ export class UserProfileService {
     return this.http.post<[IUserProfileDetails]>(API_END_POINTS.getUserdetails, { email })
   }
   bnrcRegistration(value: IUpdateProfileRequest): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.bnrcRegistration, { value }).pipe(
+    return this.http.post<any>(API_END_POINTS.bnrcRegistration, { value: sanitizeProfileText(value) }).pipe(
       catchError(error => {
         this.logger.error('[UserProfileService] BNRC registration error', error)
         throw error
@@ -82,7 +104,7 @@ export class UserProfileService {
     )
   }
   upsmfRegistration(value: IUpdateProfileRequest): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.upsmfRegistration, { value }).pipe(
+    return this.http.post<any>(API_END_POINTS.upsmfRegistration, { value: sanitizeProfileText(value) }).pipe(
       catchError(error => {
         this.logger.error('[UserProfileService] UPSMF registration error', error)
         throw error
@@ -115,7 +137,7 @@ export class UserProfileService {
     )
   }
   mpRegistration(value: IUpdateProfileRequest): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.mpRegistration, { value }).pipe(
+    return this.http.post<any>(API_END_POINTS.mpRegistration, { value: sanitizeProfileText(value) }).pipe(
       catchError(error => {
         this.logger.error('[UserProfileService] MP registration error', error)
         throw error

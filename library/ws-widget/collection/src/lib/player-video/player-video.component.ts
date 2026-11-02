@@ -18,7 +18,6 @@ import { WidgetContentService } from '../_services/widget-content.service'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-popup-component'
 import { MatDialog } from '@angular/material/dialog'
-import { interval, Subscription } from 'rxjs'
 import 'videojs-markers'
 import { PlaylistService } from '../../../../../../src/app/services/playlist.service'
 
@@ -39,6 +38,25 @@ const videoJsOptions: videoJs.PlayerOptions = {
     nativeTextTracks: false,
   },
   nativeControlsForTouch: false,
+}
+
+/**
+ * `videoQuestions` arrives as a JSON string from the legacy platform but as the saved
+ * array from Sunbird Spark. Anything else yields no questions.
+ */
+export function parseVideoQuestions(raw: unknown): any[] {
+  if (Array.isArray(raw)) {
+    return raw
+  }
+  if (typeof raw !== 'string' || raw.trim() === '') {
+    return []
+  }
+  try {
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
 }
 
 @Component({
@@ -89,7 +107,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     volumechange: 'volumechange',
     loadeddata: 'loadeddata',
   }
-  videoStates: { [videoId: string]: { popupTriggered: any, currentMilestone: any } } = {}
+  videoStates: {
+    [videoId: string]: { popupTriggered: Set<number>, currentMilestone: number | null, lastTime: number, popupOpen: boolean }
+  } = {}
   popupTriggered = false
   isResumeStarted = false
   constructor(
@@ -185,53 +205,59 @@ export class PlayerVideoComponent extends WidgetBaseComponent
    */
   setupVideoQuestionListeners(player: videoJs.Player): void {
     const videoId = player.id() || 'default'
-    this.videoStates[videoId] = {
-      popupTriggered: new Set<number>(), // Track triggered milestones
-      currentMilestone: null,
+    if (this.videoStates[videoId]) {
+      return // Already listening; a second registration would fire every question twice.
     }
-
-    // Handle play event
-    player.on(this.videojsEventNames.play, () => {
-      this.openFullscreen(player) // Open video in fullscreen mode
-      const intervalId = interval(500).subscribe(() => {
-        if (player.isDisposed()) {
-          intervalId.unsubscribe()
-          return
-        }
-        const currentTimeInSeconds = Math.round(player.currentTime())
-        if (this.widgetData.videoQuestions && this.widgetData.videoQuestions.length > 0) {
-          for (const milestone of this.widgetData.videoQuestions) {
-            // Check if popup has already been triggered for this milestone
-            if (
-              currentTimeInSeconds === milestone.timestampInSeconds &&
-              !this.videoStates[videoId].popupTriggered.has(milestone.timestampInSeconds)
-            ) {
-              player.pause()
-              this.logger.log("Popup triggered for milestone:", milestone.timestampInSeconds)
-              this.videoStates[videoId].popupTriggered.add(milestone.timestampInSeconds)
-              this.videoStates[videoId].currentMilestone = milestone.timestampInSeconds
-              this.openPopup(milestone.question, player, intervalId)
-              return // Exit loop after triggering popup
-            }
-          }
-        }
-      })
+    const state = (this.videoStates[videoId] = {
+      popupTriggered: new Set<number>(), // Milestones already shown in this pass
+      currentMilestone: null as number | null,
+      lastTime: 0,
+      popupOpen: false as boolean,
     })
 
-    // Handle timeupdate for user seeking
+    player.on(this.videojsEventNames.play, () => {
+      this.openFullscreen(player) // Open video in fullscreen mode on mobile
+    })
+
+    // A question fires when playback CROSSES its timestamp (previous tick < t <= this tick).
+    // The old check polled every 500ms for an exact rounded second, so at 2x/3x speed the
+    // poll often stepped over it, and each popup re-registered the listener and reset the
+    // record of shown questions, so the same question could reopen.
     player.on('timeupdate', () => {
       if (player.isDisposed()) { return }
-      const currentTimeInSeconds = Math.round(player.currentTime())
-      if (this.widgetData.videoQuestions) {
-        for (const milestone of this.widgetData.videoQuestions) {
-          // Reset popupTriggered if user seeks before the milestone
-          if (currentTimeInSeconds < milestone.timestampInSeconds) {
-            this.videoStates[videoId].popupTriggered.delete(milestone.timestampInSeconds)
-          }
+      const now = player.currentTime()
+      const previous = state.lastTime
+      state.lastTime = now
+      const milestones = this.widgetData.videoQuestions
+      if (!Array.isArray(milestones) || milestones.length === 0) { return }
+      for (const milestone of milestones) {
+        // Seeking back before a question shows it again on the next pass.
+        if (now < Number(milestone.timestampInSeconds)) {
+          state.popupTriggered.delete(Number(milestone.timestampInSeconds))
         }
+      }
+      // A jump of more than a few seconds is a seek (or the resume point), not playback.
+      const isPlayback = now >= previous && now - previous <= PlayerVideoComponent.MAX_PLAYBACK_STEP
+      if (state.popupOpen || !isPlayback) { return }
+      const due = milestones.find((milestone: any) => {
+        const at = Number(milestone.timestampInSeconds)
+        return at > previous && at <= now && !state.popupTriggered.has(at)
+          && Array.isArray(milestone.question) && milestone.question.length > 0
+      })
+      if (due) {
+        const at = Number(due.timestampInSeconds)
+        player.pause()
+        this.logger.log('Popup triggered for milestone:', at)
+        state.popupTriggered.add(at)
+        state.currentMilestone = at
+        state.popupOpen = true
+        this.openPopup(due.question, player, videoId)
       }
     })
   }
+
+  /** Largest gap between two timeupdate ticks that still counts as playback (3x speed ~1s). */
+  private static readonly MAX_PLAYBACK_STEP = 3
 
   openFullscreen(player: videoJs.Player): void {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -246,22 +272,30 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     })
 
   }
-  openPopup(questions: any, videoElement: videoJs.Player, intervalId: Subscription): void {
+  openPopup(questions: any, videoElement: videoJs.Player, videoId?: string): void {
     const confirmdialog = this.dialog.open(PlayerVideoPopupComponent, {
-      width: '600px',
+      width: '640px',
+      maxWidth: 'calc(100vw - 32px)',
+      autoFocus: 'first-tabbable',
+      ariaLabelledBy: 'vq-title',
       data: { questions },
       panelClass: 'quiz-modal-container',
     })
 
+    const resume = () => {
+      if (videoId && this.videoStates[videoId]) {
+        this.videoStates[videoId].popupOpen = false
+      }
+      videoElement.play()
+      this.onTimeUpdate()
+    }
     if (confirmdialog) {
       confirmdialog.afterClosed().subscribe(() => {
-        this.logger.log("Popup closed")
-        this.dialog.closeAll()
-        videoElement.play()
-        intervalId.unsubscribe() // Stop the current interval
-        this.setupVideoQuestionListeners(videoElement) // Resume the listener using existing player
-        this.onTimeUpdate()
+        this.logger.log('Popup closed')
+        resume()
       })
+    } else {
+      resume()
     }
   }
 
@@ -507,16 +541,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         const videoQuestions = content.result.content.videoQuestions
         this.logger.log("videoQuestions", videoQuestions)
 
-        if (videoQuestions.length > 0) {
-          try {
-            this.widgetData.videoQuestions = JSON.parse(videoQuestions)
-          } catch (error) {
-            this.logger.error("Error parsing videoQuestions JSON:", error)
-            this.widgetData.videoQuestions = []
-          }
-        } else {
-          this.widgetData.videoQuestions = []
-        }
+        // Spark returns the saved array as-is; the legacy platform returned a JSON string.
+        // JSON.parse on an array threw, so learners silently lost every question.
+        this.widgetData.videoQuestions = parseVideoQuestions(videoQuestions)
       }
 
       this.logger.log("this.widgetData.videoQuestions", this.widgetData.videoQuestions)
