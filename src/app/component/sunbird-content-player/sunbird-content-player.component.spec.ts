@@ -187,7 +187,8 @@ describe('SunbirdContentPlayerComponent', () => {
     let events: any[]
     let originalSend: jest.Mock
     const packageFrame = { name: 'package-window' }
-    const message = (data: any, source: any) => window.dispatchEvent(new MessageEvent('message', { data, source }))
+    const message = (data: any, source: any, origin = 'https://content.example.org') =>
+      window.dispatchEvent(new MessageEvent('message', { data, source, origin }))
     const packageEvent = { type: 'html-archive:telemetry', event: { type: 'PROGRESS', id: 'p', extra: { pct: 27 } } }
 
     beforeEach(() => {
@@ -266,7 +267,7 @@ describe('SunbirdContentPlayerComponent', () => {
       component.resumeState = { si: 1 }
       component.onPreviewLoad()
       message({ type: 'html-archive:telemetry', event: { type: 'MODULE_START', extra: {} } }, pkgWindow)
-      expect(postMessage).toHaveBeenCalledWith({ type: 'html-archive:resume', state: { si: 1 } }, '*')
+      expect(postMessage).toHaveBeenCalledWith({ type: 'html-archive:resume', state: { si: 1 } }, 'https://content.example.org')
       message({ type: 'html-archive:telemetry', event: { type: 'MODULE_START', extra: {} } }, pkgWindow)
       expect(postMessage).toHaveBeenCalledTimes(1)
     })
@@ -280,7 +281,18 @@ describe('SunbirdContentPlayerComponent', () => {
       expect(postMessage).not.toHaveBeenCalled()
       component.resumeState = { si: 2 }
       component.ngOnChanges({ resumeState: new SimpleChange(null, { si: 2 }, false) })
-      expect(postMessage).toHaveBeenCalledWith({ type: 'html-archive:resume', state: { si: 2 } }, '*')
+      expect(postMessage).toHaveBeenCalledWith({ type: 'html-archive:resume', state: { si: 2 } }, 'https://content.example.org')
+    })
+
+    it.each(['', 'null'])('does not send the position to a package with origin %p', origin => {
+      const postMessage = jest.fn()
+      const pkgWindow: any = { postMessage }
+      playerWindow.frames = { length: 1, 0: pkgWindow }
+      component.resumeState = { si: 1 }
+      component.onPreviewLoad()
+      message({ type: 'html-archive:telemetry', event: { type: 'MODULE_START', extra: {} } }, pkgWindow, origin)
+      expect(postMessage).not.toHaveBeenCalled()
+      expect(logger.warn).toHaveBeenCalled()
     })
 
     it('resends after a relaunch with new content', () => {

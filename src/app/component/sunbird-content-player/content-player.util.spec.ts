@@ -48,6 +48,18 @@ describe('content-player.util', () => {
       expect(resolveArchiveLocation(undefined, id)).toBeNull()
       expect(resolveArchiveLocation('/c/html/x-latest', '../x')).toBeNull()
     })
+
+    it('strips a run of trailing slashes, after index.html too, and keeps inner ones', () => {
+      expect(resolveArchiveLocation('https://cdn.example.org//content/html/do_123-latest///index.html', id)?.s3ContentHost)
+        .toBe('https://cdn.example.org//content/')
+      expect(resolveArchiveLocation('/c/html/do_123-latest' + '/'.repeat(5), id)?.status).toBe('Live')
+    })
+
+    it('handles a very long run of slashes in linear time', () => {
+      const started = Date.now()
+      expect(resolveArchiveLocation('/' + '/'.repeat(100000) + 'x', id)).toBeNull()
+      expect(Date.now() - started).toBeLessThan(500)
+    })
   })
 
   describe('whiteListFor', () => {

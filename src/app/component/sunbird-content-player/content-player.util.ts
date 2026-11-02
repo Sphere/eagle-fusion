@@ -147,6 +147,8 @@ export function resolveContentLocation(
   return null
 }
 
+const INDEX_PAGE_SUFFIX = '/index.html'
+
 /**
  * Splits a Sunbird streamingUrl (".../html/<id>-latest") into the host prefix the player expects.
  * Returns null when the URL does not follow that layout, because the player cannot be pointed at it.
@@ -155,7 +157,16 @@ export function resolveArchiveLocation(streamingUrl: string | null | undefined, 
   if (!streamingUrl || !isSafeIdentifier(identifier)) {
     return null
   }
-  const clean = streamingUrl.trim().replace(/\/index\.html$/, '').replace(/\/+$/, '')
+  // String ops, not /\/+$/: that regex backtracks quadratically on a long run of slashes.
+  let clean = streamingUrl.trim()
+  if (clean.endsWith(INDEX_PAGE_SUFFIX)) {
+    clean = clean.slice(0, -INDEX_PAGE_SUFFIX.length)
+  }
+  let end = clean.length
+  while (end > 0 && clean[end - 1] === '/') {
+    end--
+  }
+  clean = clean.slice(0, end)
   const suffixLatest = `html/${identifier}-latest`
   const suffixSnapshot = `html/${identifier}-snapshot`
   if (clean.endsWith(`/${suffixLatest}`)) {

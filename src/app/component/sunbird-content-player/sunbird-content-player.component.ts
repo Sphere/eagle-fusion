@@ -9,7 +9,7 @@ import {
   normalizePackageMessage, normalizePlayerEvent, resolveContentLocation,
 } from './content-player.util'
 
-const PREVIEW_PAGE = new URL(CONTENT_PLAYER_PREVIEW_PATH, 'http://x').pathname
+const PREVIEW_PAGE = CONTENT_PLAYER_PREVIEW_PATH.split('?')[0]
 
 export type TPlayerStatus = 'loading' | 'ready' | 'error'
 
@@ -69,6 +69,8 @@ export class SunbirdContentPlayerComponent implements OnChanges, OnDestroy {
   private fitPending = false
   private fitTimers: ReturnType<typeof setTimeout>[] = []
   private packageWindow: MessageEventSource | null = null
+  /** Origin of the package frame, from its MODULE_START; the resume message is posted only to it. */
+  private packageOrigin = ''
   private resumeSent = false
 
   constructor(
@@ -88,6 +90,7 @@ export class SunbirdContentPlayerComponent implements OnChanges, OnDestroy {
     if (changes.metadata && this.previewLoaded) {
       this.resumeSent = false
       this.packageWindow = null
+      this.packageOrigin = ''
       this.launch()
     }
     if (changes.resumeState) {
@@ -281,6 +284,7 @@ export class SunbirdContentPlayerComponent implements OnChanges, OnDestroy {
     const event = normalizePackageMessage(message.data)
     if (event?.eid === 'MODULE_START') {
       this.packageWindow = message.source
+      this.packageOrigin = message.origin
       this.sendResumeIfReady()
     }
     this.emitTelemetry(event)
@@ -291,8 +295,13 @@ export class SunbirdContentPlayerComponent implements OnChanges, OnDestroy {
     if (this.resumeSent || !this.resumeState || !this.packageWindow) {
       return
     }
+    // An opaque origin ('null', e.g. a sandboxed frame) cannot be targeted, and '*' would leak the position.
+    if (!this.packageOrigin || this.packageOrigin === 'null') {
+      this.logger.warn('content-player: package origin unknown, resume position not sent')
+      return
+    }
     this.resumeSent = true
-    ;(this.packageWindow as Window).postMessage({ type: HTML_ARCHIVE_RESUME_MESSAGE, state: this.resumeState }, '*')
+    ;(this.packageWindow as Window).postMessage({ type: HTML_ARCHIVE_RESUME_MESSAGE, state: this.resumeState }, this.packageOrigin)
   }
 
   /** True for the player window or any frame nested in it (the package iframe). */
