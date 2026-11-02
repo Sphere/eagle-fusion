@@ -61,6 +61,7 @@ export class ConfirmmodalComponent implements OnInit {
         this.logger.log("Review:", firstContent.review)
 
         this.selectedRating = firstContent.rating
+        this.updateDialogHeight()
         if (firstContent.rating <= 3 && !firstContent.review) {
           this.isMandatory = true
         }
@@ -77,9 +78,15 @@ export class ConfirmmodalComponent implements OnInit {
   redirect() {
     this.dialogRef.close({ event: 'CONFIRMED' })
   }
+  /** The emoji block makes the content taller than the 420px callers open with; let the dialog grow instead of scrolling */
+  private updateDialogHeight() {
+    this.dialogRef.updateSize('300px', this.selectedRating ? 'auto' : '420px')
+  }
+
   setRating(rating: number) {
     this.logger.log(rating)
     this.selectedRating = rating
+    this.updateDialogHeight()
     this.logger.log("rating:", rating, this.ratingsForm.controls.review.value)
     if (rating <= 3 && (this.ratingsForm.controls.review.value === '' || this.ratingsForm.controls.review.value === null)) {
       this.isMandatory = true

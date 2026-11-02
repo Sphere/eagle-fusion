@@ -82,6 +82,42 @@ describe('WidgetContentService', () => {
     req.flush({ result: { courses: ['course1'] } })
   })
 
+  it('fetchCompetencyCertificateStatus sends only userId when no competencyId is given', () => {
+    let result: any[] | undefined
+    service.fetchCompetencyCertificateStatus('u1').subscribe(r => result = r)
+    const req = httpMock.expectOne(API_END_POINTS.COMPETENCY_CERTIFICATE_STATUS)
+    expect(req.request.method).toBe('POST')
+    expect(req.request.body).toEqual({ request: { filters: { userId: 'u1' } } })
+    req.flush({ result: [{ competencyId: '1' }] })
+    expect(result).toEqual([{ competencyId: '1' }])
+  })
+
+  it('fetchCompetencyCertificateStatus adds competencyId when given', () => {
+    let result: any[] | undefined
+    service.fetchCompetencyCertificateStatus('u1', '102').subscribe(r => result = r)
+    const req = httpMock.expectOne(API_END_POINTS.COMPETENCY_CERTIFICATE_STATUS)
+    expect(req.request.body).toEqual({ request: { filters: { userId: 'u1', competencyId: '102' } } })
+    req.flush({ result: null })
+    expect(result).toEqual([])
+  })
+
+  it('fetchCompetencyCertificate sends userId and competencyId and returns the first result', () => {
+    let result: any
+    service.fetchCompetencyCertificate('u1', '102').subscribe(r => result = r)
+    const req = httpMock.expectOne(API_END_POINTS.COMPETENCY_CERTIFICATE_DOWNLOAD)
+    expect(req.request.method).toBe('POST')
+    expect(req.request.body).toEqual({ request: { filters: { userId: 'u1', competencyId: '102' } } })
+    req.flush({ result: [{ competencyId: '102', certificateUrl: 'u' }] })
+    expect(result).toEqual({ competencyId: '102', certificateUrl: 'u' })
+  })
+
+  it('fetchCompetencyCertificate returns null without a result', () => {
+    let result: any = 'unset'
+    service.fetchCompetencyCertificate('u1', '102').subscribe(r => result = r)
+    httpMock.expectOne(API_END_POINTS.COMPETENCY_CERTIFICATE_DOWNLOAD).flush({ result: [] })
+    expect(result).toBeNull()
+  })
+
   it('fetchGeneralAndRcCertificates should GET', () => {
     service.fetchGeneralAndRcCertificates().subscribe()
     const req = httpMock.expectOne(API_END_POINTS.FETCH_GENERAL_RC_CERTIFICATE())

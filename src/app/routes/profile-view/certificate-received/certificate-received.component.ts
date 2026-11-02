@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { TranslateService } from '@ngx-translate/core'
 import * as FileSaver from 'file-saver'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 @Component({
@@ -10,7 +12,11 @@ import { LoggerService } from '../../../../../library/ws-widget/utils/src/public
 })
 export class CertificateReceivedComponent {
   @Input() certificateData?: any
-  constructor(private readonly logger: LoggerService) { }
+  constructor(
+    private readonly logger: LoggerService,
+    private readonly snackBar: MatSnackBar,
+    private readonly translate: TranslateService,
+  ) { }
 
   convertToJpeg(imgVal: any) {
     if (imgVal.rcCerticate) {
@@ -33,6 +39,10 @@ export class CertificateReceivedComponent {
         .catch(error => {
           this.logger.error('Image download failed:', error)
         })
+    } else if (!imgVal.printUri) {
+      // The certificate download failed when the list loaded (e.g. certreg returned 500), so
+      // there is nothing to save. Say so instead of silently loading an undefined image.
+      this.snackBar.open(this.translate.instant('We could not load your certificate'), undefined, { duration: 3000 })
     } else {
       const img = new Image()
       const url = imgVal.printUri

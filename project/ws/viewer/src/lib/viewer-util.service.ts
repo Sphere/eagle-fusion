@@ -236,7 +236,11 @@ export class ViewerUtilService {
       ? Number.parseFloat(request.current[0] || '0')
       : request.current
     // **CRITICAL**: Status code for API (2 = completed when 100%)
-    const statusCode = percentage === 100 ? 2 : this.getStatus(currentNumeric, request.max_size, request.mime_type)
+    // `statusOverride` (opt-in; only the HTML content player sends it): getStatus() treats every html-archive
+    // (ZIP) update as completed, which would mark a 20% milestone as done.
+    const statusCode = percentage === 100
+      ? 2
+      : (request.statusOverride ?? this.getStatus(currentNumeric, request.max_size, request.mime_type))
 
     // **CRITICAL**: For telemetry, pass statusCode (0=not started, 1=in progress, 2=completed)
     // batchId is passed along to ensure it's included in telemetry extras
@@ -252,6 +256,8 @@ export class ViewerUtilService {
             courseId: checkCollectionId ? checkCollectionId : collectionId,
             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
             progressdetails: {
+              // extra fields a player wants back on resume (the HTML content player's `htmlState`)
+              ...(request.progressdetails || {}),
               max_size: request.max_size,
               current: request.current,
               mimeType: request.mime_type,

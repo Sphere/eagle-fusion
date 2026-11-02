@@ -110,6 +110,8 @@ export const API_END_POINTS = {
   UPDATE_ASHA_PROGRESS: `${PROTECTED_SLAG_V8}/learnerpath`,
   BATCH_CERT_ISSUE: `${PROXY_SLAG_V8}/course/batch/cert/v1/issue/`,
   DOWNLOAD_CERTIFICATE: (certificateId: string) => `${PROXY_SLAG_V8}/certreg/v2/certs/download/${certificateId}`,
+  COMPETENCY_CERTIFICATE_STATUS: `${PUBLIC_SLAG_V8}/mobileApp/kong/user/certificate/competency/status`,
+  COMPETENCY_CERTIFICATE_DOWNLOAD: `${PUBLIC_SLAG_V8}/mobileApp/kong/user/certificate/competency/download`,
   FETCH_USER_ENROLLMENT_LIST_CERT: (userId: string | undefined) =>
     `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license,sourceName,issueCertification,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
   FETCH_USER_ENROLLMENT_LIST_V2: (userId: string | undefined, orgdetails: string, licenseDetails: string, fields: string, batchDetails: string) =>

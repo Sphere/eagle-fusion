@@ -10,10 +10,14 @@ import { CertificateReceivedComponent } from './certificate-received.component'
 describe('CertificateReceivedComponent', () => {
   let component: CertificateReceivedComponent
   let mockLogger: any
+  let mockSnackBar: any
+  let mockTranslate: any
 
   beforeEach(() => {
     mockLogger = { log: jest.fn(), error: jest.fn() }
-    component = new CertificateReceivedComponent(mockLogger)
+    mockSnackBar = { open: jest.fn() }
+    mockTranslate = { instant: jest.fn((key: string) => key) }
+    component = new CertificateReceivedComponent(mockLogger, mockSnackBar, mockTranslate)
     // jsdom doesn't respect the `download` attribute and attempts a real (deferred)
     // navigation on anchor.click(), logging a "Not implemented: navigation" error.
     jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => { })
@@ -31,6 +35,19 @@ describe('CertificateReceivedComponent', () => {
     expect(() => component.convertToJpeg({
       rcCerticate: false, printUri: '', name: 'Test Certificate',
     })).not.toThrow()
+  })
+
+  it('should tell the learner when a general certificate has no printUri', () => {
+    const imageSrc = jest.spyOn(Image.prototype, 'src', 'set')
+    component.convertToJpeg({ rcCerticate: false, name: 'Normal Labour' })
+    expect(mockSnackBar.open).toHaveBeenCalledWith('We could not load your certificate', undefined, { duration: 3000 })
+    expect(imageSrc).not.toHaveBeenCalled()
+    imageSrc.mockRestore()
+  })
+
+  it('should not show the error when a general certificate has a printUri', () => {
+    component.convertToJpeg({ rcCerticate: false, printUri: 'data:image/svg+xml;base64,AA==', name: 'Cert' })
+    expect(mockSnackBar.open).not.toHaveBeenCalled()
   })
 
   it('should call fetch when rcCerticate is truthy', () => {
