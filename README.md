@@ -26,20 +26,20 @@ yarn start
 
 ## Commands
 
-| Command | Description |
-|---|---|
-| `yarn start` | Dev server on `:3000`, proxied to **Sphere** |
-| `yarn start:ekshamata` | Dev server on `:3000`, proxied to **Ekshamata** ([see below](#running-sphere-vs-ekshamata-locally)) |
-| `yarn run build` | Production build (gzip + brotli compressed) |
-| `yarn run build:local` | Production build without compression |
-| `yarn run build:fast` | Dev build with vendor chunk (faster iteration) |
-| `yarn test` | Jest single run |
-| `yarn run test-watch` | Jest watch mode |
-| `yarn run test-coverage` | Jest with coverage report |
-| `yarn run lint` | ESLint check |
-| `yarn run lint:fix` | ESLint auto-fix |
-| `yarn run tailwind` | Watch TailwindCSS and recompile |
-| `yarn run tailwind:build` | One-time TailwindCSS build |
+| Command                   | Description                                                                                         |
+| ------------------------- | --------------------------------------------------------------------------------------------------- |
+| `yarn start`              | Dev server on `:3000`, proxied to **Sphere**                                                        |
+| `yarn start:ekshamata`    | Dev server on `:3000`, proxied to **Ekshamata** ([see below](#running-sphere-vs-ekshamata-locally)) |
+| `yarn run build`          | Production build (gzip + brotli compressed)                                                         |
+| `yarn run build:local`    | Production build without compression                                                                |
+| `yarn run build:fast`     | Dev build with vendor chunk (faster iteration)                                                      |
+| `yarn test`               | Jest single run                                                                                     |
+| `yarn run test-watch`     | Jest watch mode                                                                                     |
+| `yarn run test-coverage`  | Jest with coverage report                                                                           |
+| `yarn run lint`           | ESLint check                                                                                        |
+| `yarn run lint:fix`       | ESLint auto-fix                                                                                     |
+| `yarn run tailwind`       | Watch TailwindCSS and recompile                                                                     |
+| `yarn run tailwind:build` | One-time TailwindCSS build                                                                          |
 
 ---
 
@@ -117,28 +117,28 @@ See [docs/ROOT_COMPONENT.md](docs/ROOT_COMPONENT.md) for the full bootstrapping 
 
 ### Key Services
 
-| Service | Location | Responsibility |
-|---|---|---|
-| `ConfigurationsService` | `@ws-widget/utils` | User profile, locale, feature flags — global state |
-| `ValueService` | `@ws-widget/utils` | Responsive breakpoints; `isMobile()` signal, `isXSmall$` observable |
-| `InitService` | `src/app/services/` | Auth init, config fetch, user data loading at startup |
-| `ThemeService` | `src/app/services/` | Dark/light mode toggle, org color variables (signal-based) |
-| `SeoService` | `src/app/services/` | Updates page title, meta tags, OG tags on every navigation |
-| `PlaylistService` | `src/app/services/` | Fetches home page config, org details, footer config |
-| `DowntimeConfigService` | `src/app/services/` | Maintenance windows and theme overrides |
-| `UserDataCacheService` | `src/app/services/` | Session-storage cache for user profile (6-hour TTL) |
-| `TelemetryService` | `@ws-widget/utils` | Impression, audit, event tracking (Sunbird telemetry) |
-| `AuthKeycloakService` | `@ws-widget/utils` | Keycloak SSO authentication |
+| Service                 | Location            | Responsibility                                                      |
+| ----------------------- | ------------------- | ------------------------------------------------------------------- |
+| `ConfigurationsService` | `@ws-widget/utils`  | User profile, locale, feature flags — global state                  |
+| `ValueService`          | `@ws-widget/utils`  | Responsive breakpoints; `isMobile()` signal, `isXSmall$` observable |
+| `InitService`           | `src/app/services/` | Auth init, config fetch, user data loading at startup               |
+| `ThemeService`          | `src/app/services/` | Dark/light mode toggle, org color variables (signal-based)          |
+| `SeoService`            | `src/app/services/` | Updates page title, meta tags, OG tags on every navigation          |
+| `PlaylistService`       | `src/app/services/` | Fetches home page config, org details, footer config                |
+| `DowntimeConfigService` | `src/app/services/` | Maintenance windows and theme overrides                             |
+| `UserDataCacheService`  | `src/app/services/` | Session-storage cache for user profile (6-hour TTL)                 |
+| `TelemetryService`      | `@ws-widget/utils`  | Impression, audit, event tracking (Sunbird telemetry)               |
+| `AuthKeycloakService`   | `@ws-widget/utils`  | Keycloak SSO authentication                                         |
 
 ### Path Aliases (tsconfig.json)
 
-| Alias | Resolves to |
-|---|---|
-| `@ws-widget/collection` | `library/ws-widget/collection` |
-| `@ws-widget/utils` | `library/ws-widget/utils` |
-| `@ws-widget/resolver` | `library/ws-widget/resolver` |
-| `@ws/app` | `project/ws/app/src/public-api` |
-| `@ws/viewer` | `project/ws/viewer` |
+| Alias                   | Resolves to                     |
+| ----------------------- | ------------------------------- |
+| `@ws-widget/collection` | `library/ws-widget/collection`  |
+| `@ws-widget/utils`      | `library/ws-widget/utils`       |
+| `@ws-widget/resolver`   | `library/ws-widget/resolver`    |
+| `@ws/app`               | `project/ws/app/src/public-api` |
+| `@ws/viewer`            | `project/ws/viewer`             |
 
 ---
 
@@ -157,9 +157,9 @@ See [docs/ROOT_COMPONENT.md](docs/ROOT_COMPONENT.md) for the full bootstrapping 
 ### SCSS
 
 ```scss
-@import 'ws-vars';    // $size-* spacing, $color-* palette
-@import 'ws-mixins';  // @include breakpoint-xs, breakpoint-s, breakpoint-gt-xs
-@import 'ws-common';  // shared utility classes
+@import 'ws-vars'; // $size-* spacing, $color-* palette
+@import 'ws-mixins'; // @include breakpoint-xs, breakpoint-s, breakpoint-gt-xs
+@import 'ws-common'; // shared utility classes
 ```
 
 ### Mobile vs Desktop
@@ -184,10 +184,10 @@ See [docs/ROOT_COMPONENT.md](docs/ROOT_COMPONENT.md) for the full bootstrapping 
 
 The app renders two distinct UI branches detected at runtime from `window.location.hostname`:
 
-| Domain | Branch | Layout |
-|---|---|---|
-| `sphere.aastrika.org` (default) | Sphere | Full layout: public nav, featured courses, footer |
-| `*.ekshamata.*` | Ekshamata | Simplified layout: logged-in nav only, no public featured section |
+| Domain                          | Branch    | Layout                                                            |
+| ------------------------------- | --------- | ----------------------------------------------------------------- |
+| `sphere.aastrika.org` (default) | Sphere    | Full layout: public nav, featured courses, footer                 |
+| `*.ekshamata.*`                 | Ekshamata | Simplified layout: logged-in nav only, no public featured section |
 
 ### Running Sphere vs Ekshamata locally
 
@@ -212,11 +212,11 @@ yarn start:ekshamata
 
 The `?portal=` value is stored in `localStorage` (`devPortalHost`), so pass it once and browse normally afterwards.
 
-| Param | Effect |
-|---|---|
-| `?portal=ekshamata` | Treat the app as `ekshamata.aastrika.org` |
-| `?portal=sphere` | Treat the app as `sphere.aastrika.org` |
-| `?portal=reset` | Clear the override, fall back to the real hostname |
+| Param               | Effect                                             |
+| ------------------- | -------------------------------------------------- |
+| `?portal=ekshamata` | Treat the app as `ekshamata.aastrika.org`          |
+| `?portal=sphere`    | Treat the app as `sphere.aastrika.org`             |
+| `?portal=reset`     | Clear the override, fall back to the real hostname |
 
 **Gotcha:** the two halves are independent. Running `yarn start` while the `?portal=ekshamata` override is still set renders Ekshamata's layout over Sphere's content — it looks like a bug but isn't. Always pair the command with the matching param.
 
@@ -229,10 +229,10 @@ The `?portal=` value is stored in `localStorage` (`devPortalHost`), so pass it o
 Config is fetched from `/apis/...` at app init. Access via `ConfigurationsService`:
 
 ```typescript
-configSvc.activeLocale        // current language
-configSvc.userPreference      // user's saved preferences
-configSvc.isIntranetAllowed   // intranet content visibility
-configSvc.isAuthenticated     // authentication state
+configSvc.activeLocale // current language
+configSvc.userPreference // user's saved preferences
+configSvc.isIntranetAllowed // intranet content visibility
+configSvc.isAuthenticated // authentication state
 ```
 
 ---
@@ -241,9 +241,9 @@ configSvc.isAuthenticated     // authentication state
 
 Two proxy files route API calls during local development — one per portal:
 
-| File | Used by | `/apis/**` and `/assets/**` target |
-|---|---|---|
-| `proxy/localhost.proxy.json` | `yarn start` | `https://sphere.aastrika.org` (hardcoded auth cookie — update when it expires) |
+| File                         | Used by                | `/apis/**` and `/assets/**` target                                                |
+| ---------------------------- | ---------------------- | --------------------------------------------------------------------------------- |
+| `proxy/localhost.proxy.json` | `yarn start`           | `https://sphere.aastrika.org` (hardcoded auth cookie — update when it expires)    |
 | `proxy/ekshamata.proxy.json` | `yarn start:ekshamata` | `https://ekshamata.aastrika.org` (hardcoded auth cookie — update when it expires) |
 
 Both route the local service paths identically (`/content-api/**` → `:3004`, `/content-store/**` → `:3005`, `/chat-bot/**` → `:3006`, `/mobile-apps/**` → `:3007`, `/LA/**` → `:3008`).
@@ -263,16 +263,16 @@ Both route the local service paths identically (`/content-api/**` → `:3004`, `
 
 ## Third-Party Integrations
 
-| Integration | Package | Purpose |
-|---|---|---|
-| Keycloak SSO | `keycloak-angular` | Authentication |
-| Sunbird | `@project-sunbird/client-services` | LMS content APIs |
-| Telemetry | `@project-sunbird/telemetry-sdk` | Event tracking |
-| Competency framework | `@aastrika_npmjs/comptency` | Competency assessment UI |
-| Discussion forum | `@aastrika_npmjs/discussions-ui-v8` | Forum/chat |
-| Micro surveys | `@sunbird-cb/micro-surveys` | Feedback collection |
-| Capacitor | `@capacitor/*` | Native mobile app wrapper |
-| FreshChat | `window.fcWidget` (CDN) | Live chat support widget |
+| Integration          | Package                             | Purpose                   |
+| -------------------- | ----------------------------------- | ------------------------- |
+| Keycloak SSO         | `keycloak-angular`                  | Authentication            |
+| Sunbird              | `@project-sunbird/client-services`  | LMS content APIs          |
+| Telemetry            | `telemetry.min.js`                  | Event tracking            |
+| Competency framework | `@aastrika_npmjs/comptency`         | Competency assessment UI  |
+| Discussion forum     | `@aastrika_npmjs/discussions-ui-v8` | Forum/chat                |
+| Micro surveys        | `@sunbird-cb/micro-surveys`         | Feedback collection       |
+| Capacitor            | `@capacitor/*`                      | Native mobile app wrapper |
+| FreshChat            | `window.fcWidget` (CDN)             | Live chat support widget  |
 
 ---
 

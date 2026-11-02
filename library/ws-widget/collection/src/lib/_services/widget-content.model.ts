@@ -15,6 +15,8 @@ export namespace NsContent {
 
   export interface IContent {
     platform?: any
+    /** Set by the content API on HTML packages ("html"); SCORM packages share the html-archive mimeType but not this */
+    packageType?: string
     addedOn: string
     appIcon: string
     artifactUrl: string
@@ -211,6 +213,7 @@ export namespace NsContent {
 
   export interface IContentMinimal {
     appIcon: string
+    packageType?: string
     artifactUrl: string
     complexityLevel: string
     contentType: EContentTypes
