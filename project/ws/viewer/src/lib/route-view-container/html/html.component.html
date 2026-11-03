@@ -10,7 +10,8 @@
               [ngClass]="{ 'video-player': htmlData?.isIframeSupported.toLowerCase() !== 'no', 'content-player-box': useContentPlayer }">
               <div class="videoContent">
                 @if (useContentPlayer) {
-                  <ws-app-sunbird-content-player [metadata]="htmlData" [resumeState]="resumeState" (telemetry)="onContentTelemetry($event)">
+                  <ws-app-sunbird-content-player [metadata]="htmlData" [resumeState]="resumeState" (telemetry)="onContentTelemetry($event)"
+                    (contentEnd)="onContentEnd()">
                   </ws-app-sunbird-content-player>
                 } @else {
                   <viewer-plugin-html [htmlContent]="htmlData">
@@ -41,7 +42,8 @@
 </div>
 <div class="full-height-width-iframe" *ngIf="!isNotEmbed">
   @if (useContentPlayer) {
-    <ws-app-sunbird-content-player [metadata]="htmlData" [resumeState]="resumeState" (telemetry)="onContentTelemetry($event)">
+    <ws-app-sunbird-content-player [metadata]="htmlData" [resumeState]="resumeState" (telemetry)="onContentTelemetry($event)"
+      (contentEnd)="onContentEnd()">
     </ws-app-sunbird-content-player>
   } @else {
     <viewer-plugin-html [htmlContent]="htmlData" class="tet"></viewer-plugin-html>
