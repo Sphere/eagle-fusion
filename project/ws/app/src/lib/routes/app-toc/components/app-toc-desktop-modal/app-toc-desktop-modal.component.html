@@ -7,8 +7,8 @@
       {{content?.content?.creatorDetails[0]?.name }}
     </div>
     <div class="details-date"
-      *ngIf="content?.tocConfig.atAGlance?.lastUpdatedOn?.enabled && content?.content.lastUpdatedOn">
-      <span>{{'Last updated on' | translate}}</span>: {{ content?.content.lastUpdatedOn | date }}
+      *ngIf="content?.tocConfig.atAGlance?.lastUpdatedOn?.enabled && (content?.content.lastPublishedOn || content?.content.lastUpdatedOn)">
+      <span>{{'Last updated on' | translate}}</span>: {{ (content?.content.lastPublishedOn || content?.content.lastUpdatedOn) | date }}
     </div>
   </ng-container>
 

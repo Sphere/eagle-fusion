@@ -276,7 +276,7 @@ describe('LearningComponent', () => {
         has: (key: string) => key === 'q',
         getAll: () => [],
       })
-      expect(component.searchRequestObject.request.sort_by.lastUpdatedOn).toBe('')
+      expect(component.searchRequestObject.request.sort_by.lastPublishedOn).toBe('')
     })
   })
 

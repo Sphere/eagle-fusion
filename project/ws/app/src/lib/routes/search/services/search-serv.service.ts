@@ -82,7 +82,7 @@ export class SearchServService {
         },
       },
       query: request.query || '',
-      sort: [{ lastUpdatedOn: 'desc' }],
+      sort: [{ lastPublishedOn: 'desc' }],
     }
     if (request.language) {
       v7Request.request.filters.lang = request.language
@@ -97,7 +97,7 @@ export class SearchServService {
         query: request.request.query,
         filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'], lang: request.request.filters.lang ? request.request.filters.lang : undefined } : request.request.filters,
         sort_by: {
-          lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
+          lastPublishedOn: request.request.sort_by.lastPublishedOn,
         },
         facets: Object.keys(this.searchConfig?.search?.visibleFilters || {}),
         fields: request.request.fields,

@@ -15,7 +15,7 @@ export interface ISearchRequest {
   instanceCatalog?: boolean
   pageNo?: number
   pageSize?: number
-  // sortBy?: 'lastUpdatedOn'
+  // sortBy?: 'lastPublishedOn'
   // sortOrder?: 'ASC' | 'DESC'
   sort?: { [sortType: string]: 'asc' | 'desc' }[]
   locale?: string[]
@@ -255,7 +255,7 @@ export interface ISearchRequestV2 {
   request: {
     filters: Record<string, any>,
     query: string,
-    sort_by: { lastUpdatedOn: string },
+    sort_by: { lastPublishedOn: string },
     fields: [
     ],
     facets: string[]

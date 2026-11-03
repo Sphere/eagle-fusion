@@ -144,7 +144,7 @@ describe('SearchServService', () => {
     it('should build request when query present', () => {
       searchApiMock.getSearchV6Results.mockReturnValue(of({}))
       const request: any = {
-        request: { query: 'abc', filters: { lang: 'en' }, sort_by: { lastUpdatedOn: 'desc' }, fields: [] },
+        request: { query: 'abc', filters: { lang: 'en' }, sort_by: { lastPublishedOn: 'desc' }, fields: [] },
       }
       service.searchV6Wrapper(request)
       const arg = searchApiMock.getSearchV6Results.mock.calls[0][0]
@@ -155,7 +155,7 @@ describe('SearchServService', () => {
     it('should use raw filters when no query', () => {
       searchApiMock.getSearchV6Results.mockReturnValue(of({}))
       const request: any = {
-        request: { query: '', filters: { foo: ['bar'] }, sort_by: { lastUpdatedOn: 'desc' }, fields: [] },
+        request: { query: '', filters: { foo: ['bar'] }, sort_by: { lastPublishedOn: 'desc' }, fields: [] },
       }
       service.searchV6Wrapper(request)
       const arg = searchApiMock.getSearchV6Results.mock.calls[0][0]
