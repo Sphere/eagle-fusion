@@ -57,7 +57,7 @@ export class LearningComponent implements OnInit, OnDestroy {
         visibility: ['Default'],
       },
       query: '',
-      sort_by: { lastUpdatedOn: 'desc' },
+      sort_by: { lastPublishedOn: 'desc' },
       fields: [],
       facets: [],
     },
@@ -376,9 +376,9 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   private applySort(queryParams: any) {
-    if (queryParams.has('sort') && this.searchRequestObject.request.sort_by.lastUpdatedOn) {
+    if (queryParams.has('sort') && this.searchRequestObject.request.sort_by.lastPublishedOn) {
       this.searchRequest.sort = queryParams.get('sort') || ''
-      this.searchRequestObject.request.sort_by.lastUpdatedOn = this.getSortType()
+      this.searchRequestObject.request.sort_by.lastPublishedOn = this.getSortType()
     }
   }
 
@@ -401,7 +401,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   private applySortingRules() {
     const query = this.searchRequestObject.request.query
     if (query.toLowerCase() !== 'all' && query !== '*' && query !== '') {
-      this.searchRequestObject.request.sort_by.lastUpdatedOn = ''
+      this.searchRequestObject.request.sort_by.lastPublishedOn = ''
 
       if (!this.applyIsStandAlone && this.searchRequestObject.hasOwnProperty('isStandAlone')) {
         return
@@ -409,7 +409,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       return
     }
 
-    this.searchRequestObject.request.sort_by = { lastUpdatedOn: 'desc' }
+    this.searchRequestObject.request.sort_by = { lastPublishedOn: 'desc' }
   }
 
   private resetSearchResultsWhenFiltersAreEmpty() {
@@ -460,12 +460,12 @@ export class LearningComponent implements OnInit, OnDestroy {
           status: ['Live'],
         },
         sort_by: {
-          lastUpdatedOn: 'desc',
+          lastPublishedOn: 'desc',
         },
       },
       sort: [
         {
-          lastUpdatedOn: 'desc',
+          lastPublishedOn: 'desc',
         },
       ],
     }

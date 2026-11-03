@@ -62,6 +62,7 @@ export namespace NsContent {
     keywords?: string[]
     kArtifacts?: IRelatedContentMeta[]
     lastUpdatedOn: string
+    lastPublishedOn?: string
     learningMode?: TLearningMode
     learningObjective: string
     labels?: string[]

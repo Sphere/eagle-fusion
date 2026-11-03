@@ -45,9 +45,11 @@
           </span>
 
           <span *ngIf="content.duration">| {{ content.duration | pipeDurationTransform : 'hms' }} | </span>
-          <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s"><span>{{'Last Updated On :' | translate}}</span>
+          <!-- lastPublishedOn: when learners last got new content. lastUpdatedOn also moves on rating,
+               metadata and system updates, so it showed today's date on untouched courses. -->
+          <span *ngIf="content.lastPublishedOn || content.lastUpdatedOn" class="hidden-inline-s"><span>{{'Last Updated On :' | translate}}</span>
             {{
-            content.lastUpdatedOn | date
+            (content.lastPublishedOn || content.lastUpdatedOn) | date
             }}</span>
 
           <div *ngIf="content.trainingLHubCount" class="mat-body-2">
