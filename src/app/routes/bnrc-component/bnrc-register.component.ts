@@ -19,6 +19,10 @@ import { startWith, map, tap } from 'rxjs/operators'
 import { Observable } from 'rxjs'
 import { S3_END_POINTS } from '../../constants/apiConstants'
 
+/** Last option of the Staff Nurses facility list; the user then types the facility name. */
+export const FACILITY_OTHERS = 'Others'
+const FACILITY_NAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9 ,.()/-]*$/
+
 @Component({
     standalone: false,
     selector: 'ws-bnrc-register',
@@ -31,7 +35,6 @@ export class BnrcRegisterComponent implements OnInit {
   professions = ['Student', 'Faculty'] // 'In Service'
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   inserviceList = ['Public Health Facility', 'Private Health Facility']
-  choRoleList = ['CHO', 'Staff Nurses']
   facultyList = ['Diploma', 'Degree']
   courseSelection = ['ANM']
   districtUrl = '../../../fusion-assets/files/district.json'
@@ -74,6 +77,9 @@ export class BnrcRegisterComponent implements OnInit {
   isInservice = false
   isANM = false
   isCHO = false
+  // ?service=StaffNurse — the CHO form without the role choice, and a facility list that ends in "Others"
+  isStaffNurse = false
+  readonly facilityOthers = FACILITY_OTHERS
   message = ''
   // instituteNameUrl = '../../../fusion-assets/files/district_institutes_option_a.json'
   institutesData: any = []
@@ -129,7 +135,12 @@ export class BnrcRegisterComponent implements OnInit {
       publicFacilityType: new UntypedFormControl('', []),
       privateFacilityType: new UntypedFormControl('', []),
       serviceType: new UntypedFormControl('', []),
+      customFacilityName: new UntypedFormControl('', []),
     })
+  }
+
+  get isFacilityOthers(): boolean {
+    return this.isStaffNurse && this.bnrcDetailForm.get('facilityName')?.value === FACILITY_OTHERS
   }
 
   // Define the form group creation in a separate method
@@ -154,6 +165,7 @@ export class BnrcRegisterComponent implements OnInit {
       publicFacilityType: new UntypedFormControl('', []),
       privateFacilityType: new UntypedFormControl('', []),
       serviceType: new UntypedFormControl('', []),
+      customFacilityName: new UntypedFormControl('', []),
     })
   }
 
@@ -241,6 +253,9 @@ export class BnrcRegisterComponent implements OnInit {
       } else {
         this.bnrcDetailForm.get('nin')?.reset()
       }
+      if (this.isStaffNurse) {
+        this.applyFacilityOthers(selectedShc === FACILITY_OTHERS)
+      }
     })
 
 
@@ -312,7 +327,19 @@ export class BnrcRegisterComponent implements OnInit {
         this.professions = ['In Service']
         this.bnrcDetailForm.controls.role.setValue('In Service')
         this.professionalChange('CHO')
-        // roleForInService intentionally not pre-set — user must select CHO or Staff Nurses
+        // CHO and Staff Nurses have separate forms now (?service=CHO / ?service=StaffNurse)
+        this.bnrcDetailForm.controls.roleForInService.setValue('CHO')
+      }
+      if (service === 'StaffNurse') {
+        this.isANM = false
+        this.isInservice = false
+        this.inServiceGNM = false
+        this.isCHO = false
+        this.isStaffNurse = true
+        this.professions = ['In Service']
+        this.bnrcDetailForm.controls.role.setValue('In Service')
+        this.professionalChange('CHO')
+        this.bnrcDetailForm.controls.roleForInService.setValue('Staff Nurses')
       }
     })
     this.logger.log("districts", this.districts)
@@ -338,6 +365,44 @@ export class BnrcRegisterComponent implements OnInit {
   }
 
 
+
+  /** "Others" needs a typed facility name and has no NIN; a listed facility is the reverse. */
+  applyFacilityOthers(isOthers: boolean) {
+    const custom = this.bnrcDetailForm.get('customFacilityName')
+    const nin = this.bnrcDetailForm.get('nin')
+    if (isOthers) {
+      custom?.setValidators([Validators.required, Validators.pattern(FACILITY_NAME_PATTERN)])
+      nin?.clearValidators()
+    } else {
+      custom?.clearValidators()
+      custom?.setValue('', { emitEvent: false })
+      nin?.setValidators([Validators.required])
+    }
+    custom?.updateValueAndValidity({ emitEvent: false })
+    nin?.updateValueAndValidity({ emitEvent: false })
+  }
+
+  /**
+   * The request body. customFacilityName is form-only (the backend rejects unknown fields); for
+   * Staff Nurses "Others" becomes facilityName = the typed name + facilityNameOthers = 'Others',
+   * the same way the MP form saves it.
+   */
+  buildFormValues(): any {
+    const { customFacilityName, ...formValues } = this.bnrcDetailForm.value
+    formValues.phone = +formValues.phone
+    if (this.isStaffNurse) {
+      const facility = formValues.facilityName
+      if (facility === FACILITY_OTHERS) {
+        formValues.facilityName = String(customFacilityName || '').trim()
+        formValues.facilityNameOthers = FACILITY_OTHERS
+        formValues.nin = ''
+      } else if (facility && typeof facility === 'object') {
+        formValues.facilityName = facility.name
+        formValues.nin = facility.nin ? String(facility.nin) : ''
+      }
+    }
+    return formValues
+  }
 
   assignFields(fieldName: string, value: string, event: any) {
     this.logger.log(fieldName, value, event)
@@ -588,7 +653,7 @@ export class BnrcRegisterComponent implements OnInit {
       this.bnrcDetailForm.get('facilityName')?.setValue(this.bnrcDetailForm.value.facilityName.name)
       this.bnrcDetailForm.get('nin')?.setValue(String(nin))
     }
-    const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
+    const formValues = this.buildFormValues()
     const reqUpdate = {
       request: {
         formValues,
