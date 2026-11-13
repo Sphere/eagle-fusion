@@ -4,6 +4,7 @@ const express = require('express')
 const path = require('path')
 const fs = require('fs')
 const compression = require('compression')
+const { buildPreview, createCourseLookup, injectPreviewTags, isCourseId, isPreviewBot } = require('./course-preview')
 
 const app = express()
 
@@ -95,28 +96,74 @@ app.use((req, res, next) => {
 })
 
 // Link-preview bots (WhatsApp, Teams, Facebook, LinkedIn…) don't run JavaScript, so a
-// shared /app/toc/<course>/… link showed the portal's generic tags: that page is
-// login-only and not prerendered. Send bots to the course's prerendered public page,
-// which carries its own title, description and image. People still get the app.
-const PREVIEW_BOT = /facebookexternalhit|facebot|twitterbot|linkedinbot|whatsapp|slackbot|telegrambot|discordbot|skypeuripreview|teams|microsoftpreview|pinterest|redditbot|embedly|googlebot|bingbot|applebot/i
+// shared course link showed the portal's generic "Free CNE Courses" tags unless the course
+// had a prerendered page. Bots get, in order of preference:
+//   1. the course's prerendered public page (built at deploy time), or
+//   2. index.html with the course's tags written in at request time — for courses published
+//      after the last deploy, which have no prerendered page yet.
+// Anything that fails falls through to the normal SPA page. People always get the app.
 const COURSE_OVERVIEW_DIR = path.join(distPath, 'public', 'toc', 'overview')
+const NO_STORE = { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache', 'Expires': '0' }
+const lookupCourse = createCourseLookup()
+let spaIndexHtml = null
 
-app.get(/^\/app\/toc\/(do_[A-Za-z0-9_]+)(\/.*)?$/, (req, res, next) => {
-  if (!PREVIEW_BOT.test(req.get('user-agent') || '')) {
+function prerenderedSlug(courseId) {
+  const courseDir = path.join(COURSE_OVERVIEW_DIR, courseId)
+  return fs.existsSync(courseDir)
+    ? fs.readdirSync(courseDir).find(name => fs.existsSync(path.join(courseDir, name, 'index.html')))
+    : undefined
+}
+
+async function sendCoursePreview(req, res, next, courseId) {
+  try {
+    const course = await lookupCourse(courseId, req.get('host'))
+    if (!course) {
+      return next()
+    }
+    // index.html only changes with a deploy, which restarts this process.
+    spaIndexHtml = spaIndexHtml || fs.readFileSync(path.join(distPath, 'index.html'), 'utf8')
+    console.log(`Course preview tags for ${courseId}`)
+    res.set(NO_STORE)
+    return res.type('html').send(injectPreviewTags(spaIndexHtml, buildPreview(course, req.get('host'))))
+  } catch (err) {
+    console.error(`Course preview failed for ${req.path}:`, err.message)
     return next()
   }
+}
+
+app.get(/^\/app\/toc\/(do_[A-Za-z0-9_]+)(\/.*)?$/, (req, res, next) => {
+  if (!isPreviewBot(req.get('user-agent'))) {
+    return next()
+  }
+  const courseId = req.params[0]
   try {
-    const courseDir = path.join(COURSE_OVERVIEW_DIR, req.params[0])
-    const slug = fs.existsSync(courseDir)
-      ? fs.readdirSync(courseDir).find(name => fs.existsSync(path.join(courseDir, name, 'index.html')))
-      : undefined
+    const slug = prerenderedSlug(courseId)
     if (slug) {
-      return res.redirect(301, `/public/toc/overview/${req.params[0]}/${slug}/`)
+      return res.redirect(301, `/public/toc/overview/${courseId}/${slug}/`)
     }
   } catch (err) {
     console.error(`Preview lookup failed for ${req.path}:`, err.message)
   }
-  return next()
+  return sendCoursePreview(req, res, next, courseId)
+})
+
+// Prerendered public course pages are served by express.static above, so this only sees
+// courses without one (or a stale slug, or the ?courseId= form the page also accepts).
+app.get(/^\/public\/toc\/overview(?:\/(do_[A-Za-z0-9_]+)(?:\/.*)?|\/?)$/, (req, res, next) => {
+  const courseId = req.params[0] || req.query.courseId
+  if (!isPreviewBot(req.get('user-agent')) || !isCourseId(courseId)) {
+    return next()
+  }
+  try {
+    const slug = prerenderedSlug(courseId)
+    if (slug) {
+      res.set(NO_STORE)
+      return res.sendFile(path.join(COURSE_OVERVIEW_DIR, courseId, slug, 'index.html'))
+    }
+  } catch (err) {
+    console.error(`Preview lookup failed for ${req.path}:`, err.message)
+  }
+  return sendCoursePreview(req, res, next, courseId)
 })
 
 // Route handler: prerendered files → SPA fallback
