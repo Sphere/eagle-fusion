@@ -229,6 +229,20 @@ describe('BnrcRegisterComponent', () => {
       component['route'] = mockRoute as any
       component.ngOnInit()
       expect(component.isCHO).toBe(true)
+      expect(component.isStaffNurse).toBe(false)
+      expect(component.bnrcDetailForm.get('roleForInService')?.value).toBe('CHO')
+    })
+
+    it('should handle queryParams service=StaffNurse as its own form', () => {
+      mockRoute.queryParams = new BehaviorSubject({ service: 'StaffNurse' })
+      mockHttp.get.mockReturnValue(of([]))
+      component['route'] = mockRoute as any
+      component.ngOnInit()
+      expect(component.isStaffNurse).toBe(true)
+      expect(component.isCHO).toBe(false)
+      expect(component.cho).toBe(true)
+      expect(component.bnrcDetailForm.get('role')?.value).toBe('In Service')
+      expect(component.bnrcDetailForm.get('roleForInService')?.value).toBe('Staff Nurses')
     })
 
     it('should handle queryParams service=inservice', () => {
@@ -306,6 +320,88 @@ describe('BnrcRegisterComponent', () => {
     it('should set nin when facilityName changes with nin', () => {
       component.bnrcDetailForm.get('facilityName')?.setValue({ name: 'SHC1', nin: 42 })
       expect(component.bnrcDetailForm.get('nin')?.value).toBe(42)
+    })
+
+    it('should not ask CHO users for a typed facility name', () => {
+      component.bnrcDetailForm.get('facilityName')?.setValue('Others')
+      expect(component.isFacilityOthers).toBe(false)
+      expect(component.bnrcDetailForm.get('customFacilityName')?.valid).toBe(true)
+    })
+  })
+
+  describe('Staff Nurses facility "Others"', () => {
+    beforeEach(() => {
+      mockRoute.queryParams = new BehaviorSubject({ service: 'StaffNurse' })
+      mockHttp.get.mockReturnValue(of([]))
+      component['route'] = mockRoute as any
+      component.ngOnInit()
+    })
+
+    it('should require a typed facility name and drop the NIN requirement when Others is picked', () => {
+      component.bnrcDetailForm.get('facilityName')?.setValue('Others')
+      const custom = component.bnrcDetailForm.get('customFacilityName')
+      const nin = component.bnrcDetailForm.get('nin')
+      expect(component.isFacilityOthers).toBe(true)
+      expect(custom?.hasError('required')).toBe(true)
+      expect(nin?.value).toBeNull()
+      expect(nin?.valid).toBe(true)
+    })
+
+    it('should reject a facility name that is not in English', () => {
+      component.bnrcDetailForm.get('facilityName')?.setValue('Others')
+      const custom = component.bnrcDetailForm.get('customFacilityName')
+      custom?.setValue('जिला अस्पताल')
+      expect(custom?.hasError('pattern')).toBe(true)
+      custom?.setValue(' PHC Patna')
+      expect(custom?.hasError('pattern')).toBe(true)
+      custom?.setValue('PHC Danapur (Old), Block-2')
+      expect(custom?.valid).toBe(true)
+    })
+
+    it('should clear the typed name and require NIN again when a listed facility is picked', () => {
+      component.bnrcDetailForm.get('facilityName')?.setValue('Others')
+      component.bnrcDetailForm.get('customFacilityName')?.setValue('PHC Danapur')
+      component.bnrcDetailForm.get('facilityName')?.setValue({ name: 'SHC1', nin: 42 })
+      expect(component.isFacilityOthers).toBe(false)
+      expect(component.bnrcDetailForm.get('customFacilityName')?.value).toBe('')
+      expect(component.bnrcDetailForm.get('customFacilityName')?.valid).toBe(true)
+      component.bnrcDetailForm.get('nin')?.setValue(null)
+      expect(component.bnrcDetailForm.get('nin')?.hasError('required')).toBe(true)
+    })
+  })
+
+  describe('buildFormValues', () => {
+    it('should never send the form-only customFacilityName field', () => {
+      component.bnrcDetailForm.patchValue({ phone: '9876543210', customFacilityName: 'x' })
+      const values = component.buildFormValues()
+      expect(values).not.toHaveProperty('customFacilityName')
+      expect(values).not.toHaveProperty('facilityNameOthers')
+      expect(values.phone).toBe(9876543210)
+    })
+
+    it('should send the typed name with facilityNameOthers=Others for a Staff Nurse', () => {
+      component.isStaffNurse = true
+      component.bnrcDetailForm.patchValue({ facilityName: 'Others', customFacilityName: '  PHC Danapur ', nin: 'stale' })
+      const values = component.buildFormValues()
+      expect(values.facilityName).toBe('PHC Danapur')
+      expect(values.facilityNameOthers).toBe('Others')
+      expect(values.nin).toBe('')
+      expect(values).not.toHaveProperty('customFacilityName')
+    })
+
+    it('should send the listed facility name and its NIN for a Staff Nurse', () => {
+      component.isStaffNurse = true
+      component.bnrcDetailForm.patchValue({ facilityName: { name: 'SHC1', nin: 42 } })
+      const values = component.buildFormValues()
+      expect(values.facilityName).toBe('SHC1')
+      expect(values.nin).toBe('42')
+      expect(values).not.toHaveProperty('facilityNameOthers')
+    })
+
+    it('should send an empty NIN when a listed facility has none', () => {
+      component.isStaffNurse = true
+      component.bnrcDetailForm.patchValue({ facilityName: { name: 'SHC1' } })
+      expect(component.buildFormValues().nin).toBe('')
     })
   })
 
@@ -423,6 +519,20 @@ describe('BnrcRegisterComponent', () => {
       component.bnrcDetailForm.get('facilityName')?.setValue({ name: 'CHO Facility', nin: 12345 })
       component.createUser({})
       expect(mockUserProfileSvc.bnrcRegistration).toHaveBeenCalled()
+    })
+
+    it('should send a Staff Nurse "Others" facility as the typed name', () => {
+      mockUserProfileSvc.bnrcRegistration = jest.fn().mockReturnValue(of({ status: 'SUCCESS', message: 'Done' }))
+      component.isStaffNurse = true
+      component.bnrcDetailForm.patchValue({
+        phone: '9876543210', roleForInService: 'Staff Nurses', facilityName: 'Others', customFacilityName: 'PHC Danapur',
+      })
+      component.createUser({})
+      const sent = mockUserProfileSvc.bnrcRegistration.mock.calls[0][0].request.formValues
+      expect(sent).toEqual(expect.objectContaining({
+        facilityName: 'PHC Danapur', facilityNameOthers: 'Others', nin: '', roleForInService: 'Staff Nurses',
+      }))
+      expect(sent).not.toHaveProperty('customFacilityName')
     })
 
     it('should call openSnackbar on error', () => {
