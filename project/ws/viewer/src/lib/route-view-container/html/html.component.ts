@@ -5,7 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { SafeHtml } from '@angular/platform-browser'
 import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe'
 import { ConfigurationsService, LoggerService, SafeResourceUrlService, ValueService } from '@ws-widget/utils'
+import { take } from 'rxjs/operators'
 import { PlayerStateService } from '../../player-state.service'
+import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import {
   IPlayerTelemetryEvent, isHtmlContentPlayerEnabled,
@@ -81,7 +83,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
     private readonly logger: LoggerService,
     private readonly contentSvc: WidgetContentService,
     private readonly cdr: ChangeDetectorRef,
-
+    private readonly viewerData: ViewerDataService,
   ) {
 
   }
@@ -236,6 +238,34 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       clearTimeout(this.awaitingResumeTimer)
       this.awaitingResumeTimer = null
     }
+  }
+
+  /**
+   * The content's own Finish button (showEndPage → renderer:content:end). The player's end page is off, so
+   * without this nothing happens on screen. Moves on the way the quiz does: to the next resource, or to the
+   * course overview when this is the last one or gating holds the learner until this content is complete.
+   */
+  onContentEnd() {
+    // contentEnd is emitted just before the same event reaches onContentTelemetry: let it record completion first
+    setTimeout(() => this.leaveAfterFinish())
+  }
+
+  private leaveAfterFinish() {
+    if (this.forPreview || this.isPreviewMode) {
+      return
+    }
+    this.viewerDataSvc.playerState.pipe(take(1)).subscribe(data => {
+      const complete = this.contentProgress.status === 'completed' || data?.currentCompletionPercentage === 100
+      if (data?.nextResource && (!this.viewerData.gatingEnabled || complete)) {
+        this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+        return
+      }
+      if (this.collectionIdentifier) {
+        this.router.navigate([`/app/toc/${this.collectionIdentifier}/overview`], {
+          queryParams: { primaryCategory: 'Course', batchId: this.activatedRoute.snapshot.queryParams.batchId },
+        })
+      }
+    })
   }
 
   /** Content events from the Sunbird content-player: progress (start, each 10%, completion) and position (STATE). */

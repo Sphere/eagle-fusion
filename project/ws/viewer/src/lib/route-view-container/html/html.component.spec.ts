@@ -18,6 +18,9 @@ jest.mock('../../player-state.service', () => ({
 jest.mock('../../viewer-util.service', () => ({
   ViewerUtilService: class {},
 }))
+jest.mock('../../viewer-data.service', () => ({
+  ViewerDataService: class {},
+}))
 
 import { HtmlComponent } from './html.component'
 import { of } from 'rxjs'
@@ -35,6 +38,7 @@ describe('HtmlComponent (route-view-container/html)', () => {
   let mockLogger: any
   let mockContentSvc: any
   let mockCdr: any
+  let mockViewerData: any
 
   beforeEach(() => {
     mockActivatedRoute = { snapshot: { queryParams: { collectionType: 'course', collectionId: 'col1' } } }
@@ -48,6 +52,7 @@ describe('HtmlComponent (route-view-container/html)', () => {
     mockLogger = { warn: jest.fn(), log: jest.fn() }
     mockContentSvc = { fetchContentHistoryV2: jest.fn(() => of({ result: { contentList: [] } })), changeMessage: jest.fn() }
     mockCdr = { markForCheck: jest.fn() }
+    mockViewerData = { gatingEnabled: false }
 
     component = new HtmlComponent(
       mockActivatedRoute,
@@ -61,6 +66,7 @@ describe('HtmlComponent (route-view-container/html)', () => {
       mockLogger,
       mockContentSvc,
       mockCdr,
+      mockViewerData,
     )
   })
 
@@ -181,6 +187,75 @@ describe('HtmlComponent (route-view-container/html)', () => {
     it('returns false when currentCompletionPercentage is null', () => {
       component.currentCompletionPercentage = null
       expect(component.isProgressCheck()).toBe(false)
+    })
+  })
+
+  describe('onContentEnd (the content\'s Finish button)', () => {
+    const finish = () => {
+      component.onContentEnd()
+      jest.runAllTimers()
+    }
+
+    beforeEach(() => {
+      jest.useFakeTimers()
+      mockRouter.navigate = jest.fn()
+      component.ngOnInit()
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('moves to the next resource', () => {
+      mockViewerDataSvc.playerState = of({ nextResource: '/viewer/html/do_2', currentCompletionPercentage: 40 })
+      finish()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/viewer/html/do_2'], { queryParamsHandling: 'preserve' })
+    })
+
+    it('waits for the end event to be recorded before leaving', () => {
+      mockViewerDataSvc.playerState = of({ nextResource: '/viewer/html/do_2' })
+      component.onContentEnd()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+      jest.runAllTimers()
+      expect(mockRouter.navigate).toHaveBeenCalled()
+    })
+
+    it('goes to the course overview after the last resource', () => {
+      mockActivatedRoute.snapshot.queryParams.batchId = 'b1'
+      mockViewerDataSvc.playerState = of({ nextResource: null })
+      finish()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/col1/overview'], {
+        queryParams: { primaryCategory: 'Course', batchId: 'b1' },
+      })
+    })
+
+    it('with gating on, holds an incomplete content on the course overview', () => {
+      mockViewerData.gatingEnabled = true
+      mockViewerDataSvc.playerState = of({ nextResource: '/viewer/html/do_2', currentCompletionPercentage: 40 })
+      finish()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/toc/col1/overview'], expect.anything())
+    })
+
+    it('with gating on, moves on once the content reported 100%', () => {
+      mockViewerData.gatingEnabled = true
+      mockViewerDataSvc.playerState = of({ nextResource: '/viewer/html/do_2', currentCompletionPercentage: 40 })
+      component.onContentTelemetry({ source: 'package', eid: 'PROGRESS', edata: { pct: 100 }, ets: 1 })
+      finish()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/viewer/html/do_2'], { queryParamsHandling: 'preserve' })
+    })
+
+    it('stays put in preview', () => {
+      component.forPreview = true
+      mockViewerDataSvc.playerState = of({ nextResource: '/viewer/html/do_2' })
+      finish()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
+    })
+
+    it('stays put outside a course with no next resource', () => {
+      component.collectionIdentifier = undefined
+      mockViewerDataSvc.playerState = of({ nextResource: null })
+      finish()
+      expect(mockRouter.navigate).not.toHaveBeenCalled()
     })
   })
 })
