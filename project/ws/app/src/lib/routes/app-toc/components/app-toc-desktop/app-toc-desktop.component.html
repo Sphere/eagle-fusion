@@ -86,7 +86,7 @@
         </div>
 
         <!-- #if cetification ininrollment api -->
-        <div *ngIf="content?.issueCertification === true" class="toc-icon-action">
+        <div *ngIf="hasCertTemplates && content?.issueCertification === true" class="toc-icon-action">
           <ng-container *ngIf="issueCertificate === true; else download ">
             <!-- sendApi() -->
             <button mat-icon-button *ngIf="content?.issueCertification === true"
