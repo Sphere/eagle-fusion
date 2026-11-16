@@ -152,6 +152,17 @@ export namespace NsContent {
     ver: string
   }
 
+  export interface ICertTemplate {
+    identifier: string
+    name: string
+    template: string
+    previewUrl: string
+    url: string
+    criteria: { enrollment?: { status: number } }
+    issuer: { name: string, url: string }
+    signatoryList: { image: string, name: string, id: string, designation: string }[]
+  }
+
   export interface IBatch {
     batchId: string,
     createdBy: string,
@@ -161,7 +172,7 @@ export namespace NsContent {
     name: string,
     startDate: string,
     status: number
-    cert_templates: null
+    cert_templates: { [templateId: string]: ICertTemplate } | null
     collectionId: string
     courseId: string
     createdDate: string

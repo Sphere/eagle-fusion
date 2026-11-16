@@ -547,6 +547,14 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return batch && batch.batchId ? batch.batchId : ''
   }
 
+  // Same batch as getBatchId(). cert_templates is a map keyed by template id; a batch with no
+  // template attached (null or {}) cannot issue a certificate, so the icon is hidden even when the
+  // course itself has issueCertification set.
+  get hasCertTemplates(): boolean {
+    const batch: NsContent.IBatch | undefined = this.batchData?.content?.[0]
+    return !!batch?.cert_templates && Object.keys(batch.cert_templates).length > 0
+  }
+
 
   redirectPage(updatedContentFound: any) {
     this.telemetrySvc.interact('redirect-clicked', 'click', 'toc-page', { id: this.content!.identifier, type: 'course', version: "", rollup: {} })

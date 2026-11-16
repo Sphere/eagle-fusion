@@ -98,7 +98,7 @@ export const API_END_POINTS = {
   GOOGLE_AUTHENTICATE: `${PUBLIC_SLAG_V8}/google/callback`,
   LOGIN_USER: `${PUBLIC_SLAG_V8}/emailMobile/auth`,
   FETCH_USER_ENROLLMENT_LIST_COMP: (userId: string | undefined) =>
-    `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+    `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates,cert_templates`,
   FETCH_USER_ENROLLMENT_LIST_PROGRESS: (userId: string | undefined) =>
     // eslint-disable-next-line max-len
     `apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license,sourceName,cneName,competency,averageRating&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates,competency&v=${Date.now()}`,
@@ -111,7 +111,7 @@ export const API_END_POINTS = {
   BATCH_CERT_ISSUE: `${PROXY_SLAG_V8}/course/batch/cert/v1/issue/`,
   DOWNLOAD_CERTIFICATE: (certificateId: string) => `${PROXY_SLAG_V8}/certreg/v2/certs/download/${certificateId}`,
   FETCH_USER_ENROLLMENT_LIST_CERT: (userId: string | undefined) =>
-    `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license,sourceName,issueCertification,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+    `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license,sourceName,issueCertification,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates,cert_templates`,
   FETCH_USER_ENROLLMENT_LIST_V2: (userId: string | undefined, orgdetails: string, licenseDetails: string, fields: string, batchDetails: string) =>
     `${PROXY_SLAG_V8}/learner/course/v1/user/enrollment/list/${userId}?orgdetails=${orgdetails}&licenseDetails=${licenseDetails}&fields=${fields}&batchDetails=${batchDetails}`,
   assignContent: `${PROTECTED_SLAG_V8}/user/content-assign/assignContent`,

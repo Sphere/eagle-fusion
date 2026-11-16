@@ -273,6 +273,104 @@
   }
 }
 
+// Dark theme: the dialog surface is --theme-bg (#303030) and text is --theme-text (#E0E0E0), so the
+// light tints above (#eef3f8, #edf7ee, #fdecea, #fff) turned the selected option and the Skip
+// button into light-on-light. Swap them for translucent tints and lighter accents.
+:host-context(.dark-theme) {
+  .vq-eyebrow {
+    color: #8ab4dc;
+  }
+
+  .vq-count,
+  .vq-close {
+    color: var(--theme-text-muted, #b8c6d3);
+  }
+
+  .vq-close:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--theme-text, #e0e0e0);
+  }
+
+  .vq-option {
+    border-color: rgba(184, 201, 217, 0.4);
+
+    &:hover {
+      border-color: #8ab4dc;
+    }
+
+    input {
+      accent-color: #8ab4dc;
+    }
+
+    &:has(input:focus-visible) {
+      outline-color: #8ab4dc;
+    }
+  }
+
+  .vq-option--selected {
+    border-color: #8ab4dc;
+    background: rgba(138, 180, 220, 0.16);
+  }
+
+  .vq-option--correct {
+    border-color: #66bb6a;
+    background: rgba(102, 187, 106, 0.16);
+  }
+
+  .vq-option--wrong {
+    border-color: #ef5350;
+    background: rgba(239, 83, 80, 0.16);
+  }
+
+  .vq-option--disabled:hover {
+    border-color: rgba(184, 201, 217, 0.4);
+  }
+
+  .vq-option--correct .vq-option-icon {
+    color: #81c784;
+  }
+
+  .vq-option--wrong .vq-option-icon {
+    color: #e57373;
+  }
+
+  .vq-result--correct {
+    border-color: rgba(102, 187, 106, 0.5);
+    background: rgba(102, 187, 106, 0.12);
+    color: #a5d6a7;
+  }
+
+  .vq-result--wrong {
+    border-color: rgba(239, 83, 80, 0.5);
+    background: rgba(239, 83, 80, 0.12);
+    color: #ef9a9a;
+  }
+
+  .vq-btn:focus-visible {
+    outline-color: #8ab4dc;
+  }
+
+  .vq-btn--primary {
+    border-color: #2e6491;
+    background: #2e6491;
+
+    &:hover:not(:disabled) {
+      border-color: #3a76a8;
+      background: #3a76a8;
+    }
+  }
+
+  .vq-btn--secondary {
+    border-color: #8ab4dc;
+    background: transparent;
+    color: #8ab4dc;
+
+    &:hover:not(:disabled) {
+      background: rgba(138, 180, 220, 0.12);
+    }
+  }
+}
+
 @media screen and (max-width: 600px) {
   .vq {
     padding: 16px;
