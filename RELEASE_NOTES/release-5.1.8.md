@@ -10,15 +10,16 @@
 
 ## Summary
 
-Bihar's staff nurses work either at a district hospital or at a block-level facility, and the registration form now asks which. A nurse first chooses **District** or **Block**. At district level they pick their district and see its district hospitals (Sadar and Sub Divisional). At block level they pick the district, then the block, and see that block's facilities (Referral hospital, CHC, PHC, APHC). "Others" is still there for a facility that isn't listed. The NIN field is removed from this form, and the answer (district or block) is now stored with the registration.
+Bihar's staff nurses work either at district level or at block level, and the registration form now asks which. A nurse first chooses **District** or **Block**. At district level they pick their district and see every institution in it (Sadar and Sub Divisional hospitals, Referral hospitals, CHCs, PHCs and APHCs). At block level they pick the district, then one of that district's blocks, and see only that block's institutions (Referral hospital, CHC, PHC). "Others" is still there for a facility that isn't listed. The NIN field is removed from this form, and the answer (district or block) is now stored with the registration.
 
 ## ✨ Features
 
 - **Bihar Staff Nurse form** (`/bnrc/register?service=StaffNurse`) — new first question "आप ज़िले में पदस्थ हैं या ब्लॉक में? / Are you working at the district level or block level?" with **District** / **Block** (`e11c39d`).
-  - **District:** district, then that district's district-level facilities.
-  - **Block:** "आप जिस ब्लॉक में काम करते हैं, वह किस ज़िले में आता है? / Which district does the block you work in belong to?", then "आप किस ब्लॉक में पदस्थ हैं? / Which block are you posted in?", then that block's facilities.
-  - Facilities are named as in the Bihar health institutions list, e.g. `PHC, MAHUA`, `SUB DIVISIONAL HOSPITAL, MARHAWRAH`; **Others** stays last, with the facility-name box.
-  - The lists come from a new, separate S3 file, `bihar-staff-nurse-facilities.json` (38 districts, 645 blocks, 2,090 facilities). The CHO form's `bihar-district.json` is unchanged.
+  - **District:** district, then every institution of that district, grouped Sadar / Sub Divisional hospital, Referral hospital, CHC, PHC, APHC.
+  - **Block:** "आप जिस ब्लॉक में काम करते हैं, वह किस ज़िले में आता है? / Which district does the block you work in belong to?", then "आप किस ब्लॉक में पदस्थ हैं? / Which block are you posted in?" (that district's blocks only), then that block's Referral hospital / CHC / PHC.
+  - APHCs appear in the District list only: the APHC sheet has no block column.
+  - All names are exactly as written in the Bihar health institutions list (no spelling is corrected), e.g. `PHC, MAHUA`, `SUB DIVISIONAL HOSPITAL, MARHAWRAH`; APHCs as institution and its PHC, e.g. `PATEGNA, ARARIA`. **Others** stays last, with the facility-name box.
+  - The lists come from a new, separate S3 file, `bihar-staff-nurse-facilities.json` (38 districts, 556 blocks, 2,090 institutions). The CHO form's `bihar-district.json` is unchanged.
   - The answer is sent as `postingLevel` (`District` / `Block`); a district-level registration is sent with no block.
 
 ## 🐛 Fixes
@@ -39,7 +40,7 @@ Bihar's staff nurses work either at a district hospital or at a block-level faci
 
 - **Needs UI Proxy 6.0.6** (`release-6.0.6`, released): it accepts and stores `postingLevel`. On 6.0.5 a Staff Nurse registration from this release is rejected with `"postingLevel" is not allowed`. **Deploy UI Proxy 6.0.6 first, or together.**
 - **Database column (DevOps, optional for the deploy):** `ALTER TABLE bnrc_registration_data_prod ADD COLUMN IF NOT EXISTS posting_level TEXT;` -- until it exists the value is kept on the user's profile only (UI Proxy 6.0.6 detects the column and starts writing it automatically).
-- **Facility-name spellings:** some blocks were spelled differently across the source sheets. 47 clear duplicates were merged into one block, and Jahanabad was merged into Jehanabad; 46 look-alikes (e.g. BHAGWANPUR / BHAGWARPUR) were left separate. The list is in `block-spelling-review.csv`, for the Bihar team to confirm; corrections only need a new JSON upload, no release.
+- **Spellings as in the sheet:** names are not corrected (only the district Jahanabad is shown as Jehanabad). Where the sheet spells one block two ways, both appear in the Block list (18 pairs, e.g. JOKIHAAT / JOKIHATT), listed in `block-spelling-review.csv` for the Bihar team. Any correction only needs a new JSON upload, no release.
 - **Other Bihar forms unchanged:** CHO, Student, Faculty, ANM, GNM send exactly the same requests as before (`postingLevel` is sent by the Staff Nurse form only).
 - **Config / env / API changes:** none in this repo besides the S3 constant.
 - **Risk:** low. Limited to the Bihar Staff Nurse registration page and the asterisk position on that form.
@@ -48,7 +49,7 @@ Bihar's staff nurses work either at a district hospital or at a block-level faci
 
 - [x] Node 20 active (`nvs use 20`)
 - [x] BNRC specs pass (65); `tsc` clean on the changed files
-- [x] Checked on `localhost:4100` against the uploaded S3 file: District path (SARAN → SADAR HOSPITAL, CHAPRA / SUB DIVISIONAL HOSPITAL, MARHAWRAH / SONEPUR / Others), Block path (VAISHALI → MAHUA → APHC, CHANDSARAI / PHC, MAHUA / Others), NIN hidden, no `*` alone on a line at 520px
+- [x] Checked on `localhost:4100` against the uploaded S3 file: District path (ARARIA → 43 institutions from SADAR HOSPITAL, ARARIA to the APHCs, then Others), Block path (ARARIA → 10 blocks → RANIGANJ → PHC, RANIGANJ / REFERRAL HOSPITAL, RANIGANJ / Others), NIN hidden, no page errors, no `*` alone on a line at 520px
 - [ ] Production build passes (Jenkins)
 - [ ] UI Proxy 6.0.6 deployed first or together
 - [ ] Smoke test after deploy: register a test number once at District level and once at Block level; the profile shows the facility and `postingLevel`
