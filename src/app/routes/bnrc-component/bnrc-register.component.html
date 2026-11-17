@@ -8,7 +8,7 @@
       *ngIf=inServiceGNM> for GNM </span><span *ngIf="isCHO"> for CHO</span><span *ngIf="isStaffNurse"> for Staff Nurses</span> </p>
   <p>Note - Please fill up this form in English only/ कृपया यह फॉर्म केवल अंग्रेजी में भरें</p>
   <form [formGroup]="bnrcDetailForm" class="mt-3 mb-10">
-    <label i18n for="firstName" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
+    <label i18n for="firstName" style="display: block;">First Name / नाम&nbsp;<span class="red-icon">*</span></label>
     <div class="form-group input-box">
       <input id="firstName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName" i18n
         class="form-control" placeholder="First Name" autocomplete="off">
@@ -20,7 +20,7 @@
     <mat-error *ngIf="bnrcDetailForm.get('firstName')?.hasError('pattern') && bnrcDetailForm.get('firstName')?.touched">
       First Name should be in English and should not start with a space.
     </mat-error>
-    <label i18n for="lastName" style="display: block;">Last Name / उपनाम <span class="red-icon">*</span></label>
+    <label i18n for="lastName" style="display: block;">Last Name / उपनाम&nbsp;<span class="red-icon">*</span></label>
     <div class="form-group input-box">
       <input id="lastName" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName" i18n
         class="form-control" placeholder="Last Name" autocomplete="off">
@@ -32,8 +32,7 @@
       Last Name is required.
     </mat-error>
 
-    <label i18n for="phone" style="display: block;">Phone Number / मोबाइल नंबर <span
-        class="red-icon">*</span></label>
+    <label i18n for="phone" style="display: block;">Phone Number / मोबाइल नंबर&nbsp;<span class="red-icon">*</span></label>
     <div class="form-group input-box">
       <input id="phone" type="text" name="mobile" formControlName="phone" i18n class="form-control" placeholder="Phone Number"
         autocomplete="off">
@@ -44,8 +43,7 @@
     <mat-error *ngIf="bnrcDetailForm.get('phone')?.hasError('pattern') && bnrcDetailForm.get('phone')?.touched">
       Phone number is invalid
     </mat-error>
-    <label i18n for="district-inservice" *ngIf="isInservice" style="display: block;">District / ज़िला <span
-        class="red-icon">*</span></label>
+    <label i18n for="district-inservice" *ngIf="isInservice" style="display: block;">District / ज़िला&nbsp;<span class="red-icon">*</span></label>
     <mat-form-field *ngIf="isInservice" appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
       <mat-select id="district-inservice" formControlName="district" i18n-placeholder placeholder="District">
         <mat-option [value]="district" *ngFor="let district of districts">{{district}}
@@ -64,7 +62,7 @@
         <label i18n for="district-student" style="display: block;">District / ज़िला - आप जिस जिले में पढ़ाई
           कर
           रहे हैं
-          / In which district you are studying <span class="red-icon">*</span></label>
+          / In which district you are studying&nbsp;<span class="red-icon">*</span></label>
 
 
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
@@ -76,8 +74,7 @@
         <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid && bnrcDetailForm.get('district')?.touched">
           District is required.
         </mat-error>
-        <label i18n for="instituteName-student" style="display: block;">Name of Institute / संस्थान का नाम <span
-            class="red-icon">*</span></label>
+        <label i18n for="instituteName-student" style="display: block;">Name of Institute / संस्थान का नाम&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <input id="instituteName-student" matInput [matAutocomplete]="auto" formControlName="instituteName" placeholder="Name of Institute"
             i18n-placeholder
@@ -107,7 +104,7 @@
 
 
         <label i18n for="district-faculty" style="display: block;">District / ज़िला - जिस जिले में आप पढ़ाते हैं
-          / In which district you are teaching <span class="red-icon">*</span></label>
+          / In which district you are teaching&nbsp;<span class="red-icon">*</span></label>
 
 
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
@@ -119,8 +116,7 @@
         <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid && bnrcDetailForm.get('district')?.touched">
           District is required.
         </mat-error>
-        <label i18n for="instituteName-faculty" style="display: block;">Name of Institute / संस्थान का नाम <span
-            class="red-icon">*</span></label>
+        <label i18n for="instituteName-faculty" style="display: block;">Name of Institute / संस्थान का नाम&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <input id="instituteName-faculty" matInput [matAutocomplete]="auto" formControlName="instituteName" placeholder="Name of Institute"
             i18n-placeholder
@@ -145,8 +141,7 @@
 
 
       <div class="form-group">
-        <label for="bnrcRegistrationNumber" i18n>BNRC Registration number <span *ngIf="bnrcErr"
-            class="red-icon">*</span></label>
+        <label for="bnrcRegistrationNumber" i18n>BNRC Registration number&nbsp;<span *ngIf="bnrcErr" class="red-icon">*</span></label>
         <input id="bnrcRegistrationNumber" type="text" formControlName="bnrcRegistrationNumber" class="form-control" i18n-placeholder
           placeholder="BNRC Registration number" autocomplete="off">
         <mat-error
@@ -168,7 +163,7 @@
         Block is required.
       </mat-error>
       <ng-container *ngIf="!isInservice">
-        <label i18n for="position-inservice" style="display: block;">Position / पद <span class="red-icon">*</span></label>
+        <label i18n for="position-inservice" style="display: block;">Position / पद&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select id="position-inservice" formControlName="publicFacilityType" i18n-placeholder placeholder="Position">
             <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
@@ -180,8 +175,7 @@
           Position is required.
         </mat-error>
       </ng-container>
-      <label i18n for="roleForInService-inservice" style="display: block;">Role for Inservice Nurse <span
-          class="red-icon">*</span></label>
+      <label i18n for="roleForInService-inservice" style="display: block;">Role for Inservice Nurse&nbsp;<span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select id="roleForInService-inservice" (selectionChange)="professionalChange($event.value)" formControlName="roleForInService"
           i18n-placeholder placeholder="Role for Inservice Nurse">
@@ -196,7 +190,7 @@
     </ng-container>
     <div *ngIf="publicHealthFacility">
       <label i18n for="block-public" style="display: block;">Block / आप जिस ब्लॉक में काम कर रहे हैं
-        / In which block you are working <span class="red-icon">*</span></label>
+        / In which block you are working&nbsp;<span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select id="block-public" formControlName="block" i18n-placeholder placeholder="Block">
           <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
@@ -207,7 +201,7 @@
         Block is required.
       </mat-error>
       <ng-container *ngIf="!isInservice">
-        <label i18n for="position-public" style="display: block;">Position / पद <span class="red-icon">*</span></label>
+        <label i18n for="position-public" style="display: block;">Position / पद&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select id="position-public" formControlName="publicFacilityType" i18n-placeholder placeholder="Position">
             <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
@@ -219,8 +213,7 @@
           Position is required.
         </mat-error>
       </ng-container>
-      <label i18n for="roleForInService-public" style="display: block;">Role for Inservice Nurse <span
-          class="red-icon">*</span></label>
+      <label i18n for="roleForInService-public" style="display: block;">Role for Inservice Nurse&nbsp;<span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select id="roleForInService-public" (selectionChange)="professionalChange($event.value)" formControlName="roleForInService"
           i18n-placeholder placeholder="Role for Inservice Nurse">
@@ -232,7 +225,7 @@
         *ngIf="bnrcDetailForm.get('roleForInService')?.invalid && bnrcDetailForm.get('roleForInService')?.touched">
         Role for Inservice Nurse is required.
       </mat-error>
-      <label i18n for="serviceType-public" style="display: block;">Type of service <span class="red-icon">*</span></label>
+      <label i18n for="serviceType-public" style="display: block;">Type of service&nbsp;<span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select id="serviceType-public" (selectionChange)="serviceTypeChange($event.value)" formControlName="serviceType" i18n-placeholder
           placeholder="Type of service">
@@ -244,7 +237,7 @@
         Type of service is required.
       </mat-error>
       <div class="form-group">
-        <label for="facilityName-public" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
+        <label for="facilityName-public" i18n>Name of Facility / संस्थान का नाम&nbsp;<span class="red-icon">*</span></label>
         <input id="facilityName-public" pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
           placeholder="Name of Facility" autocomplete="off">
         <mat-error
@@ -259,7 +252,7 @@
     </div>
     <div *ngIf="privateHealthFacility">
       <label i18n for="block-private" style="display: block;">Block / आप जिस ब्लॉक में काम कर रहे हैं
-        / In which block you are working <span class="red-icon">*</span></label>
+        / In which block you are working&nbsp;<span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select id="block-private" formControlName="block" i18n-placeholder placeholder="Block">
           <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
@@ -270,7 +263,7 @@
         Block is required.
       </mat-error>
       <ng-container *ngIf="!isInservice">
-        <label i18n for="position-private" style="display: block;">Position / पद <span class="red-icon">*</span></label>
+        <label i18n for="position-private" style="display: block;">Position / पद&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select id="position-private" formControlName="privateFacilityType" i18n-placeholder placeholder="Position">
             <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
@@ -282,8 +275,7 @@
           Position is required.
         </mat-error>
       </ng-container>
-      <label i18n for="roleForInService-private" style="display: block;">Role for Inservice Nurse <span
-          class="red-icon">*</span></label> <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field"
+      <label i18n for="roleForInService-private" style="display: block;">Role for Inservice Nurse&nbsp;<span class="red-icon">*</span></label> <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field"
         style="width: 100%;">
         <mat-select id="roleForInService-private" formControlName="roleForInService" i18n-placeholder placeholder="Role"
           (selectionChange)="professionalChange($event.value)">
@@ -298,7 +290,7 @@
 
 
       <div class="form-group">
-        <label for="facilityName-private" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
+        <label for="facilityName-private" i18n>Name of Facility / संस्थान का नाम&nbsp;<span class="red-icon">*</span></label>
         <input id="facilityName-private" pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
           placeholder="Name of Facility" autocomplete="off">
         <mat-error
@@ -313,8 +305,10 @@
 
     </div>
     <div *ngIf="cho">
+      <!-- CHO: district and block, unchanged. -->
+      <ng-container *ngIf="!isStaffNurse">
       <label i18n for="district-cho" style="display: block;">District / आप जिस ज़िले में काम कर रहे हैं
-        / In which district you are working <span class="red-icon">*</span></label>
+        / In which district you are working&nbsp;<span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select id="district-cho" formControlName="district" i18n-placeholder placeholder="District">
           <mat-option [value]="district" *ngFor="let district of districts">{{district}}
@@ -325,7 +319,7 @@
         District is required.
       </mat-error>
       <label i18n for="block-cho" style="display: block;">Block / आप जिस ब्लॉक में काम कर रहे हैं
-        / In which block you are working <span class="red-icon">*</span></label>
+        / In which block you are working&nbsp;<span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select id="block-cho" formControlName="block" i18n-placeholder placeholder="Block">
           <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
@@ -335,10 +329,53 @@
       <mat-error *ngIf="bnrcDetailForm.get('block')?.invalid && bnrcDetailForm.get('block')?.touched">
         Block is required.
       </mat-error>
+      </ng-container>
+
+      <!-- Staff Nurses: district level or block level first, then the matching lists. -->
+      <ng-container *ngIf="isStaffNurse">
+        <label i18n for="postingLevel-staff-nurse" style="display: block;">आप ज़िले में पदस्थ हैं या ब्लॉक में? / Are you
+          working at the district level or block level?&nbsp;<span class="red-icon">*</span></label>
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
+          <mat-select id="postingLevel-staff-nurse" formControlName="postingLevel" i18n-placeholder placeholder="District or Block">
+            <mat-option *ngFor="let level of postingLevels" [value]="level">{{ level }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error *ngIf="bnrcDetailForm.get('postingLevel')?.invalid && bnrcDetailForm.get('postingLevel')?.touched">
+          Please choose District or Block.
+        </mat-error>
+
+        <ng-container *ngIf="postingLevel">
+          <label *ngIf="postingLevel !== postingBlock" i18n for="district-staff-nurse" style="display: block;">District / आप किस
+            ज़िले में पदस्थ हैं? / Which district are you posted in?&nbsp;<span class="red-icon">*</span></label>
+          <label *ngIf="postingLevel === postingBlock" i18n for="district-staff-nurse" style="display: block;">आप जिस ब्लॉक में
+            काम करते हैं, वह किस ज़िले में आता है? / Which district does the block you work in belong to?&nbsp;<span class="red-icon">*</span></label>
+          <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
+            <mat-select id="district-staff-nurse" formControlName="district" i18n-placeholder placeholder="District">
+              <mat-option *ngFor="let district of staffNurseDistricts" [value]="district">{{ district }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid && bnrcDetailForm.get('district')?.touched">
+            District is required.
+          </mat-error>
+
+          <ng-container *ngIf="postingLevel === postingBlock">
+            <label i18n for="block-staff-nurse" style="display: block;">आप किस ब्लॉक में पदस्थ हैं? / Which block are you
+              posted in?&nbsp;<span class="red-icon">*</span></label>
+            <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
+              <mat-select id="block-staff-nurse" formControlName="block" i18n-placeholder placeholder="Block">
+                <mat-option *ngFor="let block of staffNurseBlocks" [value]="block">{{ block }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="bnrcDetailForm.get('block')?.invalid && bnrcDetailForm.get('block')?.touched">
+              Block is required.
+            </mat-error>
+          </ng-container>
+        </ng-container>
+      </ng-container>
 
       <ng-container *ngIf="!isStaffNurse">
         <label i18n for="facilityName-cho" style="display: block;">AAM-SHC / आप जिस AAM-SHC में काम कर रहे हैं
-          / In which AAM-SHC you are working <span class="red-icon">*</span></label>
+          / In which AAM-SHC you are working&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select id="facilityName-cho" formControlName="facilityName" i18n-placeholder placeholder="AAM-SHC">
             <mat-option *ngFor="let shc of aamShcs" [value]="shc">
@@ -351,17 +388,15 @@
         </mat-error>
       </ng-container>
 
-      <!-- Staff Nurses: facilities of the block, then "Others" to type a facility not in the list -->
-      <ng-container *ngIf="isStaffNurse">
-        <label i18n for="facilityName-staff-nurse" style="display: block;">Name of Facility / संस्थान का नाम <span
-            class="red-icon">*</span></label>
+      <!-- Staff Nurses: the facilities of the chosen district (district level) or block (block
+           level), then "Others" to type a facility not in the list. Shown once that choice is made. -->
+      <ng-container *ngIf="isStaffNurse && staffNurseFacilityReady">
+        <label i18n for="facilityName-staff-nurse" style="display: block;">Name of Facility / संस्थान का नाम&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select id="facilityName-staff-nurse" formControlName="facilityName" i18n-placeholder
             placeholder="Name of Facility">
-            <mat-option *ngFor="let shc of aamShcs" [value]="shc">
-              {{ shc.name }}
-            </mat-option>
-            <mat-option *ngIf="bnrcDetailForm.get('block')?.value" [value]="facilityOthers">Others</mat-option>
+            <mat-option *ngFor="let facility of staffNurseFacilities" [value]="facility">{{ facility }}</mat-option>
+            <mat-option *ngIf="staffNurseFacilityReady" [value]="facilityOthers">Others</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-error *ngIf="bnrcDetailForm.get('facilityName')?.invalid && bnrcDetailForm.get('facilityName')?.touched">
@@ -369,8 +404,7 @@
         </mat-error>
 
         <div *ngIf="isFacilityOthers" class="form-group input-box">
-          <label i18n for="customFacilityName" style="display: block;">Enter Name of Facility / संस्थान का नाम लिखें
-            <span class="red-icon">*</span></label>
+          <label i18n for="customFacilityName" style="display: block;">Enter Name of Facility / संस्थान का नाम लिखें&nbsp;<span class="red-icon">*</span></label>
           <input id="customFacilityName" type="text" formControlName="customFacilityName" class="form-control"
             i18n-placeholder placeholder="Name of Facility" autocomplete="off">
           <mat-error
@@ -383,13 +417,13 @@
           </mat-error>
         </div>
       </ng-container>
-      <ng-container *ngIf="!isFacilityOthers">
+      <ng-container *ngIf="!isStaffNurse && !isFacilityOthers">
         <label i18n for="nin-cho">NIN Number</label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <input id="nin-cho" matInput placeholder="NIN" formControlName="nin" readonly disabled>
         </mat-form-field>
       </ng-container>
-      <label i18n for="serviceType-cho">Type of service <span class="red-icon">*</span></label>
+      <label i18n for="serviceType-cho">Type of service&nbsp;<span class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select id="serviceType-cho" formControlName="serviceType" i18n-placeholder placeholder="Type of service">
           <mat-option [value]="profession" *ngFor="let profession of serviceType">{{profession}}
