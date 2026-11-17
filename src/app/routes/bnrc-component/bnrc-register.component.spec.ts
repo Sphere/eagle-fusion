@@ -358,15 +358,15 @@ describe('BnrcRegisterComponent', () => {
       expect(custom?.valid).toBe(true)
     })
 
-    it('should clear the typed name and require NIN again when a listed facility is picked', () => {
+    it('should clear the typed name when a listed facility is picked, and never require NIN', () => {
       component.bnrcDetailForm.get('facilityName')?.setValue('Others')
       component.bnrcDetailForm.get('customFacilityName')?.setValue('PHC Danapur')
-      component.bnrcDetailForm.get('facilityName')?.setValue({ name: 'SHC1', nin: 42 })
+      component.bnrcDetailForm.get('facilityName')?.setValue('PHC, MAHUA')
       expect(component.isFacilityOthers).toBe(false)
       expect(component.bnrcDetailForm.get('customFacilityName')?.value).toBe('')
       expect(component.bnrcDetailForm.get('customFacilityName')?.valid).toBe(true)
       component.bnrcDetailForm.get('nin')?.setValue(null)
-      expect(component.bnrcDetailForm.get('nin')?.hasError('required')).toBe(true)
+      expect(component.bnrcDetailForm.get('nin')?.valid).toBe(true)
     })
   })
 
@@ -389,13 +389,29 @@ describe('BnrcRegisterComponent', () => {
       expect(values).not.toHaveProperty('customFacilityName')
     })
 
-    it('should send the listed facility name and its NIN for a Staff Nurse', () => {
+    it('should send the listed facility name and no NIN for a Staff Nurse', () => {
       component.isStaffNurse = true
-      component.bnrcDetailForm.patchValue({ facilityName: { name: 'SHC1', nin: 42 } })
+      component.bnrcDetailForm.patchValue({ facilityName: 'PHC, MAHUA', nin: '42', postingLevel: 'Block', block: 'MAHUA' })
       const values = component.buildFormValues()
-      expect(values.facilityName).toBe('SHC1')
-      expect(values.nin).toBe('42')
+      expect(values.facilityName).toBe('PHC, MAHUA')
+      expect(values.nin).toBe('')
+      expect(values.block).toBe('MAHUA')
       expect(values).not.toHaveProperty('facilityNameOthers')
+      expect(values.postingLevel).toBe('Block')
+    })
+
+    it('should send the district-level posting with no block', () => {
+      component.isStaffNurse = true
+      component.bnrcDetailForm.patchValue({ postingLevel: 'District', district: 'SARAN', block: 'STALE',
+        facilityName: 'SUB DIVISIONAL HOSPITAL, MARHAWRAH' })
+      const values = component.buildFormValues()
+      expect(values.postingLevel).toBe('District')
+      expect(values.block).toBe('')
+    })
+
+    it('should not send postingLevel from the other Bihar forms', () => {
+      component.bnrcDetailForm.patchValue({ postingLevel: 'District' })
+      expect(component.buildFormValues()).not.toHaveProperty('postingLevel')
     })
 
     it('should send an empty NIN when a listed facility has none', () => {

@@ -21,6 +21,17 @@ import { S3_END_POINTS } from '../../constants/apiConstants'
 
 /** Last option of the Staff Nurses facility list; the user then types the facility name. */
 export const FACILITY_OTHERS = 'Others'
+
+/** Staff Nurses answer "district level or block level?" first (form-only; never sent). */
+export const POSTING_DISTRICT = 'District'
+export const POSTING_BLOCK = 'Block'
+
+/** bihar-staff-nurse-facilities.json (S3_END_POINTS.biharStaffNurseFacilityUrl): per district,
+ * the district-level facilities (Sadar / Sub Divisional hospitals) and, per block, the block-level
+ * ones (Referral hospital, CHC, PHC, APHC), each labelled as in the source sheet, e.g. "PHC, MAHUA". */
+export interface StaffNurseFacilityData {
+  districts: Record<string, { districtLevel: string[]; blocks: Record<string, string[]> }>
+}
 const FACILITY_NAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9 ,.()/-]*$/
 
 @Component({
@@ -80,6 +91,13 @@ export class BnrcRegisterComponent implements OnInit {
   // ?service=StaffNurse — the CHO form without the role choice, and a facility list that ends in "Others"
   isStaffNurse = false
   readonly facilityOthers = FACILITY_OTHERS
+  readonly postingLevels = [POSTING_DISTRICT, POSTING_BLOCK]
+  readonly postingBlock = POSTING_BLOCK
+  // Staff Nurses' own district -> block -> facility lists (a separate file from the CHO AAM-SHC data).
+  staffNurseData: StaffNurseFacilityData = { districts: {} }
+  staffNurseDistricts: string[] = []
+  staffNurseBlocks: string[] = []
+  staffNurseFacilities: string[] = []
   message = ''
   // instituteNameUrl = '../../../fusion-assets/files/district_institutes_option_a.json'
   institutesData: any = []
@@ -136,7 +154,20 @@ export class BnrcRegisterComponent implements OnInit {
       privateFacilityType: new UntypedFormControl('', []),
       serviceType: new UntypedFormControl('', []),
       customFacilityName: new UntypedFormControl('', []),
+      postingLevel: new UntypedFormControl('', []),
     })
+  }
+
+  get postingLevel(): string {
+    return this.bnrcDetailForm.get('postingLevel')?.value || ''
+  }
+
+  /** The facility list (and its "Others" option) is ready once the district -- and, at block
+   * level, the block -- has been chosen. */
+  get staffNurseFacilityReady(): boolean {
+    const district = this.bnrcDetailForm.get('district')?.value
+    if (!district || !this.postingLevel) return false
+    return this.postingLevel === POSTING_DISTRICT || !!this.bnrcDetailForm.get('block')?.value
   }
 
   get isFacilityOthers(): boolean {
@@ -166,6 +197,7 @@ export class BnrcRegisterComponent implements OnInit {
       privateFacilityType: new UntypedFormControl('', []),
       serviceType: new UntypedFormControl('', []),
       customFacilityName: new UntypedFormControl('', []),
+      postingLevel: new UntypedFormControl('', []),
     })
   }
 
@@ -202,7 +234,11 @@ export class BnrcRegisterComponent implements OnInit {
 
 
     this.bnrcDetailForm.get('district')?.valueChanges.subscribe(selectedDistrict => {
-      this.blocks = selectedDistrict ? Object.keys(this.biharDistrictData[selectedDistrict]) : []
+      if (this.isStaffNurse) {
+        this.onStaffNurseDistrictChange(selectedDistrict)
+        return
+      }
+      this.blocks = selectedDistrict ? Object.keys(this.biharDistrictData[selectedDistrict] || {}) : []
       this.bnrcDetailForm.get('block')?.reset()
       this.bnrcDetailForm.get('facilityName')?.reset()
       this.bnrcDetailForm.get('nin')?.reset()
@@ -237,15 +273,21 @@ export class BnrcRegisterComponent implements OnInit {
 
     this.bnrcDetailForm.get('block')?.valueChanges.subscribe(selectedBlock => {
       const selectedDistrict = this.bnrcDetailForm.get('district')?.value
+      if (this.isStaffNurse) {
+        this.onStaffNurseBlockChange(selectedDistrict, selectedBlock)
+        return
+      }
 
       this.bnrcDetailForm.get('facilityName')?.reset()
       this.bnrcDetailForm.get('nin')?.reset()
       if (selectedDistrict && selectedBlock) {
-        this.aamShcs = this.biharDistrictData[selectedDistrict][selectedBlock] || []
+        this.aamShcs = this.biharDistrictData[selectedDistrict]?.[selectedBlock] || []
       } else {
         this.aamShcs = []
       }
     })
+    this.bnrcDetailForm.get('postingLevel')?.valueChanges.subscribe(level => this.onPostingLevelChange(level))
+
     this.bnrcDetailForm.get('facilityName')?.valueChanges.subscribe(selectedShc => {
       this.logger.log("selectedShc", selectedShc)
       if (selectedShc && selectedShc.nin) {
@@ -340,6 +382,7 @@ export class BnrcRegisterComponent implements OnInit {
         this.bnrcDetailForm.controls.role.setValue('In Service')
         this.professionalChange('CHO')
         this.bnrcDetailForm.controls.roleForInService.setValue('Staff Nurses')
+        this.setupStaffNurseForm()
       }
     })
     this.logger.log("districts", this.districts)
@@ -366,20 +409,71 @@ export class BnrcRegisterComponent implements OnInit {
 
 
 
-  /** "Others" needs a typed facility name and has no NIN; a listed facility is the reverse. */
+  /** "Others" needs a typed facility name. Staff Nurses have no NIN at all, so it is never
+   * required for them; the CHO form does not use this path. */
   applyFacilityOthers(isOthers: boolean) {
     const custom = this.bnrcDetailForm.get('customFacilityName')
-    const nin = this.bnrcDetailForm.get('nin')
     if (isOthers) {
       custom?.setValidators([Validators.required, Validators.pattern(FACILITY_NAME_PATTERN)])
-      nin?.clearValidators()
     } else {
       custom?.clearValidators()
       custom?.setValue('', { emitEvent: false })
-      nin?.setValidators([Validators.required])
     }
     custom?.updateValueAndValidity({ emitEvent: false })
-    nin?.updateValueAndValidity({ emitEvent: false })
+  }
+
+  /** Staff Nurses: load their facility file, ask the posting level first, and drop the NIN
+   * requirement the shared CHO setup added. */
+  setupStaffNurseForm() {
+    const setRequired = (field: string, required: boolean) => {
+      const control = this.bnrcDetailForm.get(field)
+      control?.setValidators(required ? [Validators.required] : [])
+      control?.updateValueAndValidity({ emitEvent: false })
+    }
+    setRequired('postingLevel', true)
+    setRequired('nin', false)
+    setRequired('block', false)
+    this.http.get<StaffNurseFacilityData>(S3_END_POINTS.biharStaffNurseFacilityUrl).subscribe({
+      next: data => {
+        this.staffNurseData = data?.districts ? data : { districts: {} }
+        this.staffNurseDistricts = Object.keys(this.staffNurseData.districts)
+      },
+      error: () => {
+        this.openSnackbar('Could not load the facility list. Please refresh the page and try again.')
+      },
+    })
+  }
+
+  /** District level or block level: clears what was picked under the other choice, and makes the
+   * block required only at block level. */
+  onPostingLevelChange(level: string) {
+    if (!this.isStaffNurse) return
+    const block = this.bnrcDetailForm.get('block')
+    block?.setValidators(level === POSTING_BLOCK ? [Validators.required] : [])
+    this.bnrcDetailForm.patchValue({ district: '', block: '', facilityName: '' }, { emitEvent: false })
+    block?.updateValueAndValidity({ emitEvent: false })
+    this.staffNurseBlocks = []
+    this.staffNurseFacilities = []
+    this.applyFacilityOthers(false)
+  }
+
+  onStaffNurseDistrictChange(district: string) {
+    const entry = district ? this.staffNurseData.districts[district] : undefined
+    this.bnrcDetailForm.patchValue({ block: '', facilityName: '' }, { emitEvent: false })
+    this.applyFacilityOthers(false)
+    if (this.postingLevel === POSTING_DISTRICT) {
+      this.staffNurseBlocks = []
+      this.staffNurseFacilities = entry?.districtLevel ?? []
+    } else {
+      this.staffNurseBlocks = entry ? Object.keys(entry.blocks) : []
+      this.staffNurseFacilities = []
+    }
+  }
+
+  onStaffNurseBlockChange(district: string, block: string) {
+    this.bnrcDetailForm.patchValue({ facilityName: '' }, { emitEvent: false })
+    this.applyFacilityOthers(false)
+    this.staffNurseFacilities = (district && block && this.staffNurseData.districts[district]?.blocks[block]) || []
   }
 
   /**
@@ -388,17 +482,22 @@ export class BnrcRegisterComponent implements OnInit {
    * the same way the MP form saves it.
    */
   buildFormValues(): any {
-    const { customFacilityName, ...formValues } = this.bnrcDetailForm.value
+    // customFacilityName is form-only (the backend rejects unknown fields). postingLevel is sent
+    // for Staff Nurses only (ui-proxies 6.0.6+ stores it); other Bihar forms send exactly what
+    // they did before.
+    const { customFacilityName, postingLevel, ...formValues } = this.bnrcDetailForm.value
     formValues.phone = +formValues.phone
     if (this.isStaffNurse) {
+      formValues.postingLevel = postingLevel || ''
+      // Staff Nurses have no NIN; a district-level posting has no block.
+      formValues.nin = ''
+      if (postingLevel !== POSTING_BLOCK) formValues.block = ''
       const facility = formValues.facilityName
       if (facility === FACILITY_OTHERS) {
         formValues.facilityName = String(customFacilityName || '').trim()
         formValues.facilityNameOthers = FACILITY_OTHERS
-        formValues.nin = ''
       } else if (facility && typeof facility === 'object') {
         formValues.facilityName = facility.name
-        formValues.nin = facility.nin ? String(facility.nin) : ''
       }
     }
     return formValues
