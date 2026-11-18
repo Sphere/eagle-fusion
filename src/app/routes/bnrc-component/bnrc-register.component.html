@@ -331,24 +331,23 @@
       </mat-error>
       </ng-container>
 
-      <!-- Staff Nurses: district level or block level first, then the matching lists. -->
+      <!-- Staff Nurses: facility type first, then district, block (only when the district has more
+           than one for that type) and facility. -->
       <ng-container *ngIf="isStaffNurse">
-        <label i18n for="postingLevel-staff-nurse" style="display: block;">आप ज़िले में पदस्थ हैं या ब्लॉक में? / Are you
-          working at the district level or block level?&nbsp;<span class="red-icon">*</span></label>
+        <label i18n for="facilityType-staff-nurse" style="display: block;">संस्थान का प्रकार / Facility
+          type&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
-          <mat-select id="postingLevel-staff-nurse" formControlName="postingLevel" i18n-placeholder placeholder="District or Block">
-            <mat-option *ngFor="let level of postingLevels" [value]="level">{{ level }}</mat-option>
+          <mat-select id="facilityType-staff-nurse" formControlName="facilityType" i18n-placeholder placeholder="Facility type">
+            <mat-option *ngFor="let type of staffNurseTypes; trackBy: trackByCode" [value]="type.code">{{ facilityTypeLabel(type) }}</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-error *ngIf="bnrcDetailForm.get('postingLevel')?.invalid && bnrcDetailForm.get('postingLevel')?.touched">
-          Please choose District or Block.
+        <mat-error *ngIf="bnrcDetailForm.get('facilityType')?.invalid && bnrcDetailForm.get('facilityType')?.touched">
+          Please choose the facility type.
         </mat-error>
 
-        <ng-container *ngIf="postingLevel">
-          <label *ngIf="postingLevel !== postingBlock" i18n for="district-staff-nurse" style="display: block;">District / आप किस
+        <ng-container *ngIf="facilityType">
+          <label i18n for="district-staff-nurse" style="display: block;">District / आप किस
             ज़िले में पदस्थ हैं? / Which district are you posted in?&nbsp;<span class="red-icon">*</span></label>
-          <label *ngIf="postingLevel === postingBlock" i18n for="district-staff-nurse" style="display: block;">आप जिस ब्लॉक में
-            काम करते हैं, वह किस ज़िले में आता है? / Which district does the block you work in belong to?&nbsp;<span class="red-icon">*</span></label>
           <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
             <mat-select id="district-staff-nurse" formControlName="district" i18n-placeholder placeholder="District">
               <mat-option *ngFor="let district of staffNurseDistricts" [value]="district">{{ district }}</mat-option>
@@ -358,7 +357,7 @@
             District is required.
           </mat-error>
 
-          <ng-container *ngIf="postingLevel === postingBlock">
+          <ng-container *ngIf="showStaffNurseBlock">
             <label i18n for="block-staff-nurse" style="display: block;">आप किस ब्लॉक में पदस्थ हैं? / Which block are you
               posted in?&nbsp;<span class="red-icon">*</span></label>
             <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
@@ -388,8 +387,8 @@
         </mat-error>
       </ng-container>
 
-      <!-- Staff Nurses: the facilities of the chosen district (district level) or block (block
-           level), then "Others" to type a facility not in the list. Shown once that choice is made. -->
+      <!-- Staff Nurses: the chosen type's facilities in that block, then "Others" to type a
+           facility not in the list. Shown once type, district and block are known. -->
       <ng-container *ngIf="isStaffNurse && staffNurseFacilityReady">
         <label i18n for="facilityName-staff-nurse" style="display: block;">Name of Facility / संस्थान का नाम&nbsp;<span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
