@@ -5,7 +5,7 @@ import { ConfigurationsService, LoggerService, ValueService } from '../../../../
 import { IUserProfileDetailsFromRegistry } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '@ws-widget/collection'
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -27,6 +27,8 @@ export const FACILITY_OTHERS = 'Others'
 export const POSTING_DISTRICT = 'District'
 export const POSTING_BLOCK = 'Block'
 const DISTRICT_LEVEL_TYPES = ['SH', 'SDH']
+/** The only type with no block question. */
+const SADAR_HOSPITAL = 'SH'
 
 /** Tab text per facility type code; a code missing here shows the file's own label. */
 export const FACILITY_TYPE_LABELS: Record<string, string> = {
@@ -113,9 +115,11 @@ export class BnrcRegisterComponent implements OnInit {
   staffNurseDistricts: string[] = []
   staffNurseBlocks: string[] = []
   staffNurseFacilities: string[] = []
-  // The block is asked only when the chosen district has more than one for the type; a single
-  // block is filled in (and sent) without asking.
-  showStaffNurseBlock = false
+  // Block step: none (Sadar Hospital, or nothing chosen yet), a dropdown of the district's blocks
+  // for the type plus "Others", or a typed block when the district has none for the type.
+  staffNurseBlockMode: 'none' | 'select' | 'input' = 'none'
+  // The institute is typed (no list for it, or the block was typed).
+  staffNurseFacilityTyped = false
   message = ''
   // instituteNameUrl = '../../../fusion-assets/files/district_institutes_option_a.json'
   institutesData: any = []
@@ -172,6 +176,7 @@ export class BnrcRegisterComponent implements OnInit {
       privateFacilityType: new UntypedFormControl('', []),
       serviceType: new UntypedFormControl('', []),
       customFacilityName: new UntypedFormControl('', []),
+      customBlockName: new UntypedFormControl('', []),
       facilityType: new UntypedFormControl('', []),
     })
   }
@@ -184,9 +189,17 @@ export class BnrcRegisterComponent implements OnInit {
     return this.staffNurseTypes.find(type => type.code === this.facilityType)
   }
 
-  /** The facility list (and its "Others" option) is ready once type, district and block are known. */
+  /** The institute step shows once district and type are chosen and, when the block is a dropdown,
+   * a block (or "Others") is picked. */
   get staffNurseFacilityReady(): boolean {
-    return !!(this.facilityType && this.bnrcDetailForm.get('district')?.value && this.bnrcDetailForm.get('block')?.value)
+    if (!this.facilityType || !this.bnrcDetailForm.get('district')?.value) return false
+    return this.staffNurseBlockMode !== 'select' || !!this.bnrcDetailForm.get('block')?.value
+  }
+
+  /** The block is typed: the district has no block for the type, or "Others" was picked. */
+  get staffNurseBlockTyped(): boolean {
+    return this.staffNurseBlockMode === 'input'
+      || (this.staffNurseBlockMode === 'select' && this.bnrcDetailForm.get('block')?.value === FACILITY_OTHERS)
   }
 
   facilityTypeLabel(type: StaffNurseFacilityType): string {
@@ -224,6 +237,7 @@ export class BnrcRegisterComponent implements OnInit {
       privateFacilityType: new UntypedFormControl('', []),
       serviceType: new UntypedFormControl('', []),
       customFacilityName: new UntypedFormControl('', []),
+      customBlockName: new UntypedFormControl('', []),
       facilityType: new UntypedFormControl('', []),
     })
   }
@@ -323,7 +337,7 @@ export class BnrcRegisterComponent implements OnInit {
         this.bnrcDetailForm.get('nin')?.reset()
       }
       if (this.isStaffNurse) {
-        this.applyFacilityOthers(selectedShc === FACILITY_OTHERS)
+        this.applyFacilityOthers(selectedShc === FACILITY_OTHERS || this.staffNurseFacilityTyped)
       }
     })
 
@@ -459,10 +473,14 @@ export class BnrcRegisterComponent implements OnInit {
     }
     setRequired('facilityType', true)
     setRequired('nin', false)
-    setRequired('block', true)
+    setRequired('block', false)
     this.http.get<StaffNurseFacilityData>(S3_END_POINTS.biharStaffNurseFacilityUrl).subscribe({
       next: data => {
         this.staffNurseTypes = Array.isArray(data?.facilityTypes) ? data.facilityTypes : []
+        // Every district that has any facility type, asked before the type.
+        const districts = new Set<string>()
+        this.staffNurseTypes.forEach(type => Object.keys(type.districts || {}).forEach(d => districts.add(d)))
+        this.staffNurseDistricts = Array.from(districts).sort()
       },
       error: () => {
         this.openSnackbar('Could not load the facility list. Please refresh the page and try again.')
@@ -470,53 +488,89 @@ export class BnrcRegisterComponent implements OnInit {
     })
   }
 
-  /** A new facility type starts the district / block / facility choice again. */
   onFacilityTypeChange(_code: string) {
     if (!this.isStaffNurse) return
-    this.bnrcDetailForm.patchValue({ district: '', block: '', facilityName: '' }, { emitEvent: false })
-    this.staffNurseDistricts = Object.keys(this.selectedStaffNurseType?.districts || {})
-    this.staffNurseBlocks = []
-    this.staffNurseFacilities = []
-    this.showStaffNurseBlock = false
-    this.applyFacilityOthers(false)
+    this.refreshStaffNurseSteps()
   }
 
-  /** The district's blocks for the chosen type. One block is filled in without asking (and its
-   * facilities listed straight away); more than one shows the block question. */
-  onStaffNurseDistrictChange(district: string) {
-    const blocks = (district && this.selectedStaffNurseType?.districts[district]) || {}
-    this.staffNurseBlocks = Object.keys(blocks)
-    this.showStaffNurseBlock = this.staffNurseBlocks.length > 1
-    const onlyBlock = this.staffNurseBlocks.length === 1 ? this.staffNurseBlocks[0] : ''
-    this.bnrcDetailForm.patchValue({ block: onlyBlock, facilityName: '' }, { emitEvent: false })
-    this.staffNurseFacilities = onlyBlock ? blocks[onlyBlock] : []
-    this.applyFacilityOthers(false)
-  }
-
-  onStaffNurseBlockChange(district: string, block: string) {
-    this.bnrcDetailForm.patchValue({ facilityName: '' }, { emitEvent: false })
-    this.applyFacilityOthers(false)
-    this.staffNurseFacilities = (district && block && this.selectedStaffNurseType?.districts[district]?.[block]) || []
+  onStaffNurseDistrictChange(_district: string) {
+    this.refreshStaffNurseSteps()
   }
 
   /**
-   * The request body. customFacilityName is form-only (the backend rejects unknown fields); for
-   * Staff Nurses "Others" becomes facilityName = the typed name + facilityNameOthers = 'Others',
-   * the same way the MP form saves it.
+   * District + facility type decide the block and institute steps (both start again):
+   * - Sadar Hospital: no block question; the district's Sadar Hospital(s) are listed (their sheet
+   *   block is sent). A district with none in the list gets a typed institute name.
+   * - Any other type: the district's blocks for the type, plus "Others" (typed block and typed
+   *   institute). A district with no block for the type gets both typed straight away.
+   */
+  refreshStaffNurseSteps() {
+    const district = this.bnrcDetailForm.get('district')?.value
+    const type = this.facilityType
+    const byBlock = (district && this.selectedStaffNurseType?.districts[district]) || {}
+    const blocks = Object.keys(byBlock)
+    this.bnrcDetailForm.patchValue({ block: '', customBlockName: '', facilityName: '' }, { emitEvent: false })
+    this.staffNurseBlocks = []
+    this.staffNurseFacilities = []
+    this.staffNurseBlockMode = 'none'
+    this.staffNurseFacilityTyped = false
+    if (district && type === SADAR_HOSPITAL) {
+      this.bnrcDetailForm.patchValue({ block: blocks[0] || '' }, { emitEvent: false })
+      this.staffNurseFacilities = blocks.reduce((all: string[], block) => all.concat(byBlock[block]), [])
+      this.staffNurseFacilityTyped = !blocks.length
+    } else if (district && type) {
+      this.staffNurseBlockMode = blocks.length ? 'select' : 'input'
+      this.staffNurseBlocks = blocks
+      this.staffNurseFacilityTyped = !blocks.length
+    }
+    this.applyStaffNurseValidators()
+  }
+
+  /** A listed block lists its institutes; "Others" means a typed block and a typed institute. */
+  onStaffNurseBlockChange(district: string, block: string) {
+    this.bnrcDetailForm.patchValue({ customBlockName: '', facilityName: '' }, { emitEvent: false })
+    this.staffNurseFacilityTyped = block === FACILITY_OTHERS
+    this.staffNurseFacilities = (!this.staffNurseFacilityTyped && district && block
+      && this.selectedStaffNurseType?.districts[district]?.[block]) || []
+    this.applyStaffNurseValidators()
+  }
+
+  /** Requires exactly the Staff Nurse fields on screen: the block dropdown or the typed block, and
+   * the institute dropdown or the typed institute (also typed when "Others" is picked). */
+  applyStaffNurseValidators() {
+    const set = (field: string, validators: ValidatorFn[]) => {
+      const control = this.bnrcDetailForm.get(field)
+      control?.setValidators(validators)
+      control?.updateValueAndValidity({ emitEvent: false })
+    }
+    const typedName = [Validators.required, Validators.pattern(FACILITY_NAME_PATTERN)]
+    set('block', this.staffNurseBlockMode === 'select' ? [Validators.required] : [])
+    set('customBlockName', this.staffNurseBlockTyped ? typedName : [])
+    set('facilityName', this.staffNurseFacilityTyped ? [] : [Validators.required])
+    this.applyFacilityOthers(this.staffNurseFacilityTyped || this.isFacilityOthers)
+  }
+
+  /**
+   * The request body. customFacilityName / customBlockName are form-only (the backend rejects
+   * unknown fields). For Staff Nurses a typed institute (from "Others", or because there is no list)
+   * becomes facilityName = the typed name + facilityNameOthers = 'Others', the same way the MP form
+   * saves it, and a typed block is sent as the block.
    */
   buildFormValues(): any {
-    // customFacilityName is form-only (the backend rejects unknown fields). Staff Nurses also send
-    // facilityType (ui-proxies 6.0.7+) and postingLevel derived from it (6.0.6+); other Bihar
-    // forms send exactly what they did before.
-    const { customFacilityName, facilityType, ...formValues } = this.bnrcDetailForm.value
+    // Staff Nurses also send facilityType (ui-proxies 6.0.7+) and postingLevel derived from it
+    // (6.0.6+); other Bihar forms send exactly what they did before.
+    const { customFacilityName, customBlockName, facilityType, ...formValues } = this.bnrcDetailForm.value
     formValues.phone = +formValues.phone
     if (this.isStaffNurse) {
       formValues.facilityType = facilityType || ''
       formValues.postingLevel = !facilityType ? '' : DISTRICT_LEVEL_TYPES.includes(facilityType) ? POSTING_DISTRICT : POSTING_BLOCK
       // Staff Nurses have no NIN.
       formValues.nin = ''
+      if (this.staffNurseBlockTyped) {
+        formValues.block = String(customBlockName || '').trim()
+      }
       const facility = formValues.facilityName
-      if (facility === FACILITY_OTHERS) {
+      if (facility === FACILITY_OTHERS || this.staffNurseFacilityTyped) {
         formValues.facilityName = String(customFacilityName || '').trim()
         formValues.facilityNameOthers = FACILITY_OTHERS
       } else if (facility && typeof facility === 'object') {
