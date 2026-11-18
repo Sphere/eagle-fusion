@@ -391,33 +391,101 @@ describe('BnrcRegisterComponent', () => {
 
     it('should send the listed facility name and no NIN for a Staff Nurse', () => {
       component.isStaffNurse = true
-      component.bnrcDetailForm.patchValue({ facilityName: 'PHC, MAHUA', nin: '42', postingLevel: 'Block', block: 'MAHUA' })
+      component.bnrcDetailForm.patchValue({ facilityName: 'PHC, MAHUA', nin: '42', facilityType: 'PHC', block: 'MAHUA' })
       const values = component.buildFormValues()
       expect(values.facilityName).toBe('PHC, MAHUA')
       expect(values.nin).toBe('')
       expect(values.block).toBe('MAHUA')
       expect(values).not.toHaveProperty('facilityNameOthers')
+      expect(values.facilityType).toBe('PHC')
       expect(values.postingLevel).toBe('Block')
     })
 
-    it('should send the district-level posting with no block', () => {
+    it('should send postingLevel District, and the block, for a Sadar / Sub Divisional hospital', () => {
       component.isStaffNurse = true
-      component.bnrcDetailForm.patchValue({ postingLevel: 'District', district: 'SARAN', block: 'STALE',
+      component.bnrcDetailForm.patchValue({ facilityType: 'SDH', district: 'SARAN', block: 'MARHAURA',
         facilityName: 'SUB DIVISIONAL HOSPITAL, MARHAWRAH' })
       const values = component.buildFormValues()
       expect(values.postingLevel).toBe('District')
-      expect(values.block).toBe('')
+      expect(values.block).toBe('MARHAURA')
     })
 
-    it('should not send postingLevel from the other Bihar forms', () => {
-      component.bnrcDetailForm.patchValue({ postingLevel: 'District' })
-      expect(component.buildFormValues()).not.toHaveProperty('postingLevel')
+    it('should not send postingLevel or facilityType from the other Bihar forms', () => {
+      component.bnrcDetailForm.patchValue({ facilityType: 'SH' })
+      const values = component.buildFormValues()
+      expect(values).not.toHaveProperty('postingLevel')
+      expect(values).not.toHaveProperty('facilityType')
+    })
+
+    it('should send postingLevel Block for an APHC', () => {
+      component.isStaffNurse = true
+      component.bnrcDetailForm.patchValue({ facilityType: 'APHC', block: 'NARPATGANJ', facilityName: 'NABABGANJ, NARPATGANJ' })
+      const values = component.buildFormValues()
+      expect(values.facilityType).toBe('APHC')
+      expect(values.postingLevel).toBe('Block')
     })
 
     it('should send an empty NIN when a listed facility has none', () => {
       component.isStaffNurse = true
       component.bnrcDetailForm.patchValue({ facilityName: { name: 'SHC1' } })
       expect(component.buildFormValues().nin).toBe('')
+    })
+  })
+
+  describe('Staff Nurse facility type -> district -> block -> facility', () => {
+    const types = [
+      { code: 'SH', label: 'SADAR HOSPITAL', districts: { ARARIA: { ARARIA: ['SADAR HOSPITAL, ARARIA'] } } },
+      { code: 'APHC', label: 'APHC', districts: { ARARIA: {
+        NARPATGANJ: ['DHURNA, NARPATGANJ', 'NABABGANJ, NARPATGANJ'], PALASI: ['PALASI, PALASI'],
+      } } },
+    ]
+
+    beforeEach(() => {
+      component.isStaffNurse = true
+      component.staffNurseTypes = types
+    })
+
+    it('should list the type\'s districts and clear earlier choices when the type changes', () => {
+      component.bnrcDetailForm.patchValue({ facilityType: 'APHC', district: 'X', block: 'Y', facilityName: 'Z' }, { emitEvent: false })
+      component.staffNurseFacilities = ['old']
+      component.onFacilityTypeChange('APHC')
+      expect(component.staffNurseDistricts).toEqual(['ARARIA'])
+      expect(component.bnrcDetailForm.value.district).toBe('')
+      expect(component.bnrcDetailForm.value.block).toBe('')
+      expect(component.bnrcDetailForm.value.facilityName).toBe('')
+      expect(component.staffNurseFacilities).toEqual([])
+      expect(component.showStaffNurseBlock).toBe(false)
+    })
+
+    it('should fill in a single block without asking and list its facilities', () => {
+      component.bnrcDetailForm.patchValue({ facilityType: 'SH', district: 'ARARIA' }, { emitEvent: false })
+      component.onStaffNurseDistrictChange('ARARIA')
+      expect(component.showStaffNurseBlock).toBe(false)
+      expect(component.bnrcDetailForm.value.block).toBe('ARARIA')
+      expect(component.staffNurseFacilities).toEqual(['SADAR HOSPITAL, ARARIA'])
+      expect(component.staffNurseFacilityReady).toBe(true)
+    })
+
+    it('should ask for the block when the district has more than one', () => {
+      component.bnrcDetailForm.patchValue({ facilityType: 'APHC' }, { emitEvent: false })
+      component.onStaffNurseDistrictChange('ARARIA')
+      expect(component.showStaffNurseBlock).toBe(true)
+      expect(component.staffNurseBlocks).toEqual(['NARPATGANJ', 'PALASI'])
+      expect(component.bnrcDetailForm.value.block).toBe('')
+      expect(component.staffNurseFacilityReady).toBe(false)
+    })
+
+    it('should list only the chosen block\'s facilities', () => {
+      component.bnrcDetailForm.patchValue({ facilityType: 'APHC', district: 'ARARIA', block: 'NARPATGANJ' }, { emitEvent: false })
+      component.onStaffNurseBlockChange('ARARIA', 'NARPATGANJ')
+      expect(component.staffNurseFacilities).toEqual(['DHURNA, NARPATGANJ', 'NABABGANJ, NARPATGANJ'])
+      component.onStaffNurseBlockChange('ARARIA', 'UNKNOWN')
+      expect(component.staffNurseFacilities).toEqual([])
+    })
+
+    it('should show the bilingual tab text, falling back to the file label', () => {
+      expect(component.facilityTypeLabel(types[0])).toBe('Sadar Hospital / सदर अस्पताल')
+      expect(component.facilityTypeLabel({ code: 'NEW', label: 'NEW TYPE', districts: {} })).toBe('NEW TYPE')
     })
   })
 

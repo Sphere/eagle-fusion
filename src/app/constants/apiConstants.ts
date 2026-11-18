@@ -212,7 +212,7 @@ export const S3_END_POINTS = {
   biharDistrictUrl: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bihar-district.json?cb=${Date.now()}`,
   // Bihar Staff Nurse registration: district-level (SH/SDH) and block-level (RH/CHC/PHC/APHC)
   // facilities, built from the Bihar health institutions list -- see bnrc-register.component.ts.
-  biharStaffNurseFacilityUrl: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bihar-staff-nurse-facilities.json?cb=${Date.now()}`,
+  biharStaffNurseFacilityUrl: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bihar-staff-nurse-facilities-v2.json?cb=${Date.now()}`,
   instituteNameUrl: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bnrc-institute.json?cb=${Date.now()}`,
   // ORG_META_CONFIG: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`,
   UP_GOV_LOGO: 'https://aastar-app-assets.s3.ap-south-1.amazonaws.com/UP-govlogo1.svg',
