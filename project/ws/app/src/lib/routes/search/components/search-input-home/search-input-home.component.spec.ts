@@ -117,11 +117,14 @@ describe('SearchInputHomeComponent', () => {
   })
 
   describe('init', () => {
-    it('should focus searchInputElem when nativeElement present', () => {
+    it('should not focus the header search on load', () => {
       const focus = jest.fn()
-      component.searchInputElem = { nativeElement: { focus } } as any
-      component.init()
-      expect(focus).toHaveBeenCalled()
+      for (const url of ['/app/search/home', '/app/search/learning?q=care', '/page/home']) {
+        mockRouter.url = url
+        component.searchInputElem = { nativeElement: { focus } } as any
+        component.init()
+      }
+      expect(focus).not.toHaveBeenCalled()
     })
 
     it('should not focus when nativeElement absent', () => {

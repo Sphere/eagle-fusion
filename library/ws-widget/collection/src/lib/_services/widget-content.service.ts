@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
 import { Observable, of, throwError, Subject, BehaviorSubject } from 'rxjs'
-import { catchError, retry, map } from 'rxjs/operators'
+import { catchError, retry, map, finalize, shareReplay } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
 import { NSSearch } from './widget-search.model'
@@ -60,18 +60,34 @@ export class WidgetContentService {
     this.workSource.next(msg)
   }
 
-  // tslint:disable-next-line:max-line-length
-  fetchUserBatchList(userId: string | undefined): Observable<NsContent.ICourse[]> {
-    let path = ''
-    path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_COMP(userId)
-    return this.http
+  /** Enrolment-list requests still in flight, by URL, so simultaneous callers share one. */
+  private readonly inFlightBatchLists = new Map<string, Observable<NsContent.ICourse[]>>()
+
+  /**
+   * The user's enrolled courses. Calls made while an identical request is still in flight
+   * share that request (the course page asks for this list from several places at once);
+   * a call made after it completes always fetches fresh data, so a new enrolment shows up.
+   */
+  // `fresh`: skip joining a request already in flight. Use it right after a write (progress,
+  // enrolment), where a request that started before the write could return the old state.
+  fetchUserBatchList(userId: string | undefined, options?: { fresh?: boolean }): Observable<NsContent.ICourse[]> {
+    const path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_COMP(userId)
+    const pending = options?.fresh ? undefined : this.inFlightBatchLists.get(path)
+    if (pending) {
+      return pending
+    }
+    const request$ = this.http
       .get(path)
       .pipe(
         catchError(this.handleError),
         map(
           (data: any) => data.result.courses
-        )
+        ),
+        finalize(() => this.inFlightBatchLists.delete(path)),
+        shareReplay({ bufferSize: 1, refCount: false }),
       )
+    this.inFlightBatchLists.set(path, request$)
+    return request$
   }
   fetchGeneralAndRcCertificates(): any {
     let path = ''

@@ -57,7 +57,11 @@ describe('QuizComponent', () => {
     mockLoggerSvc = { log: jest.fn(), warn: jest.fn(), error: jest.fn() }
     mockConfigSvc = { userProfile: { userId: 'u1' } }
     mockHttp = { get: jest.fn().mockReturnValue(of({})), post: jest.fn().mockReturnValue(of({})) }
-    mockViewSvc = { getCompetencyAuthoringUrl: jest.fn().mockReturnValue('/authoring/url') }
+    mockViewSvc = {
+      getCompetencyAuthoringUrl: jest.fn().mockReturnValue('/authoring/url'),
+      // the shared quiz-file cache; backed by mockHttp so cases can vary the response
+      getQuizFile: jest.fn((url: string) => mockHttp.get(url).toPromise()),
+    }
 
     component = new QuizComponent(
       mockEvents,
@@ -72,7 +76,6 @@ describe('QuizComponent', () => {
       mockContentSvc,
       mockLoggerSvc,
       mockConfigSvc,
-      mockHttp,
       mockViewSvc
     )
     component.identifier = 'id1'
@@ -572,13 +575,13 @@ describe('QuizComponent', () => {
   describe('handleCourseCompletionOrNavigate', () => {
     it('should read the batch list for the signed-in user', () => {
       component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 50 })
-      expect(mockContentSvc.fetchUserBatchList).toHaveBeenCalledWith('u1')
+      expect(mockContentSvc.fetchUserBatchList).toHaveBeenCalledWith('u1', { fresh: true })
     })
 
     it('should fall back to a blank user id when there is no profile', () => {
       mockConfigSvc.userProfile = null
       component['handleCourseCompletionOrNavigate']({ currentCompletionPercentage: 50 })
-      expect(mockContentSvc.fetchUserBatchList).toHaveBeenCalledWith('')
+      expect(mockContentSvc.fetchUserBatchList).toHaveBeenCalledWith('', { fresh: true })
     })
 
     it('should navigate to the overview when the batch list fails', () => {
@@ -928,6 +931,19 @@ describe('QuizComponent', () => {
         closeAssesmentWith({ event: 'DONE_ASHA', result: 60, passPercentage: 60 })
         expect(navSpy).toHaveBeenCalled()
       })
+    })
+  })
+
+  describe('introPassPercentage', () => {
+    it('uses the pass mark from the quiz file', () => {
+      component.quizJson = { ...component.quizJson, passPercentage: 70 } as any
+      expect(component.introPassPercentage).toBe(70)
+    })
+
+    it('falls back to 60% like the overview dialog', () => {
+      const { passPercentage, ...rest } = component.quizJson as any
+      component.quizJson = rest
+      expect(component.introPassPercentage).toBe(60)
     })
   })
 })

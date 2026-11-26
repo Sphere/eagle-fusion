@@ -233,6 +233,15 @@ describe('HtmlComponent (plugins/html)', () => {
       iframe.onload({ target: iframe })
       expect(component.pageFetchStatus).toBe('done')
     })
+
+    it('drops the loading skeleton on the first load or error event', () => {
+      component.iframeLoaded = false
+      component.onIframeLoadOrError('load', { contentWindow: {}, onload: null } as any)
+      expect(component.iframeLoaded).toBe(true)
+      component.iframeLoaded = false
+      component.onIframeLoadOrError('error')
+      expect(component.iframeLoaded).toBe(true)
+    })
   })
 
   describe('getModuleId', () => {

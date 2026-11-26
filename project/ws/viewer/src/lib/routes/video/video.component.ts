@@ -103,8 +103,13 @@ export class VideoComponent implements OnInit, OnDestroy {
   }
 
   private async handleRouteData(data: any): Promise<void> {
+    // Moving to another video reuses this component. Without this reset the previous video's
+    // `isFetchingDataComplete = true` stayed on while the widget data below was rebuilt, so the
+    // player was rendered with an empty identifier (requesting content for '') and then again
+    // with the real one: a visible double start and console errors on every video-to-video Next.
+    this.isFetchingDataComplete = false
     this.widgetResolverVideoData = null
-    this.videoData = data.content.data
+    this.videoData = data?.content?.data
 
     if (this.videoData) {
       // Fire-and-forget: kicks off the progress-history sync without blocking the
@@ -113,13 +118,19 @@ export class VideoComponent implements OnInit, OnDestroy {
     }
     this.widgetResolverVideoData = this.initWidgetResolverVideoData(this.videoData as any)
     if (this.videoData && this.videoData.identifier) {
-      if (this.activatedRoute.snapshot.queryParams.collectionId) {
-        await this.fetchContinueLearning(
-          this.activatedRoute.snapshot.queryParams.collectionId,
-          this.videoData.identifier,
-        )
-      } else {
-        await this.fetchContinueLearning(this.videoData.identifier, this.videoData.identifier)
+      // The resume point is optional: if this lookup fails the video still opens (from the
+      // start) instead of leaving the player on its loading placeholder.
+      try {
+        if (this.activatedRoute.snapshot.queryParams.collectionId) {
+          await this.fetchContinueLearning(
+            this.activatedRoute.snapshot.queryParams.collectionId,
+            this.videoData.identifier,
+          )
+        } else {
+          await this.fetchContinueLearning(this.videoData.identifier, this.videoData.identifier)
+        }
+      } catch (error) {
+        this.logger.error('Could not read the resume point; opening from the start', error)
       }
     }
     this.widgetResolverVideoData.widgetData.url = this.videoData
@@ -134,7 +145,7 @@ export class VideoComponent implements OnInit, OnDestroy {
     this.widgetResolverVideoData.widgetData.identifier = this.videoData
       ? this.videoData.identifier
       : ''
-    this.widgetResolverVideoData.widgetData.mimeType = data.content.data.mimeType
+    this.widgetResolverVideoData.widgetData.mimeType = this.videoData ? this.videoData.mimeType : ''
     this.widgetResolverVideoData = JSON.parse(JSON.stringify(this.widgetResolverVideoData))
     if (this.videoData && this.videoData.artifactUrl.indexOf('content-store') >= 0) {
       await this.setS3Cookie(this.videoData.identifier)
@@ -304,7 +315,7 @@ export class VideoComponent implements OnInit, OnDestroy {
         disableTelemetry: false,
         url: '',
         identifier: '',
-        mimeType: content.mimeType,
+        mimeType: content?.mimeType,
         resumePoint: 0,
         continueLearning: true,
       },

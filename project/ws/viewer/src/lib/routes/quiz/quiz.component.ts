@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { HttpClient } from '@angular/common/http'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NSQuiz } from '../../plugins/quiz/quiz.model'
 import { ActivatedRoute } from '@angular/router'
@@ -30,7 +29,6 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly http: HttpClient,
     private readonly contentSvc: WidgetContentService,
     private readonly eventSvc: EventService,
     private readonly viewSvc: ViewerUtilService,
@@ -141,9 +139,8 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   private async fetchAndNormalizeQuiz(artifactUrl: string): Promise<NSQuiz.IQuiz> {
-    let quizJSON: NSQuiz.IQuiz = await this.http
-      .get<any>(artifactUrl || '')
-      .toPromise()
+    // Shared, once-per-session download (the course outline has usually fetched it already).
+    let quizJSON: NSQuiz.IQuiz = await this.viewSvc.getQuizFile(artifactUrl || '')
       .catch((_err: any) => {
       })
     if (this.forPreview && quizJSON) {

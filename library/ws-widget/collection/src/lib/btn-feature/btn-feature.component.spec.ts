@@ -1,4 +1,5 @@
 import { BehaviorSubject, Subject } from 'rxjs'
+import { NavigationEnd } from '@angular/router'
 import { BtnFeatureComponent } from './btn-feature.component'
 
 function setLocation(href: string) {
@@ -25,10 +26,12 @@ describe('BtnFeatureComponent', () => {
   let loggerMock: any
   let pinnedAppsSubject: BehaviorSubject<Set<string>>
   let currentOptionSubject: Subject<any>
+  let routerEvents$: Subject<any>
 
   const createComponent = () => {
     pinnedAppsSubject = new BehaviorSubject<Set<string>>(new Set())
     currentOptionSubject = new Subject<any>()
+    routerEvents$ = new Subject<any>()
 
     eventsMock = { raiseInteractTelemetry: jest.fn() }
     configurationsSvcMock = {
@@ -41,7 +44,7 @@ describe('BtnFeatureComponent', () => {
       prefChangeNotifier: { next: jest.fn() },
     }
     btnFeatureSvcMock = { getBadgeCount: jest.fn() }
-    routerMock = { url: '', navigate: jest.fn(), navigateByUrl: jest.fn() }
+    routerMock = { url: '', navigate: jest.fn(), navigateByUrl: jest.fn(), events: routerEvents$.asObservable() }
     mobileSvcMock = { isMobile: false }
     configSvcMock = configurationsSvcMock
     searchApiMock = { changeMessage: jest.fn() }
@@ -187,11 +190,35 @@ describe('BtnFeatureComponent', () => {
     })
   })
 
+  describe('highlighted item follows in-app navigation', () => {
+    it('updates currentText from the URL after each NavigationEnd', () => {
+      component.ngOnInit()
+      setLocation('http://localhost/app/user/my_courses')
+      routerEvents$.next(new NavigationEnd(1, '/app/user/my_courses', '/app/user/my_courses'))
+      expect(component.currentText).toBe('My Courses')
+      setLocation('http://localhost/app/toc/do_1/overview')
+      routerEvents$.next(new NavigationEnd(2, '/app/toc/do_1/overview', '/app/toc/do_1/overview'))
+      expect(component.currentText).toBe('Home')
+      setLocation('http://localhost/app/some-other-page')
+      routerEvents$.next(new NavigationEnd(3, '/app/some-other-page', '/app/some-other-page'))
+      expect(component.currentText).toBe('')
+    })
+
+    it('stops following navigation after destroy', () => {
+      component.ngOnInit()
+      component.ngOnDestroy()
+      setLocation('http://localhost/app/user/my_courses')
+      routerEvents$.next(new NavigationEnd(1, '/app/user/my_courses', '/app/user/my_courses'))
+      expect(component.currentText).not.toBe('My Courses')
+    })
+  })
+
   describe('redirect', () => {
     it('should navigate to home url by default', async () => {
       const hrefSpy = jest.spyOn(document, 'baseURI', 'get').mockReturnValue('http://localhost/')
       await component.redirect({ name: 'Home' })
       expect(component.currentText).toBe('Home')
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/page/home')
       hrefSpy.mockRestore()
     })
 
@@ -199,6 +226,7 @@ describe('BtnFeatureComponent', () => {
       configSvcMock.orgSelectiveCourseConfig = { orgId: 'org1' }
       await component.redirect({ name: 'Home' })
       expect(component.currentText).toBe('Home')
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/app/org-selective-course')
     })
 
     it('should navigate to my_courses when dob present', async () => {
@@ -207,6 +235,7 @@ describe('BtnFeatureComponent', () => {
       })
       await component.redirect({ name: 'My Courses' })
       expect(component.currentText).toBe('My Courses')
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/app/user/my_courses')
     })
 
     it('should navigate to about-you when dob missing for My Courses', async () => {
@@ -220,6 +249,7 @@ describe('BtnFeatureComponent', () => {
     it('should navigate for Notification', async () => {
       await component.redirect({ name: 'Notification' })
       expect(component.currentText).toBe('Notification')
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/notification')
     })
 
     it('should navigate to competency when dob present', async () => {
@@ -228,6 +258,7 @@ describe('BtnFeatureComponent', () => {
       })
       await component.redirect({ name: 'Competency' })
       expect(localStorage.getItem('isOnlyPassbook')).toBe('false')
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/app/user/competency')
     })
 
     it('should navigate to about-you when dob missing for Competency', async () => {
@@ -239,6 +270,7 @@ describe('BtnFeatureComponent', () => {
     it('should handle Search redirect', async () => {
       await component.redirect({ name: 'Search' })
       expect(navOptionMock.changeNavBarActive).toHaveBeenCalledWith('search')
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/app/search/home')
     })
 
     it('should navigate to profile-view when dob present for else branch', async () => {
@@ -247,6 +279,7 @@ describe('BtnFeatureComponent', () => {
       })
       await component.redirect({ name: 'SomethingElse' })
       expect(component.currentText).toBe('SomethingElse')
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/app/profile-view')
     })
 
     it('should navigate to about-you with stored url_before_login when dob missing', async () => {

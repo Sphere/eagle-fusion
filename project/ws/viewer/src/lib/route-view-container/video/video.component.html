@@ -6,6 +6,7 @@
           <mat-card-content class="video-player-mobile-container">
             <div id="fullScreenContainer" class="video-player">
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverVideoData"></ng-container>
+              <div class="player-skeleton ds-skeleton" *ngIf="!isFetchingDataComplete" aria-hidden="true"></div>
             </div>
             <div class="px-3">
               <app-player-navigation-widget></app-player-navigation-widget>

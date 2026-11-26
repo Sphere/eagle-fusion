@@ -88,6 +88,7 @@ describe('MyCoursesComponent', () => {
 
     mockRouter = {
       navigate: jest.fn(),
+      navigateByUrl: jest.fn(),
     }
 
     mockValueSvc = {
@@ -502,15 +503,14 @@ describe('MyCoursesComponent', () => {
   })
 
   describe('navigateToToc with dob present', () => {
-    it('should set location.href when dob is present in profileDetails', async () => {
-      Object.defineProperty(window, 'location', { writable: true, value: { href: '' } })
+    it('should open the course TOC inside the app when dob is present in profileDetails', async () => {
       mockSignupService.getUserData.mockResolvedValue({
         profileDetails: { profileReq: { personalDetails: { dob: '1990-01-01' } } },
       })
       mockConfigSvc.unMappedUser = { id: 'u1' }
       component = createComponent()
       await component.navigateToToc('do_123')
-      // location.href gets set, no navigate call
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/app/toc/do_123/overview')
       expect(mockRouter.navigate).not.toHaveBeenCalled()
     })
   })

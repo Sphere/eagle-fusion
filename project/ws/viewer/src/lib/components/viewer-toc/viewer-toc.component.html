@@ -5,13 +5,9 @@
   <section *ngIf="!collection">
     <div *ngIf="errorWidgetData?.widgetData?.errorType" [wsResolverWidget]="errorWidgetData"></div>
   </section>
-  <mat-card *ngIf="collection && pathSet && !pathSet.has(resourceId)">
-    <mat-card-content>
-      <span class="width-expand flex flex-middle mat-error">
-        <!-- The Resource is not part of the collection -->
-      </span>
-    </mat-card-content>
-  </mat-card>
+  <!-- An empty mat-card used to sit here for "resource is not part of the collection"; its message
+       was commented out, so it only drew a blank 32px box that flashed in on every lesson change
+       (while resourceId moved ahead of pathSet) and pushed the lesson list down and back up. -->
   <!-- Content Area -->
   <!-- Flat List -->
   <mat-list [hidden]="tocMode !== 'FLAT'">

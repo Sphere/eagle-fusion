@@ -5,6 +5,7 @@
         <mat-card>
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player">
+              <div class="player-skeleton ds-skeleton" *ngIf="!isFetchingDataComplete && !isErrorOccured" aria-hidden="true"></div>
               <viewer-plugin-web-module *ngIf="isFetchingDataComplete"
                 [widgetData]="webmoduleData | pipePartialContent: ['identifier','artifactUrl','mimeType','resumePage']"
                 [webModuleManifest]="webmoduleManifest" [theme]="{ className: 'indigo' }" [collectionId]="collectionId">

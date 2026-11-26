@@ -8,7 +8,7 @@
       <span matPrefix *ngIf="!isSmallViewPort">{{"Page" | translate}}</span>
       <input label="PageNumber" style="text-align: center;" aria-label="Page Number" class="pdf-page-num" type="number"
         min="1" [max]="totalPages" [formControl]="currentPage" matInput />
-      <span matSuffix class="pl-2">of {{ totalPages }}</span>
+      <span matSuffix class="pl-2">of {{ totalPages || '…' }}</span>
     </mat-form-field>
     <button mat-button [disabled]="currentPage.value >= totalPages" (click)="loadPageNum(+currentPage.value + 1)"
       matTooltip="next">
@@ -23,10 +23,18 @@
       </div>
     </div>
   </mat-toolbar>
-  <ng-container *ngIf="widgetData?.pdfUrl && pdfViewerReady">
-    <ngx-extended-pdf-viewer [src]="widgetData.pdfUrl" [height]="getPDFHeight" [zoom]="getPDFZoom"
-      [page]="+currentPage.value" [showToolbar]="false" enablePinchOnMobile="true" (pageChange)="loadPageNum($event)"
-      (pagesLoaded)="documentLoded($event)" [(sidebarVisible)]="sidebarOpen" [showHandToolButton]="false"
-      [showSecondaryToolbarButton]="false" [showRotateButton]="false"></ngx-extended-pdf-viewer>
-  </ng-container>
+  <!-- Reserve the viewer's own height from the start: the box grew from 200px to it when the PDF
+       loaded and pushed Previous/Next and the course outline down. -->
+  <div class="pdf-stage" [style.min-height]="getPDFHeight">
+    <ng-container *ngIf="widgetData?.pdfUrl && pdfViewerReady">
+      <ngx-extended-pdf-viewer [src]="widgetData.pdfUrl" [height]="getPDFHeight" [zoom]="getPDFZoom"
+        [page]="+currentPage.value" [showToolbar]="false" enablePinchOnMobile="true" (pageChange)="loadPageNum($event)"
+        (pagesLoaded)="documentLoded($event)" (pdfLoadingFailed)="pdfLoadFailed = true"
+        [(sidebarVisible)]="sidebarOpen" [showHandToolButton]="false"
+        [showSecondaryToolbarButton]="false" [showRotateButton]="false"></ngx-extended-pdf-viewer>
+    </ng-container>
+    <!-- Covers the viewer until the document has loaded (it took 5-7s on a course PDF, showing an
+         empty box and "of 0"); the viewer keeps loading underneath. -->
+    <div class="pdf-skeleton ds-skeleton" *ngIf="!totalPages && !pdfLoadFailed" aria-hidden="true"></div>
+  </div>
 </section>

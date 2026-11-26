@@ -41,7 +41,6 @@ import {
 } from '@ws-widget/utils'
 import moment from 'moment'
 import _ from 'lodash'
-import { HttpClient } from '@angular/common/http'
 // import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
   standalone: false,
@@ -135,10 +134,14 @@ export class QuizComponent implements OnChanges, OnDestroy {
     private readonly contentSvc: WidgetContentService,
     private readonly loggerSvc: LoggerService,
     private readonly configSvc: ConfigurationsService,
-    private readonly http: HttpClient,
     private readonly viewSvc: ViewerUtilService
   ) {
 
+  }
+
+  // Same pass mark the overview dialog shows (60% when the quiz file does not set one).
+  get introPassPercentage(): number {
+    return this.quizJson && this.quizJson.hasOwnProperty('passPercentage') ? this.quizJson.passPercentage : 60
   }
 
   openOverviewDialog() {
@@ -173,6 +176,13 @@ export class QuizComponent implements OnChanges, OnDestroy {
   }
 
   private async handleOverviewDialogClose(result: any): Promise<void> {
+    // The overview is also closed without a result: dialog.closeAll() when the next quiz opens,
+    // or when the learner moves to another lesson. Reading result.event then threw
+    // ("Cannot read properties of undefined (reading 'event')"). No result means no choice was
+    // made, so there is nothing to do, which is what the throw ended up doing anyway.
+    if (!result) {
+      return
+    }
     if (result.event !== 'close-overview') {
       let res = await this.transformQuiz(this.artifactUrl)
       this.quizJson.questions = res.questions
@@ -213,9 +223,9 @@ export class QuizComponent implements OnChanges, OnDestroy {
   }
   private async transformQuiz(url: string): Promise<NSQuiz.IQuiz> {
     const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(url.split('/content')[1])
-    let quizJSON: NSQuiz.IQuiz = await this.http
-      .get<any>(artifactUrl || '')
-      .toPromise()
+    // Runs when the learner presses Start: the file is already in the session cache, so the
+    // questions open at once instead of after another download. Each call gets a fresh copy.
+    let quizJSON: NSQuiz.IQuiz = await this.viewSvc.getQuizFile(artifactUrl || '')
       .catch((_err: any) => {
       })
     if (quizJSON && quizJSON.questions) {
@@ -426,7 +436,8 @@ export class QuizComponent implements OnChanges, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    this.contentSvc.fetchUserBatchList(userId).subscribe(
+    // fresh: completion was just written; an older in-flight list would miss it.
+    this.contentSvc.fetchUserBatchList(userId, { fresh: true }).subscribe(
       (courses: NsContent.ICourse[]) => {
         if (courses && courses.length) {
           this.enrolledCourse = courses.find((course: any) => course.courseId === this.collectionId)
@@ -491,7 +502,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
 
   private handleAssesmentDialogClose() {
     this.dialogAssesment.afterClosed().subscribe((result: any) => {
-      this.loggerSvc.log(result.event)
+      this.loggerSvc.log(result?.event)
       if (result) {
         if (result.event === "NEXT_COMPETENCY" && result.competency) {
           this.nextCompetency()
@@ -832,7 +843,8 @@ export class QuizComponent implements OnChanges, OnDestroy {
           if (this.configSvc.userProfile) {
             userId = this.configSvc.userProfile.userId || ''
           }
-          this.contentSvc.fetchUserBatchList(userId).subscribe(
+          // fresh: this runs right after the progress write above.
+          this.contentSvc.fetchUserBatchList(userId, { fresh: true }).subscribe(
             async (courses: NsContent.ICourse[]) => {
               if (this.collectionId) {
                 if (courses && courses.length) {
@@ -873,7 +885,7 @@ export class QuizComponent implements OnChanges, OnDestroy {
 
                             confirmdialog.afterClosed().subscribe((res: any) => {
                               this.viewerDataSvc.isCourseCompletionFlowActive = false
-                              if (res.event === 'CONFIRMED') {
+                              if (res?.event === 'CONFIRMED') {
                                 this.viewerDataSvc.lastRatingSubmittedCourseId = this.collectionId
                                 this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                                   queryParams: {
@@ -915,7 +927,8 @@ export class QuizComponent implements OnChanges, OnDestroy {
       },
     })
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result.event === 'CLOSE') {
+      // Optional chaining: the dialog can close without a result (closeAll / navigation).
+      if (result?.event === 'CLOSE') {
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
@@ -944,7 +957,8 @@ export class QuizComponent implements OnChanges, OnDestroy {
       disableClose: true,
     })
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result.event === 'CLOSE') {
+      // Optional chaining: the dialog can close without a result (closeAll / navigation).
+      if (result?.event === 'CLOSE') {
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {

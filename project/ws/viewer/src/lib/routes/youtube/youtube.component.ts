@@ -51,6 +51,8 @@ export class YoutubeComponent implements OnInit, OnDestroy {
     this.routeDataSubscription = this.activatedRoute.data.subscribe(
       data => {
         void (async () => {
+          // New lesson: hide the previous one until this one is ready (see routes/video handleRouteData)
+          this.isFetchingDataComplete = false
           this.widgetResolverYoutubeData = null
           this.youtubeData = data.content.data
           if (this.youtubeData) {

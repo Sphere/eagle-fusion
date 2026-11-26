@@ -1,9 +1,26 @@
 @use 'ws-mixins';
 
+// Fill the dialog and make the question area the only scroller. The question area had a fixed
+// 71vh height inside a 95vh dialog; with the title, timer and buttons the content was taller than
+// the dialog on most laptop screens, so the dialog scrolled as well (two vertical scrollbars), and
+// a 5px horizontal overflow added a horizontal scrollbar under the question.
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
 .assesment-container {
   display: flex;
   flex-direction: column;
   margin: 2rem;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  @include ws-mixins.breakpoint-xs {
+    margin: 1rem;
+  }
 
   .close-btn {
     place-self: end;
@@ -89,18 +106,26 @@
 
 .quiz-question-wrapper {
   padding: 21px;
-  height: 71vh;
   display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
 
+  > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   @include ws-mixins.breakpoint-xs {
-    height: 65vh;
-    overflow: auto;
+    padding: 12px 4px;
   }
 }
 
 .result-wrapper {
-  height: 70vh;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
   justify-content: center;
 }
 
@@ -117,10 +142,21 @@
 }
 
 .quiz-progress-bar {
+  // The template binds [color]="primary", which is undefined, so the bar fell back to white on the
+  // white dialog and was invisible next to "1/7". Colour it from the theme directly.
   &.mat-mdc-progress-bar {
-    width: 128.03px;
-    height: 12.6px;
-    border-radius: 3.97614px;
+    width: 128px;
+    height: 6px;
+    border-radius: 999px;
+    overflow: hidden;
+    --mat-progress-bar-active-indicator-color: var(--theme-primary, #1c5d95);
+    --mat-progress-bar-track-color: color-mix(in srgb, var(--theme-primary, #1c5d95) 18%, transparent);
+    --mat-progress-bar-active-indicator-height: 6px;
+    --mat-progress-bar-track-height: 6px;
+    --mdc-linear-progress-active-indicator-color: var(--theme-primary, #1c5d95);
+    --mdc-linear-progress-track-color: color-mix(in srgb, var(--theme-primary, #1c5d95) 18%, transparent);
+    --mdc-linear-progress-active-indicator-height: 6px;
+    --mdc-linear-progress-track-height: 6px;
   }
 
   .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {

@@ -62,6 +62,16 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   isAssessVisible = false
   isPracticeVisible = false
   hasCompetencies = false
+  // Safety cap for the action-area placeholder: if enrolment or progress never arrives, show the real
+  // controls anyway (Details and Share work without them). Long enough not to fire on a slow network.
+  private actionsTimedOut = false
+  private actionsTimer: ReturnType<typeof setTimeout> | null = null
+  // Separate cap for the progress-bar slot, started once enrolment is known (not at page open):
+  // progress normally lands within a second of it. Resume is already usable while the slot waits,
+  // so the cap is generous; a slow network then gets no shift instead of two.
+  private progressTimedOut = false
+  private progressTimer: ReturnType<typeof setTimeout> | null = null
+  private placeholderCourseId: string | undefined
   editButton = false
   reviewButton = false
   isRegistrationSupported = false
@@ -135,6 +145,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    this.startActionsTimer()
     if (sessionStorage.getItem('currentURL')) {
       sessionStorage.removeItem('currentURL')
     }
@@ -286,6 +297,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
+    this.syncPlaceholderTimers()
     this.assignPathAndUpdateBanner(this.router.url)
     const collectionArry = this.updateContentDerivedState()
     if (this.resumeData && this.content) {
@@ -545,6 +557,74 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   private getBatchId(): string {
     const batch = this.batchData && this.batchData.content ? this.batchData.content[0] : undefined
     return batch && batch.batchId ? batch.batchId : ''
+  }
+
+  private startActionsTimer(): void {
+    this.actionsTimer = setTimeout(() => {
+      this.actionsTimedOut = true
+      this.actionsTimer = null
+      this.cdr.markForCheck()
+    }, 10000)
+  }
+
+  private clearPlaceholderTimers(): void {
+    if (this.actionsTimer) {
+      clearTimeout(this.actionsTimer)
+      this.actionsTimer = null
+    }
+    if (this.progressTimer) {
+      clearTimeout(this.progressTimer)
+      this.progressTimer = null
+    }
+  }
+
+  // Keeps the placeholder caps per course: restarts them when the component is reused for another
+  // course, and starts the progress cap once enrolment is known.
+  private syncPlaceholderTimers(): void {
+    const id = this.content?.identifier
+    if (id && this.placeholderCourseId && id !== this.placeholderCourseId) {
+      this.clearPlaceholderTimers()
+      this.actionsTimedOut = false
+      this.progressTimedOut = false
+      this.startActionsTimer()
+    }
+    if (id) {
+      this.placeholderCourseId = id
+    }
+    if (this.batchData?.enrolled && !this.progressTimer && !this.progressTimedOut) {
+      this.progressTimer = setTimeout(() => {
+        this.progressTimedOut = true
+        this.progressTimer = null
+        this.cdr.markForCheck()
+      }, 8000)
+    }
+  }
+
+  // True once the learner's enrolment (batchData) is known. Until then the action area shows one
+  // placeholder instead of building up piece by piece (Start, then Resume, then the certificate icon).
+  get actionsReady(): boolean {
+    return !!this.batchData || this.enrolmentUnavailable
+  }
+
+  // Enrolment will not arrive (preview, non-course content) or did not within the safety cap. The
+  // Start button then shows as it did before, instead of a placeholder that never clears.
+  get enrolmentUnavailable(): boolean {
+    if (this.forPreview || this.actionsTimedOut) {
+      return true
+    }
+    return !!this.content && this.content.primaryCategory !== 'Course'
+  }
+
+  // Enrolled with saved progress, but the progress record has not arrived: the progress bar's slot
+  // shows a placeholder so the bar does not push the icons and button down when it lands.
+  get progressPending(): boolean {
+    if (this.forPreview || this.actionsTimedOut || this.progressTimedOut || !this.batchData?.enrolled) {
+      return false
+    }
+    if (!(Number(this.content?.completionPercentage) > 0) || this.optmisticPercentage === 100) {
+      return false
+    }
+    return this.finishedPercentage === undefined
   }
 
   // Same batch as getBatchId(). cert_templates is a map keyed by template id; a batch with no
@@ -909,6 +989,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearPlaceholderTimers()
     this.tocSvc.analyticsFetchStatus = 'none'
     if (this.routerParamSubscription) {
       this.routerParamSubscription.unsubscribe()

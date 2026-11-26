@@ -129,16 +129,21 @@
   100% { background-position: 800px 0; }
 }
 
+// Laid over the image's box (which keeps its height from the image's width/height
+// attributes) instead of stacked above it: stacked, the banner was shimmer + image tall for
+// a moment and the whole page jumped down, then back up when the shimmer went away.
 .banner-shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   width: 100%;
-  height: 280px;
+  height: 100%;
   border-radius: 12px;
   background: linear-gradient(90deg, #e8e8e8 0px, #d0d0d0 200px, #e8e8e8 400px);
   background-size: 800px 100%;
   animation: bannerShimmer 1.4s infinite linear;
 
   @media (max-width: 767px) {
-    height: 180px;
     border-radius: 8px;
   }
 }

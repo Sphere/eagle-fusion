@@ -684,12 +684,9 @@ export class ViewerResolve {
       map(data => {
         // tslint:disable-next-line: no-parameter-reassignment
         data = data.result.content
-        if (resourceType === 'unknown') {
-          this.router.navigate([
-            `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(data.mimeType)}/${data.identifier
-            }`,
-          ])
-        } else if (resourceType === VIEWER_ROUTE_FROM_MIME(data.mimeType)) {
+        // resourceType 'unknown' is already redirected to the right viewer in tap() above;
+        // navigating here as well started a second, identical navigation.
+        if (resourceType !== 'unknown' && resourceType === VIEWER_ROUTE_FROM_MIME(data.mimeType)) {
           data.platform = this.platform
           this.mobileAppsSvc.sendViewerData(data)
           return { data, error: null }

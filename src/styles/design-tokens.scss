@@ -1,0 +1,187 @@
+// Design tokens: the single source for type, spacing, shape, elevation, motion and focus.
+//
+// Colours stay where they already live: the `--theme-*` custom properties emitted per theme
+// in themes.scss (.light-theme / .dark-theme). This file only adds the theme-independent
+// scales and an opt-in motion layer (.ds-enter, .ds-card-interactive, .ds-pressable). The
+// only global effect is a keyboard focus ring (:focus-visible); everything else applies
+// when a component uses it. See docs/ui-modernization/DESIGN_SYSTEM.md.
+//
+// Rules:
+// - New or touched styles use these variables, never a raw px value or hex colour.
+//   (Tailwind utilities are not mapped to tokens yet: src/styles/tailwind-output.css is a
+//   prebuilt file, see docs/ui-modernization/AUDIT.md.)
+// - Do not add !important here; tokens are plain custom properties on :root.
+
+:root {
+  // Typography. Roboto is the font Angular Material already uses across the app.
+  --ds-font-sans: 'Roboto', 'Segoe UI', 'Noto Sans', 'Noto Sans Devanagari', Arial, sans-serif;
+
+  // Type scale (rem, so it follows the user's browser font size).
+  --ds-text-xs: 0.75rem;   // 12px  captions, meta
+  --ds-text-sm: 0.875rem;  // 14px  secondary text, labels
+  --ds-text-md: 1rem;      // 16px  body (minimum for running text on mobile)
+  --ds-text-lg: 1.125rem;  // 18px  card titles
+  --ds-text-xl: 1.25rem;   // 20px  section titles
+  --ds-text-2xl: 1.5rem;   // 24px  page titles (mobile)
+  --ds-text-3xl: 2rem;     // 32px  page titles (desktop), hero
+
+  --ds-leading-tight: 1.25;
+  --ds-leading-normal: 1.5;
+  --ds-leading-relaxed: 1.65; // Devanagari needs extra room for matras
+
+  --ds-weight-regular: 400;
+  --ds-weight-medium: 500;
+  --ds-weight-bold: 700;
+
+  // Spacing: 4px grid.
+  --ds-space-1: 0.25rem;  // 4
+  --ds-space-2: 0.5rem;   // 8
+  --ds-space-3: 0.75rem;  // 12
+  --ds-space-4: 1rem;     // 16
+  --ds-space-5: 1.25rem;  // 20
+  --ds-space-6: 1.5rem;   // 24
+  --ds-space-8: 2rem;     // 32
+  --ds-space-10: 2.5rem;  // 40
+  --ds-space-12: 3rem;    // 48
+  --ds-space-16: 4rem;    // 64
+
+  // Shape.
+  --ds-radius-sm: 4px;    // inputs, chips
+  --ds-radius-md: 8px;    // cards, dialogs
+  --ds-radius-lg: 12px;   // large cards, sheets
+  --ds-radius-xl: 16px;   // hero panels
+  --ds-radius-pill: 999px; // buttons, pills
+
+  // Elevation. Built on the theme's shadow colour so dark mode stays dark.
+  --ds-elevation-0: none;
+  --ds-elevation-1: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+  --ds-elevation-2: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --ds-elevation-3: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+
+  // Motion: one curve, used everywhere (same curve as AI Studio).
+  --ds-duration-fast: 150ms;
+  --ds-duration-base: 220ms;
+  --ds-duration-slow: 320ms;
+  --ds-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+
+  // Interaction.
+  --ds-touch-target: 44px;
+  --ds-focus-ring: 0 0 0 3px color-mix(in srgb, var(--theme-primary, #1c5d95) 45%, transparent);
+
+  // Loading skeletons (one look for every placeholder, matching the startup skeleton).
+  --ds-skeleton-base: #e7ebef;
+  --ds-skeleton-shine: #f4f6f8;
+
+  // Layout.
+  --ds-container-max: 1200px;
+  --ds-gutter: var(--ds-space-4);
+}
+
+// Dark mode: deeper shadows, otherwise elevation disappears on dark surfaces.
+.dark-theme {
+  --ds-skeleton-base: #262626;
+  --ds-skeleton-shine: #313131;
+  --ds-elevation-1: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --ds-elevation-2: 0 4px 10px rgba(0, 0, 0, 0.55);
+  --ds-elevation-3: 0 12px 24px rgba(0, 0, 0, 0.6);
+}
+
+// ---------------------------------------------------------------------------
+// Shared interaction and motion layer. Opt-in classes only, plus the keyboard focus ring,
+// so nothing changes on a screen until it uses them.
+// ---------------------------------------------------------------------------
+
+// Visible keyboard focus everywhere. :focus-visible only shows for keyboard users, so mouse
+// and touch users see no change. Elements that already draw their own focus style keep it
+// because their rules are more specific.
+:where(a, button, [role='button'], input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--theme-primary, #1c5d95);
+  outline-offset: 2px;
+}
+
+// Content rising into place when it appears. Use on page sections and list items; set
+// `--ds-stagger` (0, 1, 2 ...) on list items for a cascading reveal.
+@keyframes ds-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.ds-enter {
+  animation: ds-rise var(--ds-duration-slow) var(--ds-ease-standard) both;
+  animation-delay: calc(var(--ds-stagger, 0) * 40ms);
+}
+
+// Card that responds to hover and press.
+.ds-card-interactive {
+  transition:
+    transform var(--ds-duration-fast) var(--ds-ease-standard),
+    box-shadow var(--ds-duration-fast) var(--ds-ease-standard);
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--ds-elevation-2);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Button press feedback.
+.ds-pressable {
+  transition: transform var(--ds-duration-fast) var(--ds-ease-standard);
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Shared skeleton block: add `ds-skeleton` to any placeholder element.
+@keyframes ds-skeleton-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+.ds-skeleton {
+  border-radius: var(--ds-radius-md);
+  background: linear-gradient(90deg, var(--ds-skeleton-base) 25%, var(--ds-skeleton-shine) 50%, var(--ds-skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: ds-skeleton-shimmer 1.4s linear infinite;
+}
+
+// Lesson-player placeholder: fills the player box while the next lesson loads.
+.player-skeleton {
+  width: 100%;
+  height: 100%;
+  min-height: 45vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-skeleton {
+    animation: none;
+  }
+
+  :root {
+    --ds-duration-fast: 0ms;
+    --ds-duration-base: 0ms;
+    --ds-duration-slow: 0ms;
+  }
+
+  .ds-enter {
+    animation: none;
+  }
+
+  .ds-card-interactive,
+  .ds-pressable {
+    transition: none;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
+  }
+}

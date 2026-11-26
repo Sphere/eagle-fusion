@@ -5,6 +5,15 @@
   width: 100%;
   justify-content: space-between;
 }
+// The logo arrives with the org data after the header has drawn; the header then grew from 50px
+// to the logo's 60px (max-height of .app-logo) and pushed the whole page down; the nav links block
+// does the same when the profile icons load. Reserve that height for both.
+@media only screen and (min-width: 761px) {
+  .logo-container,
+  .top-right-profile {
+    min-height: 60px;
+  }
+}
 .tourGuideBtn {
   padding: 10px 16px;
   display: flex;
@@ -93,6 +102,9 @@
   max-width: 100%;
   width: 150px;
   max-height: 60px;
+  // width is fixed and max-height caps the height, so a wide logo was squashed vertically.
+  object-fit: contain;
+  object-position: left center;
   filter: var(--theme-icon-filter);
   @include ws-mixins.breakpoint-xs {
     max-width: 100px;
@@ -443,4 +455,25 @@
   color: white;
   font-size: 16px;
   font-weight: 400
+}
+
+// Stand-in for ws-web-nav-link-page while the header config loads. Same margins as .link-container
+// and .link-block, with pills about the width of a link label.
+.nav-links-skeleton {
+  display: flex;
+  align-items: center;
+  margin: 10px 10px 10px 20px;
+
+  span {
+    display: block;
+    width: 72px;
+    height: 14px;
+    margin: 0 15px;
+    border-radius: 4px;
+  }
+
+  .nav-links-skeleton-icon {
+    width: 20px;
+    height: 24px;
+  }
 }

@@ -94,6 +94,10 @@
 .trusted-by-img {
     width: 375px;
     height: 325px;
+    // Never wider than the screen: on phones under 375px this pushed the page into
+    // horizontal scrolling. contain keeps the artwork's proportions when it is capped.
+    max-width: 100%;
+    object-fit: contain;
 
     @include ws-mixins.breakpoint-s {
         width: 300px;
@@ -162,6 +166,16 @@
     display: flex;
     // justify-content: space-between;
     gap: 200px;
+    // Wrap instead of overflowing: with the 200px gap the block was 124px wider than a
+    // 768px tablet screen. Where it fits (desktop) nothing changes.
+    flex-wrap: wrap;
+}
+
+// The partner logos come from config and no longer match the fixed boxes below (one was shown at
+// more than twice its width). Keep the boxes, fit each logo inside without distortion.
+.img-container img,
+.trusted-by-img8 {
+    object-fit: contain;
 }
 
 .trusted-by-img2 {
@@ -263,6 +277,7 @@
 
     .trusted-by-img-container {
         margin-top: 20px;
+        gap: 32px;
     }
 
     .hr-line {

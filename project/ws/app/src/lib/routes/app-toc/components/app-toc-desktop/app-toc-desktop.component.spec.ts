@@ -567,6 +567,117 @@ describe('AppTocDesktopComponent', () => {
     expect(() => component.ngOnInit()).not.toThrow()
   })
 
+  describe('actionsReady', () => {
+    beforeEach(() => {
+      component.forPreview = false
+      component.content = { primaryCategory: 'Course', completionPercentage: 33 } as any
+      component.batchData = undefined
+      component.finishedPercentage = undefined
+    })
+
+    it('waits while enrolment is unknown', () => {
+      expect(component.actionsReady).toBe(false)
+    })
+
+    it('is ready once a not-enrolled batch arrives', () => {
+      component.batchData = { enrolled: false, content: [] }
+      expect(component.actionsReady).toBe(true)
+    })
+
+    it('is ready as soon as an enrolled batch arrives', () => {
+      component.batchData = { enrolled: true, content: [] }
+      expect(component.actionsReady).toBe(true)
+    })
+
+    it('holds the progress slot until the progress record arrives', () => {
+      component.batchData = { enrolled: true, content: [] }
+      expect(component.progressPending).toBe(true)
+      component.finishedPercentage = 33
+      expect(component.progressPending).toBe(false)
+    })
+
+    it('does not hold the progress slot without saved progress, enrolment or below 100%', () => {
+      component.batchData = { enrolled: false, content: [] }
+      expect(component.progressPending).toBe(false)
+      component.batchData = { enrolled: true, content: [] }
+      component.optmisticPercentage = 100
+      expect(component.progressPending).toBe(false)
+      component.optmisticPercentage = null
+      component.content = { primaryCategory: 'Course', completionPercentage: 0 } as any
+      expect(component.progressPending).toBe(false)
+    })
+
+    it('is ready for an enrolled course with no saved progress', () => {
+      component.batchData = { enrolled: true, content: [] }
+      component.content = { primaryCategory: 'Course', completionPercentage: 0 } as any
+      expect(component.actionsReady).toBe(true)
+    })
+
+    it('is ready for preview and non-course content', () => {
+      component.forPreview = true
+      expect(component.actionsReady).toBe(true)
+      component.forPreview = false
+      component.content = { primaryCategory: 'Learning Resource' } as any
+      expect(component.actionsReady).toBe(true)
+    })
+
+    it('shows Start instead of a stuck placeholder when enrolment never arrives', () => {
+      expect(component.enrolmentUnavailable).toBe(false)
+      component.forPreview = true
+      expect(component.enrolmentUnavailable).toBe(true)
+      component.forPreview = false
+      component.content = { primaryCategory: 'Learning Resource' } as any
+      expect(component.enrolmentUnavailable).toBe(true)
+    })
+
+    it('stops holding the progress slot 8s after enrolment if progress never arrives', () => {
+      jest.useFakeTimers()
+      try {
+        component.content = { identifier: 'c1', primaryCategory: 'Course', completionPercentage: 33 } as any
+        component.batchData = { enrolled: true, content: [] }
+        ; (component as any).syncPlaceholderTimers()
+        expect(component.progressPending).toBe(true)
+        jest.advanceTimersByTime(7999)
+        expect(component.progressPending).toBe(true)
+        jest.advanceTimersByTime(1)
+        expect(component.progressPending).toBe(false)
+        ; (component as any).clearPlaceholderTimers()
+      } finally {
+        jest.useRealTimers()
+      }
+    })
+
+    it('restarts the caps when the component is reused for another course', () => {
+      jest.useFakeTimers()
+      try {
+        component.content = { identifier: 'c1', primaryCategory: 'Course', completionPercentage: 33 } as any
+        ; (component as any).syncPlaceholderTimers()
+        ; (component as any).actionsTimedOut = true
+        component.content = { identifier: 'c2', primaryCategory: 'Course', completionPercentage: 33 } as any
+        ; (component as any).syncPlaceholderTimers()
+        expect(component.actionsReady).toBe(false)
+        jest.advanceTimersByTime(10000)
+        expect(component.actionsReady).toBe(true)
+        ; (component as any).clearPlaceholderTimers()
+      } finally {
+        jest.useRealTimers()
+      }
+    })
+
+    it('shows the real controls after the 10s safety cap', () => {
+      jest.useFakeTimers()
+      try {
+        component.ngOnInit()
+        expect(component.actionsReady).toBe(false)
+        jest.advanceTimersByTime(10000)
+        expect(component.actionsReady).toBe(true)
+        component.ngOnDestroy()
+      } finally {
+        jest.useRealTimers()
+      }
+    })
+  })
+
   describe('onPopState', () => {
     afterEach(() => sessionStorage.removeItem('cURL'))
 

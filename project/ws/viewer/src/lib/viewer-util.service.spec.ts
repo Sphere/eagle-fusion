@@ -364,4 +364,27 @@ describe('ViewerUtilService', () => {
       )
     })
   })
+
+  describe('getQuizFile', () => {
+    it('downloads each quiz file once and gives every caller its own copy', async () => {
+      const file = { questions: [{ questionId: 'q1', options: [{ optionId: 'o1', selected: false }] }] }
+      mockHttp.get.mockReturnValue({ toPromise: jest.fn().mockResolvedValue(file) })
+      const a = await service.getQuizFile('/quiz.json')
+      const b = await service.getQuizFile('/quiz.json')
+      expect(mockHttp.get).toHaveBeenCalledTimes(1)
+      expect(a).toEqual(file)
+      a.questions[0].options[0].selected = true
+      expect(b.questions[0].options[0].selected).toBe(false)
+      expect((await service.getQuizFile('/quiz.json')).questions[0].options[0].selected).toBe(false)
+    })
+
+    it('does not keep a failed download', async () => {
+      mockHttp.get
+        .mockReturnValueOnce({ toPromise: jest.fn().mockRejectedValue(new Error('network')) })
+        .mockReturnValueOnce({ toPromise: jest.fn().mockResolvedValue({ questions: [] }) })
+      await expect(service.getQuizFile('/q2.json')).rejects.toThrow('network')
+      await expect(service.getQuizFile('/q2.json')).resolves.toEqual({ questions: [] })
+      expect(mockHttp.get).toHaveBeenCalledTimes(2)
+    })
+  })
 })

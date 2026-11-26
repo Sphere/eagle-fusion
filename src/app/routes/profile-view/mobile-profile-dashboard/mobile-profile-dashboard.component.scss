@@ -826,6 +826,17 @@ font-weight: 500;
 
 .themeIcon {
   filter: brightness(0.5);
+  object-fit: contain;
+  object-position: left center;
+}
+
+.dark-mode-row {
+  align-items: center;
+
+  // The menu rows get ~4px of inline whitespace between icon and label; match it.
+  > div {
+    gap: 4px;
+  }
 }
 
 ::ng-deep .mdc-switch--selected .mdc-switch__track::after {

@@ -15,13 +15,18 @@
       <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
         [ref]="'home'"></ws-app-search-input-home>
 
+      <div *ngIf="showNavLinkPage && !isXSmall && !headerDataLoaded" class="nav-links-skeleton" aria-hidden="true">
+        <span class="ds-skeleton" *ngFor="let i of [1, 2, 3, 4]"></span>
+        <span class="ds-skeleton nav-links-skeleton-icon"></span>
+      </div>
       <ws-web-nav-link-page *ngIf="showNavLinkPage" [menuItems]="menuItems" [mode]="isXSmall"
         [orgData]="orgData"></ws-web-nav-link-page>
     </section>
 
     <button type="button" *ngIf="isXSmall" style="all: unset; display: contents; cursor: pointer;"
       aria-label="Menu" (click)="navigate()">
-      <img class="burger-menu" [src]="config?.rightMenuItem?.image?.src" alt="" />
+      <!-- Only once the icon URL is known: before that it drew a broken-image icon in the header. -->
+      <img *ngIf="config?.rightMenuItem?.image?.src" class="burger-menu" [src]="config.rightMenuItem.image.src" alt="" />
     </button>
   </div>
 

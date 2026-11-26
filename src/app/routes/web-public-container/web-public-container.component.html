@@ -8,7 +8,7 @@
 <div class="paddingView">
 
   <!-- ── Competency user: full-page loading shimmer ─────────────────────── -->
-  <ng-container *ngIf="isLoading() && !isCompetencyUser()">
+  <ng-container *ngIf="showSkeleton()">
     <div class="top-course-container content" *ngFor="let i of [1, 2, 3]">
       <section class="mt-4 view-all-course-container">
         <!-- Header -->
@@ -40,7 +40,7 @@
   </ng-container>
 
   <!-- ── Standard carousel (non-competency users) ──────────────────────── -->
-  <ng-container *ngIf="!isLoading() && !isCompetencyUser()">
+  <ng-container *ngIf="!showSkeleton() && !isCompetencyUser()">
     <section *ngIf="ashaLearningItems()?.length > 0"
       class="ml-2 mr-2 mt-4 view-all-course-container asha-learning-section">
       <div class="line-label flex scroller-container">

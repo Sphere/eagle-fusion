@@ -2098,6 +2098,10 @@ img.img-responsive.img-fluid.slider-images {
 
 img.img-fluid.img-responsive.courses {
     border-radius: 14px;
+    // Course images arrive at many sizes (1554x910, 56x32 ...), all close to 7:4. Reserving
+    // the ratio stops each card growing when its image loads and pushing the page down.
+    aspect-ratio: 7 / 4;
+    object-fit: cover;
 }
 
 img.img-banner.img-responsive {
@@ -2291,4 +2295,88 @@ button.all-courses:focus {
 
 .pt-5, .py-5 {
     padding-top: 10px !important;
+}
+
+
+// Course lists as a card grid. Each card sat in a Bootstrap col-lg-7 (58% of the row), so one
+// course became one giant card with an upscaled, pixelated thumbnail. Cards now take 260-360px
+// columns that fill the row and wrap.
+.org-grid-wrap > .container {
+    max-width: none;
+    padding: 0 20px;
+}
+
+.org-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding-inline: 20px;
+
+    .org-grid-wrap & {
+        padding-inline: 0;
+    }
+
+    > .col-lg-7 {
+        width: auto;
+        max-width: 360px;
+        flex: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    .col-lg-12 {
+        padding: 0;
+    }
+
+    // Card: full thumbnail with the title underneath. The title used to be laid over the bottom of
+    // the image, which at card size covered most of it.
+    > .col-lg-7 a {
+        display: flex !important;
+        flex-direction: column;
+        height: 100%;
+        border-radius: 14px;
+        background: var(--theme-surface, #fff);
+        box-shadow: var(--ds-elevation-1);
+        overflow: hidden;
+        cursor: pointer;
+        transition: box-shadow var(--ds-duration-fast) var(--ds-ease-standard);
+
+        &:hover {
+            box-shadow: var(--ds-elevation-2);
+        }
+    }
+
+    img.img-fluid.img-responsive.courses {
+        display: block;
+        width: 100%;
+        border-radius: 0;
+    }
+
+    // Relative (not absolute) so it sits under the image; z-index keeps it above the hover zoom.
+    .position-absolute {
+        position: relative !important;
+        z-index: 1;
+        inset: auto !important;
+        margin: 0 !important;
+        padding: 10px 12px !important;
+        background: transparent !important;
+    }
+
+    h5 {
+        font-size: 15px;
+        line-height: 1.4;
+        color: var(--theme-text, #101828);
+    }
+}
+
+// Section headings had no colour of their own and came out dark grey on the dark theme.
+.container-start,
+span.resume-learning,
+.container-fluid.p-0-elearn {
+    color: var(--theme-text, #101828);
 }

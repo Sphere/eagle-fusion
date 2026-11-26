@@ -55,10 +55,9 @@ export class SearchInputHomeComponent implements OnInit {
     }
   }
   init() {
-    if (this.searchInputElem.nativeElement) {
-      // activated
-      this.searchInputElem.nativeElement.focus()
-    }
+    // This header box no longer takes focus on load. It sits on every page, so focusing it put a
+    // caret in the header, opened the mobile keyboard, moved screen-reader focus, and on results
+    // pages opened the suggestion list. The search landing page focuses its own box instead.
     this.activated.queryParamMap.subscribe(queryParam => {
       if (this.router.url.includes('search/learning') && queryParam.has('q')) {
         this.queryControl.setValue(queryParam.get('q') || '')

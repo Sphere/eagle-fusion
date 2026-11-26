@@ -71,11 +71,12 @@
           </a>
         </div>
       </ng-container>
-      <div *ngIf="orgDet?.themeConfig?.isDark"
-        style="display:flex; justify-content: space-between; margin-left: 0.5rem">
-        <div>
-          <img class="themeIcon" src="/fusion-assets/images/dark_mode.png" alt="Dark mode">
-          <label style="margin-left: 1rem;" for="darkModeToggle">{{"DARK_MODE" | translate}}</label>
+      <!-- Same row layout as the menu rows above (35x23 icon slot, .options label, divider); it used
+           its own margins and sat ~10px out of line with them. -->
+      <div *ngIf="orgDet?.themeConfig?.isDark" class="border-btm mt-2 dark-mode-row">
+        <div class="flex items-center">
+          <img class="themeIcon" src="/fusion-assets/images/dark_mode.png" alt="Dark mode" width="35" height="23">
+          <label class="options" for="darkModeToggle">{{"DARK_MODE" | translate}}</label>
         </div>
         <mat-slide-toggle id="darkModeToggle" labelPosition="before" [checked]="isDark()" [color]="'primary'"
           (change)="onToggleChange($event)"></mat-slide-toggle>
@@ -224,7 +225,8 @@
             </div>
           </div>
         </ng-container>
-        <p class="text-xl inline-block header2" *ngIf="!isLoading && certificates && certificates.length>0">
+        <!-- text-2xl like the other section titles (Personal Details, Education, ...) -->
+        <p class="text-2xl inline-block header2" *ngIf="!isLoading && certificates && certificates.length>0">
           {{ selectedIndextitle | translate }}</p>
         <div *ngFor="let certificate of certificates">
           <ng-container *ngIf="certificates && certificates.length > 0">

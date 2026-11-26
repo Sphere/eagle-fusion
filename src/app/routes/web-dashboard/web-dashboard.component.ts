@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges, Signal, ChangeDetectorRef, effect } from '@angular/core'
+import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges, Signal, ChangeDetectorRef, effect, NgZone, Optional } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
@@ -51,7 +51,8 @@ export class WebDashboardComponent implements OnInit, OnChanges, OnDestroy {
     private readonly logger: LoggerService,
     private readonly cdr: ChangeDetectorRef,
     private readonly themeSvc: ThemeService,
-    private readonly valueSvc: ValueService
+    private readonly valueSvc: ValueService,
+    @Optional() private readonly ngZone?: NgZone,
   ) {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
@@ -115,9 +116,10 @@ export class WebDashboardComponent implements OnInit, OnChanges, OnDestroy {
     this.clearInterval()
   }
   startCarousel(): void {
-    this.intervalId = setInterval(() => {
-      this.nextSlide()
-    }, 3000) // Change slide every 3 seconds (adjust as needed)
+    // Outside Angular's zone: nextSlide() already refreshes this view with detectChanges(),
+    // so the 3s tick does not need to re-check the whole application each time.
+    const tick = () => setInterval(() => this.nextSlide(), 3000)
+    this.intervalId = this.ngZone ? this.ngZone.runOutsideAngular(tick) : tick()
   }
 
   clearInterval(): void {

@@ -27,9 +27,10 @@
   // padding-left: $size-m;
 }
 
+// The sidenav drawer around this list already scrolls; a second scroll box here (always drawn,
+// overflow-y: scroll) put two scrollbars side by side. The drawer is the one scroller now.
 .outer-ul {
-  overflow-y: scroll;
-  max-height: 94.5vh;
+  overflow-y: visible;
 }
 
 .toc-tree-invisible {
@@ -223,18 +224,22 @@ a.disabled {
   font-size: 16px !important;
   font-weight: 500 !important;
 }
+// Still blocks clicks while the outline works out the new previous/next lessons (Next would
+// otherwise follow the old lesson's link), but no longer washes the whole page white with a
+// spinner on every lesson change: the player shows its own placeholder in that time.
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 2000 !important;
-  background-color: #fff;
-  opacity: 0.7;
+  background: transparent;
+  cursor: progress;
+
+  .loader-container {
+    display: none;
+  }
 }
 
 .relative-content {
@@ -337,7 +342,7 @@ a.disabled {
   }
 
   .overlay {
-    background-color: var(--theme-surface, #0e161b);
+    background: transparent;
   }
 
   .loader-ripple div {

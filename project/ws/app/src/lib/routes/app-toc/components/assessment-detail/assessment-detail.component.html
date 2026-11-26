@@ -4,23 +4,29 @@
   </div>
   <div class="row">
     <div class=" m-2 p-2 ellips">
-      <h4 *ngIf="assesmentdata.timeLimit" class="label2">{{
+      <span *ngIf="!summaryLoaded && !summaryFailed" class="num-skeleton ds-skeleton" aria-hidden="true"></span>
+      <h4 *ngIf="summaryFailed" class="label2">–</h4>
+      <h4 *ngIf="summaryLoaded && assesmentdata.timeLimit" class="label2">{{
         assesmentdata.timeLimit | pipeDurationTransform: 'mnts'
         }}
       </h4>
-      <h4 *ngIf="assesmentdata.duration" class="label2">{{
+      <h4 *ngIf="summaryLoaded && assesmentdata.duration" class="label2">{{
         assesmentdata.duration | pipeDurationTransform: 'mnts'
         }}
       </h4>
       <h4 class="label3">{{'Minutes' | translate}}</h4>
     </div>
     <div class="m-2 p-2 ellips">
-      <h4 class="label2">
-        {{assesmentdata.questions.length}}</h4>
+      <span *ngIf="!summaryLoaded && !summaryFailed" class="num-skeleton ds-skeleton" aria-hidden="true"></span>
+      <h4 *ngIf="summaryFailed" class="label2">–</h4>
+      <h4 *ngIf="summaryLoaded" class="label2">
+        {{assesmentdata.questions?.length}}</h4>
       <h4 class="label3">{{'Questions' | translate}}</h4>
     </div>
     <div class=" m-2 p-2 ellips">
-      <h4 class="label2">{{assesmentdata.passPercentage ? assesmentdata.passPercentage : '0' }}<span>%</span></h4>
+      <span *ngIf="!summaryLoaded && !summaryFailed" class="num-skeleton ds-skeleton" aria-hidden="true"></span>
+      <h4 *ngIf="summaryFailed" class="label2">–</h4>
+      <h4 *ngIf="summaryLoaded" class="label2">{{assesmentdata.passPercentage ? assesmentdata.passPercentage : '0' }}<span>%</span></h4>
       <h4 class="label3">{{'Required' | translate}}</h4>
     </div>
   </div>

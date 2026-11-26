@@ -119,6 +119,8 @@
 .nav-icon {
   width: 24px;
   height: 24px;
+  // The tab icons are not square (e.g. 15x20); fit them instead of stretching them.
+  object-fit: contain;
   filter: grayscale(100%) opacity(0.7);
   transition: filter 0.28s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

@@ -28,8 +28,8 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [OrgHomeComponent],
   imports: [
+    OrgHomeComponent,
     RouterModule.forChild(routes),
     CommonModule,
     TranslateModule,

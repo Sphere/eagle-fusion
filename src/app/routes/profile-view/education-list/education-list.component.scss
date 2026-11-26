@@ -21,7 +21,7 @@
   // }
 
   @include ws-mixins.breakpoint-xs {
-    max-width: 90%;
+    padding-inline: 16px;
   }
 }
 
@@ -69,29 +69,46 @@
   font-size: 20px;
 }
 
-.edit-icon {
-  // position: absolute;
-  // right: 1rem;
-  // color: var(--theme-primary);
+.edu-list {
+  display: flex;
+  flex-direction: column;
+}
 
-  position: relative;
-  left: 7rem;
+.edu-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+
+  & + & {
+    border-top: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
+  }
+}
+
+.edu-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+// Full touch target, aligned with the first line of the entry.
+.edu-edit {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--ds-touch-target, 44px);
+  height: var(--ds-touch-target, 44px);
+  margin: -10px -10px 0 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
   color: var(--theme-accent);
-  float: right;
-  top: 6px;
+  cursor: pointer;
 
-
-  @include ws-mixins.breakpoint-gt-m {
-    left: 24rem;
+  &:hover {
+    background: color-mix(in srgb, var(--theme-accent, #1c5d95) 8%, transparent);
   }
-
-  @include ws-mixins.breakpoint-gt-l {
-    left: 24rem;
-  }
-
-  @include ws-mixins.breakpoint-s {
-    left: 17rem;
-  }
-
-
 }

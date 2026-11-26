@@ -52,6 +52,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   userProfileData!: UserProfileRequest
   academicsArray: Academic[] = []
   certificates: Certificate[] = []
+  static readonly CERT_DOWNLOAD_CONCURRENCY = 3
   imgURI: string[] = []
   // Object URLs minted for certificate thumbnails; revoked in ngOnDestroy so they do not
   // leak for the lifetime of the tab.
@@ -380,7 +381,11 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
             this.logger.error('[MobileProfileDashboard] certificate download failed: ' + certId, err)
             return of(null)
           })
-        )
+        ),
+        // At most three downloads at a time. Unbounded, a learner with ~20 certificates started
+        // them all at once, took every connection the browser allows to the server, and the
+        // page's own icons and requests queued behind them for several seconds.
+        MobileProfileDashboardComponent.CERT_DOWNLOAD_CONCURRENCY,
       ),
       finalize(() => {
         this.contentSvc.updateValue$.pipe(take(1)).subscribe((res: any) => {

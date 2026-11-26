@@ -99,6 +99,8 @@ export class HtmlComponent implements OnInit, OnDestroy {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
         data => {
           void (async () => {
+            // New lesson: hide the previous one until this one is ready (see routes/video handleRouteData)
+            this.isFetchingDataComplete = false
             data.content.data.artifactUrl =
               data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
                 ? `${data.content.data.artifactUrl.replaceAll('%20', '')}&Param1=${this.uuid}`

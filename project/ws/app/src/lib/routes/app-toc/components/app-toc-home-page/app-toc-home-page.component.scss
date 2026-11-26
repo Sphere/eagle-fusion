@@ -196,3 +196,13 @@
     color: var(--theme-text, #ecf3f8) !important;
   }
 }
+
+// Phones: three or four tabs did not fit with Material's default tab padding and min-width, so
+// "Discussion" was cut off behind scroll arrows. Let the tabs share the row instead.
+@media screen and (max-width: 599px) {
+  :host ::ng-deep .toc-links .mat-mdc-tab {
+    min-width: 0;
+    padding: 0 10px;
+    flex: 1 1 auto;
+  }
+}

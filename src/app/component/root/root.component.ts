@@ -104,6 +104,23 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   isSetupPage = false
   createAcc = false
   isHomePage = false
+  /**
+   * True once the first navigation has settled (ended, cancelled or failed). The footer waits
+   * for it: its config usually arrives before the first route has rendered, and drawing it
+   * straight under the header for a frame, then pushing it away, scored a layout shift of
+   * ~0.95 on every public-home visit.
+   */
+  firstNavigationSettled = false
+  // Pages with their own first-load states, where the boot placeholder would only add a jump.
+  private static readonly OWN_LOADING_PATHS = /^\/(page\/home|public\/home)?\/?$/
+
+  get showRouteBootSkeleton(): boolean {
+    return !this.firstNavigationSettled && !RootComponent.OWN_LOADING_PATHS.test(window.location?.pathname || '/')
+  }
+
+  get bootSkeletonIsPlayer(): boolean {
+    return (window.location?.pathname || '').startsWith('/viewer/')
+  }
   showNavigation = true
   hideHeaderFooter = false
   hideFooter = false
@@ -493,7 +510,16 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private subscribeToNavbarDisplay(): void {
-    this.rootSvc.showNavbarDisplay$.pipe(delay(500), takeUntil(this.destroy$)).subscribe(display => {
+    // delay(0) keeps the update out of the change-detection pass that triggered it (the viewer
+    // toggles this from its constructor) without the visible lag the old 500ms delay added:
+    // the header lingered half a second when the player opened and appeared late on load.
+    this.rootSvc.showNavbarDisplay$.pipe(delay(0), takeUntil(this.destroy$)).subscribe(display => {
+      // Opened directly on a lesson, the initial "show" arrived before the player could hide the
+      // header again, so the header (and the page under it) jumped in and out. The player sets
+      // this itself once it activates.
+      if (display && !this.firstNavigationSettled && this.bootSkeletonIsPlayer) {
+        return
+      }
       this.showNavbar = display
       this.changeDetector.detectChanges()
     })
@@ -573,7 +599,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.configData = homeTabConfig || this.playlistSvc.selectedTabConfig()
       this.bodyConfig = this.configData
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
-      this.showNavbar = true
+      // The player hides the app header and bottom bar; turning them on here when the player was
+      // opened directly made both flash in and out during its first load.
+      this.showNavbar = !(window.location?.pathname || '').startsWith('/viewer/')
       this.videoData = this.configData?.[this.configData?.length - 1]
       localStorage.setItem('videoData', JSON.stringify(this.videoData))
       this.checkCompetencyConfig(homeTabConfig)
@@ -610,6 +638,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         event instanceof NavigationError
       ) {
         this.routeChangeInProgress = false
+        this.firstNavigationSettled = true
+        if (!(event instanceof NavigationEnd)) {
+          // A cancelled or failed navigation (e.g. to the player) must not leave the header hidden.
+          this.showNavbar = this.rootSvc.showNavbarDisplay$.value
+        }
         this.currentUrl = event.url
         this.changeDetector.markForCheck()
       }
@@ -623,6 +656,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private applyNavigationEndUiState(event: NavigationEnd): void {
+    // The player hides the site header itself, but only a tick after it has rendered below it,
+    // so the whole player jumped up by the header's height. NavigationEnd fires after the player
+    // is activated and before that first render, so hiding it here lands in the same frame.
+    // (At NavigationStart it was too early: the course page was still on screen and jumped.)
+    if (event.urlAfterRedirects.startsWith('/viewer/')) {
+      this.showNavbar = false
+    }
     this.hideFooter = event.url.includes('/app/org-selective-course')
     if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
       window.location.href = 'public/home'

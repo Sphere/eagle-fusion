@@ -1,3 +1,26 @@
+// Block host (component hosts are inline by default). While the layout config loads, keep the
+// banner block's usual height so the page below does not jump when it arrives; the values are
+// its measured loaded heights at each width.
+:host {
+    display: block;
+}
+
+:host(.is-loading) {
+    min-height: 448px;
+
+    @media (min-width: 600px) {
+        min-height: 519px;
+    }
+
+    @media (min-width: 768px) {
+        min-height: 368px;
+    }
+
+    @media (min-width: 1024px) {
+        min-height: 445px;
+    }
+}
+
 .banner-container{
     display: flex;
     padding-top: 18px;
@@ -209,6 +232,7 @@ text-align: center;
 .count-sphere-icons {
     width: 30px;
     height: 30px;
+    object-fit: contain;
     filter: var(--theme-icon-filter) !important;
 }
 
@@ -304,16 +328,21 @@ text-align: center;
   100% { background-position: 800px 0; }
 }
 
+// Laid over the image's own box (the viewport already reserves the banner's aspect ratio),
+// instead of stacked above it: stacked, the slide was taller while loading and shrank when
+// the image arrived, pulling the page below it up.
 .banner-shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   width: 100%;
-  height: 280px;
+  height: 100%;
   border-radius: 12px;
   background: linear-gradient(90deg, #e8e8e8 0px, #d0d0d0 200px, #e8e8e8 400px);
   background-size: 800px 100%;
   animation: bannerShimmer 1.4s infinite linear;
 
   @media (max-width: 767px) {
-    height: 180px;
     border-radius: 8px;
   }
 }

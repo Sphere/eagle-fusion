@@ -118,7 +118,10 @@ export class InitService {
   private async initializeAppConfig(): Promise<void> {
     try {
       this.reloadAccordingToLocale()
-      const appsConfigPromise = await this.fetchAppsConfig()
+      // All four config files start together; apps config depends only on the user data
+      // already loaded, so it no longer has to finish before the others begin. The awaits
+      // below keep the original processing order.
+      const appsConfigPromise = this.fetchAppsConfig()
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
       const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
       // backstop: if an await below throws before these settle, their rejections would otherwise be unhandled
@@ -143,7 +146,7 @@ export class InitService {
       /*
        * Wait for the apps config and after that
        */
-      const appsConfig = appsConfigPromise
+      const appsConfig = await appsConfigPromise
       this.configSvc.appsConfig = this.processAppsConfig(appsConfig)
       if (this.configSvc.instanceConfig && appsConfig && appsConfig.features) {
         this.configSvc.instanceConfig.featuredApps = this.configSvc.instanceConfig.featuredApps.filter(
@@ -494,21 +497,16 @@ export class InitService {
         } else {
           //this.authSvc.logout()
         }
-        // 🔹 Now that we have userProfile.rootOrgId, fetch org-selective config
-        try {
-          await this.fetchOrgSelectiveConfig()
-        } catch (err) {
-          this.logger.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
-        }
-
-        // 🔹 Load org home-redirect map from orgMeta.json so the GeneralGuard
-        //    can intercept /page/home and send matching-org users straight to
-        //    their org-details page.  Non-fatal: a failure won't block the app.
-        try {
-          await this.fetchOrgHomeRedirectConfig()
-        } catch (err) {
-          this.logger.warn('fetchOrgHomeRedirectConfig failed (non-fatal):', err)
-        }
+        // Now that we have userProfile.rootOrgId, load the org-selective config and the org
+        // home-redirect map (orgMeta.json, used by GeneralGuard to send matching-org users
+        // to their org-details page). They are independent, so they load in parallel; each
+        // failure stays non-fatal.
+        await Promise.all([
+          this.fetchOrgSelectiveConfig().catch(err =>
+            this.logger.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)),
+          this.fetchOrgHomeRedirectConfig().catch(err =>
+            this.logger.warn('fetchOrgHomeRedirectConfig failed (non-fatal):', err)),
+        ])
         const details = {
           group: [],
           profileDetailsStatus: !!get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),

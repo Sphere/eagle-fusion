@@ -63,7 +63,6 @@ describe('WorkInfoEditComponent', () => {
   let component: WorkInfoEditComponent
   let mockConfigSvc: any
   let mockUserProfileSvc: any
-  let mockRouter: any
   let mockSnackBar: any
   let mockRoute: any
   let mockValueSvc: any
@@ -82,20 +81,20 @@ describe('WorkInfoEditComponent', () => {
         profileDetails: { profileReq: { professionalDetails: [{ name: 'AIIMS', designation: 'Nurse' }] } },
       })),
       updateProfileDetails: jest.fn().mockReturnValue(of({ success: true })),
+      _updateuser: { next: jest.fn() },
     }
-    mockRouter = { navigate: jest.fn() }
     mockSnackBar = { open: jest.fn() }
     mockRoute = { queryParams: new BehaviorSubject({}) }
     mockValueSvc = { isMobile: jest.fn().mockReturnValue(false) }
     mockContentSvc = {
       workMessage: { subscribe: jest.fn().mockReturnValue({ unsubscribe: mockUnsubscribe }) },
+      changeWork: jest.fn(),
     }
     mockLogger = { log: jest.fn() }
 
     component = new WorkInfoEditComponent(
       mockConfigSvc,
       mockUserProfileSvc,
-      mockRouter,
       mockSnackBar,
       mockRoute,
       mockValueSvc,
@@ -129,7 +128,7 @@ describe('WorkInfoEditComponent', () => {
   it('should set showbackButton true when isMobile returns true', () => {
     mockValueSvc.isMobile.mockReturnValue(true)
     component = new WorkInfoEditComponent(
-      mockConfigSvc, mockUserProfileSvc, mockRouter, mockSnackBar,
+      mockConfigSvc, mockUserProfileSvc, mockSnackBar,
       mockRoute, mockValueSvc, {} as any, mockContentSvc, {} as any, mockLogger, {} as any,
     )
     expect(component.showbackButton).toBe(true)
@@ -170,7 +169,6 @@ describe('WorkInfoEditComponent', () => {
       const comp = new WorkInfoEditComponent(
         mockConfigSvc,
         mockUserProfileSvc,
-        mockRouter,
         mockSnackBar,
         mockRoute,
         mockValueSvc,
@@ -257,7 +255,6 @@ describe('WorkInfoEditComponent', () => {
       componentWithMocks = new WorkInfoEditComponent(
         mockConfigSvc,
         mockUserProfileSvc,
-        mockRouter,
         mockSnackBar,
         mockRoute,
         mockValueSvc,
@@ -270,10 +267,11 @@ describe('WorkInfoEditComponent', () => {
       componentWithMocks.userProfileData = { professionalDetails: [] }
     })
 
-    it('should call updateProfileDetails and navigate to workinfo-list on success', () => {
+    it('should save and return to the list inside the profile page on success', () => {
       componentWithMocks.onSubmit({ organizationName: 'Test Org', designation: 'Dev' })
       expect(mockUserProfileSvc.updateProfileDetails).toHaveBeenCalled()
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/workinfo-list'])
+      expect(mockUserProfileSvc._updateuser.next).toHaveBeenCalledWith('true')
+      expect(mockContentSvc.changeWork).toHaveBeenCalledWith({ type: 'work', edit: 'save' })
     })
 
     it('should not throw when form has no doj', () => {

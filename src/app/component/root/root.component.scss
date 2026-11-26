@@ -19,6 +19,19 @@ ws-app-nav-bar {
   background: #DCEFEC !important;
   padding: 10px 0px !important;
 }
+// Every page except home keeps at least one screen of height, so the site footer starts
+// below the fold and is not drawn under the header and then pushed down when the page's own
+// data arrives. Home is excluded: its sections render after <main>, outside it.
+.height-adjust.reserve-viewport {
+  min-height: calc(100vh - 80px);
+  min-height: calc(100dvh - 80px);
+}
+
+.public-nav-placeholder {
+  height: 80px;
+  flex-shrink: 0;
+}
+
 .route-change {
   position: fixed;
   top: 0;
@@ -376,4 +389,80 @@ ws-app-footer {
   width: 100%;
   // z-index: 9999;
   margin-top: auto;
+}
+
+// First-load page placeholder (see showRouteBootSkeleton). Generic page: a title line and a content
+// block. Player (.is-player): title strip, player box and the course outline column.
+.route-boot-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  // main lays its children out in a row; without these the placeholder shrank to its padding.
+  flex: 1 1 100%;
+  width: 100%;
+  max-width: 1110px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  box-sizing: border-box;
+
+  .rbs-title {
+    width: min(420px, 70%);
+    height: 28px;
+  }
+
+  .rbs-body {
+    display: flex;
+    gap: 24px;
+  }
+
+  .rbs-main {
+    flex: 1 1 auto;
+    height: 50vh;
+  }
+
+  .rbs-side {
+    display: none;
+  }
+
+  // The logged-in header is fixed and main gets 80px of top padding once it shows. Until then the
+  // placeholder holds that space itself, so the header appearing does not push it down.
+  &.reserve-header {
+    margin-top: 80px;
+  }
+
+  &.is-player {
+    max-width: none;
+    padding: 24px 50px;
+
+    .rbs-side {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 0 0 min(400px, 28%);
+    }
+
+    .rbs-line {
+      height: 64px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 16px;
+
+    &.is-player {
+      padding: 16px;
+
+      .rbs-body {
+        flex-direction: column;
+      }
+
+      .rbs-main {
+        height: 220px;
+      }
+
+      .rbs-side {
+        flex-basis: auto;
+      }
+    }
+  }
 }

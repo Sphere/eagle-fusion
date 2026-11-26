@@ -1,12 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy, effect } from '@angular/core'
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService, LoggerService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import { constructReq } from '../request-util'
-import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
+import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/format-datepicker'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { LanguageService } from '../../../services/language.service'
@@ -38,7 +38,6 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
   constructor(
     private readonly configSvc: ConfigurationsService,
     private readonly userProfileSvc: UserProfileService,
-    private readonly router: Router,
     private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
     private readonly valueSvc: ValueService,
@@ -153,7 +152,11 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
         if (res) {
           this.workInfoForm.reset()
           this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
-          this.router.navigate(['/app/workinfo-list'])
+          // Back to the list inside the profile page, the way the education form does it. This used
+          // to navigate to /app/workinfo-list, a route that needs inputs only the profile page
+          // supplies, so a successful save left the learner on a blank page.
+          this.userProfileSvc._updateuser.next('true')
+          this.contentSvc.changeWork({ type: 'work', edit: 'save' })
         }
       })
   }

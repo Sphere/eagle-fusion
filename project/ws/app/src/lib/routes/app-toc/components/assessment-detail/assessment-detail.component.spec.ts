@@ -1,7 +1,7 @@
 import { ChangeDetectorRef } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'
-import { of, throwError } from 'rxjs'
+import { lastValueFrom, of, throwError } from 'rxjs'
 
 jest.mock('@ws-widget/collection', () => ({
   WidgetContentService: class MockWidgetContentService { },
@@ -10,16 +10,18 @@ jest.mock('@ws-widget/collection', () => ({
 import { WidgetContentService } from '@ws-widget/collection'
 import { ViewerUtilService } from '../../../../../../../viewer/src/lib/viewer-util.service'
 import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
-import { AssessmentDetailComponent } from './assessment-detail.component'
+import { AssessmentDetailComponent, clearAssessmentQuizCache } from './assessment-detail.component'
+
+const mockHttp: Partial<HttpClient> = {
+  get: jest.fn(),
+}
 
 const mockViewSvc: Partial<ViewerUtilService> = {
   getCompetencyAuthoringUrl: jest.fn().mockImplementation((url: string) => url),
   getAuthoringUrl: jest.fn().mockImplementation((url: string) => url),
   replaceToAuthUrl: jest.fn().mockImplementation((quiz: any) => quiz),
-}
-
-const mockHttp: Partial<HttpClient> = {
-  get: jest.fn(),
+  // the shared quiz-file cache; backed by mockHttp so the cases below can vary the response
+  getQuizFile: jest.fn((url: string) => lastValueFrom((mockHttp.get as jest.Mock)(url))),
 }
 
 const mockContentSvc: Partial<WidgetContentService> = {
@@ -41,7 +43,6 @@ function mockRoute(queryParams: any): Partial<ActivatedRoute> {
 function createComponent(route: Partial<ActivatedRoute>): AssessmentDetailComponent {
   return new AssessmentDetailComponent(
     mockViewSvc as ViewerUtilService,
-    mockHttp as HttpClient,
     mockContentSvc as WidgetContentService,
     route as ActivatedRoute,
     mockLogger as LoggerService,
@@ -63,6 +64,7 @@ describe('AssessmentDetailComponent', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    clearAssessmentQuizCache()
   })
 
   it('should create', () => {
@@ -199,5 +201,86 @@ describe('AssessmentDetailComponent', () => {
       ; (mockHttp.get as jest.Mock).mockReturnValue(of({ questions: [] }))
     await runNgOnInit(component)
     expect(mockViewSvc.getAuthoringUrl).toHaveBeenCalledWith('http://x/content/artifact.json')
+  })
+
+  describe('summary loading', () => {
+    const quiz = () => ({ questions: [{ multiSelection: false }, { multiSelection: true }], passPercentage: 70 })
+
+    it('marks the summary loaded once the quiz file arrives', async () => {
+      component = createComponent(mockRoute({}))
+      component.content = { artifactUrl: 'http://x/content/q1.json', identifier: 'id-1' }
+      ; (mockHttp.get as jest.Mock).mockReturnValue(of(quiz()))
+      expect(component.summaryLoaded).toBe(false)
+      await runNgOnInit(component)
+      expect(component.summaryLoaded).toBe(true)
+      expect(component.assesmentdata.questions.length).toBe(2)
+    })
+
+    it('shows the failed state instead of endless placeholders when the quiz file fails', async () => {
+      component = createComponent(mockRoute({}))
+      component.content = { artifactUrl: 'http://x/content/q1.json', identifier: 'id-1' }
+      ; (mockHttp.get as jest.Mock).mockReturnValue(throwError(() => new Error('network')))
+      await runNgOnInit(component)
+      expect(component.summaryLoaded).toBe(false)
+      expect(component.summaryFailed).toBe(true)
+      expect(mockCdr.detectChanges).toHaveBeenCalled()
+    })
+
+    it('downloads each quiz file once and reuses it for later rows', async () => {
+      ; (mockHttp.get as jest.Mock).mockReturnValue(of(quiz()))
+      const first = createComponent(mockRoute({}))
+      first.content = { artifactUrl: 'http://x/content/q1.json', identifier: 'id-1' }
+      const second = createComponent(mockRoute({}))
+      second.content = { artifactUrl: 'http://x/content/q1.json', identifier: 'id-1' }
+      await runNgOnInit(first)
+      await runNgOnInit(second)
+      expect(mockHttp.get).toHaveBeenCalledTimes(1)
+      expect(second.summaryLoaded).toBe(true)
+      expect(second.assesmentdata).not.toBe(first.assesmentdata)
+    })
+
+    it('retries after a failed download', async () => {
+      const c1 = createComponent(mockRoute({}))
+      c1.content = { artifactUrl: 'http://x/content/q2.json', identifier: 'id-2' }
+      ; (mockHttp.get as jest.Mock).mockReturnValueOnce(throwError(() => new Error('network')))
+      await runNgOnInit(c1)
+      ; (mockHttp.get as jest.Mock).mockReturnValueOnce(of(quiz()))
+      const c2 = createComponent(mockRoute({}))
+      c2.content = { artifactUrl: 'http://x/content/q2.json', identifier: 'id-2' }
+      await runNgOnInit(c2)
+      expect(mockHttp.get).toHaveBeenCalledTimes(2)
+      expect(c2.summaryLoaded).toBe(true)
+    })
+
+    it('waits until the row is on screen when IntersectionObserver is available', async () => {
+      let trigger: (entries: any[]) => void = () => { }
+      const disconnect = jest.fn()
+      const observe = jest.fn()
+      ; (global as any).IntersectionObserver = jest.fn().mockImplementation((cb: any) => {
+        trigger = cb
+        return { observe, disconnect }
+      })
+      try {
+        ; (mockHttp.get as jest.Mock).mockReturnValue(of(quiz()))
+        const host = document.createElement('div')
+        const c = new AssessmentDetailComponent(
+          mockViewSvc as ViewerUtilService, mockContentSvc as WidgetContentService,
+          mockRoute({}) as ActivatedRoute, mockLogger as LoggerService, mockCdr as ChangeDetectorRef, { nativeElement: host },
+        )
+        c.content = { artifactUrl: 'http://x/content/q3.json', identifier: 'id-3' }
+        await runNgOnInit(c)
+        expect(observe).toHaveBeenCalledWith(host)
+        expect(mockHttp.get).not.toHaveBeenCalled()
+        trigger([{ isIntersecting: true }])
+        for (let i = 0; i < 5; i++) {
+          await Promise.resolve()
+        }
+        expect(disconnect).toHaveBeenCalled()
+        expect(mockHttp.get).toHaveBeenCalledTimes(1)
+        expect(c.summaryLoaded).toBe(true)
+      } finally {
+        delete (global as any).IntersectionObserver
+      }
+    })
   })
 })

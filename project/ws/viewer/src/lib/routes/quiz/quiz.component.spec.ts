@@ -50,9 +50,11 @@ describe('QuizComponent (routes)', () => {
       getAuthoringUrl: jest.fn().mockReturnValue('author-url'),
       replaceToAuthUrl: jest.fn().mockImplementation(data => data),
       competencyAsessment: { next: jest.fn() },
+      // the shared quiz-file cache; backed by mockHttp so the cases below can vary the response
+      getQuizFile: jest.fn((url: string) => mockHttp.get(url).toPromise()),
     }
     mockCdr = { detectChanges: jest.fn() }
-    return new QuizComponent(mockActivatedRoute, mockHttp, mockContentSvc, mockEventSvc, mockViewSvc, mockCdr)
+    return new QuizComponent(mockActivatedRoute, mockContentSvc, mockEventSvc, mockViewSvc, mockCdr)
   }
 
   beforeEach(() => {

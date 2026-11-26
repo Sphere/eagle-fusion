@@ -85,6 +85,24 @@ color: var(--theme-text) !important;
 
 .footer-first-col {
   justify-content: flex-start;
+  // Wrap the link lists rather than overflow: between 600px and 767px the row was up to 268px
+  // wider than the screen. Each list keeps at least its content's width, so a column that
+  // does not fit moves to the next row instead of being clipped. Where the lists fit
+  // (desktop) nothing changes.
+  flex-wrap: wrap;
+
+  // Side-by-side columns only (600px and up); on phones the columns stack and must shrink.
+  @media (min-width: 600px) {
+    > .list {
+      min-width: max-content;
+    }
+
+    // Material's list item clips its content and leaves it out of the list's measured width,
+    // so the WhatsApp button was cut off ("Talk to us on Wha"). Reserve room for it.
+    > .list:has(.whatsapp-logo-container) {
+      min-width: 250px;
+    }
+  }
   // align-items: center;
     @include ws-mixins.breakpoint-m {
       justify-content:space-between;
@@ -489,7 +507,12 @@ hr.new1{
 }
 .whatsapp-logo-container{
   margin-block: 5px;
-  width: 230px;
+  // Grows with its label (the 15px !important font-size below beats the smaller tablet size,
+  // so fixed widths cut the text or let it spill past the border).
+  width: max-content;
+  min-width: 230px;
+  padding-right: 12px;
+  box-sizing: border-box;
   border: 1px solid var(--theme-text) !important;
   border-radius: 100px;
   display: flex;
@@ -500,7 +523,7 @@ hr.new1{
   font-size: 15px !important;
    @include ws-mixins.breakpoint-s {
     font-size: 12px;
-    width: 160px;
+    min-width: 160px;
     padding-left: 0px;
     margin-top: 0px;
   }

@@ -14,7 +14,7 @@
         <div class="text-over">
           <div class="img-shimmer-wrapper">
             <div class="img-shimmer" [class.img-shimmer-hide]="imgLoaded"></div>
-            <img alt="" class="appIcon fitsize"
+            <img [alt]="courseData?.name || ''" class="appIcon fitsize" loading="lazy" decoding="async"
               src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}"
               (load)="imgLoaded = true" (error)="imgLoaded = true">
           </div>
@@ -80,7 +80,7 @@
         <div class="img-block">
           <div class="img-shimmer-wrapper">
             <div class="img-shimmer" [class.img-shimmer-hide]="imgLoaded"></div>
-            <img alt="" class="appIcon fitsizeMini"
+            <img [alt]="courseData?.name || ''" class="appIcon fitsizeMini" loading="lazy" decoding="async"
               src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}"
               (load)="imgLoaded = true" (error)="imgLoaded = true">
           </div>
@@ -180,7 +180,7 @@ Added  new template for the program card
         </div>
 
         <!-- S3 thumbnail -->
-        <img [src]="programData?.thumbnail" [alt]="programData?.title" />
+        <img [src]="programData?.thumbnail" [alt]="programData?.title" loading="lazy" decoding="async" />
 
         <!-- Status chip — only shown if program has activity -->
         <div *ngIf="programData?.programStatus" class="status" [ngClass]="{

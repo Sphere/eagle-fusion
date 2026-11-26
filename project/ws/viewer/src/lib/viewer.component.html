@@ -14,7 +14,7 @@
         </viewer-viewer-toc>
 
       </mat-sidenav>
-      <mat-sidenav-content class="sidenavContent">
+      <mat-sidenav-content class="sidenavContent" [class.switching-lesson]="switchingLesson">
 
         <section *ngIf="status === 'error'">
           <div *ngIf="errorWidgetData?.widgetData?.errorType" [wsResolverWidget]="errorWidgetData"></div>

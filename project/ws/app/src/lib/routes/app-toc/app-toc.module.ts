@@ -75,6 +75,7 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
 import { AppTocCertificateModalComponent } from './components/app-toc-certificate-modal/app-toc-certificate-modal.component'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 import { TranslateModule } from '@ngx-translate/core'
+import { ConfigService as DiscussionConfigService } from '../../../../../../../src/app/routes/discussion-forum/wrapper/service/config.service'
 @NgModule({
   declarations: [
     ConfirmmodalComponent,
@@ -145,6 +146,8 @@ import { TranslateModule } from '@ngx-translate/core'
     TranslateModule,
   ],
   providers: [
+    // Was provided at the root by DiscussionUiModule.forRoot() in AppModule (see WrapperModule).
+    { provide: 'configService', useClass: DiscussionConfigService },
     AppTocResolverService,
     AppTocService,
     PipeContentRoutePipe,

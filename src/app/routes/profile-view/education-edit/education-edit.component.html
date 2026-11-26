@@ -9,7 +9,7 @@
         <select id="courseDegree" formControlName="courseDegree" class="form-control select-box"
           [attr.aria-label]="'Grade/Degree' | translate">
           <option [ngValue]="''" disabled>{{ 'Grade/Degree' | translate }}</option>
-          <option *ngFor="let academic of academics" [ngValue]="academic">{{ academic.type }}</option>
+          <option *ngFor="let academic of academics" [ngValue]="academic">{{ academic.type | translate }}</option>
         </select>
       </div>
 

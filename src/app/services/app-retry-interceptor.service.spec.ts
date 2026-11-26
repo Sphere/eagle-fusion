@@ -47,6 +47,53 @@ describe('AppRetryInterceptorService', () => {
     })
   })
 
+  it('retries a 503 at most twice (0.5s, then 1.5s) and then gives the error to the caller', () => {
+    jest.useFakeTimers()
+    const { defer, throwError } = require('rxjs')
+    const { HttpErrorResponse } = require('@angular/common/http')
+    let attempts = 0
+    mockHandler.handle = jest.fn().mockReturnValue(
+      defer(() => {
+        attempts++
+        return throwError(() => new HttpErrorResponse({ status: 503 }))
+      }),
+    )
+    const errors: any[] = []
+    service.intercept(new HttpRequest('GET', '/api/data'), mockHandler).subscribe({
+      error: (err: any) => errors.push(err),
+    })
+    expect(attempts).toBe(1)
+    jest.advanceTimersByTime(499)
+    expect(attempts).toBe(1)
+    jest.advanceTimersByTime(1)
+    expect(attempts).toBe(2)
+    jest.advanceTimersByTime(1500)
+    expect(attempts).toBe(3)
+    jest.advanceTimersByTime(60000)
+    expect(attempts).toBe(3)
+    expect(errors.length).toBe(1)
+    expect(errors[0].status).toBe(503)
+    jest.useRealTimers()
+  })
+
+  it('does not retry a plain 500', () => {
+    const { defer, throwError } = require('rxjs')
+    const { HttpErrorResponse } = require('@angular/common/http')
+    let attempts = 0
+    mockHandler.handle = jest.fn().mockReturnValue(
+      defer(() => {
+        attempts++
+        return throwError(() => new HttpErrorResponse({ status: 500 }))
+      }),
+    )
+    const errors: any[] = []
+    service.intercept(new HttpRequest('GET', '/api/data'), mockHandler).subscribe({
+      error: (err: any) => errors.push(err),
+    })
+    expect(attempts).toBe(1)
+    expect(errors[0].status).toBe(500)
+  })
+
   it('should throw error for 4xx without retrying', done => {
     const { throwError } = require('rxjs')
     const { HttpErrorResponse } = require('@angular/common/http')

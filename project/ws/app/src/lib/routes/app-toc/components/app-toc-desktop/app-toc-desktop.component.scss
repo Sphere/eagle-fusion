@@ -298,6 +298,9 @@
   display: flex;
   align-items: center;
     gap: 6px;
+  // The rating summary loads after the page; without a reserved line the stars pushed the
+  // progress bar and buttons down ~15px when they arrived.
+  min-height: 18px;
 }
 .average-rating{
 font-family: Roboto, sans-serif;
@@ -382,4 +385,63 @@ mat-progress-bar {
   .modal-surface {
     background: var(--theme-bg, #17242d);
   }
+}
+
+// Placeholder with the Start/Resume button's size (from .banner-btn) while enrolment loads.
+// Overrides only the button colour, so the size and responsive widths stay identical.
+.banner-btn.toc-action-skeleton {
+  background: linear-gradient(90deg, var(--ds-skeleton-base) 25%, var(--ds-skeleton-shine) 50%, var(--ds-skeleton-base) 75%) !important;
+  background-size: 200% 100% !important;
+  border: none !important;
+}
+
+// One placeholder for the whole action area (progress bar, icon row, button) while enrolment and
+// saved progress load. Sizes follow .progress-section, .toc-icon-action/.button-border and .banner-btn.
+.toc-actions-skeleton {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  .toc-skel-progress {
+    width: 100%;
+    max-width: 320px;
+    height: 20px;
+    border-radius: 40px;
+    margin-bottom: 16px;
+  }
+
+  .toc-skel-icons {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .toc-skel-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 56px;
+    min-height: 60px;
+  }
+
+  .toc-skel-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .toc-skel-label {
+    width: 44px;
+    height: 12px;
+    border-radius: 4px;
+  }
+}
+
+// Progress-bar slot while the progress record loads; .progress-section gives the same box.
+.toc-skel-progress-slot .toc-skel-progress {
+  width: 100%;
+  height: 20px;
+  border-radius: 40px;
 }

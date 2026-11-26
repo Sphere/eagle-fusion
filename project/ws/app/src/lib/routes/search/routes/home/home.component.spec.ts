@@ -302,4 +302,18 @@ describe('HomeComponent', () => {
       expect(component.suggestedFilters).toEqual([{ id: 1 }])
     })
   })
+
+  describe('ngAfterViewInit', () => {
+    it('focuses the search box on the search landing page', () => {
+      const focus = jest.fn()
+      component.searchQueryInput = { nativeElement: { focus } } as any
+      component.ngAfterViewInit()
+      expect(focus).toHaveBeenCalled()
+    })
+
+    it('does not throw when the box is not rendered', () => {
+      component.searchQueryInput = undefined
+      expect(() => component.ngAfterViewInit()).not.toThrow()
+    })
+  })
 })

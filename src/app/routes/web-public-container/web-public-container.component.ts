@@ -48,6 +48,37 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
   isLoading = signal(false)
+  /** Set when SKELETON_LIMIT_MS has passed, so a page that genuinely has nothing to show stops loading. */
+  private readonly skeletonTimedOut = signal(false)
+  private skeletonTimer?: ReturnType<typeof setTimeout>
+  static readonly SKELETON_LIMIT_MS = 8000
+  /** Set shortly after loading ends, so a section's empty-state message is not held back 8s. */
+  private readonly loadSettled = signal(false)
+  private settleTimer?: ReturnType<typeof setTimeout>
+  static readonly SETTLE_MS = 2000
+  /**
+   * Keep the skeleton up until there is something to show. `isLoading` can turn false a moment
+   * before the course sections have their data (it is cleared on a timer in several places);
+   * in that gap the container rendered empty, collapsed to zero height and pulled everything
+   * below it up, then pushed it down again: a visible jump on every home visit.
+   */
+  showSkeleton = computed(() => {
+    // Competency users never saw this skeleton (their list has its own loading state).
+    if (this.isCompetencyUser()) {
+      return false
+    }
+    if (this.isLoading()) {
+      return true
+    }
+    if (this.skeletonTimedOut()) {
+      return false
+    }
+    const hasSection = this.uiConfig().some(c => c?.show && c?.data?.length > 0)
+    // Sections that are empty but have their own "nothing here yet" message count as content once
+    // loading has settled; until then they may still be filling in.
+    const hasEmptyState = this.loadSettled() && this.uiConfig().some(c => c?.show && c?.fallbackState?.label)
+    return !hasSection && !hasEmptyState && !(this.ashaLearningItems()?.length > 0)
+  })
   @ViewChildren('scrollToCneCourses') sections!: QueryList<ElementRef<HTMLElement>>
   userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
@@ -85,7 +116,16 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     this.lang = this.langSvc.getCurrentLanguage()
   }
 
+  private finishLoading(): void {
+    this.isLoading.set(false)
+    if (this.settleTimer) {
+      clearTimeout(this.settleTimer)
+    }
+    this.settleTimer = setTimeout(() => this.loadSettled.set(true), WebPublicComponent.SETTLE_MS)
+  }
+
   ngOnInit() {
+    this.skeletonTimer = setTimeout(() => this.skeletonTimedOut.set(true), WebPublicComponent.SKELETON_LIMIT_MS)
     this.initializeContainer()
   }
 
@@ -140,7 +180,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0 || this.programIdentifiers.length > 0) {
       this.fetchEnvironmentConfigurations()
     } else {
-      this.isLoading.set(false)
+      this.finishLoading()
     }
   }
 
@@ -162,7 +202,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       this.competencySection = sectionFromConfig || { sectionId: 'COMPETENCY_PLAYLIST', title: 'YOUR LEARNING PLAN', tabCardCount: 4,}
 
       this.isCompetencyUser.set(true)
-      this.isLoading.set(false)
+      this.finishLoading()
       return true
     }
     this.configData = this.programConfig?.tabs
@@ -295,7 +335,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
     this.competencySection = sectionFromConfig || { sectionId: 'COMPETENCY_PLAYLIST', title: 'YOUR LEARNING PLAN', tabCardCount: 4 }
 
     this.isCompetencyUser.set(true)
-    this.isLoading.set(false)
+    this.finishLoading()
     return true
   }
 
@@ -380,7 +420,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
 
       if (!content.length) {
         setTimeout(() => {
-          this.isLoading.set(false)
+          this.finishLoading()
         })
         return
       }
@@ -447,7 +487,7 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
       this.uiConfig.set([...this.uiConfig()])
     }
     setTimeout(() => {
-      this.isLoading.set(false)
+      this.finishLoading()
     })
   }
 
@@ -504,6 +544,12 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.settleTimer) {
+      clearTimeout(this.settleTimer)
+    }
+    if (this.skeletonTimer) {
+      clearTimeout(this.skeletonTimer)
+    }
     if (this.courseRecommendationTimeout) {
       clearTimeout(this.courseRecommendationTimeout)
     }

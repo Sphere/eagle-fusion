@@ -64,6 +64,22 @@ describe('AppFooterComponent', () => {
     )
   })
 
+  it('should pick up org and footer config that arrive after creation', () => {
+    const effectMock = jest.requireMock('@angular/core').effect as jest.Mock
+    const late = { orgDetails: jest.fn().mockReturnValue(''), footerConfig: jest.fn().mockReturnValue('') }
+    effectMock.mockClear()
+    const c = new AppFooterComponent(mockConfigSvc, mockValueSvc, mockRouter, late as any, mockLogger, mockThemeSvc)
+    // the root binds [config] = {} before the playlist data loads
+    c.config = {}
+    expect(c.appIcon).toBeFalsy()
+    late.orgDetails.mockReturnValue({ appLogo: 'late-logo' })
+    late.footerConfig.mockReturnValue({ footerLabel: 'Footer text' })
+    const followConfig = effectMock.mock.calls[effectMock.mock.calls.length - 1][0]
+    followConfig()
+    expect(c.appIcon).toBe('late-logo')
+    expect(c.configData).toEqual({ footerLabel: 'Footer text' })
+  })
+
   it('should initialize component with default values', () => {
     expect(component.isXSmall).toBe(false)
     expect(component.termsOfUser).toBe(true)

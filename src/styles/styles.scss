@@ -1064,10 +1064,16 @@ button.submit-btn[disabled] {
 }
 
 .quiz-modal {
-  width: 70vw;
-  height: 95vh;
+  // Capped so short questions do not sit in a huge empty box and long lines stay readable on wide
+  // screens. The question area inside is the only scroller (see quiz-modal.component.scss).
+  width: min(70vw, 1040px);
+  height: min(90vh, 820px);
   max-width: 100vw !important;
   max-height: 100vh;
+
+  .mat-mdc-dialog-surface.mdc-dialog__surface {
+    overflow: hidden;
+  }
 
   //overrides default height of dialog
   @include ws-mixins.breakpoint-xs {

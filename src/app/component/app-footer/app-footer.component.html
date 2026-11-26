@@ -24,7 +24,7 @@
         <mat-list-item *ngIf="isEkshamata"><span class="link-header">
             {{ configData?.footerHeading | translate}}</span></mat-list-item>
         <mat-list-item style="margin-top: 10px; height: 60px !important;">
-          <img class="footer-aastar-logo" loading="lazy" [src]="appIcon" alt="Angular icon" id="footer-aastar-logo">
+          <img *ngIf="appIcon" class="footer-aastar-logo" loading="lazy" [src]="appIcon" alt="Angular icon" id="footer-aastar-logo">
         </mat-list-item>
       </mat-list>
       <!-- EKSHAMATA SECTION -->

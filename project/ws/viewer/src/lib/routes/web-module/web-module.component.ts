@@ -41,6 +41,8 @@ export class WebModuleComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           void (async () => {
+            // New lesson: hide the previous one until this one is ready (see routes/video handleRouteData)
+            this.isFetchingDataComplete = false
             this.webmoduleData = data
             if (this.alreadyRaised && this.oldData) {
               this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)

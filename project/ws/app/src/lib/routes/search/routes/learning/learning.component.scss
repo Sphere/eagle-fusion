@@ -241,3 +241,35 @@
     background-color: rgba(0, 0, 0, 0.4) !important;
   }
 }
+
+// Language filter: the select was absolutely positioned over a fixed 268px box, so a longer label
+// ("Filter based on Language :", and the Hindi one) ran underneath it. Lay them side by side.
+.filter-lang {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width: auto;
+
+  label {
+    white-space: nowrap;
+  }
+
+  .lang-select {
+    position: relative;
+    right: auto;
+    top: auto;
+    margin-right: 14px;
+  }
+}
+
+// Wide screens: results and their skeleton sit in the same 1110px content column as the home page
+// instead of running edge to edge.
+@media (min-width: 1280px) {
+  .sidenav-content > div,
+  .sk-head,
+  .shimmer-card {
+    max-width: 1110px;
+    margin-inline: auto;
+  }
+}

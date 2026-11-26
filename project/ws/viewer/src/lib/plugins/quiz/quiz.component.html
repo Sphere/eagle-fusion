@@ -1,3 +1,24 @@
+<!-- What this quiz is, and a way back into it. Shown on the page behind the quiz dialogs and while
+     they open; the card used to be an empty white box. Same facts as the overview dialog. -->
+<div *ngIf="viewState === 'initial'" class="quiz-intro">
+  <h2 class="quiz-intro-title">{{ name }}</h2>
+  <p class="quiz-intro-type">{{ (quizJson?.isAssessment ? 'Assessment' : 'Quiz') | translate }}</p>
+  <div class="quiz-intro-stats">
+    <div class="quiz-intro-stat">
+      <span class="quiz-intro-value">{{ duration | pipeDurationTransform: 'mnts' }}</span>
+      <span class="quiz-intro-label">{{ 'Minutes' | translate }}</span>
+    </div>
+    <div class="quiz-intro-stat">
+      <span class="quiz-intro-value">{{ quizJson?.questions?.length || 0 }}</span>
+      <span class="quiz-intro-label">{{ 'Questions' | translate }}</span>
+    </div>
+    <div class="quiz-intro-stat">
+      <span class="quiz-intro-value">{{ introPassPercentage }}%</span>
+      <span class="quiz-intro-label">{{ 'Required' | translate }}</span>
+    </div>
+  </div>
+  <button type="button" class="quiz-intro-start" (click)="openOverviewDialog()">{{ 'Start Now!' | translate }}</button>
+</div>
 <div #quizContainer *ngIf="viewState !== 'initial'" class="quiz-container">
   <nav class="quiz-nav-bar mat-toolbar mat-caption">
     <span>

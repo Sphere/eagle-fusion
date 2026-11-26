@@ -93,7 +93,7 @@ jest.mock('@ngx-translate/core', () => ({
   TranslateService: class { instant = jest.fn().mockImplementation((k: string) => k) },
 }))
 
-import { of } from 'rxjs'
+import { Observable, of, Subject } from 'rxjs'
 import { MobileProfileDashboardComponent } from './mobile-profile-dashboard.component'
 
 describe('MobileProfileDashboardComponent', () => {
@@ -827,6 +827,34 @@ describe('MobileProfileDashboardComponent', () => {
       }
       expect(component.certificates[0]['printUri']).toBe('http://image-url.jpg')
     }, 3000)
+
+    it('downloads at most three certificates at a time and still finishes them all', () => {
+      const pending: Subject<any>[] = []
+      let active = 0
+      let maxActive = 0
+      mockContentSvc.getCertificateAPI = jest.fn().mockImplementation(() => {
+        const s = new Subject<any>()
+        pending.push(s)
+        return new Observable(sub => {
+          active++
+          maxActive = Math.max(maxActive, active)
+          const inner = s.subscribe(sub)
+          return () => { active--; inner.unsubscribe() }
+        })
+      })
+      mockContentSvc.updateValue$ = { pipe: jest.fn().mockReturnThis(), subscribe: jest.fn() }
+      const ids = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7']
+      const data = { generalCertificates: [{ issuedCertificates: ids.map(identifier => ({ identifier })) }], sunbirdRcCertificates: [] }
+      const complete = jest.fn()
+      component.processCertiFicate(data).subscribe({ complete })
+      for (let i = 0; i < pending.length; i++) {
+        pending[i].next({})
+        pending[i].complete()
+      }
+      expect(maxActive).toBeLessThanOrEqual(MobileProfileDashboardComponent.CERT_DOWNLOAD_CONCURRENCY)
+      expect(mockContentSvc.getCertificateAPI).toHaveBeenCalledTimes(ids.length)
+      expect(complete).toHaveBeenCalled()
+    })
   })
 
   describe('setupMenuItems with orderList', () => {

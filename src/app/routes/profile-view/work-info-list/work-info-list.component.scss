@@ -21,8 +21,9 @@
     max-width: 100%;
   }
 
+  // Full width on phones: 90% left a wide gap on the right only, so forms looked off-centre.
   @include ws-mixins.breakpoint-xs {
-    max-width: 90%;
+    max-width: 100%;
   }
 }
 

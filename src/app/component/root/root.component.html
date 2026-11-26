@@ -9,6 +9,9 @@
   <!-- before login -->
   <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn && orgDetails"
     [orgConfig]="orgDetails"></ws-app-public-nav-bar>
+  <!-- Holds the public header's 80px while its config loads, so the page does not shift down when it appears -->
+  <div class="public-nav-placeholder" aria-hidden="true"
+    *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn && !orgDetails"></div>
   <!-- Logged-In header -->
   <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired && showNavbar && !hideHeaderFooter"
     [mode]="'top'"></ws-app-nav-bar>
@@ -17,7 +20,8 @@
   <main class="height-adjust" [ngClass]="{
     'height-on-bottom custom-scroll': isXSmall$ && showNavbar,
       'height-adjust-setup': isSetupPage,
-      'height-on-top': !isXSmall$ && showNavbar && isNavBarRequired
+      'height-on-top': !isXSmall$ && showNavbar && isNavBarRequired,
+      'reserve-viewport': !isHomePage
     }">
     <ws-dashboard class="mb-6" *ngIf="isLoggedIn && isHomePage && bodyConfig" [configData]="bodyConfig"></ws-dashboard>
     <!-- Featured Section-->
@@ -25,6 +29,23 @@
       <ws-web-public-container [userEnrollCourse]="userEnrollCourse()"
         [configData]="bodyConfig"></ws-web-public-container>
     </section>
+    <!-- Page placeholder until the first route has resolved. The startup skeleton in index.html is
+         replaced when the app boots, and a page opened directly (a lesson, a course page) then sat
+         blank for 1-3s while its data loaded. Home has its own loading states. -->
+    <div class="route-boot-skeleton" *ngIf="showRouteBootSkeleton" [class.is-player]="bootSkeletonIsPlayer"
+      [class.reserve-header]="!bootSkeletonIsPlayer && isLoggedIn && !isXSmall$ && !(showNavbar && isNavBarRequired)"
+      aria-hidden="true">
+      <div class="ds-skeleton rbs-title"></div>
+      <div class="rbs-body">
+        <div class="ds-skeleton rbs-main"></div>
+        <div class="rbs-side">
+          <div class="ds-skeleton rbs-line"></div>
+          <div class="ds-skeleton rbs-line"></div>
+          <div class="ds-skeleton rbs-line"></div>
+          <div class="ds-skeleton rbs-line"></div>
+        </div>
+      </div>
+    </div>
     <!-- Always render router-outlet for better content loading -->
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
@@ -51,7 +72,7 @@
   <!-- Desktop Footer -->
   <ws-app-footer class="app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
     [ngClass]="{'hide-in-mobile': isLoggedIn && isXSmall$}"
-    *ngIf="showNavbar && !hideHeaderFooter && !hideFooter && showNavigation && footerConfig" [config]="footerConfig">
+    *ngIf="firstNavigationSettled && showNavbar && !hideHeaderFooter && !hideFooter && showNavigation && footerConfig" [config]="footerConfig">
   </ws-app-footer>
 
   <!-- bottom nav bar for mobile -->
@@ -96,7 +117,7 @@
     <!-- Desktop Footer -->
     <ws-app-footer [isEkshamata]="isEkshamata" class="app-footer hide-in-mobile"
       [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
-      *ngIf="showNavbar && isLoggedIn && !hideHeaderFooter && footerConfig" [config]="footerConfig">
+      *ngIf="firstNavigationSettled && showNavbar && isLoggedIn && !hideHeaderFooter && footerConfig" [config]="footerConfig">
     </ws-app-footer>
     <ng-container>
       <ws-app-nav-bar class="bottom-nav-bar" *ngIf="isXSmall$ && !hideHeaderFooter && !showProgramDet()"

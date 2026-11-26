@@ -1,5 +1,6 @@
 <div class="banner-header">
-  <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png" alt="Banner">
+  <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png" alt="Banner" width="1440"
+    height="828" fetchpriority="high">
 </div>
 
 <ng-container *ngIf="enrollData===false;else second">
@@ -10,7 +11,7 @@
     <span class="resume-learning">
       Continue Learning
     </span>
-    <div class="container-xxl py-5 category">
+    <div class="container-xxl py-5 category org-grid">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
         <div class="row g-3" *ngIf="resultEnroll.length>0">
           <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.contentId)"
@@ -63,9 +64,9 @@
 </div>
 
 
-<div class="container-xxl py-5 category">
+<div class="container-xxl py-5 category org-grid-wrap">
   <div class="container">
-    <div class="row g-3">
+    <div class="row g-3 org-grid">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultResponse">
         <div class="row g-3">
           <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)"
@@ -84,7 +85,7 @@
     </div>
   </div>
 </div>
-<div class="container-fluid footer-alignment" data-wow-delay="0.1s">
+<div class="container-fluid footer-alignment" data-wow-delay="0.1s" *ngIf="coursesSettled">
   <div class="container py-5">
     <div class="row g-5">
       <div class="col-lg-3 col-md-6">

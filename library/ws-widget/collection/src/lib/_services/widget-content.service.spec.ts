@@ -82,6 +82,31 @@ describe('WidgetContentService', () => {
     req.flush({ result: { courses: ['course1'] } })
   })
 
+  it('fetchUserBatchList should share one request between concurrent callers', () => {
+    const results: any[] = []
+    service.fetchUserBatchList('u1').subscribe(c => results.push(c))
+    service.fetchUserBatchList('u1').subscribe(c => results.push(c))
+    const reqs = httpMock.match(API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_COMP('u1'))
+    expect(reqs.length).toBe(1)
+    reqs[0].flush({ result: { courses: ['c'] } })
+    expect(results).toEqual([['c'], ['c']])
+  })
+
+  it('fetchUserBatchList with fresh should not join a request already in flight', () => {
+    service.fetchUserBatchList('u1').subscribe()
+    service.fetchUserBatchList('u1', { fresh: true }).subscribe()
+    const reqs = httpMock.match(API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_COMP('u1'))
+    expect(reqs.length).toBe(2)
+    reqs.forEach(r => r.flush({ result: { courses: [] } }))
+  })
+
+  it('fetchUserBatchList should start a new request after the previous one completed', () => {
+    service.fetchUserBatchList('u1').subscribe()
+    httpMock.expectOne(API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_COMP('u1')).flush({ result: { courses: [] } })
+    service.fetchUserBatchList('u1').subscribe()
+    httpMock.expectOne(API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_COMP('u1')).flush({ result: { courses: [] } })
+  })
+
   it('fetchGeneralAndRcCertificates should GET', () => {
     service.fetchGeneralAndRcCertificates().subscribe()
     const req = httpMock.expectOne(API_END_POINTS.FETCH_GENERAL_RC_CERTIFICATE())

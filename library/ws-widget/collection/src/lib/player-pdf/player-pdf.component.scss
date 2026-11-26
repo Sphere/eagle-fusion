@@ -123,3 +123,13 @@
   font-size: 16px;
   font-weight: 400;
 }
+.pdf-stage {
+  position: relative;
+  min-height: 200px;
+}
+
+.pdf-skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}

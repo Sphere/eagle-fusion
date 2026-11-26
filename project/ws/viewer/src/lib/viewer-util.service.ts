@@ -5,6 +5,7 @@ import {
   Observable, BehaviorSubject,
 } from 'rxjs'
 import dayjs from 'dayjs'
+import { cloneDeep } from 'lodash'
 import { NsContent } from '../../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
 import { IndexedDBService } from 'src/app/services/online-indexed-db.service'
 import { API_END_POINTS } from '../../../../../src/app/constants/apiConstants'
@@ -24,6 +25,24 @@ export class ViewerUtilService {
     private readonly events: EventService,
     private readonly logger: LoggerService
   ) { }
+
+  // Quiz files already downloaded this session, keyed by URL. The course outline (quiz summary),
+  // the quiz page and the quiz's Start button each read the same file; they used to download it
+  // two to four times per visit. Artifact URLs change when a quiz is republished, so a session
+  // cache cannot go stale. Failed downloads are not kept.
+  private readonly quizFiles = new Map<string, Promise<any>>()
+
+  /** The quiz file at `url`, downloaded once per session. Each caller gets its own deep copy, so
+   * answers marked in one attempt never leak into the next. */
+  getQuizFile(url: string): Promise<any> {
+    let pending = this.quizFiles.get(url)
+    if (!pending) {
+      pending = this.http.get<any>(url).toPromise()
+      this.quizFiles.set(url, pending)
+      pending.catch(() => this.quizFiles.delete(url))
+    }
+    return pending.then(file => cloneDeep(file))
+  }
 
   private readonly currentResource = new BehaviorSubject<NsContent.IContent | null>(null)
   castResource = this.currentResource.asObservable()

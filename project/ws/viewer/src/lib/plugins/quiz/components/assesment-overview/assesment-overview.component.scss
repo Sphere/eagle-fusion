@@ -40,6 +40,10 @@
   color: #000000;
   text-align: center;
   margin-bottom: 0.25rem;
+  // Keep clear of the close button (36px at 1.25rem from the right): long titles such as
+  // "Pre training knowledge assessment" ran into the x. Symmetric so the title stays centred.
+  padding-inline: 44px;
+  text-wrap: balance;
 
   @include ws-mixins.breakpoint-xs {
     font-size: 22px;

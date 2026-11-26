@@ -42,6 +42,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   MIN_SCALE = 0.2
   CSS_UNITS = 96 / 72
   totalPages = 0
+  /** Set when the viewer reports the document could not be loaded: stop showing the skeleton. */
+  pdfLoadFailed = false
   currentPage = new UntypedFormControl(1)
   isSmallViewPort = false
   realTimeProgressRequest = {

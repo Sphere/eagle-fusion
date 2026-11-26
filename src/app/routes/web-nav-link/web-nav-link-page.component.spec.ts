@@ -152,6 +152,13 @@ describe('WebNavLinkPageComponent', () => {
       component.updatedMenuItems('UnknownTab')
       expect(component.menuItems[0].active).toBe(true)
     })
+
+    it('should highlight nothing on search when the header has no Search item', () => {
+      component.menuItems = component.menuItems.filter(i => i.title !== 'Search')
+      component.currentTab = component.menuItems[1].id
+      component.updatedMenuItems('Search')
+      expect(component.menuItems.some(i => i.active || i.show)).toBe(false)
+    })
   })
 
   describe('handleKeyDown', () => {

@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, effect, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router'
 import { NsContent, WidgetContentService, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
@@ -66,6 +66,11 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   currentLicense: ILicenseConfig[] | null = null
   currentLicenseName = ''
   discussionConfig: IDiscussionConfigData = {}
+  // True from a click on another lesson until that lesson's route activates. Its data loads in the
+  // route resolver first, and the old lesson used to stay on screen, fully live, for that whole
+  // time (up to a few seconds), so the click looked ignored. It now dims and its media pauses.
+  switchingLesson = false
+  private lessonSwitchSubscription: Subscription | null = null
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
@@ -129,6 +134,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.watchLessonSwitch()
     this.getCourseContentData()
 
     this.getTocConfig()
@@ -255,7 +261,30 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.discussionConfig.contextType = 'course'
   }
 
+  private watchLessonSwitch(): void {
+    if (!this.router.events) {
+      return
+    }
+    this.lessonSwitchSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart && event.url.startsWith('/viewer/')) {
+        this.switchingLesson = true
+        document.querySelectorAll('video, audio').forEach(media => {
+          try {
+            (media as HTMLMediaElement).pause()
+          } catch {
+            // nothing to pause
+          }
+        })
+      } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        this.switchingLesson = false
+      }
+    })
+  }
+
   ngOnDestroy() {
+    if (this.lessonSwitchSubscription) {
+      this.lessonSwitchSubscription.unsubscribe()
+    }
     this.rootSvc.showNavbarDisplay$.next(true)
     if (this.screenSizeSubscription) {
       this.screenSizeSubscription.unsubscribe()

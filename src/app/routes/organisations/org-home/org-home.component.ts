@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { RouterModule } from '@angular/router'
+import { TranslateModule } from '@ngx-translate/core'
 import { OrgServiceService } from '../org-home-service.service'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
 import { Router } from '@angular/router'
@@ -7,8 +10,12 @@ import { of } from 'rxjs'
 import { SignupService } from '../../../routes/signup/signup.service'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { orderBy, get } from 'lodash'
+// Standalone so it carries its own template dependencies: the public route
+// (/public/organisations/home) renders it directly, before OrganisationsModule is loaded,
+// and as an NgModule-declared component it crashed there with NG0302 (no `translate` pipe).
 @Component({
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule, TranslateModule],
   selector: 'ws-org-home',
   templateUrl: './org-home.component.html',
   styleUrls: ['./org-home.component.scss'],
@@ -22,6 +29,11 @@ export class OrgHomeComponent implements OnInit {
   language: any = ''
   enrollData: any = true
   firstName: any
+  /**
+   * True once the course list request has answered (or failed). The page footer waits for it,
+   * so it is not drawn under the banner and then pushed down when the courses arrive.
+   */
+  coursesSettled = false
 
   constructor(
     private readonly router: Router,
@@ -39,7 +51,8 @@ export class OrgHomeComponent implements OnInit {
     let courseArray: any = []
 
     try {
-      this.orgService.getLiveSearchResults(language).subscribe((response: any) => {
+      this.orgService.getLiveSearchResults(language).subscribe({ next: (response: any) => {
+        this.coursesSettled = true
         this.resultResponse = response.result.content
         if (this.resultResponse) {
           courseArray = this.resultResponse.map((identifierValue: { identifier: any }) => identifierValue.identifier)
@@ -61,8 +74,12 @@ export class OrgHomeComponent implements OnInit {
           return courseArray
         }
 
-      })
-    } catch (err) { /* ignore outer processing failure */ }
+      }, error: () => {
+        this.coursesSettled = true
+      } })
+    } catch (err) {
+      this.coursesSettled = true
+    }
   }
 
   navigateToToc(contentIdentifier: any) {

@@ -12,22 +12,23 @@
         [value]="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.instituteName" readonly disabled />
     </div>
   </ng-container>
-  <div class="inline-block" *ngIf="!isEkshamata">
-    <div *ngFor="let academic of academicsArray">
-      <div *ngIf="!isEkshamata && isEditableForSphere" class="edit-icon">
-        <mat-icon *ngIf="academicsArray.length>0 && academic.nameOfInstitute"
-          [class]="'float-right cursor-pointer' + data?.button?.icon" tabindex="0"
-          (click)="redirectTo(true,academic)" (keydown.enter)="redirectTo(true,academic)"
-          (keydown.space)="redirectTo(true,academic); $event.preventDefault()">{{data?.button?.label | translate}}</mat-icon>
+  <!-- One row per qualification: details on the left, edit at the right edge. The edit icon used to
+       float with a hand-tuned left offset per breakpoint and landed mid-row on phones. -->
+  <div class="edu-list" *ngIf="!isEkshamata">
+    <ng-container *ngFor="let academic of academicsArray">
+      <div class="edu-item" *ngIf="academic.nameOfInstitute">
+        <div class="edu-details">
+          <p class="heading" *ngIf="academic.type">{{academic.type | translate}}</p>
+          <p class="head-2" *ngIf="academic.nameOfQualification">{{academic.nameOfQualification}}</p>
+          <p class="head-2" *ngIf="academic.nameOfInstitute">{{academic.nameOfInstitute}}</p>
+          <p class="head-3" *ngIf="academic.yearOfPassing">{{academic.yearOfPassing}}</p>
+        </div>
+        <button *ngIf="isEditableForSphere && academicsArray.length > 0" type="button" class="edu-edit"
+          [attr.aria-label]="'Edit' | translate" (click)="redirectTo(true,academic)">
+          <mat-icon [class]="'cursor-pointer' + (data?.button?.icon || '')">{{data?.button?.label | translate}}</mat-icon>
+        </button>
       </div>
-
-      <div class="inline-block mt-1" *ngIf="academic.nameOfInstitute">
-        <p class="heading pt-2 pb-1" *ngIf="academic.type">{{academic.type}}</p>
-        <p class="head-2 py-1" *ngIf="academic.nameOfQualification">{{academic.nameOfQualification}}</p>
-        <p class="head-2 py-1" *ngIf="academic.nameOfInstitute">{{academic.nameOfInstitute}}</p>
-        <p class="head-3 py-1" *ngIf="academic.yearOfPassing">{{academic.yearOfPassing}}</p>
-      </div>
-    </div>
+    </ng-container>
   </div>
 
   <mat-divider class="mt-2"></mat-divider>

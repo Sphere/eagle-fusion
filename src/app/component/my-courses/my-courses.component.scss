@@ -283,8 +283,9 @@ h3 {
 }
 
 @media (min-width: 768px) and (max-width: 1279px) {
+  // Symmetric gutters: the list used to sit left of centre (60px left, 100px right).
   .paddingView {
-    padding: 10px 100px 10px 60px;
+    padding: 10px 60px;
   }
 
   .resource-container {
@@ -300,8 +301,12 @@ h3 {
 }
 
 @media (min-width: 1280px) {
+  // Centred on the same 1110px content width as the home page; it used to hug the left edge with a
+  // 315px empty band on the right.
   .paddingView {
-    padding: 10px 315px 10px 60px;
+    max-width: 1110px;
+    margin-inline: auto;
+    padding: 10px 0;
   }
   :host ::ng-deep .mat-mdc-progress-bar {
       width: 50% !important;
@@ -673,5 +678,19 @@ h3 {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+// Phone: the loading skeleton used the container's zero side padding and touched both screen
+// edges; the loaded heading and cards sit 15px in and have no button. Match them.
+@media (max-width: 767px) {
+  .sk-title,
+  .sk-tabs,
+  .sk-card {
+    margin-inline: 15px;
+  }
+
+  .sk-btn {
+    display: none;
   }
 }

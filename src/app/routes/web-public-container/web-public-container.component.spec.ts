@@ -291,6 +291,35 @@ describe('WebPublicComponent', () => {
     })
   })
 
+  // ─── showSkeleton ─────────────────────────────────────────────────────────
+
+  describe('showSkeleton', () => {
+    afterEach(() => jest.useRealTimers())
+
+    it('shows while loading and while no section has data yet', () => {
+      component.isLoading.set(true)
+      expect(component.showSkeleton()).toBe(true)
+      component.isLoading.set(false)
+      component.uiConfig.set([{ show: true, data: [] }])
+      expect(component.showSkeleton()).toBe(true)
+    })
+
+    it('hides once a section has data', () => {
+      component.isLoading.set(false)
+      component.uiConfig.set([{ show: true, data: [{ id: 1 }] }])
+      expect(component.showSkeleton()).toBe(false)
+    })
+
+    it('lets an empty-state message through 2s after loading ends', () => {
+      jest.useFakeTimers()
+      component.uiConfig.set([{ show: true, data: [], fallbackState: { label: 'No courses yet' } }])
+      ; (component as any).finishLoading()
+      expect(component.showSkeleton()).toBe(true)
+      jest.advanceTimersByTime(WebPublicComponent.SETTLE_MS)
+      expect(component.showSkeleton()).toBe(false)
+    })
+  })
+
   // ─── updateCourseData ─────────────────────────────────────────────────────
 
   describe('updateCourseData', () => {

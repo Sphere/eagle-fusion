@@ -47,6 +47,22 @@ export class AppFooterComponent implements OnInit {
     effect(() => {
       this.isDark = this.themeSvc.isDark()
     })
+    // The org/footer config can arrive after this footer is created (a page opened directly, before
+    // the playlist data loaded). Reading it once left the footer without logo or text for good;
+    // follow the signals instead.
+    // (The root passes the same playlist data as `config`, sometimes as `{}` before it loads, so
+    // the signals are the source of truth here.)
+    effect(() => {
+      const org = this.playlistSvc.orgDetails()
+      const footer = this.playlistSvc.footerConfig()
+      if (org) {
+        this.orgData = org
+        this.appIcon = org?.appLogo
+      }
+      if (footer) {
+        this.configData = footer
+      }
+    })
   }
 
   ngOnInit() {

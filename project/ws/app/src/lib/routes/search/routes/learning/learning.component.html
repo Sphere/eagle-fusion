@@ -6,7 +6,7 @@
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
   <ng-container *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length">
-    <div style="display: flex; justify-content: space-between; padding: 10px;">
+    <div class="sk-head" style="display: flex; justify-content: space-between; padding: 10px;">
       <div class="sk-title"></div>
       <div class="sk-title"></div>
     </div>

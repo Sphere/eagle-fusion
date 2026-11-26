@@ -127,8 +127,14 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
       item.active = false
     })
 
+    const byLabel = this.menuItems?.find(i => label && i.title === label)
+    // Search has no header item. Falling back to the last stored tab underlined an unrelated item
+    // (e.g. "My Courses" while on search results), so highlight nothing there instead.
+    if (!byLabel && label === 'Search') {
+      return
+    }
     const selected =
-      this.menuItems?.find(i => label && i.title === label) ||
+      byLabel ||
       this.menuItems?.find(i => i.id === this.currentTab) ||
       this.menuItems?.[0]
 

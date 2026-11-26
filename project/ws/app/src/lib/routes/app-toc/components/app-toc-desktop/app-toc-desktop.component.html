@@ -35,6 +35,25 @@
           matTooltip="Edit Rating">edit</mat-icon>
       </div>
     </div>
+    <!-- Enrolment, saved progress and the batch's certificate templates arrive from separate calls.
+         Rendering each piece as it landed made the area build up in steps (Start, then Resume and the
+         certificate icon, then the progress bar pushing everything down). One placeholder holds the
+         area until enrolment is known; the progress bar's slot keeps a placeholder until progress
+         arrives. Nothing below is removed. -->
+    <div *ngIf="!actionsReady" class="toc-actions-skeleton" aria-hidden="true">
+      <div class="toc-skel-progress ds-skeleton"></div>
+      <div class="toc-skel-icons">
+        <div class="toc-skel-icon" *ngFor="let i of [1, 2, 3]">
+          <div class="toc-skel-circle ds-skeleton"></div>
+          <div class="toc-skel-label ds-skeleton"></div>
+        </div>
+      </div>
+      <div class="banner-btn toc-action-skeleton ds-skeleton"></div>
+    </div>
+    <div [hidden]="!actionsReady">
+    <div *ngIf="progressPending" class="progress-section toc-skel-progress-slot" aria-hidden="true">
+      <div class="toc-skel-progress ds-skeleton"></div>
+    </div>
     <div *ngIf="(optmisticPercentage || content?.completionPercentage) && content !== undefined">
       <!-- Only render the progress block when the course actually has progress/completion;
            a brand-new course (optmisticPercentage 0/undefined, no completionPercentage)
@@ -119,8 +138,14 @@
         </div>
       </div>
       <div class="flex">
-        <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
-          (click)="enrollUser(batchData.content)">
+        <!-- Until the learner's enrolment is known, hold the button's place. "Start" used to show
+             for ~1s for enrolled learners and then turn into "Resume"; clicking it in that time
+             crashed on batchData.content (null) and did nothing. -->
+        <div *ngIf="!batchData && !enrolmentUnavailable" class="banner-btn toc-action-skeleton ds-skeleton"
+          aria-hidden="true"></div>
+        <button *ngIf="batchData ? !batchData.enrolled : enrolmentUnavailable" id="start-btn"
+          class="banner-btn cursor-pointer"
+          (click)="enrollUser(batchData?.content)">
           {{ 'Start' | translate }}
         </button>
         <!--(click)="resumeBtn()" -->
@@ -159,6 +184,7 @@
           </a>
         </ng-template>
       </div>
+    </div>
     </div>
     <canvas id="certCanvas"></canvas>
   </div>

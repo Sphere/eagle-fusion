@@ -47,7 +47,30 @@
 .video-player {
   width: 100%;
   position: relative;
-  min-height: 60px
+  // Same minimum height as the video player box at each width, so moving between a video and
+  // a quiz does not move the Next/Previous bar and the course outline below (on phones that
+  // was a 329px jump on every switch). Quizzes open in a dialog, so the box is mostly empty.
+  min-height: 45vh;
+
+  @include ws-mixins.breakpoint-lt-xl {
+    min-height: 70vh;
+  }
+
+  @include ws-mixins.breakpoint-lt-l {
+    min-height: 65vh;
+  }
+
+  @include ws-mixins.breakpoint-lt-m {
+    min-height: 60vh;
+  }
+
+  @include ws-mixins.breakpoint-lt-s {
+    min-height: 55vh;
+  }
+
+  @include ws-mixins.breakpoint-xs {
+    min-height: 45vh;
+  }
   // height: 75vh;
   // @include breakpoint-lt-xl {
   //   height: 80vh;
@@ -155,5 +178,65 @@
     .title {
       margin-left: -7px !important;
     }
+  }
+}
+
+// Quiz-shaped loading placeholder (title, three stat circles, start button), mirroring the
+// quiz overview so the area does not change shape when the quiz arrives.
+.quiz-skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-space-4, 1rem);
+  padding: var(--ds-space-8, 2rem) var(--ds-space-4, 1rem);
+}
+
+.quiz-skeleton-title {
+  width: min(480px, 80%);
+  height: 28px;
+}
+
+.quiz-skeleton-sub {
+  width: 120px;
+  height: 14px;
+}
+
+.quiz-skeleton-stats {
+  display: flex;
+  gap: var(--ds-space-6, 1.5rem);
+  margin: var(--ds-space-4, 1rem) 0;
+}
+
+.quiz-skeleton-stat {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+
+  @media (max-width: 599px) {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.quiz-skeleton-button {
+  width: 140px;
+  height: 40px;
+  border-radius: var(--ds-radius-pill, 999px);
+}
+
+// The card was half the row (about 675px of 1350px) because an empty `.vidoe-title` box beside it
+// took the other half (the row does not wrap). Let the card fill the row, like the other lesson
+// types, and put that box (which only has content on small screens) underneath.
+.padding-dynamic > .flex {
+  flex-wrap: wrap;
+
+  > .w-full,
+  > .vidoe-title {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  > .vidoe-title:empty {
+    display: none;
   }
 }

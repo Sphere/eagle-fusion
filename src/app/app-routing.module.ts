@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
+import { IdlePreloadingStrategy } from './services/idle-preloading.strategy'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
 import { LoginRootComponent } from './component/login-root/login-root.component'
@@ -32,9 +33,7 @@ import { YourLocationComponent as AboutYou } from './routes/your-location/your-l
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
-import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
 import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
-import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
@@ -158,8 +157,10 @@ const routes: Routes = [
     },
   },
   {
+    // EducationListComponent only works inside the profile page, which passes its config in. Opened on its own
+    // it rendered blank (or crashed on every change detection), so send the URL to the profile page.
     path: 'app/education-list',
-    component: EducationListComponent,
+    redirectTo: 'app/profile-view',
   },
   {
     path: 'app/education-edit',
@@ -276,11 +277,16 @@ const routes: Routes = [
     component: WorkInfoEditComponent,
   },
   {
+    // WorkInfoListComponent only works inside the profile page, which passes its config in. Opened on its own
+    // it rendered blank (or crashed on every change detection), so send the URL to the profile page.
     path: 'app/workinfo-list',
-    component: WorkInfoListComponent,
+    redirectTo: 'app/profile-view',
   },
   {
     path: 'author/viewer',
+    // Same viewer module as /viewer, used only by authors; preloading it again would just create a
+    // second copy of the module for every learner.
+    data: { preload: false },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
   },
@@ -292,6 +298,8 @@ const routes: Routes = [
     path: 'embed',
     data: {
       topBar: 'NONE',
+      // Embedded-player entry point (same module as /viewer); not worth preloading for learners.
+      preload: false,
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
     canActivate: [GeneralGuard, EmptyRouteGuard],
@@ -553,7 +561,13 @@ const routes: Routes = [
       onSameUrlNavigation: 'reload',
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'top',
+      // Keep 'eager': the TOC resolver reads window.location.href during navigation and
+      // relies on the address bar already showing the new URL.
       urlUpdateStrategy: 'eager',
+      // Download the lazy feature chunks (TOC, viewer, search, profile ...) in the
+      // background once the page has settled and the browser is idle, one at a time, so the
+      // first visit to each is instant without delaying the current page's own requests.
+      preloadingStrategy: IdlePreloadingStrategy,
     }),
   ],
   exports: [RouterModule],

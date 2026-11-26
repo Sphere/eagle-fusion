@@ -150,6 +150,16 @@ describe('VideoComponent (routes)', () => {
     expect(mockCdr.detectChanges).toHaveBeenCalled()
   })
 
+  it('should finish loading (no endless placeholder) when the route has no lesson data', async () => {
+    component.ngOnInit()
+    routeDataSubject.next({ content: { data: null } })
+    for (let i = 0; i < 5; i++) {
+      await Promise.resolve()
+    }
+    expect(component.videoData).toBeFalsy()
+    expect(component.isFetchingDataComplete).toBe(true)
+  })
+
   it('should fall back to identifier as collectionId when no collectionId query param', async () => {
     component.ngOnInit()
     routeDataSubject.next({

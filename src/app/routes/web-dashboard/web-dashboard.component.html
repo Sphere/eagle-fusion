@@ -29,7 +29,10 @@
             (keydown.enter)="scrollToHowSphereWorks(data?.scrollEmit)"
             (keydown.space)="scrollToHowSphereWorks(data?.scrollEmit); $event.preventDefault()">
             <div class="banner-shimmer" *ngIf="!imgsLoaded[i]"></div>
-            <img class="banner-image" [src]="!isDark ? data?.img: data?.darkimg" alt="Carousel" loading="lazy"
+            <!-- width/height = the banner artwork's size (1920x586), so the box keeps its height
+                 before the image arrives; the first slide is visible on load, so it is not lazy -->
+            <img class="banner-image" [src]="!isDark ? data?.img: data?.darkimg" alt="Carousel" width="1920"
+              height="586" [attr.loading]="i === 0 ? 'eager' : 'lazy'" [attr.fetchpriority]="i === 0 ? 'high' : 'auto'"
               (load)="onBannerImgLoad(i)" (error)="onBannerImgLoad(i)" />
           </div>
         </div>

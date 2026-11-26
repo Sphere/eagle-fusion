@@ -74,6 +74,10 @@
 </div>
 
 <div class="container-v2" *ngIf="htmlContent && htmlContent.isIframeSupported === 'Yes'">
+  <div class="html-loading" *ngIf="!iframeLoaded">
+    <div class="ds-skeleton html-loading-shimmer" aria-hidden="true"></div>
+    <p class="html-loading-text">{{"Please wait! Content requested is loading" | translate}}</p>
+  </div>
   <iframe #iframeElem title="HTML Content Viewer" [src]="iframeUrl"
     (load)="onIframeLoadOrError('load',iframeElem,$event)" (error)="onIframeLoadOrError('error')"
     allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; microphone; camera;"

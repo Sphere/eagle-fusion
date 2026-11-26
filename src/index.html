@@ -31,7 +31,6 @@
   <link id="id-app-x-icon" rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
   <link id="id-app-webmanifest" rel="manifest" />
   <meta id="id-app-theme-color" name="theme-color" content="#000" />
-  <link rel="stylesheet" href="/assets/theme-igot.scss">
   <!-- Establish connections to font and analytics origins before they're needed -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,6 +105,16 @@
     ]
   }
   </script>
+  <script>
+    // Startup skeleton colours follow the saved theme (same rule as ThemeService: saved choice,
+    // else the system preference). Only the skeleton reads this class.
+    try {
+      var savedTheme = localStorage.getItem('theme')
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('boot-dark')
+      }
+    } catch (e) { /* storage unavailable: light skeleton */ }
+  </script>
 </head>
 
 <body class="mat-app-background mat-body mat-typography custom-scroll">
@@ -114,55 +123,81 @@
       src="https://www.facebook.com/tr?id=1495349214377708&ev=PageView&noscript=1" /></noscript>
 
   <ws-root>
+    <!--
+      Startup skeleton: shown the instant the HTML arrives, while the application's JavaScript
+      downloads and its start-up configuration loads. Angular replaces everything inside
+      <ws-root> when the app renders, so this needs no clean-up. Plain HTML/CSS only, so it
+      paints before any script runs. Colours follow the saved theme (see the head script).
+    -->
     <style>
-      .loader-container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      .boot-skel { --bs-bg: #f8f8f8; --bs-surface: #ffffff; --bs-block: #e7ebef; --bs-shine: #f4f6f8;
+        min-height: 100vh; background: var(--bs-bg); font-family: Roboto, 'Segoe UI', Arial, sans-serif; }
+      html.boot-dark .boot-skel { --bs-bg: #171717; --bs-surface: #0d0d0d; --bs-block: #262626; --bs-shine: #313131; }
+      .boot-skel .bs { background: linear-gradient(90deg, var(--bs-block) 0%, var(--bs-shine) 40%, var(--bs-block) 80%);
+        background-size: 200% 100%; animation: bs-shimmer 1.4s linear infinite; border-radius: 8px; }
+      @keyframes bs-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+      @media (prefers-reduced-motion: reduce) { .boot-skel .bs { animation: none; } }
+      .boot-skel .bs-header { height: 80px; display: flex; align-items: center; justify-content: space-between;
+        padding: 0 32px; background: var(--bs-surface); box-shadow: 0 1px 4px rgba(0, 0, 0, .06); }
+      .boot-skel .bs-logo { width: 120px; height: 40px; }
+      .boot-skel .bs-nav { display: flex; gap: 24px; align-items: center; }
+      .boot-skel .bs-nav .bs { width: 72px; height: 14px; }
+      .boot-skel .bs-nav .bs.pill { width: 96px; height: 32px; border-radius: 999px; }
+      .boot-skel .bs-main { max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
+      .boot-skel .bs-hero { display: flex; gap: 40px; align-items: center; }
+      .boot-skel .bs-hero-text { flex: 0 0 30%; display: flex; flex-direction: column; gap: 14px; }
+      .boot-skel .bs-line { height: 18px; }
+      .boot-skel .bs-line.lg { height: 34px; width: 80%; }
+      .boot-skel .bs-line.md { width: 60%; }
+      .boot-skel .bs-banner { flex: 1; aspect-ratio: 832 / 280; border-radius: 24px; }
+      .boot-skel .bs-section { margin-top: 48px; height: 28px; width: 220px; }
+      .boot-skel .bs-cards { margin-top: 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+      .boot-skel .bs-card { background: var(--bs-surface); border-radius: 12px; padding: 12px;
+        display: flex; flex-direction: column; gap: 10px; }
+      .boot-skel .bs-card .bs-img { aspect-ratio: 7 / 4; }
+      .boot-skel .bs-card .bs-line { height: 14px; }
+      .boot-skel .bs-card .bs-line.short { width: 55%; }
+      @media (max-width: 767px) {
+        .boot-skel .bs-header { padding: 0 20px; }
+        .boot-skel .bs-nav .bs:not(.pill) { display: none; }
+        .boot-skel .bs-main { padding: 24px 20px; }
+        .boot-skel .bs-hero { flex-direction: column; align-items: stretch; gap: 20px; }
+        .boot-skel .bs-hero-text { flex-basis: auto; }
+        .boot-skel .bs-banner { border-radius: 16px; }
+        .boot-skel .bs-cards { grid-template-columns: 1fr; }
+        .boot-skel .bs-card:nth-child(n + 3) { display: none; }
       }
-
-      .loader-ripple {
-        display: inline-block;
-        position: relative;
-        width: 84px;
-        height: 84px;
-      }
-
-      .loader-ripple div {
-        position: absolute;
-        border: 4px solid #000;
-        opacity: 1;
-        border-radius: 50%;
-        animation: loader-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-      }
-
-      .loader-ripple div:nth-child(2) {
-        animation-delay: -0.5s;
-      }
-
-      @keyframes loader-ripple {
-        0% {
-          top: 38px;
-          left: 38px;
-          width: 0;
-          height: 0;
-          opacity: 1;
-        }
-
-        100% {
-          top: -1px;
-          left: -1px;
-          width: 78px;
-          height: 78px;
-          opacity: 0;
-        }
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .boot-skel .bs-cards { grid-template-columns: repeat(2, 1fr); }
+        .boot-skel .bs-card:nth-child(n + 3) { display: none; }
       }
     </style>
-    <div class="loader-container">
-      <div class="loader-ripple">
-        <div></div>
-        <div></div>
+    <div class="boot-skel" role="progressbar" aria-busy="true" aria-label="Loading">
+      <div class="bs-header">
+        <div class="bs bs-logo"></div>
+        <div class="bs-nav">
+          <div class="bs"></div>
+          <div class="bs"></div>
+          <div class="bs"></div>
+          <div class="bs pill"></div>
+        </div>
+      </div>
+      <div class="bs-main">
+        <div class="bs-hero">
+          <div class="bs-hero-text">
+            <div class="bs bs-line lg"></div>
+            <div class="bs bs-line md"></div>
+            <div class="bs bs-line md"></div>
+          </div>
+          <div class="bs bs-banner"></div>
+        </div>
+        <div class="bs bs-section"></div>
+        <div class="bs-cards">
+          <div class="bs-card"><div class="bs bs-img"></div><div class="bs bs-line"></div><div class="bs bs-line short"></div></div>
+          <div class="bs-card"><div class="bs bs-img"></div><div class="bs bs-line"></div><div class="bs bs-line short"></div></div>
+          <div class="bs-card"><div class="bs bs-img"></div><div class="bs bs-line"></div><div class="bs bs-line short"></div></div>
+          <div class="bs-card"><div class="bs bs-img"></div><div class="bs bs-line"></div><div class="bs bs-line short"></div></div>
+        </div>
       </div>
     </div>
   </ws-root>

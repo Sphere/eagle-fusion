@@ -1,25 +1,61 @@
+.cert-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 0;
+  min-width: 0;
+}
+
+.cert-thumb {
+  flex: none;
+  width: 100px;
+
+  img {
+    display: block;
+    width: 100px;
+    height: auto;
+  }
+}
+
 .name {
-  //position: absolute;
-  width: 330px;
-  height: 19px;
-  // left: 115px;
-  // top: 23px;
-  margin-left: 15px !important;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
-.certificate-img-box{
-  left: 4px;
+// Full touch target at the right edge of the row.
+.certificate-img-box {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--ds-touch-target, 44px);
+  height: var(--ds-touch-target, 44px);
+  border-radius: 50%;
   cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--theme-accent, #1c5d95) 8%, transparent);
+  }
 }
 
-// Stand-in for a certificate whose preview could not be fetched. Uses currentColor so
-// it adapts to both light and dark themes without a second colour definition.
+// Stand-in for a certificate whose preview could not be fetched: a framed certificate icon.
+// Uses currentColor for the frame so it adapts to both themes.
 .cert-thumb-fallback {
+  display: grid;
+  place-items: center;
   width: 100px;
   height: 65px;
   border: 1px dashed currentColor;
-  border-radius: 2px;
-  opacity: 0.25;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: color-mix(in srgb, currentColor 30%, transparent);
+
+  img {
+    width: 28px;
+    height: 28px;
+    opacity: 0.55;
+  }
 }
 
 .certficate-container{

@@ -21,3 +21,30 @@
   width: 100%;
 }
 
+
+// Covers the content frame until it loads (see iframeLoaded).
+.html-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--theme-surface, #fff);
+}
+
+.html-loading-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+}
+
+.html-loading-text {
+  position: relative;
+  margin: 0;
+  padding: var(--ds-space-2, 8px) var(--ds-space-4, 16px);
+  border-radius: var(--ds-radius-pill, 999px);
+  background: var(--theme-surface, #fff);
+  color: var(--theme-text, #101828);
+  font-size: var(--ds-text-md, 16px);
+}

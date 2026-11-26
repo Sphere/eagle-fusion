@@ -7,19 +7,21 @@
   align-items: flex-start;
 }
 
+// Same title style and left edge as the other lesson rows in the course outline (video, PDF,
+// SCORM: 20px/32px, 8px in). Quiz rows used 24px and sat further left, so they looked out of place.
 .header1 {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 29px;
-  letter-spacing: -0.02em;
+  font-size: 20px;
+  line-height: 32px;
   color: var(--theme-text);
-  text-align: center;
+  text-align: left;
+  padding-left: 8px;
 
   @include ws-mixins.breakpoint-xs {
     font-size: 16px;
-    line-height: 20px;
+    line-height: 32px;
   }
 }
 
@@ -118,6 +120,9 @@
 
 .row {
   padding-top: 12px;
+  // The global .row has negative side margins, which pushed the stat circles left of the title.
+  margin-left: 0;
+  margin-right: 0;
 
   @include ws-mixins.breakpoint-xs {
     flex-wrap: nowrap;
@@ -138,4 +143,27 @@
   background: var(--theme-accent) !important;
   border-radius: 50px !important;
   color: var(--theme-surface); // ensure text is visible
+}
+
+// Block host so the visibility observer has a real box to watch (an inline host around block
+// content has no reliable rect). Both parents already lay it out as a block or flex item.
+:host {
+  display: block;
+}
+
+// Inside the pale-blue circles the default skeleton grey was nearly invisible, so a loading summary
+// read as "Minutes / Questions / Required" with the numbers missing. Tint it from the accent.
+.ellips {
+  --ds-skeleton-base: color-mix(in srgb, var(--theme-accent, #1c5d95) 14%, transparent);
+  --ds-skeleton-shine: color-mix(in srgb, var(--theme-accent, #1c5d95) 26%, transparent);
+}
+
+// Stand-in for a number (.label2) while the quiz summary loads. .label2 takes 53px (69px line
+// height, -16px bottom margin); these margins give the same height with the bar on the text line.
+.num-skeleton {
+  display: block;
+  width: 24px;
+  height: 14px;
+  margin: 27px 0 12px;
+  border-radius: 4px;
 }

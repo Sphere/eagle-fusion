@@ -55,7 +55,9 @@ import {
   LoggerService,
   LogoutModule,
 } from '@ws-widget/utils'
-import { SearchModule } from '@ws/app/src/public-api'
+// Deep import: the @ws/app barrel also re-exports the TOC, profile and user-profile modules,
+// which pulled them (and the discussion package) into the initial bundle.
+import { SearchModule } from '@ws/app/src/lib/routes/search/search.module'
 import { KeycloakAngularModule } from 'keycloak-angular'
 import { AppRoutingModule } from './app-routing.module'
 import { InitService } from './services/init.service'
@@ -94,8 +96,6 @@ import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.com
 import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
 import { HelpVideosComponent } from './routes/help-videos/help-videos.component'
-import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
-import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
@@ -351,7 +351,9 @@ export function initTranslate(translate: TranslateService) {
     MatNativeDateModule,
     MatSelectModule,
     MatTabsModule,
-    DiscussionUiModule.forRoot(ConfigService),
+    // DiscussionUiModule.forRoot(ConfigService) moved to the lazy modules that render the
+    // discussion pages (WrapperModule, AppTocModule): it pulled @project-sunbird/client-services,
+    // jsonld, node-forge etc. (~3MB of source) into the initial bundle.
     NgxExtendedPdfViewerModule,
     ImageCropModule,
     SharedModule,

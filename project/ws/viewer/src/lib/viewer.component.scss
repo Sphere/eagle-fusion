@@ -255,3 +255,13 @@ mat-sidenav {
   --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
   border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }
+// Lesson switch in progress (see ViewerComponent.switchingLesson): dim the lesson being left so the
+// click visibly took effect, without changing the layout.
+:host ::ng-deep .sidenavContent > router-outlet + * {
+  transition: opacity var(--ds-duration-fast, 150ms) var(--ds-ease-standard, ease);
+}
+
+:host ::ng-deep .sidenavContent.switching-lesson > router-outlet + * {
+  opacity: 0.45;
+  pointer-events: none;
+}

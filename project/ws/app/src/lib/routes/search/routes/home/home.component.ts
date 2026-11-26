@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core'
 import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
@@ -17,7 +17,11 @@ import { LanguageService } from 'src/app/services/language.service'
   encapsulation: ViewEncapsulation.None,
 
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
+  // The search landing page is where the learner came to type, so its box takes focus. (The header
+  // search used to grab focus on every page; it is hidden here.)
+  @ViewChild('searchQueryInput') searchQueryInput?: ElementRef<HTMLInputElement>
+
 
   query: UntypedFormControl = new UntypedFormControl('')
   lang = ''
@@ -152,6 +156,10 @@ export class HomeComponent implements OnInit {
 
   langSelect(lang: string) {
     this.lang = lang
+  }
+
+  ngAfterViewInit() {
+    this.searchQueryInput?.nativeElement?.focus()
   }
 
   ngOnInit() {

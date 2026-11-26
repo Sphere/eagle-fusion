@@ -81,3 +81,99 @@ $nav-height: 40px;
     margin: ws-vars.$size-s;
   }
 }
+
+// Quiz summary on the page (initial state). Matches the overview dialog: title, type, three stat
+// circles and a pill button.
+.quiz-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-3, 12px);
+  min-height: 100%;
+  padding: var(--ds-space-8, 32px) var(--ds-space-4, 16px);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.quiz-intro-title {
+  margin: 0;
+  font-size: var(--ds-text-2xl, 24px);
+  font-weight: var(--ds-weight-regular, 400);
+  line-height: var(--ds-leading-tight, 1.25);
+  color: var(--theme-text, #101828);
+  text-wrap: balance;
+}
+
+.quiz-intro-type {
+  margin: 0;
+  font-size: var(--ds-text-sm, 14px);
+  color: var(--theme-text-soft, #5f6b7a);
+}
+
+.quiz-intro-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ds-space-6, 24px);
+  margin: var(--ds-space-4, 16px) 0;
+}
+
+.quiz-intro-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background: var(--theme-ellipse, #e7f2fa);
+  color: var(--theme-accent, #1c5d95);
+}
+
+.quiz-intro-value {
+  font-size: var(--ds-text-2xl, 24px);
+  font-weight: var(--ds-weight-medium, 500);
+  line-height: 1.2;
+}
+
+.quiz-intro-label {
+  font-size: var(--ds-text-sm, 14px);
+}
+
+.quiz-intro-start {
+  min-width: 160px;
+  min-height: var(--ds-touch-target, 44px);
+  padding: 0 var(--ds-space-6, 24px);
+  border: none;
+  border-radius: var(--ds-radius-pill, 999px);
+  background: var(--theme-primary, #1c5d95);
+  color: #fff;
+  font-size: var(--ds-text-md, 16px);
+  cursor: pointer;
+  transition: filter var(--ds-duration-fast, 150ms) var(--ds-ease-standard, ease);
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+@media (max-width: 599px) {
+  .quiz-intro-stat {
+    width: 84px;
+    height: 84px;
+  }
+
+  .quiz-intro-value {
+    font-size: var(--ds-text-xl, 20px);
+  }
+}
+
+// Dark theme: same treatment as the overview dialog's circles (theme text on the ellipse colour);
+// the accent blue was barely visible on the dark circle.
+:host-context(.dark-theme) {
+  .quiz-intro-stat {
+    color: var(--theme-text, #ecf3f8);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+}

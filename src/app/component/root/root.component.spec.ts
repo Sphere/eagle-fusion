@@ -1178,13 +1178,33 @@ describe('RootComponent', () => {
       expect(localMocks.mockTelemetrySvc.impression).toHaveBeenCalled()
     })
 
-    it('showNavbarDisplay$ subscribe callback sets showNavbar (with fake timers for delay(500))', async () => {
+    it('showNavbarDisplay$ subscribe callback sets showNavbar on the next tick, not after 500ms', async () => {
       jest.useFakeTimers()
       await localMocks.comp.ngOnInit()
       localShowNavbar$.next(true)
-      jest.advanceTimersByTime(600)
+      jest.advanceTimersByTime(1)
       expect(localMocks.comp.showNavbar).toBe(true)
       jest.useRealTimers()
+    })
+
+    it('ignores the initial header "show" on a lesson opened directly until it has loaded', async () => {
+      const previous = (window as any).location.pathname
+      ;(window as any).location.pathname = '/viewer/video/do_1'
+      jest.useFakeTimers()
+      try {
+        await localMocks.comp.ngOnInit()
+        localMocks.comp.firstNavigationSettled = false
+        localShowNavbar$.next(true)
+        jest.advanceTimersByTime(1)
+        expect(localMocks.comp.showNavbar).toBe(false)
+        localMocks.comp.firstNavigationSettled = true
+        localShowNavbar$.next(true)
+        jest.advanceTimersByTime(1)
+        expect(localMocks.comp.showNavbar).toBe(true)
+      } finally {
+        jest.useRealTimers()
+        ;(window as any).location.pathname = previous
+      }
     })
 
     it('hideHeaderFooter subscribe callback sets hideHeaderFooter', async () => {
@@ -1252,6 +1272,46 @@ describe('RootComponent', () => {
     })
   })
 
+  describe('route boot placeholder', () => {
+    const withPath = (path: string, fn: () => void) => {
+      const previous = (window as any).location.pathname
+      ;(window as any).location.pathname = path
+      try {
+        fn()
+      } finally {
+        ;(window as any).location.pathname = previous
+      }
+    }
+
+    it('shows on a directly opened page until the first navigation settles', () => {
+      const m = buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$ })
+      withPath('/app/toc/do_1/overview', () => {
+        m.comp.firstNavigationSettled = false
+        expect(m.comp.showRouteBootSkeleton).toBe(true)
+        expect(m.comp.bootSkeletonIsPlayer).toBe(false)
+        m.comp.firstNavigationSettled = true
+        expect(m.comp.showRouteBootSkeleton).toBe(false)
+      })
+    })
+
+    it('uses the player shape on lesson pages', () => {
+      const m = buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$ })
+      withPath('/viewer/video/do_1', () => {
+        m.comp.firstNavigationSettled = false
+        expect(m.comp.showRouteBootSkeleton).toBe(true)
+        expect(m.comp.bootSkeletonIsPlayer).toBe(true)
+      })
+    })
+
+    it('stays off on the home pages, which have their own loading states', () => {
+      const m = buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$ })
+      m.comp.firstNavigationSettled = false
+      for (const path of ['/', '/page/home', '/public/home', '/public/home/']) {
+        withPath(path, () => expect(m.comp.showRouteBootSkeleton).toBe(false))
+      }
+    })
+  })
+
   describe('setUpFormData', () => {
     it('sets orgDetails, footerConfig, and showNavbar on success', async () => {
       const m = buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$ })
@@ -1268,6 +1328,29 @@ describe('RootComponent', () => {
       await m.comp.setUpFormData()
       expect(m.comp.showNavbar).toBe(true)
       expect(m.comp.orgDetails).toBeDefined()
+    })
+
+    it('keeps the header hidden when the player was opened directly', async () => {
+      const m = buildMocks({ routerEvents$, showNavbarDisplay$, hideHeaderFooter$ })
+      m.mockPlaylistSvc.loadPlaylistData = jest.fn().mockResolvedValue({ ok: true })
+      m.mockPlaylistSvc.orgDetails = jest.fn().mockReturnValue({ name: 'Org' })
+      m.mockPlaylistSvc.headerConfig = jest.fn().mockReturnValue({ logo: 'logo.png' })
+      m.mockPlaylistSvc.sections = jest.fn().mockReturnValue({ homeTab: [{ type: 'banner' }] })
+      m.mockPlaylistSvc.selectedTabConfig = jest.fn().mockReturnValue([])
+      m.mockPlaylistSvc.config = jest.fn().mockReturnValue([])
+      m.mockPlaylistSvc.footerConfig = jest.fn().mockReturnValue({ links: [] })
+      m.comp['playlistSvc'] = m.mockPlaylistSvc
+      m.comp['themeSvc'] = m.mockThemeSvc as any
+      m.comp['downtimeService'] = { themeConfig: jest.fn().mockReturnValue({ defaultTheme: {} }) } as any
+      // window.location is stubbed for this suite (see beforeEach); give the stub a player path
+      const previous = (window as any).location.pathname
+      ;(window as any).location.pathname = '/viewer/video/do_1'
+      try {
+        await m.comp.setUpFormData()
+        expect(m.comp.showNavbar).toBe(false)
+      } finally {
+        ;(window as any).location.pathname = previous
+      }
     })
 
     it('sets hasProgramConfig and resets showDetails when program config exists', async () => {

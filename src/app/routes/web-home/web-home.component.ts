@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, effect, OnDestroy, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, ElementRef, effect, OnDestroy, Inject, PLATFORM_ID, ChangeDetectorRef, NgZone, Optional, HostBinding } from '@angular/core'
 import { isPlatformBrowser } from '@angular/common'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
@@ -24,6 +24,14 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   dataCarousel: any
   config: any
   isXsmall = false
+  /**
+   * While the layout config is loading (config still undefined) the host reserves the banner
+   * block's usual height, so the sections below do not render at the top and then get pushed
+   * down. A failed load sets config to null and releases the space.
+   */
+  @HostBinding('class.is-loading') get isLoadingConfig(): boolean {
+    return this.config === undefined
+  }
   isDark: boolean
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: object,
@@ -36,7 +44,8 @@ export class WebHomeComponent implements OnInit, OnDestroy {
     private readonly playlsSvc: PlaylistService,
     private readonly logger: LoggerService,
     private readonly themeSvc: ThemeService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    @Optional() private readonly ngZone?: NgZone,
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -98,9 +107,10 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   }
   startCarousel(): void {
     if (!isPlatformBrowser(this.platformId)) return
-    this.intervalId = setInterval(() => {
-      this.nextSlide()
-    }, 3000)
+    // Outside Angular's zone: nextSlide() already refreshes this view with detectChanges(),
+    // so the 3s tick does not need to re-check the whole application each time.
+    const tick = () => setInterval(() => this.nextSlide(), 3000)
+    this.intervalId = this.ngZone ? this.ngZone.runOutsideAngular(tick) : tick()
   }
 
   clearInterval(): void {

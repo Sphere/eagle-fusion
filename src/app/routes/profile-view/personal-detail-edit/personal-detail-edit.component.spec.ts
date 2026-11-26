@@ -295,6 +295,24 @@ describe('PersonalDetailEditComponent', () => {
       component.getUserDetails()
       expect(spy).not.toHaveBeenCalled()
     })
+
+    it('should mark the profile loaded on the next microtask, not mid-check', async () => {
+      mockConfigSvc.userProfile = null
+      component.getUserDetails()
+      expect(component.profileLoaded).toBe(false)
+      await Promise.resolve()
+      expect(component.profileLoaded).toBe(true)
+      expect(mockCdr.markForCheck).toHaveBeenCalled()
+    })
+
+    it('should mark the profile loaded after a failed registry call', async () => {
+      mockConfigSvc.userProfile = { userId: 'u1' }
+      mockUserProfileSvc.getUserdetailsFromRegistry.mockReturnValue(throwError(() => new Error('x')))
+      component.getUserDetails()
+      expect(component.profileLoaded).toBe(false)
+      await Promise.resolve()
+      expect(component.profileLoaded).toBe(true)
+    })
   })
 
   describe('ngOnDestroy', () => {
@@ -329,6 +347,21 @@ describe('PersonalDetailEditComponent', () => {
       component.isEkshamata = true
       component.ngOnInit()
       expect(component.personalDetailForm.disabled).toBe(true)
+    })
+
+    it('should send a direct visit (no form config) to the profile page instead of crashing', () => {
+      mockRouter.url = '/app/personal-detail-edit'
+      component.data = undefined
+      expect(() => component.ngOnInit()).not.toThrow()
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/app/profile-view'], { replaceUrl: true })
+    })
+
+    it('should not navigate when embedded in the profile page without config', () => {
+      mockRouter.url = '/app/profile-view'
+      component.data = {}
+      expect(() => component.ngOnInit()).not.toThrow()
+      expect(mockRouter.navigate).not.toHaveBeenCalledWith(['/app/profile-view'], { replaceUrl: true })
+      expect(component.formConfig).toEqual([])
     })
   })
 

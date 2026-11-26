@@ -1,3 +1,24 @@
+<!-- Before the quiz data arrives the whole card used to be missing (blank player area). Gated on
+     isFetchingDataComplete too: when the resolver returns no quiz, the parent never sets
+     isErrorOccured, and the placeholder would otherwise shimmer forever. -->
+<div class="padding-dynamic" *ngIf="!quizData && !isErrorOccured && !isFetchingDataComplete">
+  <mat-card>
+    <mat-card-content>
+      <div class="video-player">
+        <div class="quiz-skeleton" aria-hidden="true">
+          <div class="ds-skeleton quiz-skeleton-title"></div>
+          <div class="ds-skeleton quiz-skeleton-sub"></div>
+          <div class="quiz-skeleton-stats">
+            <div class="ds-skeleton quiz-skeleton-stat"></div>
+            <div class="ds-skeleton quiz-skeleton-stat"></div>
+            <div class="ds-skeleton quiz-skeleton-stat"></div>
+          </div>
+          <div class="ds-skeleton quiz-skeleton-button"></div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
 <div class="padding-dynamic" *ngIf="quizData">
   <div class="flex flex-around flex-wrapped">
     <div class="w-full">
@@ -5,6 +26,19 @@
         <mat-card>
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player">
+              <!-- Quiz-shaped placeholder while the quiz loads (was an empty box) -->
+              <ng-container *ngIf="!isFetchingDataComplete">
+              <div class="quiz-skeleton" aria-hidden="true">
+                <div class="ds-skeleton quiz-skeleton-title"></div>
+                <div class="ds-skeleton quiz-skeleton-sub"></div>
+                <div class="quiz-skeleton-stats">
+                  <div class="ds-skeleton quiz-skeleton-stat"></div>
+                  <div class="ds-skeleton quiz-skeleton-stat"></div>
+                  <div class="ds-skeleton quiz-skeleton-stat"></div>
+                </div>
+                <div class="ds-skeleton quiz-skeleton-button"></div>
+              </div>
+              </ng-container>
               <ng-container *ngIf="isFetchingDataComplete">
                 <viewer-plugin-quiz [identifier]="quizData?.identifier" [artifactUrl]="quizData?.artifactUrl"
                   [name]="quizData?.name" [learningObjective]="quizData?.learningObjective"

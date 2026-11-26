@@ -28,6 +28,9 @@ export class HtmlComponent implements OnChanges, OnDestroy, AfterViewInit {
   showIsLoadingMessage = false
   showUnBlockMessage = false
   pageFetchStatus: TFetchStatus | 'artifactUrlMissing' = 'fetching'
+  // False until the content frame reports load (or error); a skeleton covers the blank frame
+  // until then. SCORM packages often take several seconds and the box used to sit empty and white.
+  iframeLoaded = false
   isUserInIntranet = false
   intranetUrlPatterns: string[] | undefined = []
   isIntranetUrl = false
@@ -406,6 +409,7 @@ export class HtmlComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   private updateIframeAndContentState() {
+    this.iframeLoaded = false
     this.isIntranetUrl = false
     this.progress = 100
     this.pageFetchStatus = 'fetching'
@@ -789,6 +793,7 @@ export class HtmlComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   onIframeLoadOrError(evt: 'load' | 'error', iframe?: HTMLIFrameElement, event?: any) {
+    this.iframeLoaded = true
     if (evt === 'error') {
       this.pageFetchStatus = evt
     }

@@ -5,6 +5,7 @@
         <mat-card class="video-player-mobile">
           <mat-card-content class="video-player-mobile-container">
             <div id="fullScreenContainer" class="video-player">
+              <div class="player-skeleton ds-skeleton" *ngIf="!isFetchingDataComplete" aria-hidden="true"></div>
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverYoutubeData">
               </ng-container>
               <div class="nav-btn-wrapper">

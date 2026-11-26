@@ -5,7 +5,9 @@
     z-index: 1000;
     overflow-y: hidden;
     background: var(--theme-bg, white);
-    width: 100%;
+    // auto, not 100%: with the 1% left margin a 100% width stuck out and scrolled the page sideways.
+    width: auto;
+    box-sizing: border-box;
     height: 7vh;
     display: flex;
     color: var(--theme-text);

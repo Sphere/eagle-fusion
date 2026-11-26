@@ -58,6 +58,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   domain!: string
   orgData: any
   menuItems: any[] = []
+  // False until setUIData() has run once; the header shows a link-row placeholder until then so the
+  // search box does not slide across when the links arrive.
+  headerDataLoaded = false
   config: any
   isDark: boolean = false
   constructor(
@@ -108,6 +111,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.orgData === "") {
       await this.playlistSvc.loadPlaylistData().then(() => {
         this.orgData = this.playlistSvc.orgDetails()
+      }).catch(err => {
+        // Drop the link placeholder even when the header data fails; the error still propagates.
+        this.headerDataLoaded = true
+        this.cdr.detectChanges()
+        throw err
       })
     }
     this.config = this.playlistSvc.headerConfig()
@@ -119,6 +127,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     }
     this.appIcon = this.orgData?.appLogo
     this.orgLogo = this.isDark ? this.orgData?.foundationLogoDark : this.orgData?.foundationLogo
+    this.headerDataLoaded = true
     this.cdr.detectChanges()
   }
 
@@ -229,10 +238,13 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     }
   }
 
+  // Back always returns to the home page (SBT-147). It used to do that with a full page
+  // reload, which restarted the whole app on every back press; navigating in the app lands
+  // on the same page without the reload. replaceUrl keeps the history from growing.
   @HostListener('window:popstate', ['$event'])
   onPopState(event: any) {
     this.logger.log('Back button pressed', event)
-    location.href = '/page/home'
+    this.router.navigateByUrl('/page/home', { replaceUrl: true })
   }
 
   cancelTour() {

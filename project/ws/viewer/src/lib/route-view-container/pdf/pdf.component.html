@@ -5,6 +5,7 @@
         <mat-card>
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player">
+              <div class="player-skeleton ds-skeleton" *ngIf="!isFetchingDataComplete" aria-hidden="true"></div>
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverPdfData"></ng-container>
             </div>
           </mat-card-content>

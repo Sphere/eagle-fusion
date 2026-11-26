@@ -60,7 +60,10 @@
   overflow-y: hidden;
   position: relative;
   max-height: calc(100vh - 220px);
-  min-height: 50%;
+  // Hold the PDF player's full height (56px toolbar + viewer, see player-pdf getPDFHeight) while
+  // the player loads. The box was empty for a moment between the lesson data and the player, so
+  // Previous/Next jumped from just under the title to below the PDF.
+  min-height: calc(100vh - 299px);
   // height: 75vh;
   // @include breakpoint-lt-xl {
   //   height: 80vh;
@@ -79,15 +82,15 @@
   // }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 959px) {
   .video-player {
-    min-height: 200px;
+    min-height: 356px;
   }
 }
 
 @media only screen and (max-width: 599px) {
   .video-player {
-    min-height: 220px;
+    min-height: 320px;
     max-height: 320px;
   }
 }

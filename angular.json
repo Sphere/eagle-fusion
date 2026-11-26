@@ -82,7 +82,8 @@
               "src/styles/mat-typography.scss",
               "src/styles/styles.scss",
               "src/fusion-assets/fonts/poppins/stylesheet.css",
-              "src/styles/themes.scss"
+              "src/styles/themes.scss",
+              "src/styles/design-tokens.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

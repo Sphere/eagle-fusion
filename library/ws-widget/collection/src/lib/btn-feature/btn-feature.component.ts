@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
+import { NavigationEnd, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, EventService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
-import { take } from 'rxjs/operators'
+import { filter, take } from 'rxjs/operators'
 import { MobileAppsService } from '../../../../../../src/app/services/mobile-apps.service'
 import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
@@ -53,6 +53,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   isSashakth = false
   local = 'en'
   private pinnedAppsChangeSubs?: Subscription
+  private navigationSubs?: Subscription
   currentText = ''
   numberOfNotification: any
   constructor(
@@ -119,26 +120,25 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
   }
   async redirect(text: any) {
-    // Note: Language is now managed by ngx-translate (TranslateService)
-    // Do NOT use URL-based language prefixes (/hi) with ngx-translate
-    const baseUrl = document.baseURI.endsWith('/') ? document.baseURI.slice(0, -1) : document.baseURI
-
+    // Language is managed by ngx-translate, so there is no /hi URL prefix to rebuild and no
+    // reason for a full page reload: navigate inside the app. A reload re-downloaded and
+    // re-ran the whole application on every menu click.
     if (text.name === 'Home' || text.name === 'होम') {
-      this.redirectHome(text, baseUrl)
+      this.redirectHome(text)
     } else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
-      await this.redirectMyCourses(text, baseUrl)
+      await this.redirectMyCourses(text)
     } else if (text.name === 'अधिसूचना' || text.name === 'Notification') {
-      this.redirectNotification(text, baseUrl)
+      this.redirectNotification(text)
     } else if (text.name === 'Competency' || text.name === 'योग्यता') {
-      await this.redirectCompetency(text, baseUrl)
+      await this.redirectCompetency(text)
     } else if (text.name === 'खोज' || text.name === 'Search') {
-      this.redirectSearch(text, baseUrl)
+      this.redirectSearch(text)
     } else {
-      await this.redirectDefault(text, baseUrl)
+      await this.redirectDefault(text)
     }
   }
 
-  private redirectHome(text: any, baseUrl: string) {
+  private redirectHome(text: any) {
     this.currentText = text.name
 
     // ✅ Default home path
@@ -154,53 +154,49 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.logger.log('Redirecting to selective org homepage for:', org)
     }
 
-    location.href = `${baseUrl}${url}`
+    this.router.navigateByUrl(url)
   }
 
-  private async redirectMyCourses(text: any, baseUrl: string) {
+  private async redirectMyCourses(text: any) {
     this.currentText = text.name
     const url = '/app/user/my_courses'
     const result = await this.signupService.getUserData()
     if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-      location.href = `${baseUrl}${url}`
+      this.router.navigateByUrl(url)
     } else {
       const redirectUrl = '/page/home'
       this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
     }
   }
 
-  private redirectNotification(text: any, baseUrl: string) {
+  private redirectNotification(text: any) {
     this.currentText = text.name
-    const url = '/notification'
-    location.href = `${baseUrl}${url}`
+    this.router.navigateByUrl('/notification')
   }
 
-  private async redirectCompetency(text: any, baseUrl: string) {
+  private async redirectCompetency(text: any) {
     this.currentText = text.name
     const result = await this.signupService.getUserData()
     if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-      const url = '/app/user/competency'
-      location.href = `${baseUrl}${url}`
+      this.router.navigateByUrl('/app/user/competency')
     } else {
       const redirectUrl = '/page/home'
       this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
     }
   }
 
-  private redirectSearch(text: any, baseUrl: string) {
+  private redirectSearch(text: any) {
     this.navOption.changeNavBarActive('search')
     this.currentText = text.name
-    const url = '/app/search/home'
-    location.href = `${baseUrl}${url}`
+    this.router.navigateByUrl('/app/search/home')
   }
 
-  private async redirectDefault(text: any, baseUrl: string) {
+  private async redirectDefault(text: any) {
     const result = await this.signupService.getUserData()
     if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
       this.currentText = text.name
-      const url = '/app/profile-view'
-      location.href = `${baseUrl}${url}`
+      this.router.navigateByUrl('/app/profile-view')
     } else if (localStorage.getItem('url_before_login')) {
       const courseUrl = localStorage.getItem('url_before_login')
       this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
@@ -267,11 +263,31 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         this.widgetData.actionBtn && pinnedApps.has(this.widgetData.actionBtn.id),
       )
     })
+    // The menu used to be rebuilt by a full page reload on every click, which reset the
+    // highlighted item from the URL. Navigation now stays in the app, so follow it here.
+    this.navigationSubs = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => this.syncCurrentTextWithUrl())
+  }
+
+  private syncCurrentTextWithUrl() {
+    const hindi = this.languageSvc.isHindi()
+    const fromUrl = this.resolveCurrentTextFromUrl(hindi)
+    if (fromUrl) {
+      this.currentText = fromUrl
+    } else if (window.location.href.includes('/app/toc')) {
+      this.currentText = hindi ? 'होम' : 'Home'
+    } else {
+      this.currentText = ''
+    }
   }
 
   ngOnDestroy() {
     if (this.pinnedAppsChangeSubs) {
       this.pinnedAppsChangeSubs.unsubscribe()
+    }
+    if (this.navigationSubs) {
+      this.navigationSubs.unsubscribe()
     }
   }
 

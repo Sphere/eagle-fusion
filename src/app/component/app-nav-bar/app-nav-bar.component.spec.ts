@@ -397,6 +397,24 @@ describe('AppNavBarComponent', () => {
       await component.setUIData()
       expect(mockPlaylistSvc.loadPlaylistData).toHaveBeenCalled()
     })
+
+    it('should mark header data loaded once setUIData has run', async () => {
+      mockPlaylistSvc.orgDetails.mockReturnValue({ appLogo: 'logo.png' })
+      mockPlaylistSvc.headerConfig.mockReturnValue(null)
+      component = createComponent()
+      component.headerDataLoaded = false
+      await component.setUIData()
+      expect(component.headerDataLoaded).toBe(true)
+    })
+
+    it('should mark header data loaded and still reject when loadPlaylistData fails', async () => {
+      mockPlaylistSvc.orgDetails.mockReturnValue('')
+      mockPlaylistSvc.loadPlaylistData.mockRejectedValueOnce(new Error('boom'))
+      component = createComponent()
+      component.headerDataLoaded = false
+      await expect(component.setUIData()).rejects.toThrow('boom')
+      expect(component.headerDataLoaded).toBe(true)
+    })
   })
 
   describe('ngOnInit', () => {
@@ -483,14 +501,10 @@ describe('AppNavBarComponent', () => {
   })
 
   describe('onPopState', () => {
-    it('should assign location.href to /page/home', () => {
-      Object.defineProperty(window, 'location', {
-        writable: true,
-        value: { href: '' },
-      })
+    it('should navigate to /page/home inside the app, replacing the history entry', () => {
       component = createComponent()
       component.onPopState({})
-      expect(window.location.href).toBe('/page/home')
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/page/home', { replaceUrl: true })
     })
   })
 })

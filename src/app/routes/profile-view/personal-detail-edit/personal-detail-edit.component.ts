@@ -4,7 +4,7 @@ import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../project/ws/app/src/public-api'
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/format-datepicker'
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import { MatChipInputEvent } from '@angular/material/chips'
 import { MatDialog } from '@angular/material/dialog'
@@ -139,8 +139,25 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     })
   }
 
+  /**
+   * False until the saved profile has been read. Read-only fields only render once they have a
+   * value, so the page used to sit blank (title only) for several seconds; skeleton rows show
+   * in that time instead.
+   */
+  profileLoaded = false
+  readonly skeletonRows = [1, 2, 3, 4, 5, 6]
+
   ngOnInit() {
-    this.formConfig = this.data.formData
+    // This form gets its config from the profile page (`data` input). Opened on its own at
+    // /app/personal-detail-edit it had none and the template threw on every change detection,
+    // leaving a blank page. Send old links to the profile page, which opens on Personal Details.
+    // Only when this component is the page itself: embedded in the profile page, a missing config
+    // must not trigger a navigation (that page reloads on same-URL navigation).
+    if (!this.data?.formData && this.router.url.startsWith('/app/personal-detail-edit')) {
+      void this.router.navigate(['/app/profile-view'], { replaceUrl: true })
+      return
+    }
+    this.formConfig = this.data?.formData || []
     this.fetchMeta()
     if (this.isEkshamata) {
       this.personalDetailForm.disable()
@@ -258,6 +275,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           void (async () => {
+            this.markProfileLoaded()
             if (data) {
               this.isEditableForSphere = this.data?.isEditable ?? false
               if (this.isEditableForSphere) {
@@ -289,10 +307,22 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           })()
         },
         (err: any) => {
+          this.markProfileLoaded()
           this.logger.error('Error fetching user details:', err)
         }
       )
+    } else {
+      this.markProfileLoaded()
     }
+  }
+
+  // getUserDetails() runs from ngAfterViewInit and the registry call can answer synchronously from
+  // cache, so flip the flag on the next microtask (no change mid-check) and mark this OnPush view.
+  private markProfileLoaded(): void {
+    void Promise.resolve().then(() => {
+      this.profileLoaded = true
+      this.changeDetectorRef.markForCheck()
+    })
   }
 
   public selectKnowLanguage(data: any) {
