@@ -166,6 +166,22 @@
   left: 0;
 }
 
+// The Sunbird content-player sets its own height (on phones and tablets it fits each content screen),
+// so its box grows with it instead of the fixed 75vh / 45vh box above, which let it spill over
+// Previous/Next and out of the card
+#fullScreenContainer.content-player-box {
+  width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0;
+  padding: 0;
+
+  > .videoContent {
+    position: static !important;
+    height: auto;
+  }
+}
+
 .prev-button .width-auto {
   left: -13px;
 

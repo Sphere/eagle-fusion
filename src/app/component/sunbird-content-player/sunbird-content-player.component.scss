@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.player-frame {
+  display: block;
+  width: 100%;
+  // dvh follows the mobile browser's visible height (address bar shown or hidden); vh is the fallback
+  height: calc(100vh - 160px);
+  height: calc(100dvh - 160px);
+  min-height: 480px;
+  border: 0;
+  background: #fff;
+
+  // phones and tablets, when the content cannot be measured (fitHeight): fill the screen above a 52px strip
+  @media (max-width: 1023px) {
+    height: calc(100vh - 60px);
+    height: calc(100dvh - 60px);
+    min-height: 360px;
+  }
+
+  // phone landscape: the screen is short, so use all of it
+  @media (max-height: 500px) and (orientation: landscape) {
+    height: calc(100vh - 60px);
+    height: calc(100dvh - 60px);
+    min-height: 0;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.player-message {
+  text-align: center;
+  margin: 24px 16px;
+}

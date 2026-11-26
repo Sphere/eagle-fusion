@@ -1,0 +1,8 @@
+@if (status === 'error') {
+  <h2 class="player-message">{{ 'Error loading page. Please try refreshing page.' | translate }}</h2>
+}
+@if (metadata && previewUrl) {
+  <iframe #playerFrame class="player-frame" [class.hidden]="status === 'error'" [src]="previewUrl"
+    [title]="metadata.name || ('Content player' | translate)" (load)="onPreviewLoad()"
+    allow="fullscreen; autoplay; encrypted-media" allowfullscreen></iframe>
+}
