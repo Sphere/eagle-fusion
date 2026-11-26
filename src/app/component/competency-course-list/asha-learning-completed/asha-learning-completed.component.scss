@@ -31,9 +31,14 @@
 
   &__label {
     font-family: Roboto, sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
+    line-height: 1.3;
     color: var(--theme-text-soft, #6b7280);
+
+    @include ws-mixins.breakpoint-xs {
+      font-size: 18px;
+    }
   }
 
   &__title {
@@ -60,6 +65,63 @@
   color: var(--theme-progress, #4a8f7f);
 }
 
+.certificate-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.certificate-icon {
+  width: 24px;
+  height: 24px;
+  // The JPG has a solid white background; multiply drops it onto the card colour
+  mix-blend-mode: multiply;
+}
+
+// Info banner shown under the card when the certificate is not available
+.certificate-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -12px 24% 20px;
+  padding: 18px 16px;
+  border-left: 6px solid #3F7DC5;
+  border-radius: 4px;
+  background-color: #EEF3FB;
+  box-shadow: 0 2px 6px #0f172a1f;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  color: #111827;
+
+  @include ws-mixins.breakpoint-s {
+    margin-inline: 10%;
+  }
+
+  @include ws-mixins.breakpoint-xs {
+    margin-inline: 1rem;
+    margin-top: -8px;
+    margin-bottom: 16px;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #3F7DC5;
+  }
+}
+
 .view-courses-btn {
   width: 100%;
   border-radius: 30px !important;
@@ -81,5 +143,8 @@
   }
   .completed-card__label {
     color: var(--theme-text-disabled, #6b7280) !important;
+  }
+  .certificate-info {
+    background-color: #DCE7F7;
   }
 }

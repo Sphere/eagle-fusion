@@ -23,7 +23,7 @@
                 <div class="star-rating" [ngClass]="selectedRating ? 'rating-' + selectedRating : ''">
                     @for (star of stars; track star) {
                         <button type="button" class="star-btn" [class.active]="star <= selectedRating"
-                            [attr.aria-label]="'Rate ' + star + ' star' + (star > 1 ? 's' : '')"
+                            [attr.aria-label]="(star > 1 ? 'RATE_N_STARS' : 'RATE_ONE_STAR') | translate: { count: star }"
                             [attr.aria-pressed]="star === selectedRating" (click)="setRating(star)">
                             <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M12 1.8l3.09 6.26 6.91 1-5 4.87 1.18 6.88L12 17.56l-6.18 3.25L7 13.93 2 9.06l6.91-1z" />
@@ -34,8 +34,8 @@
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
                 <textarea (input)="setRating(selectedRating)" style="height: 96px;padding: 10px;" rows="4" matInput
-                    [placeholder]="'Tell us more about what you felt' | translate"
-                    [attr.aria-label]="'Tell us more about what you felt' | translate" name=" name"
+                    [placeholder]="(isMandatory ? 'Tell us more about what you felt' : 'Tell us more about what you felt (Optional)') | translate"
+                    [attr.aria-label]="(isMandatory ? 'Tell us more about what you felt' : 'Tell us more about what you felt (Optional)') | translate" name=" name"
                     formControlName="review" required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
                     {{"Comments is mandatory" | translate}}

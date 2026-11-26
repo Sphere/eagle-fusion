@@ -82,6 +82,20 @@ export class WidgetContentService {
         catchError(this.handleError)
       )
   }
+  // competencyId narrows the status to one competency; omitted, every competency of the user is returned
+  fetchCompetencyCertificateStatus(userId: string, competencyId?: string): Observable<any[]> {
+    const filters = competencyId ? { userId, competencyId } : { userId }
+    const body = { request: { filters } }
+    return this.http
+      .post<any>(API_END_POINTS.COMPETENCY_CERTIFICATE_STATUS, body)
+      .pipe(map(res => (Array.isArray(res?.result) ? res.result : [])))
+  }
+  fetchCompetencyCertificate(userId: string, competencyId: string): Observable<any | null> {
+    const body = { request: { filters: { userId, competencyId } } }
+    return this.http
+      .post<any>(API_END_POINTS.COMPETENCY_CERTIFICATE_DOWNLOAD, body)
+      .pipe(map(res => (Array.isArray(res?.result) ? res.result[0] ?? null : null)))
+  }
   fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
     // Use cache service with 2-hour expiration (same-day freshness for published courses)
     return this.cacheService.getCourseHierarchy(contentId)
