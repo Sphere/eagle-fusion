@@ -5,7 +5,7 @@
 | **Build branch deployed**    | `release-5.2.0` (Jenkins deploy source)                                                           |
 | **Tag**                      | `v5.2.0` (immutable marker + GitHub Release)                                                      |
 | **Baseline (previous prod)** | `v5.1.9`                                                                                          |
-| **Commits**                  | 14 (non-merge), from `feature/course-rating-emoji-ui`, `feature/competencyCertificate`, `feature/html-archive-content-player` |
+| **Commits**                  | 15 (non-merge), from `feature/course-rating-emoji-ui`, `feature/competencyCertificate`, `feature/html-archive-content-player`, plus one Sonar fix |
 | **Author**                   | Pavithra Prakash                                                                                  |
 
 ## Summary
@@ -32,6 +32,7 @@ Three features ship together. The course rating dialog has been redesigned: pick
 - On phones, HTML content no longer spills over Previous/Next or out of the card (`78c02c4`).
 - `viewer-util`: html-archive progress updates were always marked completed. The HTML content player now sends an opt-in `statusOverride`, so a 20% milestone is no longer recorded as done. Other players are unchanged (`be740a4`).
 - The resume position is posted only to the package's own origin, not `'*'`, and a backtracking regex was removed (`8b4e6a7`).
+- Bihar Staff Nurse form: the district list is sorted with `localeCompare` instead of a bare `sort()`, so a mixed-case district name no longer lands after all the upper-case ones (Sonar: "Provide a compare function that depends on String.localeCompare") (`dc1d9bf`).
 
 ## 🏗️ Build / CI / Infra
 
@@ -42,7 +43,7 @@ Three features ship together. The course rating dialog has been redesigned: pick
 ## 📚 Docs / Chore
 
 - README markdown tables realigned (`c7a12f8`).
-- New and extended specs: content-player util / progress / resume / component, HTML container, viewer TOC, asha-learning-completed, certificate-received, mobile-profile-dashboard, widget-content service.
+- New and extended specs: content-player util / progress / resume / component, HTML container, viewer TOC, asha-learning-completed, certificate-received, mobile-profile-dashboard, widget-content service, and the BNRC register district order (76 tests).
 - Release notes for 5.2.0.
 
 ## ⚠️ Deploy notes & risk
@@ -57,7 +58,7 @@ Three features ship together. The course rating dialog has been redesigned: pick
 
 - [ ] Node 20 active (`nvs use 20`). The local checks below ran on **Node 24** (no Node 20 was available in that shell). Re-run on Node 20.
 - [x] `tsc --noEmit` reports no errors in application source. The existing type errors are only in `*.spec.ts` / `src/test-import.ts`.
-- [x] `yarn test`: 6,999 tests passed, 312/314 suites. The 2 suites that fail to load (`public-api.spec.ts`, `all-discussion-widget.component.spec.ts`) crash inside the `esm` loader under Node 24. These files are not touched by this release. Re-check them on Node 20.
+- [x] `yarn test`: 6,999 tests passed, 312/314 suites (before the Sonar fix; the BNRC spec, 76 tests, passes after it). The 2 suites that fail to load (`public-api.spec.ts`, `all-discussion-widget.component.spec.ts`) crash inside the `esm` loader under Node 24. These files are not touched by this release. Re-check them on Node 20.
 - [x] `yarn run build:local` passes, and `content-player/` is emitted in `dist`.
 - [ ] Production build passes (Jenkins)
 - [ ] Competency certificate status/download routes confirmed on prod
