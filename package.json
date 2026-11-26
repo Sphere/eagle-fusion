@@ -60,6 +60,7 @@
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@project-sunbird/client-services": "^8.1.4",
+    "@project-sunbird/content-player": "8.0.0",
     "@sunbird-cb/design-system": "0.0.2",
     "@sunbird-cb/micro-surveys": "^1.2.9",
     "@testing-library/jest-dom": "^6.6.3",

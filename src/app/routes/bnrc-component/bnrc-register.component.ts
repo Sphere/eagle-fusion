@@ -480,7 +480,7 @@ export class BnrcRegisterComponent implements OnInit {
         // Every district that has any facility type, asked before the type.
         const districts = new Set<string>()
         this.staffNurseTypes.forEach(type => Object.keys(type.districts || {}).forEach(d => districts.add(d)))
-        this.staffNurseDistricts = Array.from(districts).sort()
+        this.staffNurseDistricts = Array.from(districts).sort((a, b) => a.localeCompare(b))
       },
       error: () => {
         this.openSnackbar('Could not load the facility list. Please refresh the page and try again.')

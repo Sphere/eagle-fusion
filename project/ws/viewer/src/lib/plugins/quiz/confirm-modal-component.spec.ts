@@ -18,7 +18,7 @@ describe('ConfirmmodalComponent', () => {
 
   beforeEach(() => {
     mockSnackBar = { open: jest.fn() }
-    mockDialogRef = { close: jest.fn(), disableClose: false }
+    mockDialogRef = { close: jest.fn(), updateSize: jest.fn(), disableClose: false }
     mockFormBuilder = {
       group: jest.fn().mockReturnValue({
         controls: { review: { setValue: jest.fn(), value: '' } },

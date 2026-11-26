@@ -9,25 +9,33 @@
     </div>
 
 
-    <h2 class="m-0 center-align title" mat-dialog-title>{{"Submit your feedback" | translate}}</h2>
+    <h2 class="m-0 center-align title" mat-dialog-title>{{"How was your experience?" | translate}}</h2>
     <mat-dialog-content>
-        <form [formGroup]="ratingsForm">
+        <form [formGroup]="ratingsForm" [class.has-rating]="selectedRating">
+            @let ratingLabels = ['RATING_TERRIBLE', 'RATING_POOR', 'RATING_OK', 'RATING_GOOD', 'RATING_EXCELLENT'];
             <div class="center-align">
-                <div class="star-rating">
-                    <button type="button" *ngFor="let star of stars; let i = index"
-                        style="all: unset; display: contents; cursor: pointer;"
-                        [attr.aria-label]="'Rate ' + (i + 1) + ' star' + (i > 0 ? 's' : '')"
-                        (click)="setRating(i + 1)">
-                        <img
-                            [src]="star <= selectedRating ? '/fusion-assets/icons/star-filled.png' : '/fusion-assets/icons/star.png'"
-                            alt="">
-                    </button>
+                @if (selectedRating) {
+                    <div class="rating-face">
+                        <img [src]="'/fusion-assets/icons/rating' + selectedRating + '.png'" alt="">
+                        <p class="rating-label">{{ ratingLabels[selectedRating - 1] | translate }}</p>
+                    </div>
+                }
+                <div class="star-rating" [ngClass]="selectedRating ? 'rating-' + selectedRating : ''">
+                    @for (star of stars; track star) {
+                        <button type="button" class="star-btn" [class.active]="star <= selectedRating"
+                            [attr.aria-label]="(star > 1 ? 'RATE_N_STARS' : 'RATE_ONE_STAR') | translate: { count: star }"
+                            [attr.aria-pressed]="star === selectedRating" (click)="setRating(star)">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 1.8l3.09 6.26 6.91 1-5 4.87 1.18 6.88L12 17.56l-6.18 3.25L7 13.93 2 9.06l6.91-1z" />
+                            </svg>
+                        </button>
+                    }
                 </div>
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
-                <textarea (input)="setRating(selectedRating)" style="height: 96px;padding: 10px;" rows="4"
-                    matInput [placeholder]="'Tell us more about what you felt' | translate"
-                    [attr.aria-label]="'Tell us more about what you felt' | translate" name=" name"
+                <textarea (input)="setRating(selectedRating)" style="height: 96px;padding: 10px;" rows="4" matInput
+                    [placeholder]="(isMandatory ? 'Tell us more about what you felt' : 'Tell us more about what you felt (Optional)') | translate"
+                    [attr.aria-label]="(isMandatory ? 'Tell us more about what you felt' : 'Tell us more about what you felt (Optional)') | translate" name=" name"
                     formControlName="review" required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
                     {{"Comments is mandatory" | translate}}

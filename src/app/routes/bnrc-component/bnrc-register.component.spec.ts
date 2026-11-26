@@ -450,6 +450,15 @@ describe('BnrcRegisterComponent', () => {
       component.staffNurseTypes = types
     })
 
+    it('should list every district from the facility file in alphabetical order', () => {
+      mockHttp.get.mockReturnValue(of({ facilityTypes: [
+        { code: 'SH', label: 'SADAR HOSPITAL', districts: { SARAN: {}, ARWAL: {} } },
+        { code: 'PHC', label: 'PHC', districts: { Banka: {}, ARARIA: {}, SARAN: {} } },
+      ] }))
+      component.setupStaffNurseForm()
+      expect(component.staffNurseDistricts).toEqual(['ARARIA', 'ARWAL', 'Banka', 'SARAN'])
+    })
+
     it('should start the block and institute again when district or type changes', () => {
       component.bnrcDetailForm.patchValue({ block: 'Y', customBlockName: 'B', facilityName: 'Z' }, { emitEvent: false })
       component.staffNurseFacilities = ['old']
